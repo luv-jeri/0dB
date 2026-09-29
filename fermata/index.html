@@ -9,10 +9,12 @@
   // Before first paint: mode, key, and the flags the overture waits on.
   (() => {
     const d = document.documentElement;
-    let mode = null, key = null;
-    try { mode = localStorage.getItem("fermata-mode"); key = localStorage.getItem("fermata-key"); } catch {}
+    const get = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+    const mode = get("fermata-mode"), key = get("fermata-key"), scheme = get("fermata-scheme"), pair = get("fermata-pair");
     d.dataset.mode = mode || (matchMedia("(prefers-color-scheme: dark)").matches ? "nocturne" : "day");
     if (key) d.dataset.key = key;
+    if (scheme && scheme !== "cotton") d.dataset.scheme = scheme;
+    if (pair && pair !== "parma") d.dataset.pair = pair;
     d.classList.add("js");
     setTimeout(() => d.classList.add("ready"), 2500);     // fonts slow: play anyway
     setTimeout(() => d.classList.add("flow-done"), 4000); // pretext slow: show the plain paragraph
@@ -20,7 +22,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="fermata.css">
 <style>
@@ -132,7 +134,15 @@
   .demo-lead { font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
   .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--f-space-7); max-width: 52rem; }
   .fields > .is-wide { grid-column: 1 / -1; }
-  .tally { font-size: var(--f-p); color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+  .tally { display: flex; align-items: baseline; gap: var(--f-space-3); font-size: var(--f-p); color: var(--f-pencil); }
+  .picks { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); column-gap: var(--f-gutter); row-gap: var(--f-space-6); max-width: 64rem; }
+  .pick-name { display: block; margin-bottom: var(--f-space-1); font-size: var(--f-pp); color: var(--f-pencil); }
+  .pick-sample { display: block; font-size: var(--f-mf); line-height: 1.2; letter-spacing: var(--f-mf-tr); font-weight: 300; color: var(--f-ink); }
+  .pair-picks .pick-sample { font-family: var(--v); }
+  .pick-e { font-family: var(--e); font-style: italic; font-weight: 400; font-size: calc(var(--s) * 1em); letter-spacing: 0; }
+  .pick-swatch { display: flex; gap: 6px; margin-block: var(--f-space-3) var(--f-space-2); }
+  .pick-swatch > i { width: 18px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); }
+  .pick-note { display: block; max-width: 30ch; margin-top: var(--f-space-2); font-size: var(--f-pp); line-height: var(--f-pp-lh); }
 
   /* I. Principles */
   .principle { align-items: baseline; padding-block: var(--f-space-7); border-top: var(--f-hairline) solid var(--f-rule); }
@@ -273,7 +283,7 @@
     <span>Fermata</span>
   </a>
   <p class="bar-now"><span class="bar-num"></span><span class="bar-name">Overture</span></p>
-  <label class="f-switch"><input type="checkbox" role="switch" id="mode" aria-label="Nocturne"> Nocturne is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
+  <label class="f-switch"><input type="checkbox" role="switch" id="mode" aria-label="Nocturne"> Nocturne is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label>
   <div class="bar-progress" aria-hidden="true"></div>
 </header>
 
@@ -287,7 +297,7 @@
     <svg class="flow-mark" viewBox="-100 -100 200 200"><path d="M -58 29 A 58 58 0 0 1 58 29" pathLength="1" stroke-dasharray="1"/><circle cx="0" cy="17" r="7"/></svg>
     <div class="flow-lines"></div>
   </div>
-  <p class="manifesto">Most interfaces talk over you. Fermata waits. It is a design system made of two typefaces, one colour and a great deal of space, for work that is read slowly and used for hours. There are no boxes to fill and no icons to decode. A checkbox is a sentence you strike through. A switch is the last word of a sentence, and you choose it. Everything the interface says is set upright in Archivo; everything you say back arrives in Bodoni italic, so your words are never mistaken for ours. Colour appears once, to show where you are. Motion answers you, then rests. What remains is the space between the notes, and that is where the reading happens.</p>
+  <p class="manifesto">Most interfaces talk over you. Fermata waits. It is a design system made of two typefaces, one colour and a great deal of space, for work that is read slowly and used for hours. There are no boxes to fill and no icons to decode. A checkbox is a sentence you strike through. A switch is the last word of a sentence, and you choose it. Everything the interface says is set upright in a grotesque; everything you say back arrives in an italic serif, so your words are never mistaken for ours. Colour appears once, to show where you are. Motion answers you, then rests. What remains is the space between the notes, and that is where the reading happens.</p>
   <div class="f-meta overture-foot"><span>A design system for type and silence</span><hr><span>Version 0.1</span><hr><span>September 2026</span></div>
 </section>
 
@@ -325,22 +335,39 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">The pair</h3>
-      <p class="spec-note">One grotesque, one didone. The expression is set 15% larger so the two x-heights meet on the line.</p>
+      <p class="spec-note">One grotesque, one italic serif. The expression is set a little larger so the two x-heights meet on the line.</p>
       <ul class="spec-tokens"><li>--f-voice</li><li>--f-expression</li><li>--f-expression-scale</li></ul>
     </div>
     <div class="pair stave">
       <div>
-        <p class="pair-face">Archivo</p>
+        <p class="pair-face" id="voice-name">Archivo</p>
         <p class="pair-glyphs">Aa Gg Rr &amp; 0123456789</p>
         <p class="pair-role">The voice. Everything the interface says.</p>
-        <p class="pair-meta">Omnibus-Type. Width 62–125, weight 100–900.</p>
+        <p class="pair-meta" id="voice-meta">Omnibus-Type. Width 62–125, weight 100–900.</p>
       </div>
       <div>
-        <p class="pair-face is-yours">Bodoni Moda</p>
+        <p class="pair-face is-yours" id="expression-name">Bodoni Moda</p>
         <p class="pair-glyphs is-yours">Aa Gg Rr &amp; 0123456789</p>
         <p class="pair-role">The expression. Everything you say back.</p>
-        <p class="pair-meta">Owen Earl, after Bodoni. Optical size 6–96.</p>
+        <p class="pair-meta" id="expression-meta">Owen Earl, after Bodoni. Optical size 6–96.</p>
       </div>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Pairs</h3>
+      <p class="spec-note">Four pairings, one rule: the voice is always a grotesque, the expression always an italic serif. Each pair carries its own scale, so the x-heights still meet. The whole page changes with it.</p>
+      <ul class="spec-tokens"><li>data-pair on &lt;html&gt;</li><li>--f-voice</li><li>--f-expression</li><li>--f-expression-scale</li></ul>
+    </div>
+    <div class="stave">
+      <fieldset class="f-picks picks pair-picks" id="pairs">
+        <legend class="f-label">Pair</legend>
+        <label style="--v: Archivo; --e: 'Bodoni Moda'; --s: 1.15"><input type="radio" name="pair" value="parma"><span class="pick-name">Parma</span><span class="pick-sample">Archivo <span class="pick-e">&amp; Bodoni</span></span><span class="pick-note">The house pair. Sharp and bright; Bodoni cut his types in Parma.</span></label>
+        <label style="--v: 'Schibsted Grotesk'; --e: Newsreader; --s: 1.1"><input type="radio" name="pair" value="press"><span class="pick-name">Press</span><span class="pick-sample">Schibsted <span class="pick-e">&amp; Newsreader</span></span><span class="pick-note">Both made for reading news on screens. Plain, warm, unhurried.</span></label>
+        <label style="--v: 'Instrument Sans'; --e: 'EB Garamond'; --s: 1.24"><input type="radio" name="pair" value="paris"><span class="pick-name">Paris</span><span class="pick-sample">Instrument <span class="pick-e">&amp; Garamond</span></span><span class="pick-note">A narrow modern voice answered in the oldest italic here.</span></label>
+        <label style="--v: 'Bricolage Grotesque'; --e: Cormorant; --s: 1.26"><input type="radio" name="pair" value="salon"><span class="pick-name">Salon</span><span class="pick-sample">Bricolage <span class="pick-e">&amp; Cormorant</span></span><span class="pick-note">A grotesque with some ink trap and a Garamond made for display.</span></label>
+      </fieldset>
     </div>
   </article>
 
@@ -426,8 +453,26 @@
 
   <article class="spec">
     <div class="spec-side margin">
+      <h3 class="spec-name">Scheme</h3>
+      <p class="spec-note">Paper, ink and accent, chosen together. Each scheme has a Nocturne of its own, and every text colour clears 4.5:1 in both.</p>
+      <ul class="spec-tokens"><li>data-scheme on &lt;html&gt;</li></ul>
+    </div>
+    <div class="stave">
+      <fieldset class="f-picks picks scheme-picks" id="schemes">
+        <legend class="f-label">Scheme</legend>
+        <label><input type="radio" name="scheme" value="cotton"><span class="pick-sample">Cotton</span><span class="pick-swatch" aria-hidden="true"><i style="background: #f2f3f0"></i><i style="background: #000"></i><i style="background: #2b2bee"></i></span><span class="pick-note">Cool paper, black ink, one ultramarine note. The house scheme.</span></label>
+        <label><input type="radio" name="scheme" value="blueprint"><span class="pick-sample">Blueprint</span><span class="pick-swatch" aria-hidden="true"><i style="background: #edf0f7"></i><i style="background: #0c1b8f"></i><i style="background: #c23d00"></i></span><span class="pick-note">Ultramarine ink with one cinnabar dot, after the calendar posters.</span></label>
+        <label><input type="radio" name="scheme" value="statue"><span class="pick-sample">Statue</span><span class="pick-swatch" aria-hidden="true"><i style="background: #ebeae5"></i><i style="background: #14213d"></i><i style="background: #875600"></i></span><span class="pick-note">Navy and ochre on stone, from the Renaissance prints.</span></label>
+        <label><input type="radio" name="scheme" value="silence"><span class="pick-sample">Silence</span><span class="pick-swatch" aria-hidden="true"><i style="background: #e2e8e3"></i><i style="background: #0e2a23"></i><i style="background: #1b3de0"></i></span><span class="pick-note">Sage paper and deep green ink, with a cobalt note. The quietest.</span></label>
+        <label><input type="radio" name="scheme" value="riso"><span class="pick-sample">Riso</span><span class="pick-swatch" aria-hidden="true"><i style="background: #f6f5f2"></i><i style="background: #25286b"></i><i style="background: #b8005f"></i></span><span class="pick-note">Two drums: riso blue and fluorescent pink.</span></label>
+      </fieldset>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
       <h3 class="spec-name">Key</h3>
-      <p class="spec-note">The accent can change; the rule doesn't. Every key clears 4.5:1 on paper, by day and in Nocturne.</p>
+      <p class="spec-note">Change only the accent, over any scheme; the rule doesn't change. Every key clears 4.5:1 on every paper, by day and in Nocturne.</p>
       <ul class="spec-tokens"><li>data-key on &lt;html&gt;</li></ul>
     </div>
     <div class="stave">
@@ -561,7 +606,7 @@
   <article class="spec" id="checkbox">
     <div class="spec-side margin">
       <h3 class="spec-name">Checkbox</h3>
-      <p class="spec-note">No box. The words are the control; checking strikes them through in the accent, left to right, and unchecking lifts the line away. Space toggles.</p>
+      <p class="spec-note">No box. The words are the control; checking strikes them through in the accent, left to right, and the pen runs a little past the words, as a hand does. The tally is a fraction, and the part that's yours is italic. Space toggles.</p>
       <ul class="spec-tokens"><li>--f-accent</li><li>--f-stroke</li><li>--f-pencil</li><li>--f-moderato</li></ul>
     </div>
     <div class="demo-stack stave">
@@ -588,7 +633,7 @@
   <article class="spec" id="radio">
     <div class="spec-side margin">
       <h3 class="spec-name">Radio</h3>
-      <p class="spec-note">Words in a row. The one you choose turns italic, because it's yours now, and one dot moves beneath it. Arrow keys move the choice.</p>
+      <p class="spec-note">Words in a row. The one you choose turns italic, because it's yours now; the others step back to pencil, and one dot moves beneath it. Arrow keys move the choice.</p>
       <ul class="spec-tokens"><li>--f-expression</li><li>--f-accent</li><li>--f-dot</li><li>--f-breath</li></ul>
     </div>
     <div class="stave">
@@ -610,31 +655,55 @@
     </div>
   </article>
 
+  <article class="spec" id="dial">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Dial</h3>
+      <p class="spec-note">A radio for numbers, set on an arc. The whole dial rolls to what you choose: the number swells and turns italic, the others grey with distance, and the dot travels the arc between them. Arrow keys turn it.</p>
+      <ul class="spec-tokens"><li>--n, --i</li><li>--f-accent</li><li>--f-andante</li><li>--f-breath</li></ul>
+    </div>
+    <div class="stave">
+      <fieldset class="f-dial" style="--n: 7">
+        <legend class="f-label">How many weeks do we have?</legend>
+        <div class="f-dial-face">
+          <label style="--i: 0" data-text="2"><input type="radio" name="weeks" value="2"><span>2</span></label>
+          <label style="--i: 1" data-text="4"><input type="radio" name="weeks" value="4"><span>4</span></label>
+          <label style="--i: 2" data-text="6"><input type="radio" name="weeks" value="6"><span>6</span></label>
+          <label style="--i: 3" data-text="8"><input type="radio" name="weeks" value="8" checked><span>8</span></label>
+          <label style="--i: 4" data-text="12"><input type="radio" name="weeks" value="12"><span>12</span></label>
+          <label style="--i: 5" data-text="16"><input type="radio" name="weeks" value="16"><span>16</span></label>
+          <label style="--i: 6" data-text="24"><input type="radio" name="weeks" value="24"><span>24</span></label>
+          <span class="f-dial-arc" aria-hidden="true"></span><span class="f-dial-dot" aria-hidden="true"></span>
+          <span class="f-dial-unit" aria-hidden="true">weeks</span>
+        </div>
+      </fieldset>
+    </div>
+  </article>
+
   <article class="spec" id="switch">
     <div class="spec-side margin">
       <h3 class="spec-name">Switch</h3>
-      <p class="spec-note">A sentence, and you choose its last word. The state rolls between on and off in italic. Underneath, a native checkbox with the switch role.</p>
+      <p class="spec-note">A sentence, and you choose its last word. The state rolls between on and off in italic, and the full stop answers too: a dot when on, a ring when off. Underneath, a native checkbox with the switch role.</p>
       <ul class="spec-tokens"><li>--f-expression</li><li>--f-pencil</li><li>--f-moderato</li></ul>
     </div>
     <div class="demo-stack f-mp stave">
-      <label class="f-switch"><input type="checkbox" role="switch" checked aria-label="Email notifications"> Email notifications are <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
-      <label class="f-switch"><input type="checkbox" role="switch" checked aria-label="Autosave"> Autosave is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
-      <label class="f-switch"><input type="checkbox" role="switch" aria-label="Sounds"> Sounds are <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
+      <label class="f-switch"><input type="checkbox" role="switch" checked aria-label="Email notifications"> Email notifications are <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label>
+      <label class="f-switch"><input type="checkbox" role="switch" checked aria-label="Autosave"> Autosave is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label>
+      <label class="f-switch"><input type="checkbox" role="switch" aria-label="Sounds"> Sounds are <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label>
     </div>
     <p class="state-caption margin">States</p>
     <div class="spec-states stave" inert>
-      <div class="state"><span class="state-label">On</span><label class="f-switch"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
-      <div class="state"><span class="state-label">Off</span><label class="f-switch"><input type="checkbox" role="switch"> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
-      <div class="state"><span class="state-label">Pointed at</span><label class="f-switch" data-force="hover"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
-      <div class="state"><span class="state-label">Focus</span><label class="f-switch" data-force="focus"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
-      <div class="state"><span class="state-label">Disabled</span><label class="f-switch"><input type="checkbox" role="switch" disabled> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
+      <div class="state"><span class="state-label">On</span><label class="f-switch"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label></div>
+      <div class="state"><span class="state-label">Off</span><label class="f-switch"><input type="checkbox" role="switch"> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label></div>
+      <div class="state"><span class="state-label">Pointed at</span><label class="f-switch" data-force="hover"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label></div>
+      <div class="state"><span class="state-label">Focus</span><label class="f-switch" data-force="focus"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label></div>
+      <div class="state"><span class="state-label">Disabled</span><label class="f-switch"><input type="checkbox" role="switch" disabled> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label></div>
     </div>
   </article>
 
   <article class="spec" id="slider">
     <div class="spec-side margin">
       <h3 class="spec-name">Slider</h3>
-      <p class="spec-note">A ruler with a hand: minor ticks every 5, major every 25. The number is yours, so it's italic, and it travels with the hand. Arrow keys step by one, Page keys by ten.</p>
+      <p class="spec-note">A ruler with a hand: minor ticks every 5, major every 25. Above it, the value is drawn as a dimension, the way Paul Rand measured his pages: a line from zero to the hand, with your number, in italic, in the gap. Arrow keys step by one, Page keys by ten.</p>
       <ul class="spec-tokens"><li>--f-ink</li><li>--f-accent</li><li>--f-rule-strong</li></ul>
     </div>
     <div class="stave">
@@ -656,7 +725,7 @@
   <article class="spec" id="text-field">
     <div class="spec-side margin">
       <h3 class="spec-name">Text field</h3>
-      <p class="spec-note">Only a baseline. The label and placeholder are ours; what you type arrives in italic. Focus draws the accent along the line and shows how much room is left. Errors say what to fix.</p>
+      <p class="spec-note">Only a baseline. The label and placeholder are ours; what you type arrives in italic. Focus draws the accent along the line and shows how much room is left. An error hangs from the line as a callout, and says what to fix.</p>
       <ul class="spec-tokens"><li>--f-expression-scale</li><li>--f-accent</li><li>--f-signal</li><li>--f-rule-strong</li></ul>
     </div>
     <div class="fields stave">
@@ -690,7 +759,7 @@
   <article class="spec" id="select">
     <div class="spec-side margin">
       <h3 class="spec-name">Select</h3>
-      <p class="spec-note">A choice inside a sentence. The chosen word is italic over a hairline, and the arrow drops a little when you point at it. Where the browser allows, the open list is set in the same type.</p>
+      <p class="spec-note">A choice inside a sentence. The chosen word is italic over a hairline, and the arrow drops a little when you point at it. Where the browser allows, the open list is set in the same type, with the dot beside the current choice.</p>
       <ul class="spec-tokens"><li>--f-expression</li><li>--f-rule-strong</li><li>--f-mark</li></ul>
     </div>
     <div class="demo-stack stave">
@@ -708,13 +777,14 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Progress</h3>
-      <p class="spec-note">A hairline fills and a number counts. The action keeps its name all the way through: upload, uploading, uploaded.</p>
+      <p class="spec-note">A hairline fills and a number counts, and each file is a ring that fills as it lands, like days on the calendar. The action keeps its name all the way through: upload, uploading, uploaded.</p>
       <ul class="spec-tokens"><li>--f-ink</li><li>--f-rule</li></ul>
     </div>
     <div class="demo-stack stave" id="upload">
       <div class="f-progress" style="width: min(36rem, 100%)">
         <p class="progress-label">12 files ready to upload</p>
         <p class="f-progress-value" aria-hidden="true"><span>0</span><small>%</small></p>
+        <span class="f-progress-units" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
         <progress max="100" value="0" aria-label="Upload"></progress>
       </div>
       <button class="f-btn" data-variant="bracket" type="button" id="upload-btn">Upload</button>
@@ -734,7 +804,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Toast</h3>
-      <p class="spec-note">One line rises at the bottom left. The hairline under it is the time left; pointing at the toast pauses it. Undo is always in brackets.</p>
+      <p class="spec-note">One line rises at the bottom left, led by a fermata whose arc empties as its time runs out. Point at the toast and the pause is held, which is what a fermata means. Undo is always in brackets.</p>
       <ul class="spec-tokens"><li>--f-andante</li><li>--f-exhale</li></ul>
     </div>
     <div class="demo-row stave">
@@ -745,7 +815,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Dialog</h3>
-      <p class="spec-note">The question, set large, with two answers in words. The safe answer is in brackets and takes focus first. Escape, or a click outside, keeps things as they were.</p>
+      <p class="spec-note">The question, set large, like a poster: corner marks instead of a box, a row of facts along the top, and two answers in words. The safe answer is in brackets and takes focus first. Escape, or a click outside, keeps things as they were.</p>
     </div>
     <div class="demo-row stave">
       <button class="f-btn" data-variant="bracket" type="button" id="open-delete">Delete Spring notes</button>
@@ -782,9 +852,10 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Empty state</h3>
-      <p class="spec-note">An invitation to act, not a mood.</p>
+      <p class="spec-note">An invitation to act, not a mood. The zero is cropped to its top half, which is the fermata's arc: nothing here yet, held open.</p>
     </div>
     <div class="f-empty stave">
+      <p class="f-empty-figure" aria-hidden="true">0</p>
       <p class="f-empty-title">Nothing archived yet.</p>
       <p>Archive a note to keep it out of the way without deleting it. It will wait here until you need it.</p>
       <button class="f-btn" data-variant="bracket" type="button" data-archive>Archive a note</button>
@@ -800,7 +871,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Tabs and index</h3>
-      <p class="spec-note">Words with their counts raised; a line slides to the one in view. Rows are held apart by hairlines, and the row you point at steps forward with an arrow, because it opens something.</p>
+      <p class="spec-note">Words with their counts raised; a line slides to the one in view, and the count of what's showing is set huge, sinking into the rule. The row you point at reverses out of ink and steps forward with an arrow, because it opens something.</p>
       <ul class="spec-tokens"><li>--f-ink</li><li>--f-rule</li><li>--f-breath</li></ul>
     </div>
     <div class="demo-stack stave" style="justify-items: stretch">
@@ -810,6 +881,7 @@
         <button type="button" role="tab" aria-selected="false" aria-controls="work" tabindex="-1" data-filter="Web">Web<sup>3</sup></button>
         <button type="button" role="tab" aria-selected="false" aria-controls="work" tabindex="-1" data-filter="Motion">Motion<sup>1</sup></button>
         <span class="f-tabs-line" aria-hidden="true"></span>
+        <span class="f-tabs-count" aria-hidden="true"><span>07</span></span>
       </div>
       <ul class="f-rows" id="work" role="tabpanel" aria-label="Projects">
         <li data-cat="Identity"><a href="#work"><span class="f-rows-title">Halden</span><span class="f-rows-kind">Identity</span><span class="f-rows-year">2026</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
@@ -826,7 +898,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Pages and path</h3>
-      <p class="spec-note">Numbers with a dot beneath each; the current page's dot is the accent. The path is set with slashes and ends where you are.</p>
+      <p class="spec-note">Numbers with a dot beneath each; the current page's dot is the accent, and weight falls away with distance from it. The path is divided by drawn hairlines, leaning like slashes, and ends where you are.</p>
     </div>
     <div class="nav-demo stave">
       <nav class="f-pager f-mp" aria-label="Pages">
@@ -844,7 +916,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Disclosure</h3>
-      <p class="spec-note">A native details element. The plus turns into a cross, and the answer opens at the speed of reading.</p>
+      <p class="spec-note">A native details element. The plus turns into a cross, the question breathes out wider and lighter, and the answer opens at the speed of reading.</p>
       <ul class="spec-tokens"><li>--f-andante</li><li>--f-exhale</li></ul>
     </div>
     <div class="stave">
@@ -857,7 +929,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Month</h3>
-      <p class="spec-note">The dot calendar. Past days are filled, today is the accent, and days to come are rings. Choose one and its number appears, in italic. Arrow keys move by day and by week.</p>
+      <p class="spec-note">The dot calendar. Past days are filled, today is the accent, and days to come are rings. Choose one and its number appears in italic, and the days you'll wait through become half-moons. Arrow keys move by day and by week.</p>
       <ul class="spec-tokens"><li>--f-ink</li><li>--f-accent</li><li>--f-rule-strong</li></ul>
     </div>
     <div class="stave">
@@ -879,10 +951,10 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Tag</h3>
-      <p class="spec-note">The one rounded shape. A removable tag carries a cross, and removing one moves focus to its neighbour.</p>
+      <p class="spec-note">The one rounded shape. A removable tag carries a cross, and pointing at it strikes the word, as the checkbox does. Removing one moves focus to its neighbour.</p>
     </div>
     <div class="demo-stack stave">
-      <div class="tags" id="tags"><button class="f-tag" type="button" data-removable aria-label="Remove Identity">Identity</button><button class="f-tag" type="button" data-removable aria-label="Remove Web">Web</button><button class="f-tag" type="button" data-removable aria-label="Remove Motion">Motion</button><button class="f-tag" type="button" data-removable aria-label="Remove Print">Print</button></div>
+      <div class="tags" id="tags"><button class="f-tag" type="button" data-removable aria-label="Remove Identity"><span>Identity</span></button><button class="f-tag" type="button" data-removable aria-label="Remove Web"><span>Web</span></button><button class="f-tag" type="button" data-removable aria-label="Remove Motion"><span>Motion</span></button><button class="f-tag" type="button" data-removable aria-label="Remove Print"><span>Print</span></button></div>
       <button class="f-btn" data-variant="quiet" type="button" id="tags-back" hidden>Put them back</button>
       <p class="tags"><span class="f-tag">Draft</span><span class="f-tag" data-variant="ink">New</span><span class="f-tag" data-variant="accent">Live</span></p>
     </div>
@@ -891,7 +963,7 @@
   <article class="spec">
     <div class="spec-side margin">
       <h3 class="spec-name">Marginalia</h3>
-      <p class="spec-note">A dotted term. Point at it or focus it, and a leader line draws down to a note. Escape puts it away.</p>
+      <p class="spec-note">A dotted term. Point at it or focus it, and the highlighter marks it, a dot anchors a leader line, and the line draws down to a note. Escape puts it away.</p>
     </div>
     <div class="stave">
       <p class="f-mp" style="max-width: 36ch">The voice is <button type="button" class="f-note" aria-describedby="note-archivo">Archivo<span class="f-note-text" id="note-archivo" aria-hidden="true">A grotesque from Omnibus-Type, variable in width and weight. It says everything the interface says.</span></button>, and the expression is <button type="button" class="f-note" aria-describedby="note-bodoni">Bodoni Moda<span class="f-note-text" id="note-bodoni" aria-hidden="true">Owen Earl's revival of the types Giambattista Bodoni cut in Parma around 1798. Optical sizes keep its hairlines alive from 6 to 96 points.</span></button>.</p>
@@ -916,11 +988,12 @@
 
 <footer class="coda" data-movement="Fine" data-num="">
   <p class="coda-fine" lang="it">Fine.</p>
-  <div class="f-meta"><span>Fermata 0.1</span><hr><span>Set in Archivo and Bodoni Moda, both under the SIL Open Font License</span><hr><a class="f-link" href="#top">Back to the overture</a></div>
+  <div class="f-meta"><span>Fermata 0.1</span><hr><span>Every typeface here is under the SIL Open Font License</span><hr><a class="f-link" href="#top">Back to the overture</a></div>
 </footer>
 
 <dialog class="f-dialog" id="delete-dialog" closedby="any" aria-labelledby="delete-title">
   <form method="dialog">
+    <div class="f-meta f-dialog-meta"><span>Delete a note</span><hr><span>14 attachments</span></div>
     <h2 class="f-dialog-title" id="delete-title">Delete <span class="f-yours">Spring notes</span>?</h2>
     <p class="f-dialog-body">The notes and their 14 attachments go for good. This can't be undone.</p>
     <div class="f-dialog-actions">
@@ -943,6 +1016,7 @@
     set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
   };
   const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+  const plain = (v) => v.replace(/^color-mix\(in srgb, (.+?) (\d+%), transparent\)$/, "$1 at $2"); // how a person would say it
 
   /* ── smooth scroll, only when motion is welcome ── */
   let lenis = null;
@@ -950,6 +1024,20 @@
     import("https://esm.sh/lenis@1.3.26")
       .then(({ default: Lenis }) => { lenis = new Lenis({ autoRaf: true, anchors: true }); })
       .catch(() => {}); // native scrolling is fine
+  }
+
+  /* ── roll: text leaves upward and the new text arrives from below ── */
+  const turns = new WeakMap();
+  function roll(el, apply, dist = "0.7em") {
+    const mine = (turns.get(el) || 0) + 1;
+    turns.set(el, mine);
+    if (still.matches) return apply();
+    el.animate([{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: `0 -${dist}` }], { duration: 160, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" })
+      .finished.then(() => {
+        if (turns.get(el) !== mine) return;
+        apply();
+        el.animate([{ opacity: 0, translate: `0 ${dist}` }, { opacity: 1, translate: "0 0" }], { duration: 320, easing: "cubic-bezier(.16,1,.3,1)", fill: "forwards" });
+      });
   }
 
   /* ── one dot, one line: they follow the chosen word ── */
@@ -1004,10 +1092,13 @@
       b.addEventListener("click", () => { leave(); onAction?.(); });
       t.append(b);
     }
-    const timer = Object.assign(document.createElement("span"), { className: "f-toast-timer" });
+    const timer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    timer.setAttribute("class", "f-toast-timer");
+    timer.setAttribute("viewBox", "0 0 22 14");
     timer.setAttribute("aria-hidden", "true");
-    timer.addEventListener("animationend", leave);
-    t.append(timer);
+    timer.innerHTML = '<path d="M2 12.5 A9 9 0 0 1 20 12.5" pathLength="1" stroke-dasharray="1"/><circle cx="11" cy="10.4" r="1.9"/>';
+    timer.addEventListener("animationend", leave); // bubbles up from the arc
+    t.prepend(timer);
     toaster.append(t);
     while (toaster.children.length > 3) toaster.firstElementChild.remove();
   }
@@ -1035,13 +1126,52 @@
     redraw();
   });
   const keyNames = { ultramarine: "Ultramarine", viridian: "Viridian", ember: "Ember", violet: "Violet" };
-  for (const input of $$('input[name="key"]')) {
-    input.checked = input.value === (root.dataset.key || "ultramarine");
+  const schemeAccents = { cotton: "Ultramarine", blueprint: "Cinnabar", statue: "Ochre", silence: "Cobalt", riso: "Rhodamine" };
+  const keyInputs = $$('input[name="key"]');
+  const syncKeys = () => keyInputs.forEach((i) => { i.checked = i.value === (root.dataset.key || (root.dataset.scheme ? "" : "ultramarine")); });
+  syncKeys();
+  for (const input of keyInputs) {
     input.addEventListener("change", () => {
-      if (input.value === "ultramarine") delete root.dataset.key;
-      else root.dataset.key = input.value;
+      root.dataset.key = input.value;
       store.set("fermata-key", input.value);
       redraw();
+    });
+  }
+  for (const input of $$('input[name="scheme"]')) {
+    input.checked = input.value === (root.dataset.scheme || "cotton");
+    input.addEventListener("change", () => {
+      if (input.value === "cotton") delete root.dataset.scheme;
+      else root.dataset.scheme = input.value;
+      delete root.dataset.key; // a scheme brings its own accent
+      store.set("fermata-scheme", input.value);
+      store.set("fermata-key", "");
+      syncKeys();
+      redraw();
+      followAll();
+    });
+  }
+  const PAIRS = {
+    parma: ["Archivo", "Omnibus-Type. Width 62–125, weight 100–900.", "Bodoni Moda", "Owen Earl, after Bodoni. Optical size 6–96."],
+    press: ["Schibsted Grotesk", "Bakken & Bæck, for Schibsted's newsrooms. Weight 400–900.", "Newsreader", "Production Type, for reading on screens. Optical size 6–72."],
+    paris: ["Instrument Sans", "Instrument. Width 75–100, weight 400–700.", "EB Garamond", "Georg Duffner, after Claude Garamond's Paris types."],
+    salon: ["Bricolage Grotesque", "Mathieu Triay. Optical size, width 75–100, weight 200–800.", "Cormorant", "Christian Thalmann. A Garamond for display sizes."],
+  };
+  function nameThePair() {
+    const [v, vm, e, em] = PAIRS[root.dataset.pair || "parma"];
+    $("#voice-name").textContent = v; $("#voice-meta").textContent = vm;
+    $("#expression-name").textContent = e; $("#expression-meta").textContent = em;
+  }
+  nameThePair();
+  for (const input of $$('input[name="pair"]')) {
+    input.checked = input.value === (root.dataset.pair || "parma");
+    input.addEventListener("change", async () => {
+      if (input.value === "parma") delete root.dataset.pair;
+      else root.dataset.pair = input.value;
+      store.set("fermata-pair", input.value);
+      nameThePair();
+      await Promise.all([document.fonts.load(`400 20px ${token("--f-voice")}`), document.fonts.load(`italic 400 20px ${token("--f-expression")}`)]).catch(() => {});
+      followAll();
+      dispatchEvent(new Event("fermata:voice")); // the overture re-sets its lines
     });
   }
 
@@ -1050,8 +1180,9 @@
   probe.hidden = true;
   function rgba(value) {
     probe.style.color = value;
-    const [r, g, b, a = 1] = getComputedStyle(probe).color.match(/[\d.]+/g).map(Number);
-    return [r, g, b, a];
+    const c = getComputedStyle(probe).color;
+    const [r, g, b, a = 1] = c.match(/[\d.]+/g).map(Number);
+    return c.startsWith("color(") ? [r * 255, g * 255, b * 255, a] : [r, g, b, a];
   }
   const lum = (rgb) => {
     const [r, g, b] = rgb.map((c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; });
@@ -1087,7 +1218,7 @@
         th.append(b);
         row.append(th);
         const lh = token(`${name}-lh`);
-        Object.assign(row.insertCell(), { className: "tok-val", textContent: lh ? `${token(name)} / ${lh} / ${token(`${name}-tr`)}` : token(name) });
+        Object.assign(row.insertCell(), { className: "tok-val", textContent: lh ? `${token(name)} / ${lh} / ${token(`${name}-tr`)}` : plain(token(name)) });
         const sample = Object.assign(row.insertCell(), { className: "tok-sample" });
         if (group === "Colour") sample.append(Object.assign(document.createElement("i"), { style: `background: var(${name})` }));
         if (group === "Space") sample.append(Object.assign(document.createElement("span"), { className: "bar-w", style: `--w: var(${name})` }));
@@ -1104,28 +1235,19 @@
 
   function redraw() {
     for (const li of $$("#swatches > li")) {
-      $(".swatch-hex", li).textContent = token(li.dataset.token);
+      $(".swatch-hex", li).textContent = plain(token(li.dataset.token));
       $(".swatch-ratio", li).textContent = `${contrast(token(li.dataset.fg), token(li.dataset.bg)).toFixed(1)}:1`;
     }
-    $("#accent-name").textContent = keyNames[root.dataset.key || "ultramarine"];
+    $("#accent-name").textContent = keyNames[root.dataset.key] || schemeAccents[root.dataset.scheme || "cotton"];
     drawTokens();
   }
   redraw();
 
   /* ── the bar: which movement you're in ── */
   const now = $(".bar-now"), nowNum = $(".bar-num"), nowName = $(".bar-name");
-  let turn = 0;
   function setNow(num, name) {
     if (nowName.textContent === name) return;
-    const mine = ++turn;
-    const swap = () => { nowNum.textContent = num; nowName.textContent = name; };
-    if (still.matches) return swap();
-    now.animate([{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: "0 -0.7em" }], { duration: 160, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" })
-      .finished.then(() => {
-        if (mine !== turn) return;
-        swap();
-        now.animate([{ opacity: 0, translate: "0 0.7em" }, { opacity: 1, translate: "0 0" }], { duration: 320, easing: "cubic-bezier(.16,1,.3,1)", fill: "forwards" });
-      });
+    roll(now, () => { nowNum.textContent = num; nowName.textContent = name; });
   }
   const watch = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) setNow(e.target.dataset.num, e.target.dataset.movement);
@@ -1165,8 +1287,11 @@
   const checklist = $("#checklist"), tally = $("#tally");
   function countDone() {
     const boxes = $$("input", checklist), n = boxes.filter((b) => b.checked).length;
-    if (n === boxes.length) return (tally.textContent = "All done.");
-    tally.replaceChildren(Object.assign(document.createElement("span"), { className: "f-yours", textContent: n }), ` of ${boxes.length} done`);
+    const f = Object.assign(document.createElement("span"), { className: "f-fraction" });
+    f.append(Object.assign(document.createElement("span"), { className: "f-yours", textContent: n }));
+    f.append(Object.assign(document.createElement("i"), { innerHTML: '<span class="f-sr"> of </span>' }));
+    f.append(Object.assign(document.createElement("span"), { textContent: boxes.length }));
+    tally.replaceChildren(f, n === boxes.length ? "done. Ready when you are." : "done");
   }
   checklist.addEventListener("change", countDone);
   countDone();
@@ -1180,6 +1305,7 @@
 
   /* ── progress ── */
   const upLabel = $("#upload .progress-label"), upNum = $("#upload .f-progress-value > span"), upBar = $("#upload progress"), upButton = $("#upload-btn");
+  const units = $$("#upload .f-progress-units > i");
   upButton.addEventListener("click", () => {
     upButton.disabled = true;
     upLabel.textContent = "Uploading 12 files";
@@ -1188,6 +1314,7 @@
       v = Math.min(100, v + 1 + Math.random() * 5);
       upNum.textContent = Math.floor(v);
       upBar.value = v;
+      units.forEach((u, i) => u.toggleAttribute("data-done", v >= ((i + 1) * 100) / units.length));
       if (v < 100) return setTimeout(step, 80);
       upLabel.textContent = "Uploaded 12 files";
       upButton.textContent = "Upload again";
@@ -1245,7 +1372,7 @@
   });
 
   /* ── tabs filter the index ── */
-  const tabs = $(".f-tabs"), tabList = $$('[role="tab"]', tabs);
+  const tabs = $(".f-tabs"), tabList = $$('[role="tab"]', tabs), tabCount = $(".f-tabs-count > span", tabs);
   function selectTab(tab, focus) {
     tabList.forEach((t) => { const on = t === tab; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; });
     if (focus) tab.focus();
@@ -1253,6 +1380,8 @@
     follow(tabs, tab);
     const f = tab.dataset.filter;
     $$("#work > li").forEach((li) => { li.hidden = f !== "all" && li.dataset.cat !== f; });
+    const shown = String($$("#work > li:not([hidden])").length).padStart(2, "0");
+    if (tabCount.textContent !== shown) roll(tabCount, () => { tabCount.textContent = shown; }, "100%");
   }
   tabs.addEventListener("click", (e) => { const t = e.target.closest('[role="tab"]'); if (t) selectTab(t); });
   tabs.addEventListener("keydown", (e) => {
@@ -1302,7 +1431,9 @@
     $(".f-month-name", month).textContent = view.toLocaleString("en-GB", { month: "long" });
     $(".f-month-year", month).textContent = ` ${view.getFullYear()}`;
     const shown = sameMonth(picked) ? picked : sameMonth(today) ? today : view;
-    $(".f-month-date", month).textContent = String(shown.getDate()).padStart(2, "0");
+    const date = $(".f-month-date", month), dd = String(shown.getDate()).padStart(2, "0");
+    if (date.textContent && date.textContent !== dd) roll(date, () => { date.textContent = dd; }, "0.4em");
+    else date.textContent = dd;
     for (let i = 0; i < (view.getDay() + 6) % 7; i++) grid.append(Object.assign(document.createElement("span"), { className: "f-month-gap" }));
     const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
     for (let d = 1; d <= days; d++) {
@@ -1313,6 +1444,7 @@
       b.dataset.day = d;
       b.setAttribute("aria-label", longDay.format(date) + (when === "today" ? ", today" : ""));
       b.setAttribute("aria-pressed", String(!!picked && +picked === +date));
+      if (picked && date > today && date < picked) b.dataset.between = ""; // the wait, as half-moons
       grid.append(b);
     }
     const home = $('[aria-pressed="true"]', grid) || $('[data-when="today"]', grid) || $(".f-month-day:not(:disabled)", grid);
@@ -1354,7 +1486,6 @@
     catch { root.classList.add("flow-done"); return; } // the plain paragraph stays
     const { prepareWithSegments, layoutNextLine } = lib;
     const text = source.textContent.replace(/\s+/g, " ").trim();
-    const voice = token("--f-voice");
     const GAP = 24, pool = [];
     let prepared, size = 0, lh = 32, W = 0, r = 100, R = 124, base = 0, H = 0;
     let cx = 0, cy = 0, tx = 0, ty = 0, fx = 0.64, fy = 0.46, frame = 0;
@@ -1364,7 +1495,7 @@
       const [s, l] = innerWidth >= 900 ? [22, 32] : innerWidth >= 560 ? [19, 28] : [17, 26];
       if (s !== size) {
         size = s; lh = l;
-        const font = `400 ${size}px ${voice}`;
+        const font = `400 ${size}px ${token("--f-voice")}`;
         await document.fonts.load(font);
         prepared = prepareWithSegments(text, font);
         region.style.setProperty("--size", `${size}px`);
@@ -1444,6 +1575,14 @@
     source.classList.add("f-sr");
     root.classList.add("flow-done");
     setTimeout(() => region.classList.remove("intro"), 4000);
+
+    addEventListener("fermata:voice", async () => {
+      size = 0; // forces a fresh prepare in the new voice
+      await measure();
+      cx = tx = fx * W;
+      cy = ty = fy * base;
+      render();
+    });
 
     let lastW = W;
     new ResizeObserver(async () => {

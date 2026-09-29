@@ -1,7 +1,9 @@
 /* Fermata · tokens
    The registry:base item. Every component reads only these variables.
-   Modes:  <html data-mode="day | nocturne">
-   Keys:   <html data-key="ultramarine | viridian | ember | violet"> */
+   Modes:   <html data-mode="day | nocturne">
+   Schemes: <html data-scheme="cotton | blueprint | statue | silence | riso">
+   Keys:    <html data-key="ultramarine | viridian | ember | violet">  (overrides the scheme's accent)
+   Pairs:   <html data-pair="parma | press | paris | salon"> */
 
 :root {
   color-scheme: light;
@@ -12,8 +14,8 @@
   --f-ink: #000;
   --f-graphite: #4a4b50;
   --f-pencil: #6b6c71;
-  --f-rule: rgb(0 0 0 / 0.14);
-  --f-rule-strong: rgb(0 0 0 / 0.42);
+  --f-rule: color-mix(in srgb, var(--f-ink) 14%, transparent);
+  --f-rule-strong: color-mix(in srgb, var(--f-ink) 42%, transparent);
   --f-accent: #2b2bee;
   --f-signal: #c8102e;
   --f-mark: #ffe45a;
@@ -63,10 +65,29 @@
   --f-breath: cubic-bezier(0.65, 0, 0.35, 1);  /* moving between states */
 }
 
-/* Keys: the accent can change, the rule doesn't. All ≥ 4.5:1 on paper. */
-:root[data-key="viridian"] { --f-accent: #0b6e4f; }
-:root[data-key="ember"]    { --f-accent: #b83d00; }
-:root[data-key="violet"]   { --f-accent: #6a1b9a; }
+/* Pairs: a voice (grotesque) and an expression (italic serif). The scale
+   lifts each italic until its x-height meets the voice's on the line. */
+:root[data-pair="press"] {
+  --f-voice: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-expression: "Newsreader", Georgia, serif;
+  --f-expression-scale: 1.1;
+}
+:root[data-pair="paris"] {
+  --f-voice: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-expression: "EB Garamond", Garamond, Georgia, serif;
+  --f-expression-scale: 1.24;
+}
+:root[data-pair="salon"] {
+  --f-voice: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --f-expression: "Cormorant", Garamond, Georgia, serif;
+  --f-expression-scale: 1.26;
+}
+
+/* Schemes: paper, ink and accent move together; the rules follow the ink. */
+:root[data-scheme="blueprint"] { --f-paper: #edf0f7; --f-ink: #0c1b8f; --f-graphite: #2f3b7c; --f-pencil: #58608f; --f-accent: #c23d00; --f-signal: #a3001e; }
+:root[data-scheme="statue"]    { --f-paper: #ebeae5; --f-ink: #14213d; --f-graphite: #39445f; --f-pencil: #5f687e; --f-accent: #875600; --f-signal: #b3122e; }
+:root[data-scheme="silence"]   { --f-paper: #e2e8e3; --f-ink: #0e2a23; --f-graphite: #32504a; --f-pencil: #4f6962; --f-accent: #1b3de0; --f-signal: #b3122e; }
+:root[data-scheme="riso"]      { --f-paper: #f6f5f2; --f-ink: #25286b; --f-graphite: #3f4278; --f-pencil: #636591; --f-accent: #b8005f; --f-signal: #c23c00; }
 
 /* Nocturne: the dark mode, for the long sessions. */
 :root[data-mode="nocturne"] {
@@ -75,14 +96,24 @@
   --f-ink: #e9eaec;
   --f-graphite: #b4b5bc;
   --f-pencil: #83848c;
-  --f-rule: rgb(255 255 255 / 0.14);
-  --f-rule-strong: rgb(255 255 255 / 0.42);
   --f-accent: #8c8cff;
   --f-signal: #ff6b7f;
 }
-:root[data-mode="nocturne"][data-key="viridian"] { --f-accent: #4fd1a5; }
-:root[data-mode="nocturne"][data-key="ember"]    { --f-accent: #ff8a4c; }
-:root[data-mode="nocturne"][data-key="violet"]   { --f-accent: #c58cf2; }
+:root[data-mode="nocturne"][data-scheme="blueprint"] { --f-paper: #0a1766; --f-ink: #f0f2ff; --f-graphite: #c4caf2; --f-pencil: #929ad0; --f-accent: #ff9557; --f-signal: #ff8a9a; }
+:root[data-mode="nocturne"][data-scheme="statue"]    { --f-paper: #0d1528; --f-ink: #eee7d7; --f-graphite: #c7c0b0; --f-pencil: #938d80; --f-accent: #e3b04f; --f-signal: #ff7b86; }
+:root[data-mode="nocturne"][data-scheme="silence"]   { --f-paper: #0c1c18; --f-ink: #e1ebe6; --f-graphite: #adc0b9; --f-pencil: #7a918a; --f-accent: #93a6ff; --f-signal: #ff7b86; }
+:root[data-mode="nocturne"][data-scheme="riso"]      { --f-paper: #1a1537; --f-ink: #f8eef5; --f-graphite: #d2c6d8; --f-pencil: #9d92ab; --f-accent: #ff62b0; --f-signal: #ffa066; }
+
+/* Keys: the accent can change, the rule doesn't. Declared last so a key wins
+   over any scheme. All ≥ 4.5:1 on every paper, by day and in Nocturne. */
+:root[data-key="ultramarine"] { --f-accent: #2b2bee; }
+:root[data-key="viridian"]    { --f-accent: #0b6e4f; }
+:root[data-key="ember"]       { --f-accent: #b83d00; }
+:root[data-key="violet"]      { --f-accent: #6a1b9a; }
+:root[data-mode="nocturne"][data-key="ultramarine"] { --f-accent: #8c8cff; }
+:root[data-mode="nocturne"][data-key="viridian"]    { --f-accent: #4fd1a5; }
+:root[data-mode="nocturne"][data-key="ember"]       { --f-accent: #ff8a4c; }
+:root[data-mode="nocturne"][data-key="violet"]      { --f-accent: #c58cf2; }
 
 @media (prefers-reduced-motion: reduce) {
   :root {

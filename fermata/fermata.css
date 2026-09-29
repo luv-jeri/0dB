@@ -81,6 +81,25 @@ img, svg { display: block; max-width: 100%; }
   font: 500 0.8em/1 var(--f-voice); color: var(--f-ink); vertical-align: 0.1em;
 }
 
+/* ── f-corners ── four corner marks: a frame that doesn't close.
+   Any element with position can wear them; the statement button and the dialog do. */
+:is(.f-corners, .f-btn[data-variant="statement"], .f-dialog)::after {
+  --l: var(--f-corner, 8px);
+  --c: var(--f-corner-colour, var(--f-ink));
+  content: ""; position: absolute; inset: var(--f-corner-inset, 0); pointer-events: none;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--f-hairline),
+    linear-gradient(var(--c), var(--c)) 0 0 / var(--f-hairline) var(--l),
+    linear-gradient(var(--c), var(--c)) 100% 0 / var(--l) var(--f-hairline),
+    linear-gradient(var(--c), var(--c)) 100% 0 / var(--f-hairline) var(--l),
+    linear-gradient(var(--c), var(--c)) 0 100% / var(--l) var(--f-hairline),
+    linear-gradient(var(--c), var(--c)) 0 100% / var(--f-hairline) var(--l),
+    linear-gradient(var(--c), var(--c)) 100% 100% / var(--l) var(--f-hairline),
+    linear-gradient(var(--c), var(--c)) 100% 100% / var(--f-hairline) var(--l);
+  background-repeat: no-repeat;
+}
+.f-corners { position: relative; }
+
 /* ── f-btn ── statement (reversed block), bracket ( ), quiet (a line) */
 .f-btn {
   appearance: none; border: 0; background: none; margin: 0; padding: 0;
@@ -95,11 +114,14 @@ img, svg { display: block; max-width: 100%; }
 .f-btn[aria-busy="true"] { cursor: progress; }
 
 .f-btn[data-variant="statement"] {
+  position: relative; --f-corner-inset: -9px;
   background: var(--f-ink); color: var(--f-paper);
   padding: 0.8em 1.15em 0.82em;
   transition: font-stretch var(--f-moderato) var(--f-exhale), background-color var(--f-allegro), color var(--f-allegro), translate var(--f-allegro) var(--f-exhale);
 }
+.f-btn[data-variant="statement"]::after { opacity: 0; scale: 1.14 1.3; transition: opacity var(--f-allegro), scale var(--f-moderato) var(--f-exhale); }
 .f-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-busy="true"]) { font-stretch: 114%; }
+.f-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-busy="true"])::after { opacity: 1; scale: 1; }
 .f-btn[data-variant="statement"]:active:not(:disabled) { translate: 0 1px; }
 .f-btn[data-variant="statement"]:disabled { background: var(--f-rule); color: var(--f-pencil); }
 
@@ -112,6 +134,8 @@ img, svg { display: block; max-width: 100%; }
 .f-btn[data-variant="bracket"]::after { content: ")" / ""; }
 .f-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled)::before { translate: -0.3em 0; }
 .f-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled)::after { translate: 0.3em 0; }
+.f-btn[data-variant="bracket"]:active:not(:disabled)::before { translate: 0.12em 0; transition-duration: var(--f-allegro); }
+.f-btn[data-variant="bracket"]:active:not(:disabled)::after { translate: -0.12em 0; transition-duration: var(--f-allegro); }
 
 .f-btn[data-variant="quiet"] {
   padding-bottom: 0.18em;
@@ -140,6 +164,7 @@ img, svg { display: block; max-width: 100%; }
 .f-check > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
 .f-check > span {
   --y: 60%;
+  padding-inline: 0.18em; margin-inline: -0.18em; /* the pen runs past the words, as a hand does */
   background: linear-gradient(var(--f-accent), var(--f-accent)) no-repeat 100% var(--y) / 0% var(--f-stroke);
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
   transition:
@@ -158,6 +183,11 @@ img, svg { display: block; max-width: 100%; }
 
 .f-checklist { border: 0; margin: 0; padding: 0; display: grid; justify-items: start; gap: var(--f-space-3); font-size: var(--f-mp); line-height: var(--f-mp-lh); }
 .f-checklist > legend { padding: 0; margin-bottom: var(--f-space-4); }
+
+/* ── f-fraction ── a count set as a display fraction; the part that's yours is italic */
+.f-fraction { display: inline-flex; align-items: flex-start; font-size: var(--f-f); line-height: 0.9; color: var(--f-ink); font-variant-numeric: lining-nums tabular-nums; }
+.f-fraction > i { position: relative; align-self: stretch; width: var(--f-hairline); margin-inline: 0.2em 0.12em; background: var(--f-rule-strong); rotate: 22deg; }
+.f-fraction > :last-child { margin-top: 0.42em; font-weight: 200; color: var(--f-graphite); }
 
 /* ── f-choice ── radio: the chosen word turns italic; one dot marks it */
 .f-choice {
@@ -178,6 +208,7 @@ img, svg { display: block; max-width: 100%; }
   font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1;
   color: var(--f-ink); opacity: 0; translate: 0 0.12em;
 }
+.f-choice:has(input:checked) > label > span { color: var(--f-pencil); }
 .f-choice > label:is(:hover, [data-force~="hover"]) > span { color: var(--f-ink); }
 .f-choice > label:has(input:checked) > span { opacity: 0; translate: 0 -0.12em; }
 .f-choice > label:has(input:checked)::after { opacity: 1; translate: 0 0; }
@@ -193,6 +224,73 @@ img, svg { display: block; max-width: 100%; }
 }
 .f-choice:not([data-ready]) .f-choice-dot { transition: none; }
 .f-choice:not(:has(input:checked)) .f-choice-dot { opacity: 0; }
+
+/* ── f-dial ── a radio on an arc. The whole dial rolls to what you choose:
+   --sel is animated, and size, colour and italic all follow its distance. */
+@property --sel { syntax: "<number>"; inherits: true; initial-value: 0; }
+.f-dial { --r: min(13rem, 36vw); border: 0; margin: 0; padding: 0; min-width: 0; }
+.f-dial > legend { padding: 0; margin-bottom: var(--f-space-5); }
+.f-dial-face {
+  position: relative; width: calc(2 * var(--r) + 3em); height: calc(var(--r) + 3.5em);
+  transition: --sel var(--f-andante) var(--f-breath);
+}
+.f-dial > .f-dial-face { font-size: var(--f-mp); }
+.f-dial:has(label:nth-of-type(1) > input:checked) .f-dial-face { --sel: 0; }
+.f-dial:has(label:nth-of-type(2) > input:checked) .f-dial-face { --sel: 1; }
+.f-dial:has(label:nth-of-type(3) > input:checked) .f-dial-face { --sel: 2; }
+.f-dial:has(label:nth-of-type(4) > input:checked) .f-dial-face { --sel: 3; }
+.f-dial:has(label:nth-of-type(5) > input:checked) .f-dial-face { --sel: 4; }
+.f-dial:has(label:nth-of-type(6) > input:checked) .f-dial-face { --sel: 5; }
+.f-dial:has(label:nth-of-type(7) > input:checked) .f-dial-face { --sel: 6; }
+.f-dial:has(label:nth-of-type(8) > input:checked) .f-dial-face { --sel: 7; }
+.f-dial:has(label:nth-of-type(9) > input:checked) .f-dial-face { --sel: 8; }
+.f-dial > .f-dial-face > label {
+  --a: calc(170deg - 160deg * var(--i) / (var(--n) - 1));
+  --d: max(var(--i) - var(--sel), var(--sel) - var(--i));
+  --near: max(0, 1 - var(--d));
+  position: absolute; left: calc(50% + cos(var(--a)) * var(--r)); top: calc(1.75em + var(--r) - sin(var(--a)) * var(--r));
+  translate: -50% -50%; scale: calc(1 + 1.4 * var(--near));
+  display: grid; place-items: center; cursor: pointer; font-variant-numeric: lining-nums;
+  color: color-mix(in srgb, var(--f-ink) calc(100% - min(var(--d), 3) * 33%), var(--f-pencil));
+  -webkit-tap-highlight-color: transparent;
+}
+.f-dial label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.f-dial label > span, .f-dial label::after { grid-area: 1 / 1; }
+.f-dial label > span { opacity: calc(1 - var(--near)); }
+.f-dial label::after {
+  content: attr(data-text) / ""; opacity: var(--near);
+  font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1;
+}
+.f-dial label:hover { color: var(--f-ink); }
+.f-dial label:has(input:focus-visible) { outline: var(--f-stroke) solid var(--f-accent); outline-offset: 4px; border-radius: 50%; }
+.f-dial-arc, .f-dial-dot { position: absolute; pointer-events: none; }
+.f-dial-arc {
+  --ri: calc(var(--r) - 2.1em);
+  left: calc(50% - var(--ri)); top: calc(1.75em + var(--r) - var(--ri));
+  width: calc(2 * var(--ri)); height: calc(2 * var(--ri)); border-radius: 50%;
+  box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); clip-path: inset(0 0 50% 0);
+}
+.f-dial-dot {
+  --a: calc(170deg - 160deg * var(--sel) / (var(--n) - 1));
+  --ri: calc(var(--r) - 2.1em);
+  left: calc(50% + cos(var(--a)) * var(--ri)); top: calc(1.75em + var(--r) - sin(var(--a)) * var(--ri));
+  width: var(--f-dot); height: var(--f-dot); translate: -50% -50%; border-radius: 50%; background: var(--f-accent);
+}
+.f-dial:not(:has(input:checked)) .f-dial-dot { opacity: 0; }
+.f-dial-unit { position: absolute; left: 50%; bottom: 0.4em; translate: -50% 0; font-size: var(--f-pp); color: var(--f-pencil); }
+
+/* ── f-picks ── a list of choices; a dot hangs beside the one you took */
+.f-picks { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: var(--f-space-5); }
+.f-picks > legend { padding: 0; margin-bottom: var(--f-space-4); }
+.f-picks > label { position: relative; display: block; padding-left: var(--f-space-5); cursor: pointer; color: var(--f-graphite); -webkit-tap-highlight-color: transparent; }
+.f-picks > label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.f-picks > label::before {
+  content: ""; position: absolute; left: 0; top: 0.72em; width: var(--f-dot); height: var(--f-dot); border-radius: 50%;
+  background: var(--f-accent); scale: 0; transition: scale var(--f-moderato) var(--f-exhale);
+}
+.f-picks > label:has(input:checked)::before { scale: 1; }
+.f-picks > label:is(:hover, :has(input:checked)) { color: var(--f-ink); }
+.f-picks > label:has(input:focus-visible) { outline: var(--f-stroke) solid var(--f-accent); outline-offset: 6px; }
 
 /* ── f-switch ── a sentence whose last word you can change */
 .f-switch { position: relative; display: inline-block; cursor: pointer; color: var(--f-graphite); -webkit-tap-highlight-color: transparent; }
@@ -214,6 +312,13 @@ img, svg { display: block; max-width: 100%; }
 .f-switch[data-force~="focus"] > .f-switch-state { outline: var(--f-stroke) solid var(--f-accent); outline-offset: 2px; }
 .f-switch[data-force~="focus"] { outline: 0; }
 .f-switch:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }
+/* The sentence's full stop: a dot when on, a ring when off. */
+.f-switch-stop {
+  display: inline-block; width: max(0.22em, 5px); height: max(0.22em, 5px); margin-left: 0.1em; border-radius: 50%;
+  background: currentColor; box-shadow: inset 0 0 0 var(--f-hairline) currentColor;
+  transition: background-color var(--f-moderato) var(--f-breath);
+}
+.f-switch > input:not(:checked) ~ .f-switch-stop { background-color: transparent; }
 
 /* ── f-ruler ── slider: a ruler with a hand; the value is yours */
 .f-ruler {
@@ -227,13 +332,19 @@ img, svg { display: block; max-width: 100%; }
     linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 1px no-repeat;
   position: relative; display: block;
 }
+/* The value is a dimension, as Paul Rand drew them: a measured line from zero
+   to the hand, ticked at both ends, with your number in the gap. */
 .f-ruler-value {
-  display: block; width: max-content; position: relative;
-  left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--p)); translate: -50% 0;
+  display: flex; align-items: center; gap: 0.3em; position: relative;
+  left: calc(var(--thumb) / 2); width: calc((100% - var(--thumb)) * var(--p)); min-width: max-content;
   margin-top: var(--f-space-3);
   font-family: var(--f-expression); font-style: italic; font-size: var(--f-f); line-height: 1.05;
   color: var(--f-ink); font-variant-numeric: lining-nums;
+  background:
+    linear-gradient(var(--f-ink), var(--f-ink)) 0 55% / var(--f-hairline) 12px no-repeat,
+    linear-gradient(var(--f-ink), var(--f-ink)) 100% 55% / var(--f-hairline) 12px no-repeat;
 }
+.f-ruler-value::before, .f-ruler-value::after { content: ""; flex: 1; height: var(--f-hairline); margin-top: 0.1em; background: var(--f-ink); }
 .f-ruler input[type="range"] {
   -webkit-appearance: none; appearance: none; display: block;
   width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer;
@@ -296,9 +407,22 @@ img, svg { display: block; max-width: 100%; }
     repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--f-rule-strong) calc(var(--lh) - 1px) var(--lh)) 0 var(--f-rule-shift, -0.3rem) / 100% var(--lh);
   background-attachment: local;
 }
+.f-field > textarea[aria-invalid="true"] {
+  background-image:
+    linear-gradient(var(--f-signal), var(--f-signal)),
+    repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--f-signal) calc(var(--lh) - 1px) var(--lh));
+}
 .f-field-hint, .f-field-error { grid-column: 1 / -1; margin-top: var(--f-space-1); font-size: var(--f-pp); line-height: var(--f-pp-lh); }
 .f-field-hint { color: var(--f-pencil); }
-.f-field-error { color: var(--f-signal); }
+/* An error is a callout, as Weingart set them: a pill on a leader line,
+   hung from the baseline it's about. */
+.f-field-error {
+  position: relative; justify-self: start; margin-top: var(--f-space-5);
+  padding: 0.3em 0.9em 0.36em; border-radius: 1em;
+  box-shadow: inset 0 0 0 var(--f-hairline) var(--f-signal); color: var(--f-signal);
+}
+.f-field-error::before { content: ""; position: absolute; left: 1.1em; bottom: 100%; width: var(--f-hairline); height: var(--f-space-5); background: var(--f-signal); }
+.f-field-error::after { content: ""; position: absolute; left: calc(1.1em - 2px); bottom: calc(100% + var(--f-space-5) - 2.5px); width: 5px; height: 5px; border-radius: 50%; background: var(--f-signal); }
 
 /* ── f-select ── a choice inside a sentence */
 .f-select { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4em; font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-graphite); }
@@ -330,7 +454,9 @@ img, svg { display: block; max-width: 100%; }
   }
   .f-select option { padding: 0.3em 1.1em; }
   .f-select option::checkmark { display: none; }
-  .f-select option:checked { color: var(--f-accent); }
+  .f-select option { position: relative; padding-left: 1.6em; }
+  .f-select option:checked { color: var(--f-ink); }
+  .f-select option:checked::before { content: ""; position: absolute; left: 0.7em; top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%; background: var(--f-accent); }
   .f-select option:is(:hover, :focus-visible) { background: var(--f-mark); color: var(--f-on-mark); outline: 0; }
 }
 
@@ -354,6 +480,14 @@ img, svg { display: block; max-width: 100%; }
   transition: translate var(--f-moderato) var(--f-breath), width var(--f-moderato) var(--f-breath);
 }
 .f-tabs:not([data-ready]) .f-tabs-line { transition: none; }
+/* The count of what's showing, set huge and cropped by the rule it sinks into. */
+.f-tabs-count {
+  position: absolute; right: 0; bottom: 0; height: 0.56em; overflow: clip; pointer-events: none;
+  font-size: clamp(5rem, 10vw, 9rem); font-weight: 100; font-stretch: 112%; line-height: 0.78; letter-spacing: -0.04em;
+  color: var(--f-ink); font-variant-numeric: tabular-nums lining-nums;
+}
+.f-tabs-count > span { display: block; }
+@media (max-width: 700px) { .f-tabs-count { display: none; } }
 
 /* ── f-pager ── numbers; a dot under each, the current one in accent */
 .f-pager { display: flex; flex-wrap: wrap; gap: var(--f-space-5); font-variant-numeric: tabular-nums; }
@@ -368,12 +502,14 @@ img, svg { display: block; max-width: 100%; }
   transition: width var(--f-moderato) var(--f-exhale), height var(--f-moderato) var(--f-exhale), background-color var(--f-moderato);
 }
 .f-pager > :is(a, button):hover { color: var(--f-graphite); }
-.f-pager > [aria-current="page"] { color: var(--f-ink); }
+.f-pager > :is(a, button) { font-weight: 200; transition: color var(--f-allegro), font-weight var(--f-moderato) var(--f-breath); }
+.f-pager > :is([aria-current="page"] + *, :has(+ [aria-current="page"])) { font-weight: 350; color: var(--f-graphite); }
+.f-pager > [aria-current="page"] { color: var(--f-ink); font-weight: 600; }
 .f-pager > [aria-current="page"]::after { width: 6px; height: 6px; background: var(--f-accent); }
 
 /* ── f-crumbs ── */
 .f-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; column-gap: 0.55em; }
-.f-crumbs li + li::before { content: "/" / ""; margin-right: 0.55em; font-weight: 200; color: var(--f-pencil); }
+.f-crumbs li + li::before { content: ""; display: inline-block; width: var(--f-hairline); height: 1.05em; margin: 0 0.75em 0 0.2em; vertical-align: -0.18em; background: var(--f-rule-strong); rotate: 24deg; }
 .f-crumbs a { color: var(--f-graphite); text-decoration: none; transition: color var(--f-allegro); }
 .f-crumbs a:hover { color: var(--f-ink); }
 .f-crumbs [aria-current="page"] { color: var(--f-ink); }
@@ -385,7 +521,9 @@ img, svg { display: block; max-width: 100%; }
   list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--f-space-5);
   padding: var(--f-space-4) 0; cursor: pointer;
   font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink);
+  transition: font-stretch var(--f-andante) var(--f-exhale), font-weight var(--f-andante) var(--f-exhale);
 }
+.f-disclose[open] > summary { font-stretch: 112%; font-weight: 300; } /* the question breathes out as it opens */
 .f-disclose > summary::-webkit-details-marker { display: none; }
 .f-disclose > summary::after {
   content: "+" / ""; font-weight: 200; font-size: 1.5em; line-height: 0.6; color: var(--f-graphite);
@@ -403,20 +541,30 @@ img, svg { display: block; max-width: 100%; }
 .f-rows { list-style: none; margin: 0; padding: 0; border-top: var(--f-hairline) solid var(--f-rule); }
 .f-rows > li { border-bottom: var(--f-hairline) solid var(--f-rule); }
 .f-rows a {
+  position: relative; isolation: isolate;
   display: grid; grid-template-columns: minmax(0, 1fr) auto 4ch 1.2em; align-items: baseline; column-gap: var(--f-space-6);
   padding: var(--f-space-4) 0; color: inherit; text-decoration: none;
 }
 .f-rows-title { font-size: var(--f-mf); line-height: var(--f-mf-lh); letter-spacing: var(--f-mf-tr); font-weight: 300; color: var(--f-ink); transition: translate var(--f-moderato) var(--f-exhale); }
 .f-rows-year { color: var(--f-pencil); font-variant-numeric: tabular-nums; text-align: right; }
 .f-rows-go { justify-self: end; color: var(--f-ink); opacity: 0; translate: -8px 0; transition: opacity var(--f-allegro), translate var(--f-moderato) var(--f-exhale); }
+/* The row you point at reverses: ink wipes in from the left, the heaviest emphasis there is. */
+.f-rows a::before {
+  content: ""; position: absolute; inset: 0 calc(-1 * var(--f-space-3)); z-index: -1;
+  background: var(--f-ink); scale: 0 1; transform-origin: 0 50%;
+  transition: scale var(--f-moderato) var(--f-exhale);
+}
+.f-rows a > * { transition: color var(--f-allegro), translate var(--f-moderato) var(--f-exhale), opacity var(--f-allegro); }
+.f-rows a:is(:hover, :focus-visible, [data-force~="hover"])::before { scale: 1 1; }
+.f-rows a:is(:hover, :focus-visible, [data-force~="hover"]) > * { color: var(--f-paper); }
 .f-rows a:is(:hover, :focus-visible, [data-force~="hover"]) .f-rows-title { translate: 8px 0; }
 .f-rows a:is(:hover, :focus-visible, [data-force~="hover"]) .f-rows-go { opacity: 1; translate: 0 0; }
-.f-rows a:focus-visible { outline-offset: 2px; }
+.f-rows a:focus-visible { outline-offset: 4px; }
 
 /* ── f-month ── a month of dots: past filled, today in accent, the rest to come */
 .f-month { display: grid; gap: var(--f-space-6); max-width: 30rem; }
 .f-month-head { display: grid; grid-template-columns: auto 1fr auto; align-items: end; column-gap: var(--f-space-5); }
-.f-month-date { font-size: var(--f-ff); font-weight: 650; line-height: 0.8; letter-spacing: var(--f-ff-tr); color: var(--f-ink); font-variant-numeric: tabular-nums; }
+.f-month-date { overflow: clip; font-size: var(--f-ff); font-weight: 650; line-height: 0.8; letter-spacing: var(--f-ff-tr); color: var(--f-ink); font-variant-numeric: tabular-nums; }
 .f-month-title { display: grid; line-height: 1.15; }
 .f-month-name { font-size: var(--f-mp); color: var(--f-ink); }
 .f-month-year { font-size: var(--f-mp); color: var(--f-pencil); font-variant-numeric: tabular-nums; }
@@ -439,6 +587,9 @@ img, svg { display: block; max-width: 100%; }
 .f-month-day[data-when="future"] { background: transparent; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); }
 .f-month-day:not(:disabled):is(:hover, :focus-visible) { color: var(--f-paper); }
 .f-month-day[data-when="future"]:is(:hover, :focus-visible) { color: var(--f-ink); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
+/* The days you're waiting through, between today and the one you chose: half-moons. */
+.f-month-day[data-between] { background: linear-gradient(90deg, var(--f-ink) 50%, transparent 50%); }
+.f-month-day[data-between]:is(:hover, :focus-visible) { background: transparent; }
 .f-month-day[aria-pressed="true"] {
   background: transparent; color: var(--f-ink);
   box-shadow: inset 0 0 0 var(--f-stroke) var(--f-ink);
@@ -458,6 +609,11 @@ button.f-tag { cursor: pointer; transition: box-shadow var(--f-allegro), color v
 button.f-tag[data-removable]::after { content: "×" / ""; opacity: 0.5; transition: opacity var(--f-allegro); }
 button.f-tag:hover { color: var(--f-ink); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
 button.f-tag:hover::after { opacity: 1; }
+button.f-tag[data-removable] > span {
+  background: linear-gradient(currentColor, currentColor) no-repeat 100% 58% / 0% var(--f-hairline);
+  transition: background-size var(--f-moderato) var(--f-breath), background-position 0s;
+}
+button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-position: 0 58%; background-size: 100% var(--f-hairline); }
 
 /* ── f-note ── marginalia: a leader line draws out to the note */
 .f-note {
@@ -466,6 +622,17 @@ button.f-tag:hover::after { opacity: 1; }
   text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--f-hairline);
   text-decoration-color: var(--f-pencil); text-underline-offset: 0.24em;
 }
+.f-note {
+  background: linear-gradient(var(--f-mark), var(--f-mark)) no-repeat 0 88% / 0% 72%;
+  transition: background-size var(--f-moderato) var(--f-exhale), color var(--f-allegro);
+}
+.f-note::before {
+  content: ""; position: absolute; left: calc(0.6em - 2px); top: calc(100% + 0.15em - 2px); z-index: 1;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--f-ink);
+  scale: 0; transition: scale var(--f-allegro) var(--f-exhale);
+}
+.f-note:is(:hover, :focus-visible, [data-force~="hover"]) { background-size: 100% 72%; color: var(--f-on-mark); text-decoration-color: transparent; }
+.f-note:is(:hover, :focus-visible, [data-force~="hover"])::before { scale: 1; }
 .f-note::after {
   content: ""; position: absolute; left: 0.6em; top: calc(100% + 0.15em);
   width: var(--f-hairline); height: 2em; background: var(--f-ink);
@@ -494,6 +661,10 @@ button.f-tag:hover::after { opacity: 1; }
 .f-progress > progress::-webkit-progress-bar { background: var(--f-rule); }
 .f-progress > progress::-webkit-progress-value { background: var(--f-ink); transition: inline-size var(--f-moderato) var(--f-breath); }
 .f-progress > progress::-moz-progress-bar { background: var(--f-ink); }
+/* One ring per thing being done; each fills as it lands, like days on the calendar. */
+.f-progress-units { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+.f-progress-units > i { width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); transition: background-color var(--f-moderato) var(--f-breath), box-shadow var(--f-moderato); }
+.f-progress-units > i[data-done] { background: var(--f-ink); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
 
 /* ── f-toast ── one line rises; a hairline beneath counts down its stay */
 .f-toaster { position: fixed; z-index: 50; left: var(--f-margin); bottom: var(--f-space-6); display: grid; gap: var(--f-space-2); pointer-events: none; }
@@ -506,19 +677,23 @@ button.f-tag:hover::after { opacity: 1; }
   color: var(--f-ink);
   animation: f-rise var(--f-andante) var(--f-exhale);
 }
-.f-toast-timer { position: absolute; left: 0; right: 0; bottom: 0; height: var(--f-stroke); background: var(--f-ink); transform-origin: left; animation: f-deplete var(--life, 5s) linear forwards; }
-.f-toast:hover .f-toast-timer, .f-toast:focus-within .f-toast-timer { animation-play-state: paused; }
+/* The timer is a fermata: its arc empties while the toast stays. Point at the
+   toast and the pause is held, which is what a fermata means. */
+.f-toast-timer { flex: none; align-self: center; width: 22px; height: 14px; overflow: visible; }
+.f-toast-timer path { fill: none; stroke: var(--f-ink); stroke-width: 1.5; stroke-linecap: round; animation: f-deplete var(--life, 5s) linear forwards; }
+.f-toast-timer circle { fill: var(--f-accent); }
+.f-toast:is(:hover, :focus-within) .f-toast-timer path { animation-play-state: paused; }
 .f-toast[data-leaving] { animation: f-sink var(--f-moderato) var(--f-breath) forwards; }
 @keyframes f-rise { from { opacity: 0; translate: 0 12px; } }
 @keyframes f-sink { to { opacity: 0; translate: 0 8px; } }
-@keyframes f-deplete { to { scale: 0 1; } }
+@keyframes f-deplete { to { stroke-dashoffset: -1; } }
 
 /* ── f-dialog ── the question, set large */
 .f-dialog {
   border: 0; margin: auto; padding: var(--f-space-8) var(--f-space-7) var(--f-space-7);
   width: min(44rem, calc(100vw - 2 * var(--f-margin))); max-width: none;
   background: var(--f-paper); color: var(--f-graphite);
-  box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule);
+  --f-corner: 14px;
   opacity: 0; translate: 0 12px;
   transition: opacity var(--f-andante) var(--f-exhale), translate var(--f-andante) var(--f-exhale), overlay var(--f-andante) allow-discrete, display var(--f-andante) allow-discrete;
 }
@@ -532,6 +707,7 @@ button.f-tag:hover::after { opacity: 1; }
 }
 .f-dialog[open]::backdrop { opacity: 1; }
 @starting-style { .f-dialog[open]::backdrop { opacity: 0; } }
+.f-dialog-meta { margin-bottom: var(--f-space-7); }
 .f-dialog-title .f-yours { margin-left: 0.06em; } /* Bodoni's italic leans into the word before it at this size */
 .f-dialog-title { font-size: var(--f-f); line-height: var(--f-f-lh); letter-spacing: var(--f-f-tr); font-weight: 300; color: var(--f-ink); }
 .f-dialog-body { margin-top: var(--f-space-4); max-width: 40ch; }
@@ -539,5 +715,11 @@ button.f-tag:hover::after { opacity: 1; }
 
 /* ── f-empty ── an invitation, not an apology */
 .f-empty { display: grid; justify-items: start; gap: var(--f-space-4); }
+/* Nothing, as a number: a zero so large it's cropped to its top half, which is a fermata's arc. */
+.f-empty-figure {
+  height: 0.46em; margin-bottom: var(--f-space-2); overflow: clip;
+  font-size: clamp(7rem, 16vw, 13rem); font-weight: 100; font-stretch: 125%; line-height: 0.76;
+  color: var(--f-ink); user-select: none;
+}
 .f-empty-title { font-size: var(--f-f); line-height: var(--f-f-lh); letter-spacing: var(--f-f-tr); font-weight: 200; color: var(--f-ink); }
 .f-empty > p:not(.f-empty-title) { max-width: 44ch; }
