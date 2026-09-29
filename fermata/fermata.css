@@ -1192,18 +1192,25 @@ button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-posi
     linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) 0 100% / 100% var(--f-hairline) no-repeat scroll;
 }
 
-/* ── f-scrollbar ── the page's scrollbar as a ruler: a hairline, a mark at each
-   movement, and a thumb as long as the view. Pointing brings the numbers in;
-   holding the thumb inks it in the accent. Script sets --view and data-ready. */
+/* ── f-scrollbar ── a scrollbar as a ruler: a hairline and a thumb as long as the
+   view. Inside a scroller it is pinned to the edge by the scroller's own timeline;
+   data-variant="page" fixes it to the window and adds a mark at each section.
+   Pointing sketches; holding inks it in the accent. Script sets --view, --max,
+   data-idle (nothing to scroll) and data-ready. */
 .f-scrollbar {
-  --view: 0.2; --w: var(--f-stroke); --line: 0.5rem; /* the hairline sits this far in from the edge */
-  position: fixed; z-index: 40; inset-block: 0; inset-inline-end: 0; width: 1.5rem;
+  --view: 0.2; --max: 0px; --w: var(--f-stroke); --line: 0.375rem; /* the hairline sits this far in from the edge */
+  position: absolute; z-index: 3; inset-block: 0; inset-inline-end: 0; width: 0.875rem;
   display: none; touch-action: none; user-select: none;
+  /* The rail lives inside what scrolls, so it travels down as far as the content does, and stays put. */
+  animation: f-scrollbar-pin linear both; animation-timeline: scroll(nearest);
 }
+@keyframes f-scrollbar-pin { to { translate: 0 var(--max); } }
+.f-scrollbar[data-variant="page"] { --line: 0.5rem; position: fixed; z-index: 40; width: 1.5rem; animation: none; }
 @supports (animation-timeline: scroll()) {
   @media (pointer: fine) {
-    .f-scrollbar[data-ready] { display: block; }
-    :root:has(.f-scrollbar[data-ready]) { scrollbar-width: none; }
+    .f-scrollbar[data-ready]:not([data-idle]) { display: block; }
+    :has(> .f-scrollbar[data-ready]), :root:has(.f-scrollbar[data-variant="page"][data-ready]) { scrollbar-width: none; }
+    :has(> .f-scrollbar[data-ready])::-webkit-scrollbar { display: none; }
   }
 }
 .f-scrollbar::before {
@@ -1215,9 +1222,10 @@ button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-posi
   width: var(--w); margin-inline-end: calc((var(--f-hairline) - var(--w)) / 2); /* centred on the hairline */
   background: var(--f-ink);
   /* translate is a share of its own height: the rest of the rail is (1 / view − 1) thumbs long */
-  animation: f-scrollbar-go linear both; animation-timeline: scroll(root);
+  animation: f-scrollbar-go linear both; animation-timeline: scroll(nearest);
   transition: width var(--f-allegro) var(--f-spiccato), margin var(--f-allegro) var(--f-spiccato), background-color var(--f-allegro) var(--f-exhale);
 }
+.f-scrollbar[data-variant="page"] .f-scrollbar-thumb { animation-timeline: scroll(root); }
 @keyframes f-scrollbar-go { to { translate: 0 calc((1 / var(--view) - 1) * 100%); } }
 .f-scrollbar-mark {
   position: absolute; top: calc(var(--at) * 100%); inset-inline: 0; height: 1rem; margin-top: -0.5rem; cursor: pointer;
@@ -1234,9 +1242,10 @@ button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-posi
   opacity: 0; visibility: hidden;
   transition: opacity var(--f-allegro) var(--f-exhale), visibility 0s var(--f-allegro);
 }
-/* Pointing sketches: the rail darkens, the thumb thickens, the numbers arrive down the rail in turn. */
+/* Pointing sketches: pointing at what scrolls darkens the rail; pointing at the rail thickens the thumb
+   and brings the page's numbers down the rail in turn. */
+:hover > .f-scrollbar::before, .f-scrollbar:is(:hover, [data-dragging], [data-force~="hover"])::before { background: var(--f-rule-strong); }
 .f-scrollbar:is(:hover, [data-dragging], [data-force~="hover"]) { --w: 4px; }
-.f-scrollbar:is(:hover, [data-dragging], [data-force~="hover"])::before { background: var(--f-rule-strong); }
 .f-scrollbar:is(:hover, [data-force~="hover"]) .f-scrollbar-mark::after {
   opacity: 1; visibility: visible; transition-delay: calc(var(--i, 0) * var(--f-arpeggio)), 0s;
 }

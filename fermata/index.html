@@ -129,7 +129,7 @@
   .state-label { font-size: var(--f-pp); color: var(--f-pencil); }
   .state :is(.f-ruler, .f-field) { width: 13rem; }
   .rail-box { position: relative; width: 4rem; height: 9rem; }
-  .rail-demo .f-scrollbar { position: absolute; display: block; }
+  .rail-demo .f-scrollbar { display: block; animation: none; }
   .rail-demo .f-scrollbar-thumb { animation: none; translate: 0 calc((1 / var(--view) - 1) * var(--p) * 100%); }
   .f-scrollbar#rail { top: var(--bar); }
 
@@ -368,7 +368,7 @@
   <label class="f-switch"><input type="checkbox" role="switch" id="mode" aria-label="Nocturne"> Nocturne is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label>
   <div class="bar-progress" aria-hidden="true"></div>
 </header>
-<div class="f-scrollbar" id="rail" aria-hidden="true"><span class="f-scrollbar-thumb"></span></div>
+<div class="f-scrollbar" id="rail" data-variant="page" aria-hidden="true"><span class="f-scrollbar-thumb"></span></div>
 
 <main>
 
@@ -1437,7 +1437,7 @@
   <article class="spec" id="scrollbar">
     <div class="spec-side margin">
       <h3 class="spec-name">Scrollbar</h3>
-      <p class="spec-note">This page's own, down the right edge. The page is measured like a ruler: a hairline, a mark where each movement begins, and an ink thumb as long as what you can see. Point at it and the movements' numbers arrive down the rail; point at a mark to read its name, and press it to go there. Hold the thumb and it takes the accent, because it's where you are. Other scrollers get a thin stroke that darkens when you point at them.</p>
+      <p class="spec-note">This page's own, down the right edge. The page is measured like a ruler: a hairline, a mark where each movement begins, and an ink thumb as long as what you can see. Point at it and the movements' numbers arrive down the rail; point at a mark to read its name, and press it to go there. Hold the thumb and it takes the accent, because it's where you are. Every box that scrolls down carries the same rail, pinned to its edge: the release notes, the thread, the command list, the combobox, the sheet and the drawer. Pointing at the box darkens it.</p>
       <ul class="spec-tokens"><li>animation-timeline: scroll()</li><li>scrollbar-color</li><li>--f-accent</li></ul>
     </div>
     <p class="demo-lead stave">Look to the right edge of the window, or point at it.</p>
@@ -2150,12 +2150,10 @@
   }, { rootMargin: "-50% 0px -50% 0px" });
   movements.forEach((s) => watch.observe(s));
 
-  /* ── the page scrollbar: a ruler with a mark where each movement begins ── */
-  const rail = $("#rail");
-  if (matchMedia("(pointer: fine)").matches && CSS.supports("animation-timeline: scroll()")) {
-    const thumb = $(".f-scrollbar-thumb", rail), doc = document.documentElement;
-    const marked = movements.filter((m) => m.dataset.num);
-    const marks = marked.map((m, i) => {
+  /* ── scrollbars: a ruler rail on the page, and inside every box that scrolls down ── */
+  function scrollbar(rail, host, { min, sections = [] }) {
+    const page = host === document.documentElement, thumb = $(".f-scrollbar-thumb", rail);
+    const marks = sections.map((m, i) => {
       const mark = document.createElement("span");
       mark.className = "f-scrollbar-mark";
       Object.assign(mark.dataset, { num: m.dataset.num, name: m.dataset.movement, for: m.id });
@@ -2163,29 +2161,41 @@
       return mark;
     });
     rail.append(...marks);
-    // The thumb is at least 2.5rem, so it can be held. Its top travels (1 − view) of the rail as the page
-    // scrolls, so a movement's mark sits where the thumb's top will be when that movement reaches the top.
+    // The thumb is at least `min` px so it can be held. Its top travels (1 − view) of the rail, so a
+    // section's mark sits where the thumb's top will be when that section reaches the top.
     const measure = () => {
-      const max = doc.scrollHeight - innerHeight, v = Math.min(1, Math.max(innerHeight / doc.scrollHeight, 40 / rail.clientHeight));
+      if (!page) rail.hidden = true; // the pinned rail mustn't count as content
+      const seen = page ? innerHeight : host.clientHeight, whole = host.scrollHeight, max = whole - seen;
+      rail.hidden = false;
+      const v = Math.min(1, Math.max(seen / whole, min / (page ? rail.clientHeight : seen))) || 1; // a closed box measures 0 / 0
       rail.style.setProperty("--view", v);
-      marks.forEach((mark, i) => mark.style.setProperty("--at", Math.min(1, (marked[i].getBoundingClientRect().top + scrollY) / max) * (1 - v)));
+      rail.style.setProperty("--max", `${max}px`);
+      rail.toggleAttribute("data-idle", max < 1);
+      marks.forEach((mark, i) => mark.style.setProperty("--at", Math.min(1, (sections[i].getBoundingClientRect().top + scrollY) / max) * (1 - v)));
     };
-    new ResizeObserver(measure).observe(document.body);
-    addEventListener("resize", measure);
+    if (page) {
+      new ResizeObserver(measure).observe(document.body);
+      addEventListener("resize", measure);
+    } else {
+      new ResizeObserver(measure).observe(host);
+      // Lists that redraw themselves drop the rail; put it back, and measure what changed.
+      new MutationObserver(() => { if (rail.parentNode !== host) host.append(rail); measure(); })
+        .observe(host, { childList: true, subtree: true, characterData: true });
+    }
     measure();
     rail.dataset.ready = "";
 
-    const scrollToY = (y, immediate) => lenis ? lenis.scrollTo(y, { immediate }) : scrollTo({ top: y, behavior: immediate ? "instant" : "smooth" });
+    const scrollToY = (y, now) => page && lenis ? lenis.scrollTo(y, { immediate: now }) : (page ? window : host).scrollTo({ top: y, behavior: now ? "instant" : "smooth" });
     rail.addEventListener("pointerdown", (e) => {
       if (e.button) return;
-      e.preventDefault();
+      e.preventDefault(); // keep focus where it is, so an open list stays open
       const mark = e.target.closest(".f-scrollbar-mark");
-      if (mark) return scrollToY(marked[marks.indexOf(mark)].getBoundingClientRect().top + scrollY, false);
+      if (mark) return scrollToY(sections[marks.indexOf(mark)].getBoundingClientRect().top + scrollY, false);
       // Take the thumb where you grabbed it; press the rail and the thumb centres on the pointer.
       const r = rail.getBoundingClientRect(), t = thumb.getBoundingClientRect();
       const off = e.target === thumb ? e.clientY - t.top : t.height / 2;
       const follow = (ev) => {
-        const max = doc.scrollHeight - innerHeight;
+        const max = host.scrollHeight - (page ? innerHeight : host.clientHeight);
         scrollToY(Math.max(0, Math.min(max, ((ev.clientY - r.top - off) / (r.height - t.height)) * max)), true);
       };
       follow(e);
@@ -2193,6 +2203,17 @@
       rail.dataset.dragging = "";
       rail.addEventListener("pointermove", follow);
       rail.addEventListener("lostpointercapture", () => { rail.removeEventListener("pointermove", follow); delete rail.dataset.dragging; }, { once: true });
+    });
+  }
+  const rail = $("#rail");
+  if (matchMedia("(pointer: fine)").matches && CSS.supports("animation-timeline: scroll()")) {
+    scrollbar(rail, document.documentElement, { min: 40, sections: movements.filter((m) => m.dataset.num) });
+    $$(".f-scroll, .f-combo-list, .f-command-list, .f-sheet, .f-drawer").forEach((host) => {
+      const inner = Object.assign(document.createElement("div"), { className: "f-scrollbar", innerHTML: '<span class="f-scrollbar-thumb"></span>' });
+      inner.setAttribute("aria-hidden", "true");
+      if (getComputedStyle(host).position === "static") host.style.position = "relative";
+      host.append(inner);
+      scrollbar(inner, host, { min: 24 });
     });
   }
 
