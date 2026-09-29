@@ -193,6 +193,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - Anatomy: `<dialog class="f-dialog" closedby="any">` holding `<form method="dialog">`, the `.f-dialog-title` question, `.f-dialog-body`, then `.f-dialog-actions` with a bracket (safe, `autofocus`) and a statement (the action).
 - It's set like a poster: corner marks instead of a box (`f-corners`), an `f-meta` row of facts along the top (`.f-dialog-meta`), and the question set large, with the item as yours ("Delete *Spring notes*?"). The backdrop is paper at 86% with a blur. Opening is one short phrase: the corners open out into place, the meta rule draws from the left, and the question breathes out from weight 500 and width 88%.
 - Keyboard: focus goes to the safe answer; Escape closes; a click outside closes. Smooth scrolling pauses while it's open.
+- Alert dialog: for what can't be undone, `role="alertdialog" closedby="closerequest"` with `aria-describedby` on the body. It closes only with Escape or an answer, never a stray click. Any dialog can carry a form (the specimen's rename); `[data-close]` buttons close it without submitting.
 
 ### f-empty
 - Anatomy: `.f-empty` holding an optional `.f-empty-figure` (`0`, aria-hidden), then `.f-empty-title`, one sentence of direction, and one action.
@@ -239,6 +240,159 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - A dotted underline. On hover or focus, the highlighter marks the term, a dot anchors the leader line, the line draws down, and the ink pill holding the note spreads from the line's tip (`clip-path: circle()`). Leaving plays the same four steps in reverse order.
 - Keyboard: focus shows it, and Escape dismisses it.
 
+### f-toggle, f-toggles (toggle, toggle group)
+- Anatomy: `<button class="f-toggle" type="button" aria-pressed="false">Word</button>`. A group is `<div class="f-toggles" role="group" aria-label="Name">` of toggles; it allows many, or one with `data-single` (script releases the others).
+- Held, the word wears the fermata: the arc rises over it, then the dot lands inside with spiccato. Pointing sketches the arc in pencil. Standing hairlines keep a group's words apart. Script dispatches a bubbling `f-toggle` event with the new state.
+- States: rest, hover (pencil arc), focus, held, disabled.
+- Keyboard: native button.
+
+### f-btn-group (button group)
+- Anatomy: `<div class="f-btn-group" role="group" aria-label="Name">` of `f-btn` buttons (no variant).
+- One pair of parentheses holds the set, after 20(25), and hairlines stand between the actions. Pointing draws a line under one; it passes through.
+- Keyboard: Tab between buttons.
+
+### f-input-group
+- Anatomy: `.f-input-group` holding `.f-input-group-text` (prefix), the `input`, then optional suffix text or a quiet `f-btn`. It sits inside an `f-field`.
+- Ours and yours on one line: the prefix and suffix stay upright in pencil, the typed part is italic between them. The accent line draws only under your part (the input is its anchor), from where you touched it.
+- States: rest, focus, error (`aria-invalid="true"`), disabled.
+
+### f-code (one-time code)
+- Anatomy: `<div class="f-code">` holding one `<input inputmode="numeric" autocomplete="one-time-code" maxlength="6">` and six `.f-code-slot` spans split three and three by `.f-code-sep`, a leaning hairline. Script copies the digits into the slots and sets `data-here` on the next slot and `data-state="done | wrong"` on the box.
+- Each digit drops onto its baseline in italic (`f-drop-in`); the waiting line is the accent. Whole, the lines ink in turn. Wrong, they turn crimson together and an `f-field-error` says why.
+- One real input underneath, so paste, autofill and the keyboard all work natively.
+
+### f-combo (combobox)
+- Anatomy: `.f-field.f-combo` holding the label, an `<input role="combobox" aria-expanded aria-controls>`, and `<ul class="f-combo-list" role="listbox">` of `<li role="option">`. `.f-combo-empty` says what to try when nothing matches.
+- In each suggestion, the letters you typed are wrapped in `<mark>` (the highlighter), and the suggestions arrive in turn. The active option carries a dot (`aria-selected`). The picked value is yours, in italic.
+- Keyboard: Down and Up move through the list, Enter takes one, Escape closes it.
+
+### f-date (date picker)
+- Anatomy: `<button class="f-date" popovertarget="id" aria-haspopup="dialog">` inside a sentence, opening an `f-pop` that holds an `f-month`. `data-set` marks a chosen date.
+- A date inside a sentence, like the select. The month hangs from it on a leader line; choosing a day writes it into the sentence in italic and closes the popover.
+- Keyboard: the month's own (arrows move by day or week, Enter chooses); Escape closes.
+
+### Form
+- A composition, not a class: fields on the grid and one statement button to send it. On a failed send, each field gets its callout, the line turns crimson, and focus goes to the first error. While sending, the button is busy and says so ("Sending" with `f-dots`). Nothing shakes and nothing apologises.
+
+### f-alert
+- Anatomy: `<div class="f-alert" role="status">` (or `role="alert"` for errors) holding `.f-alert-title`, a sentence, and optional `.f-alert-actions`. `data-variant="danger"` for what went wrong. `data-arriving` plays the entrance.
+- A double bar, the sign in a score that something changes here. It draws down the margin, then the words arrive beside it in turn. Crimson only for danger, and then it says what to do.
+
+### f-skeleton
+- Anatomy: `<div class="f-skeleton" aria-hidden="true">` of empty lines, with an optional `.f-skeleton-ring` for an avatar. Set `aria-busy="true"` on the region it stands in for.
+- Baselines where the words will be, at the length they'll run. A pencil stroke reads along each line in turn (`f-read`), the way an eye would. Still under reduced motion.
+
+### f-pop (popover)
+- Anatomy: `<div class="f-pop" popover>` opened by a button with `popovertarget`. Anchor positioning places it under the opener (`position-area`), using the implicit anchor.
+- Hung from what opened it on a leader line, after Weingart: the dot lands on the opener's edge, the line drops, and the panel settles below.
+- Keyboard: Escape or a click elsewhere puts it away (native popover light dismiss).
+
+### f-menu, f-menubar (menu, menubar, context menu)
+- Anatomy: `<div class="f-pop f-menu" popover role="menu">` holding `.f-menu-label` headings and `<button class="f-menu-item" role="menuitem">` (or `menuitemcheckbox` with `aria-checked`), each with optional `.f-menu-keys`. `data-variant="danger"` for a destructive item. A menubar is `<div class="f-menubar" role="menubar">` of buttons plus `.f-menubar-line`. A context menu is an `f-menu` with `data-at="point"`, placed where the person pressed.
+- The item you point at is marked with the highlighter. Items arrive in turn. A menubar's stroke slides to the open menu. A context menu spreads from the point like ink (`f-spread`).
+- Keyboard: Down and Up move, Home and End go to the ends, Enter runs, Escape closes, Tab closes and moves on. In a menubar, Down opens, and Left and Right move between menus, open or closed. The context menu opens with the ContextMenu key or Shift+F10.
+
+### f-navmenu (navigation menu)
+- Anatomy: `<nav class="f-navmenu">` of small trigger buttons (`aria-expanded`, `aria-controls`) and `.f-navmenu-panel` panels of large links.
+- Small words open a panel of large names, the scale contrast of a poster. The panel's rule draws across, the names arrive in turn, and the trigger's arrow turns. It opens on pointing (after a short wait) or pressing, and closes on leaving.
+- Keyboard: Enter or Space toggles a panel; Escape closes it and returns focus to its trigger.
+
+### f-command (command palette)
+- Anatomy: `.f-command` holding `<input class="f-command-input" role="combobox">`, `.f-command-list` (`role="listbox"`) of `.f-command-group` headings and `.f-command-option` rows (`.f-command-name`, `.f-command-hint`, `.f-command-go`), then `.f-command-empty`.
+- What you type is set as large as a headline, in italic. Matches are marked with the highlighter; the chosen row steps forward and shows its arrow. Rows arrive in turn as the list changes.
+- Keyboard: Down and Up move, Enter runs. Empty copy names something to try.
+
+### f-sidebar
+- Anatomy: `<nav class="f-sidebar">` holding `.f-sidebar-head`, `.f-sidebar-label` group names, and links whose word is split into `.f-sidebar-i` (the initial) and `.f-sidebar-rest`. `aria-current="page"` on the current one. `data-folded` folds it.
+- Folded, each word keeps only its initial, large and light like a monogram, while the rest folds away in turn. The current page carries the accent dot.
+- Keyboard: links, plus the fold button (`aria-expanded`).
+
+### f-card
+- Anatomy: `<article class="f-card">` holding an optional `.f-card-figure` (one giant letter, aria-hidden), `.f-card-title`, `.f-card-body`, and `.f-card-foot` with `.f-card-link`.
+- A column under a rule, not a box. The giant letter is cropped by the rule like a poster's headline. Pointing at the card passes an ink stroke along the rule.
+
+### f-peek (hover card)
+- Anatomy: `<span class="f-peek"><a>Name</a><span class="f-peek-card">` holding `.f-peek-name` (aria-hidden), a sentence and `.f-peek-meta`.
+- The name, set large and cropped by the card's edge, slides in to meet you. It waits 450ms for the pointer; focus shows it at once. Where anchor positioning exists, the card flips or centres rather than leave the screen.
+
+### f-tip (tooltip)
+- Anatomy: `<span class="f-tip">` holding the control (with `aria-describedby`) and `.f-tip-text`.
+- A whisper in parentheses above the thing it names. It waits for a still pointer; focus shows it at once. Escape sets `data-hush` until the pointer or focus leaves.
+
+### f-sheet, f-drawer
+- Anatomy: `<dialog class="f-sheet" closedby="any">` with `.f-sheet-spine` (the title again, aria-hidden). `<dialog class="f-drawer" closedby="any">` with `<button class="f-drawer-handle">`. Both share the dialog backdrop.
+- A sheet is a page slid in from the end edge, its title running up the spine like a book's (`f-spine`). A drawer rises from below and lands with spiccato; its handle is the fermata's arc. Dragging the handle down sets `--pull` and `data-pulling`, and past a threshold it closes.
+- Keyboard: Escape closes; the handle closes on Enter. Smooth scrolling pauses while open.
+
+### f-collapse (collapsible)
+- Anatomy: `<details class="f-collapse">` whose `<summary>` is the tail of a list ("and 4 more"), then `.f-collapse-list`.
+- A list that ends in the rest of itself. The rest opens at reading speed through `::details-content`, and its lines arrive in turn.
+- Keyboard: native.
+
+### f-resize (resizable)
+- Anatomy: `.f-resize` holding two `.f-resize-pane`, `<div class="f-resize-handle" role="separator" tabindex="0" aria-valuenow>` between them, and `.f-resize-dim` (aria-hidden). Script sets `--split` (a percentage) and `data-dragging`.
+- Take the rule and it inks; while held, each pane's share is drawn as a dimension, after Paul Rand.
+- Keyboard: Left and Right move it by 5, Home and End go to 20 and 80.
+
+### f-scroll (scroll area)
+- Anatomy: `<div class="f-scroll" tabindex="0" role="region" aria-label>`. Add `data-lenis-prevent` when smooth scrolling is on.
+- A rule appears at an edge only while there's more beyond it. Pure CSS: paper backgrounds that scroll (`background-attachment: local`) cover rules that don't.
+
+### f-ratio (aspect ratio)
+- Anatomy: `<div class="f-ratio" style="--ratio: 1.7778">`, with an `f-fraction` naming it. `--ratio` is a registered number.
+- A frame kept to a ratio and marked like a printer's crop: short lines outside each corner, never a border. Change `--ratio` and the frame eases to it while the fraction rolls.
+
+### f-carousel
+- Anatomy: `<div class="f-carousel" role="region" aria-roledescription="carousel">` holding `.f-carousel-track` (scroll-snap, `tabindex="0"`) of `.f-carousel-slide` with `.f-carousel-title`, then `.f-carousel-nav` with ← and → buttons around `.f-carousel-count` (`.f-carousel-now`).
+- One poster at a time, each name set so large the frame crops it. The count rolls the way you travel; an IntersectionObserver keeps it true while you swipe.
+- Keyboard: Left and Right on the track, or the buttons.
+
+### f-table
+- Anatomy: `<table class="f-table">` with header `<button>`s inside `<th aria-sort>`, numeric cells marked `data-num`, `.f-table-name` for the row's name, and `<input type="checkbox" class="f-table-pick">` per row plus one to choose all.
+- Hairline rows and tabular figures. The sorted column is set in ink (`data-sorted`). Re-sorting, the rows glide to their new places (FLIP). Choosing a row fills its ring with spiccato and its name turns italic (`data-picked`); the foot counts the picks.
+- Keyboard: native buttons and checkboxes.
+
+### f-chart
+- Anatomy: `<figure class="f-chart" style="--n: 9">` holding `.f-chart-read` (`.f-chart-value`, a large rolling number, and its label), `.f-chart-plot` of `<button class="f-chart-bar" style="--v: 0–1" aria-label>`, then `.f-chart-axis`. `data-now` marks the current bar.
+- Hairlines and dots against one very large number, as the posters set tiny data beside giant type. Pointing at or focusing a bar inks its line, swells its dot and rolls the number to it; leaving rolls it back to now. The current month is the accent.
+
+### f-avatar
+- Anatomy: `<span class="f-avatar" role="img" aria-label="Name">` holding an initial; `data-size="s | l"`, `data-here` for presence. A group is `<span class="f-avatars" role="group">`, ending in an optional `data-count` avatar ("+3").
+- A person is a ring and their initial, in italic, since a name is theirs. Someone here carries the accent dot. A group overlaps, and steps apart when pointed at.
+
+### f-item
+- Anatomy: `<ul class="f-items">` of `<li class="f-item">` holding `.f-item-body` (`.f-item-title`, `.f-item-desc`), `.f-item-leader` (aria-hidden), then `.f-item-end` (a value or an action).
+- A ledger line: what it is, a dotted leader, what you can do. Pointing at the line inks the leader from one end to the other.
+
+### f-prose (typography)
+- Anatomy: `<article class="f-prose">` wrapping plain HTML: headings, `p`, `.f-prose-lead`, `blockquote`, lists, `code`.
+- Set for reading at `--f-measure`. Headings step by the dynamics; quotes are in the expression; quote marks and list dashes hang in the margin so the edge stays true (`hanging-punctuation` where supported). Code is the voice, condensed.
+
+### f-msg, f-bubble, f-reactions (message)
+- Anatomy: `<article class="f-msg" data-from="them | you">` holding an `f-avatar`, `.f-msg-head`, `.f-msg-body` (optionally a `<p class="f-bubble">`), and `.f-msg-foot` with `.f-msg-status` (`data-read`). Reactions are `<span class="f-reactions">` of `<button class="f-tag" aria-pressed>` with `.f-reaction-count`.
+- No balloons. Of the speech bubble, only its tail is left: a leaning hairline. What you wrote sits on the other side, in italic. Sent is a ring; read, it fills to a dot. New messages write in (`f-write`). A reaction you add turns italic and its count rolls.
+
+### f-marker
+- Anatomy: `<p class="f-marker">` for a status (with `.f-marker-dot`), or `data-variant="divider"` for where a day begins. `data-arriving` plays it.
+- A quiet line in the flow. A divider draws its rules outward from the word, as if the word pushed them apart.
+
+### f-attach (attachment)
+- Anatomy: `<ul class="f-attachments">` of `<li class="f-attach" data-state="idle | uploading | processing | done | error">` holding `.f-attach-ext`, `.f-attach-body` (`.f-attach-name`, `.f-attach-meta`), and `svg.f-attach-ring` (`.f-attach-track`, `.f-attach-arc`, `.f-attach-fill`). Script sets `--p` (0–1).
+- A file's extension is its picture, set wide and thin. A ring counts it in, turns while it's processed, then fills to a dot with spiccato when it's safe. Failed, the ring turns crimson and the line says what happened, with a bracket "Try again".
+
+### f-thread (message scroller)
+- Anatomy: `.f-thread` holding `.f-thread-scroll` (`role="log"`, `data-lenis-prevent`) of messages and markers, and `<button class="f-thread-latest" hidden>` holding `.f-thread-new`.
+- It keeps to the latest message while you're at the end. Scrolled back, it stops following, and new messages are counted in an ink pill whose count rolls; pressing it takes you down. Content sits at the bottom (`align-content: safe end`) while the thread is short.
+
+### f-quest (questionnaire)
+- Anatomy: `<form class="f-quest">` holding `.f-quest-head` (an `f-fraction` count and a filling hairline), `.f-quest-step` sections each with a `.f-quest-q` question and its controls, `.f-quest-actions` (Skip, Next), then `.f-quest-sentence` (`aria-live="polite"`).
+- One question at a time, set large. The count rolls and the hairline fills; each question turns in from the side you're heading (`f-turn`). At the end your answers are written into one sentence, arriving word by word, in italic, because every word of it is yours.
+- Keyboard: native form controls; focus moves to each new question.
+
+### Direction (right to left)
+- Every component uses logical properties and `:dir(rtl)` where a stroke has a direction. Right to left, the crumbs' hairlines lean the other way, the checkbox strike runs from the right, and a field's accent line grows from the right for the keyboard.
+- Arabic has no italic, and the pairs have no Arabic, so the system face stands in and what you type stays upright there.
+
 ### Base pieces
 - `f-corners`: four corner marks as one `::after`. It frames without closing. Tune it with `--f-corner` (length), `--f-corner-inset` and `--f-corner-colour`.
 - `f-fraction`: `<span class="f-fraction"><span class="f-yours">2</span><i><span class="f-sr"> of </span></i><span>5</span></span>`. A display fraction with a leaning hairline.
@@ -278,6 +432,37 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Month | Half-circle eclipse | The wait as half-moons |
 | Tag | The checkbox | Removing strikes the word |
 | Marginalia | Weingart letter | Highlighter, anchor dot, leader line |
+| Toggle | The fermata sign | Held, the word wears the arc and dot |
+| Toggle group, button group | 20(25) | Parentheses hold the set; hairlines stand between |
+| Input group | "It has to be design." | Ours upright, yours italic, on one line |
+| One-time code | "Less is more." rules | Short baselines, three and three |
+| Combobox, menu, command | Weingart letter | The highlighter marks what matches |
+| Date picker, popover | Weingart callouts | Hung from the opener on a leader line |
+| Alert | The score's double bar | Two bars down the margin |
+| Skeleton | "Less is more." rules | Baselines where the words will be |
+| Navigation menu | POINT / SPECTRA | Small words open large names |
+| Menubar | SHAPES / GRADIENTS frame | A frame row of words on a hairline |
+| Command | "the uncreative" | What you type, set as a headline |
+| Sidebar | "It has to be design." | Folded, each word keeps its initial |
+| Card | SPECTRA crop | A giant letter cropped by the rule |
+| Hover card | POINT crop | The name cropped by the card's edge |
+| Tooltip | 20(25) | A whisper in parentheses |
+| Sheet | Book spines | The title runs up the spine |
+| Drawer | The fermata sign | The handle is the arc |
+| Collapsible | "the silence that heals" captions | "and 4 more" is the control |
+| Resizable, aspect ratio | Paul Rand dimension lines | Shares measured; a printer's crop marks |
+| Scroll area | "Less is more." rules | A rule only where there's more |
+| Carousel | POINT / SPECTRA | One poster at a time, cropped |
+| Table | Renaissance two-colour | Only the sorted column in ink |
+| Chart | POINT / SPECTRA | Tiny data against one giant number |
+| Avatar | "28 December" dots | A ring, an initial, the presence dot |
+| Item | Contents pages | A dotted leader joins name and value |
+| Prose | Swiss typesetting | Hanging punctuation keeps the edge true |
+| Message | "It has to be design." | Theirs roman, yours italic; only the tail |
+| Marker | "Less is more." rules | Rules pushed apart by the word |
+| Attachment | "the uncreative" | The extension is the picture |
+| Message scroller | WOVE | The new count rolls in an ink pill |
+| Questionnaire | Healthy habits → | Your answers written as one sentence |
 
 ## Motion
 
@@ -317,6 +502,39 @@ Three rules, then one articulation per component.
 | Link | Pass-through | The highlighter passes through the word |
 | Key | Press | The ring goes down with your key |
 | Movement bar | Glissando | The movement name rolls up reading on, and down reading back |
+| Toggle | Pencil, then ink | The arc sketches on hover; held, it rises and the dot lands |
+| Button group | Pass-through | The line under an action leaves the way it was heading |
+| Input group | From the touch | The accent line grows only under your part |
+| One-time code | Drop | Each digit drops onto its line; whole, the lines ink in turn |
+| Combobox | Arpeggio | The suggestions arrive in turn |
+| Date picker | Spiccato | The month hangs from the sentence; the date writes in |
+| Alert | Double bar | The bars draw down, then the words arrive |
+| Skeleton | Reading | A pencil stroke reads along each line in turn |
+| Popover | Arpeggio | Dot, leader, panel |
+| Menu | Arpeggio | Dot, leader, words in turn; a context menu spreads from the point |
+| Menubar | Slide | The stroke slides to the open menu |
+| Navigation menu | Arpeggio | The rule draws across; the names arrive; the arrow turns |
+| Command | Arpeggio | The rows arrive; the chosen one steps forward |
+| Sidebar | Fold | The words fold to their initials in turn |
+| Card | Pass-through | An ink stroke passes along the rule |
+| Hover card | Slide | The large name slides in to meet you |
+| Tooltip | Wait | It appears only for a still pointer |
+| Sheet | Spine | The page slides in; the title runs up the spine |
+| Drawer | Spiccato | It lands with a rebound; it follows your drag down |
+| Collapsible | Arpeggio | The rest opens at reading speed, line by line |
+| Resizable | Measure | The rule inks; the dimensions appear while held |
+| Aspect ratio | Breath | The frame eases to the ratio; the fraction rolls |
+| Carousel | Roll | The count rolls the way you travel |
+| Table | Glide | The rows glide to their new order; a pick's ring lands |
+| Chart | Roll | The number rolls to the month you point at, and back |
+| Avatar | Spiccato | A group steps apart to be counted |
+| Item | Ink | The leader inks from one end to the other |
+| Message | Written | New messages write in; the status ring fills to a dot |
+| Reactions | Roll | Yours turns italic; the count rolls |
+| Marker | Spread | The rules draw outward from the word |
+| Attachment | Count in | The ring fills, turns, then lands as a dot |
+| Message scroller | Spiccato | The new-messages pill lands; its count rolls |
+| Questionnaire | Turn | Questions turn in from where you're heading; the sentence writes in |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). Phase 2 should make it a hook.
@@ -327,3 +545,8 @@ Three rules, then one articulation per component.
 - Date ranges in the calendar.
 - Self-hosted fonts. They come from Google Fonts until phase 2 bundles them with their OFL notices. The specimen declares all four pairs in one stylesheet; font files download only when a face is used.
 - A states row for the dial. Its states are the radio's.
+- A sheet from the start edge. The spine title assumes the end edge.
+- A proper Arabic expression face. Right to left, the system face stands in, upright.
+- The command palette as a ⌘K dialog. The specimen shows it inline.
+- Submenus in the menubar.
+- Charts other than one series of bars. Lines, stacks and legends wait for a real need.

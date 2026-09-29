@@ -192,6 +192,9 @@ img, svg { display: block; max-width: 100%; }
 /* Pointing sketches the strike in pencil; checking inks it. */
 .f-check:is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) + span { background-position: 100% var(--y), 0 var(--y); background-size: 0% var(--f-stroke), 100% var(--f-hairline); }
 .f-check > input:checked + span { background-position: 0 var(--y), 100% var(--y); background-size: 100% var(--f-stroke), 0% var(--f-hairline); color: var(--f-pencil); font-weight: 300; }
+.f-check:dir(rtl) > span { background-position: 0 var(--y), 0 var(--y); }
+.f-check:dir(rtl):is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) + span { background-position: 0 var(--y), 100% var(--y); }
+.f-check:dir(rtl) > input:checked + span { background-position: 100% var(--y), 0 var(--y); }
 .f-check > input:focus-visible + span,
 .f-check[data-force~="focus"] > span { outline: var(--f-stroke) solid var(--f-accent); outline-offset: 4px; }
 .f-check[data-force~="focus"] { outline: 0; }
@@ -546,9 +549,12 @@ img, svg { display: block; max-width: 100%; }
 
 /* ── f-crumbs ── */
 .f-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; column-gap: 0.55em; }
-.f-crumbs li + li::before { content: ""; display: inline-block; width: var(--f-hairline); height: 1.05em; margin: 0 0.75em 0 0.2em; vertical-align: -0.18em; background: var(--f-rule-strong); rotate: 24deg; transition: rotate var(--f-andante) var(--f-spiccato), background-color var(--f-allegro); }
+.f-crumbs li + li::before { content: ""; display: inline-block; width: var(--f-hairline); height: 1.05em; margin-inline: 0.2em 0.75em; vertical-align: -0.18em; background: var(--f-rule-strong); rotate: 24deg; transition: rotate var(--f-andante) var(--f-spiccato), background-color var(--f-allegro); }
 .f-crumbs li:has(> a:is(:hover, :focus-visible))::before { rotate: 14deg; background-color: var(--f-ink); }
 .f-crumbs li:has(> a:is(:hover, :focus-visible)) + li::before { rotate: -14deg; background-color: var(--f-ink); }
+.f-crumbs:dir(rtl) li + li::before { rotate: -24deg; }
+.f-crumbs:dir(rtl) li:has(> a:is(:hover, :focus-visible))::before { rotate: -14deg; }
+.f-crumbs:dir(rtl) li:has(> a:is(:hover, :focus-visible)) + li::before { rotate: 14deg; }
 .f-crumbs a { color: var(--f-graphite); text-decoration: none; transition: color var(--f-allegro); }
 .f-crumbs a:hover { color: var(--f-ink); }
 .f-crumbs [aria-current="page"] { color: var(--f-ink); }
@@ -755,14 +761,14 @@ button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-posi
 }
 .f-dialog[open] { opacity: 1; translate: 0 0; }
 @starting-style { .f-dialog[open] { opacity: 0; translate: 0 12px; } }
-.f-dialog::backdrop {
+:is(.f-dialog, .f-sheet, .f-drawer)::backdrop {
   background: color-mix(in srgb, var(--f-paper) 86%, transparent);
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   opacity: 0;
   transition: opacity var(--f-andante), overlay var(--f-andante) allow-discrete, display var(--f-andante) allow-discrete;
 }
-.f-dialog[open]::backdrop { opacity: 1; }
-@starting-style { .f-dialog[open]::backdrop { opacity: 0; } }
+:is(.f-dialog, .f-sheet, .f-drawer)[open]::backdrop { opacity: 1; }
+@starting-style { :is(.f-dialog, .f-sheet, .f-drawer)[open]::backdrop { opacity: 0; } }
 .f-dialog-meta { margin-bottom: var(--f-space-7); }
 .f-dialog[open]::after { animation: f-frame var(--f-andante) var(--f-exhale) 80ms backwards; }
 .f-dialog[open] .f-dialog-meta > hr { transform-origin: 0 50%; animation: f-draw-x var(--f-andante) var(--f-exhale) 200ms backwards; }
@@ -786,3 +792,659 @@ button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-posi
 .f-empty:has(.f-btn:is(:hover, :focus-visible)) .f-empty-figure > span { translate: 0 -0.07em; }
 .f-empty-title { font-size: var(--f-f); line-height: var(--f-f-lh); letter-spacing: var(--f-f-tr); font-weight: 200; color: var(--f-ink); }
 .f-empty > p:not(.f-empty-title) { max-width: 44ch; }
+
+/* ── f-toggle ── a word you can hold down; held, it wears the fermata */
+.f-toggle {
+  --pad: 0px;
+  position: relative; appearance: none; border: 0; background: none; margin: 0; padding: 0.8em 0 0;
+  font: inherit; color: var(--f-graphite); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: color var(--f-allegro), font-weight var(--f-andante) var(--f-exhale), font-stretch var(--f-andante) var(--f-exhale);
+}
+/* The sign for a note held longer than written: an arc over the word, a dot inside it. */
+.f-toggle::before, .f-toggle::after { content: ""; position: absolute; left: calc(50% + var(--pad) / 2); pointer-events: none; }
+.f-toggle::before {
+  top: 0; width: 0.9em; height: 0.45em; margin-left: -0.45em;
+  border: var(--f-hairline) solid var(--f-rule-strong); border-bottom: 0; border-radius: 0.45em 0.45em 0 0;
+  opacity: 0; scale: 1 0; transform-origin: 50% 100%;
+  transition: scale var(--f-moderato) var(--f-exhale), opacity var(--f-allegro), border-color var(--f-allegro);
+}
+.f-toggle::after {
+  top: calc(0.45em - 5px); width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%;
+  background: var(--f-ink); scale: 0; transition: scale var(--f-moderato) var(--f-spiccato);
+}
+.f-toggle:is(:hover, [data-force~="hover"]):not(:disabled) { color: var(--f-ink); }
+.f-toggle:is(:hover, [data-force~="hover"]):not(:disabled)::before { opacity: 1; scale: 1; }
+.f-toggle[aria-pressed="true"] { color: var(--f-ink); }
+.f-toggle[aria-pressed="true"]::before { opacity: 1; scale: 1; border-color: var(--f-ink); border-width: var(--f-stroke); }
+.f-toggle[aria-pressed="true"]::after { scale: 1; transition-delay: 140ms; } /* the arc rises, then the dot lands */
+.f-toggle:disabled { color: var(--f-pencil); opacity: 0.55; cursor: not-allowed; }
+
+/* ── f-toggles ── toggle group: words held apart by standing hairlines */
+.f-toggles { display: inline-flex; flex-wrap: wrap; align-items: last baseline; row-gap: var(--f-space-3); }
+.f-toggles > .f-toggle + .f-toggle {
+  --pad: var(--f-space-4);
+  margin-inline-start: var(--f-space-4); padding-inline-start: var(--f-space-4);
+  background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 0 calc(100% - 0.15em) / var(--f-hairline) 1.05em;
+}
+
+/* ── f-btn-group ── one pair of parentheses holds the set */
+.f-btn-group { display: inline-flex; align-items: baseline; flex-wrap: wrap; color: var(--f-ink); }
+.f-btn-group::before, .f-btn-group::after { font-weight: 200; font-size: 1.2em; line-height: 0; }
+.f-btn-group::before { content: "(" / ""; margin-inline-end: 0.1em; }
+.f-btn-group::after { content: ")" / ""; margin-inline-start: 0.1em; }
+.f-btn-group > .f-btn {
+  padding: 0 0.6em 0.16em;
+  background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--f-hairline);
+  background-origin: content-box; background-clip: content-box;
+  transition: background-size var(--f-moderato) var(--f-exhale), background-position 0s;
+}
+.f-btn-group > .f-btn + .f-btn { border-inline-start: var(--f-hairline) solid var(--f-rule-strong); }
+.f-btn-group > .f-btn:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 0 100%; background-size: 100% var(--f-hairline); }
+
+/* ── f-input-group ── ours in roman, yours in italic, on one line; the accent is only under yours */
+.f-input-group {
+  grid-column: 1 / -1; position: relative; anchor-scope: --f-yours;
+  display: flex; align-items: baseline; column-gap: 0.12em;
+  font-size: var(--f-mp); line-height: 1.3;
+  background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 0 100% / 100% var(--f-hairline);
+}
+.f-input-group-text { flex: none; padding-block: 0.3em 0.42em; color: var(--f-pencil); white-space: nowrap; }
+.f-input-group > input {
+  anchor-name: --f-yours;
+  flex: 1; min-width: 0; appearance: none; margin: 0; border: 0; border-radius: 0; outline: 0; padding: 0.3em 0 0.42em; background: none;
+  color: var(--f-ink); font-family: var(--f-expression); font-style: italic; font-weight: 400; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1.3;
+}
+.f-input-group > input::placeholder { font-family: var(--f-voice); font-style: normal; font-size: calc(1em / var(--f-expression-scale)); color: var(--f-pencil); opacity: 1; }
+.f-input-group::after {
+  content: ""; position: absolute; bottom: 0; left: anchor(--f-yours left, 0px); right: anchor(--f-yours right, 0px); height: var(--f-stroke);
+  background: var(--f-accent); scale: 0 1; transform-origin: var(--o, 0%) 50%; pointer-events: none;
+  transition: scale var(--f-moderato) var(--f-exhale);
+}
+.f-input-group:focus-within::after, .f-input-group[data-force~="focus"]::after { scale: 1 1; }
+.f-input-group:has(> input[aria-invalid="true"])::after { scale: 1 1; background: var(--f-signal); }
+.f-input-group > .f-btn { margin-inline-start: var(--f-space-4); font-size: var(--f-p); }
+
+/* ── f-code ── a one-time code: digits drop onto short baselines, three and three */
+.f-code { position: relative; display: inline-flex; align-items: flex-end; gap: 0.18em; font-size: calc(var(--f-f) * var(--f-expression-scale)); }
+.f-field > .f-code { grid-column: 1 / -1; justify-self: start; margin-top: var(--f-space-2); }
+.f-code > input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; opacity: 0; font-size: 16px; cursor: text; }
+.f-code-slot {
+  --c: var(--f-accent);
+  display: grid; place-items: end center; width: 0.78em; height: 1.2em; padding-bottom: 0.1em;
+  font-family: var(--f-expression); font-style: italic; line-height: 1; color: var(--f-ink); font-variant-numeric: lining-nums;
+  background:
+    linear-gradient(var(--c), var(--c)) no-repeat 50% 100% / 0% var(--f-stroke),
+    linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 0 100% / 100% var(--f-hairline);
+  transition: background-size var(--f-moderato) var(--f-exhale);
+}
+.f-code-slot > span { animation: f-drop-in var(--f-moderato) var(--f-spiccato) backwards; }
+@keyframes f-drop-in { from { opacity: 0; translate: 0 -0.3em; } }
+.f-code-slot[data-here] { background-size: 100% var(--f-stroke), 100% var(--f-hairline); }
+.f-code-sep { align-self: center; width: var(--f-hairline); height: 0.7em; margin-inline: 0.12em; background: var(--f-rule-strong); rotate: 22deg; }
+/* Whole: the lines ink in turn. Wrong: they turn crimson together. */
+.f-code[data-state] .f-code-slot { background-size: 100% var(--f-stroke), 100% var(--f-hairline); transition-delay: calc(var(--i, 0) * 2 * var(--f-arpeggio)); }
+.f-code[data-state="done"] .f-code-slot { --c: var(--f-ink); }
+.f-code[data-state="wrong"] .f-code-slot { --c: var(--f-signal); color: var(--f-signal); transition-delay: 0s; }
+
+/* ── f-combo ── a field that suggests; in each match, the letters you typed are marked */
+.f-combo { position: relative; }
+.f-combo-list {
+  position: absolute; z-index: 10; top: 100%; inset-inline: 0; max-height: 17rem; overflow: auto;
+  margin: var(--f-space-2) 0 0; padding: var(--f-space-2) 0; list-style: none;
+  background: var(--f-paper); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong);
+}
+.f-combo-list > li {
+  position: relative; padding: 0.32em var(--f-space-5) 0.32em calc(var(--f-space-5) + 0.7em); cursor: pointer; color: var(--f-graphite);
+  animation: f-arrive var(--f-moderato) var(--f-exhale) backwards; animation-delay: calc(min(var(--i, 0), 8) * var(--f-arpeggio));
+}
+.f-combo-list > li::before {
+  content: ""; position: absolute; inset-inline-start: var(--f-space-5); top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%;
+  background: var(--f-ink); scale: 0; transition: scale var(--f-moderato) var(--f-spiccato);
+}
+.f-combo-list > li:is(:hover, [aria-selected="true"]) { color: var(--f-ink); }
+.f-combo-list > li[aria-selected="true"]::before { scale: 1; }
+.f-combo-list mark { padding: 0; }
+.f-combo-list > .f-combo-empty { cursor: default; color: var(--f-pencil); }
+
+/* ── f-pop ── popover: a panel hung from what opened it, on a leader line */
+.f-pop {
+  border: 0; padding: var(--f-space-4) var(--f-space-5); overflow: visible;
+  max-width: min(26rem, calc(100vw - 2 * var(--f-margin)));
+  background: var(--f-paper); color: var(--f-graphite); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong);
+  opacity: 0; translate: 0 -4px;
+  transition: opacity var(--f-moderato) var(--f-exhale), translate var(--f-moderato) var(--f-exhale), overlay var(--f-moderato) allow-discrete, display var(--f-moderato) allow-discrete;
+}
+.f-pop:popover-open { opacity: 1; translate: 0 0; }
+@starting-style { .f-pop:popover-open { opacity: 0; translate: 0 -4px; } }
+@supports (position-area: block-end) {
+  .f-pop { inset: auto; margin: var(--f-space-5) 0 0; position-area: block-end span-inline-end; }
+  .f-pop::before, .f-pop::after { content: ""; position: absolute; pointer-events: none; }
+  .f-pop::before { inset-inline-start: 1.1em; bottom: 100%; width: var(--f-hairline); height: var(--f-space-5); background: var(--f-ink); transform-origin: 50% 0; }
+  .f-pop::after { inset-inline-start: calc(1.1em - 2px); bottom: calc(100% + var(--f-space-5) - 2.5px); width: 5px; height: 5px; border-radius: 50%; background: var(--f-ink); }
+  .f-pop:popover-open::after { animation: f-land var(--f-moderato) var(--f-spiccato) backwards; }
+  .f-pop:popover-open::before { animation: f-draw-y var(--f-moderato) var(--f-breath) 60ms backwards; }
+}
+
+/* ── f-menu ── a list of words; the one you point at is marked with the highlighter */
+.f-pop.f-menu { padding: var(--f-space-2) 0; min-width: 14rem; }
+.f-menu-item {
+  position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: var(--f-space-6);
+  width: 100%; margin: 0; border: 0; padding: 0.34em var(--f-space-5); appearance: none; text-align: start; cursor: pointer;
+  font: inherit; color: var(--f-graphite);
+  background: linear-gradient(var(--f-mark), var(--f-mark)) no-repeat 100% 0 / 0% 100%;
+  transition: background-size var(--f-allegro) var(--f-exhale), background-position 0s, color var(--f-allegro);
+}
+.f-menu-item:is(:hover, :focus-visible, [data-force~="hover"]) { background-position: 0 0; background-size: 100% 100%; color: var(--f-on-mark); outline: 0; }
+.f-menu-item[data-variant="danger"] { color: var(--f-signal); }
+.f-menu-item[aria-checked] { padding-inline-start: calc(var(--f-space-5) + 0.9em); }
+.f-menu-item[aria-checked]::before {
+  content: ""; position: absolute; inset-inline-start: var(--f-space-5); top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; scale: 0; transition: scale var(--f-moderato) var(--f-spiccato);
+}
+.f-menu-item[aria-checked="true"]::before { scale: 1; }
+.f-menu-keys { font-size: var(--f-pp); color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+.f-menu-item:is(:hover, :focus-visible) .f-menu-keys { color: inherit; }
+.f-menu-label { padding: var(--f-space-2) var(--f-space-5) var(--f-space-1); font-size: var(--f-pp); color: var(--f-pencil); }
+.f-menu > hr { margin-block: var(--f-space-2); }
+.f-menu:popover-open > * { animation: f-arrive var(--f-moderato) var(--f-exhale) backwards; animation-delay: calc((sibling-index() - 1) * var(--f-arpeggio)); }
+/* A context menu opens where you pressed, and spreads from that point like ink. */
+.f-menu[data-at="point"] { position-area: none; margin: 0; }
+.f-menu[data-at="point"]::before, .f-menu[data-at="point"]::after { display: none; }
+.f-menu[data-at="point"]:popover-open { animation: f-spread var(--f-andante) var(--f-exhale); }
+@keyframes f-spread { from { clip-path: circle(0 at 0 0); } to { clip-path: circle(150% at 0 0); } }
+
+/* ── f-menubar ── a frame row of words along a hairline; each opens a menu */
+.f-menubar { position: relative; display: flex; flex-wrap: wrap; column-gap: var(--f-space-5); padding-bottom: var(--f-space-2); box-shadow: inset 0 calc(-1 * var(--f-hairline)) 0 var(--f-rule); }
+.f-menubar > button { appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: var(--f-graphite); cursor: pointer; transition: color var(--f-allegro); }
+.f-menubar > button:is(:hover, [aria-expanded="true"]) { color: var(--f-ink); }
+.f-menubar-line {
+  position: absolute; bottom: 0; left: var(--x, 0px); width: var(--w, 0px); height: var(--f-stroke); background: var(--f-ink);
+  opacity: 0; pointer-events: none;
+  transition: left var(--f-moderato) var(--f-breath), width var(--f-moderato) var(--f-breath), opacity var(--f-allegro);
+}
+.f-menubar[data-open] .f-menubar-line { opacity: 1; }
+
+/* ── f-navmenu ── small words open a panel of large names */
+.f-navmenu { position: relative; }
+.f-navmenu > ul { list-style: none; margin: 0; padding: 0 0 var(--f-space-3); display: flex; flex-wrap: wrap; column-gap: var(--f-space-6); }
+.f-navmenu > ul > li > :is(a, button) { appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: var(--f-graphite); text-decoration: none; cursor: pointer; transition: color var(--f-allegro); }
+.f-navmenu > ul > li > :is(a, button):hover, .f-navmenu > ul > li > [aria-expanded="true"] { color: var(--f-ink); }
+.f-navmenu > ul > li > button::after { content: "↓" / ""; display: inline-block; margin-inline-start: 0.3em; font-size: 0.72em; color: var(--f-pencil); transition: rotate var(--f-moderato) var(--f-spiccato); }
+.f-navmenu > ul > li > button[aria-expanded="true"]::after { rotate: 180deg; }
+.f-navmenu-panel {
+  position: absolute; z-index: 20; inset-inline: 0; top: 100%; padding: var(--f-space-6) 0 var(--f-space-7);
+  background: var(--f-paper);
+  visibility: hidden; opacity: 0; transition: opacity var(--f-moderato) var(--f-exhale), visibility 0s var(--f-moderato);
+}
+.f-navmenu-panel::before { content: ""; position: absolute; inset: 0 0 auto; height: var(--f-hairline); background: var(--f-ink); transform-origin: 0 50%; }
+.f-navmenu li:has(> [aria-expanded="true"]) > .f-navmenu-panel { visibility: visible; opacity: 1; transition-delay: 0s; }
+.f-navmenu li:has(> [aria-expanded="true"]) > .f-navmenu-panel::before { animation: f-draw-x var(--f-andante) var(--f-exhale) backwards; }
+.f-navmenu-panel > ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--f-space-4) var(--f-gutter); }
+.f-navmenu li:has(> [aria-expanded="true"]) > .f-navmenu-panel li { animation: f-arrive var(--f-andante) var(--f-exhale) backwards; animation-delay: calc(sibling-index() * var(--f-arpeggio)); }
+.f-navmenu-panel a {
+  display: grid; font-size: var(--f-mf); line-height: var(--f-mf-lh); letter-spacing: var(--f-mf-tr); font-weight: 200; color: var(--f-ink); text-decoration: none;
+  transition: font-weight var(--f-moderato) var(--f-exhale);
+}
+.f-navmenu-panel a:is(:hover, :focus-visible) { font-weight: 500; }
+.f-navmenu-panel small { font-size: var(--f-pp); line-height: var(--f-pp-lh); letter-spacing: var(--f-pp-tr); font-weight: 400; color: var(--f-pencil); }
+
+/* ── f-command ── what you type is set as large as a headline */
+.f-command { display: grid; gap: var(--f-space-4); }
+.f-command-input {
+  appearance: none; width: 100%; margin: 0; border: 0; border-radius: 0; outline: 0; padding: 0 0 0.12em;
+  background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 0 100% / 100% var(--f-hairline);
+  color: var(--f-ink); font-family: var(--f-expression); font-style: italic; font-weight: 400;
+  font-size: calc(var(--f-f) * var(--f-expression-scale)); line-height: 1.15;
+}
+.f-command-input::placeholder { font-family: var(--f-voice); font-style: normal; font-weight: 200; font-size: var(--f-f); color: var(--f-pencil); opacity: 1; }
+.f-command-input:focus-visible { background-image: linear-gradient(var(--f-accent), var(--f-accent)); background-size: 100% var(--f-stroke); }
+.f-command-list { max-height: 22rem; overflow: auto; }
+.f-command-group { margin: var(--f-space-4) 0 var(--f-space-1); font-size: var(--f-pp); color: var(--f-pencil); }
+.f-command-option {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto 1.2em; align-items: baseline; column-gap: var(--f-space-4);
+  padding-block: 0.4em; border-bottom: var(--f-hairline) solid var(--f-rule); cursor: pointer; color: var(--f-graphite);
+  animation: f-arrive var(--f-moderato) var(--f-exhale) backwards; animation-delay: calc(min(var(--i, 0), 8) * var(--f-arpeggio));
+}
+.f-command-option > * { transition: translate var(--f-moderato) var(--f-exhale), opacity var(--f-allegro), color var(--f-allegro); }
+.f-command-name { font-size: var(--f-mp); line-height: var(--f-mp-lh); }
+.f-command-hint { font-size: var(--f-pp); color: var(--f-pencil); }
+.f-command-go { justify-self: end; color: var(--f-ink); opacity: 0; translate: -6px 0; }
+.f-command-option:hover { color: var(--f-ink); }
+.f-command-option[aria-selected="true"] { color: var(--f-ink); }
+.f-command-option[aria-selected="true"] .f-command-name { translate: 8px 0; }
+.f-command-option[aria-selected="true"] .f-command-go { opacity: 1; translate: 0 0; }
+.f-command-option mark { padding: 0; }
+.f-command-empty { padding-block: var(--f-space-4); font-size: var(--f-mp); color: var(--f-graphite); }
+
+/* ── f-sidebar ── a column of words; folded, each keeps only its initial */
+.f-sidebar {
+  display: grid; align-content: start; justify-items: start; gap: var(--f-space-1);
+  padding-inline-end: var(--f-space-6); border-inline-end: var(--f-hairline) solid var(--f-rule);
+  font-size: var(--f-mp); line-height: var(--f-mp-lh);
+}
+.f-sidebar-head { margin-bottom: var(--f-space-4); font-weight: 600; color: var(--f-ink); white-space: nowrap; }
+.f-sidebar-label {
+  margin-top: var(--f-space-4); font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-pencil); white-space: nowrap;
+  overflow: clip; height: auto; transition: height var(--f-andante) var(--f-exhale), margin var(--f-andante) var(--f-exhale), opacity var(--f-allegro);
+}
+.f-sidebar a { position: relative; display: flex; align-items: baseline; padding-inline-start: 1em; color: var(--f-graphite); text-decoration: none; white-space: nowrap; transition: color var(--f-allegro); }
+.f-sidebar a:hover, .f-sidebar a[aria-current="page"] { color: var(--f-ink); }
+.f-sidebar a::before {
+  content: ""; position: absolute; inset-inline-start: 0; top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%;
+  background: var(--f-accent); scale: 0; transition: scale var(--f-moderato) var(--f-spiccato), background-color var(--f-allegro), box-shadow var(--f-allegro);
+}
+.f-sidebar a:hover:not([aria-current="page"])::before { scale: 1; background-color: transparent; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); }
+.f-sidebar a[aria-current="page"]::before { scale: 1; }
+.f-sidebar-i { font-weight: inherit; transition: font-size var(--f-andante) var(--f-exhale), font-weight var(--f-andante) var(--f-exhale); transition-delay: calc(var(--i, 0) * var(--f-arpeggio)); }
+.f-sidebar-rest { display: inline-block; overflow: clip; width: auto; transition: width var(--f-andante) var(--f-exhale), opacity var(--f-moderato); transition-delay: calc(var(--i, 0) * var(--f-arpeggio)); }
+.f-sidebar[data-folded] .f-sidebar-rest { width: 0; opacity: 0; }
+.f-sidebar[data-folded] .f-sidebar-i { font-size: 1.45em; font-weight: 200; }
+.f-sidebar[data-folded] .f-sidebar-label { height: 0; margin-top: var(--f-space-2); opacity: 0; }
+
+/* ── f-card ── a column under a rule, not a box */
+.f-card {
+  position: relative; display: grid; align-content: start; gap: var(--f-space-3); padding-top: var(--f-space-4);
+  background:
+    linear-gradient(var(--f-ink), var(--f-ink)) no-repeat 100% 0 / 0% var(--f-stroke),
+    linear-gradient(var(--f-ink), var(--f-ink)) no-repeat 0 0 / 100% var(--f-hairline);
+  transition: background-size var(--f-andante) var(--f-exhale), background-position 0s;
+}
+.f-card:is(:has(.f-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 0 0, 0 0; background-size: 100% var(--f-stroke), 100% var(--f-hairline); }
+.f-card-figure { height: 0.56em; margin-bottom: var(--f-space-2); overflow: clip; font-size: clamp(6rem, 11vw, 9rem); font-weight: 100; font-stretch: 125%; line-height: 0.76; color: var(--f-ink); user-select: none; }
+.f-card-title { font-size: var(--f-mf); line-height: var(--f-mf-lh); letter-spacing: var(--f-mf-tr); font-weight: 300; color: var(--f-ink); }
+.f-card-link { color: inherit; text-decoration: none; outline: 0; }
+.f-card-link::after { content: ""; position: absolute; inset: 0; }
+.f-card:has(.f-card-link:focus-visible) { outline: var(--f-stroke) solid var(--f-accent); outline-offset: 8px; }
+.f-card-body { max-width: 34ch; }
+.f-card-foot { margin-top: var(--f-space-3); }
+
+/* ── f-peek ── hover card: the name, set large and cropped by the card's edge */
+.f-peek { position: relative; }
+.f-peek-card {
+  position: absolute; z-index: 6; top: calc(100% + var(--f-space-3)); inset-inline-start: 0;
+  display: grid; gap: var(--f-space-2); width: min(21rem, 80vw); padding: var(--f-space-5) var(--f-space-5) var(--f-space-4); overflow: clip;
+  background: var(--f-paper); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong);
+  font-size: var(--f-pp); line-height: var(--f-pp-lh); letter-spacing: var(--f-pp-tr); color: var(--f-graphite);
+  visibility: hidden; opacity: 0; transition: opacity var(--f-moderato) var(--f-exhale), visibility 0s var(--f-moderato);
+}
+/* Where anchors exist, the card flips or centres rather than leave the screen. */
+@supports (anchor-scope: all) {
+  .f-peek { anchor-scope: --f-peek; }
+  .f-peek > :first-child { anchor-name: --f-peek; }
+  .f-peek-card {
+    position: fixed; position-anchor: --f-peek; inset: auto; margin-top: var(--f-space-3);
+    position-area: block-end span-inline-end; position-try-fallbacks: flip-inline, block-end;
+  }
+}
+.f-peek-name {
+  margin-inline-end: -30%; white-space: nowrap;
+  font-size: var(--f-ff); line-height: 0.85; letter-spacing: var(--f-ff-tr); font-weight: 200; color: var(--f-ink);
+  translate: 0.5em 0; transition: translate var(--f-andante) var(--f-exhale);
+}
+.f-peek-meta { color: var(--f-pencil); }
+/* It waits a moment for the pointer; the keyboard gets it at once. */
+.f-peek:is(:hover, :focus-within, [data-force~="hover"]) > .f-peek-card { visibility: visible; opacity: 1; transition-delay: 450ms, 450ms; }
+.f-peek:is(:hover, :focus-within, [data-force~="hover"]) .f-peek-name { translate: 0 0; transition-delay: 450ms; }
+.f-peek:focus-within > .f-peek-card, .f-peek:focus-within .f-peek-name { transition-delay: 0s; }
+
+/* ── f-tip ── tooltip: a whisper in parentheses above the thing it names */
+.f-tip { position: relative; display: inline-flex; }
+.f-tip-text {
+  position: absolute; z-index: 5; bottom: calc(100% + var(--f-space-2)); left: 50%; translate: -50% 0.3em;
+  width: max-content; max-width: 24ch; padding: 0.1em 0.35em; background: var(--f-paper);
+  font-family: var(--f-voice); font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-graphite); text-align: center; white-space: normal;
+  opacity: 0; pointer-events: none; transition: opacity var(--f-allegro), translate var(--f-moderato) var(--f-exhale);
+}
+.f-tip-text::before { content: "(" / ""; }
+.f-tip-text::after { content: ")" / ""; }
+.f-tip:is(:hover, [data-force~="hover"]) > .f-tip-text { opacity: 1; translate: -50% 0; transition-delay: 400ms; }
+.f-tip:has(:focus-visible) > .f-tip-text { opacity: 1; translate: -50% 0; }
+.f-tip[data-hush] > .f-tip-text { opacity: 0; transition-delay: 0s; } /* Escape puts it away */
+
+/* ── f-sheet ── a page slid in from the edge; its title runs up the spine */
+.f-sheet {
+  position: fixed; inset: 0 0 0 auto; margin: 0; width: min(32rem, calc(100vw - var(--f-space-6))); height: 100dvh; max-width: none; max-height: none;
+  padding: var(--f-space-7) var(--f-space-6) var(--f-space-6) var(--f-space-8); overflow: auto;
+  border: 0; border-inline-start: var(--f-hairline) solid var(--f-ink); background: var(--f-paper); color: var(--f-graphite);
+  translate: 100% 0;
+  transition: translate var(--f-andante) var(--f-exhale), overlay var(--f-andante) allow-discrete, display var(--f-andante) allow-discrete;
+}
+.f-sheet[open] { translate: 0 0; }
+@starting-style { .f-sheet[open] { translate: 100% 0; } }
+.f-sheet-spine {
+  position: absolute; inset-inline-start: var(--f-space-4); bottom: var(--f-space-6);
+  writing-mode: vertical-rl; rotate: 180deg; white-space: nowrap;
+  font-size: var(--f-f); line-height: 1; letter-spacing: var(--f-f-tr); font-weight: 200; color: var(--f-ink);
+}
+.f-sheet[open] .f-sheet-spine { animation: f-spine var(--f-andante) var(--f-exhale) 240ms backwards; }
+@keyframes f-spine { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+
+/* ── f-drawer ── a sheet from below, lifted by the fermata's arc */
+.f-drawer {
+  position: fixed; inset: auto 0 0; margin: 0; width: 100%; max-width: none; max-height: 85dvh;
+  padding: 0 var(--f-margin) var(--f-space-7); overflow: auto;
+  border: 0; border-top: var(--f-hairline) solid var(--f-ink); background: var(--f-paper); color: var(--f-graphite);
+  box-shadow: 0 12rem 0 var(--f-paper); /* paper under the rebound, not a shadow */
+  translate: 0 100%;
+  transition: translate var(--f-andante) var(--f-spiccato), overlay var(--f-andante) allow-discrete, display var(--f-andante) allow-discrete;
+}
+.f-drawer[open] { translate: 0 var(--pull, 0px); }
+@starting-style { .f-drawer[open] { translate: 0 100%; } }
+.f-drawer[data-pulling] { transition: none; }
+.f-drawer-handle { display: block; margin: 0 auto var(--f-space-4); padding: var(--f-space-4) var(--f-space-6) var(--f-space-2); border: 0; background: none; color: var(--f-ink); cursor: grab; touch-action: none; }
+.f-drawer-handle:active { cursor: grabbing; }
+.f-drawer-handle svg { width: 40px; height: 22px; overflow: visible; }
+.f-drawer-handle path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.f-drawer-handle circle { fill: var(--f-accent); }
+
+/* ── f-collapse ── a list that ends in the rest of itself */
+.f-collapse-list { list-style: none; margin: 0; padding: 0; }
+.f-collapse-list > li { padding-block: 0.45em; border-bottom: var(--f-hairline) solid var(--f-rule); }
+.f-collapse > details > summary { list-style: none; margin-top: var(--f-space-4); }
+.f-collapse > details > summary::-webkit-details-marker { display: none; }
+.f-collapse > details > summary > :last-child, .f-collapse > details[open] > summary > :first-child { display: none; }
+.f-collapse > details[open] > summary > :last-child { display: inline; }
+.f-collapse > details::details-content { block-size: 0; overflow: clip; transition: block-size var(--f-andante) var(--f-exhale), content-visibility var(--f-andante) allow-discrete; }
+.f-collapse > details[open]::details-content { block-size: auto; }
+.f-collapse > details[open] .f-collapse-list > li { animation: f-arrive var(--f-moderato) var(--f-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--f-arpeggio)); }
+
+/* ── f-resize ── two panes and the rule between them; moved, they're measured */
+.f-resize { --split: 50%; display: grid; grid-template-columns: minmax(0, var(--split)) auto minmax(0, 1fr); min-height: 17rem; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule); }
+.f-resize-pane { position: relative; min-width: 0; overflow: clip; padding: var(--f-space-5) var(--f-space-5) var(--f-space-7); }
+.f-resize-handle {
+  position: relative; z-index: 1; width: var(--f-space-4); margin-inline: calc(var(--f-space-4) / -2); cursor: col-resize; touch-action: none; outline: 0;
+  background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 50% 0 / var(--f-hairline) 100%;
+}
+.f-resize-handle:is(:hover, :focus-visible, [data-dragging]) { background-image: linear-gradient(var(--f-ink), var(--f-ink)); background-size: var(--f-stroke) 100%; }
+.f-resize-handle:focus-visible { background-image: linear-gradient(var(--f-accent), var(--f-accent)); }
+.f-resize:has(> [data-dragging]) { cursor: col-resize; user-select: none; }
+/* The share of each pane, drawn as a dimension from edge to edge. */
+.f-resize-dim {
+  position: absolute; inset-inline: var(--f-space-5); bottom: var(--f-space-4); display: flex; align-items: center; gap: 0.4em;
+  font-size: var(--f-pp); color: var(--f-ink); font-variant-numeric: tabular-nums;
+  background: linear-gradient(var(--f-ink), var(--f-ink)) 0 50% / var(--f-hairline) 9px no-repeat, linear-gradient(var(--f-ink), var(--f-ink)) 100% 50% / var(--f-hairline) 9px no-repeat;
+  opacity: 0; transition: opacity var(--f-moderato);
+}
+.f-resize-dim::before, .f-resize-dim::after { content: ""; flex: 1; height: var(--f-hairline); background: var(--f-ink); }
+.f-resize:has(.f-resize-handle:is(:hover, :focus-visible, [data-dragging])) .f-resize-dim { opacity: 1; }
+
+/* ── f-scroll ── a rule appears at an edge only while there's more beyond it */
+.f-scroll {
+  overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--f-rule-strong) transparent;
+  /* The paper covering each rule scrolls with the content; the rules stay put. */
+  background:
+    linear-gradient(var(--f-paper), var(--f-paper)) 0 0 / 100% 2px no-repeat local,
+    linear-gradient(var(--f-paper), var(--f-paper)) 0 100% / 100% 2px no-repeat local,
+    linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) 0 0 / 100% var(--f-hairline) no-repeat scroll,
+    linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) 0 100% / 100% var(--f-hairline) no-repeat scroll;
+}
+
+/* ── f-ratio ── a frame kept to a ratio, marked the way a printer marks a crop */
+@property --ratio { syntax: "<number>"; inherits: false; initial-value: 1.7778; }
+.f-ratio {
+  position: relative; display: grid; place-items: center; aspect-ratio: var(--ratio);
+  box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule);
+  transition: --ratio var(--f-andante) var(--f-breath);
+}
+.f-ratio::before {
+  --m: 12px; --g: 6px; --e: calc(var(--m) + var(--g));
+  content: ""; position: absolute; inset: calc(-1 * var(--e)); pointer-events: none;
+  background:
+    linear-gradient(var(--f-ink), var(--f-ink)) 0 var(--e) / var(--m) var(--f-hairline),
+    linear-gradient(var(--f-ink), var(--f-ink)) 100% var(--e) / var(--m) var(--f-hairline),
+    linear-gradient(var(--f-ink), var(--f-ink)) 0 calc(100% - var(--e)) / var(--m) var(--f-hairline),
+    linear-gradient(var(--f-ink), var(--f-ink)) 100% calc(100% - var(--e)) / var(--m) var(--f-hairline),
+    linear-gradient(var(--f-ink), var(--f-ink)) var(--e) 0 / var(--f-hairline) var(--m),
+    linear-gradient(var(--f-ink), var(--f-ink)) calc(100% - var(--e)) 0 / var(--f-hairline) var(--m),
+    linear-gradient(var(--f-ink), var(--f-ink)) var(--e) 100% / var(--f-hairline) var(--m),
+    linear-gradient(var(--f-ink), var(--f-ink)) calc(100% - var(--e)) 100% / var(--f-hairline) var(--m);
+  background-repeat: no-repeat;
+}
+.f-ratio > .f-fraction > * { display: inline-block; }
+
+/* ── f-carousel ── one poster at a time; the count rolls the way you travel */
+.f-carousel { display: grid; gap: var(--f-space-5); min-width: 0; }
+.f-carousel-track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none; outline-offset: 6px;
+}
+.f-carousel-track::-webkit-scrollbar { display: none; }
+.f-carousel-slide { scroll-snap-align: start; display: grid; align-content: end; gap: var(--f-space-4); min-height: 19rem; overflow: clip; }
+.f-carousel-title { margin-inline-start: -0.05em; white-space: nowrap; font-size: var(--f-fff); line-height: var(--f-fff-lh); letter-spacing: var(--f-fff-tr); font-weight: 200; color: var(--f-ink); }
+.f-carousel-nav { display: flex; align-items: baseline; gap: var(--f-space-5); font-size: var(--f-mp); }
+.f-carousel-nav > button { appearance: none; border: 0; background: none; padding: 0.1em; font: inherit; color: var(--f-ink); cursor: pointer; transition: translate var(--f-allegro) var(--f-exhale); }
+.f-carousel-nav > button:first-child:hover:not(:disabled) { translate: -3px 0; }
+.f-carousel-nav > button:last-child:hover:not(:disabled) { translate: 3px 0; }
+.f-carousel-nav > button:disabled { color: var(--f-rule-strong); cursor: default; }
+.f-carousel-count { color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+.f-carousel-now { display: inline-block; color: var(--f-ink); }
+
+/* ── f-table ── hairline rows; the column you sort by is set in ink */
+.f-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+.f-table :is(th, td) { padding: var(--f-space-3) var(--f-space-4) var(--f-space-3) 0; text-align: start; vertical-align: baseline; border-bottom: var(--f-hairline) solid var(--f-rule); }
+.f-table thead th { padding-top: 0; font-size: var(--f-pp); font-weight: 400; color: var(--f-pencil); border-bottom-color: var(--f-ink); white-space: nowrap; }
+.f-table td { color: var(--f-graphite); transition: color var(--f-moderato); }
+.f-table :is(th, td)[data-num] { text-align: end; }
+.f-table :is(th, td):first-child:has(.f-table-pick) { width: 1.6em; }
+.f-table th button { appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; display: inline-flex; align-items: baseline; gap: 0.35em; }
+.f-table th button::after { content: "↓" / ""; display: inline-block; opacity: 0; transition: rotate var(--f-moderato) var(--f-spiccato), opacity var(--f-allegro); }
+.f-table th button:hover::after { opacity: 0.5; }
+.f-table th[aria-sort] { color: var(--f-ink); }
+.f-table th[aria-sort] button::after { opacity: 1; }
+.f-table th[aria-sort="ascending"] button::after { rotate: 180deg; }
+.f-table td[data-sorted] { color: var(--f-ink); }
+.f-table tr[data-picked] .f-table-name { font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1; color: var(--f-ink); }
+/* Choosing is a ring that fills; some chosen is half a moon. */
+.f-table-pick {
+  appearance: none; margin: 0; width: 10px; height: 10px; border-radius: 50%; vertical-align: 0.05em; cursor: pointer;
+  box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong);
+  transition: background-color var(--f-allegro), box-shadow var(--f-allegro);
+}
+.f-table-pick:hover { box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
+.f-table-pick:checked { background: var(--f-ink); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); animation: f-land var(--f-moderato) var(--f-spiccato); }
+.f-table-pick:indeterminate { background: linear-gradient(90deg, var(--f-ink) 50%, transparent 50%); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
+
+/* ── f-chart ── hairlines and dots, against one very large number */
+.f-chart { margin: 0; display: grid; gap: var(--f-space-5); }
+.f-chart-read { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--f-space-4); color: var(--f-graphite); }
+.f-chart-value { display: inline-block; font-size: var(--f-ff); line-height: 0.95; letter-spacing: var(--f-ff-tr); font-weight: 200; color: var(--f-ink); font-variant-numeric: tabular-nums lining-nums; }
+.f-chart-plot {
+  display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); height: 13rem;
+  background: repeating-linear-gradient(to top, var(--f-rule) 0 1px, transparent 1px 25%);
+  box-shadow: inset 0 calc(-1 * var(--f-hairline)) 0 var(--f-ink);
+}
+.f-chart-bar { position: relative; appearance: none; border: 0; margin: 0; padding: 0; background: none; cursor: crosshair; }
+.f-chart-bar::before, .f-chart-bar::after { content: ""; position: absolute; left: 50%; pointer-events: none; }
+.f-chart-bar::before { bottom: 0; width: var(--f-hairline); height: calc(var(--v) * 100%); translate: -50% 0; background: var(--f-pencil); transition: width var(--f-allegro), background-color var(--f-allegro); }
+.f-chart-bar::after {
+  bottom: calc(var(--v) * 100%); width: 7px; height: 7px; border-radius: 50%; translate: -50% 50%;
+  background: var(--f-paper); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-pencil);
+  transition: scale var(--f-moderato) var(--f-spiccato), background-color var(--f-allegro), box-shadow var(--f-allegro);
+}
+.f-chart-bar:is(:hover, :focus-visible, [data-force~="hover"])::before { width: var(--f-stroke); background: var(--f-ink); }
+.f-chart-bar:is(:hover, :focus-visible, [data-force~="hover"])::after { scale: 1.5; background: var(--f-ink); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
+.f-chart-bar[data-now]::after { background: var(--f-accent); box-shadow: none; }
+.f-chart-bar:focus-visible { outline-offset: 2px; }
+.f-chart-axis { display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); margin-top: calc(-1 * var(--f-space-3)); font-size: var(--f-pp); color: var(--f-pencil); text-align: center; }
+
+/* ── f-avatar ── a person: a ring and their initial, in italic */
+.f-avatar {
+  --s: 2.75rem; position: relative; flex: none; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%;
+  background: var(--f-paper); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong);
+  font-family: var(--f-expression); font-style: italic; font-weight: 400; font-size: calc(var(--s) * 0.46); line-height: 1; color: var(--f-ink);
+}
+.f-avatar[data-size="s"] { --s: 1.75rem; }
+.f-avatar[data-size="l"] { --s: 5rem; }
+.f-avatar > img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: grayscale(1); }
+.f-avatar[data-here]::after { content: ""; position: absolute; right: 4%; bottom: 4%; width: max(7px, calc(var(--s) * 0.14)); aspect-ratio: 1; border-radius: 50%; background: var(--f-accent); box-shadow: 0 0 0 2px var(--f-paper); }
+.f-avatar[data-count] { font-family: var(--f-voice); font-style: normal; font-size: calc(var(--s) * 0.3); color: var(--f-graphite); }
+.f-avatars { display: inline-flex; }
+.f-avatars > .f-avatar + .f-avatar { margin-inline-start: calc(var(--s) * -0.28); transition: margin var(--f-moderato) var(--f-spiccato); }
+.f-avatars:is(:hover, [data-force~="hover"]) > .f-avatar + .f-avatar { margin-inline-start: var(--f-space-1); }
+
+/* ── f-item ── a ledger line: what it is, a dotted leader, what you can do */
+.f-items { list-style: none; margin: 0; padding: 0; border-top: var(--f-hairline) solid var(--f-rule); }
+.f-item { display: flex; align-items: center; gap: var(--f-space-4); padding-block: var(--f-space-4); border-bottom: var(--f-hairline) solid var(--f-rule); }
+.f-item-body { display: grid; min-width: 0; }
+.f-item-title { color: var(--f-ink); }
+.f-item-desc { font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-pencil); }
+.f-item-end { font-variant-numeric: tabular-nums; color: var(--f-ink); }
+.f-item-leader { position: relative; flex: 1; min-width: var(--f-space-5); height: 2px; }
+.f-item-leader::before, .f-item-leader::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, currentColor 0.8px, transparent 1.1px) 0 50% / 6px 2px repeat-x; }
+.f-item-leader::before { color: var(--f-rule-strong); }
+.f-item-leader::after {
+  color: var(--f-ink);
+  mask: linear-gradient(#000, #000) no-repeat 100% 0 / 0% 100%;
+  transition: mask-size var(--f-andante) var(--f-exhale), mask-position 0s;
+}
+.f-item:is(:hover, :focus-within, [data-force~="hover"]) .f-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
+
+/* ── f-prose ── long text; punctuation hangs in the margin so the edge stays true */
+.f-prose { max-width: var(--f-measure); color: var(--f-graphite); hanging-punctuation: first last; }
+.f-prose > * + * { margin-top: 1em; }
+.f-prose > * + :is(h2, h3, h4) { margin-top: 1.8em; }
+.f-prose :is(h1, h2, h3, h4) { font-weight: 300; color: var(--f-ink); }
+.f-prose h1 { font-size: var(--f-ff); line-height: var(--f-ff-lh); letter-spacing: var(--f-ff-tr); }
+.f-prose h2 { font-size: var(--f-f); line-height: var(--f-f-lh); letter-spacing: var(--f-f-tr); }
+.f-prose h3 { font-size: var(--f-mf); line-height: var(--f-mf-lh); letter-spacing: var(--f-mf-tr); }
+.f-prose h4 { font-size: var(--f-mp); line-height: var(--f-mp-lh); font-weight: 500; }
+.f-prose-lead { font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
+.f-prose blockquote { margin: 0; quotes: "“" "”"; font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-mp) * var(--f-expression-scale)); line-height: 1.35; color: var(--f-ink); }
+.f-prose blockquote > p { text-indent: -0.4em; } /* the opening mark hangs */
+.f-prose blockquote > p::before { content: open-quote; }
+.f-prose blockquote > p::after { content: close-quote; }
+.f-prose blockquote footer { margin-top: 0.6em; font-family: var(--f-voice); font-style: normal; font-size: var(--f-pp); color: var(--f-pencil); }
+.f-prose ul { list-style: none; padding: 0; }
+.f-prose ul > li { position: relative; }
+.f-prose ul > li::before { content: "–" / ""; position: absolute; inset-inline-start: -1.1em; color: var(--f-pencil); }
+.f-prose ol { padding: 0; }
+.f-prose ol > li::marker { color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+.f-prose li + li { margin-top: 0.35em; }
+.f-prose code { font-family: var(--f-voice); font-stretch: 78%; font-weight: 500; letter-spacing: 0.01em; color: var(--f-ink); }
+.f-prose small { font-size: var(--f-pp); color: var(--f-pencil); }
+
+/* ── f-msg ── a message: what they wrote is roman, what you wrote is italic */
+.f-msg {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "face head" "face body" ". foot";
+  column-gap: var(--f-space-4); row-gap: var(--f-space-1); max-width: 34rem;
+}
+.f-msg > .f-avatar { --s: 2.25rem; grid-area: face; align-self: start; }
+.f-msg-head { grid-area: head; display: flex; align-items: baseline; gap: var(--f-space-3); font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-pencil); }
+.f-msg-head > b { font-weight: 500; color: var(--f-ink); }
+.f-msg-body { grid-area: body; color: var(--f-ink); }
+.f-msg-foot { grid-area: foot; display: flex; flex-wrap: wrap; align-items: center; gap: var(--f-space-2); margin-top: var(--f-space-2); font-size: var(--f-pp); color: var(--f-pencil); }
+.f-msg[data-from="you"] { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "head face" "body face" "foot ."; margin-inline-start: auto; text-align: end; }
+.f-msg[data-from="you"] :is(.f-msg-head, .f-msg-foot) { justify-content: flex-end; }
+.f-msg[data-from="you"] .f-msg-body { font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1.4; }
+.f-msg[data-arriving] .f-msg-body { animation: f-write var(--f-andante) var(--f-exhale) backwards; }
+/* Sent is a ring; read, it fills to a dot, like the switch's full stop. */
+.f-msg-status { display: inline-block; width: 6px; height: 6px; border-radius: 50%; box-shadow: inset 0 0 0 var(--f-hairline) currentColor; transition: box-shadow var(--f-andante) var(--f-exhale); }
+.f-msg-status[data-read] { box-shadow: inset 0 0 0 4px currentColor; }
+
+/* ── f-bubble ── the speech balloon is gone; only its tail is left */
+.f-bubble { position: relative; padding-inline-start: 0.9em; }
+.f-bubble::before { content: ""; position: absolute; inset-inline-start: 0.1em; top: 0.4em; width: var(--f-hairline); height: 0.85em; background: var(--f-ink); rotate: 38deg; transform-origin: 50% 0; }
+.f-bubble[data-align="end"] { padding-inline: 0 0.9em; }
+.f-bubble[data-align="end"]::before { inset-inline: auto 0.1em; rotate: -38deg; }
+.f-bubble[data-variant="ink"] { padding: 0.55em 0.95em 0.6em; background: var(--f-ink); color: var(--f-paper); }
+.f-bubble[data-variant="ink"]::before { inset-inline-start: 0.9em; top: 100%; height: 0.7em; }
+.f-bubble[data-variant="mark"] > p { display: inline; padding: 0 0.1em; background: var(--f-mark); color: var(--f-on-mark); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.f-reactions { display: flex; flex-wrap: wrap; gap: var(--f-space-2); }
+.f-reactions > .f-tag[aria-pressed="true"] { color: var(--f-ink); box-shadow: inset 0 0 0 var(--f-hairline) var(--f-ink); }
+.f-reactions > .f-tag[aria-pressed="true"] > :first-child { font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1; }
+.f-reaction-count { display: inline-block; color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+
+/* ── f-marker ── a quiet line in a conversation: a status, or a day */
+.f-marker { display: flex; align-items: center; gap: var(--f-space-3); font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-pencil); }
+.f-marker-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.f-marker[data-variant="divider"] { gap: var(--f-space-4); color: var(--f-graphite); }
+.f-marker[data-variant="divider"]::before, .f-marker[data-variant="divider"]::after { content: ""; flex: 1; height: var(--f-hairline); background: var(--f-rule-strong); }
+.f-marker[data-variant="divider"]::before { transform-origin: 100% 50%; }
+.f-marker[data-variant="divider"]::after { transform-origin: 0 50%; }
+.f-marker[data-arriving]::before, .f-marker[data-arriving]::after { animation: f-draw-x var(--f-andante) var(--f-exhale) backwards; }
+.f-marker[data-arriving] { animation: f-arrive var(--f-moderato) var(--f-exhale) backwards; }
+
+/* ── f-attach ── a file: its extension is its picture; a ring counts it in */
+.f-attachments { list-style: none; margin: 0; padding: 0; border-top: var(--f-hairline) solid var(--f-rule); }
+.f-attach { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--f-space-4); padding-block: var(--f-space-3); border-bottom: var(--f-hairline) solid var(--f-rule); }
+.f-attach-ext { font-size: var(--f-mf); line-height: 1; font-weight: 200; font-stretch: 125%; color: var(--f-ink); text-transform: lowercase; }
+.f-attach-body { display: grid; min-width: 0; }
+.f-attach-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); line-height: 1.3; color: var(--f-ink); }
+.f-attach-meta { font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+.f-attach-ring { width: 22px; height: 22px; overflow: visible; rotate: -90deg; }
+.f-attach-ring circle { fill: none; stroke-width: 1.5; }
+.f-attach-track { stroke: var(--f-rule); }
+.f-attach-arc { stroke: var(--f-ink); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 0)); transition: stroke-dashoffset var(--f-moderato) var(--f-breath), stroke var(--f-allegro); }
+.f-attach-ring .f-attach-fill { fill: var(--f-ink); stroke: none; r: 0; transition: r var(--f-moderato) var(--f-spiccato); }
+.f-attach[data-state="processing"] .f-attach-arc { --p: 1; stroke: var(--f-pencil); }
+.f-attach[data-state="done"] .f-attach-arc { --p: 1; }
+.f-attach[data-state="done"] .f-attach-fill { r: 5.5px; }
+.f-attach[data-state="error"] .f-attach-arc { stroke: var(--f-signal); }
+.f-attach[data-state="error"] .f-attach-meta { color: var(--f-signal); }
+.f-attach > .f-btn { font-size: var(--f-pp); }
+
+/* ── f-thread ── message scroller: it keeps to the latest; scrolled back, it counts what's new */
+.f-thread { position: relative; display: grid; }
+.f-thread-scroll { display: grid; align-content: safe end; gap: var(--f-space-6); height: 26rem; padding-block: var(--f-space-5); padding-inline-end: var(--f-space-3); }
+.f-thread-scroll > .f-msg[data-from="you"] { margin-inline-start: auto; }
+.f-thread-latest {
+  position: absolute; bottom: var(--f-space-4); left: 50%; translate: -50% 0;
+  display: inline-flex; align-items: baseline; gap: 0.35em; appearance: none; border: 0; margin: 0; padding: 0.3em 0.95em 0.36em; border-radius: 1em;
+  background: var(--f-ink); color: var(--f-paper); font: 500 var(--f-pp) / var(--f-pp-lh) var(--f-voice); cursor: pointer;
+  animation: f-land var(--f-moderato) var(--f-spiccato);
+}
+.f-thread-new { display: inline-block; font-variant-numeric: tabular-nums; }
+
+/* ── f-quest ── questions one at a time; your answers are written into one sentence */
+.f-quest { display: grid; gap: var(--f-space-6); }
+.f-quest-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--f-space-5); }
+.f-quest-head .f-fraction { font-size: var(--f-mf); }
+.f-quest-head .f-fraction > .f-yours { display: inline-block; }
+.f-quest-head progress { -webkit-appearance: none; appearance: none; width: 100%; height: var(--f-stroke); border: 0; background: var(--f-rule); color: var(--f-ink); }
+.f-quest-head progress::-webkit-progress-bar { background: var(--f-rule); }
+.f-quest-head progress::-webkit-progress-value { background: var(--f-ink); transition: inline-size var(--f-andante) var(--f-breath); }
+.f-quest-head progress::-moz-progress-bar { background: var(--f-ink); }
+.f-quest-step { display: grid; gap: var(--f-space-5); min-width: 0; }
+.f-quest-step[data-arriving] { animation: f-turn var(--f-andante) var(--f-exhale) backwards; }
+.f-quest-q { font-size: var(--f-f); line-height: var(--f-f-lh); letter-spacing: var(--f-f-tr); font-weight: 300; color: var(--f-ink); text-wrap: balance; }
+.f-quest-sentence { font-size: var(--f-mf); line-height: 1.35; letter-spacing: var(--f-mf-tr); font-weight: 300; color: var(--f-ink); text-wrap: pretty; }
+.f-quest-sentence > .f-yours { display: inline-block; animation: f-arrive var(--f-andante) var(--f-exhale) backwards; animation-delay: calc(200ms + var(--i, 0) * 4 * var(--f-arpeggio)); }
+.f-quest-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--f-space-5) var(--f-space-6); }
+.f-quest-actions > [data-variant="statement"] { margin-inline-start: auto; }
+
+/* ── f-alert ── a double bar: in a score, the sign that something changes here */
+.f-alert { --c: var(--f-ink); position: relative; display: grid; justify-items: start; gap: var(--f-space-2); padding-inline-start: calc(var(--f-space-5) + 5px); color: var(--f-graphite); }
+.f-alert::before {
+  content: ""; position: absolute; inset-block: 0.3em 0.2em; inset-inline-start: 0; width: 5px; transform-origin: 50% 0;
+  background: linear-gradient(var(--c), var(--c)) 0 0 / var(--f-hairline) 100% no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / var(--f-stroke) 100% no-repeat;
+}
+.f-alert-title { font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
+.f-alert[data-variant="danger"] { --c: var(--f-signal); }
+.f-alert[data-variant="danger"] .f-alert-title { color: var(--f-signal); }
+.f-alert-actions { display: flex; flex-wrap: wrap; gap: var(--f-space-5); margin-top: var(--f-space-2); }
+.f-alert[data-arriving]::before { animation: f-draw-y var(--f-andante) var(--f-exhale) backwards; }
+.f-alert[data-arriving] > * { animation: f-arrive var(--f-moderato) var(--f-exhale) backwards; animation-delay: calc(160ms + (sibling-index() - 1) * 2 * var(--f-arpeggio)); }
+
+/* ── f-skeleton ── baselines where the words will be */
+.f-skeleton { display: grid; }
+.f-skeleton > i { position: relative; display: block; width: var(--w, 100%); height: var(--lh, 1.7em); overflow: clip; background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 0 100% / 100% var(--f-hairline); }
+.f-skeleton > i::after { content: ""; position: absolute; inset: auto 0 0; height: var(--f-stroke); background: linear-gradient(90deg, transparent, var(--f-pencil) 50%, transparent) no-repeat -60% 0 / 30% 100%; }
+/* While it loads, a pencil stroke reads along each line in turn. */
+[aria-busy="true"] .f-skeleton > i::after { animation: f-read 1600ms var(--f-breath) infinite; animation-delay: calc(var(--i, 0) * 140ms); }
+@keyframes f-read { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+.f-skeleton-ring { width: var(--s, 2.75rem); height: var(--s, 2.75rem); border-radius: 50%; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); }
+@media (prefers-reduced-motion: reduce) { [aria-busy="true"] .f-skeleton > i::after { animation: none; } }
+
+/* ── f-date ── date picker: a date inside a sentence; the month hangs from it */
+.f-date {
+  appearance: none; border: 0; margin: 0; padding: 0 0 0.1em; cursor: pointer;
+  background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) no-repeat 0 100% / 100% var(--f-hairline);
+  color: var(--f-pencil); font: inherit; line-height: 1.2;
+  transition: background-color var(--f-allegro);
+}
+.f-date:hover { background-image: linear-gradient(var(--f-ink), var(--f-ink)); }
+.f-date[data-set] { color: var(--f-ink); font-family: var(--f-expression); font-style: italic; font-size: calc(var(--f-expression-scale) * 1em); }
+.f-pop > .f-month { width: min(21rem, 78vw); gap: var(--f-space-5); }
+.f-pop > .f-month .f-month-date { font-size: var(--f-f); }
+.f-pop > .f-month .f-month-grid { gap: var(--f-space-2); }
+.f-pop > .f-month .f-month-day { font-size: var(--f-pp); }
