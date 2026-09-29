@@ -1,0 +1,1460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fermata, a design system for type and silence</title>
+<meta name="description" content="Fermata is a type-led design system: two typefaces, one accent and a great deal of space.">
+<script>
+  // Before first paint: mode, key, and the flags the overture waits on.
+  (() => {
+    const d = document.documentElement;
+    let mode = null, key = null;
+    try { mode = localStorage.getItem("fermata-mode"); key = localStorage.getItem("fermata-key"); } catch {}
+    d.dataset.mode = mode || (matchMedia("(prefers-color-scheme: dark)").matches ? "nocturne" : "day");
+    if (key) d.dataset.key = key;
+    d.classList.add("js");
+    setTimeout(() => d.classList.add("ready"), 2500);     // fonts slow: play anyway
+    setTimeout(() => d.classList.add("flow-done"), 4000); // pretext slow: show the plain paragraph
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="fermata.css">
+<style>
+  /* Page layout for the specimen only. The system itself is tokens.css + fermata.css. */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
+  :root { --bar: 4rem; }
+  html { scroll-padding-top: calc(var(--bar) + var(--f-space-6)); }
+  body { overflow-x: clip; }
+
+  /* Twelve columns. 1–3 are the margin (names, notes), 4–12 the stave (the work). */
+  .overture, .movement {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--f-gutter);
+    padding-inline: var(--f-margin);
+  }
+  .m-head, .spec, .principle { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
+  .margin { grid-column: 1 / 4; }
+  .stave { grid-column: 4 / -1; min-width: 0; }
+
+  /* ── the bar ── */
+  .bar {
+    position: fixed; inset: 0 0 auto; z-index: 40; height: var(--bar);
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: var(--f-space-5);
+    padding-inline: var(--f-margin);
+    background: color-mix(in srgb, var(--f-paper) 90%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    box-shadow: inset 0 calc(-1 * var(--f-hairline)) 0 var(--f-rule);
+    font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-ink);
+  }
+  .bar-mark { justify-self: start; display: inline-flex; align-items: center; gap: var(--f-space-3); color: inherit; text-decoration: none; font-weight: 600; letter-spacing: 0.02em; }
+  .bar-mark svg { width: 20px; height: 13px; overflow: visible; }
+  .bar-now { display: flex; gap: var(--f-space-3); font-variant-numeric: tabular-nums; }
+  .bar-num { color: var(--f-pencil); }
+  .bar > .f-switch { justify-self: end; }
+  .bar-progress { position: absolute; left: 0; right: 0; bottom: 0; height: var(--f-hairline); background: var(--f-ink); transform-origin: 0 50%; scale: 0 1; }
+  @supports (animation-timeline: scroll()) {
+    .bar-progress { animation: f-page-read linear both; animation-timeline: scroll(root); }
+  }
+  @keyframes f-page-read { to { scale: 1 1; } }
+
+  /* ── the overture ── */
+  .overture { padding-top: calc(var(--bar) + var(--f-space-8)); padding-bottom: var(--f-space-7); align-content: start; }
+  .overture-title {
+    grid-column: 1 / -1; margin-left: -0.055em; white-space: nowrap;
+    font-size: var(--f-ffff); line-height: var(--f-ffff-lh); letter-spacing: var(--f-ffff-tr);
+    font-weight: 200; font-stretch: 112%; color: var(--f-ink);
+  }
+  .js:not(.ready) .overture-title { opacity: 0; }
+  .ready .overture-title { animation: f-exhale-title var(--f-adagio) var(--f-exhale) both; }
+  @keyframes f-exhale-title {
+    0%  { opacity: 0; font-weight: 800; font-stretch: 62%; }
+    15% { opacity: 1; }
+  }
+  .overture-def { grid-column: 1 / -1; margin-top: var(--f-space-6); font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
+  .overture-def .f-term { margin-right: 0.3em; color: var(--f-graphite); }
+  .flow-caption { grid-row: 3; align-self: start; margin-top: var(--f-space-9); max-width: 22ch; font-size: var(--f-pp); line-height: var(--f-pp-lh); color: var(--f-pencil); }
+  .flow, .manifesto { grid-row: 3; grid-column: 4 / 12; margin-top: var(--f-space-9); }
+  .flow { position: relative; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+  .flow-lines > span {
+    position: absolute; left: 0; top: 0; white-space: pre;
+    font-family: var(--f-voice); font-size: var(--size); line-height: var(--lh);
+    font-weight: 400; font-stretch: 100%; letter-spacing: 0; color: var(--f-ink);
+  }
+  .manifesto { max-width: 44em; font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
+  .js:not(.flow-done) .manifesto { visibility: hidden; }
+  .flow-mark { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  .flow-mark path { fill: none; stroke: var(--f-ink); stroke-linecap: round; }
+  .flow-mark circle { fill: var(--f-accent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .flow.intro .flow-lines > span { animation: f-line-in var(--f-andante) var(--f-exhale) both; animation-delay: calc(600ms + var(--i) * 40ms); }
+    .flow.intro .flow-mark path { animation: f-draw var(--f-adagio) var(--f-breath) 300ms both; }
+    .flow.intro .flow-mark circle { animation: f-drop var(--f-andante) var(--f-exhale) 1300ms both; }
+  }
+  @keyframes f-line-in { from { opacity: 0; } }
+  @keyframes f-draw { from { stroke-dashoffset: 1; } }
+  @keyframes f-drop { from { opacity: 0; translate: 0 -24px; } }
+  .overture-foot { grid-column: 1 / -1; margin-top: var(--f-space-9); }
+
+  /* ── movements ── */
+  .movement { padding-top: var(--f-space-10); }
+  .m-head { align-items: last baseline; margin-bottom: var(--f-space-7); }
+  .m-num { display: flex; align-items: center; gap: var(--f-space-4); font-size: var(--f-mp); font-weight: 500; color: var(--f-ink); }
+  .m-num::after { content: ""; flex: 1; height: var(--f-hairline); background: var(--f-rule-strong); }
+  .m-title { margin-left: -0.05em; font-size: var(--f-fff); line-height: var(--f-fff-lh); letter-spacing: var(--f-fff-tr); font-weight: 300; color: var(--f-ink); }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .m-title { animation: f-settle linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+    }
+  }
+  @keyframes f-settle { from { letter-spacing: 0.03em; } }
+  .m-lead { max-width: 40ch; margin-bottom: var(--f-space-8); font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-graphite); }
+
+  .spec { align-items: start; row-gap: var(--f-space-6); padding-block: var(--f-space-6) var(--f-space-8); border-top: var(--f-hairline) solid var(--f-rule); }
+  .spec-side { display: grid; align-content: start; gap: var(--f-space-3); }
+  .spec-name { font-size: var(--f-mp); line-height: var(--f-mp-lh); font-weight: 500; color: var(--f-ink); }
+  .spec-note { max-width: 30ch; font-size: var(--f-pp); line-height: var(--f-pp-lh); }
+  .spec-tokens { list-style: none; margin: var(--f-space-2) 0 0; padding: 0; font-size: var(--f-pp); line-height: 1.75; font-stretch: 85%; color: var(--f-pencil); }
+  .state-caption, .spec-states { padding-top: var(--f-space-5); }
+  .state-caption { font-size: var(--f-pp); color: var(--f-pencil); }
+  .spec-states { display: flex; flex-wrap: wrap; align-items: start; gap: var(--f-space-6) var(--f-space-7); border-top: var(--f-hairline) dotted var(--f-rule-strong); }
+  .state { display: grid; justify-items: start; gap: var(--f-space-3); }
+  .state-label { font-size: var(--f-pp); color: var(--f-pencil); }
+  .state :is(.f-ruler, .f-field) { width: 13rem; }
+
+  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--f-space-6) var(--f-space-7); }
+  .demo-stack { display: grid; justify-items: start; gap: var(--f-space-5); }
+  .demo-lead { font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
+  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--f-space-7); max-width: 52rem; }
+  .fields > .is-wide { grid-column: 1 / -1; }
+  .tally { font-size: var(--f-p); color: var(--f-pencil); font-variant-numeric: tabular-nums; }
+
+  /* I. Principles */
+  .principle { align-items: baseline; padding-block: var(--f-space-7); border-top: var(--f-hairline) solid var(--f-rule); }
+  .principle:last-of-type { border-bottom: var(--f-hairline) solid var(--f-rule); }
+  .principle-text { font-size: var(--f-ff); line-height: var(--f-ff-lh); letter-spacing: var(--f-ff-tr); font-weight: 300; color: var(--f-ink); text-wrap: balance; }
+  .principle-note { grid-row: 1; max-width: 28ch; font-size: var(--f-pp); line-height: var(--f-pp-lh); }
+  .stop { display: inline-block; width: 0.15em; height: 0.15em; margin-left: 0.05em; border-radius: 50%; background: var(--f-accent); }
+
+  /* II. Type */
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--f-space-8) var(--f-gutter); }
+  .pair-face { font-size: var(--f-ff); line-height: 1.05; letter-spacing: var(--f-ff-tr); font-weight: 300; color: var(--f-ink); }
+  .pair-glyphs { margin-top: var(--f-space-4); font-size: var(--f-mf); line-height: 1.3; word-spacing: 0.2em; color: var(--f-ink); }
+  .pair .is-yours { font-family: var(--f-expression); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+  .pair-face.is-yours { font-size: calc(var(--f-ff) * var(--f-expression-scale)); }
+  .pair-glyphs.is-yours { font-size: calc(var(--f-mf) * var(--f-expression-scale)); }
+  .pair-role { margin-top: var(--f-space-5); color: var(--f-ink); }
+  .pair-meta { font-size: var(--f-pp); color: var(--f-pencil); }
+  .axes-word { font-size: min(var(--f-fff), 15vw); line-height: 1.1; letter-spacing: -0.03em; white-space: nowrap; color: var(--f-ink); transition: font-stretch var(--f-allegro), font-weight var(--f-allegro); }
+  .axes-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--f-space-7) var(--f-space-8); max-width: 52rem; margin-top: var(--f-space-6); }
+  .axes-controls .f-ruler-value { font-size: var(--f-mf); }
+  .dyn { list-style: none; margin: 0; padding: 0; border-top: var(--f-hairline) solid var(--f-rule); }
+  .dyn > li { display: grid; grid-template-columns: 3.5rem 8.5rem 6.5rem minmax(0, 1fr); align-items: baseline; column-gap: var(--f-space-5); padding-block: var(--f-space-4); border-bottom: var(--f-hairline) solid var(--f-rule); }
+  .dyn-mark { font-family: var(--f-expression); font-style: italic; font-weight: 700; font-size: var(--f-mf); line-height: 1; letter-spacing: -0.02em; color: var(--f-ink); }
+  .dyn-term { color: var(--f-graphite); }
+  .dyn-spec { font-size: var(--f-pp); font-stretch: 85%; font-variant-numeric: tabular-nums; color: var(--f-pencil); }
+  .dyn-sample { min-width: 0; overflow: clip; white-space: nowrap; color: var(--f-ink); }
+  .dyn-sample.is-big { margin-right: calc(-1 * var(--f-margin)); font-weight: 300; }
+  .dyn-sample.is-cropped { height: 0.7em; }
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--f-space-6) var(--f-gutter); }
+  .rules > p { max-width: 34ch; padding-top: var(--f-space-3); border-top: var(--f-hairline) solid var(--f-ink); }
+  .rules b { font-weight: 500; color: var(--f-ink); }
+
+  /* III. Colour */
+  .swatches { list-style: none; margin: 0; padding: 0; border-top: var(--f-hairline) solid var(--f-rule); }
+  .swatch { display: grid; grid-template-columns: minmax(0, 1fr) 7rem 5rem minmax(0, 15rem); align-items: baseline; column-gap: var(--f-space-5); padding-block: var(--f-space-4) var(--f-space-5); border-bottom: var(--f-hairline) solid var(--f-rule); }
+  .swatch-head { padding-block: 0 var(--f-space-2); border: 0; font-size: var(--f-pp); color: var(--f-pencil); }
+  .swatch-word { justify-self: start; font-size: var(--f-ff); line-height: 1; letter-spacing: var(--f-ff-tr); font-weight: 300; }
+  .swatch-word.is-paper { padding: 0.02em 0.14em 0.1em; background: var(--f-ink); color: var(--f-paper); }
+  mark.swatch-word { padding: 0 0.1em; }
+  .swatch-word.is-rule { display: flex; align-items: center; gap: 0.25em; justify-self: stretch; color: var(--f-ink); }
+  .swatch-word.is-rule::after { content: ""; flex: 1; height: var(--f-hairline); background: var(--f-rule); }
+  .swatch-hex, .swatch-ratio { font-size: var(--f-pp); font-variant-numeric: tabular-nums; color: var(--f-pencil); }
+  .swatch-role { font-size: var(--f-pp); line-height: var(--f-pp-lh); }
+
+  /* IV. Space & line */
+  .dims { display: grid; gap: var(--f-space-4); }
+  .dim { display: grid; grid-template-columns: 7rem 3rem minmax(0, 1fr); align-items: center; column-gap: var(--f-space-4); font-size: var(--f-pp); font-variant-numeric: tabular-nums; color: var(--f-pencil); }
+  .dim-line {
+    width: var(--w); height: 9px;
+    background:
+      linear-gradient(var(--f-ink), var(--f-ink)) 0 50% / 100% var(--f-hairline) no-repeat,
+      linear-gradient(var(--f-ink), var(--f-ink)) 0 0 / var(--f-hairline) 100% no-repeat,
+      linear-gradient(var(--f-ink), var(--f-ink)) 100% 0 / var(--f-hairline) 100% no-repeat;
+  }
+  .shapes { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: var(--f-space-7) var(--f-gutter); margin: 0; }
+  .shape { display: grid; justify-items: start; gap: var(--f-space-4); margin: 0; }
+  .shape svg { width: 64px; height: 64px; overflow: visible; }
+  .shape svg :is(line, path, circle, rect) { fill: none; stroke: var(--f-ink); stroke-width: 1.5; }
+  .shape .is-fill { fill: var(--f-ink); stroke: none; }
+  .shape .is-accent { fill: var(--f-accent); stroke: none; }
+  .shape-glyph { display: grid; place-items: center start; height: 64px; font-size: 3rem; font-weight: 200; line-height: 1; color: var(--f-ink); }
+  .shape figcaption { font-size: var(--f-pp); line-height: var(--f-pp-lh); max-width: 20ch; }
+  .shape figcaption b { display: block; font-weight: 500; color: var(--f-ink); }
+
+  /* V. Tempo: CSS only, a dot crosses its track at the row's tempo */
+  .tempo { list-style: none; margin: 0; padding: 0; border-top: var(--f-hairline) solid var(--f-rule); }
+  .tempo > li { display: grid; grid-template-columns: 8rem 7rem 11rem minmax(0, 1fr); align-items: center; column-gap: var(--f-space-5); padding-block: var(--f-space-5); border-bottom: var(--f-hairline) solid var(--f-rule); }
+  .tempo-name { font-size: var(--f-mp); color: var(--f-ink); }
+  .tempo-ms, .tempo-use { font-size: var(--f-pp); font-variant-numeric: tabular-nums; }
+  .tempo-ms { color: var(--f-pencil); }
+  .tempo-track { container-type: inline-size; height: 12px; background: linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) 0 50% / 100% var(--f-hairline) no-repeat; }
+  .tempo-track > i { display: block; width: 9px; height: 9px; margin-top: 1.5px; border-radius: 50%; background: var(--f-ink); transition: translate var(--t) var(--e); }
+  .tempo > li:hover .tempo-track > i { translate: calc(100cqi - 9px) 0; }
+
+  /* VIII. Wayfinding */
+  .f-rows-kind { color: var(--f-graphite); }
+  .nav-demo { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--f-space-7) var(--f-space-9); }
+  .month-out { margin-top: var(--f-space-6); font-size: var(--f-mp); line-height: var(--f-mp-lh); color: var(--f-ink); }
+  .tags { display: flex; flex-wrap: wrap; gap: var(--f-space-3); }
+
+  /* IX. Tokens */
+  .tokens { width: 100%; border-collapse: collapse; font-size: var(--f-pp); font-variant-numeric: tabular-nums; }
+  .tokens :is(th, td) { padding: 0.6em var(--f-space-4) 0.6em 0; border-bottom: var(--f-hairline) solid var(--f-rule); text-align: left; font-weight: 400; vertical-align: baseline; }
+  .tokens th[scope="rowgroup"] { padding-top: var(--f-space-7); border-bottom-color: var(--f-ink); font-size: var(--f-mp); color: var(--f-ink); }
+  .tokens tbody:first-of-type th[scope="rowgroup"] { padding-top: 0; }
+  .tok { appearance: none; border: 0; margin: 0; padding: 0 0.1em; background: none; font: inherit; font-stretch: 88%; color: var(--f-ink); cursor: copy; transition: background-color var(--f-allegro); }
+  .tok:hover { background: var(--f-mark); color: var(--f-on-mark); }
+  .tok-val { color: var(--f-graphite); overflow-wrap: anywhere; }
+  .tok-sample { width: 12rem; }
+  .tok-sample i { display: inline-block; width: 1.1em; height: 1.1em; border-radius: 50%; box-shadow: inset 0 0 0 var(--f-hairline) var(--f-rule-strong); vertical-align: -0.2em; }
+  .tok-sample .bar-w { display: inline-block; width: var(--w); height: var(--f-hairline); background: var(--f-ink); vertical-align: middle; }
+
+  /* Coda */
+  .coda { padding: var(--f-space-10) var(--f-margin) var(--f-space-6); }
+  .coda-fine { margin-bottom: var(--f-space-8); text-align: right; font-family: var(--f-expression); font-style: italic; font-weight: 400; font-size: var(--f-ffff); line-height: 1; letter-spacing: -0.02em; color: var(--f-ink); }
+
+  /* The grid overlay: press G */
+  .grid-overlay { position: fixed; inset: 0; z-index: 60; pointer-events: none; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--f-gutter); padding-inline: var(--f-margin); }
+  .grid-overlay[hidden] { display: none; }
+  .grid-overlay > i { background: color-mix(in srgb, var(--f-accent) 7%, transparent); }
+  .grid-overlay > i:nth-child(-n + 3) { background: color-mix(in srgb, var(--f-accent) 3.5%, transparent); }
+
+  @media (max-width: 860px) {
+    .overture, .movement, .grid-overlay { grid-template-columns: minmax(0, 1fr); }
+    .margin, .stave, .overture > *, .m-head > *, .spec > *, .principle > * { grid-column: 1 / -1; }
+    .grid-overlay > i:nth-child(n + 2) { display: none; }
+    .flow-caption { grid-row: 3; margin-top: var(--f-space-8); }
+    .flow, .manifesto { grid-row: 4; margin-top: var(--f-space-6); }
+    .overture-foot { grid-row: 5; }
+    .m-num { margin-bottom: var(--f-space-4); }
+    .principle-note { grid-row: 2; margin-top: var(--f-space-4); }
+    .spec { row-gap: var(--f-space-5); }
+    .dyn > li { grid-template-columns: 3rem minmax(0, 1fr) auto; row-gap: var(--f-space-2); }
+    .dyn-sample { grid-column: 1 / -1; }
+    .swatch { grid-template-columns: auto auto minmax(0, 1fr); row-gap: var(--f-space-2); }
+    .swatch-word, .swatch-role { grid-column: 1 / -1; }
+    .swatch-head { display: none; }
+    .tempo > li { grid-template-columns: 7rem 6rem minmax(0, 1fr); row-gap: var(--f-space-3); }
+    .tempo-track { grid-column: 1 / -1; }
+    .f-rows a { column-gap: var(--f-space-4); }
+    .dim { grid-template-columns: 6.5rem minmax(0, 1fr); }
+    .dim > :nth-child(2) { display: none; } /* the 200px step needs the room */
+    .tok-sample { display: none; }
+    .f-meta { flex-wrap: wrap; }
+  }
+  @media (max-width: 560px) {
+    .bar-now { display: none; }
+    .bar { grid-template-columns: 1fr auto; }
+    .m-title { font-size: clamp(2.75rem, 14vw, 4rem); }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="bar-mark" href="#top" aria-label="Fermata, back to the top">
+    <svg viewBox="0 0 20 13" aria-hidden="true"><path d="M1.5 11.5 A8.5 8.5 0 0 1 18.5 11.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="10.2" r="1.7" fill="currentColor"/></svg>
+    <span>Fermata</span>
+  </a>
+  <p class="bar-now"><span class="bar-num"></span><span class="bar-name">Overture</span></p>
+  <label class="f-switch"><input type="checkbox" role="switch" id="mode" aria-label="Nocturne"> Nocturne is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
+  <div class="bar-progress" aria-hidden="true"></div>
+</header>
+
+<main>
+
+<section class="overture" id="top" data-movement="Overture" data-num="" aria-labelledby="title">
+  <h1 class="overture-title" id="title">Fermata</h1>
+  <p class="overture-def"><i class="f-term">noun, in music.</i> A pause held for as long as it needs.</p>
+  <p class="flow-caption margin">The pause goes where you point, and stays where you leave it.</p>
+  <div class="flow" aria-hidden="true">
+    <svg class="flow-mark" viewBox="-100 -100 200 200"><path d="M -58 29 A 58 58 0 0 1 58 29" pathLength="1" stroke-dasharray="1"/><circle cx="0" cy="17" r="7"/></svg>
+    <div class="flow-lines"></div>
+  </div>
+  <p class="manifesto">Most interfaces talk over you. Fermata waits. It is a design system made of two typefaces, one colour and a great deal of space, for work that is read slowly and used for hours. There are no boxes to fill and no icons to decode. A checkbox is a sentence you strike through. A switch is the last word of a sentence, and you choose it. Everything the interface says is set upright in Archivo; everything you say back arrives in Bodoni italic, so your words are never mistaken for ours. Colour appears once, to show where you are. Motion answers you, then rests. What remains is the space between the notes, and that is where the reading happens.</p>
+  <div class="f-meta overture-foot"><span>A design system for type and silence</span><hr><span>Version 0.1</span><hr><span>September 2026</span></div>
+</section>
+
+<!-- I -->
+<section class="movement" id="principles" data-movement="Principles" data-num="I" aria-labelledby="m1">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">I</p><h2 class="m-title stave" id="m1">Principles</h2></header>
+  <p class="m-lead stave">Five rules. Every component below follows all of them.</p>
+  <div class="principle">
+    <h3 class="principle-text stave">Silence is structure.</h3>
+    <p class="principle-note margin">Space does the layout. A hairline appears only where space alone can't hold two things apart.</p>
+  </div>
+  <div class="principle">
+    <h3 class="principle-text stave">Type is the only ornament.</h3>
+    <p class="principle-note margin">Weight, width, size, tracking and order carry every level of hierarchy. There are no icons, fills or shadows to fall back on.</p>
+  </div>
+  <div class="principle">
+    <h3 class="principle-text stave">Ours in roman, <span class="f-yours">yours in italic.</span></h3>
+    <p class="principle-note margin">The interface speaks upright, in Archivo. Whatever you choose or type answers in Bodoni italic, the way a score sets <i class="f-term" lang="it">dolce</i> apart from its notes.</p>
+  </div>
+  <div class="principle">
+    <h3 class="principle-text stave">One note of colour<span class="stop"><span class="f-sr">.</span></span></h3>
+    <p class="principle-note margin">A single accent marks where you are: the current page, the chosen option, the focused field. The rest is ink and paper.</p>
+  </div>
+  <div class="principle">
+    <h3 class="principle-text stave">Nothing moves unless you do.</h3>
+    <p class="principle-note margin">Motion answers a hand and then rests. The overture at the top is the one thing that plays by itself, once.</p>
+  </div>
+</section>
+
+<!-- II -->
+<section class="movement" id="type" data-movement="Type" data-num="II" aria-labelledby="m2">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">II</p><h2 class="m-title stave" id="m2">Type</h2></header>
+  <p class="m-lead stave">Two typefaces with different jobs, a scale borrowed from music, and a handful of house rules.</p>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">The pair</h3>
+      <p class="spec-note">One grotesque, one didone. The expression is set 15% larger so the two x-heights meet on the line.</p>
+      <ul class="spec-tokens"><li>--f-voice</li><li>--f-expression</li><li>--f-expression-scale</li></ul>
+    </div>
+    <div class="pair stave">
+      <div>
+        <p class="pair-face">Archivo</p>
+        <p class="pair-glyphs">Aa Gg Rr &amp; 0123456789</p>
+        <p class="pair-role">The voice. Everything the interface says.</p>
+        <p class="pair-meta">Omnibus-Type. Width 62–125, weight 100–900.</p>
+      </div>
+      <div>
+        <p class="pair-face is-yours">Bodoni Moda</p>
+        <p class="pair-glyphs is-yours">Aa Gg Rr &amp; 0123456789</p>
+        <p class="pair-role">The expression. Everything you say back.</p>
+        <p class="pair-meta">Owen Earl, after Bodoni. Optical size 6–96.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Width and weight</h3>
+      <p class="spec-note">Archivo's width axis is a design tool. Condensed and heavy holds a breath; wide and light lets it go.</p>
+    </div>
+    <div class="stave">
+      <p class="axes-word" id="axes-word">Silence</p>
+      <div class="axes-controls">
+        <div class="f-ruler">
+          <label class="f-label" for="axis-width">Width</label>
+          <output class="f-ruler-value" for="axis-width">100</output>
+          <input type="range" id="axis-width" min="62" max="125" value="100">
+          <div class="f-ruler-scale" aria-hidden="true"><span style="--n: 0">62</span><span style="--n: 1">125</span></div>
+        </div>
+        <div class="f-ruler">
+          <label class="f-label" for="axis-weight">Weight</label>
+          <output class="f-ruler-value" for="axis-weight">400</output>
+          <input type="range" id="axis-weight" min="100" max="900" step="10" value="400">
+          <div class="f-ruler-scale" aria-hidden="true"><span style="--n: 0">100</span><span style="--n: .25">300</span><span style="--n: .5">500</span><span style="--n: .75">700</span><span style="--n: 1">900</span></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Dynamics</h3>
+      <p class="spec-note">Text steps by a fourth, headings by a fifth. As the size grows, tracking tightens and leading closes.</p>
+      <ul class="spec-tokens"><li>--f-pp … --f-ffff</li><li>-lh, -tr for each</li></ul>
+    </div>
+    <ol class="dyn stave">
+      <li><span class="dyn-mark">pp</span><span class="f-term dyn-term" lang="it">pianissimo</span><span class="dyn-spec">13 / 1.45</span><span class="dyn-sample f-pp">Captions, labels and the small print</span></li>
+      <li><span class="dyn-mark">p</span><span class="f-term dyn-term" lang="it">piano</span><span class="dyn-spec">17 / 1.6</span><span class="dyn-sample f-p">Body text, held to a sixty-two character measure</span></li>
+      <li><span class="dyn-mark">mp</span><span class="f-term dyn-term" lang="it">mezzo-piano</span><span class="dyn-spec">22 / 1.45</span><span class="dyn-sample f-mp">A lead paragraph, the first thing read</span></li>
+      <li><span class="dyn-mark">mf</span><span class="f-term dyn-term" lang="it">mezzo-forte</span><span class="dyn-spec">32 / 1.15</span><span class="dyn-sample f-mf">A heading inside a section</span></li>
+      <li><span class="dyn-mark">f</span><span class="f-term dyn-term" lang="it">forte</span><span class="dyn-spec">48 / 1.05</span><span class="dyn-sample f-f">A section heading</span></li>
+      <li><span class="dyn-mark">ff</span><span class="f-term dyn-term" lang="it">fortissimo</span><span class="dyn-spec">72 / 0.95</span><span class="dyn-sample f-ff is-big">A page title</span></li>
+      <li><span class="dyn-mark">fff</span><span class="f-term dyn-term" lang="it">fortississimo</span><span class="dyn-spec">64–160 / 0.9</span><span class="dyn-sample f-fff is-big">Movement</span></li>
+      <li><span class="dyn-mark">ffff</span><span class="f-term dyn-term" lang="it">tutta forza</span><span class="dyn-spec">64–272 / 0.82</span><span class="dyn-sample f-ffff is-big is-cropped">Overture</span></li>
+    </ol>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin"><h3 class="spec-name">House rules</h3></div>
+    <div class="rules stave">
+      <p><b>Sentence case.</b> Capitals are for names and the first word. No labels in capitals, ever.</p>
+      <p><b>Italic is theirs.</b> A chosen option, a typed value, a state someone set. Also musical and foreign terms, as books have always done.</p>
+      <p><b>Tracking follows size.</b> Small text opens a little; display type closes in. Nothing is tracked for decoration.</p>
+      <p><b>Sixty-two characters.</b> Body text holds its measure. Long lines belong to display type.</p>
+      <p><b>Figures that change sit still.</b> Counters and times use tabular figures, so nothing jitters as it counts.</p>
+      <p><b>Real punctuation.</b> Curly quotes, true apostrophes, and an en dash for ranges like 6–96.</p>
+    </div>
+  </article>
+</section>
+
+<!-- III -->
+<section class="movement" id="colour" data-movement="Colour" data-num="III" aria-labelledby="m3">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">III</p><h2 class="m-title stave" id="m3">Colour</h2></header>
+  <p class="m-lead stave">Ink and paper do almost everything. One accent says where you are, crimson says something's wrong, and the highlighter is for reading.</p>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Palette</h3>
+      <p class="spec-note">Contrast is measured live against the paper, so it follows the key and Nocturne.</p>
+    </div>
+    <div class="stave">
+      <div class="swatch swatch-head" aria-hidden="true"><span></span><span>Value</span><span>Contrast</span><span>Use</span></div>
+      <ul class="swatches" id="swatches">
+        <li class="swatch" data-token="--f-ink" data-fg="--f-ink" data-bg="--f-paper"><span class="swatch-word" style="color: var(--f-ink)">Ink</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Headings, display type and the statement button.</span></li>
+        <li class="swatch" data-token="--f-graphite" data-fg="--f-graphite" data-bg="--f-paper"><span class="swatch-word" style="color: var(--f-graphite)">Graphite</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Body text. The voice at speaking volume.</span></li>
+        <li class="swatch" data-token="--f-pencil" data-fg="--f-pencil" data-bg="--f-paper"><span class="swatch-word" style="color: var(--f-pencil)">Pencil</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Placeholders, captions, and whatever is done or off.</span></li>
+        <li class="swatch" data-token="--f-accent" data-fg="--f-accent" data-bg="--f-paper"><span class="swatch-word" style="color: var(--f-accent)" id="accent-name">Ultramarine</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Where you are: the current page, the chosen option, focus. Once per view.</span></li>
+        <li class="swatch" data-token="--f-signal" data-fg="--f-signal" data-bg="--f-paper"><span class="swatch-word" style="color: var(--f-signal)">Crimson</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Errors, and nothing else.</span></li>
+        <li class="swatch" data-token="--f-mark" data-fg="--f-on-mark" data-bg="--f-mark"><mark class="swatch-word">Highlighter</mark><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Selection, link hover, and the marks you make while reading.</span></li>
+        <li class="swatch" data-token="--f-paper" data-fg="--f-paper" data-bg="--f-ink"><span class="swatch-word is-paper">Paper</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">The page. Reversed out of ink, it is the heaviest emphasis there is.</span></li>
+        <li class="swatch" data-token="--f-rule" data-fg="--f-rule" data-bg="--f-paper"><span class="swatch-word is-rule">Rule</span><span class="swatch-hex"></span><span class="f-sr">Contrast</span><span class="swatch-ratio"></span><span class="swatch-role">Hairlines between rows. Meant to be barely there.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Key</h3>
+      <p class="spec-note">The accent can change; the rule doesn't. Every key clears 4.5:1 on paper, by day and in Nocturne.</p>
+      <ul class="spec-tokens"><li>data-key on &lt;html&gt;</li></ul>
+    </div>
+    <div class="stave">
+      <fieldset class="f-choice" id="key">
+        <legend class="f-label">Key</legend>
+        <label data-text="Ultramarine"><input type="radio" name="key" value="ultramarine"><span>Ultramarine</span></label>
+        <label data-text="Viridian"><input type="radio" name="key" value="viridian"><span>Viridian</span></label>
+        <label data-text="Ember"><input type="radio" name="key" value="ember"><span>Ember</span></label>
+        <label data-text="Violet"><input type="radio" name="key" value="violet"><span>Violet</span></label>
+        <span class="f-choice-dot" aria-hidden="true"></span>
+      </fieldset>
+    </div>
+  </article>
+</section>
+
+<!-- IV -->
+<section class="movement" id="space" data-movement="Space and line" data-num="IV" aria-labelledby="m4">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">IV</p><h2 class="m-title stave" id="m4">Space &amp; line</h2></header>
+  <p class="m-lead stave">Space is the main material. Lines and shapes come in only when space can't say it.</p>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Spacing</h3>
+      <p class="spec-note">Ten steps, each a perfect fifth above the last. The headings climb by the same interval.</p>
+    </div>
+    <div class="dims stave">
+      <div class="dim" style="--w: var(--f-space-1)"><span>--f-space-1</span><span>4</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-2)"><span>--f-space-2</span><span>8</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-3)"><span>--f-space-3</span><span>12</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-4)"><span>--f-space-4</span><span>18</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-5)"><span>--f-space-5</span><span>27</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-6)"><span>--f-space-6</span><span>40</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-7)"><span>--f-space-7</span><span>60</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-8)"><span>--f-space-8</span><span>90</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-9)"><span>--f-space-9</span><span>135</span><span class="dim-line"></span></div>
+      <div class="dim" style="--w: var(--f-space-10)"><span>--f-space-10</span><span>200</span><span class="dim-line"></span></div>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Grid</h3>
+      <p class="spec-note">Twelve columns and 24px gutters, with margins that grow with the window. The first three columns hold names and notes; the rest is the stave.</p>
+      <ul class="spec-tokens"><li>--f-gutter</li><li>--f-margin</li><li>--f-measure</li></ul>
+    </div>
+    <div class="demo-stack stave">
+      <p class="demo-lead">Press <kbd class="f-kbd">G</kbd> anywhere to lay the grid over the page.</p>
+      <button class="f-btn" data-variant="quiet" type="button" id="grid-toggle">Show the grid</button>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Shapes</h3>
+      <p class="spec-note">The whole vocabulary. If it isn't here, it's type.</p>
+      <ul class="spec-tokens"><li>--f-hairline</li><li>--f-stroke</li><li>--f-dot</li></ul>
+    </div>
+    <div class="shapes stave">
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="0" y1="32" x2="64" y2="32"/></svg><figcaption><b>Hairline</b>Divides, when space can't.</figcaption></figure>
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="is-accent" cx="32" cy="32" r="4"/></svg><figcaption><b>Dot</b>Marks now, and where you are.</figcaption></figure>
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="12"/></svg><figcaption><b>Ring</b>Marks what's still to come.</figcaption></figure>
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 42 A20 20 0 0 1 52 42"/><circle class="is-fill" cx="32" cy="38" r="3"/></svg><figcaption><b>Arc</b>Holds a pause.</figcaption></figure>
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 16 V48 M16 32 H48"/></svg><figcaption><b>Cross</b>A point on the grid.</figcaption></figure>
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 20 V8 H20 M44 8 H56 V20 M56 44 V56 H44 M20 56 H8 V44"/></svg><figcaption><b>Corners</b>Frame a space without closing it.</figcaption></figure>
+      <figure class="shape"><span class="shape-glyph" aria-hidden="true">(&#8202;&#8202;)</span><figcaption><b>Parentheses</b>Hold a secondary action.</figcaption></figure>
+      <figure class="shape"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="22" width="56" height="20" rx="10"/></svg><figcaption><b>Pill</b>The one rounded box, for tags.</figcaption></figure>
+      <figure class="shape"><span class="shape-glyph" aria-hidden="true">↗</span><figcaption><b>Arrow</b>Only where there's a direction.</figcaption></figure>
+    </div>
+  </article>
+</section>
+
+<!-- V -->
+<section class="movement" id="tempo" data-movement="Tempo" data-num="V" aria-labelledby="m5">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">V</p><h2 class="m-title stave" id="m5">Tempo</h2></header>
+  <p class="m-lead stave">Four speeds and two curves. Point at a row to watch it play.</p>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Speeds</h3>
+      <p class="spec-note">Under reduced motion every tempo becomes a millisecond. Things still change; they just don't travel.</p>
+    </div>
+    <ul class="tempo stave">
+      <li style="--t: var(--f-allegro); --e: var(--f-exhale)"><span class="f-term tempo-name" lang="it">allegro</span><span class="tempo-ms">160 ms</span><span class="tempo-use">Hover and press</span><span class="tempo-track" aria-hidden="true"><i></i></span></li>
+      <li style="--t: var(--f-moderato); --e: var(--f-exhale)"><span class="f-term tempo-name" lang="it">moderato</span><span class="tempo-ms">320 ms</span><span class="tempo-use">A state changes</span><span class="tempo-track" aria-hidden="true"><i></i></span></li>
+      <li style="--t: var(--f-andante); --e: var(--f-exhale)"><span class="f-term tempo-name" lang="it">andante</span><span class="tempo-ms">640 ms</span><span class="tempo-use">Panels, toasts, dialogs</span><span class="tempo-track" aria-hidden="true"><i></i></span></li>
+      <li style="--t: var(--f-adagio); --e: var(--f-exhale)"><span class="f-term tempo-name" lang="it">adagio</span><span class="tempo-ms">1400 ms</span><span class="tempo-use">The overture, once</span><span class="tempo-track" aria-hidden="true"><i></i></span></li>
+    </ul>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Curves</h3>
+      <p class="spec-note">Exhale arrives fast and settles slowly. Breath eases in and out, for moving between two states.</p>
+    </div>
+    <ul class="tempo stave">
+      <li style="--t: var(--f-adagio); --e: var(--f-exhale)"><span class="tempo-name">Exhale</span><span class="tempo-ms">.16, 1, .3, 1</span><span class="tempo-use">Arriving</span><span class="tempo-track" aria-hidden="true"><i></i></span></li>
+      <li style="--t: var(--f-adagio); --e: var(--f-breath)"><span class="tempo-name">Breath</span><span class="tempo-ms">.65, 0, .35, 1</span><span class="tempo-use">Moving between states</span><span class="tempo-track" aria-hidden="true"><i></i></span></li>
+    </ul>
+  </article>
+</section>
+
+<!-- VI -->
+<section class="movement" id="controls" data-movement="Controls" data-num="VI" aria-labelledby="m6">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">VI</p><h2 class="m-title stave" id="m6">Controls</h2></header>
+  <p class="m-lead stave">Every control is a native element dressed as type, so it works with a keyboard, a screen reader and a finger, as the browser intended.</p>
+
+  <article class="spec" id="button">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Button</h3>
+      <p class="spec-note">Three voices. A statement is reversed type in an ink block, one per view; its letters widen when you point at it. Brackets hold a secondary action and step apart. A quiet button is only a line, and the line redraws.</p>
+      <ul class="spec-tokens"><li>--f-ink</li><li>--f-paper</li><li>--f-moderato</li><li>--f-exhale</li></ul>
+    </div>
+    <div class="demo-row stave">
+      <button class="f-btn" data-variant="statement" data-size="l" type="button">Start a project</button>
+      <button class="f-btn" data-variant="bracket" type="button">Save draft</button>
+      <button class="f-btn" data-variant="quiet" type="button">View the work</button>
+    </div>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave" inert>
+      <div class="state"><span class="state-label">Statement</span><button class="f-btn" data-variant="statement">Start</button></div>
+      <div class="state"><span class="state-label">Pointed at</span><button class="f-btn" data-variant="statement" data-force="hover">Start</button></div>
+      <div class="state"><span class="state-label">Focus</span><button class="f-btn" data-variant="statement" data-force="focus">Start</button></div>
+      <div class="state"><span class="state-label">Disabled</span><button class="f-btn" data-variant="statement" disabled>Start</button></div>
+      <div class="state"><span class="state-label">Bracket</span><button class="f-btn" data-variant="bracket">Save</button></div>
+      <div class="state"><span class="state-label">Pointed at</span><button class="f-btn" data-variant="bracket" data-force="hover">Save</button></div>
+      <div class="state"><span class="state-label">Quiet</span><button class="f-btn" data-variant="quiet">View</button></div>
+      <div class="state"><span class="state-label">Pointed at</span><button class="f-btn" data-variant="quiet" data-force="hover">View</button></div>
+    </div>
+  </article>
+
+  <article class="spec" id="checkbox">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Checkbox</h3>
+      <p class="spec-note">No box. The words are the control; checking strikes them through in the accent, left to right, and unchecking lifts the line away. Space toggles.</p>
+      <ul class="spec-tokens"><li>--f-accent</li><li>--f-stroke</li><li>--f-pencil</li><li>--f-moderato</li></ul>
+    </div>
+    <div class="demo-stack stave">
+      <fieldset class="f-checklist" id="checklist">
+        <legend class="f-label">Before we start</legend>
+        <label class="f-check"><input type="checkbox" checked><span>Share the brief</span></label>
+        <label class="f-check"><input type="checkbox" checked><span>Agree the scope</span></label>
+        <label class="f-check"><input type="checkbox"><span>Book a first call</span></label>
+        <label class="f-check"><input type="checkbox"><span>Send the references</span></label>
+        <label class="f-check"><input type="checkbox"><span>Sign the proposal</span></label>
+      </fieldset>
+      <p class="tally" id="tally" aria-live="polite"></p>
+    </div>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave" inert>
+      <div class="state"><span class="state-label">Rest</span><label class="f-check"><input type="checkbox"><span>Agree the scope</span></label></div>
+      <div class="state"><span class="state-label">Pointed at</span><label class="f-check" data-force="hover"><input type="checkbox"><span>Agree the scope</span></label></div>
+      <div class="state"><span class="state-label">Focus</span><label class="f-check" data-force="focus"><input type="checkbox"><span>Agree the scope</span></label></div>
+      <div class="state"><span class="state-label">Checked</span><label class="f-check"><input type="checkbox" checked><span>Agree the scope</span></label></div>
+      <div class="state"><span class="state-label">Disabled</span><label class="f-check"><input type="checkbox" disabled><span>Agree the scope</span></label></div>
+    </div>
+  </article>
+
+  <article class="spec" id="radio">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Radio</h3>
+      <p class="spec-note">Words in a row. The one you choose turns italic, because it's yours now, and one dot moves beneath it. Arrow keys move the choice.</p>
+      <ul class="spec-tokens"><li>--f-expression</li><li>--f-accent</li><li>--f-dot</li><li>--f-breath</li></ul>
+    </div>
+    <div class="stave">
+      <fieldset class="f-choice">
+        <legend class="f-label">Timeline</legend>
+        <label data-text="Two weeks"><input type="radio" name="timeline" value="two-weeks"><span>Two weeks</span></label>
+        <label data-text="A month"><input type="radio" name="timeline" value="month" checked><span>A month</span></label>
+        <label data-text="A season"><input type="radio" name="timeline" value="season"><span>A season</span></label>
+        <span class="f-choice-dot" aria-hidden="true"></span>
+      </fieldset>
+    </div>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave" inert>
+      <div class="state"><span class="state-label">Rest</span><fieldset class="f-choice"><label data-text="A month"><input type="radio" name="s-radio-1"><span>A month</span></label><span class="f-choice-dot"></span></fieldset></div>
+      <div class="state"><span class="state-label">Pointed at</span><fieldset class="f-choice"><label data-text="A month" data-force="hover"><input type="radio" name="s-radio-2"><span>A month</span></label><span class="f-choice-dot"></span></fieldset></div>
+      <div class="state"><span class="state-label">Focus</span><fieldset class="f-choice"><label data-text="A month" data-force="focus"><input type="radio" name="s-radio-3"><span>A month</span></label><span class="f-choice-dot"></span></fieldset></div>
+      <div class="state"><span class="state-label">Chosen</span><fieldset class="f-choice"><label data-text="A month"><input type="radio" name="s-radio-4" checked><span>A month</span></label><span class="f-choice-dot"></span></fieldset></div>
+      <div class="state"><span class="state-label">Disabled</span><fieldset class="f-choice"><label data-text="A month"><input type="radio" name="s-radio-5" disabled><span>A month</span></label><span class="f-choice-dot"></span></fieldset></div>
+    </div>
+  </article>
+
+  <article class="spec" id="switch">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Switch</h3>
+      <p class="spec-note">A sentence, and you choose its last word. The state rolls between on and off in italic. Underneath, a native checkbox with the switch role.</p>
+      <ul class="spec-tokens"><li>--f-expression</li><li>--f-pencil</li><li>--f-moderato</li></ul>
+    </div>
+    <div class="demo-stack f-mp stave">
+      <label class="f-switch"><input type="checkbox" role="switch" checked aria-label="Email notifications"> Email notifications are <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
+      <label class="f-switch"><input type="checkbox" role="switch" checked aria-label="Autosave"> Autosave is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
+      <label class="f-switch"><input type="checkbox" role="switch" aria-label="Sounds"> Sounds are <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span>.</label>
+    </div>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave" inert>
+      <div class="state"><span class="state-label">On</span><label class="f-switch"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
+      <div class="state"><span class="state-label">Off</span><label class="f-switch"><input type="checkbox" role="switch"> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
+      <div class="state"><span class="state-label">Pointed at</span><label class="f-switch" data-force="hover"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
+      <div class="state"><span class="state-label">Focus</span><label class="f-switch" data-force="focus"><input type="checkbox" role="switch" checked> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
+      <div class="state"><span class="state-label">Disabled</span><label class="f-switch"><input type="checkbox" role="switch" disabled> Autosave is <span class="f-switch-state"><span>on</span><span>off</span></span>.</label></div>
+    </div>
+  </article>
+
+  <article class="spec" id="slider">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Slider</h3>
+      <p class="spec-note">A ruler with a hand: minor ticks every 5, major every 25. The number is yours, so it's italic, and it travels with the hand. Arrow keys step by one, Page keys by ten.</p>
+      <ul class="spec-tokens"><li>--f-ink</li><li>--f-accent</li><li>--f-rule-strong</li></ul>
+    </div>
+    <div class="stave">
+      <div class="f-ruler" style="max-width: 36rem">
+        <label class="f-label" for="volume">Volume</label>
+        <output class="f-ruler-value" for="volume">64</output>
+        <input type="range" id="volume" min="0" max="100" value="64">
+        <div class="f-ruler-scale" aria-hidden="true"><span style="--n: 0">0</span><span style="--n: .25">25</span><span style="--n: .5">50</span><span style="--n: .75">75</span><span style="--n: 1">100</span></div>
+      </div>
+    </div>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave" inert>
+      <div class="state"><span class="state-label">Rest</span><div class="f-ruler"><output class="f-ruler-value">40</output><input type="range" value="40"></div></div>
+      <div class="state"><span class="state-label">Focus</span><div class="f-ruler" data-force="focus"><output class="f-ruler-value">40</output><input type="range" value="40"></div></div>
+      <div class="state"><span class="state-label">Disabled</span><div class="f-ruler"><output class="f-ruler-value">40</output><input type="range" value="40" disabled></div></div>
+    </div>
+  </article>
+
+  <article class="spec" id="text-field">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Text field</h3>
+      <p class="spec-note">Only a baseline. The label and placeholder are ours; what you type arrives in italic. Focus draws the accent along the line and shows how much room is left. Errors say what to fix.</p>
+      <ul class="spec-tokens"><li>--f-expression-scale</li><li>--f-accent</li><li>--f-signal</li><li>--f-rule-strong</li></ul>
+    </div>
+    <div class="fields stave">
+      <div class="f-field">
+        <label class="f-label" for="name">Your name</label>
+        <span class="f-field-count" aria-hidden="true"><span>0</span> / 40</span>
+        <input id="name" maxlength="40" autocomplete="name" placeholder="As you'd like to be addressed">
+      </div>
+      <div class="f-field">
+        <label class="f-label" for="email">Email</label>
+        <input id="email" type="email" value="hello@studio" aria-invalid="true" aria-describedby="email-error" autocomplete="email">
+        <p class="f-field-error" id="email-error">This address needs a domain ending, like studio.com.</p>
+      </div>
+      <div class="f-field is-wide">
+        <label class="f-label" for="notes">Notes</label>
+        <span class="f-field-count" aria-hidden="true"><span>0</span> / 400</span>
+        <textarea id="notes" maxlength="400" rows="4" placeholder="What should we know before the call?"></textarea>
+        <p class="f-field-hint">Ruled like paper. The lines scroll with what you write.</p>
+      </div>
+    </div>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave" inert>
+      <div class="state"><span class="state-label">Rest</span><div class="f-field"><span class="f-label">Label</span><input placeholder="Placeholder"></div></div>
+      <div class="state"><span class="state-label">Focus</span><div class="f-field" data-force="focus"><span class="f-label">Label</span><span class="f-field-count">6 / 40</span><input value="Halden"></div></div>
+      <div class="state"><span class="state-label">Filled</span><div class="f-field"><span class="f-label">Label</span><input value="Halden"></div></div>
+      <div class="state"><span class="state-label">Error</span><div class="f-field"><span class="f-label">Label</span><input value="hello@studio" aria-invalid="true"><p class="f-field-error">Add the ending.</p></div></div>
+      <div class="state"><span class="state-label">Disabled</span><div class="f-field"><span class="f-label">Label</span><input value="Locked" disabled></div></div>
+    </div>
+  </article>
+
+  <article class="spec" id="select">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Select</h3>
+      <p class="spec-note">A choice inside a sentence. The chosen word is italic over a hairline, and the arrow drops a little when you point at it. Where the browser allows, the open list is set in the same type.</p>
+      <ul class="spec-tokens"><li>--f-expression</li><li>--f-rule-strong</li><li>--f-mark</li></ul>
+    </div>
+    <div class="demo-stack stave">
+      <p class="f-select"><label for="sort">Sort by</label><span class="f-select-box"><select id="sort"><option>newest</option><option>oldest</option><option>name</option></select></span></p>
+      <p class="f-select"><span>Show</span><span class="f-select-box"><select aria-label="Which projects"><option>all</option><option>identity</option><option>web</option><option>motion</option></select></span><span>projects from</span><span class="f-select-box"><select aria-label="Year"><option>2026</option><option>2025</option><option>2024</option></select></span></p>
+    </div>
+  </article>
+</section>
+
+<!-- VII -->
+<section class="movement" id="signals" data-movement="Signals" data-num="VII" aria-labelledby="m7">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">VII</p><h2 class="m-title stave" id="m7">Signals</h2></header>
+  <p class="m-lead stave">How the system tells you something happened: plainly, once, and in the words of the action you took.</p>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Progress</h3>
+      <p class="spec-note">A hairline fills and a number counts. The action keeps its name all the way through: upload, uploading, uploaded.</p>
+      <ul class="spec-tokens"><li>--f-ink</li><li>--f-rule</li></ul>
+    </div>
+    <div class="demo-stack stave" id="upload">
+      <div class="f-progress" style="width: min(36rem, 100%)">
+        <p class="progress-label">12 files ready to upload</p>
+        <p class="f-progress-value" aria-hidden="true"><span>0</span><small>%</small></p>
+        <progress max="100" value="0" aria-label="Upload"></progress>
+      </div>
+      <button class="f-btn" data-variant="bracket" type="button" id="upload-btn">Upload</button>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Loading</h3>
+      <p class="spec-note">Three periods breathe in turn, only while something you started is still going. The button keeps its place and says what it's doing.</p>
+    </div>
+    <div class="demo-row stave">
+      <button class="f-btn" data-variant="statement" type="button" id="save">Save changes</button>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Toast</h3>
+      <p class="spec-note">One line rises at the bottom left. The hairline under it is the time left; pointing at the toast pauses it. Undo is always in brackets.</p>
+      <ul class="spec-tokens"><li>--f-andante</li><li>--f-exhale</li></ul>
+    </div>
+    <div class="demo-row stave">
+      <button class="f-btn" data-variant="quiet" type="button" data-archive>Archive Spring notes</button>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Dialog</h3>
+      <p class="spec-note">The question, set large, with two answers in words. The safe answer is in brackets and takes focus first. Escape, or a click outside, keeps things as they were.</p>
+    </div>
+    <div class="demo-row stave">
+      <button class="f-btn" data-variant="bracket" type="button" id="open-delete">Delete Spring notes</button>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Errors</h3>
+      <p class="spec-note">Say what happened and how to fix it, next to the field, in plain words. The line turns crimson. Nothing shakes and nothing apologises.</p>
+      <ul class="spec-tokens"><li>--f-signal</li></ul>
+    </div>
+    <form class="fields stave" id="brief" novalidate>
+      <div class="f-field">
+        <label class="f-label" for="b-name">Your name</label>
+        <input id="b-name" name="name" autocomplete="name" placeholder="As you'd like to be addressed" required>
+        <p class="f-field-error" id="b-name-error" hidden></p>
+      </div>
+      <div class="f-field">
+        <label class="f-label" for="b-email">Email</label>
+        <input id="b-email" name="email" type="email" autocomplete="email" placeholder="Where we should reply" required>
+        <p class="f-field-error" id="b-email-error" hidden></p>
+      </div>
+      <div class="f-field is-wide">
+        <label class="f-label" for="b-about">What are you making?</label>
+        <span class="f-field-count" aria-hidden="true"><span>0</span> / 400</span>
+        <textarea id="b-about" name="about" maxlength="400" rows="3" placeholder="A sentence or two is plenty" required></textarea>
+        <p class="f-field-error" id="b-about-error" hidden></p>
+      </div>
+      <div class="is-wide"><button class="f-btn" data-variant="statement" type="submit">Send the brief</button></div>
+    </form>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Empty state</h3>
+      <p class="spec-note">An invitation to act, not a mood.</p>
+    </div>
+    <div class="f-empty stave">
+      <p class="f-empty-title">Nothing archived yet.</p>
+      <p>Archive a note to keep it out of the way without deleting it. It will wait here until you need it.</p>
+      <button class="f-btn" data-variant="bracket" type="button" data-archive>Archive a note</button>
+    </div>
+  </article>
+</section>
+
+<!-- VIII -->
+<section class="movement" id="wayfinding" data-movement="Wayfinding" data-num="VIII" aria-labelledby="m8">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">VIII</p><h2 class="m-title stave" id="m8">Wayfinding</h2></header>
+  <p class="m-lead stave">Where you are, where you can go, and what's inside. Shown here dressing a studio's index.</p>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Tabs and index</h3>
+      <p class="spec-note">Words with their counts raised; a line slides to the one in view. Rows are held apart by hairlines, and the row you point at steps forward with an arrow, because it opens something.</p>
+      <ul class="spec-tokens"><li>--f-ink</li><li>--f-rule</li><li>--f-breath</li></ul>
+    </div>
+    <div class="demo-stack stave" style="justify-items: stretch">
+      <div class="f-tabs" role="tablist" aria-label="Work">
+        <button type="button" role="tab" aria-selected="true" aria-controls="work" data-filter="all">All<sup>7</sup></button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="work" tabindex="-1" data-filter="Identity">Identity<sup>3</sup></button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="work" tabindex="-1" data-filter="Web">Web<sup>3</sup></button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="work" tabindex="-1" data-filter="Motion">Motion<sup>1</sup></button>
+        <span class="f-tabs-line" aria-hidden="true"></span>
+      </div>
+      <ul class="f-rows" id="work" role="tabpanel" aria-label="Projects">
+        <li data-cat="Identity"><a href="#work"><span class="f-rows-title">Halden</span><span class="f-rows-kind">Identity</span><span class="f-rows-year">2026</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+        <li data-cat="Web"><a href="#work"><span class="f-rows-title">Northlight</span><span class="f-rows-kind">Web</span><span class="f-rows-year">2026</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+        <li data-cat="Identity"><a href="#work"><span class="f-rows-title">Oda Studio</span><span class="f-rows-kind">Identity</span><span class="f-rows-year">2025</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+        <li data-cat="Motion"><a href="#work"><span class="f-rows-title">Tidewater</span><span class="f-rows-kind">Motion</span><span class="f-rows-year">2025</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+        <li data-cat="Web"><a href="#work"><span class="f-rows-title">Marram</span><span class="f-rows-kind">Web</span><span class="f-rows-year">2025</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+        <li data-cat="Web"><a href="#work"><span class="f-rows-title">Quiet Hours</span><span class="f-rows-kind">Web</span><span class="f-rows-year">2024</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+        <li data-cat="Identity"><a href="#work"><span class="f-rows-title">Felt &amp; Field</span><span class="f-rows-kind">Identity</span><span class="f-rows-year">2024</span><span class="f-rows-go" aria-hidden="true">→</span></a></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Pages and path</h3>
+      <p class="spec-note">Numbers with a dot beneath each; the current page's dot is the accent. The path is set with slashes and ends where you are.</p>
+    </div>
+    <div class="nav-demo stave">
+      <nav class="f-pager f-mp" aria-label="Pages">
+        <button type="button" aria-current="page" aria-label="Page 1">01</button>
+        <button type="button" aria-label="Page 2">02</button>
+        <button type="button" aria-label="Page 3">03</button>
+        <button type="button" aria-label="Page 4">04</button>
+      </nav>
+      <nav class="f-crumbs f-mp" aria-label="Breadcrumb">
+        <ol><li><a href="#wayfinding">Work</a></li><li><a href="#wayfinding">Identity</a></li><li><span aria-current="page">Halden</span></li></ol>
+      </nav>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Disclosure</h3>
+      <p class="spec-note">A native details element. The plus turns into a cross, and the answer opens at the speed of reading.</p>
+      <ul class="spec-tokens"><li>--f-andante</li><li>--f-exhale</li></ul>
+    </div>
+    <div class="stave">
+      <details class="f-disclose"><summary>How long does a project take?</summary><div class="f-disclose-body"><p>Most identity work runs four to eight weeks, and websites take a season. We agree the timeline before anything starts, and we keep to it.</p></div></details>
+      <details class="f-disclose"><summary>Do you work with early teams?</summary><div class="f-disclose-body"><p>Often. Some of the best briefs arrive before there's a name.</p></div></details>
+      <details class="f-disclose"><summary>What do you need from us to begin?</summary><div class="f-disclose-body"><p>A short brief, one person who can decide, and an hour for a first call.</p></div></details>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Month</h3>
+      <p class="spec-note">The dot calendar. Past days are filled, today is the accent, and days to come are rings. Choose one and its number appears, in italic. Arrow keys move by day and by week.</p>
+      <ul class="spec-tokens"><li>--f-ink</li><li>--f-accent</li><li>--f-rule-strong</li></ul>
+    </div>
+    <div class="stave">
+      <p class="demo-lead" id="month-lead" style="margin-bottom: var(--f-space-6)">Pick a day for a first call.</p>
+      <div class="f-month" id="month">
+        <div class="f-month-head">
+          <p class="f-month-date" aria-hidden="true"></p>
+          <p class="f-month-title" aria-live="polite"><span class="f-month-name"></span><span class="f-month-year"></span></p>
+          <div class="f-month-nav"><button type="button" aria-label="Previous month">←</button><button type="button" aria-label="Next month">→</button></div>
+        </div>
+        <div class="f-month-grid" role="group" aria-labelledby="month-lead">
+          <abbr title="Monday">M</abbr><abbr title="Tuesday">T</abbr><abbr title="Wednesday">W</abbr><abbr title="Thursday">T</abbr><abbr title="Friday">F</abbr><abbr title="Saturday">S</abbr><abbr title="Sunday">S</abbr>
+        </div>
+      </div>
+      <p class="month-out" id="month-out" aria-live="polite">No day chosen yet.</p>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Tag</h3>
+      <p class="spec-note">The one rounded shape. A removable tag carries a cross, and removing one moves focus to its neighbour.</p>
+    </div>
+    <div class="demo-stack stave">
+      <div class="tags" id="tags"><button class="f-tag" type="button" data-removable aria-label="Remove Identity">Identity</button><button class="f-tag" type="button" data-removable aria-label="Remove Web">Web</button><button class="f-tag" type="button" data-removable aria-label="Remove Motion">Motion</button><button class="f-tag" type="button" data-removable aria-label="Remove Print">Print</button></div>
+      <button class="f-btn" data-variant="quiet" type="button" id="tags-back" hidden>Put them back</button>
+      <p class="tags"><span class="f-tag">Draft</span><span class="f-tag" data-variant="ink">New</span><span class="f-tag" data-variant="accent">Live</span></p>
+    </div>
+  </article>
+
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Marginalia</h3>
+      <p class="spec-note">A dotted term. Point at it or focus it, and a leader line draws down to a note. Escape puts it away.</p>
+    </div>
+    <div class="stave">
+      <p class="f-mp" style="max-width: 36ch">The voice is <button type="button" class="f-note" aria-describedby="note-archivo">Archivo<span class="f-note-text" id="note-archivo" aria-hidden="true">A grotesque from Omnibus-Type, variable in width and weight. It says everything the interface says.</span></button>, and the expression is <button type="button" class="f-note" aria-describedby="note-bodoni">Bodoni Moda<span class="f-note-text" id="note-bodoni" aria-hidden="true">Owen Earl's revival of the types Giambattista Bodoni cut in Parma around 1798. Optical sizes keep its hairlines alive from 6 to 96 points.</span></button>.</p>
+    </div>
+  </article>
+</section>
+
+<!-- IX -->
+<section class="movement" id="tokens" data-movement="Tokens" data-num="IX" aria-labelledby="m9">
+  <header class="m-head"><p class="m-num margin" aria-hidden="true">IX</p><h2 class="m-title stave" id="m9">Tokens</h2></header>
+  <p class="m-lead stave">Every value above, as the variables the components read.</p>
+  <article class="spec">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Variables</h3>
+      <p class="spec-note">Choose a name to copy it as a CSS variable. The values follow the key and Nocturne.</p>
+    </div>
+    <div class="stave"><table class="tokens" id="token-table"><caption class="f-sr">Fermata design tokens</caption></table></div>
+  </article>
+</section>
+
+</main>
+
+<footer class="coda" data-movement="Fine" data-num="">
+  <p class="coda-fine" lang="it">Fine.</p>
+  <div class="f-meta"><span>Fermata 0.1</span><hr><span>Set in Archivo and Bodoni Moda, both under the SIL Open Font License</span><hr><a class="f-link" href="#top">Back to the overture</a></div>
+</footer>
+
+<dialog class="f-dialog" id="delete-dialog" closedby="any" aria-labelledby="delete-title">
+  <form method="dialog">
+    <h2 class="f-dialog-title" id="delete-title">Delete <span class="f-yours">Spring notes</span>?</h2>
+    <p class="f-dialog-body">The notes and their 14 attachments go for good. This can't be undone.</p>
+    <div class="f-dialog-actions">
+      <button class="f-btn" data-variant="bracket" value="keep" autofocus>Keep it</button>
+      <button class="f-btn" data-variant="statement" value="delete">Delete</button>
+    </div>
+  </form>
+</dialog>
+
+<section class="f-toaster" aria-live="polite" aria-label="Notifications"></section>
+<div class="grid-overlay" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<script type="module">
+  const root = document.documentElement;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  const store = {
+    get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+  };
+  const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+
+  /* ── smooth scroll, only when motion is welcome ── */
+  let lenis = null;
+  if (!still.matches) {
+    import("https://esm.sh/lenis@1.3.26")
+      .then(({ default: Lenis }) => { lenis = new Lenis({ autoRaf: true, anchors: true }); })
+      .catch(() => {}); // native scrolling is fine
+  }
+
+  /* ── one dot, one line: they follow the chosen word ── */
+  function follow(box, el) {
+    if (!el) return;
+    const b = box.getBoundingClientRect(), r = el.getBoundingClientRect();
+    const lastRow = Math.max(...$$(":scope > label, :scope > [role=tab]", box).map((n) => n.getBoundingClientRect().bottom));
+    box.style.setProperty("--x", `${r.left - b.left}px`);
+    box.style.setProperty("--w", `${r.width}px`);
+    box.style.setProperty("--c", `${r.left - b.left + r.width / 2}px`);
+    box.style.setProperty("--y", `${r.bottom - lastRow}px`);
+  }
+  const chosen = (box) => $("input:checked", box)?.closest("label");
+  function followAll() {
+    $$(".f-choice").forEach((box) => follow(box, chosen(box)));
+    $$(".f-tabs").forEach((box) => follow(box, $('[aria-selected="true"]', box)));
+  }
+  document.addEventListener("change", (e) => {
+    const box = e.target.closest(".f-choice");
+    if (!box) return;
+    box.setAttribute("data-ready", "");
+    follow(box, chosen(box));
+  });
+  let resizing = 0;
+  addEventListener("resize", () => { cancelAnimationFrame(resizing); resizing = requestAnimationFrame(followAll); });
+
+  /* ── fonts in, then the overture plays ── */
+  Promise.all([document.fonts.load("200 100px Archivo"), document.fonts.load('italic 400 100px "Bodoni Moda"')])
+    .catch(() => {})
+    .then(() => document.fonts.ready)
+    .then(() => { root.classList.add("ready"); followAll(); });
+
+  /* ── toast ── */
+  const toaster = $(".f-toaster");
+  function toast(before, yours = "", after = "", { action, onAction, life = 5000 } = {}) {
+    const t = document.createElement("div");
+    t.className = "f-toast";
+    t.style.setProperty("--life", `${life}ms`);
+    const p = document.createElement("p");
+    p.append(before);
+    if (yours) p.append(Object.assign(document.createElement("span"), { className: "f-yours", textContent: yours }));
+    if (after) p.append(after);
+    t.append(p);
+    const leave = () => {
+      if (t.hasAttribute("data-leaving")) return;
+      t.setAttribute("data-leaving", "");
+      t.addEventListener("animationend", (e) => { if (e.target === t) t.remove(); });
+    };
+    if (action) {
+      const b = Object.assign(document.createElement("button"), { type: "button", className: "f-btn", textContent: action });
+      b.dataset.variant = "bracket";
+      b.addEventListener("click", () => { leave(); onAction?.(); });
+      t.append(b);
+    }
+    const timer = Object.assign(document.createElement("span"), { className: "f-toast-timer" });
+    timer.setAttribute("aria-hidden", "true");
+    timer.addEventListener("animationend", leave);
+    t.append(timer);
+    toaster.append(t);
+    while (toaster.children.length > 3) toaster.firstElementChild.remove();
+  }
+
+  /* ── busy: the button says what it's doing ── */
+  function busy(button, doing, ms) {
+    return new Promise((done) => {
+      const idle = button.textContent;
+      button.setAttribute("aria-busy", "true");
+      button.textContent = `${doing} `;
+      const dots = Object.assign(document.createElement("span"), { className: "f-dots" });
+      dots.setAttribute("aria-hidden", "true");
+      dots.append(...[0, 1, 2].map(() => document.createElement("i")));
+      button.append(dots);
+      setTimeout(() => { button.textContent = idle; button.removeAttribute("aria-busy"); done(); }, ms);
+    });
+  }
+
+  /* ── mode and key ── */
+  const mode = $("#mode");
+  mode.checked = root.dataset.mode === "nocturne";
+  mode.addEventListener("change", () => {
+    root.dataset.mode = mode.checked ? "nocturne" : "day";
+    store.set("fermata-mode", root.dataset.mode);
+    redraw();
+  });
+  const keyNames = { ultramarine: "Ultramarine", viridian: "Viridian", ember: "Ember", violet: "Violet" };
+  for (const input of $$('input[name="key"]')) {
+    input.checked = input.value === (root.dataset.key || "ultramarine");
+    input.addEventListener("change", () => {
+      if (input.value === "ultramarine") delete root.dataset.key;
+      else root.dataset.key = input.value;
+      store.set("fermata-key", input.value);
+      redraw();
+    });
+  }
+
+  /* ── colour: live values and contrast ── */
+  const probe = document.body.appendChild(document.createElement("i"));
+  probe.hidden = true;
+  function rgba(value) {
+    probe.style.color = value;
+    const [r, g, b, a = 1] = getComputedStyle(probe).color.match(/[\d.]+/g).map(Number);
+    return [r, g, b, a];
+  }
+  const lum = (rgb) => {
+    const [r, g, b] = rgb.map((c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  function contrast(fg, bg) {
+    const B = rgba(bg), F = rgba(fg);
+    const mixed = F.slice(0, 3).map((c, i) => c * F[3] + B[i] * (1 - F[3])); // alpha over the background
+    const [hi, lo] = [lum(mixed), lum(B)].sort((m, n) => n - m);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+
+  const TOKENS = [
+    ["Colour", ["paper", "ink", "graphite", "pencil", "rule", "rule-strong", "accent", "signal", "mark", "on-mark"]],
+    ["Type", ["voice", "expression", "expression-scale", "pp", "p", "mp", "mf", "f", "ff", "fff", "ffff", "measure"]],
+    ["Space", ["space-1", "space-2", "space-3", "space-4", "space-5", "space-6", "space-7", "space-8", "space-9", "space-10"]],
+    ["Line and shape", ["hairline", "stroke", "dot", "gutter", "margin"]],
+    ["Tempo", ["allegro", "moderato", "andante", "adagio", "exhale", "breath"]],
+  ];
+  const table = $("#token-table");
+  function drawTokens() {
+    $$("tbody", table).forEach((t) => t.remove());
+    for (const [group, names] of TOKENS) {
+      const body = table.createTBody();
+      const head = Object.assign(document.createElement("th"), { colSpan: 3, scope: "rowgroup", textContent: group });
+      body.insertRow().append(head);
+      for (const n of names) {
+        const name = `--f-${n}`;
+        const row = body.insertRow();
+        const th = Object.assign(document.createElement("th"), { scope: "row" });
+        const b = Object.assign(document.createElement("button"), { type: "button", className: "tok", textContent: name });
+        b.dataset.token = name;
+        th.append(b);
+        row.append(th);
+        const lh = token(`${name}-lh`);
+        Object.assign(row.insertCell(), { className: "tok-val", textContent: lh ? `${token(name)} / ${lh} / ${token(`${name}-tr`)}` : token(name) });
+        const sample = Object.assign(row.insertCell(), { className: "tok-sample" });
+        if (group === "Colour") sample.append(Object.assign(document.createElement("i"), { style: `background: var(${name})` }));
+        if (group === "Space") sample.append(Object.assign(document.createElement("span"), { className: "bar-w", style: `--w: var(${name})` }));
+      }
+    }
+  }
+  table.addEventListener("click", async (e) => {
+    const b = e.target.closest(".tok");
+    if (!b) return;
+    const text = `var(${b.dataset.token})`;
+    try { await navigator.clipboard.writeText(text); toast(`Copied ${text}.`); }
+    catch { toast(`Couldn't reach the clipboard. Select ${text} and copy it by hand.`); }
+  });
+
+  function redraw() {
+    for (const li of $$("#swatches > li")) {
+      $(".swatch-hex", li).textContent = token(li.dataset.token);
+      $(".swatch-ratio", li).textContent = `${contrast(token(li.dataset.fg), token(li.dataset.bg)).toFixed(1)}:1`;
+    }
+    $("#accent-name").textContent = keyNames[root.dataset.key || "ultramarine"];
+    drawTokens();
+  }
+  redraw();
+
+  /* ── the bar: which movement you're in ── */
+  const now = $(".bar-now"), nowNum = $(".bar-num"), nowName = $(".bar-name");
+  let turn = 0;
+  function setNow(num, name) {
+    if (nowName.textContent === name) return;
+    const mine = ++turn;
+    const swap = () => { nowNum.textContent = num; nowName.textContent = name; };
+    if (still.matches) return swap();
+    now.animate([{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: "0 -0.7em" }], { duration: 160, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" })
+      .finished.then(() => {
+        if (mine !== turn) return;
+        swap();
+        now.animate([{ opacity: 0, translate: "0 0.7em" }, { opacity: 1, translate: "0 0" }], { duration: 320, easing: "cubic-bezier(.16,1,.3,1)", fill: "forwards" });
+      });
+  }
+  const watch = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) setNow(e.target.dataset.num, e.target.dataset.movement);
+  }, { rootMargin: "-50% 0px -50% 0px" });
+  $$("[data-movement]").forEach((s) => watch.observe(s));
+
+  /* ── grid overlay ── */
+  const overlay = $(".grid-overlay"), gridButton = $("#grid-toggle");
+  function toggleGrid() {
+    overlay.hidden = !overlay.hidden;
+    gridButton.textContent = overlay.hidden ? "Show the grid" : "Hide the grid";
+  }
+  gridButton.addEventListener("click", toggleGrid);
+  addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && document.activeElement?.matches(".f-note")) document.activeElement.blur();
+    if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.closest?.("input, textarea, select, [contenteditable]")) toggleGrid();
+  });
+
+  /* ── type axes ── */
+  const word = $("#axes-word");
+  $("#axis-width").addEventListener("input", (e) => { word.style.fontStretch = `${e.target.value}%`; });
+  $("#axis-weight").addEventListener("input", (e) => { word.style.fontWeight = e.target.value; });
+
+  /* ── rulers ── */
+  for (const ruler of $$(".f-ruler")) {
+    const input = $("input", ruler), out = $("output", ruler);
+    const set = () => {
+      const min = +input.min || 0, max = +input.max || 100;
+      ruler.style.setProperty("--p", (input.value - min) / (max - min));
+      if (out) out.textContent = input.value;
+    };
+    input.addEventListener("input", set);
+    set();
+  }
+
+  /* ── checklist tally ── */
+  const checklist = $("#checklist"), tally = $("#tally");
+  function countDone() {
+    const boxes = $$("input", checklist), n = boxes.filter((b) => b.checked).length;
+    if (n === boxes.length) return (tally.textContent = "All done.");
+    tally.replaceChildren(Object.assign(document.createElement("span"), { className: "f-yours", textContent: n }), ` of ${boxes.length} done`);
+  }
+  checklist.addEventListener("change", countDone);
+  countDone();
+
+  /* ── field counters ── */
+  for (const field of $$(".f-field")) {
+    const count = $(".f-field-count > span", field), input = $("input, textarea", field);
+    if (!count || !input) continue;
+    input.addEventListener("input", () => { count.textContent = input.value.length; });
+  }
+
+  /* ── progress ── */
+  const upLabel = $("#upload .progress-label"), upNum = $("#upload .f-progress-value > span"), upBar = $("#upload progress"), upButton = $("#upload-btn");
+  upButton.addEventListener("click", () => {
+    upButton.disabled = true;
+    upLabel.textContent = "Uploading 12 files";
+    let v = 0;
+    const step = () => {
+      v = Math.min(100, v + 1 + Math.random() * 5);
+      upNum.textContent = Math.floor(v);
+      upBar.value = v;
+      if (v < 100) return setTimeout(step, 80);
+      upLabel.textContent = "Uploaded 12 files";
+      upButton.textContent = "Upload again";
+      upButton.disabled = false;
+    };
+    step();
+  });
+
+  /* ── loading ── */
+  $("#save").addEventListener("click", async (e) => {
+    const b = e.currentTarget;
+    if (b.hasAttribute("aria-busy")) return;
+    await busy(b, "Saving", 1600);
+    toast("Changes saved.");
+  });
+
+  /* ── toast demos ── */
+  const archive = () => toast("Archived ", "Spring notes", ".", { action: "Undo", onAction: () => toast("Restored ", "Spring notes", ".") });
+  $$("[data-archive]").forEach((b) => b.addEventListener("click", archive));
+
+  /* ── dialog ── */
+  const dialog = $("#delete-dialog");
+  $("#open-delete").addEventListener("click", () => { dialog.returnValue = ""; dialog.showModal(); lenis?.stop(); });
+  dialog.addEventListener("close", () => {
+    lenis?.start();
+    if (dialog.returnValue === "delete") toast("Deleted ", "Spring notes", ".");
+  });
+
+  /* ── the brief: errors that say what to fix ── */
+  const brief = $("#brief"), send = $('button[type="submit"]', brief);
+  const checks = {
+    name: (v) => (v.trim() ? "" : "Add your name, so we know who we're writing to."),
+    email: (v, el) => !v.trim() ? "Add an email address we can reply to."
+      : el.validity.typeMismatch || !/@[^@.\s]+\.[^@\s]+$/.test(v.trim()) ? "Check the address. It needs a domain after the @, like studio.com." : "",
+    about: (v) => (v.trim() ? "" : "Tell us in a sentence or two what you're making."),
+  };
+  function check(el) {
+    const msg = checks[el.name](el.value, el), err = $(`#${el.id}-error`);
+    if (msg) { el.setAttribute("aria-invalid", "true"); el.setAttribute("aria-describedby", err.id); }
+    else { el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); }
+    err.textContent = msg;
+    err.hidden = !msg;
+    return !msg;
+  }
+  brief.addEventListener("input", (e) => { if (e.target.getAttribute("aria-invalid") === "true") check(e.target); });
+  brief.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (send.hasAttribute("aria-busy")) return;
+    const wrong = $$("[name]", brief).filter((el) => !check(el));
+    if (wrong.length) return wrong[0].focus();
+    await busy(send, "Sending", 1200);
+    toast("Brief sent. We'll reply within two days.");
+    brief.reset();
+    $$("textarea", brief).forEach((t) => t.dispatchEvent(new Event("input")));
+  });
+
+  /* ── tabs filter the index ── */
+  const tabs = $(".f-tabs"), tabList = $$('[role="tab"]', tabs);
+  function selectTab(tab, focus) {
+    tabList.forEach((t) => { const on = t === tab; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; });
+    if (focus) tab.focus();
+    tabs.setAttribute("data-ready", "");
+    follow(tabs, tab);
+    const f = tab.dataset.filter;
+    $$("#work > li").forEach((li) => { li.hidden = f !== "all" && li.dataset.cat !== f; });
+  }
+  tabs.addEventListener("click", (e) => { const t = e.target.closest('[role="tab"]'); if (t) selectTab(t); });
+  tabs.addEventListener("keydown", (e) => {
+    const i = tabList.indexOf(document.activeElement), n = tabList.length;
+    const j = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
+    if (i < 0 || j === undefined) return;
+    e.preventDefault();
+    selectTab(tabList[j], true);
+  });
+  $$("#work a").forEach((a) => a.addEventListener("click", (e) => e.preventDefault())); // the index is a demo
+
+  /* ── pager ── */
+  $(".f-pager").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    $$("button", e.currentTarget).forEach((x) => x.removeAttribute("aria-current"));
+    b.setAttribute("aria-current", "page");
+  });
+
+  /* ── tags ── */
+  const tags = $("#tags"), tagsBack = $("#tags-back"), tagsAtRest = tags.innerHTML;
+  tags.addEventListener("click", (e) => {
+    const t = e.target.closest(".f-tag");
+    if (!t) return;
+    const next = t.nextElementSibling || t.previousElementSibling;
+    t.remove();
+    if (next) next.focus();
+    else { tagsBack.hidden = false; tagsBack.focus(); }
+  });
+  tagsBack.addEventListener("click", () => {
+    tags.innerHTML = tagsAtRest;
+    tagsBack.hidden = true;
+    tags.firstElementChild.focus();
+  });
+
+  /* ── month ── */
+  const month = $("#month"), grid = $(".f-month-grid", month), out = $("#month-out");
+  const [prev, next] = $$(".f-month-nav > button", month);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const first = new Date(today.getFullYear(), today.getMonth(), 1);
+  const last = new Date(today.getFullYear(), today.getMonth() + 2, 1);
+  const longDay = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long" });
+  let view = new Date(first), picked = null;
+  const sameMonth = (d) => d && d.getFullYear() === view.getFullYear() && d.getMonth() === view.getMonth();
+  function drawMonth() {
+    $$(".f-month-day, .f-month-gap", grid).forEach((n) => n.remove());
+    $(".f-month-name", month).textContent = view.toLocaleString("en-GB", { month: "long" });
+    $(".f-month-year", month).textContent = ` ${view.getFullYear()}`;
+    const shown = sameMonth(picked) ? picked : sameMonth(today) ? today : view;
+    $(".f-month-date", month).textContent = String(shown.getDate()).padStart(2, "0");
+    for (let i = 0; i < (view.getDay() + 6) % 7; i++) grid.append(Object.assign(document.createElement("span"), { className: "f-month-gap" }));
+    const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    for (let d = 1; d <= days; d++) {
+      const date = new Date(view.getFullYear(), view.getMonth(), d);
+      const when = date < today ? "past" : +date === +today ? "today" : "future";
+      const b = Object.assign(document.createElement("button"), { type: "button", className: "f-month-day", textContent: d, tabIndex: -1, disabled: when === "past" });
+      b.dataset.when = when;
+      b.dataset.day = d;
+      b.setAttribute("aria-label", longDay.format(date) + (when === "today" ? ", today" : ""));
+      b.setAttribute("aria-pressed", String(!!picked && +picked === +date));
+      grid.append(b);
+    }
+    const home = $('[aria-pressed="true"]', grid) || $('[data-when="today"]', grid) || $(".f-month-day:not(:disabled)", grid);
+    if (home) home.tabIndex = 0;
+    prev.disabled = view <= first;
+    next.disabled = view >= last;
+  }
+  grid.addEventListener("click", (e) => {
+    const b = e.target.closest(".f-month-day");
+    if (!b || b.disabled) return;
+    picked = new Date(view.getFullYear(), view.getMonth(), +b.dataset.day);
+    drawMonth();
+    $(`[data-day="${picked.getDate()}"]`, grid).focus();
+    out.replaceChildren("Your first call: ", Object.assign(document.createElement("span"), { className: "f-yours", textContent: longDay.format(picked) }), ".");
+  });
+  grid.addEventListener("keydown", (e) => {
+    const b = e.target.closest(".f-month-day");
+    const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+    if (!b || !step) return;
+    e.preventDefault();
+    const to = $(`[data-day="${+b.dataset.day + step}"]:not(:disabled)`, grid);
+    if (!to) return;
+    b.tabIndex = -1;
+    to.tabIndex = 0;
+    to.focus();
+  });
+  prev.addEventListener("click", () => { view.setMonth(view.getMonth() - 1); drawMonth(); });
+  next.addEventListener("click", () => { view.setMonth(view.getMonth() + 1); drawMonth(); });
+  drawMonth();
+
+  followAll();
+
+  /* ── the overture: pretext parts the manifesto around the pause ── */
+  (async () => {
+    const region = $(".flow"), lines = $(".flow-lines", region), mark = $(".flow-mark", region), source = $(".manifesto");
+    const arc = $("path", mark), dot = $("circle", mark);
+    let lib;
+    try { lib = await import("https://esm.sh/@chenglou/pretext@0.0.9"); }
+    catch { root.classList.add("flow-done"); return; } // the plain paragraph stays
+    const { prepareWithSegments, layoutNextLine } = lib;
+    const text = source.textContent.replace(/\s+/g, " ").trim();
+    const voice = token("--f-voice");
+    const GAP = 24, pool = [];
+    let prepared, size = 0, lh = 32, W = 0, r = 100, R = 124, base = 0, H = 0;
+    let cx = 0, cy = 0, tx = 0, ty = 0, fx = 0.64, fy = 0.46, frame = 0;
+    const start = () => ({ segmentIndex: 0, graphemeIndex: 0 });
+
+    async function measure() {
+      const [s, l] = innerWidth >= 900 ? [22, 32] : innerWidth >= 560 ? [19, 28] : [17, 26];
+      if (s !== size) {
+        size = s; lh = l;
+        const font = `400 ${size}px ${voice}`;
+        await document.fonts.load(font);
+        prepared = prepareWithSegments(text, font);
+        region.style.setProperty("--size", `${size}px`);
+        region.style.setProperty("--lh", `${lh}px`);
+      }
+      W = region.clientWidth;
+      r = Math.min(150, Math.max(70, W * 0.13));
+      R = r + GAP;
+      let c = start(), n = 0, line;
+      while ((line = layoutNextLine(prepared, c, W))) { c = line.end; n++; }
+      base = n * lh; // the paragraph's height with no pause in it
+      H = 0;
+      // the mark's viewBox is 200 units across 2r pixels
+      arc.setAttribute("stroke-width", (1.5 * 100) / r);
+      dot.setAttribute("r", (Math.max(12, r * 0.14) / 2) * (100 / r));
+    }
+
+    function put(i, t, x, y) {
+      let s = pool[i];
+      if (!s) { s = lines.appendChild(document.createElement("span")); s.style.setProperty("--i", i); pool[i] = s; }
+      s.hidden = false;
+      if (s.textContent !== t) s.textContent = t;
+      s.style.translate = `${Math.round(x * 2) / 2}px ${y}px`;
+    }
+
+    function render() {
+      const MIN = W < 500 ? W * 0.5 : 160; // on a phone, rows beside the pause stay empty
+      let cursor = start(), k = 0, y = 0, bottom = 0, done = false;
+      while (!done && y < 20000) {
+        // how far the circle reaches into this row, if at all
+        const dy = cy < y ? y - cy : cy > y + lh ? cy - y - lh : 0;
+        const hw = dy < R ? Math.sqrt(R * R - dy * dy) : -1;
+        const slots = hw < 0 ? [[0, W]] : [[0, cx - hw], [cx + hw, W]];
+        for (const [a, b] of slots) {
+          const x0 = Math.max(0, a), x1 = Math.min(W, b);
+          if (x1 - x0 < MIN) continue;
+          const line = layoutNextLine(prepared, cursor, x1 - x0);
+          if (!line) { done = true; break; }
+          cursor = line.end;
+          put(k++, line.text.trimEnd(), x0, y); // right runs start on the circle's curve
+          bottom = y + lh;
+        }
+        y += lh;
+      }
+      for (let i = k; i < pool.length; i++) pool[i].hidden = true;
+      H = Math.max(H, bottom, cy + r); // only grows, so the page below never jumps
+      region.style.height = `${H}px`;
+      mark.style.width = mark.style.height = `${2 * r}px`;
+      mark.style.translate = `${cx - r}px ${cy - r}px`;
+    }
+
+    const settle = () => { fx = cx / W; fy = cy / base; };
+    function tick() {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      const arrived = Math.abs(tx - cx) < 0.3 && Math.abs(ty - cy) < 0.3;
+      if (arrived) { cx = tx; cy = ty; settle(); }
+      render();
+      frame = arrived ? 0 : requestAnimationFrame(tick);
+    }
+    function aim(e) {
+      const b = region.getBoundingClientRect();
+      tx = Math.min(W, Math.max(0, e.clientX - b.left));
+      ty = Math.min(base, Math.max(0, e.clientY - b.top));
+      if (still.matches) { cx = tx; cy = ty; settle(); render(); return; }
+      if (!frame) frame = requestAnimationFrame(tick);
+    }
+    const hand = matchMedia("(hover: hover) and (pointer: fine)");
+    region.addEventListener("pointermove", (e) => { if (hand.matches && !still.matches) aim(e); });
+    region.addEventListener("click", aim);
+
+    await measure();
+    cx = tx = fx * W;
+    cy = ty = fy * base;
+    region.classList.add("intro");
+    render();
+    source.classList.add("f-sr");
+    root.classList.add("flow-done");
+    setTimeout(() => region.classList.remove("intro"), 4000);
+
+    let lastW = W;
+    new ResizeObserver(async () => {
+      if (region.clientWidth === lastW) return;
+      lastW = region.clientWidth;
+      await measure();
+      cx = tx = fx * W;
+      cy = ty = fy * base;
+      render();
+    }).observe(region);
+  })();
+</script>
+</body>
+</html>

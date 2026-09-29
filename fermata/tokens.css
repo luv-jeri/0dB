@@ -1,0 +1,94 @@
+/* Fermata · tokens
+   The registry:base item. Every component reads only these variables.
+   Modes:  <html data-mode="day | nocturne">
+   Keys:   <html data-key="ultramarine | viridian | ember | violet"> */
+
+:root {
+  color-scheme: light;
+  interpolate-size: allow-keywords;
+
+  /* Colour: one note. Ink on paper, one accent for "where you are". */
+  --f-paper: #f2f3f0;
+  --f-ink: #000;
+  --f-graphite: #4a4b50;
+  --f-pencil: #6b6c71;
+  --f-rule: rgb(0 0 0 / 0.14);
+  --f-rule-strong: rgb(0 0 0 / 0.42);
+  --f-accent: #2b2bee;
+  --f-signal: #c8102e;
+  --f-mark: #ffe45a;
+  --f-on-mark: #000;
+
+  /* Type: the voice (ours) and the expression (yours). */
+  --f-voice: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-expression: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+  --f-expression-scale: 1.15; /* matches Bodoni's x-height to Archivo's */
+
+  /* Dynamics: text steps by a fourth, headings by a fifth. */
+  --f-pp: 0.8125rem;   --f-pp-lh: 1.45;  --f-pp-tr: 0.01em;
+  --f-p: 1.0625rem;    --f-p-lh: 1.6;    --f-p-tr: 0em;
+  --f-mp: 1.375rem;    --f-mp-lh: 1.45;  --f-mp-tr: -0.005em;
+  --f-mf: 2rem;        --f-mf-lh: 1.15;  --f-mf-tr: -0.015em;
+  --f-f: 3rem;         --f-f-lh: 1.05;   --f-f-tr: -0.025em;
+  --f-ff: 4.5rem;      --f-ff-lh: 0.95;  --f-ff-tr: -0.035em;
+  --f-fff: clamp(4rem, 11vw, 10rem);       --f-fff-lh: 0.9;  --f-fff-tr: -0.045em;
+  --f-ffff: clamp(4rem, 17.5vw, 17rem);  --f-ffff-lh: 0.82; --f-ffff-tr: -0.055em;
+  --f-measure: 62ch;
+
+  /* Space: perfect fifths from 8. */
+  --f-space-1: 0.25rem;   /*   4 */
+  --f-space-2: 0.5rem;    /*   8 */
+  --f-space-3: 0.75rem;   /*  12 */
+  --f-space-4: 1.125rem;  /*  18 */
+  --f-space-5: 1.6875rem; /*  27 */
+  --f-space-6: 2.5rem;    /*  40 */
+  --f-space-7: 3.75rem;   /*  60 */
+  --f-space-8: 5.625rem;  /*  90 */
+  --f-space-9: 8.4375rem; /* 135 */
+  --f-space-10: 12.5rem;  /* 200 */
+
+  /* Line and shape. */
+  --f-hairline: 1px;
+  --f-stroke: 1.5px;
+  --f-dot: 7px;
+  --f-gutter: 24px;
+  --f-margin: clamp(20px, 5vw, 80px);
+
+  /* Tempo. */
+  --f-allegro: 160ms;   /* hover, press */
+  --f-moderato: 320ms;  /* a state changes */
+  --f-andante: 640ms;   /* panels, toast, dialog */
+  --f-adagio: 1400ms;   /* the overture, once */
+  --f-exhale: cubic-bezier(0.16, 1, 0.3, 1);   /* arriving */
+  --f-breath: cubic-bezier(0.65, 0, 0.35, 1);  /* moving between states */
+}
+
+/* Keys: the accent can change, the rule doesn't. All ≥ 4.5:1 on paper. */
+:root[data-key="viridian"] { --f-accent: #0b6e4f; }
+:root[data-key="ember"]    { --f-accent: #b83d00; }
+:root[data-key="violet"]   { --f-accent: #6a1b9a; }
+
+/* Nocturne: the dark mode, for the long sessions. */
+:root[data-mode="nocturne"] {
+  color-scheme: dark;
+  --f-paper: #10111c;
+  --f-ink: #e9eaec;
+  --f-graphite: #b4b5bc;
+  --f-pencil: #83848c;
+  --f-rule: rgb(255 255 255 / 0.14);
+  --f-rule-strong: rgb(255 255 255 / 0.42);
+  --f-accent: #8c8cff;
+  --f-signal: #ff6b7f;
+}
+:root[data-mode="nocturne"][data-key="viridian"] { --f-accent: #4fd1a5; }
+:root[data-mode="nocturne"][data-key="ember"]    { --f-accent: #ff8a4c; }
+:root[data-mode="nocturne"][data-key="violet"]   { --f-accent: #c58cf2; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --f-allegro: 1ms;
+    --f-moderato: 1ms;
+    --f-andante: 1ms;
+    --f-adagio: 1ms;
+  }
+}
