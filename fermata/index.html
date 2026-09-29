@@ -128,6 +128,10 @@
   .state { display: grid; justify-items: start; gap: var(--f-space-3); }
   .state-label { font-size: var(--f-pp); color: var(--f-pencil); }
   .state :is(.f-ruler, .f-field) { width: 13rem; }
+  .rail-box { position: relative; width: 4rem; height: 9rem; }
+  .rail-demo .f-scrollbar { position: absolute; display: block; }
+  .rail-demo .f-scrollbar-thumb { animation: none; translate: 0 calc((1 / var(--view) - 1) * var(--p) * 100%); }
+  .f-scrollbar#rail { top: var(--bar); }
 
   .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--f-space-6) var(--f-space-7); }
   .demo-stack { display: grid; justify-items: start; gap: var(--f-space-5); }
@@ -364,6 +368,7 @@
   <label class="f-switch"><input type="checkbox" role="switch" id="mode" aria-label="Nocturne"> Nocturne is <span class="f-switch-state" aria-hidden="true"><span>on</span><span>off</span></span><span class="f-switch-stop" aria-hidden="true"></span></label>
   <div class="bar-progress" aria-hidden="true"></div>
 </header>
+<div class="f-scrollbar" id="rail" aria-hidden="true"><span class="f-scrollbar-thumb"></span></div>
 
 <main>
 
@@ -1429,6 +1434,21 @@
     </div>
   </article>
 
+  <article class="spec" id="scrollbar">
+    <div class="spec-side margin">
+      <h3 class="spec-name">Scrollbar</h3>
+      <p class="spec-note">This page's own, down the right edge. The page is measured like a ruler: a hairline, a mark where each movement begins, and an ink thumb as long as what you can see. Point at it and the movements' numbers arrive down the rail; point at a mark to read its name, and press it to go there. Hold the thumb and it takes the accent, because it's where you are. Other scrollers get a thin stroke that darkens when you point at them.</p>
+      <ul class="spec-tokens"><li>animation-timeline: scroll()</li><li>scrollbar-color</li><li>--f-accent</li></ul>
+    </div>
+    <p class="demo-lead stave">Look to the right edge of the window, or point at it.</p>
+    <p class="state-caption margin">States</p>
+    <div class="spec-states stave rail-demo" inert>
+      <div class="state"><span class="state-label">Rest</span><div class="rail-box"><div class="f-scrollbar" style="--view: 0.3; --p: 0.35"><span class="f-scrollbar-thumb"></span><span class="f-scrollbar-mark" style="--at: 0.2" data-num="II"></span><span class="f-scrollbar-mark" data-now style="--at: 0.45" data-num="III"></span><span class="f-scrollbar-mark" style="--at: 0.75" data-num="IV"></span></div></div></div>
+      <div class="state"><span class="state-label">Pointed at</span><div class="rail-box"><div class="f-scrollbar" data-force="hover" style="--view: 0.3; --p: 0.35"><span class="f-scrollbar-thumb"></span><span class="f-scrollbar-mark" style="--at: 0.2; --i: 0" data-num="II"></span><span class="f-scrollbar-mark" data-now style="--at: 0.45; --i: 1" data-num="III"></span><span class="f-scrollbar-mark" style="--at: 0.75; --i: 2" data-num="IV"></span></div></div></div>
+      <div class="state"><span class="state-label">Held</span><div class="rail-box"><div class="f-scrollbar" data-dragging style="--view: 0.3; --p: 0.35"><span class="f-scrollbar-thumb"></span><span class="f-scrollbar-mark" style="--at: 0.2" data-num="II"></span><span class="f-scrollbar-mark" data-now style="--at: 0.45" data-num="III"></span><span class="f-scrollbar-mark" style="--at: 0.75" data-num="IV"></span></div></div></div>
+    </div>
+  </article>
+
   <article class="spec" id="aspect-ratio">
     <div class="spec-side margin">
       <h3 class="spec-name">Aspect ratio</h3>
@@ -2123,11 +2143,58 @@
     const dir = at > nowAt ? 1 : -1; // reading on rolls up, going back rolls down
     nowAt = at;
     roll(now, () => { nowNum.textContent = el.dataset.num; nowName.textContent = el.dataset.movement; }, "0.7em", dir);
+    $$(".f-scrollbar-mark", rail).forEach((m) => m.toggleAttribute("data-now", m.dataset.for === el.id));
   }
   const watch = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) setNow(e.target);
   }, { rootMargin: "-50% 0px -50% 0px" });
   movements.forEach((s) => watch.observe(s));
+
+  /* ── the page scrollbar: a ruler with a mark where each movement begins ── */
+  const rail = $("#rail");
+  if (matchMedia("(pointer: fine)").matches && CSS.supports("animation-timeline: scroll()")) {
+    const thumb = $(".f-scrollbar-thumb", rail), doc = document.documentElement;
+    const marked = movements.filter((m) => m.dataset.num);
+    const marks = marked.map((m, i) => {
+      const mark = document.createElement("span");
+      mark.className = "f-scrollbar-mark";
+      Object.assign(mark.dataset, { num: m.dataset.num, name: m.dataset.movement, for: m.id });
+      mark.style.setProperty("--i", i);
+      return mark;
+    });
+    rail.append(...marks);
+    // The thumb is at least 2.5rem, so it can be held. Its top travels (1 − view) of the rail as the page
+    // scrolls, so a movement's mark sits where the thumb's top will be when that movement reaches the top.
+    const measure = () => {
+      const max = doc.scrollHeight - innerHeight, v = Math.min(1, Math.max(innerHeight / doc.scrollHeight, 40 / rail.clientHeight));
+      rail.style.setProperty("--view", v);
+      marks.forEach((mark, i) => mark.style.setProperty("--at", Math.min(1, (marked[i].getBoundingClientRect().top + scrollY) / max) * (1 - v)));
+    };
+    new ResizeObserver(measure).observe(document.body);
+    addEventListener("resize", measure);
+    measure();
+    rail.dataset.ready = "";
+
+    const scrollToY = (y, immediate) => lenis ? lenis.scrollTo(y, { immediate }) : scrollTo({ top: y, behavior: immediate ? "instant" : "smooth" });
+    rail.addEventListener("pointerdown", (e) => {
+      if (e.button) return;
+      e.preventDefault();
+      const mark = e.target.closest(".f-scrollbar-mark");
+      if (mark) return scrollToY(marked[marks.indexOf(mark)].getBoundingClientRect().top + scrollY, false);
+      // Take the thumb where you grabbed it; press the rail and the thumb centres on the pointer.
+      const r = rail.getBoundingClientRect(), t = thumb.getBoundingClientRect();
+      const off = e.target === thumb ? e.clientY - t.top : t.height / 2;
+      const follow = (ev) => {
+        const max = doc.scrollHeight - innerHeight;
+        scrollToY(Math.max(0, Math.min(max, ((ev.clientY - r.top - off) / (r.height - t.height)) * max)), true);
+      };
+      follow(e);
+      rail.setPointerCapture(e.pointerId);
+      rail.dataset.dragging = "";
+      rail.addEventListener("pointermove", follow);
+      rail.addEventListener("lostpointercapture", () => { rail.removeEventListener("pointermove", follow); delete rail.dataset.dragging; }, { once: true });
+    });
+  }
 
   /* ── grid overlay ── */
   const overlay = $(".grid-overlay"), gridButton = $("#grid-toggle");

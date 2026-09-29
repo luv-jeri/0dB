@@ -29,6 +29,19 @@ mark { background: var(--f-mark); color: var(--f-on-mark); padding: 0 0.08em; }
 hr { border: 0; height: var(--f-hairline); background: var(--f-rule); margin: 0; }
 [hidden] { display: none !important; } /* components set display; hidden still wins */
 img, svg { display: block; max-width: 100%; }
+/* Scrollbars: a thin stroke on nothing. Pointing at a scroller darkens it from rule to pencil. */
+:root { scrollbar-color: var(--f-rule-strong) transparent; }
+:where(html, body *) { scrollbar-width: thin; }
+:where(.f-scroll, textarea, [role="listbox"]):hover { scrollbar-color: var(--f-pencil) transparent; }
+@supports not (scrollbar-color: auto) {
+  /* Safari: the thumb is a hairline down the middle of its gutter, and thickens when pointed at. */
+  ::-webkit-scrollbar { width: 11px; height: 11px; background: transparent; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(var(--f-rule-strong) 0 0) center / 2px 100% no-repeat; }
+  ::-webkit-scrollbar-thumb:horizontal { background-size: 100% 2px; }
+  ::-webkit-scrollbar-thumb:hover { background-image: linear-gradient(var(--f-pencil) 0 0); background-size: 5px 100%; }
+  ::-webkit-scrollbar-thumb:horizontal:hover { background-size: 100% 5px; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+}
 
 /* ── motion ── the shared articulations. Pointing sketches (pencil, a hairline,
    a ring); choosing inks (the accent, a fill), and inked things land with
@@ -1178,6 +1191,60 @@ button.f-tag[data-removable]:is(:hover, :focus-visible) > span { background-posi
     linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) 0 0 / 100% var(--f-hairline) no-repeat scroll,
     linear-gradient(var(--f-rule-strong), var(--f-rule-strong)) 0 100% / 100% var(--f-hairline) no-repeat scroll;
 }
+
+/* ── f-scrollbar ── the page's scrollbar as a ruler: a hairline, a mark at each
+   movement, and a thumb as long as the view. Pointing brings the numbers in;
+   holding the thumb inks it in the accent. Script sets --view and data-ready. */
+.f-scrollbar {
+  --view: 0.2; --w: var(--f-stroke); --line: 0.5rem; /* the hairline sits this far in from the edge */
+  position: fixed; z-index: 40; inset-block: 0; inset-inline-end: 0; width: 1.5rem;
+  display: none; touch-action: none; user-select: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (pointer: fine) {
+    .f-scrollbar[data-ready] { display: block; }
+    :root:has(.f-scrollbar[data-ready]) { scrollbar-width: none; }
+  }
+}
+.f-scrollbar::before {
+  content: ""; position: absolute; inset-block: 0; inset-inline-end: var(--line); width: var(--f-hairline);
+  background: var(--f-rule); transition: background-color var(--f-allegro) var(--f-exhale);
+}
+.f-scrollbar-thumb {
+  position: absolute; top: 0; inset-inline-end: var(--line); height: calc(var(--view) * 100%);
+  width: var(--w); margin-inline-end: calc((var(--f-hairline) - var(--w)) / 2); /* centred on the hairline */
+  background: var(--f-ink);
+  /* translate is a share of its own height: the rest of the rail is (1 / view − 1) thumbs long */
+  animation: f-scrollbar-go linear both; animation-timeline: scroll(root);
+  transition: width var(--f-allegro) var(--f-spiccato), margin var(--f-allegro) var(--f-spiccato), background-color var(--f-allegro) var(--f-exhale);
+}
+@keyframes f-scrollbar-go { to { translate: 0 calc((1 / var(--view) - 1) * 100%); } }
+.f-scrollbar-mark {
+  position: absolute; top: calc(var(--at) * 100%); inset-inline: 0; height: 1rem; margin-top: -0.5rem; cursor: pointer;
+}
+.f-scrollbar-mark::before {
+  content: ""; position: absolute; top: 50%; inset-inline-end: var(--line); width: 0.5rem; height: var(--f-hairline);
+  background: var(--f-rule-strong); transition: background-color var(--f-allegro) var(--f-exhale);
+}
+.f-scrollbar-mark[data-now]::before { background: var(--f-ink); }
+.f-scrollbar-mark::after {
+  content: attr(data-num); position: absolute; top: 50%; inset-inline-end: calc(100% + var(--f-space-1));
+  translate: 0 -50%; padding-inline: 0.4em; white-space: nowrap; background: var(--f-paper);
+  font-size: var(--f-pp); line-height: 1; font-variant-numeric: tabular-nums; color: var(--f-pencil);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--f-allegro) var(--f-exhale), visibility 0s var(--f-allegro);
+}
+/* Pointing sketches: the rail darkens, the thumb thickens, the numbers arrive down the rail in turn. */
+.f-scrollbar:is(:hover, [data-dragging], [data-force~="hover"]) { --w: 4px; }
+.f-scrollbar:is(:hover, [data-dragging], [data-force~="hover"])::before { background: var(--f-rule-strong); }
+.f-scrollbar:is(:hover, [data-force~="hover"]) .f-scrollbar-mark::after {
+  opacity: 1; visibility: visible; transition-delay: calc(var(--i, 0) * var(--f-arpeggio)), 0s;
+}
+.f-scrollbar-mark:hover::after { content: attr(data-num) "\2002" attr(data-name); color: var(--f-ink); }
+.f-scrollbar-mark:hover::before { background: var(--f-ink); }
+/* Holding inks it: the thumb is where you are, so it takes the one accent. */
+.f-scrollbar[data-dragging] .f-scrollbar-thumb { background: var(--f-accent); }
+.f-scrollbar[data-dragging] { cursor: grabbing; } /* pointer capture keeps it while the hand is down */
 
 /* ── f-ratio ── a frame kept to a ratio, marked the way a printer marks a crop */
 @property --ratio { syntax: "<number>"; inherits: false; initial-value: 1.7778; }

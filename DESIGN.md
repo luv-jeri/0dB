@@ -338,6 +338,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - Anatomy: `<div class="f-scroll" tabindex="0" role="region" aria-label>`. Add `data-lenis-prevent` when smooth scrolling is on.
 - A rule appears at an edge only while there's more beyond it. Pure CSS: paper backgrounds that scroll (`background-attachment: local`) cover rules that don't.
 
+### f-scrollbar (scrollbar)
+- Every scroller: a thin stroke on a clear track (`scrollbar-color`, inherited from `:root`; `scrollbar-width: thin`). Pointing at an `f-scroll`, a textarea or a listbox darkens it from rule to pencil. Safari, which lacks `scrollbar-color`, gets a hairline thumb down the middle of its gutter that thickens when pointed at.
+- The page: `<div class="f-scrollbar" aria-hidden="true"><span class="f-scrollbar-thumb"></span></div>`, fixed to the inline end. Script adds one `<span class="f-scrollbar-mark" data-num data-name data-for style="--at; --i">` per section, sets `--view` (the share in view, at least 2.5rem of thumb), then `data-ready`. It turns on only for a fine pointer with scroll timelines; otherwise the native scrollbar stays.
+- The page is measured like a ruler: a hairline, a mark where each movement begins, and an ink thumb as long as the view. The thumb rides `animation-timeline: scroll(root)`, so it follows scrolling with no script. The current movement's mark is ink (`data-now`).
+- Pointing sketches: the rail darkens, the thumb thickens, and the numbers arrive down the rail in turn; pointing at a mark adds its name. Holding the thumb (`data-dragging`) inks it in the accent, because it marks where you are.
+- Pointer only: pressing a mark goes to its movement, pressing the rail centres the thumb there, and the thumb drags. The keyboard scrolls the page as always, which is why the rail is hidden from assistive technology.
+
 ### f-ratio (aspect ratio)
 - Anatomy: `<div class="f-ratio" style="--ratio: 1.7778">`, with an `f-fraction` naming it. `--ratio` is a registered number.
 - A frame kept to a ratio and marked like a printer's crop: short lines outside each corner, never a border. Change `--ratio` and the frame eases to it while the fraction rolls.
@@ -452,6 +459,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Collapsible | "the silence that heals" captions | "and 4 more" is the control |
 | Resizable, aspect ratio | Paul Rand dimension lines | Shares measured; a printer's crop marks |
 | Scroll area | "Less is more." rules | A rule only where there's more |
+| Scrollbar | Paul Rand dimension lines | The page as a ruler, marked at each movement |
 | Carousel | POINT / SPECTRA | One poster at a time, cropped |
 | Table | Renaissance two-colour | Only the sorted column in ink |
 | Chart | POINT / SPECTRA | Tiny data against one giant number |
@@ -524,6 +532,7 @@ Three rules, then one articulation per component.
 | Collapsible | Arpeggio | The rest opens at reading speed, line by line |
 | Resizable | Measure | The rule inks; the dimensions appear while held |
 | Aspect ratio | Breath | The frame eases to the ratio; the fraction rolls |
+| Scrollbar | Arpeggio, then ink | The numbers arrive down the rail; held, the thumb takes the accent |
 | Carousel | Roll | The count rolls the way you travel |
 | Table | Glide | The rows glide to their new order; a pick's ring lands |
 | Chart | Roll | The number rolls to the month you point at, and back |
