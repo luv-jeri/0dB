@@ -5,9 +5,9 @@ import * as React from "react"
 import { ModeToggle, type Mode } from "@/registry/0db/ui/mode-toggle"
 import { State } from "@/components/site/state"
 
-const variants = ["eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const
+const variants = ["typeset", "eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const
 
-// Held here, so the seven agree; on your page, the same change goes to <html data-mode>.
+// Held here, so the eight agree; on your page, the same change goes to <html data-mode>.
 export default function Example() {
   const [mode, setMode] = React.useState<Mode>("day")
   return (
@@ -34,6 +34,11 @@ export function States() {
       <State label="Disabled"><ModeToggle disabled mode="day" /></State>
       <State label="Knockout, pointed at"><ModeToggle variant="knockout" data-force="hover" mode="day" /></State>
       <State label="Hour, disabled"><ModeToggle variant="hour" disabled mode="nocturne" /></State>
+      <State label="Typeset, pencil preview"><ModeToggle variant="typeset" data-force="hover" mode="day" /></State>
+      <State label="Typeset, focus"><ModeToggle variant="typeset" data-force="focus" mode="nocturne" /></State>
+      <State label="Typeset, disabled"><ModeToggle variant="typeset" disabled mode="day" /></State>
+      <State label="Typeset, reduced motion"><ModeToggle variant="typeset" data-force="reduced" mode="nocturne" /></State>
+      <State label="Typeset, right to left"><span dir="rtl"><ModeToggle variant="typeset" mode="nocturne" /></span></State>
     </>
   )
 }

@@ -24,7 +24,7 @@ export function ThemeControls() {
         </PopoverContent>
       </Popover>
       {/* The toggle reports; the change opens the new page as a circle from the toggle itself. */}
-      <ModeToggle variant="eclipse" mode={theme.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} className="bar-mode" />
+      <ModeToggle variant="typeset" aria-label="Night mode" mode={theme.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} className="bar-mode" />
     </div>
   )
 }

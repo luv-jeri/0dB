@@ -1,7 +1,7 @@
 @layer components {
   @property --db-mode-x { syntax: "<length>"; inherits: false; initial-value: 0px; }
-  /* ── db-mode ── the day and night toggle: one button, pressed at night, drawn five ways.
-     Every drawing reads aria-pressed, so the styles never need a second source of truth. */
+  /* ── db-mode ── the day and night toggle: one button, pressed at night, drawn eight ways.
+     Drawings read aria-pressed (the typeset switch reads aria-checked), one source of truth. */
   .db-mode {
     --dir: 1;
     appearance: none; border: 0; background: none; font: inherit; color: var(--db-graphite);
@@ -147,6 +147,79 @@
   @keyframes db-hour-out { from { opacity: 1; translate: 0 0; } to { opacity: 0; translate: 0 -110%; } }
   @keyframes db-hour-out-again { from { opacity: 1; translate: 0 0; } to { opacity: 0; translate: 0 -110%; } }
 
+  /* typeset: one line in the composing stick. The hidden longer word reserves its measure;
+     only the current word prints. Pointing pencils in two sorts from the other word. */
+  .db-mode[data-variant="typeset"] { min-block-size: 44px; flex: none; font-size: inherit; transition: none; }
+  .db-mode-typeset {
+    position: relative; display: block; white-space: nowrap; text-align: start;
+    font-family: var(--db-voice); font-style: normal; font-weight: 400; font-size: 1em;
+    line-height: 1.45; letter-spacing: 0; font-stretch: normal; font-kerning: normal; font-optical-sizing: auto;
+  }
+  .db-mode-typeset-measure { visibility: hidden; }
+  .db-mode-typeset-plain, .db-mode-typeset-pencil { position: absolute; inset-block-start: 0; inset-inline-start: 0; }
+  .db-mode-typeset-pencil { visibility: hidden; font-family: var(--db-expression); font-style: italic; font-size: calc(1em * var(--db-expression-scale)); }
+  .db-mode[aria-checked="true"] .db-mode-typeset-plain[data-word="day"],
+  .db-mode[aria-checked="false"] .db-mode-typeset-plain[data-word="nocturne"] { visibility: hidden; }
+  .db-mode-typeset-letters { display: none; }
+  .db-mode-typeset[data-laid] .db-mode-typeset-plain { visibility: hidden; }
+  .db-mode-typeset[data-laid] .db-mode-typeset-letters { display: contents; }
+  .db-mode-typeset-letters > span {
+    --db-mode-day-x: 0px; --db-mode-nocturne-x: 0px; --db-mode-day-rtl: 0px; --db-mode-nocturne-rtl: 0px;
+    --db-mode-day-order: 0; --db-mode-nocturne-order: 0; --db-mode-day-reverse: 0; --db-mode-nocturne-reverse: 0;
+    --db-mode-x: var(--db-mode-day-x); --db-mode-order: var(--db-mode-day-order);
+    --db-mode-show: 1; --db-mode-wait: calc(var(--db-allegro) / 2);
+    position: absolute; inset-inline-start: 0; inset-block-start: 0;
+    translate: calc(var(--dir) * var(--db-mode-x)) 0; opacity: var(--db-mode-show);
+    transition: translate var(--db-moderato) var(--db-exhale), opacity var(--db-allegro) var(--db-breath);
+    transition-delay: calc(var(--db-mode-wait) + var(--db-mode-order) * var(--db-arpeggio) / 3);
+  }
+  .db-mode[aria-checked="true"] .db-mode-typeset-letters > span { --db-mode-x: var(--db-mode-nocturne-x); --db-mode-order: var(--db-mode-nocturne-order); }
+  .db-mode:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters > span { --db-mode-x: var(--db-mode-day-rtl); --db-mode-order: var(--db-mode-day-reverse); }
+  .db-mode[aria-checked="true"]:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters > span { --db-mode-x: var(--db-mode-nocturne-rtl); --db-mode-order: var(--db-mode-nocturne-reverse); }
+  .db-mode[aria-checked="false"] .db-mode-typeset-letters > [data-in="nocturne"],
+  .db-mode[aria-checked="true"] .db-mode-typeset-letters > [data-in="day"] { --db-mode-show: 0; --db-mode-wait: 0ms; }
+  .db-mode-typeset-letters > span > span { transition: opacity var(--db-allegro) var(--db-breath); }
+  .db-mode-typeset-letters i {
+    --db-mode-preview-x: 0px;
+    display: none; position: absolute; inset-inline-start: 0; inset-block-start: 0;
+    font-family: var(--db-expression); font-size: calc(1em * var(--db-expression-scale)); font-style: italic;
+    line-height: calc(1.45 / var(--db-expression-scale)); color: var(--db-pencil);
+    opacity: var(--db-mode-preview, 0); translate: calc(var(--db-mode-preview, 0) * var(--db-mode-preview-x)) 0;
+    transition: opacity var(--db-allegro) var(--db-breath), translate var(--db-allegro) var(--db-exhale);
+  }
+  .db-mode[aria-checked="false"] .db-mode-typeset-letters i[data-mode="day"][data-direction="ltr"],
+  .db-mode[aria-checked="true"] .db-mode-typeset-letters i[data-mode="nocturne"][data-direction="ltr"] { display: block; }
+  .db-mode:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters i[data-direction="ltr"] { display: none; }
+  .db-mode[aria-checked="false"]:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters i[data-mode="day"][data-direction="rtl"],
+  .db-mode[aria-checked="true"]:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters i[data-mode="nocturne"][data-direction="rtl"] { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    .db-mode[data-variant="typeset"][data-preview]:not(:disabled):not([data-force~="reduced"]):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"]) { --db-mode-preview: 0.75; }
+  }
+  .db-mode:not([data-preview]) .db-mode-typeset-letters > span > * { transition: none; }
+  .db-mode-typeset-letters > span:has(i[data-direction="ltr"]) > span { opacity: calc(1 - var(--db-mode-preview, 0)); }
+  .db-mode:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters > span > span { opacity: 1; }
+  .db-mode:is([dir="rtl"], [dir="rtl"] *) .db-mode-typeset-letters > span:has(i[data-direction="rtl"]) > span { opacity: calc(1 - var(--db-mode-preview, 0)); }
+
+  /* The appearance hook supplies the origin and guards support/reduced motion. Its new root
+     opens from the toggle; the old sheet stays still, with no cross-fade. Both finish moderato. */
+  :root:has(.bar-mode[data-variant="typeset"]) body { transition: none; }
+  :root:has(.bar-mode[data-variant="typeset"])::view-transition-old(root) { animation: none; mix-blend-mode: normal; }
+  :root:has(.bar-mode[data-variant="typeset"])::view-transition-new(root) { animation: db-mode-paper-in var(--db-moderato) var(--db-breath) both; mix-blend-mode: normal; }
+  :root:has(.bar-mode[data-variant="typeset"])::view-transition { pointer-events: none; }
+  @keyframes db-mode-paper-in {
+    from { clip-path: circle(0 at var(--db-appearance-x, 50%) var(--db-appearance-y, 0)); }
+    to { clip-path: circle(150vmax at var(--db-appearance-x, 50%) var(--db-appearance-y, 0)); }
+  }
+  .db-mode[data-force~="reduced"] { --db-mode-preview: 0; }
+  .db-mode[data-force~="reduced"] .db-mode-typeset-letters > span,
+  .db-mode[data-force~="reduced"] .db-mode-typeset-letters > span > * { transition: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .db-mode[data-variant="typeset"] { --db-mode-preview: 0; transition: none; }
+    .db-mode-typeset-letters > span, .db-mode-typeset-letters > span > * { transition: none; }
+    :root:has(.bar-mode[data-variant="typeset"])::view-transition-old(root),
+    :root:has(.bar-mode[data-variant="typeset"])::view-transition-new(root) { animation: none; }
+  }
+
   /* Forced colours drop backgrounds and masks' colours: say what each part is. */
   @media (forced-colors: active) {
     .db-mode { color: ButtonText; }
@@ -157,5 +230,6 @@
     .db-mode-block, .db-mode-block::before, .db-mode-digit, .db-mode-min { forced-color-adjust: none; color: ButtonText; }
     .db-mode-block::before { background: ButtonText; }
     .db-mode[aria-pressed="true"] .db-mode-block { color: ButtonFace; }
+    .db-mode-typeset, .db-mode-typeset-letters i { color: ButtonText; }
   }
 }
