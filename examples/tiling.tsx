@@ -75,6 +75,7 @@ const cells = (n: number) =>
   ))
 
 export function States() {
+  const [chosen, setChosen] = React.useState("")
   return (
     <>
       <State label="Rules">
@@ -98,16 +99,22 @@ export function States() {
         <Tiling dir="rtl" className="w-[26rem] max-w-full">{cells(5)}</Tiling>
       </State>
       <State label="Editing, rules">
-        <div className="w-[48rem] max-w-full"><TilingEditor label="A sheet to arrange" defaultValue={small} /></div>
+        <div className="w-[48rem] max-w-full"><TilingEditor label="A sheet to arrange" defaultValue={small} copyLayout /></div>
       </State>
       <State label="Holding, crosses">
         <div className="w-[48rem] max-w-full"><TilingEditor label="Space, picked up" variant="crosses" defaultValue={small} defaultHeld="space" /></div>
       </State>
       <State label="Editing, right to left">
-        <div className="w-[48rem] max-w-full"><TilingEditor dir="rtl" label="مساحة للكلمات" defaultValue={[
+        <div className="w-[48rem] max-w-full"><TilingEditor dir="rtl" label="مساحة للكلمات" copyLayout defaultValue={[
           { id: "space", label: "مساحة", column: 1, row: 1, span: 4, rows: 1 },
           { id: "type", label: "كلمات", column: 7, row: 2, span: 5, rows: 1 },
         ]} /></div>
+      </State>
+      <State label="Content stays clickable">
+        <div className="w-[48rem] max-w-full">
+          <TilingEditor label="Choose a word, or drag it" defaultValue={small} copyLayout renderTile={(tile) => <button type="button" onClick={() => setChosen(tile.label)}>Choose {tile.label}</button>} />
+          <p className="db-pp" role="status">{chosen ? `${chosen} chosen.` : "Choose a word."}</p>
+        </div>
       </State>
       <State label="Empty, ready for a tile">
         <div className="w-[48rem] max-w-full"><TilingEditor label="Your first arrangement" defaultValue={[]} copyLayout /></div>

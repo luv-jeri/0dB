@@ -87,149 +87,207 @@ function layoutError(tiles: TilingLayout) {
   return null
 }
 
-/** Editing is a separate, opt-in part. Tiling and Tile above keep their static server-rendered markup. */
+type EditKind = "move" | "corner" | "start" | "end" | "top" | "bottom"
+type TilingEdit = { id: string; base: TilingLayout; layout: TilingItem[]; kind: EditKind; offset?: { x: number; y: number } }
+const sameGeometry = (a: TilingItem, b: TilingItem) => a.column === b.column && a.row === b.row && a.span === b.span && a.rows === b.rows
+const tracks = (tile: TilingItem) => ({ gridColumn: `${tile.column} / span ${tile.span}`, gridRow: `${tile.row} / span ${tile.rows}` })
+
+// A sparse sheet can make room. Matching rectangles swap; other neighbours keep their
+// columns and move down, in reading order, until each has its own unoccupied rectangle.
+function arrange(tiles: TilingLayout, next: TilingItem, kind: EditKind) {
+  const original = tiles.find((tile) => tile.id === next.id)!
+  const neighbours = tiles.filter((tile) => tile.id !== next.id)
+  const hit = neighbours.filter((tile) => overlaps(next, tile))
+  if (kind === "move" && hit.length === 1 && sameGeometry(next, { ...hit[0], id: next.id })) {
+    const swapped = { ...hit[0], column: original.column, row: original.row, span: original.span, rows: original.rows }
+    return tiles.map((tile) => tile.id === next.id ? next : tile.id === swapped.id ? swapped : { ...tile })
+  }
+  const placed = [next]
+  for (const tile of [...neighbours].sort((a, b) => a.row - b.row || a.column - b.column)) {
+    let candidate = { ...tile }
+    let collisions = placed.filter((other) => overlaps(candidate, other))
+    while (collisions.length) {
+      candidate = { ...candidate, row: Math.max(...collisions.map((other) => other.row + other.rows)) }
+      collisions = placed.filter((other) => overlaps(candidate, other))
+    }
+    placed.push(candidate)
+  }
+  return tiles.map((tile) => placed.find((other) => other.id === tile.id)!)
+}
+
+function adjusted(tile: TilingItem, dx: number, dy: number, kind: EditKind) {
+  const next = { ...tile }
+  if (kind === "move") {
+    next.column = Math.max(1, Math.min(13 - tile.span, tile.column + dx))
+    next.row = Math.max(1, tile.row + dy)
+  } else {
+    if (kind === "corner" || kind === "end") next.span = Math.max(1, Math.min(13 - tile.column, tile.span + dx))
+    if (kind === "corner" || kind === "bottom") next.rows = Math.max(1, tile.rows + dy)
+    if (kind === "start") {
+      next.column = Math.max(1, Math.min(tile.column + tile.span - 1, tile.column + dx))
+      next.span = tile.span + tile.column - next.column
+    }
+    if (kind === "top") {
+      next.row = Math.max(1, Math.min(tile.row + tile.rows - 1, tile.row + dy))
+      next.rows = tile.rows + tile.row - next.row
+    }
+  }
+  return next
+}
+
+/** Editing is opt-in. Pointer and keyboard previews commit together on drop; Escape discards them. */
 function TilingEditor({ label, value, defaultValue = [], onValueChange, variant = "rules", renderTile, copyLayout = false, defaultHeld, className, ...props }: TilingEditorProps) {
   const [local, setLocal] = React.useState<TilingLayout>(() => copyTiles(defaultValue))
   const tiles = value ?? local
   const error = layoutError(tiles)
-  const [held, setHeld] = React.useState<TilingItem | null>(() => tiles.find((tile) => tile.id === defaultHeld) ?? null)
-  const current = tiles.find((tile) => tile.id === held?.id)
-  const [notice, setNotice] = React.useState({ text: "Pick up a tile to make room for your own arrangement.", sequence: 0 })
+  const [selected, setSelected] = React.useState(defaultHeld ?? "")
+  const [edit, setEdit] = React.useState<TilingEdit | null>(() => defaultHeld && tiles.some((tile) => tile.id === defaultHeld) ? { id: defaultHeld, base: tiles, layout: copyTiles(tiles), kind: "move" } : null)
+  // An external controlled update always wins over an unfinished gesture.
+  const activeEdit = edit?.base === tiles ? edit : null
+  const shown = activeEdit?.layout ?? tiles
+  const current = shown.find((tile) => tile.id === selected)
+  const [notice, setNotice] = React.useState({ text: "", sequence: 0 })
   const hint = React.useId()
+  const keys = React.useId()
   const sheet = React.useRef<HTMLDivElement>(null)
   const add = React.useRef<HTMLButtonElement>(null)
   const output = React.useRef<HTMLDetailsElement>(null)
   const json = React.useRef<HTMLTextAreaElement>(null)
-  const handles = React.useRef(new Map<string, HTMLButtonElement>())
+  const handles = React.useRef(new Map<string, HTMLDivElement>())
   const focusNext = React.useRef<string | null>(null)
-  const revealNext = React.useRef<HTMLButtonElement | null>(null)
   const previous = React.useRef(new Map<string, { x: number; y: number }>())
   const animateNext = React.useRef(false)
+  const suppressClick = React.useRef(false)
   const drag = React.useRef<{
-    tile: TilingItem; pointer: number; x: number; y: number; left: number; top: number
-    columnStep: number; rowStep: number; rtl: boolean; kind: "move" | "size"; moved: boolean; wasHeld: boolean
+    tile: TilingItem; base: TilingLayout; pointer: number; x: number; y: number; left: number; top: number
+    columnStep: number; rowStep: number; rtl: boolean; kind: EditKind; moved: boolean; preview: TilingItem[]
   } | null>(null)
 
   const say = (text: string) => setNotice((before) => ({ text, sequence: before.sequence + 1 }))
   const commit = (next: TilingItem[]) => {
-    animateNext.current = !drag.current
+    animateNext.current = true
     if (value === undefined) setLocal(next)
-    onValueChange?.(next)
+    onValueChange?.(copyTiles(next))
   }
-  const lift = (tile: TilingItem) => {
-    setHeld({ ...tile })
-    say(`${tile.label} picked up at ${geometry(tile)}`)
+  const lift = (tile: TilingItem, kind: EditKind = "move") => {
+    setSelected(tile.id)
+    setEdit({ id: tile.id, base: tiles, layout: copyTiles(tiles), kind })
+    say(`${tile.label} picked up. ${geometry(tile)}`)
   }
-  const down = (tile: TilingItem) => {
+  const clear = () => {
     drag.current = null
-    setHeld(null)
-    say(`${tile.label} set down at ${geometry(tile)}`)
+    setEdit(null)
+    animateNext.current = true
   }
   const cancel = () => {
-    drag.current = null
-    if (!held || !current) return
-    const restored = { ...current, column: held.column, row: held.row, span: held.span, rows: held.rows }
-    const blocked = tiles.some((tile) => tile.id !== held.id && overlaps(restored, tile))
-    if (!blocked) commit(tiles.map((tile) => tile.id === held.id ? restored : tile))
-    setHeld(null)
-    say(blocked ? `${current.label} cannot return: that space is now occupied. Kept at ${geometry(current)}` : `${restored.label} put back at ${geometry(restored)}`)
+    clear()
+    say("Edit cancelled. Saved layout unchanged.")
   }
-  const change = (tile: TilingItem, next: TilingItem, kind: "moved" | "resized") => {
-    if (next.column < 1 || next.row < 1 || next.span < 1 || next.rows < 1 || next.column + next.span > 13) {
-      say(`${tile.label} reached the grid edge. Still at ${geometry(tile)}`)
-      return
-    }
-    const neighbour = tiles.find((other) => other.id !== tile.id && overlaps(next, other))
-    if (neighbour) {
-      say(`${tile.label} cannot be ${kind}: ${neighbour.label} occupies that space. Still at ${geometry(tile)}`)
-      return
-    }
-    if (tile.column === next.column && tile.row === next.row && tile.span === next.span && tile.rows === next.rows) return
-    commit(tiles.map((other) => other.id === tile.id ? next : other))
-    say(`${tile.label} ${kind} to ${geometry(next)}`)
+  const drop = (next = activeEdit?.layout) => {
+    const tile = next?.find((item) => item.id === selected)
+    if (next && next.some((item, i) => !sameGeometry(item, tiles[i]))) commit(next)
+    clear()
+    if (tile) say(`${tile.label} set down. ${geometry(tile)}`)
   }
 
-  // Only a person's edit can start a glide. Mounts, prop updates and viewport changes are still.
+  // Capture visible positions, including the held tile's pointer offset, so release
+  // glides from the hand to its landing cells. Prop updates and mounts stay still.
   React.useLayoutEffect(() => {
     const board = sheet.current
     if (!board) return
+    const bounds = board.getBoundingClientRect()
     const cs = getComputedStyle(board)
     const glide = animateNext.current && !matchMedia("(prefers-reduced-motion: reduce)").matches
     const seen = new Map<string, { x: number; y: number }>()
     Array.from(board.children).forEach((node) => {
       if (!(node instanceof HTMLElement) || !node.dataset.id) return
-      const at = { x: node.offsetLeft, y: node.offsetTop }
+      const rect = node.getBoundingClientRect()
+      const at = { x: rect.left - bounds.left, y: rect.top - bounds.top }
       const before = previous.current.get(node.dataset.id)
       seen.set(node.dataset.id, at)
-      node.getAnimations().forEach((animation) => animation.cancel())
-      if (glide && before && (at.x !== before.x || at.y !== before.y)) {
-        node.animate([{ translate: `${before.x - at.x}px ${before.y - at.y}px` }, { translate: "0 0" }], { duration: parseFloat(cs.getPropertyValue("--db-moderato")) || 320, easing: cs.getPropertyValue("--db-breath").trim() || "ease" })
+      if (glide && before && !node.hasAttribute("data-dragging") && (Math.abs(at.x - before.x) > 0.5 || Math.abs(at.y - before.y) > 0.5)) {
+        node.getAnimations().forEach((animation) => animation.cancel())
+        node.animate([{ translate: `${before.x - node.offsetLeft}px ${before.y - node.offsetTop}px` }, { translate: "0 0" }], { duration: parseFloat(cs.getPropertyValue("--db-moderato")) || 320, easing: cs.getPropertyValue("--db-breath").trim() || "ease" })
       }
     })
     previous.current = seen
     animateNext.current = false
     if (focusNext.current) {
-      const handle = handles.current.get(focusNext.current)
-      if (handle) {
-        handle.focus({ preventScroll: true })
-        handle.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" })
-      }
+      handles.current.get(focusNext.current)?.focus({ preventScroll: true })
       focusNext.current = null
     }
-    revealNext.current?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" })
-    revealNext.current = null
   })
 
-  const key = (event: React.KeyboardEvent<HTMLButtonElement>, tile: TilingItem, kind: "move" | "size") => {
-    if (event.key === "Escape" && current) {
+  const key = (event: React.KeyboardEvent<HTMLElement>, tile: TilingItem, kind: EditKind = "move") => {
+    if (event.target !== event.currentTarget || event.altKey || event.ctrlKey || event.metaKey) return
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault()
-      cancel()
+      event.stopPropagation()
+      if (activeEdit?.id === tile.id) drop()
+      else lift(tile, kind)
       return
     }
-    if (event.altKey || event.ctrlKey || event.metaKey || !current || current.id !== tile.id) return
+    if (!activeEdit || activeEdit.id !== tile.id) return
     const rtl = getComputedStyle(event.currentTarget).direction === "rtl"
-    const horizontal = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0
-    const dx = horizontal * (rtl ? -1 : 1)
+    const dx = (event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0) * (rtl ? -1 : 1)
     const dy = event.key === "ArrowDown" ? 1 : event.key === "ArrowUp" ? -1 : 0
     if (!dx && !dy) return
     event.preventDefault()
-    const resizing = event.shiftKey || kind === "size"
-    revealNext.current = event.currentTarget
-    change(tile, resizing ? { ...tile, span: tile.span + dx, rows: tile.rows + dy } : { ...tile, column: tile.column + dx, row: tile.row + dy }, resizing ? "resized" : "moved")
+    event.stopPropagation()
+    const action = event.shiftKey ? "corner" : kind
+    const next = adjusted(tile, dx, dy, action)
+    if (sameGeometry(next, tile)) { say(`${tile.label} reached the grid edge.`); return }
+    const layout = arrange(activeEdit.base, next, action)
+    animateNext.current = true
+    setEdit({ ...activeEdit, layout, kind: action })
+    say(`${tile.label} ${action === "move" ? "moved" : "resized"}. ${geometry(next)} Neighbours make room.`)
   }
 
-  const pointerDown = (event: React.PointerEvent<HTMLButtonElement>, tile: TilingItem, kind: "move" | "size") => {
-    if (event.button !== 0 || !event.isPrimary || !sheet.current) return
-    event.preventDefault()
-    event.currentTarget.focus({ preventScroll: true })
-    event.currentTarget.setPointerCapture(event.pointerId)
+  const pointerDown = (event: React.PointerEvent<HTMLElement>, tile: TilingItem, kind: EditKind = "move") => {
+    if (event.defaultPrevented || event.button !== 0 || !event.isPrimary || !sheet.current) return
+    if ((event.target as HTMLElement).closest("input, textarea, select, [contenteditable]:not([contenteditable='false']), [data-tiling-no-drag]")) return
+    if (kind !== "move") { event.preventDefault(); event.stopPropagation() }
     const board = sheet.current
     const bounds = board.getBoundingClientRect()
     const cs = getComputedStyle(board)
-    const wasHeld = current?.id === tile.id
-    drag.current = { tile, pointer: event.pointerId, x: event.clientX, y: event.clientY, left: bounds.left, top: bounds.top, columnStep: (bounds.width + parseFloat(cs.columnGap)) / 12, rowStep: parseFloat(cs.gridAutoRows) + parseFloat(cs.rowGap), rtl: cs.direction === "rtl", kind, moved: false, wasHeld }
-    if (!wasHeld) lift(tile)
+    suppressClick.current = false
+    // Do not capture or prevent the initial press: links and buttons still receive a click.
+    drag.current = { tile, base: tiles, pointer: event.pointerId, x: event.clientX, y: event.clientY, left: bounds.left, top: bounds.top, columnStep: (bounds.width + parseFloat(cs.columnGap)) / 12, rowStep: parseFloat(cs.gridAutoRows) + parseFloat(cs.rowGap), rtl: cs.direction === "rtl", kind, moved: false, preview: copyTiles(tiles) }
+    setSelected(tile.id)
   }
-  const pointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
-    const active = drag.current
-    if (!active || active.pointer !== event.pointerId || !sheet.current) return
+  const pointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const pending = drag.current
+    if (!pending || pending.pointer !== event.pointerId || !sheet.current) return
+    if (pending.base !== tiles) { cancel(); return }
     const bounds = sheet.current.getBoundingClientRect()
-    const x = event.clientX - active.x + active.left - bounds.left
-    const y = event.clientY - active.y + active.top - bounds.top
-    if (Math.abs(x) + Math.abs(y) < 4 && !active.moved) return
-    active.moved = true
-    const dx = Math.round(x / active.columnStep) * (active.rtl ? -1 : 1)
-    const dy = Math.round(y / active.rowStep)
-    const tile = tiles.find((item) => item.id === active.tile.id)
-    if (!tile) return
-    change(tile, active.kind === "size" ? { ...tile, span: active.tile.span + dx, rows: active.tile.rows + dy } : { ...tile, column: active.tile.column + dx, row: active.tile.row + dy }, active.kind === "size" ? "resized" : "moved")
+    const x = event.clientX - pending.x + pending.left - bounds.left
+    const y = event.clientY - pending.y + pending.top - bounds.top
+    if (!pending.moved && Math.hypot(x, y) < 6) return
+    if (!pending.moved) {
+      pending.moved = true
+      event.currentTarget.focus({ preventScroll: true })
+      event.currentTarget.setPointerCapture(event.pointerId)
+      event.currentTarget.getAnimations().forEach((animation) => animation.cancel())
+    }
+    event.preventDefault()
+    suppressClick.current = true
+    const dx = Math.round(x / pending.columnStep) * (pending.rtl ? -1 : 1)
+    const dy = Math.round(y / pending.rowStep)
+    const next = adjusted(pending.tile, dx, dy, pending.kind)
+    const layout = arrange(pending.base, next, pending.kind)
+    const was = pending.preview.find((tile) => tile.id === next.id)!
+    animateNext.current = !sameGeometry(was, next)
+    if (!sameGeometry(was, next)) say(`${next.label}, ${geometry(next)} Release to place. Neighbours make room.`)
+    pending.preview = layout
+    setEdit({ id: next.id, base: pending.base, layout, kind: pending.kind, offset: pending.kind === "move" ? { x, y } : undefined })
   }
-  const pointerUp = (event: React.PointerEvent<HTMLButtonElement>, tile: TilingItem) => {
-    const active = drag.current
-    if (!active || active.pointer !== event.pointerId) return
-    drag.current = null
-    event.currentTarget.releasePointerCapture(event.pointerId)
-    if (active.moved || active.wasHeld) down(tile)
+  const pointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    const pending = drag.current
+    if (!pending || pending.pointer !== event.pointerId) return
+    if (pending.base !== tiles) cancel()
+    else if (pending.moved) drop(pending.preview)
+    else drag.current = null
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId)
   }
 
   const addTile = () => {
@@ -241,22 +299,23 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
       for (let column = 1; column <= 9; column++) {
         Object.assign(tile, { column, row })
         if (tiles.some((item) => overlaps(tile, item))) continue
+        clear()
         focusNext.current = tile.id
         commit([...tiles, tile])
-        setHeld({ ...tile })
-        say(`${tile.label} added and picked up at ${geometry(tile)}`)
+        setSelected(tile.id)
+        say(`${tile.label} added. ${geometry(tile)}`)
         return
       }
     }
   }
   const removeTile = () => {
     if (!current) return
-    const at = tiles.indexOf(current)
+    const at = tiles.findIndex((tile) => tile.id === current.id)
     const next = tiles.filter((tile) => tile.id !== current.id)
     focusNext.current = next[Math.min(at, next.length - 1)]?.id ?? null
+    clear()
     commit(next)
-    drag.current = null
-    setHeld(null)
+    setSelected(focusNext.current ?? "")
     if (!next.length) add.current?.focus()
     say(`${current.label} removed. ${next.length} ${next.length === 1 ? "tile remains" : "tiles remain"}.`)
   }
@@ -272,46 +331,50 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
     }
   }
 
-  const rows = error ? 2 : Math.max(2, ...tiles.map((tile) => tile.row + tile.rows))
+  const rows = error ? 2 : Math.max(2, ...shown.map((tile) => tile.row + tile.rows), ...tiles.map((tile) => tile.row + tile.rows))
+  const landing = activeEdit?.layout.find((tile) => tile.id === activeEdit.id)
   return (
-    <div data-slot="tiling-editor" data-variant={variant} className={cn("db-tiling db-tiling-editor", className)} {...props}>
+    <div data-slot="tiling-editor" data-variant={variant} className={cn("db-tiling db-tiling-editor", className)} {...props} onKeyDown={(event) => { if (event.key === "Escape" && (activeEdit || drag.current)) { event.preventDefault(); cancel() }; props.onKeyDown?.(event) }}>
       <div className="db-tiling-toolbar">
         <span className="db-tiling-caption">{label}</span>
-        <div className="db-tiling-actions">
+        <div className="db-tiling-actions" role="group" aria-label={`${label} actions`}>
           <button ref={add} type="button" onClick={addTile} disabled={!!error}>Add tile</button>
           <button type="button" onClick={removeTile} disabled={!current || !!error} aria-label={current ? `Remove tile: ${current.label}` : "Remove tile"}>Remove tile</button>
           {copyLayout ? <button type="button" onClick={copy} disabled={!!error}>Copy layout</button> : null}
         </div>
       </div>
-      <p id={hint} className="db-tiling-hint">Pick up with Enter or Space. Arrows move; Shift + arrows resize. Press again to put down. Escape puts it back. Drag “move” or “size”. Scroll across on a narrow screen.</p>
+      <div className="db-tiling-instructions">
+        <p id={hint} className="db-tiling-hint">Drag to move. Drag the corner to resize.</p>
+        <p id={keys} className="db-tiling-keys">Enter / Space picks up or drops. Arrows move. Shift + arrows resize. Escape cancels.</p>
+      </div>
       {error ? <p role="alert">{error}</p> : (
-        <div className="db-tiling-viewport" tabIndex={0} role="region" aria-label={`${label}, 12-column editing sheet`} aria-describedby={hint}>
+        <div className="db-tiling-viewport" tabIndex={0} role="region" aria-label={`${label}, 12-column editing sheet`} aria-describedby={`${hint} ${keys}`}>
           <div className="db-tiling-canvas">
             <div className="db-tiling-columns" aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <span key={i}><bdi>{String(i + 1).padStart(2, "0")}</bdi></span>)}</div>
             <div ref={sheet} className="db-tiling-sheet" style={{ "--db-tiling-rows": rows } as React.CSSProperties}>
-              {tiles.map((tile) => (
-                <Tile key={tile.id} span={tile.span} rows={tile.rows} data-id={tile.id} data-held={current?.id === tile.id || undefined} role="group" aria-label={`${tile.label}, ${geometry(tile)}`} className={current?.id === tile.id ? "db-corners" : undefined} style={{ gridColumn: `${tile.column} / span ${tile.span}`, gridRow: `${tile.row} / span ${tile.rows}` }}>
-                  {(["move", "size"] as const).map((kind) => (
-                    <button
-                      key={kind}
-                      ref={kind === "move" ? (node) => { if (node) handles.current.set(tile.id, node); else handles.current.delete(tile.id) } : undefined}
-                      type="button"
-                      className={`db-tiling-${kind}`}
-                      aria-label={`${kind === "move" ? "Move" : "Size"} ${tile.label}`}
-                      aria-pressed={current?.id === tile.id}
-                      aria-describedby={hint}
-                      onClick={(event) => { if (event.detail === 0) { if (current?.id === tile.id) down(tile); else lift(tile) } }}
-                      onKeyDown={(event) => key(event, tile, kind)}
-                      onPointerDown={(event) => pointerDown(event, tile, kind)}
-                      onPointerMove={pointerMove}
-                      onPointerUp={(event) => pointerUp(event, tile)}
-                      onPointerCancel={cancel}
-                      onLostPointerCapture={() => { if (drag.current) cancel() }}
-                    >{kind}</button>
-                  ))}
-                  <div className="db-tiling-content">{renderTile ? renderTile(tile) : <span className="db-tiling-name">{tile.label}</span>}</div>
-                </Tile>
-              ))}
+              {landing ? <div className="db-tiling-landing" aria-hidden="true" style={tracks(landing)} /> : null}
+              {shown.map((tile) => {
+                const holding = activeEdit?.id === tile.id
+                const floating = holding && activeEdit.offset
+                const rectangle = floating ? activeEdit.base.find((item) => item.id === tile.id)! : tile
+                return (
+                  <Tile key={tile.id} ref={(node) => { if (node) handles.current.set(tile.id, node); else handles.current.delete(tile.id) }} span={rectangle.span} rows={rectangle.rows} data-id={tile.id} data-selected={selected === tile.id || undefined} data-held={holding || undefined} data-dragging={!!floating || undefined} role="group" aria-roledescription="movable tile" aria-label={`${tile.label}, ${geometry(tile)}`} aria-describedby={`${hint} ${keys}`} tabIndex={0} style={{ ...tracks(rectangle), translate: floating ? `${floating.x}px ${floating.y}px` : undefined }}
+                    onKeyDown={(event) => key(event, tile)} onPointerDown={(event) => pointerDown(event, tile)} onPointerMove={pointerMove} onPointerUp={pointerUp}
+                    onPointerCancel={cancel} onLostPointerCapture={(event) => { if (event.target === event.currentTarget && drag.current?.moved) cancel() }} onDragStart={(event) => event.preventDefault()}
+                    onClickCapture={(event) => { if (suppressClick.current) { event.preventDefault(); event.stopPropagation(); suppressClick.current = false } }}
+                    onClick={() => setSelected(tile.id)}>
+                    <button type="button" className="db-tiling-move" tabIndex={-1} aria-label={`Move ${tile.label}`} aria-pressed={holding} aria-describedby={`${hint} ${keys}`}
+                      onKeyDown={(event) => key(event, tile)} onClick={(event) => { if (event.detail === 0) { if (holding) drop(); else lift(tile) } }} />
+                    <div className="db-tiling-content">{renderTile ? renderTile(tile) : <span className="db-tiling-name">{tile.label}</span>}</div>
+                    {holding ? <span className="db-tiling-dimensions" aria-hidden="true"><span>{tile.span}</span><span> × </span><span>{tile.rows}</span></span> : null}
+                    {(["start", "end", "top", "bottom", "corner"] as const).map((side) => (
+                      <button key={side} type="button" className="db-tiling-size" data-side={side} aria-label={`Resize ${tile.label}${side === "corner" ? "" : ` ${side} edge`}`} aria-describedby={`${hint} ${keys}`} aria-pressed={holding}
+                        onKeyDown={(event) => key(event, tile, side)} onPointerDown={(event) => pointerDown(event, tile, side)}
+                        onClick={(event) => { event.stopPropagation(); if (event.detail === 0) { if (holding) drop(); else lift(tile, side) } }} />
+                    ))}
+                  </Tile>
+                )
+              })}
               {!tiles.length ? <p className="db-tiling-empty">A little space.<br /><span>Add your first tile.</span></p> : null}
             </div>
           </div>

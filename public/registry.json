@@ -3022,7 +3022,7 @@
       "name": "tiling",
       "type": "registry:ui",
       "title": "Tiling",
-      "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or arrange it yourself: pick up a word, move it, give it room, and keep the layout.",
+      "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or drag a tile and pull its corner: the grid makes room for your arrangement.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json"
       ],
