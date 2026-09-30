@@ -5,7 +5,7 @@
   .db-quest-head .db-fraction { font-size: var(--db-mf); }
   .db-quest-head .db-fraction > .db-yours { display: inline-block; }
   .db-quest-head progress { -webkit-appearance: none; appearance: none; width: 100%; height: var(--db-stroke); border: 0; background: var(--db-rule); color: var(--db-ink); }
-  .db-quest-head progress::-webkit-progress-bar { background: var(--db-rule); }
+  .db-quest-head progress::-webkit-progress-bar { background: transparent; } /* the element draws the track, or a translucent rule would be laid on itself */
   .db-quest-head progress::-webkit-progress-value { background: var(--db-ink); transition: inline-size var(--db-andante) var(--db-breath); }
   .db-quest-head progress::-moz-progress-bar { background: var(--db-ink); }
   .db-quest-step { display: grid; gap: var(--db-space-5); min-width: 0; }

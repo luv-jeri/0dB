@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contour",
+  "title": "Contour",
+  "description": "A paragraph set to a contour, the way a score draws a swell: each line laid to its own width, so the words taper, open or swell and close.",
+  "dependencies": [
+    "@chenglou/pretext"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/contour.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype Shape = \"diminuendo\" | \"crescendo\" | \"hairpin\"\n\n/** How much of the measure a line may take, `t` of the way through the text. */\nconst share: Record<Shape, (t: number, least: number) => number> = {\n  diminuendo: (t, least) => 1 - (1 - least) * t,\n  crescendo: (t, least) => least + (1 - least) * t,\n  hairpin: (t, least) => least + (1 - least) * (1 - Math.abs(2 * t - 1)),\n}\n\ntype Line = { text: string; t: number }\n\ntype ContourProps = Omit<React.ComponentProps<\"p\">, \"children\"> & {\n  /** The paragraph. Plain text: pretext measures it. */\n  children: string\n  /** diminuendo narrows to the end, crescendo opens towards it, hairpin swells and closes. */\n  shape?: Shape\n  /** The narrowest a line may be, as a share of the measure. */\n  least?: number\n  /** Let the colour follow the shape: ink where it's loud, pencil where it's quiet. */\n  fade?: boolean\n}\n\n/**\n * A paragraph set to a contour, the way a score draws a swell. Pretext lays each line to its own\n * width, so the words taper like a diminuendo or open like a crescendo; with `fade` the colour falls\n * away with them. Until the fonts have come and the layout is done, it's a plain paragraph, and a\n * reader of the page always gets the plain text.\n */\nfunction Contour({ children: text, shape = \"diminuendo\", least = 0.3, fade = false, className, ...props }: ContourProps) {\n  const ref = React.useRef<HTMLParagraphElement>(null)\n  const [lines, setLines] = React.useState<Line[] | null>(null)\n\n  React.useEffect(() => {\n    const el = ref.current\n    if (!el) return\n    let cancelled = false\n    let font = \"\"\n    let width = 0\n    const off: (() => void)[] = []\n\n    ;(async () => {\n      let lib: typeof import(\"@chenglou/pretext\")\n      try {\n        lib = await import(\"@chenglou/pretext\")\n      } catch {\n        return // the plain paragraph stays\n      }\n      let prepared: ReturnType<typeof lib.prepareWithSegments> | undefined\n\n      async function lay() {\n        const style = getComputedStyle(el!)\n        const next = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`\n        if (next !== font || !prepared) {\n          font = next\n          await document.fonts.load(font, text)\n          prepared = lib.prepareWithSegments(text, font)\n        }\n        width = el!.clientWidth\n        const total = Math.max(1, prepared.segments.length)\n        const out: Line[] = []\n        let cursor = { segmentIndex: 0, graphemeIndex: 0 }\n        for (let guard = 0; guard < 500; guard++) {\n          const t = cursor.segmentIndex / total\n          const line = lib.layoutNextLine(prepared, cursor, Math.max(width * share[shape](t, least), 48))\n          if (!line) break\n          out.push({ text: line.text.trimEnd(), t })\n          cursor = line.end\n        }\n        if (!cancelled) setLines(out)\n      }\n\n      await lay()\n      if (cancelled) return\n      const resized = new ResizeObserver(() => {\n        if (el.clientWidth !== width) lay()\n      })\n      resized.observe(el)\n      off.push(() => resized.disconnect())\n      // A change of pair or scheme on <html> can change the face: lay out again if it did.\n      const restyled = new MutationObserver(() => lay())\n      restyled.observe(document.documentElement, { attributes: true })\n      off.push(() => restyled.disconnect())\n    })()\n\n    return () => {\n      cancelled = true\n      off.forEach((f) => f())\n    }\n  }, [text, shape, least])\n\n  return (\n    <p ref={ref} data-slot=\"contour\" data-shape={shape} data-fade={fade || undefined} className={cn(\"db-contour\", className)} {...props}>\n      {lines ? (\n        <>\n          <span className=\"db-sr\">{text}</span>\n          <span aria-hidden=\"true\" className=\"db-contour-lines\">\n            {lines.map((line, i) => (\n              <span key={i} style={{ \"--t\": line.t } as React.CSSProperties}>\n                {line.text}\n              </span>\n            ))}\n          </span>\n        </>\n      ) : (\n        text\n      )}\n    </p>\n  )\n}\n\nexport { Contour, type ContourProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/contour.css",
+      "content": "@layer components {\n  /* ── db-contour ── a paragraph set to a contour: each line laid to its own width by pretext.\n     The lines never re-wrap in the browser; their widths are already decided. With data-fade,\n     the colour follows the shape: ink where it's loud, pencil where it's quiet. */\n  .db-contour { margin: 0; }\n  .db-contour-lines { display: block; }\n  .db-contour-lines > span { display: block; white-space: pre; }\n  .db-contour[data-shape=\"hairpin\"] { text-align: center; }\n  .db-contour[data-fade] .db-contour-lines > span {\n    --loud: calc(1 - var(--t));\n    color: color-mix(in oklab, var(--db-ink) calc(var(--loud) * 100%), var(--db-pencil));\n  }\n  .db-contour[data-fade][data-shape=\"crescendo\"] .db-contour-lines > span { --loud: var(--t); }\n  .db-contour[data-fade][data-shape=\"hairpin\"] .db-contour-lines > span { --loud: calc(1 - max(2 * var(--t) - 1, 1 - 2 * var(--t))); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/contour.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/contour.css\"": {}
+  },
+  "meta": {
+    "movement": "II",
+    "underneath": "hook",
+    "contract": "db-contour"
+  },
+  "type": "registry:ui"
+}

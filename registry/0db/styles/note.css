@@ -28,7 +28,7 @@
     inline-size: max-content; max-inline-size: min(28ch, calc(100vw - 2.5rem)); padding: 0.55em 0.95em 0.6em; border-radius: 1em;
     background: var(--db-ink); color: var(--db-paper);
     font-family: var(--db-voice); font-style: normal; font-weight: 450; font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr);
-    text-align: start; white-space: normal;
+    text-align: start; white-space: normal; text-wrap: balance;
     clip-path: circle(0 at 0.6em 0); pointer-events: none;
     /* Hidden, the note leaves layout: one near the page's edge must not make the page scroll sideways. */
     display: none;

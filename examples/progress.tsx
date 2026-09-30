@@ -28,7 +28,7 @@ export default function Example() {
   }
 
   return (
-    <div className="flex flex-col items-start gap-8">
+    <div className="flex flex-col items-start gap-10">
       <Progress
         style={{ width: "min(36rem, 100%)" }}
         value={value}

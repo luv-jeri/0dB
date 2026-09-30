@@ -13,7 +13,7 @@ import {
 
 export default function Example() {
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-(--db-space-6)">
       <Message>
         <MessageAvatar alt="Ada Lindqvist" />
         <MessageHeader name="Ada Lindqvist" time="09:40" dateTime="2026-09-30T09:40" />

@@ -1,6 +1,6 @@
 @layer components {
   /* ── db-select ── a choice inside a sentence */
-  .db-select { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4em; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
+  .db-select { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.25em; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
   .db-select-box { position: relative; display: inline-flex; align-items: baseline; }
   .db-select-box::after {
     content: "↓" / ""; position: absolute; inset-inline-end: 0; bottom: 0.3em;
@@ -10,13 +10,13 @@
   :is(.db-select-box:hover, .db-select[data-force~="hover"] .db-select-box)::after { translate: 0 2px; color: var(--db-ink); }
   .db-select select {
     -webkit-appearance: none; appearance: none; field-sizing: content;
-    margin: 0; border: 0; border-radius: 0; padding: 0 1.05em 0.1em 0; /* the arrow sits in the padding */
-    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / calc(100% - 1.05em) var(--db-hairline);
+    margin: 0; border: 0; border-radius: 0; padding: 0 0.6em 0.1em 0; /* the arrow sits in the padding */
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / calc(100% - 0.6em) var(--db-hairline);
     color: var(--db-ink); cursor: pointer;
     font-family: var(--db-expression); font-style: italic; font-weight: 400;
     font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.2;
   }
-  .db-select select:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 1.05em; background-position: 100% 100%; }
+  .db-select select:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 0.6em; background-position: 100% 100%; }
   .db-select select:focus-visible { outline-offset: 4px; }
   .db-select select:disabled { color: var(--db-pencil); cursor: not-allowed; }
   @supports (appearance: base-select) {

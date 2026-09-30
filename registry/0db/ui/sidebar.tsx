@@ -43,13 +43,15 @@ type SidebarProps = Omit<React.ComponentProps<"nav">, "aria-label"> & {
   sheetLabel?: string
   /** Each word keeps only its initial, set large and light; the rest folds away in turn. */
   folded?: boolean
+  /** Smaller words, closer together: for a long index. */
+  compact?: boolean
 }
 
 /**
  * A column of words beside the work. Wide, it stands inline; narrow, only a quiet trigger shows
  * and the same words open in a sheet. Choosing a link in the sheet puts it away.
  */
-function Sidebar({ label, sheetLabel = "Index", folded, className, children, ...props }: SidebarProps) {
+function Sidebar({ label, sheetLabel = "Index", folded, compact, className, children, ...props }: SidebarProps) {
   const wide = useWide()
   const [open, setOpen] = React.useState(false)
   // Widening puts the sheet away, so it isn't waiting open when the window narrows again.
@@ -62,7 +64,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, className, children, ...
   return (
     <nav data-slot="sidebar" aria-label={label} className={cn("db-sidebar", className)} {...props}>
       {wide !== false && (
-        <div data-slot="sidebar-list" data-folded={folded || undefined} className="db-sidebar-list">
+        <div data-slot="sidebar-list" data-folded={folded || undefined} data-compact={compact || undefined} className="db-sidebar-list">
           {children}
         </div>
       )}
@@ -78,6 +80,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, className, children, ...
             <SheetTitle className="db-sr">{sheetLabel}</SheetTitle>
             <div
               data-slot="sidebar-list"
+              data-compact={compact || undefined}
               className="db-sidebar-list"
               onClick={(e) => {
                 if ((e.target as Element).closest("a[href]")) setOpen(false)

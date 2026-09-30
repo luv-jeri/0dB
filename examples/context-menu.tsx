@@ -20,7 +20,22 @@ export default function Example() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <div className="db-corners" tabIndex={0} aria-describedby="context-menu-help" style={{ padding: "var(--db-space-6)" }}>
+        <div
+          className="db-corners"
+          tabIndex={0}
+          aria-describedby="context-menu-help"
+          style={{
+            display: "grid",
+            placeItems: "center",
+            width: "min(30rem, 100%)",
+            minHeight: "10rem",
+            padding: "var(--db-space-6)",
+            textAlign: "center",
+            fontSize: "var(--db-pp)",
+            color: "var(--db-pencil)",
+            cursor: "context-menu",
+          }}
+        >
           <p id="context-menu-help">Right-click here, or focus this and press Shift F10.</p>
         </div>
       </ContextMenuTrigger>

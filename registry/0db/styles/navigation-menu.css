@@ -16,7 +16,7 @@
   }
   .db-navmenu [data-slot="navigation-menu-trigger"][data-state="open"]::after { rotate: 180deg; }
   .db-navmenu-panel {
-    position: absolute; z-index: 20; inset-inline: 0; top: 100%; padding: var(--db-space-6) 0 var(--db-space-7);
+    position: absolute; z-index: 20; inset-inline: 0; inset-block-start: 100%; padding: var(--db-space-6) 0 var(--db-space-7);
     background: var(--db-paper);
     display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--db-space-4) var(--db-gutter); align-content: start;
     animation: db-navmenu-in var(--db-moderato) var(--db-exhale);

@@ -38,7 +38,7 @@ export function States() {
       <State label="Hover"><Combobox aria-label="Typeface" placeholder="Choose a typeface" options={FACES} data-force="hover" className="w-52" /></State>
       <State label="Focus"><Combobox aria-label="Typeface" placeholder="Choose a typeface" options={FACES} data-force="focus" className="w-52" /></State>
       <State label="Chosen"><Combobox aria-label="Typeface" options={FACES} defaultValue="newsreader" className="w-52" /></State>
-      <State label="Error"><Field label="Label" error="Choose a typeface." className="w-52"><Combobox placeholder="Choose a typeface" options={FACES} /></Field></State>
+      <State label="Error"><Field label="Typeface" error="Choose a typeface." className="w-52"><Combobox placeholder="Choose a typeface" options={FACES} /></Field></State>
       <State label="Disabled"><Combobox aria-label="Typeface" options={FACES} defaultValue="futura" disabled className="w-52" /></State>
     </>
   )

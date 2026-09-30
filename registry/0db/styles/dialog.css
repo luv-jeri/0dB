@@ -18,14 +18,15 @@
   }
   :is(.db-dialog, .db-sheet, .db-drawer)[open]::backdrop { opacity: 1; }
   @starting-style { :is(.db-dialog, .db-sheet, .db-drawer)[open]::backdrop { opacity: 0; } }
-  .db-dialog-meta { margin-bottom: var(--db-space-7); }
+  .db-dialog-meta { margin-block-end: var(--db-space-7); }
   .db-dialog[open]::after { animation: db-frame var(--db-andante) var(--db-exhale) 80ms backwards; }
   .db-dialog[open] .db-dialog-meta > hr { transform-origin: 0 50%; animation: db-draw-x var(--db-andante) var(--db-exhale) 200ms backwards; }
   .db-dialog[open] .db-dialog-title { animation: db-breathe-out var(--db-andante) var(--db-exhale) 120ms backwards; }
   @keyframes db-frame { from { opacity: 0; scale: 0.95; } } /* opens out from inside, so the dialog never scrolls */
   @keyframes db-breathe-out { from { opacity: 0; font-weight: 500; font-stretch: 88%; } }
-  .db-dialog-title .db-yours { margin-left: 0.06em; } /* Bodoni's italic leans into the word before it at this size */
+  .db-dialog-title .db-yours { margin-inline-start: 0.06em; } /* Bodoni's italic leans into the word before it at this size */
   .db-dialog-title { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); font-weight: 300; color: var(--db-ink); }
-  .db-dialog-body { margin-top: var(--db-space-4); max-width: 40ch; }
+  .db-dialog-body { margin-block-start: var(--db-space-4); max-inline-size: 40ch; }
   .db-dialog-actions { margin: var(--db-space-7) 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--db-space-6); }
+  @media (max-width: 40rem) { .db-dialog { padding: var(--db-space-7) var(--db-space-5) var(--db-space-6); } .db-dialog-meta { margin-block-end: var(--db-space-6); } .db-dialog-actions { margin-block-start: var(--db-space-6); gap: var(--db-space-5); } }
 }

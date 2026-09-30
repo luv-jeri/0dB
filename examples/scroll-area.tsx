@@ -14,7 +14,7 @@ const notes = [
 export default function Example() {
   return (
     <ScrollArea aria-label="Release notes" className="max-h-56 max-w-xl">
-      <ul className="grid gap-3 py-4 pe-6">
+      <ul className="grid gap-3 py-[var(--db-space-4)] pe-[var(--db-space-5)]">
         {notes.map(([version, note]) => (
           <li key={note}>
             <b className="me-2 font-medium text-[var(--db-ink)]">{version}</b>

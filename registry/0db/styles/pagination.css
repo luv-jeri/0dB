@@ -7,7 +7,7 @@
     font-weight: 200; transition: color var(--db-allegro), font-weight var(--db-moderato) var(--db-breath);
   }
   .db-pager a[data-slot="pagination-link"]::after {
-    content: ""; position: absolute; inset-inline-start: 50%; bottom: 0; translate: -50% 0;
+    content: ""; position: absolute; inset-inline-start: 50%; inset-block-end: 0; translate: -50% 0;
     width: 3px; height: 3px; border-radius: 50%; background: var(--db-rule-strong);
     transition: width var(--db-moderato) var(--db-spiccato), height var(--db-moderato) var(--db-spiccato), background-color var(--db-moderato), box-shadow var(--db-allegro);
   }

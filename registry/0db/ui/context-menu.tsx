@@ -31,10 +31,10 @@ function ContextMenuSub(props: React.ComponentProps<typeof MenuPrimitive.Sub>) {
  * Shift+F10) and spreading from that point like ink. It has no leader line: nothing
  * hangs it from a trigger.
  */
-function ContextMenuContent({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Content>) {
+function ContextMenuContent({ className, collisionPadding = 20, ...props }: React.ComponentProps<typeof MenuPrimitive.Content>) {
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.Content data-slot="context-menu-content" data-at="point" className={cn("db-pop db-menu", className)} {...props} />
+      <MenuPrimitive.Content data-slot="context-menu-content" data-at="point" collisionPadding={collisionPadding} className={cn("db-pop db-menu", className)} {...props} />
     </MenuPrimitive.Portal>
   )
 }
@@ -75,10 +75,10 @@ function ContextMenuSubTrigger({ className, ...props }: React.ComponentProps<typ
   return <MenuPrimitive.SubTrigger data-slot="context-menu-sub-trigger" className={cn("db-menu-item db-menu-sub", className)} {...props} />
 }
 
-function ContextMenuSubContent({ className, sideOffset = 2, ...props }: React.ComponentProps<typeof MenuPrimitive.SubContent>) {
+function ContextMenuSubContent({ className, sideOffset = 2, alignOffset = -8, ...props }: React.ComponentProps<typeof MenuPrimitive.SubContent>) {
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.SubContent data-slot="context-menu-sub-content" sideOffset={sideOffset} className={cn("db-pop db-menu", className)} {...props} />
+      <MenuPrimitive.SubContent data-slot="context-menu-sub-content" sideOffset={sideOffset} alignOffset={alignOffset} className={cn("db-pop db-menu", className)} {...props} />
     </MenuPrimitive.Portal>
   )
 }

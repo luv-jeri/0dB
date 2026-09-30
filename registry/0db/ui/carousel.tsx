@@ -4,7 +4,6 @@ import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
 import { roll } from "@/registry/0db/lib/roll"
-import { Button } from "@/registry/0db/ui/button"
 
 const Slide = React.createContext({ index: 0, total: 0 })
 
@@ -81,15 +80,15 @@ function Carousel({ trackLabel = "Slides", previousLabel = "Previous", nextLabel
         ))}
       </div>
       <div data-slot="carousel-nav" className="db-carousel-nav">
-        <Button variant="bracket" aria-label={previousLabel} disabled={at === 0} onClick={() => go(at - 1)}>
-          <span className="db-carousel-arrow" aria-hidden="true">←</span>
-        </Button>
+        <button type="button" data-slot="carousel-previous" className="db-carousel-arrow" aria-label={previousLabel} disabled={at === 0} onClick={() => go(at - 1)}>
+          ←
+        </button>
         <span data-slot="carousel-count" className="db-carousel-count" aria-live="polite" aria-atomic="true">
           <span ref={now} className="db-carousel-now">{pad(shown + 1)}</span> / {pad(total)}
         </span>
-        <Button variant="bracket" aria-label={nextLabel} disabled={at >= total - 1} onClick={() => go(at + 1)}>
-          <span className="db-carousel-arrow" aria-hidden="true">→</span>
-        </Button>
+        <button type="button" data-slot="carousel-next" className="db-carousel-arrow" aria-label={nextLabel} disabled={at >= total - 1} onClick={() => go(at + 1)}>
+          →
+        </button>
       </div>
     </div>
   )

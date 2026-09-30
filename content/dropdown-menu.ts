@@ -9,7 +9,7 @@ export default defineComponent({
   underneath: "radix",
   uses: ["popover", "kbd"],
   props: [
-    { name: "DropdownMenuContent side / align / sideOffset", type: "Radix", default: '"bottom" / "start" / 8', description: "Where the list hangs. It wears the popover's panel (db-pop), so it shares the leader line and the in and out." },
+    { name: "DropdownMenuContent side / align / sideOffset", type: "Radix", default: '"bottom" / "start" / 27', description: "Where the list hangs. It wears the popover's panel (db-pop), so it shares the leader line and the in and out." },
     { name: "DropdownMenuItem variant", type: '"default" | "destructive"', default: '"default"', description: "A destructive item sits a little heavier and says so in its words (\"Delete Halden for good\"). It is never red; red is for errors." },
     { name: "DropdownMenuCheckboxItem / RadioItem", type: "Radix", description: "Checked, the sentence turns to the expression italic. No tick, no dot; screen readers get aria-checked." },
     { name: "DropdownMenuShortcut", type: "span", description: "Shortcut keys as db-kbd rings. \"⌘D\" is two keys; a string with spaces splits on them." },

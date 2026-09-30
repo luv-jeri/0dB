@@ -2,7 +2,7 @@
   /* ── db-dial ── a radio on an arc. The whole dial rolls to what you choose:
      --sel is animated, and size, colour and italic all follow its distance. */
   @property --sel { syntax: "<number>"; inherits: true; initial-value: 0; }
-  .db-dial { --r: min(13rem, 36vw); border: 0; margin: 0; padding: 0; min-width: 0; }
+  .db-dial { --r: min(13rem, 32vw); border: 0; margin: 0; padding: 0; min-width: 0; }
   .db-dial > legend { padding: 0; margin-bottom: var(--db-space-5); }
   .db-dial-face {
     position: relative; width: calc(2 * var(--r) + 3em); height: calc(var(--r) + 3.5em);

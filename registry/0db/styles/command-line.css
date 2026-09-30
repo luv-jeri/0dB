@@ -1,0 +1,38 @@
+@layer components {
+  /* ── db-command-line ── one line to type, on a baseline like a field already filled in.
+     The runner and the address recede to pencil; the part that's yours is italic.
+     Copying draws the baseline in the accent, left to right. */
+  .db-command-line { margin: 0; min-width: 0; }
+  .db-command-line-runners.db-choice {
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); column-gap: var(--db-space-4);
+    padding-block-end: var(--db-space-3); margin-block-end: var(--db-space-3);
+  }
+  .db-command-line-row {
+    position: relative; display: flex; align-items: baseline; gap: var(--db-space-5);
+    padding-block-end: var(--db-space-3);
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+  }
+  .db-command-line-row::after {
+    content: ""; position: absolute; inset-inline: 0; inset-block-end: 0; block-size: var(--db-stroke);
+    background: var(--db-accent); transform-origin: 0 0; scale: 0 1; opacity: 0; pointer-events: none;
+  }
+  .db-command-line-row:is([dir="rtl"], [dir="rtl"] *)::after { transform-origin: 100% 0; }
+  .db-command-line-row[data-copied]::after { animation: db-command-line-draw var(--db-adagio) var(--db-exhale) both; }
+  @keyframes db-command-line-draw {
+    0%   { opacity: 1; scale: 0 1; }
+    45%  { opacity: 1; scale: 1 1; }
+    100% { opacity: 0; scale: 1 1; }
+  }
+  .db-command-line-text {
+    flex: 1; min-width: 0; padding-inline-start: 1.5em; text-indent: -1.5em; overflow-wrap: break-word;
+    font-family: var(--db-voice); font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr);
+    font-stretch: 94%; color: var(--db-ink);
+  }
+  .db-command-line-quiet { color: var(--db-pencil); }
+  .db-command-line-whole { white-space: nowrap; }
+  .db-command-line-yours {
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-stretch: 100%;
+    font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink);
+  }
+  .db-command-line-row > .db-source-copy { flex: none; margin: 0; font-size: var(--db-pp); }
+}

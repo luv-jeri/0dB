@@ -351,16 +351,33 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 ### db-source (source)
 - Underneath: build-time highlighting with sugar-high, plus a Copy hook.
-- Anatomy: `<figure class="db-source">`, a `figcaption.db-meta` frame row (the file name, a hairline, Copy), then `<pre class="db-source-code" tabindex="0"><code>`.
-- Code is type. It's set in the voice at 88% width. Keywords are ink at weight 500; signs and comments are pencil; strings and JSX text, which someone wrote, are the expression italic. There's no second colour.
-- Copy is a bracket button. It keeps its name through the flow: the label rolls from Copy to Copied, then back.
-- Keyboard: the code block is focusable so it scrolls sideways with the arrow keys.
+- Anatomy: `<figure class="db-source">` (an inline-size container) holding `.db-source-frame`: a `figcaption.db-source-meta` (the file name, its extension in pencil, and Copy), then `<pre class="db-source-code" tabindex="0"><code>` with one `.sh__line` per line, each carrying its depth as `--i`.
+- Code is type, set in the voice at 88% width. Weight is the only highlighting: keywords are ink at 500, signs recede to pencil, and what someone wrote (strings, JSX text, comments) is the expression italic. There's no second colour.
+- Indentation is space you can see: a proportional face makes two spaces nearly nothing, so each leading space becomes half an em. Lines wrap rather than scroll sideways, and a turnover hangs a step further in, like verse.
+- A bracket joins the lines like a system in a score, and the line numbers stand before it like bar numbers (none for a single line). When the frame is 34rem or wider, the file's name and Copy stand in the margin, the way a score names its instrument; narrower, they sit above the lines.
+- Copy is a quiet button. It keeps its name through the flow: the label rolls from Copy to Copied, then back, and the accent runs down the bracket once.
+- Keyboard: the code block takes focus so a screen reader can land on it; Copy is a button.
+
+### db-command-line (command-line)
+- Underneath: native, plus a hook that shares the runner pick between every command line and remembers it (`localStorage` key `0db-runner`).
+- Anatomy: `<figure class="db-command-line">` holding an optional `.db-command-line-runners` radio group (npm, pnpm, yarn, bun), then `.db-command-line-row`: `<code class="db-command-line-text">` and Copy.
+- One line to type, set on a baseline like a field already filled in. The runner and the address recede to pencil; the command is ink; `emphasis`, the part of an address that's the reader's, is the expression italic. A long line breaks after a slash or a dot and its turnover hangs.
+- The runner words are a radio group: the chosen one turns italic with the dot beneath it, and every command line on the page follows.
+- Copying draws the baseline in the accent, left to right, then lets it go; the label rolls from Copy to Copied.
+- Keyboard: arrows move between runners; Copy is a button.
+
+### db-contour (contour)
+- Underneath: native, plus a hook that lays the lines out with pretext (`@chenglou/pretext`, loaded when it's needed).
+- Anatomy: `<p class="db-contour" data-shape>` holding the text for readers (`.db-sr`) and `.db-contour-lines`, one aria-hidden block per line, each carrying `--t`, how far through the text it starts.
+- A paragraph set to a contour, the way a score draws a swell. Each line is laid to its own width: `diminuendo` narrows to the end, `crescendo` opens towards it, `hairpin` swells and closes, centred. The browser never re-wraps them.
+- `data-fade` lets the colour follow the shape, ink where it's loud and pencil where it's quiet, so the quietest line still reads.
+- It lays out again when its width changes or `<html>` changes face. Before the fonts arrive, or without script, it's a plain paragraph.
 
 ### db-sidebar (sidebar)
 - Underneath: native, plus a hook; a sheet on narrow screens.
-- Anatomy: `<nav class="db-sidebar">` holding `.db-sidebar-head`, `.db-sidebar-label` group names, and links whose word is split into `.db-sidebar-i` (the initial) and `.db-sidebar-rest`. `aria-current="page"` on the current one. `data-folded` folds it.
+- Anatomy: `<nav class="db-sidebar">` holding `.db-sidebar-head`, `.db-sidebar-label` group names, and links whose word is split into `.db-sidebar-i` (the initial) and `.db-sidebar-rest`. `aria-current="page"` on the current one. `data-folded` folds it; `data-compact` sets it a size down with the links closed up, for a long index.
 - Folded, each word keeps only its initial, large and light like a monogram, while the rest folds away in turn. The current page carries the accent dot.
-- Keyboard: links, plus the fold button (`aria-expanded`).
+- Keyboard: links, plus the fold button you give it (`aria-expanded`, `aria-controls` naming the nav).
 
 ### db-card (card)
 - Underneath: native.

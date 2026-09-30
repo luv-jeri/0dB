@@ -1,7 +1,7 @@
 @layer components {
   /* ── db-attach ── a file: its extension is its picture; a ring counts it in */
   .db-attachments { list-style: none; margin: 0; padding: 0; border-top: var(--db-hairline) solid var(--db-rule); }
-  .db-attach { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--db-space-4); padding-block: var(--db-space-3); border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-attach { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--db-space-4); padding-block: var(--db-space-3); border-bottom: var(--db-hairline) solid var(--db-rule); }
   .db-attach-ext { font-size: var(--db-mf); line-height: 1; font-weight: 200; font-stretch: 125%; color: var(--db-ink); text-transform: lowercase; }
   .db-attach-body { display: grid; min-width: 0; }
   .db-attach-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.3; color: var(--db-ink); }
@@ -17,4 +17,8 @@
   .db-attach[data-state="error"] .db-attach-arc { stroke: var(--db-signal); }
   .db-attach[data-state="error"] .db-attach-meta { color: var(--db-signal); }
   .db-attach > .db-btn { font-size: var(--db-pp); }
+  @media (max-width: 30rem) {
+    .db-attach { grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; }
+    .db-attach-ext { font-size: var(--db-mp); }
+  }
 }

@@ -11,8 +11,8 @@ export default function Example() {
         the whole rule is one line: <code>.db-yours</code> sets the expression, in italic. Read <a href="#">the full contract</a>.
       </p>
       <blockquote>
-        <p>The space isn&apos;t empty. It&apos;s waiting for the reader.</p>
-        <footer>From the studio&apos;s notes, 2026</footer>
+        <p>The space isn&rsquo;t empty. It&rsquo;s waiting for the reader.</p>
+        <footer>From the studio&rsquo;s notes, 2026</footer>
       </blockquote>
       <h3>What this rules out</h3>
       <ul>

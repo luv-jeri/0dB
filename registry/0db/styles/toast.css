@@ -1,6 +1,6 @@
 @layer components {
   /* ── db-toast ── one line rises; a hairline beneath counts down its stay */
-  .db-toaster { position: fixed; z-index: 50; inset-inline-start: var(--db-margin); bottom: var(--db-space-6); display: grid; gap: var(--db-space-2); pointer-events: none; }
+  .db-toaster { position: fixed; z-index: 50; inset-inline-start: var(--db-margin); inset-block-end: var(--db-space-6); display: grid; gap: var(--db-space-2); pointer-events: none; }
   .db-toast {
     position: relative; pointer-events: auto;
     display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-5); row-gap: var(--db-space-2);

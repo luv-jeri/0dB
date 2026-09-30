@@ -2,7 +2,7 @@
   /* ── db-choice ── radio: the chosen word turns italic; one dot marks it */
   .db-choice {
     position: relative; border: 0; margin: 0; padding: 0 0 var(--db-space-4);
-    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-6); row-gap: var(--db-space-3);
+    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-6); row-gap: var(--db-space-5);
     font-size: var(--db-mp); line-height: var(--db-mp-lh);
   }
   .db-choice > legend { padding: 0; margin-bottom: var(--db-space-3); }

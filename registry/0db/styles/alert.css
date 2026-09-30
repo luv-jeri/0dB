@@ -5,7 +5,7 @@
     content: ""; position: absolute; inset-block: 0.3em 0.2em; inset-inline-start: 0; width: 5px; transform-origin: 50% 0;
     background: linear-gradient(var(--c), var(--c)) 0 0 / var(--db-hairline) 100% no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / var(--db-stroke) 100% no-repeat;
   }
-  .db-alert-title { font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); }
+  .db-alert-title { text-wrap: balance; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); }
   .db-alert[data-variant="error"] { --c: var(--db-signal); }
   .db-alert[data-variant="error"] .db-alert-title { color: var(--db-signal); }
   .db-alert-actions { display: flex; flex-wrap: wrap; gap: var(--db-space-5); margin-block-start: var(--db-space-2); }

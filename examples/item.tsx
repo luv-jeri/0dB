@@ -15,18 +15,20 @@ export default function Example() {
         <ItemActions><Button variant="quiet">Message</Button></ItemActions>
       </Item>
       <Item>
+        <ItemMedia><Avatar size="s" alt="Jonas Berg" aria-hidden="true" /></ItemMedia>
         <ItemContent>
-          <ItemTitle>Invoice 0142</ItemTitle>
-          <ItemDescription>Halden, second payment</ItemDescription>
+          <ItemTitle>Jonas Berg</ItemTitle>
+          <ItemDescription>Type designer</ItemDescription>
         </ItemContent>
-        <ItemActions>£24,000</ItemActions>
+        <ItemActions><Button variant="quiet">Message</Button></ItemActions>
       </Item>
       <Item>
+        <ItemMedia><Avatar size="s" alt="Mira Okafor" aria-hidden="true" /></ItemMedia>
         <ItemContent>
-          <ItemTitle>Marks, final</ItemTitle>
-          <ItemDescription>Adobe Illustrator, 12.8 MB</ItemDescription>
+          <ItemTitle>Mira Okafor</ItemTitle>
+          <ItemDescription>Producer</ItemDescription>
         </ItemContent>
-        <ItemActions><Button variant="quiet">Download</Button></ItemActions>
+        <ItemActions>Since 2021</ItemActions>
       </Item>
     </ItemGroup>
   )

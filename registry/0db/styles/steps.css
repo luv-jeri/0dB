@@ -5,15 +5,16 @@
   .db-steps { list-style: none; margin: 0; padding: 0; counter-reset: db-step; display: grid; gap: var(--db-space-6); }
   .db-step {
     counter-increment: db-step;
-    display: grid; grid-template-columns: 3.2ch minmax(0, 1fr); column-gap: var(--db-space-5); row-gap: var(--db-space-3);
-    padding-top: var(--db-space-4); border-top: var(--db-hairline) solid var(--db-rule);
+    display: grid; grid-template-columns: 3.2ch minmax(0, 1fr); column-gap: var(--db-space-5);
+    padding-block-start: var(--db-space-4); border-block-start: var(--db-hairline) solid var(--db-rule);
   }
   .db-step::before {
     content: counter(db-step); grid-row: 1 / span 3; align-self: start;
     font-size: var(--db-f); line-height: 0.9; font-weight: 200; font-stretch: 88%;
     font-variant-numeric: lining-nums tabular-nums; color: var(--db-pencil);
   }
-  .db-step > * { grid-column: 2; min-width: 0; }
+  .db-step > * { grid-column: 2; min-inline-size: 0; }
+  .db-step > * + * { margin-block-start: var(--db-space-3); } /* not row-gap: the numeral's spanned rows would each add one */
   .db-step[data-done]::before { color: var(--db-ink); }
   .db-step[data-current]::before { color: var(--db-accent); font-weight: 300; animation: db-land var(--db-moderato) var(--db-spiccato); }
   .db-step-title { margin: 0; font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); font-weight: 400; color: var(--db-ink); }

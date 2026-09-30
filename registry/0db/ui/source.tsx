@@ -9,33 +9,97 @@ import { Button } from "@/registry/0db/ui/button"
 
 type SourceProps = Omit<React.ComponentProps<"figure">, "children"> & {
   code: string
-  /** Shown in the frame row, e.g. a file name. */
+  /** The file's name. Wide, it stands in the margin the way a score names its instrument. */
   title?: React.ReactNode
   /** Hide the Copy action. */
   noCopy?: boolean
 }
 
-/** Code, set as type. Strings are yours, in italic; keywords are ink; nothing else takes colour. */
+/**
+ * Indentation you can see: a proportional face makes two spaces nearly nothing, so each line's
+ * leading spaces become --i (a tab counts two) and the line is indented by that many half-ems.
+ * Turnovers hang beneath it, like verse.
+ */
+function indent(html: string, code: string) {
+  const lead = code.split("\n").map((l) => l.match(/^[ \t]*/)![0])
+  return html
+    .split("\n")
+    .map((line, n) => {
+      const space = lead[n] ?? ""
+      let drop = space.length
+      const depth = space.length + (space.match(/\t/g)?.length ?? 0)
+      let out = ""
+      let i = 0
+      while (i < line.length && drop > 0) {
+        if (line[i] === "<") {
+          const end = line.indexOf(">", i) + 1
+          out += line.slice(i, end)
+          i = end
+        } else if (line[i] === " " || line[i] === "\t") {
+          drop--
+          i++
+        } else break
+      }
+      return (out + line.slice(i)).replace(/^<span class="sh__line">/, `<span class="sh__line" style="--i:${depth}">`)
+    })
+    .join("") // the lines are blocks: a newline between them would open a blank line
+}
+
+/**
+ * Code, set as type. Weight is the only highlighting: the language's words are ink at 500, signs recede
+ * to pencil, and what someone wrote (strings, JSX text, comments) is the expression italic.
+ * A bracket joins the lines like a system in a score; copying runs the accent down it once.
+ */
 function Source({ code, title, noCopy = false, className, ...props }: SourceProps) {
-  const html = React.useMemo(() => highlight(code.replace(/\n$/, "")), [code])
+  const text = code.replace(/\n$/, "")
+  const html = React.useMemo(() => indent(highlight(text), text), [text])
+  const [copied, setCopied] = React.useState(0)
   return (
-    <figure data-slot="source" className={cn("db-source", className)} {...props}>
-      {title || !noCopy ? (
-        <figcaption data-slot="source-meta" className="db-meta db-source-meta">
-          <span>{title}</span>
-          <hr />
-          {noCopy ? null : <CopyButton text={code} />}
-        </figcaption>
-      ) : null}
-      <pre className="db-source-code" tabIndex={0}>
-        <code dangerouslySetInnerHTML={{ __html: html }} />
-      </pre>
+    <figure data-slot="source" data-copied={copied || undefined} className={cn("db-source", className)} {...props}>
+      <div className="db-source-frame">
+        {title || !noCopy ? (
+          <figcaption data-slot="source-meta" className="db-source-meta">
+            {title ? <span className="db-source-name">{typeof title === "string" ? named(title) : title}</span> : null}
+            {noCopy ? null : <CopyButton text={code} onCopied={() => setCopied((c) => c + 1)} />}
+          </figcaption>
+        ) : null}
+        {/* Keyed by the copy count, so each copy replays the run down the bracket. */}
+        <pre key={copied} className="db-source-code" tabIndex={0} data-lines={text.split("\n").length}>
+          <code dangerouslySetInnerHTML={{ __html: html }} />
+        </pre>
+      </div>
     </figure>
   )
 }
 
+/** A file name with its extension set back in pencil; a long path may break after a slash. */
+function named(title: string) {
+  const dot = title.lastIndexOf(".")
+  const cut = dot > 0 && dot > title.lastIndexOf("/") ? dot : title.length
+  return (
+    <>
+      {title
+        .slice(0, cut)
+        .split(/(?<=\/)/)
+        .map((part, i) => (
+          <React.Fragment key={i}>
+            {i ? <wbr /> : null}
+            {part}
+          </React.Fragment>
+        ))}
+      {cut < title.length ? <span className="db-source-ext">{title.slice(cut)}</span> : null}
+    </>
+  )
+}
+
+type CopyButtonProps = React.ComponentProps<typeof Button> & {
+  text: string
+  /** Called once the text is on the clipboard. */
+  onCopied?: () => void
+}
+
 /** Copy keeps its name through the flow: Copy, then Copied. */
-function CopyButton({ text, className, ...props }: React.ComponentProps<typeof Button> & { text: string }) {
+function CopyButton({ text, onCopied, variant = "quiet", className, ...props }: CopyButtonProps) {
   const label = React.useRef<HTMLSpanElement>(null)
   const [copied, setCopied] = React.useState(false)
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -49,7 +113,7 @@ function CopyButton({ text, className, ...props }: React.ComponentProps<typeof B
 
   return (
     <Button
-      variant="bracket"
+      variant={variant}
       data-slot="source-copy"
       className={cn("db-source-copy", className)}
       onClick={async () => {
@@ -58,6 +122,7 @@ function CopyButton({ text, className, ...props }: React.ComponentProps<typeof B
         } catch {
           return // the browser refused; the label stays "Copy", which is true
         }
+        onCopied?.()
         show(true)
         clearTimeout(timer.current)
         timer.current = setTimeout(() => show(false), 1800)
@@ -71,4 +136,4 @@ function CopyButton({ text, className, ...props }: React.ComponentProps<typeof B
   )
 }
 
-export { Source, CopyButton, type SourceProps }
+export { Source, CopyButton, type SourceProps, type CopyButtonProps }

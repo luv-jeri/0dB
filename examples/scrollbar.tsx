@@ -15,7 +15,7 @@ const lines = Array.from({ length: 18 }, (_, i) => `Line ${i + 1} of the brief.`
 export default function Example() {
   return (
     <div className="relative h-56 max-w-xl overflow-auto">
-      <div className="grid gap-4 pe-8">
+      <div className="grid gap-[var(--db-space-4)] pe-[var(--db-space-6)]">
         <h4 id="overture" className="db-label">Overture</h4>
         {lines.slice(0, 6).map((l) => <p key={l}>{l}</p>)}
         <h4 id="notes" className="db-label">Notes</h4>

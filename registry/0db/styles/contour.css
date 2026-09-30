@@ -1,0 +1,15 @@
+@layer components {
+  /* ── db-contour ── a paragraph set to a contour: each line laid to its own width by pretext.
+     The lines never re-wrap in the browser; their widths are already decided. With data-fade,
+     the colour follows the shape: ink where it's loud, pencil where it's quiet. */
+  .db-contour { margin: 0; }
+  .db-contour-lines { display: block; }
+  .db-contour-lines > span { display: block; white-space: pre; }
+  .db-contour[data-shape="hairpin"] { text-align: center; }
+  .db-contour[data-fade] .db-contour-lines > span {
+    --loud: calc(1 - var(--t));
+    color: color-mix(in oklab, var(--db-ink) calc(var(--loud) * 100%), var(--db-pencil));
+  }
+  .db-contour[data-fade][data-shape="crescendo"] .db-contour-lines > span { --loud: var(--t); }
+  .db-contour[data-fade][data-shape="hairpin"] .db-contour-lines > span { --loud: calc(1 - max(2 * var(--t) - 1, 1 - 2 * var(--t))); }
+}

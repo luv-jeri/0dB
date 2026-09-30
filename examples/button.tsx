@@ -3,7 +3,7 @@ import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
-    <div className="flex flex-wrap items-center gap-10">
+    <div className="flex flex-wrap items-baseline gap-x-10 gap-y-6">
       <Button variant="statement" size="l">Start a project</Button>
       <Button variant="bracket">Save draft</Button>
       <Button variant="quiet">View the work</Button>

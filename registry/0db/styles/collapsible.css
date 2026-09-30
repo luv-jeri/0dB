@@ -3,6 +3,7 @@
   .db-collapse-list { list-style: none; margin: 0; padding: 0; }
   .db-collapse-list > li { padding-block: 0.45em; border-block-end: var(--db-hairline) solid var(--db-rule); }
   .db-collapse > summary { list-style: none; margin-block-start: var(--db-space-4); }
+  .db-collapse[open] > summary { margin-block-end: var(--db-space-2); } /* the rows that arrive stand clear of the words that opened them */
   .db-collapse > summary::-webkit-details-marker { display: none; }
   .db-collapse > summary > :last-child, .db-collapse[open] > summary > :first-child { display: none; }
   .db-collapse[open] > summary > :last-child { display: inline; }

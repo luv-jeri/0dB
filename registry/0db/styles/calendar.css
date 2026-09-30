@@ -2,12 +2,12 @@
   /* ── db-month ── a month of dots: past filled, today in accent, the rest to come.
      Before the page knows the date (data-when unset) every day is a ring. */
   .db-month { display: grid; gap: var(--db-space-6); max-width: 30rem; }
-  .db-month-head { display: grid; grid-template-columns: auto 1fr auto; align-items: end; column-gap: var(--db-space-5); }
+  .db-month-head { display: grid; grid-template-columns: auto 1fr auto; align-items: last baseline; column-gap: var(--db-space-5); }
   .db-month-date { overflow: clip; min-width: 1.2em; min-height: 0.8em; font-size: var(--db-ff); font-weight: 650; line-height: 0.8; letter-spacing: var(--db-ff-tr); color: var(--db-ink); font-variant-numeric: tabular-nums; }
   .db-month-title { display: grid; line-height: 1.15; }
   .db-month-name { font-size: var(--db-mp); color: var(--db-ink); }
   .db-month-year { font-size: var(--db-mp); color: var(--db-pencil); font-variant-numeric: tabular-nums; }
-  .db-month-nav { display: flex; gap: var(--db-space-4); }
+  .db-month-nav { align-self: center; display: flex; gap: var(--db-space-4); margin-inline-end: -0.2em; } /* the arrows' padding, so the last one meets the grid's edge */
   .db-month-nav > button { appearance: none; border: 0; background: none; padding: 0.2em; color: var(--db-ink); font-size: var(--db-mp); cursor: pointer; transition: translate var(--db-allegro) var(--db-exhale); }
   .db-month-nav > button:is([dir="rtl"], [dir="rtl"] *) > span { display: inline-block; scale: -1 1; } /* an arrow has a direction */
   .db-month-nav > button:first-child:hover { translate: -3px 0; }

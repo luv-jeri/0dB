@@ -9,7 +9,7 @@ const longDay = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeri
 export default function Example() {
   const [day, setDay] = React.useState<Date>()
   return (
-    <div className="grid gap-6">
+    <div className="grid" style={{ gap: "var(--db-space-5)" }}>
       <p id="calendar-lead">Pick a day for a first call.</p>
       <Calendar disablePast onValueChange={setDay} aria-labelledby="calendar-lead" />
       <p aria-live="polite">

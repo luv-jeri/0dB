@@ -21,7 +21,7 @@ export default function Example() {
   const [notes, setNotes] = React.useState(true)
   const [grid, setGrid] = React.useState(false)
   return (
-    <Menubar aria-label="Editor">
+    <Menubar aria-label="Editor" className="w-fit">
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>

@@ -1,6 +1,6 @@
 @layer components {
   /* ── db-code ── a one-time code: digits drop onto short baselines, three and three */
-  .db-code { position: relative; display: inline-flex; align-items: flex-end; gap: 0.18em; font-size: calc(var(--db-f) * var(--db-expression-scale)); }
+  .db-code { position: relative; display: inline-flex; align-items: flex-end; gap: 0.18em; font-size: min(calc(var(--db-f) * var(--db-expression-scale)), 12.5vw); }
   .db-field > .db-code { grid-column: 1 / -1; justify-self: start; margin-top: var(--db-space-2); }
   .db-code > input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; opacity: 0; font-size: 16px; cursor: text; }
   .db-code[data-force~="focus"], .db-code > input:focus-visible { outline: 0; } /* the waiting line is the focus mark */

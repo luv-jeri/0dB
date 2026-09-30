@@ -29,7 +29,8 @@ function PopoverClose(props: React.ComponentProps<typeof PopoverPrimitive.Close>
 function PopoverContent({
   className,
   align = "start",
-  sideOffset = 8,
+  sideOffset = 27, /* --db-space-5: the leader is this long */
+  collisionPadding = 20,
   style,
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Content>) {
@@ -39,6 +40,7 @@ function PopoverContent({
         data-slot="popover-content"
         align={align}
         sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
         style={{ "--db-pop-gap": `${sideOffset}px`, ...style } as React.CSSProperties}
         className={cn("db-pop", className)}
         {...props}

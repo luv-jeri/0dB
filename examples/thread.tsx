@@ -17,7 +17,7 @@ export default function Example() {
   const [arrived, setArrived] = React.useState(0)
   const time = (n: number) => `09:${String(46 + n).padStart(2, "0")}`
   return (
-    <div className="grid max-w-xl justify-items-start gap-6">
+    <div className="grid max-w-xl justify-items-start gap-(--db-space-5)">
       <Thread label="Halden thread" className="w-full">
         <ThreadDay>Yesterday</ThreadDay>
         <Message>
@@ -33,7 +33,7 @@ export default function Example() {
         <Message>
           <MessageAvatar alt="Ada Lindqvist" />
           <MessageHeader name="Ada Lindqvist" time="16:31" />
-          <MessageBody><MessageBubble>That was the idea. I&apos;ll take it further tomorrow.</MessageBubble></MessageBody>
+          <MessageBody><MessageBubble>That was the idea. I&rsquo;ll take it further tomorrow.</MessageBubble></MessageBody>
         </Message>
         <ThreadDay>Today</ThreadDay>
         <Message>
@@ -56,7 +56,7 @@ export default function Example() {
         ))}
       </Thread>
       <Button variant="bracket" onClick={() => setArrived((n) => n + 1)}>Ask Ada for an update</Button>
-      <p className="db-label">Scroll up, then ask Ada for an update: the thread stays where you are and counts what arrived.</p>
+      <p className="db-pp">Scroll up, then ask Ada for an update: the thread stays where you are and counts what arrived.</p>
     </div>
   )
 }

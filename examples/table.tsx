@@ -29,7 +29,7 @@ export default function Example() {
   const all = picked.size === projects.length
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-(--db-space-4)">
       <Table>
         <TableCaption>Fees by project</TableCaption>
         <TableHeader>

@@ -2,13 +2,17 @@
   /* ── db-msg ── a message: what they wrote is roman, what you wrote is italic */
   .db-msg {
     display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "face head" "face body" ". foot";
-    column-gap: var(--db-space-4); row-gap: var(--db-space-1); max-width: 34rem;
+    column-gap: var(--db-space-5); row-gap: var(--db-space-1); max-width: 34rem;
   }
   .db-msg > .db-avatar { --s: 2.25rem; grid-area: face; align-self: start; }
-  .db-msg-head { grid-area: head; display: flex; align-items: baseline; gap: var(--db-space-3); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
+  .db-msg-head { display: flex; align-items: baseline; gap: var(--db-space-3); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
   .db-msg-head > b { font-weight: 500; color: var(--db-ink); }
-  .db-msg-body { grid-area: body; color: var(--db-ink); }
-  .db-msg-foot { grid-area: foot; display: flex; flex-wrap: wrap; align-items: center; gap: var(--db-space-2); margin-top: var(--db-space-2); font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-msg-body { color: var(--db-ink); }
+  .db-msg-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--db-space-2); margin-top: var(--db-space-2); font-size: var(--db-pp); color: var(--db-pencil); }
+  /* Placed by name only inside a message: elsewhere (the docs' states) they are plain blocks. */
+  .db-msg > .db-msg-head { grid-area: head; }
+  .db-msg > .db-msg-body { grid-area: body; }
+  .db-msg > .db-msg-foot { grid-area: foot; }
   .db-msg[data-from="you"] { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "head face" "body face" "foot ."; margin-inline-start: auto; text-align: end; }
   .db-msg[data-from="you"] :is(.db-msg-head, .db-msg-foot) { justify-content: flex-end; }
   .db-msg[data-from="you"] .db-msg-body { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.4; }
@@ -21,10 +25,15 @@
   .db-msg-status[data-read] { box-shadow: inset 0 0 0 4px currentColor; }
 
   /* ── db-bubble ── the speech balloon is gone; only its tail is left */
-  .db-bubble { position: relative; padding-inline-start: 0.9em; }
-  .db-bubble::before { content: ""; position: absolute; inset-inline-start: 0.1em; top: 0.4em; width: var(--db-hairline); height: 0.85em; background: var(--db-ink); rotate: 38deg; transform-origin: 50% 0; }
-  .db-bubble[data-align="end"] { padding-inline: 0 0.9em; }
-  .db-bubble[data-align="end"]::before { inset-inline: auto 0.1em; rotate: -38deg; }
+  .db-bubble { position: relative; padding-inline-start: 1.1em; }
+  .db-bubble::before { content: ""; position: absolute; inset-inline-start: 0.65em; top: 0.4em; width: var(--db-hairline); height: 0.8em; background: var(--db-ink); rotate: 38deg; transform-origin: 50% 0; }
+  .db-bubble[data-align="end"] { padding-inline: 0 1.1em; }
+  .db-bubble[data-align="end"]::before { inset-inline: auto 0.65em; rotate: -38deg; }
+  /* In a message the tail hangs in the gutter beside the avatar, so the words share the name's edge. */
+  .db-msg-body > .db-bubble:not([data-variant="ink"]) { margin-inline-start: -1.1em; }
+  .db-msg-body > .db-bubble[data-align="end"]:not([data-variant="ink"]) { margin-inline: 0 -1.1em; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-bubble::before { rotate: -38deg; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-bubble[data-align="end"]::before { rotate: 38deg; }
   .db-bubble[data-variant="ink"] { padding: 0.55em 0.95em 0.6em; background: var(--db-ink); color: var(--db-paper); }
   .db-bubble[data-variant="ink"]::before { inset-inline-start: 0.9em; top: 100%; height: 0.7em; }
   .db-bubble[data-variant="mark"] > p { display: inline; padding: 0 0.1em; background: var(--db-mark); color: var(--db-on-mark); -webkit-box-decoration-break: clone; box-decoration-break: clone; }

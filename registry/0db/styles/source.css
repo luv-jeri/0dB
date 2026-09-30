@@ -1,24 +1,73 @@
 @layer components {
-  /* ── db-source ── code, set as type: a frame row (the name, a hairline, Copy)
-     over the lines. What someone wrote (strings, JSX text) is in the expression,
-     italic; keywords are ink; signs and comments are pencil. No second colour. */
-  .db-source { margin: 0; min-width: 0; }
-  .db-source-meta { margin-bottom: var(--db-space-4); }
-  .db-source-meta > .db-btn { font-size: var(--db-pp); }
+  /* ── db-source ── code, set as type. Weight is the only highlighting: the language's words
+     are ink at 500, signs recede to pencil, and what someone wrote (strings, JSX text, comments)
+     is the expression italic. A bracket joins the lines like a system in a score, the line
+     numbers stand before it like bar numbers, and wide, the file's name stands in the margin
+     the way a score names its instrument. Copying runs the accent down the bracket once. */
+  .db-source { --db-source-gutter: 2.75rem; --db-source-lh: 1.625rem; container-type: inline-size; margin: 0; min-width: 0; }
+  .db-source-frame { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-3); }
+
+  .db-source-meta {
+    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-4); row-gap: var(--db-space-1);
+    padding-inline-start: var(--db-source-gutter);
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-graphite);
+  }
+  .db-source-name { min-width: 0; overflow-wrap: anywhere; }
+  .db-source-ext { color: var(--db-pencil); }
+  .db-source-copy { margin-inline-start: auto; }
+  .db-source-meta > .db-source-copy { font-size: inherit; }
+  .db-source-copy > span { display: inline-block; }
+
+  /* Wide enough for a margin: the name and Copy stand to the left of the lines. */
+  @container (min-width: 34rem) {
+    .db-source-frame:has(> .db-source-meta) { grid-template-columns: 8.5rem minmax(0, 1fr); column-gap: var(--db-space-3); }
+    .db-source-meta { flex-direction: column; align-items: flex-start; row-gap: var(--db-space-2); padding-inline-start: 0; padding-block-start: 0.4em; }
+    .db-source-copy { margin-inline-start: 0; }
+  }
+
   .db-source-code {
-    margin: 0; overflow-x: auto; tab-size: 2;
-    font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375rem; line-height: 1.7; letter-spacing: 0.005em;
-    font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite); white-space: pre;
+    position: relative; margin: 0; padding-block: 0.25rem; padding-inline-start: var(--db-source-gutter);
+    counter-reset: db-line; white-space: pre-wrap; overflow-wrap: anywhere;
+    font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375rem; line-height: var(--db-source-lh); letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite);
     --sh-keyword: var(--db-ink); --sh-entity: var(--db-ink); --sh-class: var(--db-ink);
     --sh-identifier: var(--db-graphite); --sh-property: var(--db-graphite);
     --sh-string: var(--db-ink); --sh-jsxliterals: var(--db-ink);
     --sh-sign: var(--db-pencil); --sh-comment: var(--db-pencil); --sh-space: inherit;
   }
-  .db-source-code > code { font: inherit; }
+  .db-source-code:focus-visible { outline-offset: 6px; }
+  .db-source-code > code { display: block; font: inherit; }
+
+  /* Each line hangs: indented by its depth, its turnovers a step further in. */
+  .db-source-code .sh__line {
+    position: relative; display: block; min-block-size: var(--db-source-lh);
+    padding-inline-start: calc(var(--i, 0) * 0.5em + 1.5em); text-indent: -1.5em;
+  }
+  .db-source-code .sh__line::before {
+    counter-increment: db-line; content: counter(db-line) / "";
+    position: absolute; inset-block-start: 0.1em; inset-inline-start: calc(-1 * var(--db-source-gutter)); width: calc(var(--db-source-gutter) - 1.35rem);
+    text-align: end; text-indent: 0; font-size: 0.75em; font-stretch: 100%; color: var(--db-pencil); opacity: 0.6;
+    transition: opacity var(--db-allegro), color var(--db-allegro);
+  }
+  .db-source-code .sh__line:hover::before { opacity: 1; color: var(--db-ink); }
+  .db-source-code[data-lines="1"] .sh__line::before { content: none; }
+
   .db-source-code .sh__token--keyword { font-weight: 500; }
-  .db-source-code :is(.sh__token--string, .sh__token--jsxliterals) {
-    font-family: var(--db-expression); font-style: italic; font-stretch: 100%;
+  .db-source-code :is(.sh__token--string, .sh__token--jsxliterals, .sh__token--comment) {
+    font-family: var(--db-expression); font-style: italic; font-stretch: 100%; letter-spacing: 0;
     font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;
   }
-  .db-source-copy > span { display: inline-block; }
+
+  /* The bracket: a hairline joining the lines, hooked at both ends. Copying runs the accent down it. */
+  .db-source-code::before, .db-source-code::after {
+    content: ""; position: absolute; inset-block: 0.55rem; inset-inline-start: calc(var(--db-source-gutter) - 0.9rem); width: 0.3rem;
+    border: var(--db-hairline) solid var(--db-rule-strong); border-inline-end: 0; pointer-events: none;
+  }
+  .db-source-code::after { border-color: var(--db-accent); border-inline-start-width: var(--db-stroke); opacity: 0; }
+  .db-source[data-copied] .db-source-code::after { animation: db-source-run var(--db-adagio) var(--db-breath) both; }
+  @keyframes db-source-run {
+    0%   { opacity: 1; clip-path: inset(0 0 100% 0); }
+    55%  { opacity: 1; clip-path: inset(0 0 0 0); }
+    100% { opacity: 0; clip-path: inset(0 0 0 0); }
+  }
 }

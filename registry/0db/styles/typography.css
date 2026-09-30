@@ -8,8 +8,10 @@
   .db-prose h2 { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); }
   .db-prose h3 { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); }
   .db-prose :is(h4, h5, h6) { font-size: var(--db-mp); line-height: var(--db-mp-lh); font-weight: 500; }
-  .db-prose-lead { font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); }
-  .db-prose blockquote { margin: 0; quotes: "“" "”"; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.35; color: var(--db-ink); }
+  .db-prose-lead { font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); text-wrap: balance; }
+  .db-prose :is(h1, h2, h3, h4, h5, h6) { text-wrap: balance; }
+  .db-prose :is(p, li) { text-wrap: pretty; }
+  .db-prose blockquote { quotes: "“" "”"; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.35; color: var(--db-ink); }
   .db-prose blockquote > p { text-indent: -0.4em; } /* the opening mark hangs */
   .db-prose blockquote > p::before { content: open-quote; }
   .db-prose blockquote > p::after { content: close-quote; }
@@ -37,6 +39,7 @@
   .db-prose pre code { font: inherit; letter-spacing: inherit; color: inherit; }
   .db-prose table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
   .db-prose :is(th, td) { padding: var(--db-space-3) var(--db-space-4) var(--db-space-3) 0; text-align: start; vertical-align: baseline; border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-prose :is(th, td):last-child { padding-inline-end: 0; }
   .db-prose th { font-weight: 400; font-size: var(--db-pp); color: var(--db-pencil); }
   .db-prose thead th { padding-top: 0; border-bottom-color: var(--db-ink); white-space: nowrap; }
 }

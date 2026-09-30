@@ -9,5 +9,5 @@ export function exampleSource(name: string): string {
     .trimEnd() + "\n"
 }
 
-/** The one-line install command for an item. */
-export const installCommand = (name: string) => `npx shadcn@latest add https://0db.cojeev.com/r/${name}.json`
+/** The one-line install command for an item, without its runner: a CommandLine adds the reader's. */
+export const installCommand = (name: string) => `shadcn@latest add https://0db.cojeev.com/r/${name}.json`

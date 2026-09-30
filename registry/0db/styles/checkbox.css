@@ -32,6 +32,6 @@
   .db-checklist > legend { padding: 0; margin-bottom: var(--db-space-4); }
 
   /* The tally: how many are done, as a fraction whose count rolls the way it moves. */
-  .db-tally { display: flex; align-items: baseline; gap: var(--db-space-3); margin: 0; font-size: var(--db-p); color: var(--db-pencil); }
+  .db-tally { display: flex; align-items: baseline; gap: var(--db-space-3); margin: var(--db-space-5) 0 0; font-size: var(--db-p); color: var(--db-pencil); }
   .db-tally > .db-fraction > .db-yours { display: inline-block; }
 }

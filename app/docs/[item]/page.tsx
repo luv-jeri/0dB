@@ -7,6 +7,7 @@ import { Corners } from "@/registry/0db/ui/corners"
 import { Meta } from "@/registry/0db/ui/meta"
 import { Prose } from "@/registry/0db/ui/typography"
 import { Source } from "@/registry/0db/ui/source"
+import { CommandLine } from "@/registry/0db/ui/command-line"
 import { Steps, Step, StepTitle } from "@/registry/0db/ui/steps"
 import { Scrollbar } from "@/registry/0db/ui/scrollbar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/0db/ui/tabs"
@@ -117,9 +118,16 @@ export default async function ItemPage({ params }: Params) {
         <h2 id="example-h" className="db-sr">
           Example
         </h2>
-        <Corners className="doc-example">
-          <Example />
-        </Corners>
+        {/* The frame is itself Corners; the corners page shows its own, alone. */}
+        {meta.name === "corners" ? (
+          <div className="doc-example">
+            <Example />
+          </div>
+        ) : (
+          <Corners className="doc-example">
+            <Example />
+          </Corners>
+        )}
         {States ? (
           <div className="spec-states" inert aria-label="States, pinned">
             <States />
@@ -135,8 +143,8 @@ export default async function ItemPage({ params }: Params) {
             <TabsTrigger value="manual">By hand</TabsTrigger>
           </TabsList>
           <TabsContent value="cli">
-            <p>Run it in a project that has the shadcn CLI set up. It brings the 0dB base{siblings.length ? ` and ${siblings.join(", ")}` : ""} along.</p>
-            <Source title="Terminal" code={installCommand(meta.name)} />
+            <p>Run it in a project that has the shadcn CLI set up. It brings {new Intl.ListFormat("en").format(["the 0dB base", ...siblings])} along.</p>
+            <CommandLine runner command={installCommand(meta.name)} emphasis={meta.name} />
           </TabsContent>
           <TabsContent value="manual">
             <Steps>
@@ -153,7 +161,7 @@ export default async function ItemPage({ params }: Params) {
               {npm.length ? (
                 <Step>
                   <StepTitle>Add the packages</StepTitle>
-                  <Source title="Terminal" code={`npm install ${npm.join(" ")}`} />
+                  <CommandLine command={`npm install ${npm.join(" ")}`} />
                 </Step>
               ) : null}
               {siblings.length ? (

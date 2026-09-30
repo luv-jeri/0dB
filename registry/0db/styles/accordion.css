@@ -1,7 +1,7 @@
 @layer components {
   /* ── db-disclose ── a plus that turns into a cross */
-  .db-disclose { border-top: var(--db-hairline) solid var(--db-rule); }
-  .db-disclose:not(:has(+ .db-disclose)) { border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-disclose { border-block-start: var(--db-hairline) solid var(--db-rule); }
+  .db-disclose:not(:has(+ .db-disclose)) { border-block-end: var(--db-hairline) solid var(--db-rule); }
   .db-disclose > summary {
     list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--db-space-5);
     padding-block: var(--db-space-4); cursor: pointer;
@@ -11,7 +11,7 @@
   .db-disclose[open] > summary { font-stretch: 112%; font-weight: 300; } /* the question breathes out as it opens */
   .db-disclose > summary::-webkit-details-marker { display: none; }
   .db-disclose > summary::after {
-    content: "+" / ""; font-weight: 200; font-size: 1.5em; line-height: 0.6; color: var(--db-graphite);
+    content: "+" / ""; font-weight: 200; font-stretch: 100%; /* the mark keeps its width while the question widens */ font-size: 1.5em; line-height: 0.6; color: var(--db-graphite);
     transition: rotate var(--db-andante) var(--db-spiccato);
   }
   .db-disclose[open] > summary::after { rotate: 45deg; }

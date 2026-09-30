@@ -127,6 +127,10 @@ import skeletonMeta from "@/content/skeleton"
 import * as skeletonExample from "@/examples/skeleton"
 import datePickerMeta from "@/content/date-picker"
 import * as datePickerExample from "@/examples/date-picker"
+import commandLineMeta from "@/content/command-line"
+import * as commandLineExample from "@/examples/command-line"
+import contourMeta from "@/content/contour"
+import * as contourExample from "@/examples/contour"
 import formMeta from "@/content/form"
 import * as formExample from "@/examples/form"
 import sourceMeta from "@/content/source"
@@ -185,7 +189,7 @@ export const entries = [
   { meta: scrollAreaMeta, example: scrollAreaExample, siblings: ["scrollbar"], npm: [] },
   { meta: scrollbarMeta, example: scrollbarExample, siblings: [], npm: [] },
   { meta: aspectRatioMeta, example: aspectRatioExample, siblings: [], npm: [] },
-  { meta: carouselMeta, example: carouselExample, siblings: ["button"], npm: [] },
+  { meta: carouselMeta, example: carouselExample, siblings: [], npm: [] },
   { meta: tableMeta, example: tableExample, siblings: [], npm: [] },
   { meta: chartMeta, example: chartExample, siblings: [], npm: [] },
   { meta: avatarMeta, example: avatarExample, siblings: [], npm: [] },
@@ -199,6 +203,8 @@ export const entries = [
   { meta: alertMeta, example: alertExample, siblings: ["button"], npm: [] },
   { meta: skeletonMeta, example: skeletonExample, siblings: [], npm: [] },
   { meta: datePickerMeta, example: datePickerExample, siblings: ["calendar","field","popover"], npm: [] },
+  { meta: commandLineMeta, example: commandLineExample, siblings: ["radio-group","source"], npm: [] },
+  { meta: contourMeta, example: contourExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: formMeta, example: formExample, siblings: ["button","field"], npm: [] },
   { meta: sourceMeta, example: sourceExample, siblings: ["button"], npm: ["sugar-high"] },
   { meta: stepsMeta, example: stepsExample, siblings: [], npm: [] },

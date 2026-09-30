@@ -11,6 +11,7 @@ export default defineComponent({
     { name: "Sidebar label", type: "string", description: "Names the nav landmark, such as Studio app or Docs." },
     { name: "Sidebar sheetLabel", type: "string", default: '"Index"', description: "Below 860px only a quiet trigger with this word shows, and it opens the same words in a sheet. Choosing a link puts the sheet away." },
     { name: "Sidebar folded", type: "boolean", default: "false", description: "Each word keeps only its initial; the rest folds away in turn. Wide only: the sheet never folds. Pair it with your own button and aria-expanded." },
+    { name: "Sidebar compact", type: "boolean", default: "false", description: "A size down, with the links closed up: for a long index, such as these docs." },
     { name: "SidebarHead", type: "p props", description: "The column's own name, at the top. Folded, it keeps its initial too." },
     { name: "SidebarGroup label", type: "string", description: "A small pencil label over a list of links, such as a movement or a section." },
     { name: "SidebarLink current", type: "boolean", default: "false", description: 'Marks the page you are on: aria-current="page", and the one accent dot.' },

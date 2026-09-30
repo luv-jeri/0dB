@@ -11,7 +11,7 @@ const all = ["Identity", "Web", "Motion", "Print"]
 export default function Example() {
   const [tags, setTags] = React.useState(all)
   return (
-    <div className="flex flex-col items-start gap-6">
+    <div className="flex flex-col items-start" style={{ gap: "var(--db-space-5)" }}>
       <div className="flex flex-wrap gap-3">
         {tags.map((t) => (
           <Badge key={t} onRemove={() => setTags((c) => c.filter((x) => x !== t))}>

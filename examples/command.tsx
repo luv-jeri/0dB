@@ -12,7 +12,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 } from "@/registry/0db/ui/command"
 import { Kbd } from "@/registry/0db/ui/kbd"
@@ -25,11 +24,11 @@ const PROJECTS = [
   ["Marram", "Web, 2025"],
 ]
 
-function Palette({ onRun }: { onRun: (said: string) => void }) {
+function Palette({ onRun, whole }: { onRun: (said: string) => void; whole?: boolean }) {
   return (
     <>
-      <CommandInput placeholder="Type a command or a project" />
-      <CommandList>
+      <CommandInput placeholder="Type to search" />
+      <CommandList style={whole ? { maxHeight: "none" } : undefined}>
         <CommandEmpty>Nothing matches. Try a project, like Halden.</CommandEmpty>
         <CommandGroup heading="Projects">
           {PROJECTS.map(([name, hint]) => (
@@ -39,7 +38,6 @@ function Palette({ onRun }: { onRun: (said: string) => void }) {
             </CommandItem>
           ))}
         </CommandGroup>
-        <CommandSeparator />
         <CommandGroup heading="Actions">
           <CommandItem value="Start a project" onSelect={() => onRun("Started a new project.")}>Start a project</CommandItem>
           <CommandItem value="Show the grid" keywords={["layout"]} onSelect={() => onRun("Showed the grid.")}>
@@ -67,7 +65,7 @@ export default function Example() {
     return () => document.removeEventListener("keydown", down)
   }, [])
   return (
-    <div className="flex flex-wrap items-center gap-6">
+    <div className="flex flex-wrap items-center" style={{ gap: "var(--db-space-5)" }}>
       <Button variant="bracket" onClick={() => setOpen(true)}>
         Search <Kbd>⌘K</Kbd>
       </Button>
@@ -87,7 +85,7 @@ export default function Example() {
 export function States() {
   return (
     <Command aria-label="Commands">
-      <Palette onRun={() => {}} />
+      <Palette onRun={() => {}} whole />
     </Command>
   )
 }

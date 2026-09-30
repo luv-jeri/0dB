@@ -11,7 +11,7 @@ export default function Example() {
         <Input type="email" defaultValue="hello@studio" autoComplete="email" />
       </Field>
       <Field label="Notes" count maxLength={400} hint="Ruled like paper. The lines scroll with what you write.">
-        <Textarea rows={4} placeholder="What should we know before the call?" />
+        <Textarea rows={4} placeholder="What should we know first?" />
       </Field>
     </div>
   )

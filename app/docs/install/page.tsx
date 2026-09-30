@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import NextLink from "next/link"
 
 import { Source } from "@/registry/0db/ui/source"
+import { CommandLine } from "@/registry/0db/ui/command-line"
 import { Steps, Step, StepTitle } from "@/registry/0db/ui/steps"
 import { Link } from "@/registry/0db/ui/link"
 import { Prose } from "@/registry/0db/ui/typography"
@@ -34,7 +35,7 @@ export default function Install() {
           <Step>
             <StepTitle>Start from a Next app with Tailwind v4</StepTitle>
             <p>Set up the shadcn CLI once, if the project doesn&apos;t have a components.json yet.</p>
-            <Source title="Terminal" code="npx shadcn@latest init" />
+            <CommandLine runner command="shadcn@latest init" />
           </Step>
           <Step>
             <StepTitle>Add the base</StepTitle>
@@ -42,12 +43,12 @@ export default function Install() {
               The tokens, the default font pair, the reset and the base pieces (link, key, fraction, meta, corners). It also points shadcn&apos;s own colour names at 0dB&apos;s, so
               a stock globals.css renders 0dB.
             </p>
-            <Source title="Terminal" code={`npx shadcn@latest add ${BASE}/0db.json`} />
+            <CommandLine runner command={`shadcn@latest add ${BASE}/0db.json`} emphasis="0db" />
           </Step>
           <Step>
             <StepTitle>Add an item</StepTitle>
             <p>Each item brings the base and the siblings it needs. Its stylesheet is imported into your global CSS for you.</p>
-            <Source title="Terminal" code={`npx shadcn@latest add ${BASE}/button.json ${BASE}/checkbox.json`} />
+            <CommandLine runner command={`shadcn@latest add ${BASE}/button.json ${BASE}/checkbox.json`} />
           </Step>
           <Step>
             <StepTitle>Set the four switches, if you want them</StepTitle>

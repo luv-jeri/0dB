@@ -15,10 +15,10 @@ function HoverCardTrigger(props: React.ComponentProps<typeof HoverCardPrimitive.
 }
 
 /** A small card. Put a HoverCardName first if you want the name set large and cropped by the edge. */
-function HoverCardContent({ className, align = "start", sideOffset = 12, ...props }: React.ComponentProps<typeof HoverCardPrimitive.Content>) {
+function HoverCardContent({ className, align = "start", sideOffset = 12, collisionPadding = 20, ...props }: React.ComponentProps<typeof HoverCardPrimitive.Content>) {
   return (
     <HoverCardPrimitive.Portal>
-      <HoverCardPrimitive.Content data-slot="hover-card-content" align={align} sideOffset={sideOffset} className={cn("db-peek", className)} {...props} />
+      <HoverCardPrimitive.Content data-slot="hover-card-content" align={align} sideOffset={sideOffset} collisionPadding={collisionPadding} className={cn("db-peek", className)} {...props} />
     </HoverCardPrimitive.Portal>
   )
 }

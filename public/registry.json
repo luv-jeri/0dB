@@ -1599,8 +1599,7 @@
       "title": "Carousel",
       "description": "One poster at a time, each name set so large the frame crops it. The count between the arrows rolls the way you travel.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://0db.cojeev.com/r/0db.json"
       ],
       "files": [
         {
@@ -2004,6 +2003,67 @@
       }
     },
     {
+      "name": "command-line",
+      "type": "registry:ui",
+      "title": "Command line",
+      "description": "One line to type, on a baseline like a field already filled in. The address recedes, the part that's yours is italic, and copying draws the line in the accent.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/radio-group.json",
+        "https://0db.cojeev.com/r/source.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/command-line.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/command-line.css",
+          "type": "registry:file",
+          "target": "styles/0db/command-line.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/command-line.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-command-line"
+      }
+    },
+    {
+      "name": "contour",
+      "type": "registry:ui",
+      "title": "Contour",
+      "description": "A paragraph set to a contour, the way a score draws a swell: each line laid to its own width, so the words taper, open or swell and close.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/contour.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/contour.css",
+          "type": "registry:file",
+          "target": "styles/0db/contour.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/contour.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-contour"
+      }
+    },
+    {
       "name": "form",
       "type": "registry:ui",
       "title": "Form",
@@ -2037,7 +2097,7 @@
       "name": "source",
       "type": "registry:ui",
       "title": "Source",
-      "description": "Code, set as type: what someone wrote is italic, keywords are ink, and nothing else takes colour.",
+      "description": "Code, set as type. Weight is the only highlighting, what someone wrote is italic, and a bracket joins the lines like a system in a score.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json",
         "https://0db.cojeev.com/r/button.json"

@@ -32,7 +32,8 @@ function DropdownMenuSub(props: React.ComponentProps<typeof MenuPrimitive.Sub>) 
 function DropdownMenuContent({
   className,
   align = "start",
-  sideOffset = 8,
+  sideOffset = 27, /* --db-space-5: the leader is this long */
+  collisionPadding = 20,
   style,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Content>) {
@@ -42,6 +43,7 @@ function DropdownMenuContent({
         data-slot="dropdown-menu-content"
         align={align}
         sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
         style={{ "--db-pop-gap": `${sideOffset}px`, ...style } as React.CSSProperties}
         className={cn("db-pop db-menu", className)}
         {...props}
@@ -94,10 +96,10 @@ function DropdownMenuSubTrigger({ className, ...props }: React.ComponentProps<ty
   return <MenuPrimitive.SubTrigger data-slot="dropdown-menu-sub-trigger" className={cn("db-menu-item db-menu-sub", className)} {...props} />
 }
 
-function DropdownMenuSubContent({ className, sideOffset = 2, ...props }: React.ComponentProps<typeof MenuPrimitive.SubContent>) {
+function DropdownMenuSubContent({ className, sideOffset = 2, alignOffset = -8, ...props }: React.ComponentProps<typeof MenuPrimitive.SubContent>) {
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.SubContent data-slot="dropdown-menu-sub-content" sideOffset={sideOffset} className={cn("db-pop db-menu", className)} {...props} />
+      <MenuPrimitive.SubContent data-slot="dropdown-menu-sub-content" sideOffset={sideOffset} alignOffset={alignOffset} className={cn("db-pop db-menu", className)} {...props} />
     </MenuPrimitive.Portal>
   )
 }

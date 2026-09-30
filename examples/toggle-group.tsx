@@ -9,7 +9,7 @@ export default function Example() {
   const [format, setFormat] = React.useState(["bold"])
   return (
     <div className="grid gap-6">
-      <ToggleGroup type="multiple" value={format} onValueChange={setFormat} aria-label="Format" className="db-mp">
+      <ToggleGroup type="multiple" value={format} onValueChange={setFormat} aria-label="Format">
         <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
         <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
         <ToggleGroupItem value="underline">Underline</ToggleGroupItem>

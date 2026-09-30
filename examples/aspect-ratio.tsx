@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { AspectRatio } from "@/registry/0db/ui/aspect-ratio"
-import { Button } from "@/registry/0db/ui/button"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
 
 const ratios = [
   ["16:9", 16 / 9],
@@ -13,18 +13,20 @@ const ratios = [
 ] as const
 
 export default function Example() {
-  const [ratio, setRatio] = React.useState<number>(16 / 9)
+  const [ratio, setRatio] = React.useState("16:9")
+  const value = ratios.find(([name]) => name === ratio)?.[1] ?? 16 / 9
   return (
-    <div className="grid gap-8">
-      <div role="group" aria-label="Ratio" className="flex gap-6">
-        {ratios.map(([name, value]) => (
-          <Button key={name} variant={ratio === value ? "statement" : "bracket"} aria-pressed={ratio === value} onClick={() => setRatio(value)}>
+    <div className="grid gap-10">
+      {/* Radix single groups clear on a second press; a ratio is always one of the four. */}
+      <ToggleGroup type="single" value={ratio} onValueChange={(v) => v && setRatio(v)} aria-label="Ratio">
+        {ratios.map(([name]) => (
+          <ToggleGroupItem key={name} value={name}>
             {name}
-          </Button>
+          </ToggleGroupItem>
         ))}
-      </div>
+      </ToggleGroup>
       <div className="max-w-md">
-        <AspectRatio ratio={ratio} label />
+        <AspectRatio ratio={value} label />
       </div>
     </div>
   )

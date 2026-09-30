@@ -9,6 +9,10 @@
     display: grid; align-content: start; justify-items: start; gap: var(--db-space-1);
     font-size: var(--db-mp); line-height: var(--db-mp-lh);
   }
+  /* Compact: a size down, and the links close up. */
+  .db-sidebar-list[data-compact] { font-size: var(--db-p); line-height: var(--db-p-lh); }
+  .db-sidebar-list[data-compact] :is(.db-sidebar-group, .db-sidebar-links) { gap: 0; }
+  .db-sidebar-list[data-compact] :is(.db-sidebar-group + .db-sidebar-group, .db-sidebar-head + .db-sidebar-group) { margin-block-start: var(--db-space-5); }
   .db-sidebar > .db-sidebar-list { padding-inline-end: var(--db-space-6); border-inline-end: var(--db-hairline) solid var(--db-rule); }
   /* Before the browser has said how wide it is, both surfaces are in the page and CSS chooses. */
   @media (min-width: 860px) { .db-sidebar > [data-slot="sidebar-trigger"] { display: none; } }

@@ -20,8 +20,8 @@
 
   /* Checked, a sentence is yours: the expression italic. */
   .db-menu-item:is([data-state="checked"]) {
-    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;
-    padding-block: 0.3em; color: var(--db-ink);
+    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); color: var(--db-ink);
+    line-height: calc(var(--db-p-lh) / var(--db-expression-scale)); padding-block: calc(0.34em / var(--db-expression-scale)); /* the row keeps its height */
   }
   .db-menu-item[data-state="checked"][data-highlighted] { color: var(--db-on-mark); }
 

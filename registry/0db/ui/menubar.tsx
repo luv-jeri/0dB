@@ -75,13 +75,14 @@ function MenubarSub(props: React.ComponentProps<typeof MenuPrimitive.Sub>) {
 }
 
 /**
- * The dropdown menu's list of words, hung under the word that opened it. It hangs 16px
- * down so it clears the hairline the menubar sits on.
+ * The dropdown menu's list of words, hung under the word that opened it. The leader
+ * is long enough to clear the hairline the menubar sits on.
  */
 function MenubarContent({
   className,
   align = "start",
-  sideOffset = 16,
+  sideOffset = 27, /* --db-space-5: the leader is this long */
+  collisionPadding = 20,
   style,
   ref,
   onFocusOutside,
@@ -96,6 +97,7 @@ function MenubarContent({
         data-slot="menubar-content"
         align={align}
         sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
         style={{ "--db-pop-gap": `${sideOffset}px`, ...style } as React.CSSProperties}
         className={cn("db-pop db-menu", className)}
         onFocusOutside={(event) => {
@@ -146,10 +148,10 @@ function MenubarSubTrigger({ className, ...props }: React.ComponentProps<typeof 
   return <MenuPrimitive.SubTrigger data-slot="menubar-sub-trigger" className={cn("db-menu-item db-menu-sub", className)} {...props} />
 }
 
-function MenubarSubContent({ className, sideOffset = 2, ...props }: React.ComponentProps<typeof MenuPrimitive.SubContent>) {
+function MenubarSubContent({ className, sideOffset = 2, alignOffset = -8, ...props }: React.ComponentProps<typeof MenuPrimitive.SubContent>) {
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.SubContent data-slot="menubar-sub-content" sideOffset={sideOffset} className={cn("db-pop db-menu", className)} {...props} />
+      <MenuPrimitive.SubContent data-slot="menubar-sub-content" sideOffset={sideOffset} alignOffset={alignOffset} className={cn("db-pop db-menu", className)} {...props} />
     </MenuPrimitive.Portal>
   )
 }

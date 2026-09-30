@@ -20,10 +20,10 @@ export default function Example() {
 export function States() {
   return (
     <>
-      <State label="Rest"><Note note="A grotesque from Omnibus-Type.">Archivo</Note></State>
+      <State label="Rest"><Note note="A variable grotesque.">Archivo</Note></State>
       <State label="Pointed at">
         <span style={{ display: "block", paddingBottom: "7rem" }}>
-          <Note note="A grotesque from Omnibus-Type." data-force="hover">Archivo</Note>
+          <Note note="A variable grotesque." data-force="hover">Archivo</Note>
         </span>
       </State>
     </>

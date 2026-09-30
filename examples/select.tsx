@@ -16,7 +16,7 @@ export default function Example() {
           <option>web</option>
           <option>motion</option>
         </Select>{" "}
-        projects from{" "}
+        work from{" "}
         <Select aria-label="Year">
           <option>2026</option>
           <option>2025</option>

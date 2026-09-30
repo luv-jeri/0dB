@@ -12,9 +12,9 @@ export default function Example() {
 export function States() {
   return (
     <>
-      <State label="Rest"><Slider label="Volume" defaultValue={40} /></State>
-      <State label="Focus"><Slider label="Volume" defaultValue={40} data-force="focus" /></State>
-      <State label="Disabled"><Slider label="Volume" defaultValue={40} disabled /></State>
+      <State label="Rest"><Slider label="Volume" className="w-64" defaultValue={40} /></State>
+      <State label="Focus"><Slider label="Volume" className="w-64" defaultValue={40} data-force="focus" /></State>
+      <State label="Disabled"><Slider label="Volume" className="w-64" defaultValue={40} disabled /></State>
     </>
   )
 }
