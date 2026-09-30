@@ -9,6 +9,7 @@ import {
 import { findComponents, isUUID, LIMITS, MEDIA_TYPES, validateReport, type ComponentMatch, type RequestTopic } from "@/lib/reporting/contracts"
 import { snapshotDiagnostics } from "@/lib/reporting/diagnostics"
 import { emptyDraft, type ReportingDraft } from "@/lib/reporting/draft"
+import { capturePage } from "@/lib/reporting/capture"
 import { Button } from "@/registry/0db/ui/button"
 import { Dropzone } from "@/registry/0db/ui/dropzone"
 import { Field, Input, Textarea } from "@/registry/0db/ui/field"
@@ -25,6 +26,8 @@ import { downloadReceipt, ReportReceipt } from "./receipt"
 import { GitHubFallback, message, STATUS_LABELS, uploaded } from "./shared"
 import { Turnstile } from "./turnstile"
 import { useReportingWorkspace } from "./workspace"
+import { CropEditor, ItemSearch, PinPicker, pinTarget, type ReportingItem } from "./capture-controls"
+import "./controls.css"
 
 const questions = [
   { id: "happened", question: "What happened?", label: "What you saw", placeholder: "The steps you took, and where it went wrong" },
@@ -33,8 +36,14 @@ const questions = [
 const answerText = (answers: Answers) => [answers.happened?.trim(), answers.expected?.trim()].filter(Boolean).join("\n\n")
 const references = (description: string) => [...new Set((description.match(/https?:\/\/[^\s<>]+/gi) ?? []).map((value) => value.replace(/[),.;!?]+$/, "")))]
 
-export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
-  const { draft, loaded, storage, notice, replace, persist, select, clear } = useReportingWorkspace(entries)
+export function FeedbackForms({ entries, presentation = "page", href, onPickingChange, onBusyChange }: {
+  entries: ReportingItem[]
+  presentation?: "page" | "panel"
+  href?: string
+  onPickingChange?: (picking: boolean) => void
+  onBusyChange?: (busy: boolean) => void
+}) {
+  const { draft, loaded, storage, notice, replace, persist, select, clear } = useReportingWorkspace(entries, href)
   const [busy, setBusy] = React.useState("")
   const [error, setError] = React.useState("")
   const [config, setConfig] = React.useState<ReportingConfig | null>(null)
@@ -47,6 +56,11 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
   const [topics, setTopics] = React.useState<RequestTopic[]>([])
   const [topicError, setTopicError] = React.useState(false)
   const [guideOpen, setGuideOpen] = React.useState(false)
+  const [capture, setCapture] = React.useState<File | null>(null)
+  const [picking, setPicking] = React.useState(false)
+  const [announcement, setAnnouncement] = React.useState("")
+  const pickButton = React.useRef<HTMLButtonElement>(null)
+  const captureButton = React.useRef<HTMLButtonElement>(null)
   const running = React.useRef(false)
   const reviewHeading = React.useRef<HTMLHeadingElement>(null)
   const descriptionInput = React.useRef<HTMLTextAreaElement>(null)
@@ -75,6 +89,7 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
   }, [draft.kind, draft.title, draft.topicId, frozen, connection])
 
   React.useEffect(() => { if (frozen) reviewHeading.current?.focus() }, [frozen])
+  React.useEffect(() => { onBusyChange?.(Boolean(busy)) }, [busy, onBusyChange])
 
   const update = (changes: Partial<ReportingDraft>) => replace({ ...draft, ...changes })
   const reset = () => {
@@ -96,7 +111,7 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
       const description = draft.description.trim() || (draft.topicId ? "I would like this component too." : "")
       const report = validateReport({
         id: crypto.randomUUID(), kind: draft.kind, title: draft.title, description, email: draft.email,
-        references: references(description), pins: [], attachments: await manifestFiles(draft.files),
+        references: references(description), pins: draft.kind === "bug" ? draft.pins : [], attachments: await manifestFiles(draft.files),
         diagnostics: draft.kind === "bug" ? draft.diagnostics : null,
         ...(draft.topicId ? { topicId: draft.topicId } : {}),
       })
@@ -190,17 +205,47 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
     toast(guided ? "Answers added to your details." : "You can write the details below.")
   }
 
+  const finishPicking = () => {
+    setPicking(false)
+    onPickingChange?.(false)
+    requestAnimationFrame(() => requestAnimationFrame(() => pickButton.current?.focus({ preventScroll: true })))
+  }
+  const selectItem = (item: ComponentMatch, pin?: ReportingDraft["pins"][number]) => {
+    const reference = `Component: https://0db.cojeev.com/docs/${item.name}/`
+    update({
+      title: draft.title || `Issue with ${item.title}`.slice(0, 120),
+      description: draft.description.includes(reference) ? draft.description : `${reference}\n\n${draft.description}`.slice(0, 6000),
+      pins: pin && !draft.pins.some((value) => value.path === pin.path) ? [...draft.pins, pin].slice(0, LIMITS.pins) : draft.pins,
+    })
+    setAnnouncement(`${item.title} selected. Its component link is in your details.`)
+    if (picking) finishPicking()
+  }
+  async function screenshot(mode: "viewport" | "page") {
+    if (running.current) return
+    running.current = true
+    setBusy("Capturing screenshot")
+    setError("")
+    try { setCapture(await capturePage(mode)) }
+    catch (cause) { setError(`${message(cause)} You can attach an image or video instead.`) }
+    finally { running.current = false; setBusy("") }
+  }
+  const finishCapture = () => {
+    setCapture(null)
+    requestAnimationFrame(() => captureButton.current?.focus({ preventScroll: true }))
+  }
+  const Root = presentation === "panel" ? "div" : "main"
+
   return (
-    <main id="content" className="db-report-page" data-reporting-chrome>
+    <Root id={presentation === "page" ? "content" : undefined} className="db-report-page" data-presentation={presentation} data-reporting-chrome>
       <Toaster variant="footnote" className="db-report-toaster" />
-      <header className="db-report-head">
+      {presentation === "page" ? <header className="db-report-head">
         <p className="db-report-caption">0dB / Feedback</p>
         <h1>Make it<br />better.</h1>
         <div className="db-report-intro"><p>A rough edge. A missing piece.<br />Tell us what would help.</p><Link asChild><NextLink href="/requests/">Browse component requests</NextLink></Link></div>
-      </header>
+      </header> : null}
       <div className="db-report-layout">
         <aside className="db-report-aside">
-          <Picks legend="I’d like to" value={draft.kind} disabled={!loaded || Boolean(busy)} onValueChange={(kind) => {
+          <Picks legend="I’d like to" value={draft.kind} disabled={!loaded || Boolean(busy) || Boolean(capture)} onValueChange={(kind) => {
             if (kind !== "bug" && kind !== "request") return
             select(kind)
             setError("")
@@ -210,9 +255,10 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
             setToken("")
             setDropKey((n) => n + 1)
           }}>
-            <Pick value="bug"><PickTitle>Report an issue</PickTitle><PickDescription>Something isn’t working as it should.</PickDescription></Pick>
+            <Pick value="bug"><PickTitle>Report a bug</PickTitle><PickDescription>Something isn’t working as it should.</PickDescription></Pick>
             <Pick value="request"><PickTitle>Request a component</PickTitle><PickDescription>Something you wish the library had.</PickDescription></Pick>
           </Picks>
+          {presentation === "panel" && draft.kind === "request" ? <Link asChild><NextLink href="/requests/">Browse component requests</NextLink></Link> : null}
           <div className="db-report-aside-note">
             <p>Your email and supporting details stay private. Request titles may be published after review.</p>
             <p className="db-report-note">Drafts and receipts stay in this browser for seven days after a save. Download a receipt to keep it longer.</p>
@@ -243,9 +289,29 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
                   {draft.attempted ? <Button variant="quiet" onClick={() => { downloadReceipt({ id: frozen.report.id, token: frozen.token }); toast("Receipt key download started.") }}>Download receipt key</Button> : null}
                 </div>
               </section>
-            ) : (
+            ) : capture ? <CropEditor file={capture} onCancel={finishCapture} onAccept={async (file) => {
+              const files = [...draft.files, { id: crypto.randomUUID(), file }]
+              await manifestFiles(files)
+              update({ files })
+              setDropKey((n) => n + 1)
+              setAnnouncement("Cropped screenshot attached. You can preview or remove it below.")
+              finishCapture()
+            }} /> : (
               <section className="db-report-edit" aria-labelledby="form-heading" key={draft.kind} inert={Boolean(busy)}>
                 <h2 id="form-heading">{draft.topicId ? "Join this request." : draft.kind === "bug" ? "What needs a closer look?" : "What’s missing?"}</h2>
+                {draft.kind === "bug" ? <section className="db-report-tools" aria-label="Page and screenshot">
+                  <div className="db-report-actions">
+                    <Button ref={pickButton} variant="bracket" disabled={draft.pins.length >= LIMITS.pins} onClick={() => { setPicking(true); onPickingChange?.(true) }}>Pick the item</Button>
+                    <Button ref={captureButton} variant="quiet" disabled={draft.files.length >= LIMITS.files} onClick={() => void screenshot("viewport")}>Screenshot this view</Button>
+                    <Button variant="quiet" disabled={draft.files.length >= LIMITS.files} onClick={() => void screenshot("page")}>Screenshot full page</Button>
+                  </div>
+                  <details className="db-report-disclosure"><summary>Find an item by name</summary><ItemSearch entries={entries} onSelect={selectItem} /></details>
+                  {draft.pins.length ? <ol className="db-report-pins" aria-label="Picked items">{draft.pins.map((pin, index) => <li key={pin.path}>
+                    <span><bdi className="db-report-number">{index + 1}.</bdi> <span className="db-yours">{pinTarget(pin, entries) ?? "Picked item"}</span></span>
+                    <Button variant="quiet" aria-label={`Remove pin ${index + 1}`} onClick={() => { update({ pins: draft.pins.filter((_, at) => at !== index) }); setAnnouncement("Pin removed.") }}>Remove</Button>
+                  </li>)}</ol> : null}
+                  <p className="db-report-note" role="status">{announcement || "Choose an item on the page, or capture what you see. Nothing is shared until you review and send."}</p>
+                </section> : null}
                 {draft.kind === "bug" ? <details className="db-report-disclosure" open={guideOpen} onToggle={(event) => setGuideOpen(event.currentTarget.open)}>
                   <summary>Walk through what happened</summary>
                   <p className="db-report-note">Two short questions, up to 200 characters each. Add as much detail as you need in the form below.</p>
@@ -278,6 +344,9 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
                       setError("")
                       update({ files: files.map((file) => draft.files.find((item) => item.file === file) ?? { id: crypto.randomUUID(), file }) })
                     }} />
+                    {draft.files.length ? <>
+                      <details className="db-report-disclosure"><summary>Preview attachments</summary><MediaReview files={draft.files} /></details>
+                    </> : null}
                   </div>
                   {draft.kind === "bug" ? <div className="db-report-diagnostics">
                     <Button variant="quiet" disabled={Boolean(busy)} aria-pressed={Boolean(draft.diagnostics)} onClick={() => {
@@ -306,6 +375,7 @@ export function FeedbackForms({ entries }: { entries: ComponentMatch[] }) {
         </div>
       </div>
       <noscript><p className="db-report-foot">The private forms need JavaScript. <a href="https://github.com/luv-jeri/0dB/issues/new">Open a GitHub issue</a> instead.</p></noscript>
-    </main>
+      {picking ? <PinPicker entries={entries} onSelect={selectItem} onCancel={() => { setAnnouncement("Picking cancelled. Your draft is unchanged."); finishPicking() }} /> : null}
+    </Root>
   )
 }

@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 }
 
 export default function FeedbackPage() {
-  const components = entries.map(({ meta }) => ({ name: meta.name, title: meta.title, description: meta.summary }))
+  const components = entries.map(({ meta }) => ({ name: meta.name, title: meta.title, description: meta.summary, contract: meta.contract }))
   return <FeedbackForms entries={components} />
 }

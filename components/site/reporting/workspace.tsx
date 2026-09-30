@@ -7,7 +7,7 @@ import { isUUID, type ComponentMatch, type ReportKind } from "@/lib/reporting/co
 const fresh = (kind: ReportKind): ReportingDraft => ({ ...emptyDraft(), kind })
 
 /** The shared draft client owns storage. This hook only coordinates the two visible forms and ordered saves. */
-export function useReportingWorkspace(entries: ComponentMatch[]) {
+export function useReportingWorkspace(entries: ComponentMatch[], href?: string) {
   const [draft, setDraft] = React.useState(() => fresh("bug"))
   const [loaded, setLoaded] = React.useState(false)
   const [storage, setStorage] = React.useState("")
@@ -47,7 +47,7 @@ export function useReportingWorkspace(entries: ComponentMatch[]) {
       try { saved = await loadDraftWorkspace() }
       catch { if (active) setStorage("Local storage is unavailable. Keep this page open to keep your draft.") }
       if (!active) return
-      const params = new URLSearchParams(window.location.search)
+      const params = new URL(href ?? window.location.href, window.location.origin).searchParams
       const kind = params.get("kind") === "request" ? "request" : params.get("kind") === "bug" || params.has("item") ? "bug" : saved?.activeKind ?? "bug"
       const item = entries.find((entry) => entry.name === params.get("item"))
       const topic = params.get("topic")
@@ -67,7 +67,7 @@ export function useReportingWorkspace(entries: ComponentMatch[]) {
     }
     void load()
     return () => { active = false }
-  }, [entries])
+  }, [entries, href])
 
   React.useEffect(() => {
     if (!loaded) return

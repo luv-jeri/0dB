@@ -1,0 +1,41 @@
+@import "../../../registry/0db/styles/attachment.css";
+@import "../../../registry/0db/styles/dropzone.css";
+@import "../../../registry/0db/styles/field.css";
+@import "../../../registry/0db/styles/form.css";
+@import "../../../registry/0db/styles/input-group.css";
+@import "../../../registry/0db/styles/marker.css";
+@import "../../../registry/0db/styles/picks.css";
+@import "../../../registry/0db/styles/questionnaire.css";
+
+@layer components {
+  .db-report-tools, .db-report-item-search, .db-report-crop { display: grid; gap: var(--db-space-4); min-inline-size: 0; }
+  .db-report-item-search ul { display: grid; gap: var(--db-space-4); list-style: none; padding: 0; max-block-size: 20rem; overflow: auto; }
+  .db-report-pins { list-style: none; padding: 0; }
+  .db-report-pins li { display: flex; justify-content: space-between; gap: var(--db-space-4); align-items: baseline; padding-block: var(--db-space-3); border-block-end: var(--db-hairline) solid var(--db-rule); }
+  .db-report-attachments > .db-attachments { inline-size: 100%; }
+  .db-report-crop-image { position: relative; justify-self: center; inline-size: fit-content; max-inline-size: 100%; touch-action: none; cursor: crosshair; overflow: hidden; line-height: 0; }
+  .db-report-crop-image img { display: block; inline-size: auto; max-inline-size: 100%; max-block-size: 42dvh; block-size: auto; pointer-events: none; }
+  .db-report-crop-outline { position: absolute; border: var(--db-hairline) solid var(--db-accent); pointer-events: none; }
+  .db-report-crop-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--db-space-3); }
+  .db-report-crop-fields input { direction: ltr; unicode-bidi: isolate; }
+  .db-report-picker { position: fixed; inset: 0; z-index: 10000; pointer-events: none; }
+  .db-report-pin-frame { position: fixed; border: var(--db-hairline) solid var(--db-accent); pointer-events: none; }
+  .db-report-pin-name { position: absolute; inset-block-end: 100%; inset-inline-start: 0; padding: var(--db-space-1) var(--db-space-2); background: var(--db-paper); color: var(--db-ink); font-family: var(--db-voice); font-size: var(--db-pp); line-height: var(--db-pp-lh); white-space: nowrap; }
+  .db-report-pin-name[data-below] { inset-block: 100% auto; }
+  .db-report-picker-toolbar { position: fixed; inset-inline: var(--db-margin); inset-block-end: var(--db-space-5); inline-size: min(36rem, calc(100% - 2 * var(--db-margin))); margin-inline: auto; padding: var(--db-space-4) var(--db-space-5); border-block-start: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite); pointer-events: auto; display: grid; gap: var(--db-space-2); font-size: var(--db-pp); line-height: var(--db-pp-lh); }
+  .db-report-picker-toolbar strong { font-size: var(--db-mp); font-weight: 400; color: var(--db-ink); }
+  .db-report-picker-toolbar .db-report-actions { justify-content: space-between; }
+  .db-report-picker-toolbar:focus { outline: none; }
+  html[data-reporting-picking] { cursor: crosshair; }
+  html[data-reporting-picking] body { --db-accent: var(--db-ink); }
+  html[data-reporting-picking] .db-report-picker { --db-accent: var(--db-report-accent, Highlight); }
+  @media (max-width: 520px) {
+    .db-report-crop-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .db-report-picker-toolbar { padding-inline: var(--db-space-3); }
+  }
+  @media (forced-colors: active) {
+    .db-report-pin-frame, .db-report-crop-outline { border-color: Highlight; }
+    .db-report-pin-name, .db-report-picker-toolbar { background: Canvas; color: CanvasText; }
+    .db-report-picker-toolbar { border-color: CanvasText; }
+  }
+}
