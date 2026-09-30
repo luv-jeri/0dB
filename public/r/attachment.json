@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "attachment",
+  "title": "Attachment",
+  "description": "A file's extension is its picture; a ring counts it in and fills to a dot when it's safe.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/button.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/attachment.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Button } from \"@/components/ui/button\"\n\n/** The list the files sit in. */\nfunction AttachmentList({ className, ...props }: React.ComponentProps<\"ul\">) {\n  return <ul data-slot=\"attachment-list\" className={cn(\"db-attachments\", className)} {...props} />\n}\n\ntype AttachmentProps = Omit<React.ComponentProps<\"li\">, \"children\"> & {\n  name: string\n  /** The size, as it should read: \"2.4 MB\". Set in tabular figures. */\n  size?: string\n  /** Says what is happening or what went wrong, in place of the size: \"Checking\", \"The connection dropped.\" */\n  status?: string\n  state?: \"idle\" | \"uploading\" | \"processing\" | \"done\" | \"error\"\n  /** How far an upload has got, 0 to 1. The ring counts it in. */\n  progress?: number\n  /** Shows a Remove button, labelled with the file's name. */\n  onRemove?: () => void\n}\n\n/** A file: its extension is its picture, a ring counts it in and fills to a dot when it's safe. */\nfunction Attachment({ name, size, status, state = \"done\", progress, onRemove, className, style, ...props }: AttachmentProps) {\n  const ext = name.includes(\".\") ? name.slice(name.lastIndexOf(\".\") + 1) : \"\"\n  return (\n    <li\n      data-slot=\"attachment\"\n      data-state={state}\n      className={cn(\"db-attach\", className)}\n      style={progress === undefined ? style : ({ \"--p\": progress, ...style } as React.CSSProperties)}\n      {...props}\n    >\n      <span className=\"db-attach-ext\" aria-hidden=\"true\">{ext}</span>\n      <span className=\"db-attach-body\">\n        <span className=\"db-attach-name\">{name}</span>\n        <span className=\"db-attach-meta\">{status ?? size}</span>\n      </span>\n      <svg className=\"db-attach-ring\" viewBox=\"0 0 22 22\" aria-hidden=\"true\">\n        <circle className=\"db-attach-track\" cx=\"11\" cy=\"11\" r=\"9.5\" />\n        <circle className=\"db-attach-arc\" cx=\"11\" cy=\"11\" r=\"9.5\" pathLength=\"1\" />\n        <circle className=\"db-attach-fill\" cx=\"11\" cy=\"11\" />\n      </svg>\n      {onRemove ? (\n        <Button variant=\"bracket\" aria-label={`Remove ${name}`} onClick={onRemove}>\n          Remove\n        </Button>\n      ) : null}\n    </li>\n  )\n}\n\nexport { Attachment, AttachmentList, type AttachmentProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/attachment.css",
+      "content": "@layer components {\n  /* ── db-attach ── a file: its extension is its picture; a ring counts it in */\n  .db-attachments { list-style: none; margin: 0; padding: 0; border-top: var(--db-hairline) solid var(--db-rule); }\n  .db-attach { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--db-space-4); padding-block: var(--db-space-3); border-bottom: var(--db-hairline) solid var(--db-rule); }\n  .db-attach-ext { font-size: var(--db-mf); line-height: 1; font-weight: 200; font-stretch: 125%; color: var(--db-ink); text-transform: lowercase; }\n  .db-attach-body { display: grid; min-width: 0; }\n  .db-attach-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.3; color: var(--db-ink); }\n  .db-attach-meta { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); font-variant-numeric: tabular-nums; }\n  .db-attach-ring { width: 22px; height: 22px; overflow: visible; rotate: -90deg; }\n  .db-attach-ring circle { fill: none; stroke-width: 1.5; }\n  .db-attach-track { stroke: var(--db-rule); }\n  .db-attach-arc { stroke: var(--db-ink); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 0)); transition: stroke-dashoffset var(--db-moderato) var(--db-breath), stroke var(--db-allegro); }\n  .db-attach-ring .db-attach-fill { fill: var(--db-ink); stroke: none; r: 0; transition: r var(--db-moderato) var(--db-spiccato); }\n  .db-attach[data-state=\"processing\"] .db-attach-arc { --p: 1; stroke: var(--db-pencil); }\n  .db-attach[data-state=\"done\"] .db-attach-arc { --p: 1; }\n  .db-attach[data-state=\"done\"] .db-attach-fill { r: 5.5px; }\n  .db-attach[data-state=\"error\"] .db-attach-arc { stroke: var(--db-signal); }\n  .db-attach[data-state=\"error\"] .db-attach-meta { color: var(--db-signal); }\n  .db-attach > .db-btn { font-size: var(--db-pp); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/attachment.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/attachment.css\"": {}
+  },
+  "meta": {
+    "movement": "XI",
+    "underneath": "native",
+    "contract": "db-attach"
+  },
+  "type": "registry:ui"
+}

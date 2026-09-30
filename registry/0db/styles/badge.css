@@ -1,0 +1,20 @@
+@layer components {
+  /* ── db-tag ── the one rounded shape */
+  .db-tag {
+    display: inline-flex; align-items: baseline; gap: 0.45em;
+    margin: 0; border: 0; padding: 0.22em 0.8em 0.26em; border-radius: 999px;
+    background: none; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
+    font-family: var(--db-voice); font-size: var(--db-pp); line-height: 1.3; color: var(--db-graphite); white-space: nowrap;
+  }
+  .db-tag[data-variant="ink"] { background: var(--db-ink); color: var(--db-paper); box-shadow: none; }
+  .db-tag[data-variant="accent"] { color: var(--db-accent); box-shadow: inset 0 0 0 var(--db-hairline) currentColor; }
+  button.db-tag { cursor: pointer; transition: box-shadow var(--db-allegro), color var(--db-allegro); }
+  button.db-tag[data-removable]::after { content: "×" / ""; opacity: 0.5; transition: opacity var(--db-allegro); }
+  button.db-tag:is(:hover, [data-force~="hover"]) { color: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
+  button.db-tag:is(:hover, [data-force~="hover"])::after { opacity: 1; }
+  button.db-tag[data-removable] > span {
+    background: linear-gradient(currentColor, currentColor) no-repeat 100% 58% / 0% var(--db-hairline);
+    transition: background-size var(--db-moderato) var(--db-breath), background-position 0s;
+  }
+  button.db-tag[data-removable]:is(:hover, :focus-visible, [data-force~="hover"]) > span { background-position: 0 58%; background-size: 100% var(--db-hairline); }
+}

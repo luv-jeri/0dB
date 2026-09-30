@@ -1,0 +1,42 @@
+@layer components {
+  /* ── db-prose ── long text; punctuation hangs in the margin so the edge stays true */
+  .db-prose { max-width: var(--db-measure); color: var(--db-graphite); hanging-punctuation: first last; }
+  .db-prose > * + * { margin-top: 1em; }
+  .db-prose > * + :is(h2, h3, h4, h5, h6) { margin-top: 1.8em; }
+  .db-prose :is(h1, h2, h3, h4, h5, h6) { font-weight: 300; color: var(--db-ink); }
+  .db-prose h1 { font-size: var(--db-ff); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); }
+  .db-prose h2 { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); }
+  .db-prose h3 { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); }
+  .db-prose :is(h4, h5, h6) { font-size: var(--db-mp); line-height: var(--db-mp-lh); font-weight: 500; }
+  .db-prose-lead { font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); }
+  .db-prose blockquote { margin: 0; quotes: "“" "”"; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.35; color: var(--db-ink); }
+  .db-prose blockquote > p { text-indent: -0.4em; } /* the opening mark hangs */
+  .db-prose blockquote > p::before { content: open-quote; }
+  .db-prose blockquote > p::after { content: close-quote; }
+  .db-prose blockquote footer { margin-top: 0.6em; font-family: var(--db-voice); font-style: normal; font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-prose ul { list-style: none; padding: 0; }
+  .db-prose ul > li { position: relative; }
+  .db-prose ul > li::before { content: "–" / ""; position: absolute; inset-inline-start: -1.1em; color: var(--db-pencil); }
+  .db-prose ol { padding: 0; list-style: decimal outside; }
+  .db-prose ol > li::marker { color: var(--db-pencil); font-variant-numeric: tabular-nums; }
+  .db-prose li + li { margin-top: 0.35em; }
+  .db-prose code { font-family: var(--db-voice); font-stretch: 78%; font-weight: 500; letter-spacing: 0.01em; color: var(--db-ink); }
+  .db-prose small { font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-prose > :first-child { margin-top: 0; }
+  .db-prose strong { font-weight: 500; color: var(--db-ink); }
+  .db-prose em { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); }
+  .db-prose ul ul, .db-prose ol ol, .db-prose ul ol, .db-prose ol ul { margin-top: 0.35em; }
+  .db-prose hr { margin-block: 2em; }
+  .db-prose img { display: block; max-inline-size: 100%; block-size: auto; }
+  .db-prose figcaption { margin-top: 0.6em; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
+  .db-prose pre {
+    overflow-x: auto; tab-size: 2; white-space: pre;
+    font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375em; line-height: 1.7; letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite);
+  }
+  .db-prose pre code { font: inherit; letter-spacing: inherit; color: inherit; }
+  .db-prose table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+  .db-prose :is(th, td) { padding: var(--db-space-3) var(--db-space-4) var(--db-space-3) 0; text-align: start; vertical-align: baseline; border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-prose th { font-weight: 400; font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-prose thead th { padding-top: 0; border-bottom-color: var(--db-ink); white-space: nowrap; }
+}

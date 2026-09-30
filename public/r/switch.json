@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "title": "Switch",
+  "description": "A sentence whose last word you can change. The state rolls between on and off in italic, and the full stop answers: a dot when on, a ring when off.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/switch.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype SwitchProps = Omit<React.ComponentProps<\"input\">, \"type\" | \"role\" | \"children\" | \"onChange\"> & {\n  /** The sentence, up to its last word: \"Email me when someone replies:\". */\n  children: React.ReactNode\n  onCheckedChange?: (checked: boolean) => void\n  /** The word for on, in italic. */\n  on?: string\n  /** The word for off. */\n  off?: string\n  /** Classes for the label, which is the root. className goes to the input. */\n  labelClassName?: string\n  /** Pins a state for documentation (\"hover\", \"focus\"); set on the root. */\n  \"data-force\"?: string\n}\n\n/**\n * A sentence whose last word you can change. The state word rolls between on and\n * off in italic, and the full stop answers: a dot when on, a ring when off.\n * A native checkbox with the switch role, so Space toggles it.\n */\nfunction Switch({ children, onCheckedChange, on = \"on\", off = \"off\", className, labelClassName, \"data-force\": force, ...props }: SwitchProps) {\n  return (\n    <label data-slot=\"switch\" data-force={force} className={cn(\"db-switch\", labelClassName)}>\n      <input type=\"checkbox\" role=\"switch\" className={className} onChange={(e) => onCheckedChange?.(e.target.checked)} {...props} />\n      {children}{\" \"}\n      <span className=\"db-switch-state\" aria-hidden=\"true\">\n        <span>{on}</span>\n        <span>{off}</span>\n      </span>\n      <span className=\"db-switch-stop\" aria-hidden=\"true\" />\n    </label>\n  )\n}\n\nexport { Switch, type SwitchProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/switch.css",
+      "content": "@layer components {\n  /* ── db-switch ── a sentence whose last word you can change */\n  .db-switch { position: relative; display: inline-block; cursor: pointer; color: var(--db-graphite); -webkit-tap-highlight-color: transparent; }\n  .db-switch > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }\n  .db-switch-state {\n    display: inline-grid; vertical-align: baseline; overflow: clip;\n    padding: 0.12em 0.14em 0.24em; margin: -0.12em -0.14em -0.24em;\n    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;\n    color: var(--db-ink);\n    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0.14em calc(100% - 0.1em) / calc(100% - 0.28em) var(--db-hairline);\n    transition: color var(--db-moderato) var(--db-breath);\n  }\n  .db-switch-state > span { grid-area: 1 / 1; transition: translate var(--db-moderato) var(--db-breath), opacity var(--db-moderato) var(--db-breath); }\n  .db-switch > input:not(:checked) ~ .db-switch-state { color: var(--db-pencil); }\n  .db-switch > input:not(:checked) ~ .db-switch-state > :first-child { translate: 0 -110%; opacity: 0; }\n  .db-switch > input:checked ~ .db-switch-state > :last-child { translate: 0 110%; opacity: 0; }\n  .db-switch:is(:hover, [data-force~=\"hover\"]) > .db-switch-state { background-image: linear-gradient(var(--db-ink), var(--db-ink)); }\n  .db-switch > input:focus-visible ~ .db-switch-state,\n  .db-switch[data-force~=\"focus\"] > .db-switch-state { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 2px; }\n  .db-switch[data-force~=\"focus\"] { outline: 0; }\n  .db-switch:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }\n  /* The sentence's full stop: a dot when on, a ring when off. */\n  .db-switch-stop {\n    display: inline-block; width: max(0.22em, 5px); height: max(0.22em, 5px); margin-inline-start: 0.1em; border-radius: 50%;\n    box-shadow: inset 0 0 0 0.5em currentColor;\n    transition: box-shadow var(--db-andante) var(--db-exhale);\n  }\n  .db-switch > input:not(:checked) ~ .db-switch-stop { box-shadow: inset 0 0 0 var(--db-hairline) currentColor; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/switch.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/switch.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "native",
+    "contract": "db-switch"
+  },
+  "type": "registry:ui"
+}

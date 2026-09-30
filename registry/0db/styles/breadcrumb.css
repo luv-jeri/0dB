@@ -1,0 +1,19 @@
+@layer components {
+  /* ── db-crumbs ── steps divided by drawn hairlines, leaning like slashes.
+     Point at a step and the hairlines either side lean in (14deg and -14deg) to hold it. */
+  .db-crumbs { font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); }
+  .db-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.75em; }
+  .db-crumbs [data-slot="breadcrumb-separator"] {
+    align-self: center; inline-size: var(--db-hairline); block-size: 1.05em; margin-inline: 0.05em;
+    background: var(--db-rule-strong); rotate: 24deg;
+    transition: rotate var(--db-andante) var(--db-spiccato), background-color var(--db-allegro);
+  }
+  .db-crumbs [data-slot="breadcrumb-separator"]:has(+ li > a:is(:hover, :focus-visible)) { rotate: 14deg; background-color: var(--db-ink); }
+  .db-crumbs li:has(> a:is(:hover, :focus-visible)) + [data-slot="breadcrumb-separator"] { rotate: -14deg; background-color: var(--db-ink); }
+  :is([dir="rtl"], [dir="rtl"] *) .db-crumbs [data-slot="breadcrumb-separator"] { rotate: -24deg; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-crumbs [data-slot="breadcrumb-separator"]:has(+ li > a:is(:hover, :focus-visible)) { rotate: -14deg; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-crumbs li:has(> a:is(:hover, :focus-visible)) + [data-slot="breadcrumb-separator"] { rotate: 14deg; }
+  .db-crumbs a { color: var(--db-graphite); text-decoration: none; transition: color var(--db-allegro); }
+  .db-crumbs a:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
+  .db-crumbs [aria-current="page"] { color: var(--db-ink); }
+}

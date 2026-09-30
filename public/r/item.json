@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "item",
+  "title": "Item",
+  "description": "A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/item.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** A ledger of items. */\nfunction ItemGroup({ className, ...props }: React.ComponentProps<\"ul\">) {\n  return <ul data-slot=\"item-group\" className={cn(\"db-items\", className)} {...props} />\n}\n\ntype ItemProps = React.ComponentProps<\"li\"> & {\n  /** Pins a state for documentation (\"hover\"); set on the root. */\n  \"data-force\"?: string\n}\n\n/** A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across. */\nfunction Item({ className, ...props }: ItemProps) {\n  return <li data-slot=\"item\" className={cn(\"db-item\", className)} {...props} />\n}\n\n/** An avatar or other small picture at the start of the line. */\nfunction ItemMedia({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"item-media\" className={cn(\"db-item-media\", className)} {...props} />\n}\n\nfunction ItemContent({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"item-content\" className={cn(\"db-item-body\", className)} {...props} />\n}\n\nfunction ItemTitle({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"item-title\" className={cn(\"db-item-title\", className)} {...props} />\n}\n\nfunction ItemDescription({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"item-description\" className={cn(\"db-item-desc\", className)} {...props} />\n}\n\n/** A value or an action at the end of the line, joined to the content by the leader. */\nfunction ItemActions({ className, ...props }: React.ComponentProps<\"span\">) {\n  return (\n    <>\n      <span data-slot=\"item-leader\" className=\"db-item-leader\" aria-hidden=\"true\" />\n      <span data-slot=\"item-actions\" className={cn(\"db-item-end\", className)} {...props} />\n    </>\n  )\n}\n\nexport { ItemGroup, Item, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/item.css",
+      "content": "@layer components {\n  /* ── db-item ── a ledger line: what it is, a dotted leader, what you can do */\n  .db-items { list-style: none; margin: 0; padding: 0; border-top: var(--db-hairline) solid var(--db-rule); }\n  .db-item { display: flex; align-items: center; gap: var(--db-space-4); padding-block: var(--db-space-4); border-bottom: var(--db-hairline) solid var(--db-rule); }\n  .db-item-media { flex: none; display: inline-flex; }\n  .db-item-body { display: grid; min-width: 0; }\n  .db-item-title { color: var(--db-ink); }\n  .db-item-desc { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }\n  .db-item-end { font-variant-numeric: tabular-nums; color: var(--db-ink); }\n  .db-item-leader { position: relative; flex: 1; min-width: var(--db-space-5); height: 2px; }\n  .db-item-leader::before, .db-item-leader::after { content: \"\"; position: absolute; inset: 0; background: radial-gradient(circle, currentColor 0.8px, transparent 1.1px) 0 50% / 6px 2px repeat-x; }\n  .db-item-leader::before { color: var(--db-rule-strong); }\n  .db-item-leader::after {\n    color: var(--db-ink);\n    mask: linear-gradient(#000, #000) no-repeat 100% 0 / 0% 100%;\n    transition: mask-size var(--db-andante) var(--db-exhale), mask-position 0s;\n  }\n  .db-item:is(:hover, :focus-within, [data-force~=\"hover\"]) .db-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/item.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/item.css\"": {}
+  },
+  "meta": {
+    "movement": "X",
+    "underneath": "native",
+    "contract": "db-item"
+  },
+  "type": "registry:ui"
+}

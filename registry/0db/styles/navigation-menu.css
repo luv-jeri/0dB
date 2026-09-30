@@ -1,0 +1,37 @@
+@layer components {
+  /* ── db-navmenu ── small words open a panel of large names.
+     Radix marks each trigger and panel with data-state. The panel hangs under the
+     whole list: Radix wraps the list in a positioned box, so the items stay static. */
+  .db-navmenu { position: relative; }
+  .db-navmenu [data-slot="navigation-menu-list"] { list-style: none; margin: 0; padding: 0 0 var(--db-space-3); display: flex; flex-wrap: wrap; column-gap: var(--db-space-6); }
+  .db-navmenu [data-slot="navigation-menu-item"] { position: static; }
+  .db-navmenu :is([data-slot="navigation-menu-trigger"], [data-slot="navigation-menu-item"] > [data-slot="navigation-menu-link"]) {
+    appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: var(--db-graphite); text-decoration: none; cursor: pointer;
+    transition: color var(--db-allegro);
+  }
+  .db-navmenu :is([data-slot="navigation-menu-trigger"], [data-slot="navigation-menu-item"] > [data-slot="navigation-menu-link"]):is(:hover, [data-state="open"], [data-force~="hover"]) { color: var(--db-ink); }
+  .db-navmenu [data-slot="navigation-menu-trigger"]::after {
+    content: "↓" / ""; display: inline-block; margin-inline-start: 0.3em; font-size: 0.72em; color: var(--db-pencil);
+    transition: rotate var(--db-moderato) var(--db-spiccato);
+  }
+  .db-navmenu [data-slot="navigation-menu-trigger"][data-state="open"]::after { rotate: 180deg; }
+  .db-navmenu-panel {
+    position: absolute; z-index: 20; inset-inline: 0; top: 100%; padding: var(--db-space-6) 0 var(--db-space-7);
+    background: var(--db-paper);
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--db-space-4) var(--db-gutter); align-content: start;
+    animation: db-navmenu-in var(--db-moderato) var(--db-exhale);
+  }
+  .db-navmenu-panel[data-state="closed"] { animation: db-navmenu-out var(--db-allegro) var(--db-breath) forwards; }
+  .db-navmenu-panel::before { content: ""; position: absolute; inset: 0 0 auto; height: var(--db-hairline); background: var(--db-ink); transform-origin: 0 50%; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-navmenu-panel::before { transform-origin: 100% 50%; }
+  .db-navmenu-panel[data-state="open"]::before { animation: db-draw-x var(--db-andante) var(--db-exhale) backwards; }
+  .db-navmenu-panel[data-state="open"] > * { animation: db-arrive var(--db-andante) var(--db-exhale) backwards; animation-delay: calc(sibling-index() * var(--db-arpeggio)); }
+  .db-navmenu-panel > a {
+    display: grid; font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 200; color: var(--db-ink); text-decoration: none;
+    transition: font-weight var(--db-moderato) var(--db-exhale);
+  }
+  .db-navmenu-panel > a:is(:hover, :focus-visible, [data-force~="hover"]) { font-weight: 500; }
+  .db-navmenu-panel small { font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); font-weight: 400; color: var(--db-pencil); }
+  @keyframes db-navmenu-in { from { opacity: 0; } }
+  @keyframes db-navmenu-out { to { opacity: 0; } }
+}

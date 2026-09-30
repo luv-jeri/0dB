@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "title": "Badge",
+  "description": "The one rounded shape: a hairline pill for a tag or a status.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/badge.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype BadgeProps = Omit<React.ComponentProps<\"span\">, \"onClick\"> & {\n  variant?: \"default\" | \"ink\" | \"accent\"\n  /**\n   * Makes the tag removable: the whole pill becomes a button with a cross, and\n   * pointing at it strikes the word. It closes up, then this is called.\n   * Focus moves to the neighbouring tag.\n   */\n  onRemove?: () => void\n}\n\n/** The one rounded shape: a hairline pill. */\nfunction Badge({ className, variant = \"default\", onRemove, children, ...props }: BadgeProps) {\n  const dataVariant = variant === \"default\" ? undefined : variant\n  if (!onRemove) {\n    return (\n      <span data-slot=\"badge\" data-variant={dataVariant} className={cn(\"db-tag\", className)} {...props}>\n        {children}\n      </span>\n    )\n  }\n\n  const { \"aria-label\": label, ...rest } = props\n  const remove = (e: React.MouseEvent<HTMLButtonElement>) => {\n    const tag = e.currentTarget\n    if (tag.hasAttribute(\"data-leaving\")) return\n    const next = tag.nextElementSibling ?? tag.previousElementSibling\n    const done = () => {\n      if (next instanceof HTMLButtonElement) next.focus()\n      onRemove()\n    }\n    if (window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches) return done()\n    // Struck through, the tag closes up and its neighbours slide into the space.\n    tag.setAttribute(\"data-leaving\", \"\")\n    tag.style.overflow = \"clip\"\n    const gap = parseFloat(getComputedStyle(tag.parentElement ?? tag).columnGap) || 0\n    tag\n      .animate(\n        [\n          { width: `${tag.offsetWidth}px`, opacity: 1 },\n          { width: \"0px\", paddingInline: \"0px\", marginInlineEnd: `${-gap}px`, opacity: 0 },\n        ],\n        { duration: 480, easing: \"cubic-bezier(.65,0,.35,1)\", fill: \"forwards\" },\n      )\n      .finished.then(done)\n  }\n\n  return (\n    <button\n      type=\"button\"\n      data-slot=\"badge\"\n      data-variant={dataVariant}\n      data-removable=\"\"\n      aria-label={label ?? (typeof children === \"string\" ? `Remove ${children}` : \"Remove\")}\n      className={cn(\"db-tag\", className)}\n      onClick={remove}\n      {...(rest as React.ComponentProps<\"button\">)}\n    >\n      <span>{children}</span>\n    </button>\n  )\n}\n\nexport { Badge, type BadgeProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/badge.css",
+      "content": "@layer components {\n  /* ── db-tag ── the one rounded shape */\n  .db-tag {\n    display: inline-flex; align-items: baseline; gap: 0.45em;\n    margin: 0; border: 0; padding: 0.22em 0.8em 0.26em; border-radius: 999px;\n    background: none; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);\n    font-family: var(--db-voice); font-size: var(--db-pp); line-height: 1.3; color: var(--db-graphite); white-space: nowrap;\n  }\n  .db-tag[data-variant=\"ink\"] { background: var(--db-ink); color: var(--db-paper); box-shadow: none; }\n  .db-tag[data-variant=\"accent\"] { color: var(--db-accent); box-shadow: inset 0 0 0 var(--db-hairline) currentColor; }\n  button.db-tag { cursor: pointer; transition: box-shadow var(--db-allegro), color var(--db-allegro); }\n  button.db-tag[data-removable]::after { content: \"×\" / \"\"; opacity: 0.5; transition: opacity var(--db-allegro); }\n  button.db-tag:is(:hover, [data-force~=\"hover\"]) { color: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }\n  button.db-tag:is(:hover, [data-force~=\"hover\"])::after { opacity: 1; }\n  button.db-tag[data-removable] > span {\n    background: linear-gradient(currentColor, currentColor) no-repeat 100% 58% / 0% var(--db-hairline);\n    transition: background-size var(--db-moderato) var(--db-breath), background-position 0s;\n  }\n  button.db-tag[data-removable]:is(:hover, :focus-visible, [data-force~=\"hover\"]) > span { background-position: 0 58%; background-size: 100% var(--db-hairline); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/badge.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/badge.css\"": {}
+  },
+  "meta": {
+    "movement": "VIII",
+    "underneath": "native",
+    "contract": "db-tag"
+  },
+  "type": "registry:ui"
+}

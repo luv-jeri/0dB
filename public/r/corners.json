@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "corners",
+  "title": "Corners",
+  "description": "Four corner marks: a frame that doesn't close.",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/corners.tsx",
+      "content": "import * as React from \"react\"\nimport { Slot } from \"@radix-ui/react-slot\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype CornersProps = React.ComponentProps<\"div\"> & {\n  /** Put the corners on the child element instead of a new div. */\n  asChild?: boolean\n}\n\n/**\n * Four corner marks: a frame that doesn't close. Tune it with the custom\n * properties --db-corner (length), --db-corner-inset and --db-corner-colour.\n */\nfunction Corners({ className, asChild = false, ...props }: CornersProps) {\n  const Comp = asChild ? Slot : \"div\"\n  return <Comp data-slot=\"corners\" className={cn(\"db-corners\", className)} {...props} />\n}\n\nexport { Corners, type CornersProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "movement": "IV",
+    "underneath": "native",
+    "contract": "db-corners"
+  },
+  "type": "registry:ui"
+}

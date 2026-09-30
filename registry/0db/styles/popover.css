@@ -1,0 +1,32 @@
+@layer components {
+  /* ── db-pop ── popover: a panel hung from what opened it, on a leader line.
+     Keyed on the class and [data-state] alone, so the menus and pickers that
+     wear db-pop (dropdown menu, combobox, date picker) hang the same way.
+     Radix places it (side, align, sideOffset); --db-pop-gap is that offset. */
+  .db-pop {
+    --db-pop-gap: 8px; --db-pop-lead: 1.1em;
+    position: relative; z-index: 50; padding: var(--db-space-4) var(--db-space-5); overflow: visible;
+    max-width: min(26rem, calc(100vw - 2 * var(--db-margin)));
+    background: var(--db-paper); color: var(--db-graphite); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
+    outline: 0;
+    animation: db-pop-in var(--db-moderato) var(--db-exhale);
+  }
+  .db-pop[data-state="closed"] { animation: db-pop-out var(--db-allegro) var(--db-breath) forwards; }
+  .db-pop[data-side="top"] { --db-pop-from: 4px; }
+  @keyframes db-pop-in { from { opacity: 0; translate: 0 var(--db-pop-from, -4px); } }
+  @keyframes db-pop-out { to { opacity: 0; } }
+
+  /* The leader: a dot on the trigger's edge and a line dropping to the panel. */
+  .db-pop:is([data-side="bottom"], [data-side="top"])::before,
+  .db-pop:is([data-side="bottom"], [data-side="top"])::after { content: ""; position: absolute; pointer-events: none; }
+  .db-pop:is([data-side="bottom"], [data-side="top"])::before { inset-inline-start: var(--db-pop-lead); width: var(--db-hairline); height: var(--db-pop-gap); background: var(--db-ink); }
+  .db-pop:is([data-side="bottom"], [data-side="top"])::after { inset-inline-start: calc(var(--db-pop-lead) - 2px); width: 5px; height: 5px; border-radius: 50%; background: var(--db-ink); }
+  .db-pop[data-align="end"] { --db-pop-lead: calc(100% - 1.1em); }
+  .db-pop[data-align="center"] { --db-pop-lead: 50%; }
+  .db-pop[data-side="bottom"]::before { bottom: 100%; transform-origin: 50% 0; }
+  .db-pop[data-side="bottom"]::after { bottom: calc(100% + var(--db-pop-gap) - 2.5px); }
+  .db-pop[data-side="top"]::before { top: 100%; transform-origin: 50% 100%; }
+  .db-pop[data-side="top"]::after { top: calc(100% + var(--db-pop-gap) - 2.5px); }
+  .db-pop[data-state="open"]::after { animation: db-land var(--db-moderato) var(--db-spiccato) backwards; }
+  .db-pop[data-state="open"]::before { animation: db-draw-y var(--db-moderato) var(--db-breath) 60ms backwards; }
+}

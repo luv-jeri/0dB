@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-group",
+  "title": "Input group",
+  "description": "Ours in roman, yours in italic, on one line. The accent draws only under the part you type.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/button.json",
+    "https://0db.cojeev.com/r/field.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/input-group.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Button } from \"@/components/ui/button\"\nimport { useFieldControl, useLineOrigin } from \"@/components/ui/field\"\n\ntype InputGroupProps = React.ComponentProps<\"div\"> & {\n  /** Pins a state for documentation (\"focus\"); set on the root. */\n  \"data-force\"?: string\n}\n\n/** Ours and yours on one line. Put text, the input and an action inside; the accent draws only under your part. */\nfunction InputGroup({ className, ...props }: InputGroupProps) {\n  return <div data-slot=\"input-group\" className={cn(\"db-input-group\", className)} {...props} />\n}\n\n/** What we supply: a prefix or suffix, upright in pencil. */\nfunction InputGroupText({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"input-group-text\" className={cn(\"db-input-group-text\", className)} {...props} />\n}\n\n/** What you type, in italic. Takes the Field's id, hint and error when there is one. */\nfunction InputGroupInput({ className, ...props }: React.ComponentProps<\"input\">) {\n  const field = useFieldControl()\n  const origin = useLineOrigin<HTMLInputElement>((el) => el.closest<HTMLElement>(\".db-input-group\") ?? el, props)\n  return (\n    <input\n      data-slot=\"input-group-input\"\n      className={cn(\"db-input-group-input\", className)}\n      {...props}\n      id={props.id ?? field.id}\n      maxLength={props.maxLength ?? field.maxLength}\n      aria-invalid={props[\"aria-invalid\"] ?? field[\"aria-invalid\"]}\n      aria-describedby={props[\"aria-describedby\"] ?? field[\"aria-describedby\"]}\n      {...origin}\n    />\n  )\n}\n\n/** An action at the end of the line, set as a quiet Button. */\nfunction InputGroupButton({ className, variant = \"quiet\", ...props }: React.ComponentProps<typeof Button>) {\n  return <Button data-slot=\"input-group-button\" variant={variant} className={cn(\"db-input-group-button\", className)} {...props} />\n}\n\nexport { InputGroup, InputGroupText, InputGroupInput, InputGroupButton, type InputGroupProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/input-group.css",
+      "content": "@layer components {\n  /* ── db-input-group ── ours in roman, yours in italic, on one line; the accent is only under yours */\n  .db-input-group {\n    grid-column: 1 / -1; position: relative; anchor-scope: --db-yours;\n    display: flex; align-items: baseline; column-gap: 0.12em;\n    font-size: var(--db-mp); line-height: 1.3;\n    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);\n  }\n  .db-input-group-text { flex: none; padding-block: 0.3em 0.42em; color: var(--db-pencil); white-space: nowrap; }\n  .db-input-group-input {\n    anchor-name: --db-yours;\n    flex: 1; min-width: 0; appearance: none; margin: 0; border: 0; border-radius: 0; outline: 0; padding: 0.3em 0 0.42em; background: none;\n    color: var(--db-ink); font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.3;\n  }\n  .db-input-group-input:disabled { color: var(--db-pencil); cursor: not-allowed; }\n  .db-input-group-input::placeholder { font-family: var(--db-voice); font-style: normal; font-size: calc(1em / var(--db-expression-scale)); color: var(--db-pencil); opacity: 1; }\n  .db-input-group::after {\n    content: \"\"; position: absolute; bottom: 0; inset-inline-start: anchor(--db-yours start, 0px); inset-inline-end: anchor(--db-yours end, 0px); height: var(--db-stroke);\n    background: var(--db-accent); scale: 0 1; transform-origin: var(--o, 0%) 50%; pointer-events: none;\n    transition: scale var(--db-moderato) var(--db-exhale);\n  }\n  .db-input-group[data-force~=\"focus\"] { outline: 0; }\n  .db-input-group:focus-within::after, .db-input-group[data-force~=\"focus\"]::after { scale: 1 1; }\n  .db-input-group:has(> .db-input-group-input[aria-invalid=\"true\"])::after { scale: 1 1; background: var(--db-signal); }\n  .db-input-group > .db-input-group-button { margin-inline-start: var(--db-space-4); font-size: var(--db-p); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/input-group.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/input-group.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "native",
+    "contract": "db-input-group"
+  },
+  "type": "registry:ui"
+}

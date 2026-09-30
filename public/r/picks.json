@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "picks",
+  "title": "Picks",
+  "description": "A list of choices that carry their own content. A dot hangs beside the one you took; pointing at another shows a ring where it would land.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/picks.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype PicksContextValue = { name: string; value: string | undefined; select: (value: string) => void }\n\nconst PicksContext = React.createContext<PicksContextValue | null>(null)\n\ntype PicksProps = Omit<React.ComponentProps<\"fieldset\">, \"defaultValue\" | \"onChange\"> & {\n  /** Shared by every radio, so a form submits the choice. Defaults to a generated name. */\n  name?: string\n  /** The small label over the list. Without one, give the group an aria-label. */\n  legend?: React.ReactNode\n  value?: string\n  defaultValue?: string\n  onValueChange?: (value: string) => void\n}\n\n/** A list of choices that carry their own content. A dot hangs beside the one you took. */\nfunction Picks({ name, legend, value: controlled, defaultValue, onValueChange, className, children, ...props }: PicksProps) {\n  const generated = React.useId()\n  const [uncontrolled, setUncontrolled] = React.useState(defaultValue)\n  const value = controlled ?? uncontrolled\n  const select = React.useCallback(\n    (next: string) => {\n      if (controlled === undefined) setUncontrolled(next)\n      onValueChange?.(next)\n    },\n    [controlled, onValueChange],\n  )\n  const ctx = React.useMemo(() => ({ name: name ?? generated, value, select }), [name, generated, value, select])\n  return (\n    <PicksContext.Provider value={ctx}>\n      <fieldset data-slot=\"picks\" className={cn(\"db-picks\", className)} {...props}>\n        {legend ? <legend className=\"db-label\">{legend}</legend> : null}\n        {children}\n      </fieldset>\n    </PicksContext.Provider>\n  )\n}\n\ntype PickProps = Omit<React.ComponentProps<\"input\">, \"type\" | \"name\" | \"checked\" | \"defaultChecked\" | \"value\" | \"children\"> & {\n  value: string\n  /** Anything: a name and a line under it, a swatch, a specimen. */\n  children: React.ReactNode\n  /** Classes for the label, which is the root. className goes to the input. */\n  labelClassName?: string\n  /** Pins a state for documentation (\"hover\", \"focus\"); set on the root. */\n  \"data-force\"?: string\n}\n\nfunction Pick({ value, children, className, labelClassName, \"data-force\": force, onChange, ...props }: PickProps) {\n  const group = React.useContext(PicksContext)\n  if (!group) throw new Error(\"Pick must sit inside <Picks>.\")\n  return (\n    <label data-slot=\"pick\" data-force={force} className={labelClassName}>\n      <input\n        type=\"radio\"\n        name={group.name}\n        value={value}\n        checked={group.value === value}\n        className={className}\n        onChange={(e) => {\n          onChange?.(e)\n          group.select(value)\n        }}\n        {...props}\n      />\n      {children}\n    </label>\n  )\n}\n\nexport { Picks, Pick, type PicksProps, type PickProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/picks.css",
+      "content": "@layer components {\n  /* ── db-picks ── a list of choices; a dot hangs beside the one you took */\n  .db-picks { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: var(--db-space-5); }\n  .db-picks > legend { padding: 0; margin-bottom: var(--db-space-4); }\n  .db-picks > label { position: relative; display: block; padding-inline-start: var(--db-space-5); cursor: pointer; color: var(--db-graphite); -webkit-tap-highlight-color: transparent; }\n  .db-picks > label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }\n  .db-picks > label::before {\n    content: \"\"; position: absolute; inset-inline-start: 0; top: 0.72em; width: var(--db-dot); height: var(--db-dot); border-radius: 50%;\n    background: var(--db-accent); scale: 0;\n    transition: scale var(--db-moderato) var(--db-spiccato), background-color var(--db-allegro), box-shadow var(--db-allegro);\n  }\n  .db-picks > label:hover:not(:has(input:checked))::before { scale: 1; background-color: transparent; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }\n  .db-picks > label:has(input:checked)::before { scale: 1; }\n  .db-picks > label:is(:hover, :has(input:checked)) { color: var(--db-ink); }\n  .db-picks > label:has(input:focus-visible) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 6px; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/picks.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/picks.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "native",
+    "contract": "db-picks"
+  },
+  "type": "registry:ui"
+}

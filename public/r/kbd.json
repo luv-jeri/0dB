@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "title": "Kbd",
+  "description": "A key, drawn as a ring. Pressed, it shrinks a little and the ring turns to ink.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/kbd.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype KbdProps = React.ComponentProps<\"kbd\"> & {\n  /** Draws the key pressed: it shrinks a little and the ring turns to ink. */\n  pressed?: boolean\n}\n\n/** A key, drawn as a ring. */\nfunction Kbd({ className, pressed, ...props }: KbdProps) {\n  return <kbd data-slot=\"kbd\" data-pressed={pressed || undefined} className={cn(\"db-kbd\", className)} {...props} />\n}\n\nexport { Kbd, type KbdProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "movement": "II",
+    "underneath": "native",
+    "contract": "db-kbd"
+  },
+  "type": "registry:ui"
+}

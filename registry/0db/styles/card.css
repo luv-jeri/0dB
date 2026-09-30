@@ -1,0 +1,20 @@
+@layer components {
+  /* ── db-card ── a column under a rule, not a box */
+  .db-card {
+    position: relative; display: grid; align-content: start; gap: var(--db-space-3); padding-top: var(--db-space-4);
+    background:
+      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 100% 0 / 0% var(--db-stroke),
+      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 0 0 / 100% var(--db-hairline);
+    transition: background-size var(--db-andante) var(--db-exhale), background-position 0s;
+  }
+  .db-card:is(:has(.db-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 0 0, 0 0; background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
+  .db-card:is([dir="rtl"], [dir="rtl"] *) { background-position: 0 0, 0 0; }
+  .db-card:is([dir="rtl"], [dir="rtl"] *):is(:has(.db-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 100% 0, 0 0; }
+  .db-card-figure { height: 0.56em; margin-bottom: var(--db-space-2); overflow: clip; font-size: clamp(6rem, 11vw, 9rem); font-weight: 100; font-stretch: 125%; line-height: 0.76; color: var(--db-ink); user-select: none; }
+  .db-card-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
+  .db-card-link { color: inherit; text-decoration: none; outline: 0; }
+  .db-card-link::after { content: ""; position: absolute; inset: 0; }
+  .db-card:has(.db-card-link:focus-visible) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 8px; }
+  .db-card-body { max-width: 34ch; }
+  .db-card-foot { margin-top: var(--db-space-3); }
+}

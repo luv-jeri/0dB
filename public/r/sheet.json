@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sheet",
+  "title": "Sheet",
+  "description": "A page slid in from the edge, its title running up the spine like a book's.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/dialog.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/sheet.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Dialog, DialogActions, DialogClose, DialogSurface, DialogTrigger, useDialog } from \"@/components/ui/dialog\"\n\n/** A page slid in from the edge. Same props and behaviour as Dialog: the native <dialog> keeps focus, Escape and the top layer. */\nconst Sheet = Dialog\nconst SheetTrigger = DialogTrigger\nconst SheetClose = DialogClose\n\ntype SheetContentProps = React.ComponentProps<\"dialog\"> & {\n  /** Which edge it slides from. Logical, so start is the right edge in right-to-left. */\n  side?: \"start\" | \"end\" | \"top\" | \"bottom\"\n}\n\nfunction SheetContent({ className, side = \"end\", ...props }: SheetContentProps) {\n  return <DialogSurface data-slot=\"sheet-content\" data-side={side} className={cn(\"db-sheet\", className)} {...props} />\n}\n\n/** The sheet's name, running up its spine like a book's. Decorative: the visible title is SheetTitle. */\nfunction SheetSpine({ className, ...props }: React.ComponentProps<\"p\">) {\n  return <p data-slot=\"sheet-spine\" aria-hidden=\"true\" className={cn(\"db-sheet-spine\", className)} {...props} />\n}\n\nfunction SheetTitle({ className, ...props }: React.ComponentProps<\"h2\">) {\n  const { titleId } = useDialog()\n  return <h2 data-slot=\"sheet-title\" id={titleId} className={cn(\"db-sheet-title\", className)} {...props} />\n}\n\nfunction SheetDescription({ className, ...props }: React.ComponentProps<\"p\">) {\n  const { descriptionId } = useDialog()\n  return <p data-slot=\"sheet-description\" id={descriptionId} className={cn(\"db-sheet-body\", className)} {...props} />\n}\n\nfunction SheetActions(props: React.ComponentProps<\"div\">) {\n  return <DialogActions data-slot=\"sheet-actions\" {...props} />\n}\n\nexport { Sheet, SheetTrigger, SheetContent, SheetSpine, SheetTitle, SheetDescription, SheetActions, SheetActions as SheetFooter, SheetClose }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/sheet.css",
+      "content": "@layer components {\n  /* ── db-sheet ── a page slid in from the edge; its title runs up the spine.\n     The backdrop lives in dialog.css. Sides are logical: start and end follow\n     the reading direction, so the sheet meets the right edge in right-to-left. */\n  .db-sheet {\n    --from: 100% 0; /* where it waits, off the edge it comes from */\n    position: fixed; inset-block: 0; inset-inline: auto 0; margin: 0; width: min(32rem, calc(100vw - var(--db-space-6))); height: 100dvh; max-width: none; max-height: none;\n    padding: var(--db-space-7) var(--db-space-6) var(--db-space-6) var(--db-space-8); overflow: auto;\n    border: 0; border-inline-start: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite);\n    translate: var(--from);\n    transition: translate var(--db-andante) var(--db-exhale), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;\n  }\n  .db-sheet[open] { translate: 0 0; }\n  @starting-style { .db-sheet[open] { translate: var(--from); } }\n  .db-sheet:is([dir=\"rtl\"], [dir=\"rtl\"] *) { --from: -100% 0; }\n  .db-sheet[data-side=\"start\"] { --from: -100% 0; inset-inline: 0 auto; border-inline-start: 0; border-inline-end: var(--db-hairline) solid var(--db-ink); }\n  .db-sheet[data-side=\"start\"]:is([dir=\"rtl\"], [dir=\"rtl\"] *) { --from: 100% 0; }\n  .db-sheet:is([data-side=\"top\"], [data-side=\"bottom\"]) { inset-inline: 0; width: 100%; height: auto; max-height: 85dvh; border-inline-start: 0; }\n  .db-sheet[data-side=\"top\"] { --from: 0 -100%; inset-block: 0 auto; border-block-end: var(--db-hairline) solid var(--db-ink); }\n  .db-sheet[data-side=\"bottom\"] { --from: 0 100%; inset-block: auto 0; border-block-start: var(--db-hairline) solid var(--db-ink); }\n  .db-sheet-spine {\n    position: absolute; inset-inline-start: var(--db-space-4); bottom: var(--db-space-6);\n    writing-mode: vertical-rl; rotate: 180deg; white-space: nowrap;\n    font-size: var(--db-f); line-height: 1; letter-spacing: var(--db-f-tr); font-weight: 200; color: var(--db-ink);\n  }\n  .db-sheet[open] .db-sheet-spine { animation: db-spine var(--db-andante) var(--db-exhale) 240ms backwards; }\n  @keyframes db-spine { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }\n  .db-sheet > * + * { margin-block-start: var(--db-space-6); }\n  .db-sheet-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }\n  .db-sheet-body { max-width: 40ch; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/sheet.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/sheet.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "native",
+    "contract": "db-sheet"
+  },
+  "type": "registry:ui"
+}

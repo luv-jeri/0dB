@@ -12,8 +12,9 @@ const fail = (check, msg) => failures.push(`${check}: ${msg}`)
 // every item has ui, content, example and a DESIGN.md contract
 const design = readFileSync("DESIGN.md", "utf8")
 const contracts = new Map() // "db-btn" -> Set of item names in its heading
-for (const [, cls, names] of design.matchAll(/^### (db-[a-z-]+) \(([^)]+)\)/gm))
-  for (const n of names.split(",")) (contracts.get(cls) ?? contracts.set(cls, new Set()).get(cls)).add(n.trim())
+for (const [, classes, names] of design.matchAll(/^### ((?:db-[a-z-]+, )*db-[a-z-]+) \(([^)]+)\)/gm))
+  for (const cls of classes.split(", "))
+    for (const n of names.split(",")) (contracts.get(cls) ?? contracts.set(cls, new Set()).get(cls)).add(n.trim())
 const items = await readItems()
 for (const item of items) {
   if (!existsSync(`examples/${item.name}.tsx`)) fail("every item has ui, content, example and a DESIGN.md contract", `${item.name}: no examples/${item.name}.tsx`)

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table",
+  "title": "Table",
+  "description": "Hairline rows in tabular figures; the column you sort by is set in ink.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/table.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** Hairline rows in tabular figures. The column you sort by is set in ink. */\nfunction Table({ className, ...props }: React.ComponentProps<\"table\">) {\n  return <table data-slot=\"table\" className={cn(\"db-table\", className)} {...props} />\n}\n\nfunction TableHeader(props: React.ComponentProps<\"thead\">) {\n  return <thead data-slot=\"table-header\" {...props} />\n}\n\nfunction TableBody(props: React.ComponentProps<\"tbody\">) {\n  return <tbody data-slot=\"table-body\" {...props} />\n}\n\nfunction TableFooter(props: React.ComponentProps<\"tfoot\">) {\n  return <tfoot data-slot=\"table-footer\" {...props} />\n}\n\ntype TableRowProps = React.ComponentProps<\"tr\"> & {\n  /** A chosen row: its name turns italic. */\n  picked?: boolean\n}\n\nfunction TableRow({ picked, ...props }: TableRowProps) {\n  return <tr data-slot=\"table-row\" data-picked={picked || undefined} {...props} />\n}\n\ntype TableHeadProps = React.ComponentProps<\"th\"> & {\n  /** Right-align a column of figures. */\n  numeric?: boolean\n  /** The column the rows are sorted by. Put a button inside to make it sortable. */\n  sort?: \"ascending\" | \"descending\"\n}\n\nfunction TableHead({ numeric, sort, scope = \"col\", ...props }: TableHeadProps) {\n  return <th data-slot=\"table-head\" data-num={numeric || undefined} aria-sort={sort} scope={scope} {...props} />\n}\n\ntype TableCellProps = React.ComponentProps<\"td\"> & {\n  numeric?: boolean\n  /** The cell sits in the sorted column, so it is set in ink. */\n  sorted?: boolean\n  /** The row's name: it turns italic when the row is picked. */\n  primary?: boolean\n}\n\nfunction TableCell({ numeric, sorted, primary, className, ...props }: TableCellProps) {\n  return (\n    <td\n      data-slot=\"table-cell\"\n      data-num={numeric || undefined}\n      data-sorted={sorted || undefined}\n      className={cn(primary && \"db-table-name\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Names the table for screen readers; visually hidden. */\nfunction TableCaption({ className, ...props }: React.ComponentProps<\"caption\">) {\n  return <caption data-slot=\"table-caption\" className={cn(\"db-sr\", className)} {...props} />\n}\n\n/** A ring that fills when the row is chosen. Give it an aria-label naming the row. */\nfunction TablePick({ className, ...props }: Omit<React.ComponentProps<\"input\">, \"type\">) {\n  return <input type=\"checkbox\" data-slot=\"table-pick\" className={cn(\"db-table-pick\", className)} {...props} />\n}\n\nexport { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TablePick }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/table.css",
+      "content": "@layer components {\n  /* ── db-table ── hairline rows; the column you sort by is set in ink */\n  .db-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }\n  .db-table :is(th, td) { padding: var(--db-space-3) var(--db-space-4) var(--db-space-3) 0; text-align: start; vertical-align: baseline; border-bottom: var(--db-hairline) solid var(--db-rule); }\n  .db-table thead th { padding-top: 0; font-size: var(--db-pp); font-weight: 400; color: var(--db-pencil); border-bottom-color: var(--db-ink); white-space: nowrap; }\n  .db-table :is(tbody, tfoot) th { font-weight: 400; color: var(--db-graphite); }\n  .db-table tfoot :is(th, td) { color: var(--db-ink); border-bottom: 0; }\n  .db-table td { color: var(--db-graphite); transition: color var(--db-moderato); }\n  .db-table :is(th, td)[data-num] { text-align: end; }\n  .db-table :is(th, td):first-child:has(.db-table-pick) { width: 1.6em; }\n  .db-table th button { appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; display: inline-flex; align-items: baseline; gap: 0.35em; }\n  .db-table th button::after { content: \"↓\" / \"\"; display: inline-block; opacity: 0; transition: rotate var(--db-moderato) var(--db-spiccato), opacity var(--db-allegro); }\n  .db-table th button:hover::after { opacity: 0.5; }\n  .db-table th[aria-sort] { color: var(--db-ink); }\n  .db-table th[aria-sort] button::after { opacity: 1; }\n  .db-table th[aria-sort=\"ascending\"] button::after { rotate: 180deg; }\n  .db-table td[data-sorted] { color: var(--db-ink); }\n  .db-table tr[data-picked] .db-table-name { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink); }\n  /* Choosing is a ring that fills; some chosen is half a moon. */\n  .db-table-pick {\n    appearance: none; margin: 0; width: 10px; height: 10px; border-radius: 50%; vertical-align: 0.05em; cursor: pointer;\n    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);\n    transition: background-color var(--db-allegro), box-shadow var(--db-allegro);\n  }\n  .db-table-pick:hover { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }\n  .db-table-pick:checked { background: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); animation: db-land var(--db-moderato) var(--db-spiccato); }\n  .db-table-pick:indeterminate { background: linear-gradient(90deg, var(--db-ink) 50%, transparent 50%); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/table.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/table.css\"": {}
+  },
+  "meta": {
+    "movement": "X",
+    "underneath": "native",
+    "contract": "db-table"
+  },
+  "type": "registry:ui"
+}

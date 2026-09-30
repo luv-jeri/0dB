@@ -31,7 +31,7 @@ Start the sidecar mechanically, then adapt: `node scripts/port-fence.mjs <item> 
 4. Imports: siblings as `@/registry/0db/ui/<x>`, `roll` from `@/registry/0db/lib/roll`, `cn` from `@/registry/0db/lib/utils`. Never import from `@/components/site` or `@/examples` inside `registry/`.
 5. Radix items: replace `:popover-open` / `:open` / specimen anchor positioning with `[data-state="open"|"closed"]` selectors, an in keyframe on open and an out keyframe on closed, and Radix `side`/`align`/`sideOffset` for placement (see `tooltip.css`). Portal the content.
 6. States pinned for the docs use `data-force="hover|focus|active|open…"` on the item's ROOT element, and the CSS reads `:is(:hover, [data-force~="hover"])` (see `checkbox.css`, `button.css`). Only add `data-force` selectors for states the examples pin.
-7. The look is the specimen's. Ours in roman, yours in italic (`var(--db-expression)`, italic, `calc(var(--db-expression-scale) * 1em)`); one accent per view; nothing moves unless the person acts; `@media (prefers-reduced-motion: reduce)` is already handled by tokens (`--db-andante` etc. become 1ms) so use the tempo tokens for every duration. No icons, cards, shadows. Logical properties; `:dir(rtl)` where a stroke has a direction.
+7. The look is the specimen's. Ours in roman, yours in italic (`var(--db-expression)`, italic, `calc(var(--db-expression-scale) * 1em)`); one accent per view; nothing moves unless the person acts; `@media (prefers-reduced-motion: reduce)` is already handled by tokens (`--db-andante` etc. become 1ms) so use the tempo tokens for every duration. No icons, cards, shadows. Logical properties. Where a stroke has a direction, write `:is([dir="rtl"], [dir="rtl"] *)`, NEVER `:dir(rtl)`: Lightning CSS (Next and every consumer's Tailwind) compiles `:dir()` into a `:lang(ar, he, …)` list that misses a bare `dir="rtl"` page. `lint-css` fails on `:dir(`.
 8. `!important` is forbidden in sidecars. No `f-` or `--f-` names anywhere.
 9. Copy: sentence case, active verbs, an action keeps its name (Archive → Archived), errors say what to fix, no apologies. Demo copy follows the specimen (project index "Halden", a studio's brief, etc.).
 10. Accessibility: keyboard behaviour per DESIGN.md; visible focus (base.css provides `:focus-visible`); labels on controls; `aria-*` where the native element doesn't carry it.
@@ -42,11 +42,11 @@ Start the sidecar mechanically, then adapt: `node scripts/port-fence.mjs <item> 
 - Write files in this order: ui, css, example, content LAST. The build reads `content/` and fails if an item's ui file is missing; the docs import every example.
 - Rebuild the registry under a lock, never bare:
   ```bash
-  until mkdir .tmp/build.lock 2>/dev/null; do sleep 1; done; node scripts/build-registry.mjs >/dev/null; s=$?; rmdir .tmp/build.lock; exit $s
+  until mkdir .tmp/build.lock 2>/dev/null; do sleep 1; done; node --import tsx scripts/build-registry.mjs >/dev/null; s=$?; rmdir .tmp/build.lock; exit $s
   ```
   (run `mkdir -p .tmp` first). If it fails because of another builder's half-written item, wait and retry; if it fails on yours, fix it.
 - Type check: `npx tsc --noEmit 2>&1 | grep -E '<your item names>'`. Errors in other builders' files are not yours. Lint your files: `npx eslint --max-warnings=0 <your files>`.
-- A dev server runs on http://localhost:3000. After the registry rebuild, `curl -s http://localhost:3000/preview/<item>/ | grep -c 'data-slot="<item>'` must be ≥1, and the page must not contain `Unhandled Runtime Error` / `Error:`. If a browser tool is available to you, look at the page; otherwise rely on the markup.
+- A dev server runs on http://localhost:3000. After the registry rebuild, `curl -s http://localhost:3000/preview/<item>/ | grep -c 'data-slot="<item>'` must be ≥1, and the page must not contain `Unhandled Runtime Error` / `Error:`. The browser pane is shared by every builder: open your own tab with `tabs_create` and act only on that tabId, or rely on the markup.
 - Do not commit. Do not run `npm install`; every dependency is already installed (all Radix packages, cmdk, sugar-high). If you truly need another package, stop and say so.
 
 ## Report (your final message)

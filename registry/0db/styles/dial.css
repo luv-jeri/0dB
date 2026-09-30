@@ -1,0 +1,59 @@
+@layer components {
+  /* ── db-dial ── a radio on an arc. The whole dial rolls to what you choose:
+     --sel is animated, and size, colour and italic all follow its distance. */
+  @property --sel { syntax: "<number>"; inherits: true; initial-value: 0; }
+  .db-dial { --r: min(13rem, 36vw); border: 0; margin: 0; padding: 0; min-width: 0; }
+  .db-dial > legend { padding: 0; margin-bottom: var(--db-space-5); }
+  .db-dial-face {
+    position: relative; width: calc(2 * var(--r) + 3em); height: calc(var(--r) + 3.5em);
+    transition: --sel var(--db-andante) var(--db-spiccato);
+  }
+  .db-dial > .db-dial-face { font-size: var(--db-mp); }
+  .db-dial:has(label:nth-of-type(1) > input:checked) .db-dial-face { --sel: 0; }
+  .db-dial:has(label:nth-of-type(2) > input:checked) .db-dial-face { --sel: 1; }
+  .db-dial:has(label:nth-of-type(3) > input:checked) .db-dial-face { --sel: 2; }
+  .db-dial:has(label:nth-of-type(4) > input:checked) .db-dial-face { --sel: 3; }
+  .db-dial:has(label:nth-of-type(5) > input:checked) .db-dial-face { --sel: 4; }
+  .db-dial:has(label:nth-of-type(6) > input:checked) .db-dial-face { --sel: 5; }
+  .db-dial:has(label:nth-of-type(7) > input:checked) .db-dial-face { --sel: 6; }
+  .db-dial:has(label:nth-of-type(8) > input:checked) .db-dial-face { --sel: 7; }
+  .db-dial:has(label:nth-of-type(9) > input:checked) .db-dial-face { --sel: 8; }
+  .db-dial > .db-dial-face > label {
+    --a: calc(170deg - 160deg * var(--i) / (var(--n) - 1));
+    --d: max(var(--i) - var(--sel), var(--sel) - var(--i));
+    --near: max(0, 1 - var(--d));
+    position: absolute; left: calc(50% + cos(var(--a)) * var(--r)); top: calc(1.75em + var(--r) - sin(var(--a)) * var(--r));
+    translate: -50% -50%; scale: calc(1 + 1.4 * var(--near));
+    display: grid; place-items: center; cursor: pointer; font-variant-numeric: lining-nums;
+    color: color-mix(in srgb, var(--db-ink) calc(100% - min(var(--d), 3) * 33%), var(--db-pencil));
+    -webkit-tap-highlight-color: transparent;
+  }
+  .db-dial label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+  .db-dial label > span, .db-dial label::after { grid-area: 1 / 1; }
+  .db-dial label > span { opacity: calc(1 - var(--near)); }
+  .db-dial label::after {
+    content: attr(data-text) / ""; opacity: var(--near);
+    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;
+  }
+  .db-dial label:hover { color: var(--db-ink); }
+  .db-dial label:has(input:focus-visible) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 4px; border-radius: 50%; }
+  .db-dial-arc, .db-dial-dot { position: absolute; pointer-events: none; }
+  .db-dial-arc {
+    --ri: calc(var(--r) - 2.1em);
+    left: calc(50% - var(--ri)); top: calc(1.75em + var(--r) - var(--ri));
+    width: calc(2 * var(--ri)); height: calc(2 * var(--ri)); border-radius: 50%;
+    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); clip-path: inset(0 0 50% 0);
+  }
+  .db-dial-dot {
+    --a: calc(170deg - 160deg * var(--sel) / (var(--n) - 1));
+    --ri: calc(var(--r) - 2.1em);
+    left: calc(50% + cos(var(--a)) * var(--ri)); top: calc(1.75em + var(--r) - sin(var(--a)) * var(--ri));
+    width: var(--db-dot); height: var(--db-dot); translate: -50% -50%; border-radius: 50%; background: var(--db-accent);
+  }
+  .db-dial:not(:has(input:checked)) .db-dial-dot { opacity: 0; }
+  .db-dial-unit { position: absolute; left: 50%; bottom: 0.4em; translate: -50% 0; font-size: var(--db-pp); color: var(--db-pencil); }
+
+  /* Right to left the first choice starts on the right, so arrow keys and the arc agree. */
+  .db-dial:is([dir="rtl"], [dir="rtl"] *) > .db-dial-face > label { left: calc(50% - cos(var(--a)) * var(--r)); }
+  .db-dial:is([dir="rtl"], [dir="rtl"] *) .db-dial-dot { left: calc(50% - cos(var(--a)) * var(--ri)); }
+}

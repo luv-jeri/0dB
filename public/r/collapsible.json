@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "title": "Collapsible",
+  "description": "A list that ends in the rest of itself: the words \"and 4 more\" are the control.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/button.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/collapsible.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/**\n * A list that ends in the rest of itself: \"and 4 more\" is the control. Native\n * <details>. Show the first rows yourself (a CollapsibleList), then this holds the rest.\n */\nfunction Collapsible({ className, ...props }: React.ComponentProps<\"details\">) {\n  return <details data-slot=\"collapsible\" className={cn(\"db-collapse\", className)} {...props} />\n}\n\ntype CollapsibleTriggerProps = React.ComponentProps<\"summary\"> & {\n  /** What the control says once it is open (\"Hide these 4\"). Defaults to the closed words. */\n  openLabel?: React.ReactNode\n}\n\nfunction CollapsibleTrigger({ children, openLabel, className, ...props }: CollapsibleTriggerProps) {\n  return (\n    <summary data-slot=\"collapsible-trigger\" data-variant=\"quiet\" className={cn(\"db-btn\", className)} {...props}>\n      <span>{children}</span>\n      <span>{openLabel ?? children}</span>\n    </summary>\n  )\n}\n\nfunction CollapsibleContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"collapsible-content\" className={className} {...props} />\n}\n\n/** Rows ruled off with hairlines. Its rows arrive in turn when the rest opens. */\nfunction CollapsibleList({ className, ...props }: React.ComponentProps<\"ul\">) {\n  return <ul data-slot=\"collapsible-list\" className={cn(\"db-collapse-list\", className)} {...props} />\n}\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleList, type CollapsibleTriggerProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/collapsible.css",
+      "content": "@layer components {\n  /* ── db-collapse ── a list that ends in the rest of itself */\n  .db-collapse-list { list-style: none; margin: 0; padding: 0; }\n  .db-collapse-list > li { padding-block: 0.45em; border-block-end: var(--db-hairline) solid var(--db-rule); }\n  .db-collapse > summary { list-style: none; margin-block-start: var(--db-space-4); }\n  .db-collapse > summary::-webkit-details-marker { display: none; }\n  .db-collapse > summary > :last-child, .db-collapse[open] > summary > :first-child { display: none; }\n  .db-collapse[open] > summary > :last-child { display: inline; }\n  .db-collapse::details-content { block-size: 0; overflow: clip; transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete; }\n  .db-collapse[open]::details-content { block-size: auto; }\n  .db-collapse[open] .db-collapse-list > li { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--db-arpeggio)); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/collapsible.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/collapsible.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "native",
+    "contract": "db-collapse"
+  },
+  "type": "registry:ui"
+}

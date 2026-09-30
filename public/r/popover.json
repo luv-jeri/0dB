@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "title": "Popover",
+  "description": "A panel hung from what opened it, on a leader line. Escape or a click elsewhere puts it away.",
+  "dependencies": [
+    "@radix-ui/react-popover"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/popover.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as PopoverPrimitive from \"@radix-ui/react-popover\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Popover(props: React.ComponentProps<typeof PopoverPrimitive.Root>) {\n  return <PopoverPrimitive.Root data-slot=\"popover\" {...props} />\n}\n\nfunction PopoverTrigger(props: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {\n  return <PopoverPrimitive.Trigger data-slot=\"popover-trigger\" {...props} />\n}\n\nfunction PopoverAnchor(props: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {\n  return <PopoverPrimitive.Anchor data-slot=\"popover-anchor\" {...props} />\n}\n\nfunction PopoverClose(props: React.ComponentProps<typeof PopoverPrimitive.Close>) {\n  return <PopoverPrimitive.Close data-slot=\"popover-close\" {...props} />\n}\n\n/**\n * A panel hung from what opened it, on a leader line. The line joins the panel to\n * the trigger when it sits above or below and aligns to an edge (the default is\n * the trigger's start edge). Other menus and pickers wear the same `db-pop` panel.\n */\nfunction PopoverContent({\n  className,\n  align = \"start\",\n  sideOffset = 8,\n  style,\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Content>) {\n  return (\n    <PopoverPrimitive.Portal>\n      <PopoverPrimitive.Content\n        data-slot=\"popover-content\"\n        align={align}\n        sideOffset={sideOffset}\n        style={{ \"--db-pop-gap\": `${sideOffset}px`, ...style } as React.CSSProperties}\n        className={cn(\"db-pop\", className)}\n        {...props}\n      />\n    </PopoverPrimitive.Portal>\n  )\n}\n\nexport { Popover, PopoverTrigger, PopoverContent, PopoverAnchor, PopoverClose }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/popover.css",
+      "content": "@layer components {\n  /* ── db-pop ── popover: a panel hung from what opened it, on a leader line.\n     Keyed on the class and [data-state] alone, so the menus and pickers that\n     wear db-pop (dropdown menu, combobox, date picker) hang the same way.\n     Radix places it (side, align, sideOffset); --db-pop-gap is that offset. */\n  .db-pop {\n    --db-pop-gap: 8px; --db-pop-lead: 1.1em;\n    position: relative; z-index: 50; padding: var(--db-space-4) var(--db-space-5); overflow: visible;\n    max-width: min(26rem, calc(100vw - 2 * var(--db-margin)));\n    background: var(--db-paper); color: var(--db-graphite); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);\n    outline: 0;\n    animation: db-pop-in var(--db-moderato) var(--db-exhale);\n  }\n  .db-pop[data-state=\"closed\"] { animation: db-pop-out var(--db-allegro) var(--db-breath) forwards; }\n  .db-pop[data-side=\"top\"] { --db-pop-from: 4px; }\n  @keyframes db-pop-in { from { opacity: 0; translate: 0 var(--db-pop-from, -4px); } }\n  @keyframes db-pop-out { to { opacity: 0; } }\n\n  /* The leader: a dot on the trigger's edge and a line dropping to the panel. */\n  .db-pop:is([data-side=\"bottom\"], [data-side=\"top\"])::before,\n  .db-pop:is([data-side=\"bottom\"], [data-side=\"top\"])::after { content: \"\"; position: absolute; pointer-events: none; }\n  .db-pop:is([data-side=\"bottom\"], [data-side=\"top\"])::before { inset-inline-start: var(--db-pop-lead); width: var(--db-hairline); height: var(--db-pop-gap); background: var(--db-ink); }\n  .db-pop:is([data-side=\"bottom\"], [data-side=\"top\"])::after { inset-inline-start: calc(var(--db-pop-lead) - 2px); width: 5px; height: 5px; border-radius: 50%; background: var(--db-ink); }\n  .db-pop[data-align=\"end\"] { --db-pop-lead: calc(100% - 1.1em); }\n  .db-pop[data-align=\"center\"] { --db-pop-lead: 50%; }\n  .db-pop[data-side=\"bottom\"]::before { bottom: 100%; transform-origin: 50% 0; }\n  .db-pop[data-side=\"bottom\"]::after { bottom: calc(100% + var(--db-pop-gap) - 2.5px); }\n  .db-pop[data-side=\"top\"]::before { top: 100%; transform-origin: 50% 100%; }\n  .db-pop[data-side=\"top\"]::after { top: calc(100% + var(--db-pop-gap) - 2.5px); }\n  .db-pop[data-state=\"open\"]::after { animation: db-land var(--db-moderato) var(--db-spiccato) backwards; }\n  .db-pop[data-state=\"open\"]::before { animation: db-draw-y var(--db-moderato) var(--db-breath) 60ms backwards; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/popover.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/popover.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "radix",
+    "contract": "db-pop"
+  },
+  "type": "registry:ui"
+}

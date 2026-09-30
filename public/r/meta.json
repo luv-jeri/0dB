@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "meta",
+  "title": "Meta",
+  "description": "A frame row: small words held apart by hairlines that stretch to fill the row.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/meta.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** A frame row: small words held apart by hairlines. A hairline goes between each child. */\nfunction Meta({ className, children, ...props }: React.ComponentProps<\"div\">) {\n  const items = React.Children.toArray(children)\n  return (\n    <div data-slot=\"meta\" className={cn(\"db-meta\", className)} {...props}>\n      {items.map((child, i) => (\n        <React.Fragment key={i}>\n          {i > 0 ? <hr aria-hidden=\"true\" /> : null}\n          {child}\n        </React.Fragment>\n      ))}\n    </div>\n  )\n}\n\nexport { Meta }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "movement": "IV",
+    "underneath": "native",
+    "contract": "db-meta"
+  },
+  "type": "registry:ui"
+}

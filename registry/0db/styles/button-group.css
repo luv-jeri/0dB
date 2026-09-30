@@ -1,0 +1,21 @@
+@layer components {
+  /* ── db-btn-group ── one pair of parentheses holds the set */
+  .db-btn-group { display: inline-flex; align-items: baseline; flex-wrap: wrap; color: var(--db-ink); }
+  .db-btn-group::before, .db-btn-group::after { font-weight: 200; font-size: 1.2em; line-height: 0; }
+  .db-btn-group::before { content: "(" / ""; margin-inline-end: 0.1em; }
+  .db-btn-group::after { content: ")" / ""; margin-inline-start: 0.1em; }
+  /* The set has its own brackets, so its Buttons drop theirs (and any redraw) whatever variant they carry. */
+  .db-btn-group > .db-btn[data-slot="button"] {
+    padding: 0 0.6em 0.16em; animation: none;
+    background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--db-hairline);
+    background-origin: content-box; background-clip: content-box;
+    transition: background-size var(--db-moderato) var(--db-exhale), background-position 0s;
+  }
+  .db-btn-group > .db-btn[data-slot="button"]::before,
+  .db-btn-group > .db-btn[data-slot="button"]::after { content: none; }
+  .db-btn-group > .db-btn[data-slot="button"] + .db-btn { border-inline-start: var(--db-hairline) solid var(--db-rule-strong); }
+  .db-btn-group > .db-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 0 100%; background-size: 100% var(--db-hairline); animation: none; }
+  /* Right to left, the line enters from the other side. */
+  .db-btn-group:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"] { background-position: 0 100%; }
+  .db-btn-group:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 100% 100%; }
+}

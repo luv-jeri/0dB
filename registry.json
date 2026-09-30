@@ -149,6 +149,92 @@
       }
     },
     {
+      "name": "link",
+      "type": "registry:ui",
+      "title": "Link",
+      "description": "A hairline underline at rest; pointing at it draws a highlighter stroke through the words, on from the left and off to the right.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/link.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "II",
+        "underneath": "native",
+        "contract": "db-link"
+      }
+    },
+    {
+      "name": "meta",
+      "type": "registry:ui",
+      "title": "Meta",
+      "description": "A frame row: small words held apart by hairlines that stretch to fill the row.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/meta.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "IV",
+        "underneath": "native",
+        "contract": "db-meta"
+      }
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A key, drawn as a ring. Pressed, it shrinks a little and the ring turns to ink.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "II",
+        "underneath": "native",
+        "contract": "db-kbd"
+      }
+    },
+    {
+      "name": "corners",
+      "type": "registry:ui",
+      "title": "Corners",
+      "description": "Four corner marks: a frame that doesn't close.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/corners.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "IV",
+        "underneath": "native",
+        "contract": "db-corners"
+      }
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -237,6 +323,515 @@
       }
     },
     {
+      "name": "fraction",
+      "type": "registry:ui",
+      "title": "Fraction",
+      "description": "A count set as a display fraction with a leaning hairline. The part that's yours is italic.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/fraction.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "II",
+        "underneath": "native",
+        "contract": "db-fraction"
+      }
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio group",
+      "description": "Words in a row. The one you choose turns italic, because it's yours now, and one dot glides beneath it, stretching as it travels.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/radio-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/radio-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/radio-group.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/radio-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-choice"
+      }
+    },
+    {
+      "name": "dial",
+      "type": "registry:ui",
+      "title": "Dial",
+      "description": "A radio for numbers, set on an arc. The whole dial rolls to what you choose: the number swells and turns italic, and the dot travels the arc.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dial.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dial.css",
+          "type": "registry:file",
+          "target": "styles/0db/dial.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/dial.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-dial"
+      }
+    },
+    {
+      "name": "picks",
+      "type": "registry:ui",
+      "title": "Picks",
+      "description": "A list of choices that carry their own content. A dot hangs beside the one you took; pointing at another shows a ring where it would land.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/picks.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/picks.css",
+          "type": "registry:file",
+          "target": "styles/0db/picks.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/picks.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-picks"
+      }
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A sentence whose last word you can change. The state rolls between on and off in italic, and the full stop answers: a dot when on, a ring when off.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/switch.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/switch.css",
+          "type": "registry:file",
+          "target": "styles/0db/switch.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/switch.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-switch"
+      }
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "A ruler with a hand. The value is drawn as a dimension: a line from zero to the hand, with your number, in italic, in the gap.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/slider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/slider.css",
+          "type": "registry:file",
+          "target": "styles/0db/slider.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/slider.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-ruler"
+      }
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "No box, only a baseline. Your words arrive in italic, focus draws the accent from where you touched, and an error hangs from the line as a callout.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/field.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/field.css",
+          "type": "registry:file",
+          "target": "styles/0db/field.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/field.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-field"
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A choice set inside a sentence: the chosen word is yours, italic over a hairline, with a small arrow that drops when you point at it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/select.css",
+          "type": "registry:file",
+          "target": "styles/0db/select.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/select.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-select"
+      }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Words with their counts raised. A line inches to the one in view, leading edge first, and the count of what's showing sinks into the rule.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tabs"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tabs.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tabs.css",
+          "type": "registry:file",
+          "target": "styles/0db/tabs.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/tabs.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "radix",
+        "contract": "db-tabs"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Numbers with a dot beneath each. The current page's dot is the accent, and weight falls away with distance from it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/pagination.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/pagination.css",
+          "type": "registry:file",
+          "target": "styles/0db/pagination.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/pagination.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-pager"
+      }
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "The path, divided by drawn hairlines leaning like slashes. Point at a step and the two beside it lean in to hold it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/breadcrumb.css",
+          "type": "registry:file",
+          "target": "styles/0db/breadcrumb.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/breadcrumb.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-crumbs"
+      }
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Questions ruled off in a stack; a plus that turns into a cross as each one opens.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/accordion.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/accordion.css",
+          "type": "registry:file",
+          "target": "styles/0db/accordion.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/accordion.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-disclose"
+      }
+    },
+    {
+      "name": "rows",
+      "type": "registry:ui",
+      "title": "Rows",
+      "description": "An index of hairline-separated rows. The one you point at reverses out of ink and steps forward with an arrow.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/rows.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/rows.css",
+          "type": "registry:file",
+          "target": "styles/0db/rows.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/rows.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-rows"
+      }
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A month of dots: past days filled, today in the accent, days to come as rings. The day you choose shows its number in italic.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/calendar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/calendar.css",
+          "type": "registry:file",
+          "target": "styles/0db/calendar.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/calendar.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "hook",
+        "contract": "db-month"
+      }
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "The one rounded shape: a hairline pill for a tag or a status.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/badge.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/badge.css",
+          "type": "registry:file",
+          "target": "styles/0db/badge.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/badge.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-tag"
+      }
+    },
+    {
+      "name": "note",
+      "type": "registry:ui",
+      "title": "Note",
+      "description": "Marginalia: a dotted term, and a leader line that draws out to its note.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/note.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/note.css",
+          "type": "registry:file",
+          "target": "styles/0db/note.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/note.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-note"
+      }
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "A hairline that fills, and the percentage set as an italic numeral.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/progress.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/progress.css",
+          "type": "registry:file",
+          "target": "styles/0db/progress.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/progress.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-progress"
+      }
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "One line rises from the bottom-left; a fermata arc beneath it empties while it stays.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/toast.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/toast.css",
+          "type": "registry:file",
+          "target": "styles/0db/toast.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/toast.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "hook",
+        "contract": "db-toast"
+      }
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -268,6 +863,506 @@
       }
     },
     {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "An invitation to act, not an apology: what is missing, and the one thing to do about it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/empty.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/empty.css",
+          "type": "registry:file",
+          "target": "styles/0db/empty.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/empty.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-empty"
+      }
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A word you can hold down. Held, it wears the fermata: an arc rises over the word, then a dot lands inside it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-toggle"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/toggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/toggle.css",
+          "type": "registry:file",
+          "target": "styles/0db/toggle.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/toggle.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "radix",
+        "contract": "db-toggle"
+      }
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle group",
+      "description": "Words held apart by standing hairlines; a group can allow one held word or many.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/toggle.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-toggle-group"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/toggle-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/toggle-group.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/toggle-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "radix",
+        "contract": "db-toggles"
+      }
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "One pair of parentheses holds a set of actions, and hairlines stand between them.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/button-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/button-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/button-group.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/button-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-btn-group"
+      }
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input group",
+      "description": "Ours in roman, yours in italic, on one line. The accent draws only under the part you type.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json",
+        "https://0db.cojeev.com/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/input-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/input-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/input-group.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/input-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-input-group"
+      }
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "A one-time code on short baselines, three and three. Digits drop in as you type; whole, the lines ink in turn.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/input-otp.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/input-otp.css",
+          "type": "registry:file",
+          "target": "styles/0db/input-otp.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/input-otp.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-code"
+      }
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "A field that suggests. Type and the letters you typed are marked in each match, the suggestions arrive in turn, and what you chose sits on the line in italic.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/command.json",
+        "https://0db.cojeev.com/r/field.json",
+        "https://0db.cojeev.com/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/combobox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/combobox.css",
+          "type": "registry:file",
+          "target": "styles/0db/combobox.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/combobox.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "cmdk",
+        "contract": "db-combo"
+      }
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A panel hung from what opened it, on a leader line. Escape or a click elsewhere puts it away.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-popover"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/popover.css",
+          "type": "registry:file",
+          "target": "styles/0db/popover.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/popover.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-pop"
+      }
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context menu",
+      "description": "The same list of words, opened where you pressed and spreading from that point like ink.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/dropdown-menu.json",
+        "https://0db.cojeev.com/r/popover.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-context-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/context-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/context-menu.css",
+          "type": "registry:file",
+          "target": "styles/0db/context-menu.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/context-menu.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-menu"
+      }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown menu",
+      "description": "A list of words on the popover panel; the one you point at is marked with the highlighter.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/kbd.json",
+        "https://0db.cojeev.com/r/popover.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dropdown-menu.css",
+          "type": "registry:file",
+          "target": "styles/0db/dropdown-menu.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/dropdown-menu.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-menu"
+      }
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A frame row of words along a hairline; each opens a menu, and a stroke slides to the open one.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/dropdown-menu.json",
+        "https://0db.cojeev.com/r/popover.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-menubar"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/menubar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/menubar.css",
+          "type": "registry:file",
+          "target": "styles/0db/menubar.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/menubar.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-menubar"
+      }
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation menu",
+      "description": "Small words open a panel of large names, the scale contrast of a poster.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/navigation-menu.css",
+          "type": "registry:file",
+          "target": "styles/0db/navigation-menu.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/navigation-menu.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "radix",
+        "contract": "db-navmenu"
+      }
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "What you type is set as large as a headline, in italic. Matches are marked; the chosen row steps forward.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "cmdk"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/command.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/command.css",
+          "type": "registry:file",
+          "target": "styles/0db/command.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/command.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "cmdk",
+        "contract": "db-command"
+      }
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A column of words beside the work. Folded, each word keeps only its initial, set large and light; the page you're on carries the dot.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json",
+        "https://0db.cojeev.com/r/sheet.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/sidebar.css",
+          "type": "registry:file",
+          "target": "styles/0db/sidebar.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/sidebar.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "hook",
+        "contract": "db-sidebar"
+      }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A column under a rule, not a box. Point at it and an ink stroke passes along the rule.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/meta.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/card.css",
+          "type": "registry:file",
+          "target": "styles/0db/card.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/card.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-card"
+      }
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover card",
+      "description": "Point at a name and wait a moment: a card opens with the name set large and cropped by its edge.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-hover-card"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/hover-card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/hover-card.css",
+          "type": "registry:file",
+          "target": "styles/0db/hover-card.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/hover-card.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-peek"
+      }
+    },
+    {
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
@@ -296,6 +1391,646 @@
         "movement": "IX",
         "underneath": "radix",
         "contract": "db-tip"
+      }
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "A page slid in from the edge, its title running up the spine like a book's.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/dialog.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/sheet.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/sheet.css",
+          "type": "registry:file",
+          "target": "styles/0db/sheet.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/sheet.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-sheet"
+      }
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A sheet from below, lifted by the fermata's arc. Drag the arc down to put it away.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/dialog.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/drawer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/drawer.css",
+          "type": "registry:file",
+          "target": "styles/0db/drawer.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/drawer.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-drawer"
+      }
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "A list that ends in the rest of itself: the words \"and 4 more\" are the control.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/collapsible.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/collapsible.css",
+          "type": "registry:file",
+          "target": "styles/0db/collapsible.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/collapsible.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-collapse"
+      }
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Panes and the rule between them. Take the rule and it inks; while you hold it, each pane's share is drawn as a dimension.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/resizable.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/resizable.css",
+          "type": "registry:file",
+          "target": "styles/0db/resizable.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/resizable.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-resize"
+      }
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll area",
+      "description": "A rule appears at an edge only while there's more beyond it, and leaves when you reach the end.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/scrollbar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/scroll-area.css",
+          "type": "registry:file",
+          "target": "styles/0db/scroll-area.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/scroll-area.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-scroll"
+      }
+    },
+    {
+      "name": "scrollbar",
+      "type": "registry:ui",
+      "title": "Scrollbar",
+      "description": "A scrollbar as a ruler: a hairline, a mark where each section begins, and an ink thumb as long as the view.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/scrollbar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/scrollbar.css",
+          "type": "registry:file",
+          "target": "styles/0db/scrollbar.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/scrollbar.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-scrollbar"
+      }
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect ratio",
+      "description": "A frame kept to a ratio and marked the way a printer marks a crop: short lines outside each corner, never a border.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/aspect-ratio.css",
+          "type": "registry:file",
+          "target": "styles/0db/aspect-ratio.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/aspect-ratio.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-ratio"
+      }
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "One poster at a time, each name set so large the frame crops it. The count between the arrows rolls the way you travel.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/carousel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/carousel.css",
+          "type": "registry:file",
+          "target": "styles/0db/carousel.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/carousel.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-carousel"
+      }
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Hairline rows in tabular figures; the column you sort by is set in ink.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/table.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/table.css",
+          "type": "registry:file",
+          "target": "styles/0db/table.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/table.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-table"
+      }
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Hairlines and dots against one very large number that rolls to the bar you point at.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/chart.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-chart"
+      }
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "A person is a ring and their initial, in italic, since a name is theirs.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/avatar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/avatar.css",
+          "type": "registry:file",
+          "target": "styles/0db/avatar.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/avatar.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-avatar"
+      }
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/item.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/item.css",
+          "type": "registry:file",
+          "target": "styles/0db/item.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/item.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-item"
+      }
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Long text, set to be read: it styles plain HTML by element, and punctuation hangs in the margin.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/typography.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/typography.css",
+          "type": "registry:file",
+          "target": "styles/0db/typography.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/typography.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-prose"
+      }
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "No balloons. Of the speech bubble only its tail is left, a leaning hairline. What they wrote is roman; what you wrote sits on the other side, in italic.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/avatar.json",
+        "https://0db.cojeev.com/r/badge.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/message.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/message.css",
+          "type": "registry:file",
+          "target": "styles/0db/message.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/message.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-msg"
+      }
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "A quiet line in a conversation: a status, or where a day begins.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/marker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/marker.css",
+          "type": "registry:file",
+          "target": "styles/0db/marker.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/marker.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-marker"
+      }
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "A file's extension is its picture; a ring counts it in and fills to a dot when it's safe.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/attachment.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/attachment.css",
+          "type": "registry:file",
+          "target": "styles/0db/attachment.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/attachment.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-attach"
+      }
+    },
+    {
+      "name": "thread",
+      "type": "registry:ui",
+      "title": "Thread",
+      "description": "A message scroller that keeps to the latest while you are at the end. Scrolled back, it stays put and counts what is new in an ink pill.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/marker.json",
+        "https://0db.cojeev.com/r/scroll-area.json",
+        "https://0db.cojeev.com/r/scrollbar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/thread.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/thread.css",
+          "type": "registry:file",
+          "target": "styles/0db/thread.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/thread.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-thread"
+      }
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "Questions one at a time, set large. The count rolls and a hairline fills; each question turns in from the side you're heading. At the end your answers are written into one sentence, in italic, arriving word by word.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json",
+        "https://0db.cojeev.com/r/field.json",
+        "https://0db.cojeev.com/r/fraction.json",
+        "https://0db.cojeev.com/r/radio-group.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/questionnaire.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/questionnaire.css",
+          "type": "registry:file",
+          "target": "styles/0db/questionnaire.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/questionnaire.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-quest"
+      }
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "A double bar: in a score, the sign that something changes here.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/alert.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/alert.css",
+          "type": "registry:file",
+          "target": "styles/0db/alert.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/alert.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-alert"
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Baselines where the words will be. Still until something is loading, and still when motion is off.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/skeleton.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/skeleton.css",
+          "type": "registry:file",
+          "target": "styles/0db/skeleton.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/skeleton.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-skeleton"
+      }
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date picker",
+      "description": "A date inside a sentence, like the select. It opens the month on a leader line; choose a day and it is written into the sentence in italic.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/calendar.json",
+        "https://0db.cojeev.com/r/field.json",
+        "https://0db.cojeev.com/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/date-picker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/date-picker.css",
+          "type": "registry:file",
+          "target": "styles/0db/date-picker.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/date-picker.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "radix",
+        "contract": "db-date"
+      }
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Fields on the grid and one statement button. A failed send gives each field its callout and focuses the first; while sending, the button says so.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json",
+        "https://0db.cojeev.com/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/form.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/form.css",
+          "type": "registry:file",
+          "target": "styles/0db/form.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/form.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-form"
       }
     },
     {

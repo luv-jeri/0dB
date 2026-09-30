@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "title": "Button group",
+  "description": "One pair of parentheses holds a set of actions, and hairlines stand between them.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/button.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/button-group.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype ButtonGroupProps = React.ComponentProps<\"div\"> & {\n  /** Names the set for a screen reader: \"Share Halden\". */\n  \"aria-label\": string\n}\n\n/** One pair of parentheses holds a set of Buttons; hairlines stand between them. Its Buttons drop their own brackets. */\nfunction ButtonGroup({ className, ...props }: ButtonGroupProps) {\n  return <div role=\"group\" data-slot=\"button-group\" className={cn(\"db-btn-group\", className)} {...props} />\n}\n\nexport { ButtonGroup, type ButtonGroupProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/button-group.css",
+      "content": "@layer components {\n  /* ── db-btn-group ── one pair of parentheses holds the set */\n  .db-btn-group { display: inline-flex; align-items: baseline; flex-wrap: wrap; color: var(--db-ink); }\n  .db-btn-group::before, .db-btn-group::after { font-weight: 200; font-size: 1.2em; line-height: 0; }\n  .db-btn-group::before { content: \"(\" / \"\"; margin-inline-end: 0.1em; }\n  .db-btn-group::after { content: \")\" / \"\"; margin-inline-start: 0.1em; }\n  /* The set has its own brackets, so its Buttons drop theirs (and any redraw) whatever variant they carry. */\n  .db-btn-group > .db-btn[data-slot=\"button\"] {\n    padding: 0 0.6em 0.16em; animation: none;\n    background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--db-hairline);\n    background-origin: content-box; background-clip: content-box;\n    transition: background-size var(--db-moderato) var(--db-exhale), background-position 0s;\n  }\n  .db-btn-group > .db-btn[data-slot=\"button\"]::before,\n  .db-btn-group > .db-btn[data-slot=\"button\"]::after { content: none; }\n  .db-btn-group > .db-btn[data-slot=\"button\"] + .db-btn { border-inline-start: var(--db-hairline) solid var(--db-rule-strong); }\n  .db-btn-group > .db-btn[data-slot=\"button\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled) { background-position: 0 100%; background-size: 100% var(--db-hairline); animation: none; }\n  /* Right to left, the line enters from the other side. */\n  .db-btn-group:is([dir=\"rtl\"], [dir=\"rtl\"] *) > .db-btn[data-slot=\"button\"] { background-position: 0 100%; }\n  .db-btn-group:is([dir=\"rtl\"], [dir=\"rtl\"] *) > .db-btn[data-slot=\"button\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled) { background-position: 100% 100%; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/button-group.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/button-group.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "native",
+    "contract": "db-btn-group"
+  },
+  "type": "registry:ui"
+}

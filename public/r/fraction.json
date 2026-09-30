@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fraction",
+  "title": "Fraction",
+  "description": "A count set as a display fraction with a leaning hairline. The part that's yours is italic.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/fraction.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype FractionProps = Omit<React.ComponentProps<\"span\">, \"children\"> & {\n  /** The part that's yours, in italic. */\n  count: React.ReactNode\n  total: React.ReactNode\n}\n\n/** A count set as a display fraction with a leaning hairline. Reads aloud as \"2 of 5\". */\nfunction Fraction({ count, total, className, ...props }: FractionProps) {\n  return (\n    <span data-slot=\"fraction\" className={cn(\"db-fraction\", className)} {...props}>\n      <span className=\"db-yours\">{count}</span>\n      <i>\n        <span className=\"db-sr\"> of </span>\n      </i>\n      <span>{total}</span>\n    </span>\n  )\n}\n\nexport { Fraction, type FractionProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "movement": "II",
+    "underneath": "native",
+    "contract": "db-fraction"
+  },
+  "type": "registry:ui"
+}

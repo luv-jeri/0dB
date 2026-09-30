@@ -1,0 +1,12 @@
+@layer components {
+  /* ── db-scroll ── a rule appears at an edge only while there's more beyond it */
+  .db-scroll {
+    overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--db-rule-strong) transparent;
+    /* The paper covering each rule scrolls with the content; the rules stay put. */
+    background:
+      linear-gradient(var(--db-paper), var(--db-paper)) 0 0 / 100% 2px no-repeat local,
+      linear-gradient(var(--db-paper), var(--db-paper)) 0 100% / 100% 2px no-repeat local,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) 0 0 / 100% var(--db-hairline) no-repeat scroll,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) 0 100% / 100% var(--db-hairline) no-repeat scroll;
+  }
+}

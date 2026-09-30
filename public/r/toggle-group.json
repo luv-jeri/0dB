@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-group",
+  "title": "Toggle group",
+  "description": "Words held apart by standing hairlines; a group can allow one held word or many.",
+  "dependencies": [
+    "@radix-ui/react-toggle-group"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/toggle.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/toggle-group.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as ToggleGroupPrimitive from \"@radix-ui/react-toggle-group\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** Words held apart by standing hairlines. type=\"single\" allows one held at a time; \"multiple\" allows any. */\nfunction ToggleGroup({ className, ...props }: React.ComponentProps<typeof ToggleGroupPrimitive.Root>) {\n  return <ToggleGroupPrimitive.Root data-slot=\"toggle-group\" className={cn(\"db-toggles\", className)} {...props} />\n}\n\n/** One word in the group. Wears the same fermata as a Toggle. */\nfunction ToggleGroupItem({ className, ...props }: React.ComponentProps<typeof ToggleGroupPrimitive.Item>) {\n  return <ToggleGroupPrimitive.Item data-slot=\"toggle-group-item\" className={cn(\"db-toggle\", className)} {...props} />\n}\n\nexport { ToggleGroup, ToggleGroupItem }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/toggle-group.css",
+      "content": "@layer components {\n  /* ── db-toggles ── toggle group: words held apart by standing hairlines */\n  .db-toggles { display: inline-flex; flex-wrap: wrap; align-items: last baseline; row-gap: var(--db-space-3); }\n  .db-toggles > .db-toggle + .db-toggle {\n    --pad: var(--db-space-4);\n    margin-inline-start: var(--db-space-4); padding-inline-start: var(--db-space-4);\n    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 calc(100% - 0.15em) / var(--db-hairline) 1.05em;\n  }\n  .db-toggles > .db-toggle + .db-toggle:is([dir=\"rtl\"], [dir=\"rtl\"] *) { background-position: 100% calc(100% - 0.15em); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/toggle-group.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/toggle-group.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "radix",
+    "contract": "db-toggles"
+  },
+  "type": "registry:ui"
+}

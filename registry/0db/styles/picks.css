@@ -1,0 +1,16 @@
+@layer components {
+  /* ── db-picks ── a list of choices; a dot hangs beside the one you took */
+  .db-picks { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: var(--db-space-5); }
+  .db-picks > legend { padding: 0; margin-bottom: var(--db-space-4); }
+  .db-picks > label { position: relative; display: block; padding-inline-start: var(--db-space-5); cursor: pointer; color: var(--db-graphite); -webkit-tap-highlight-color: transparent; }
+  .db-picks > label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+  .db-picks > label::before {
+    content: ""; position: absolute; inset-inline-start: 0; top: 0.72em; width: var(--db-dot); height: var(--db-dot); border-radius: 50%;
+    background: var(--db-accent); scale: 0;
+    transition: scale var(--db-moderato) var(--db-spiccato), background-color var(--db-allegro), box-shadow var(--db-allegro);
+  }
+  .db-picks > label:hover:not(:has(input:checked))::before { scale: 1; background-color: transparent; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }
+  .db-picks > label:has(input:checked)::before { scale: 1; }
+  .db-picks > label:is(:hover, :has(input:checked)) { color: var(--db-ink); }
+  .db-picks > label:has(input:focus-visible) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 6px; }
+}

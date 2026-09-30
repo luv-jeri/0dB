@@ -1,0 +1,15 @@
+@layer components {
+  /* ── db-empty ── an invitation, not an apology */
+  .db-empty { display: grid; justify-items: start; gap: var(--db-space-4); }
+  /* Nothing, as a number: a zero so large it's cropped to its top half, which is a fermata's arc. */
+  .db-empty-figure {
+    block-size: 0.46em; margin-block-end: var(--db-space-2); overflow: clip;
+    font-size: clamp(7rem, 16vw, 13rem); font-weight: 100; font-stretch: 125%; line-height: 0.76;
+    color: var(--db-ink); user-select: none;
+  }
+  .db-empty-figure > span { display: block; transition: translate var(--db-andante) var(--db-exhale); }
+  .db-empty:has(.db-btn:is(:hover, :focus-visible)) .db-empty-figure > span { translate: 0 -0.07em; }
+  .db-empty-title { margin: 0; font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); font-weight: 200; color: var(--db-ink); }
+  .db-empty-description { max-inline-size: 44ch; }
+  .db-empty-actions { display: flex; flex-wrap: wrap; gap: var(--db-space-5); }
+}

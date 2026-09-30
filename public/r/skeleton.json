@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "Baselines where the words will be. Still until something is loading, and still when motion is off.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/skeleton.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/**\n * Baselines where the words will be. Still by default; a pencil stroke reads\n * along each line only while an ancestor has aria-busy=\"true\" (and motion is welcome).\n */\nfunction Skeleton({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"skeleton\" aria-hidden=\"true\" className={cn(\"db-skeleton\", className)} {...props} />\n}\n\ntype SkeletonLineProps = React.ComponentProps<\"i\"> & {\n  /** Any CSS width; the default is the full line. */\n  width?: string\n  /** Any CSS height; the default is one line of text. */\n  height?: string\n  /** Position in the stack, so the stroke reads down the lines in turn. */\n  index?: number\n}\n\nfunction SkeletonLine({ width, height, index = 0, className, style, ...props }: SkeletonLineProps) {\n  return (\n    <i\n      data-slot=\"skeleton-line\"\n      className={className}\n      style={{ \"--w\": width, \"--lh\": height, \"--i\": index, ...style } as React.CSSProperties}\n      {...props}\n    />\n  )\n}\n\n/** Where an avatar or a mark will be. */\nfunction SkeletonRing({ size, className, style, ...props }: React.ComponentProps<\"span\"> & { size?: string }) {\n  return (\n    <span\n      data-slot=\"skeleton-ring\"\n      className={cn(\"db-skeleton-ring\", className)}\n      style={{ \"--s\": size, ...style } as React.CSSProperties}\n      {...props}\n    />\n  )\n}\n\nexport { Skeleton, SkeletonLine, SkeletonRing, type SkeletonLineProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/skeleton.css",
+      "content": "@layer components {\n  /* ── db-skeleton ── baselines where the words will be */\n  .db-skeleton { display: grid; }\n  .db-skeleton > i { position: relative; display: block; width: var(--w, 100%); height: var(--lh, 1.7em); overflow: clip; background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline); }\n  .db-skeleton > i::after { content: \"\"; position: absolute; inset: auto 0 0; height: var(--db-stroke); background: linear-gradient(90deg, transparent, var(--db-pencil) 50%, transparent) no-repeat -60% 0 / 30% 100%; }\n  /* While it loads, a pencil stroke reads along each line in turn. */\n  [aria-busy=\"true\"] .db-skeleton > i::after { animation: db-read 1600ms var(--db-breath) infinite; animation-delay: calc(var(--i, 0) * 140ms); }\n  @keyframes db-read { from { background-position: -60% 0; } to { background-position: 160% 0; } }\n  .db-skeleton-ring { display: block; width: var(--s, 2.75rem); height: var(--s, 2.75rem); border-radius: 50%; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }\n  @media (prefers-reduced-motion: reduce) { [aria-busy=\"true\"] .db-skeleton > i::after { animation: none; } }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/skeleton.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/skeleton.css\"": {}
+  },
+  "meta": {
+    "movement": "VII",
+    "underneath": "native",
+    "contract": "db-skeleton"
+  },
+  "type": "registry:ui"
+}

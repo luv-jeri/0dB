@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "title": "Toggle",
+  "description": "A word you can hold down. Held, it wears the fermata: an arc rises over the word, then a dot lands inside it.",
+  "dependencies": [
+    "@radix-ui/react-toggle"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/toggle.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as TogglePrimitive from \"@radix-ui/react-toggle\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype ToggleProps = React.ComponentProps<typeof TogglePrimitive.Root> & {\n  /** Pins a state for documentation (\"hover\"); set on the root. */\n  \"data-force\"?: string\n}\n\n/** A word you can hold down. Held, it wears the fermata: an arc over the word and a dot inside it. */\nfunction Toggle({ className, ...props }: ToggleProps) {\n  return <TogglePrimitive.Root data-slot=\"toggle\" className={cn(\"db-toggle\", className)} {...props} />\n}\n\nexport { Toggle, type ToggleProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/toggle.css",
+      "content": "@layer components {\n  /* ── db-toggle ── a word you can hold down; held, it wears the fermata */\n  .db-toggle {\n    --pad: 0px;\n    position: relative; appearance: none; border: 0; background: none; margin: 0; padding: 0.8em 0 0;\n    font: inherit; color: var(--db-graphite); cursor: pointer; -webkit-tap-highlight-color: transparent;\n    transition: color var(--db-allegro), font-weight var(--db-andante) var(--db-exhale), font-stretch var(--db-andante) var(--db-exhale);\n  }\n  /* The sign for a note held longer than written: an arc over the word, a dot inside it. */\n  .db-toggle::before, .db-toggle::after { content: \"\"; position: absolute; inset-inline-start: calc(50% + var(--pad) / 2); pointer-events: none; }\n  .db-toggle::before {\n    top: 0; width: 0.9em; height: 0.45em; margin-inline-start: -0.45em;\n    border: var(--db-hairline) solid var(--db-rule-strong); border-bottom: 0; border-radius: 0.45em 0.45em 0 0;\n    opacity: 0; scale: 1 0; transform-origin: 50% 100%;\n    transition: scale var(--db-moderato) var(--db-exhale), opacity var(--db-allegro), border-color var(--db-allegro);\n  }\n  .db-toggle::after {\n    top: calc(0.45em - 5px); width: 5px; height: 5px; margin-inline-start: -2.5px; border-radius: 50%;\n    background: var(--db-ink); scale: 0; transition: scale var(--db-moderato) var(--db-spiccato);\n  }\n  .db-toggle:is(:hover, [data-force~=\"hover\"]):not(:disabled) { color: var(--db-ink); }\n  .db-toggle:is(:hover, [data-force~=\"hover\"]):not(:disabled)::before { opacity: 1; scale: 1; }\n  .db-toggle[data-state=\"on\"] { color: var(--db-ink); }\n  .db-toggle[data-state=\"on\"]::before { opacity: 1; scale: 1; border-color: var(--db-ink); border-width: var(--db-stroke); }\n  .db-toggle[data-state=\"on\"]::after { scale: 1; transition-delay: 140ms; } /* the arc rises, then the dot lands */\n  .db-toggle:disabled { color: var(--db-pencil); opacity: 0.55; cursor: not-allowed; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/toggle.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/toggle.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "radix",
+    "contract": "db-toggle"
+  },
+  "type": "registry:ui"
+}

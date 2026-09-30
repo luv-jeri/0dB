@@ -1,0 +1,15 @@
+@layer components {
+  /* ── db-progress ── a line that fills, a number that counts */
+  .db-progress { display: grid; inline-size: 100%; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; row-gap: var(--db-space-3); }
+  .db-progress-label { color: var(--db-graphite); }
+  /* The percentage is yours: italic, in the expression face. */
+  .db-progress-value { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-f)); font-weight: 400; line-height: 0.9; letter-spacing: 0; color: var(--db-ink); font-variant-numeric: tabular-nums; }
+  .db-progress-value small { margin-inline-start: 0.08em; font-size: 0.42em; font-weight: 400; font-style: normal; font-family: var(--db-voice); letter-spacing: 0; color: var(--db-pencil); }
+  .db-progress > progress {
+    grid-column: 1 / -1; -webkit-appearance: none; appearance: none;
+    inline-size: 100%; block-size: var(--db-stroke); border: 0; background: var(--db-rule); color: var(--db-ink);
+  }
+  .db-progress > progress::-webkit-progress-bar { background: var(--db-rule); }
+  .db-progress > progress::-webkit-progress-value { background: var(--db-ink); transition: inline-size var(--db-moderato) var(--db-breath); }
+  .db-progress > progress::-moz-progress-bar { background: var(--db-ink); }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-card",
+  "title": "Hover card",
+  "description": "Point at a name and wait a moment: a card opens with the name set large and cropped by its edge.",
+  "dependencies": [
+    "@radix-ui/react-hover-card"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/hover-card.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as HoverCardPrimitive from \"@radix-ui/react-hover-card\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** Waits 450ms for a still pointer; the keyboard gets it at once. */\nfunction HoverCard({ openDelay = 450, ...props }: React.ComponentProps<typeof HoverCardPrimitive.Root>) {\n  return <HoverCardPrimitive.Root data-slot=\"hover-card\" openDelay={openDelay} {...props} />\n}\n\nfunction HoverCardTrigger(props: React.ComponentProps<typeof HoverCardPrimitive.Trigger>) {\n  return <HoverCardPrimitive.Trigger data-slot=\"hover-card-trigger\" {...props} />\n}\n\n/** A small card. Put a HoverCardName first if you want the name set large and cropped by the edge. */\nfunction HoverCardContent({ className, align = \"start\", sideOffset = 12, ...props }: React.ComponentProps<typeof HoverCardPrimitive.Content>) {\n  return (\n    <HoverCardPrimitive.Portal>\n      <HoverCardPrimitive.Content data-slot=\"hover-card-content\" align={align} sideOffset={sideOffset} className={cn(\"db-peek\", className)} {...props} />\n    </HoverCardPrimitive.Portal>\n  )\n}\n\n/** The name, set large; the card's edge crops it. Decorative, so screen readers skip it. */\nfunction HoverCardName({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"hover-card-name\" aria-hidden=\"true\" className={cn(\"db-peek-name\", className)} {...props} />\n}\n\nfunction HoverCardMeta({ className, ...props }: React.ComponentProps<\"span\">) {\n  return <span data-slot=\"hover-card-meta\" className={cn(\"db-peek-meta\", className)} {...props} />\n}\n\nexport { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardName, HoverCardMeta }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/hover-card.css",
+      "content": "@layer components {\n  /* ── db-peek ── hover card: the name, set large and cropped by the card's edge.\n     Radix places it and waits for the pointer; focus opens it at once. */\n  .db-peek {\n    z-index: 50; display: grid; gap: var(--db-space-2); width: min(21rem, 80vw); padding: var(--db-space-5) var(--db-space-5) var(--db-space-4); overflow: clip;\n    background: var(--db-paper); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);\n    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-graphite);\n    animation: db-peek-in var(--db-moderato) var(--db-exhale);\n  }\n  .db-peek[data-state=\"closed\"] { animation: db-peek-out var(--db-allegro) var(--db-breath) forwards; }\n  @keyframes db-peek-in { from { opacity: 0; } }\n  @keyframes db-peek-out { to { opacity: 0; } }\n  .db-peek-name {\n    margin-inline-end: -30%; white-space: nowrap;\n    font-size: var(--db-ff); line-height: 0.85; letter-spacing: var(--db-ff-tr); font-weight: 200; color: var(--db-ink);\n  }\n  .db-peek[data-state=\"open\"] .db-peek-name { animation: db-peek-slide var(--db-andante) var(--db-exhale); }\n  @keyframes db-peek-slide { from { translate: 0.5em 0; } }\n  .db-peek[data-state=\"open\"]:is([dir=\"rtl\"], [dir=\"rtl\"] *) .db-peek-name { animation-name: db-peek-slide-rtl; }\n  @keyframes db-peek-slide-rtl { from { translate: -0.5em 0; } }\n  .db-peek-meta { color: var(--db-pencil); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/hover-card.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/hover-card.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "radix",
+    "contract": "db-peek"
+  },
+  "type": "registry:ui"
+}

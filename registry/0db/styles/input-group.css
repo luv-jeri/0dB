@@ -1,0 +1,26 @@
+@layer components {
+  /* ── db-input-group ── ours in roman, yours in italic, on one line; the accent is only under yours */
+  .db-input-group {
+    grid-column: 1 / -1; position: relative; anchor-scope: --db-yours;
+    display: flex; align-items: baseline; column-gap: 0.12em;
+    font-size: var(--db-mp); line-height: 1.3;
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+  }
+  .db-input-group-text { flex: none; padding-block: 0.3em 0.42em; color: var(--db-pencil); white-space: nowrap; }
+  .db-input-group-input {
+    anchor-name: --db-yours;
+    flex: 1; min-width: 0; appearance: none; margin: 0; border: 0; border-radius: 0; outline: 0; padding: 0.3em 0 0.42em; background: none;
+    color: var(--db-ink); font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.3;
+  }
+  .db-input-group-input:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .db-input-group-input::placeholder { font-family: var(--db-voice); font-style: normal; font-size: calc(1em / var(--db-expression-scale)); color: var(--db-pencil); opacity: 1; }
+  .db-input-group::after {
+    content: ""; position: absolute; bottom: 0; inset-inline-start: anchor(--db-yours start, 0px); inset-inline-end: anchor(--db-yours end, 0px); height: var(--db-stroke);
+    background: var(--db-accent); scale: 0 1; transform-origin: var(--o, 0%) 50%; pointer-events: none;
+    transition: scale var(--db-moderato) var(--db-exhale);
+  }
+  .db-input-group[data-force~="focus"] { outline: 0; }
+  .db-input-group:focus-within::after, .db-input-group[data-force~="focus"]::after { scale: 1 1; }
+  .db-input-group:has(> .db-input-group-input[aria-invalid="true"])::after { scale: 1 1; background: var(--db-signal); }
+  .db-input-group > .db-input-group-button { margin-inline-start: var(--db-space-4); font-size: var(--db-p); }
+}

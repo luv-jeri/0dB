@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "drawer",
+  "title": "Drawer",
+  "description": "A sheet from below, lifted by the fermata's arc. Drag the arc down to put it away.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/dialog.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/drawer.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Dialog, DialogActions, DialogClose, DialogSurface, DialogTrigger, useDialog } from \"@/components/ui/dialog\"\n\n/** A sheet from below. Same props and behaviour as Dialog. */\nconst Drawer = Dialog\nconst DrawerTrigger = DialogTrigger\nconst DrawerClose = DialogClose\n\n/** The fermata's arc. Drag it down to put the drawer away; a tap or Enter does the same. */\nfunction DrawerHandle({ label }: { label: string }) {\n  const { open, setOpen } = useDialog()\n  const button = React.useRef<HTMLButtonElement>(null)\n  const from = React.useRef<number | null>(null)\n  const pulled = React.useRef(0)\n  // A drawer put away by a drag keeps its pull until it's opened again.\n  React.useEffect(() => {\n    if (open) button.current?.closest(\"dialog\")?.style.removeProperty(\"--pull\")\n  }, [open])\n  const surface = (e: React.SyntheticEvent) => e.currentTarget.closest(\"dialog\") as HTMLDialogElement\n\n  const letGo = (e: React.PointerEvent<HTMLButtonElement>) => {\n    if (from.current === null) return\n    from.current = null\n    const d = surface(e)\n    d.removeAttribute(\"data-pulling\")\n    if (e.type === \"pointerup\" && (pulled.current > 90 || pulled.current < 4)) setOpen(false)\n    else d.style.setProperty(\"--pull\", \"0px\")\n  }\n\n  return (\n    <button\n      ref={button}\n      type=\"button\"\n      data-slot=\"drawer-handle\"\n      aria-label={label}\n      className=\"db-drawer-handle\"\n      onPointerDown={(e) => {\n        from.current = e.clientY\n        pulled.current = 0\n        e.currentTarget.setPointerCapture(e.pointerId)\n        surface(e).setAttribute(\"data-pulling\", \"\")\n      }}\n      onPointerMove={(e) => {\n        if (from.current === null) return\n        pulled.current = Math.max(0, e.clientY - from.current)\n        surface(e).style.setProperty(\"--pull\", `${pulled.current}px`)\n      }}\n      onPointerUp={letGo}\n      onPointerCancel={letGo}\n      onClick={(e) => {\n        if (e.detail === 0) setOpen(false) // the keyboard\n      }}\n    >\n      <svg viewBox=\"0 0 40 22\" aria-hidden=\"true\">\n        <path d=\"M3 20 A17 17 0 0 1 37 20\" />\n        <circle cx=\"20\" cy=\"17\" r=\"2.6\" />\n      </svg>\n    </button>\n  )\n}\n\ntype DrawerContentProps = React.ComponentProps<\"dialog\"> & {\n  /** The accessible name of the arc that puts the drawer away. */\n  handleLabel?: string\n}\n\nfunction DrawerContent({ className, children, handleLabel = \"Put this away\", ...props }: DrawerContentProps) {\n  return (\n    <DialogSurface data-slot=\"drawer-content\" className={cn(\"db-drawer\", className)} {...props}>\n      <DrawerHandle label={handleLabel} />\n      <div data-slot=\"drawer-body\" className=\"db-drawer-body\">\n        {children}\n      </div>\n    </DialogSurface>\n  )\n}\n\nfunction DrawerTitle({ className, ...props }: React.ComponentProps<\"h2\">) {\n  const { titleId } = useDialog()\n  return <h2 data-slot=\"drawer-title\" id={titleId} className={cn(\"db-drawer-title\", className)} {...props} />\n}\n\nfunction DrawerDescription({ className, ...props }: React.ComponentProps<\"p\">) {\n  const { descriptionId } = useDialog()\n  return <p data-slot=\"drawer-description\" id={descriptionId} className={className} {...props} />\n}\n\nfunction DrawerActions(props: React.ComponentProps<\"div\">) {\n  return <DialogActions data-slot=\"drawer-actions\" {...props} />\n}\n\nexport { Drawer, DrawerTrigger, DrawerContent, DrawerTitle, DrawerDescription, DrawerActions, DrawerActions as DrawerFooter, DrawerClose }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/drawer.css",
+      "content": "@layer components {\n  /* ── db-drawer ── a sheet from below, lifted by the fermata's arc.\n     The backdrop lives in dialog.css. --pull is set while the arc is dragged. */\n  .db-drawer {\n    position: fixed; inset: auto 0 0; margin: 0; width: 100%; max-width: none; max-height: 85dvh;\n    padding: 0 var(--db-margin) var(--db-space-7); overflow: auto;\n    border: 0; border-top: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite);\n    box-shadow: 0 12rem 0 var(--db-paper); /* paper under the rebound, not a shadow */\n    translate: 0 100%;\n    transition: translate var(--db-andante) var(--db-spiccato), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;\n  }\n  .db-drawer[open] { translate: 0 var(--pull, 0px); }\n  @starting-style { .db-drawer[open] { translate: 0 100%; } }\n  .db-drawer[data-pulling] { transition: none; }\n  .db-drawer-handle { display: block; margin: 0 auto var(--db-space-4); padding: var(--db-space-4) var(--db-space-6) var(--db-space-2); border: 0; background: none; color: var(--db-ink); cursor: grab; touch-action: none; }\n  .db-drawer-handle:active { cursor: grabbing; }\n  .db-drawer-handle svg { width: 40px; height: 22px; overflow: visible; }\n  .db-drawer-handle path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }\n  .db-drawer-handle circle { fill: var(--db-accent); }\n  .db-drawer-body { display: grid; justify-items: start; gap: var(--db-space-6); max-width: 40rem; margin-inline: auto; }\n  .db-drawer-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/drawer.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/drawer.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "native",
+    "contract": "db-drawer"
+  },
+  "type": "registry:ui"
+}

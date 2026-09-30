@@ -1,0 +1,5 @@
+@layer components {
+  /* ── db-form ── a composition: fields on the grid, one statement button to send */
+  .db-form { display: grid; gap: var(--db-space-6); justify-items: start; }
+  .db-form > .db-field { width: 100%; }
+}

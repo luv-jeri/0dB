@@ -1,0 +1,69 @@
+@layer components {
+  /* ── db-scrollbar ── a scrollbar as a ruler: a hairline and a thumb as long as the
+     view. Inside a scroller it is pinned to the edge by the scroller's own timeline;
+     data-variant="page" fixes it to the window and adds a mark at each section.
+     Pointing sketches; holding inks it in the accent. Script sets --view, --max,
+     data-idle (nothing to scroll) and data-ready. data-force pins a look for the docs:
+     the rail is drawn where --view and --p (0 to 1) put the thumb. */
+  .db-scrollbar {
+    --view: 0.2; --max: 0px; --w: var(--db-stroke); --line: 0.375rem; /* the hairline sits this far in from the edge */
+    position: absolute; z-index: 3; inset-block: 0; inset-inline-end: 0; width: 0.875rem;
+    display: none; touch-action: none; user-select: none;
+    /* The rail lives inside what scrolls, so it travels down as far as the content does, and stays put. */
+    animation: db-scrollbar-pin linear both; animation-timeline: scroll(nearest);
+  }
+  /* The rail's host is its parent: it needs a position to pin to (a class of yours can override this). */
+  :where(:has(> .db-scrollbar:not([data-variant="page"]))) { position: relative; }
+  @keyframes db-scrollbar-pin { to { translate: 0 var(--max); } }
+  .db-scrollbar[data-variant="page"] { --line: 0.5rem; position: fixed; z-index: 40; width: 1.5rem; animation: none; }
+  @supports (animation-timeline: scroll()) {
+    @media (pointer: fine) {
+      .db-scrollbar[data-ready]:not([data-idle]) { display: block; }
+      :has(> .db-scrollbar[data-ready]), :root:has(.db-scrollbar[data-variant="page"][data-ready]) { scrollbar-width: none; }
+      :has(> .db-scrollbar[data-ready])::-webkit-scrollbar { display: none; }
+    }
+  }
+  .db-scrollbar::before {
+    content: ""; position: absolute; inset-block: 0; inset-inline-end: var(--line); width: var(--db-hairline);
+    background: var(--db-rule); transition: background-color var(--db-allegro) var(--db-exhale);
+  }
+  .db-scrollbar-thumb {
+    position: absolute; top: 0; inset-inline-end: var(--line); height: calc(var(--view) * 100%);
+    width: var(--w); margin-inline-end: calc((var(--db-hairline) - var(--w)) / 2); /* centred on the hairline */
+    background: var(--db-ink);
+    /* translate is a share of its own height: the rest of the rail is (1 / view − 1) thumbs long */
+    animation: db-scrollbar-go linear both; animation-timeline: scroll(nearest);
+    transition: width var(--db-allegro) var(--db-spiccato), margin var(--db-allegro) var(--db-spiccato), background-color var(--db-allegro) var(--db-exhale);
+  }
+  .db-scrollbar[data-variant="page"] .db-scrollbar-thumb { animation-timeline: scroll(root); }
+  @keyframes db-scrollbar-go { to { translate: 0 calc((1 / var(--view) - 1) * 100%); } }
+  .db-scrollbar[data-force] { display: block; animation: none; }
+  .db-scrollbar[data-force] .db-scrollbar-thumb { animation: none; translate: 0 calc(var(--p, 0) * (1 / var(--view) - 1) * 100%); }
+  .db-scrollbar-mark {
+    position: absolute; top: calc(var(--at) * 100%); inset-inline: 0; height: 1rem; margin-top: -0.5rem; cursor: pointer;
+  }
+  .db-scrollbar-mark::before {
+    content: ""; position: absolute; top: 50%; inset-inline-end: var(--line); width: 0.5rem; height: var(--db-hairline);
+    background: var(--db-rule-strong); transition: background-color var(--db-allegro) var(--db-exhale);
+  }
+  .db-scrollbar-mark[data-now]::before { background: var(--db-ink); }
+  .db-scrollbar-mark::after {
+    content: attr(data-num); position: absolute; top: 50%; inset-inline-end: calc(100% + var(--db-space-1));
+    translate: 0 -50%; padding-inline: 0.4em; white-space: nowrap; background: var(--db-paper);
+    font-size: var(--db-pp); line-height: 1; font-variant-numeric: tabular-nums; color: var(--db-pencil);
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--db-allegro) var(--db-exhale), visibility 0s var(--db-allegro);
+  }
+  /* Pointing sketches: pointing at what scrolls darkens the rail; pointing at the rail thickens the thumb
+     and brings the page's numbers down the rail in turn. */
+  :hover > .db-scrollbar::before, .db-scrollbar:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"])::before { background: var(--db-rule-strong); }
+  .db-scrollbar:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"]) { --w: 4px; }
+  .db-scrollbar:is(:hover, [data-force~="hover"], [data-force~="active"]) .db-scrollbar-mark::after {
+    opacity: 1; visibility: visible; transition-delay: calc(var(--i, 0) * var(--db-arpeggio)), 0s;
+  }
+  .db-scrollbar-mark:hover::after { content: attr(data-num) "\2002" attr(data-name); color: var(--db-ink); }
+  .db-scrollbar-mark:hover::before { background: var(--db-ink); }
+  /* Holding inks it: the thumb is where you are, so it takes the one accent. */
+  .db-scrollbar:is([data-dragging], [data-force~="active"]) .db-scrollbar-thumb { background: var(--db-accent); }
+  .db-scrollbar[data-dragging] { cursor: grabbing; } /* pointer capture keeps it while the hand is down */
+}

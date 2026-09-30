@@ -1,0 +1,24 @@
+@layer components {
+  /* ── db-chart ── hairlines and dots, against one very large number */
+  .db-chart { margin: 0; display: grid; gap: var(--db-space-5); }
+  .db-chart-read { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-4); color: var(--db-graphite); }
+  .db-chart-value { display: inline-block; font-size: var(--db-ff); line-height: 0.95; letter-spacing: var(--db-ff-tr); font-weight: 200; color: var(--db-ink); font-variant-numeric: tabular-nums lining-nums; }
+  .db-chart-plot {
+    display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); height: 13rem;
+    background: repeating-linear-gradient(to top, var(--db-rule) 0 1px, transparent 1px 25%);
+    box-shadow: inset 0 calc(-1 * var(--db-hairline)) 0 var(--db-ink);
+  }
+  .db-chart-bar { position: relative; appearance: none; border: 0; margin: 0; padding: 0; background: none; cursor: crosshair; }
+  .db-chart-bar::before, .db-chart-bar::after { content: ""; position: absolute; left: 50%; pointer-events: none; }
+  .db-chart-bar::before { bottom: 0; width: var(--db-hairline); height: calc(var(--v) * 100%); translate: -50% 0; background: var(--db-pencil); transition: width var(--db-allegro), background-color var(--db-allegro); }
+  .db-chart-bar::after {
+    bottom: calc(var(--v) * 100%); width: 7px; height: 7px; border-radius: 50%; translate: -50% 50%;
+    background: var(--db-paper); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-pencil);
+    transition: scale var(--db-moderato) var(--db-spiccato), background-color var(--db-allegro), box-shadow var(--db-allegro);
+  }
+  .db-chart-bar:is(:hover, :focus-visible)::before, .db-chart[data-force~="hover"] > .db-chart-plot > .db-chart-bar[data-shown]::before { width: var(--db-stroke); background: var(--db-ink); }
+  .db-chart-bar:is(:hover, :focus-visible)::after, .db-chart[data-force~="hover"] > .db-chart-plot > .db-chart-bar[data-shown]::after { scale: 1.5; background: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
+  .db-chart-bar[data-now]::after { background: var(--db-accent); box-shadow: none; }
+  .db-chart-bar:focus-visible { outline-offset: 2px; }
+  .db-chart-axis { display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); margin-top: calc(-1 * var(--db-space-3)); font-size: var(--db-pp); color: var(--db-pencil); text-align: center; }
+}

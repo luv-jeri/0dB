@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion",
+  "title": "Accordion",
+  "description": "Questions ruled off in a stack; a plus that turns into a cross as each one opens.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/accordion.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst AccordionContext = React.createContext<string | undefined>(undefined)\n\ntype AccordionProps = React.ComponentProps<\"div\"> & {\n  /** single: opening one closes the others (native details name grouping). */\n  type?: \"single\" | \"multiple\"\n}\n\n/** A group of questions, each ruled off. Built on native <details>. */\nfunction Accordion({ type = \"multiple\", className, ...props }: AccordionProps) {\n  const name = React.useId()\n  return (\n    <AccordionContext.Provider value={type === \"single\" ? name : undefined}>\n      <div data-slot=\"accordion\" className={cn(\"db-accordion\", className)} {...props} />\n    </AccordionContext.Provider>\n  )\n}\n\ntype AccordionItemProps = Omit<React.ComponentProps<\"details\">, \"open\"> & {\n  /** Start open. The browser owns the state afterwards; listen with onToggle. */\n  defaultOpen?: boolean\n}\n\nfunction AccordionItem({ defaultOpen, className, ...props }: AccordionItemProps) {\n  const name = React.useContext(AccordionContext)\n  return (\n    <details\n      data-slot=\"accordion-item\"\n      name={name}\n      open={defaultOpen}\n      className={cn(\"db-disclose\", className)}\n      {...props}\n    />\n  )\n}\n\n/** The question. A plus that turns into a cross when it opens. */\nfunction AccordionTrigger({ className, ...props }: React.ComponentProps<\"summary\">) {\n  return <summary data-slot=\"accordion-trigger\" className={className} {...props} />\n}\n\nfunction AccordionContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return <div data-slot=\"accordion-content\" className={cn(\"db-disclose-body\", className)} {...props} />\n}\n\nexport { Accordion, AccordionItem, AccordionTrigger, AccordionContent, type AccordionProps, type AccordionItemProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/accordion.css",
+      "content": "@layer components {\n  /* ── db-disclose ── a plus that turns into a cross */\n  .db-disclose { border-top: var(--db-hairline) solid var(--db-rule); }\n  .db-disclose:not(:has(+ .db-disclose)) { border-bottom: var(--db-hairline) solid var(--db-rule); }\n  .db-disclose > summary {\n    list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--db-space-5);\n    padding-block: var(--db-space-4); cursor: pointer;\n    font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink);\n    transition: font-stretch var(--db-andante) var(--db-exhale), font-weight var(--db-andante) var(--db-exhale);\n  }\n  .db-disclose[open] > summary { font-stretch: 112%; font-weight: 300; } /* the question breathes out as it opens */\n  .db-disclose > summary::-webkit-details-marker { display: none; }\n  .db-disclose > summary::after {\n    content: \"+\" / \"\"; font-weight: 200; font-size: 1.5em; line-height: 0.6; color: var(--db-graphite);\n    transition: rotate var(--db-andante) var(--db-spiccato);\n  }\n  .db-disclose[open] > summary::after { rotate: 45deg; }\n  .db-disclose[open] .db-disclose-body { animation: db-arrive var(--db-andante) var(--db-exhale) 90ms backwards; }\n  .db-disclose::details-content {\n    block-size: 0; overflow: clip;\n    transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete;\n  }\n  .db-disclose[open]::details-content { block-size: auto; }\n  .db-disclose-body { max-inline-size: var(--db-measure); padding-block-end: var(--db-space-5); color: var(--db-graphite); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/accordion.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/accordion.css\"": {}
+  },
+  "meta": {
+    "movement": "VIII",
+    "underneath": "native",
+    "contract": "db-disclose"
+  },
+  "type": "registry:ui"
+}

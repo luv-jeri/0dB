@@ -1,0 +1,8 @@
+@layer components {
+  /* ── db-menu[data-at="point"] ── a context menu opens where you pressed and spreads from
+     that point like ink. Nothing hangs it from a trigger, so no leader. The list itself
+     (db-menu) is dropdown-menu.css. Radix reports the press point as the transform origin. */
+  .db-pop.db-menu[data-at="point"]::before, .db-pop.db-menu[data-at="point"]::after { display: none; }
+  .db-pop.db-menu[data-at="point"][data-state="open"] { animation: db-spread var(--db-andante) var(--db-exhale); }
+  @keyframes db-spread { from { clip-path: circle(0 at var(--radix-context-menu-content-transform-origin, 0 0)); } to { clip-path: circle(150% at var(--radix-context-menu-content-transform-origin, 0 0)); } }
+}

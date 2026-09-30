@@ -1,0 +1,24 @@
+@layer components {
+  /* ── db-ratio ── a frame kept to a ratio, marked the way a printer marks a crop */
+  @property --ratio { syntax: "<number>"; inherits: false; initial-value: 1.7778; }
+  .db-ratio {
+    position: relative; display: grid; place-items: center; aspect-ratio: var(--ratio);
+    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule);
+    transition: --ratio var(--db-andante) var(--db-breath);
+  }
+  .db-ratio::before {
+    --m: 12px; --g: 6px; --e: calc(var(--m) + var(--g));
+    content: ""; position: absolute; inset: calc(-1 * var(--e)); pointer-events: none;
+    background:
+      linear-gradient(var(--db-ink), var(--db-ink)) 0 var(--e) / var(--m) var(--db-hairline),
+      linear-gradient(var(--db-ink), var(--db-ink)) 100% var(--e) / var(--m) var(--db-hairline),
+      linear-gradient(var(--db-ink), var(--db-ink)) 0 calc(100% - var(--e)) / var(--m) var(--db-hairline),
+      linear-gradient(var(--db-ink), var(--db-ink)) 100% calc(100% - var(--e)) / var(--m) var(--db-hairline),
+      linear-gradient(var(--db-ink), var(--db-ink)) var(--e) 0 / var(--db-hairline) var(--m),
+      linear-gradient(var(--db-ink), var(--db-ink)) calc(100% - var(--e)) 0 / var(--db-hairline) var(--m),
+      linear-gradient(var(--db-ink), var(--db-ink)) var(--e) 100% / var(--db-hairline) var(--m),
+      linear-gradient(var(--db-ink), var(--db-ink)) calc(100% - var(--e)) 100% / var(--db-hairline) var(--m);
+    background-repeat: no-repeat;
+  }
+  .db-ratio > .db-fraction > * { display: inline-block; }
+}

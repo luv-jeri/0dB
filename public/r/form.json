@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form",
+  "title": "Form",
+  "description": "Fields on the grid and one statement button. A failed send gives each field its callout and focuses the first; while sending, the button says so.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/button.json",
+    "https://0db.cojeev.com/r/field.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/form.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Button } from \"@/components/ui/button\"\nimport { FieldErrorsProvider } from \"@/components/ui/field\"\n\ntype Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement\n\nconst Busy = React.createContext(false)\n\n/** Words for a control that fails: its data-error if it has one, else the browser's own message. */\nconst problem = (el: Control) => el.dataset.error || el.validationMessage\n\ntype FormProps = Omit<React.ComponentProps<\"form\">, \"onSubmit\"> & {\n  /** Runs once every control is valid. The submit button is busy until it settles. */\n  onSubmit: (data: FormData) => Promise<void> | void\n}\n\n/**\n * Fields on the grid and one statement button to send. The browser's own bubbles are off;\n * instead each failing control gets its callout in its Field, and focus goes to the first.\n * Give a control `data-error=\"…\"` to say it in your own words.\n */\nfunction Form({ onSubmit, onInput, className, children, ...props }: FormProps) {\n  const [errors, setErrors] = React.useState<Record<string, string>>({})\n  const [busy, setBusy] = React.useState(false)\n  const running = React.useRef(false)\n\n  return (\n    <FieldErrorsProvider value={errors}>\n      <Busy.Provider value={busy}>\n        <form\n          data-slot=\"form\"\n          noValidate\n          aria-busy={busy || undefined}\n          className={cn(\"db-form\", className)}\n          onInput={(e) => {\n            onInput?.(e)\n            // Once a control has an error, it clears the moment it's right (or says what's still wrong).\n            const el = e.target as Control\n            if (!el.id) return\n            setErrors((prev) => {\n              if (!(el.id in prev)) return prev\n              const next = { ...prev }\n              if (el.validity.valid) delete next[el.id]\n              else next[el.id] = problem(el)\n              return next\n            })\n          }}\n          onSubmit={async (e) => {\n            e.preventDefault()\n            const form = e.currentTarget\n            if (running.current) return\n            const bad = (Array.from(form.elements) as Control[]).filter((el) => el.willValidate && el.validity && !el.validity.valid)\n            setErrors(Object.fromEntries(bad.filter((el) => el.id).map((el) => [el.id, problem(el)])))\n            if (bad.length) return bad[0].focus()\n            running.current = true\n            setBusy(true)\n            try {\n              await onSubmit(new FormData(form))\n            } finally {\n              running.current = false\n              setBusy(false)\n            }\n          }}\n          {...props}\n        >\n          {children}\n        </form>\n      </Busy.Provider>\n    </FieldErrorsProvider>\n  )\n}\n\ntype FormSubmitProps = Omit<React.ComponentProps<typeof Button>, \"busy\"> & {\n  /** What the button says while the form is sending, keeping the action's name: \"Send\" becomes \"Sending\". */\n  busy?: string\n}\n\n/** The one statement button that sends the form. It says what it's doing while it does it. */\nfunction FormSubmit({ busy, variant = \"statement\", ...props }: FormSubmitProps) {\n  const sending = React.useContext(Busy)\n  return <Button type=\"submit\" variant={variant} busy={sending && (busy ?? true)} {...props} />\n}\n\nexport { Form, FormSubmit, type FormProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/form.css",
+      "content": "@layer components {\n  /* ── db-form ── a composition: fields on the grid, one statement button to send */\n  .db-form { display: grid; gap: var(--db-space-6); justify-items: start; }\n  .db-form > .db-field { width: 100%; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/form.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/form.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "hook",
+    "contract": "db-form"
+  },
+  "type": "registry:ui"
+}

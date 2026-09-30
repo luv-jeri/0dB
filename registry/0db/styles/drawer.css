@@ -1,0 +1,22 @@
+@layer components {
+  /* ── db-drawer ── a sheet from below, lifted by the fermata's arc.
+     The backdrop lives in dialog.css. --pull is set while the arc is dragged. */
+  .db-drawer {
+    position: fixed; inset: auto 0 0; margin: 0; width: 100%; max-width: none; max-height: 85dvh;
+    padding: 0 var(--db-margin) var(--db-space-7); overflow: auto;
+    border: 0; border-top: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite);
+    box-shadow: 0 12rem 0 var(--db-paper); /* paper under the rebound, not a shadow */
+    translate: 0 100%;
+    transition: translate var(--db-andante) var(--db-spiccato), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+  }
+  .db-drawer[open] { translate: 0 var(--pull, 0px); }
+  @starting-style { .db-drawer[open] { translate: 0 100%; } }
+  .db-drawer[data-pulling] { transition: none; }
+  .db-drawer-handle { display: block; margin: 0 auto var(--db-space-4); padding: var(--db-space-4) var(--db-space-6) var(--db-space-2); border: 0; background: none; color: var(--db-ink); cursor: grab; touch-action: none; }
+  .db-drawer-handle:active { cursor: grabbing; }
+  .db-drawer-handle svg { width: 40px; height: 22px; overflow: visible; }
+  .db-drawer-handle path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+  .db-drawer-handle circle { fill: var(--db-accent); }
+  .db-drawer-body { display: grid; justify-items: start; gap: var(--db-space-6); max-width: 40rem; margin-inline: auto; }
+  .db-drawer-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
+}

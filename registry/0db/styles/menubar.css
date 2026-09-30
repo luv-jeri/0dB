@@ -1,0 +1,14 @@
+@layer components {
+  /* ── db-menubar ── a frame row of words along a hairline; each opens a menu (db-menu,
+     dropdown-menu.css, on the popover panel). Radix moves between menus with Left and Right. */
+  .db-menubar { position: relative; display: flex; flex-wrap: wrap; column-gap: var(--db-space-5); padding-bottom: var(--db-space-2); box-shadow: inset 0 calc(-1 * var(--db-hairline)) 0 var(--db-rule); }
+  .db-menubar-trigger { appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: var(--db-graphite); cursor: pointer; transition: color var(--db-allegro); }
+  .db-menubar-trigger:is(:hover, [data-state="open"]) { color: var(--db-ink); }
+  /* The stroke slides to the open word; it is placed from JS (--x, --w) and only shows while a menu is open. */
+  .db-menubar-line {
+    position: absolute; bottom: 0; left: var(--x, 0px); width: var(--w, 0px); height: var(--db-stroke); background: var(--db-ink);
+    opacity: 0; pointer-events: none;
+    transition: left var(--db-moderato) var(--db-breath), width var(--db-moderato) var(--db-breath), opacity var(--db-allegro);
+  }
+  .db-menubar[data-open] .db-menubar-line { opacity: 1; }
+}

@@ -1,0 +1,67 @@
+@layer components {
+  /* ── db-ruler ── slider: a ruler with a hand; the value is yours */
+  .db-ruler {
+    --p: 0.5;
+    --thumb: 20px;
+    --db-ruler-bg:
+      linear-gradient(var(--db-ink), var(--db-ink)) calc(var(--thumb) / 2) 100% / calc((100% - var(--thumb)) * var(--p)) var(--db-stroke) no-repeat,
+      linear-gradient(var(--db-pencil), var(--db-pencil)) calc(100% - var(--thumb) / 2) 100% / 1px 16px no-repeat,
+      repeating-linear-gradient(90deg, var(--db-pencil) 0 1px, transparent 1px 25%) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 16px no-repeat,
+      repeating-linear-gradient(90deg, var(--db-rule-strong) 0 1px, transparent 1px 5%) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 8px no-repeat,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 1px no-repeat;
+    position: relative; display: block;
+  }
+  /* The value is a dimension, as Paul Rand drew them: a measured line from zero
+     to the hand, ticked at both ends, with your number in the gap. */
+  .db-ruler-value {
+    display: flex; align-items: center; gap: 0.3em; position: relative;
+    left: calc(var(--thumb) / 2); width: calc((100% - var(--thumb)) * var(--p)); min-width: max-content;
+    margin-top: var(--db-space-3);
+    font-family: var(--db-expression); font-style: italic; font-size: var(--db-f); line-height: 1.05;
+    color: var(--db-ink); font-variant-numeric: lining-nums;
+    background:
+      linear-gradient(var(--db-ink), var(--db-ink)) 0 55% / var(--db-hairline) 12px no-repeat,
+      linear-gradient(var(--db-ink), var(--db-ink)) 100% 55% / var(--db-hairline) 12px no-repeat;
+    transition: translate var(--db-andante) var(--db-spiccato);
+  }
+  .db-ruler:has(input:active:not(:disabled)) .db-ruler-value { translate: 0 -5px; transition-duration: var(--db-moderato); }
+  .db-ruler-value::before, .db-ruler-value::after { content: ""; flex: 1; height: var(--db-hairline); margin-top: 0.1em; background: var(--db-ink); }
+  .db-ruler input[type="range"] {
+    -webkit-appearance: none; appearance: none; display: block;
+    width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer;
+  }
+  .db-ruler input[type="range"]::-webkit-slider-runnable-track { height: 40px; background: var(--db-ruler-bg); }
+  .db-ruler input[type="range"]::-moz-range-track { height: 40px; background: var(--db-ruler-bg); }
+  .db-ruler input[type="range"]::-moz-range-progress { background: transparent; }
+  .db-ruler input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: var(--thumb); height: 40px; border: 0; border-radius: 0;
+    background:
+      radial-gradient(circle at 50% 5px, var(--db-accent) 3.6px, transparent 4.2px),
+      linear-gradient(var(--db-ink), var(--db-ink)) 50% 100% / var(--db-stroke) 30px no-repeat;
+  }
+  .db-ruler input[type="range"]::-moz-range-thumb {
+    width: var(--thumb); height: 40px; border: 0; border-radius: 0;
+    background:
+      radial-gradient(circle at 50% 5px, var(--db-accent) 3.6px, transparent 4.2px),
+      linear-gradient(var(--db-ink), var(--db-ink)) 50% 100% / var(--db-stroke) 30px no-repeat;
+  }
+  .db-ruler input[type="range"]:focus-visible { outline-offset: 8px; }
+  .db-ruler[data-force~="focus"] { outline: 0; }
+  .db-ruler[data-force~="focus"] input { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 8px; }
+  .db-ruler-scale { position: relative; height: 1.6em; margin-top: var(--db-space-2); font-size: var(--db-pp); color: var(--db-pencil); font-variant-numeric: tabular-nums; }
+  .db-ruler-scale > span { position: absolute; top: 0; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--n)); translate: -50% 0; }
+  .db-ruler:has(input:disabled) { opacity: 0.45; }
+  .db-ruler:has(input:disabled) input { cursor: not-allowed; }
+
+  /* Right to left the ruler turns with the text: zero is on the right and the hand fills leftward. */
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) {
+    --db-ruler-bg:
+      linear-gradient(var(--db-ink), var(--db-ink)) right calc(var(--thumb) / 2) bottom 0 / calc((100% - var(--thumb)) * var(--p)) var(--db-stroke) no-repeat,
+      linear-gradient(var(--db-pencil), var(--db-pencil)) left calc(var(--thumb) / 2) bottom 0 / 1px 16px no-repeat,
+      repeating-linear-gradient(270deg, var(--db-pencil) 0 1px, transparent 1px 25%) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 16px no-repeat,
+      repeating-linear-gradient(270deg, var(--db-rule-strong) 0 1px, transparent 1px 5%) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 8px no-repeat,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 1px no-repeat;
+  }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-value { left: auto; right: calc(var(--thumb) / 2); }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-scale > span { left: auto; right: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--n)); translate: 50% 0; }
+}

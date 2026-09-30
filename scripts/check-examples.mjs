@@ -18,7 +18,7 @@ for (const payload of readdirSync("public/r").filter((f) => f.endsWith(".json") 
 }
 for (const f of readdirSync("examples").filter((f) => f.endsWith(".tsx")))
   put(`examples/${f}`, rewriteImports(readFileSync(`examples/${f}`, "utf8")))
-cpSync("components/site", path.join(dir, "components/site"), { recursive: true }) // the docs-only <State> wrapper
+cpSync("components/site/state.tsx", path.join(dir, "components/site/state.tsx")) // the docs-only <State> wrapper, all examples import from the site
 
 put("tsconfig.json", JSON.stringify({
   compilerOptions: {

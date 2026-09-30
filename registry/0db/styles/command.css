@@ -1,0 +1,58 @@
+@layer components {
+  /* ── db-command ── what you type is set as large as a headline.
+     cmdk marks the chosen row aria-selected; rows it filters out are removed, so a
+     row that comes back arrives again. The dialog is Radix's: an overlay like the
+     dialog's backdrop, and a frame that opens out from inside. */
+  .db-command { display: grid; gap: var(--db-space-4); }
+  .db-command-input {
+    appearance: none; width: 100%; margin: 0; border: 0; border-radius: 0; outline: 0; padding: 0 0 0.12em;
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+    color: var(--db-ink); font-family: var(--db-expression); font-style: italic; font-weight: 400;
+    font-size: calc(var(--db-f) * var(--db-expression-scale)); line-height: 1.15;
+  }
+  .db-command-input::placeholder { font-family: var(--db-voice); font-style: normal; font-weight: 200; font-size: var(--db-f); color: var(--db-pencil); opacity: 1; }
+  .db-command-input:focus-visible { background-image: linear-gradient(var(--db-accent), var(--db-accent)); background-size: 100% var(--db-stroke); }
+  .db-command-list { max-height: 22rem; overflow: auto; }
+  .db-command-group [cmdk-group-heading] { margin: var(--db-space-4) 0 var(--db-space-1); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
+  .db-command-separator { height: var(--db-hairline); margin-block: var(--db-space-3); background: var(--db-rule); }
+  .db-command-option {
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-flow: column; grid-auto-columns: auto; align-items: baseline; column-gap: var(--db-space-4);
+    --step: 8px; padding-block: 0.4em; border-bottom: var(--db-hairline) solid var(--db-rule); cursor: pointer; color: var(--db-graphite);
+    animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(min(sibling-index(), 9) * var(--db-arpeggio));
+  }
+  .db-command-option::after { content: "→" / ""; inline-size: 1.2em; justify-self: end; color: var(--db-ink); opacity: 0; translate: calc(-1 * var(--step)) 0; transition: translate var(--db-moderato) var(--db-exhale), opacity var(--db-allegro); }
+  :is([dir="rtl"], [dir="rtl"] *) .db-command-option { --step: -8px; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-command-option::after { content: "←" / ""; }
+  .db-command-option > * { transition: translate var(--db-moderato) var(--db-exhale), opacity var(--db-allegro), color var(--db-allegro); }
+  .db-command-name { font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  .db-command-hint { font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-command-option:hover, .db-command-option[aria-selected="true"] { color: var(--db-ink); }
+  .db-command-option[aria-selected="true"] .db-command-name { translate: var(--step) 0; }
+  .db-command-option[aria-selected="true"]::after { opacity: 1; translate: 0 0; }
+  .db-command-option[aria-disabled="true"] { cursor: not-allowed; opacity: 0.5; }
+  .db-command-option mark { padding: 0; }
+  .db-command-empty { padding-block: var(--db-space-4); font-size: var(--db-mp); color: var(--db-graphite); }
+
+  /* The ⌘K dialog. */
+  .db-command-overlay {
+    position: fixed; inset: 0; z-index: 50;
+    background: color-mix(in srgb, var(--db-paper) 86%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: db-command-fade var(--db-andante);
+  }
+  .db-command-overlay[data-state="closed"] { animation: db-command-fade var(--db-andante) reverse forwards; }
+  .db-command-dialog {
+    position: fixed; z-index: 51; inset-inline: 0; top: 12vh; margin-inline: auto;
+    width: min(44rem, calc(100vw - 2 * var(--db-margin))); padding: var(--db-space-7);
+    background: var(--db-paper); color: var(--db-graphite);
+    --db-corner: 14px;
+    animation: db-command-in var(--db-andante) var(--db-exhale);
+  }
+  .db-command-dialog[data-state="closed"] { animation: db-command-out var(--db-allegro) var(--db-breath) forwards; }
+  .db-command-dialog[data-state="open"]::after { animation: db-command-frame var(--db-andante) var(--db-exhale) 80ms backwards; }
+  .db-command-dialog .db-command-list { max-height: min(22rem, 50vh); }
+  @keyframes db-command-fade { from { opacity: 0; } }
+  @keyframes db-command-in { from { opacity: 0; translate: 0 12px; } }
+  @keyframes db-command-out { to { opacity: 0; } }
+  @keyframes db-command-frame { from { opacity: 0; scale: 0.95; } }
+}

@@ -1,0 +1,11 @@
+@layer components {
+  /* ── db-skeleton ── baselines where the words will be */
+  .db-skeleton { display: grid; }
+  .db-skeleton > i { position: relative; display: block; width: var(--w, 100%); height: var(--lh, 1.7em); overflow: clip; background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline); }
+  .db-skeleton > i::after { content: ""; position: absolute; inset: auto 0 0; height: var(--db-stroke); background: linear-gradient(90deg, transparent, var(--db-pencil) 50%, transparent) no-repeat -60% 0 / 30% 100%; }
+  /* While it loads, a pencil stroke reads along each line in turn. */
+  [aria-busy="true"] .db-skeleton > i::after { animation: db-read 1600ms var(--db-breath) infinite; animation-delay: calc(var(--i, 0) * 140ms); }
+  @keyframes db-read { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+  .db-skeleton-ring { display: block; width: var(--s, 2.75rem); height: var(--s, 2.75rem); border-radius: 50%; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }
+  @media (prefers-reduced-motion: reduce) { [aria-busy="true"] .db-skeleton > i::after { animation: none; } }
+}

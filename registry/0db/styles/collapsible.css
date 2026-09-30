@@ -1,0 +1,12 @@
+@layer components {
+  /* ── db-collapse ── a list that ends in the rest of itself */
+  .db-collapse-list { list-style: none; margin: 0; padding: 0; }
+  .db-collapse-list > li { padding-block: 0.45em; border-block-end: var(--db-hairline) solid var(--db-rule); }
+  .db-collapse > summary { list-style: none; margin-block-start: var(--db-space-4); }
+  .db-collapse > summary::-webkit-details-marker { display: none; }
+  .db-collapse > summary > :last-child, .db-collapse[open] > summary > :first-child { display: none; }
+  .db-collapse[open] > summary > :last-child { display: inline; }
+  .db-collapse::details-content { block-size: 0; overflow: clip; transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete; }
+  .db-collapse[open]::details-content { block-size: auto; }
+  .db-collapse[open] .db-collapse-list > li { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--db-arpeggio)); }
+}

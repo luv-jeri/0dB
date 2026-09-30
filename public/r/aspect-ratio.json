@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "title": "Aspect ratio",
+  "description": "A frame kept to a ratio and marked the way a printer marks a crop: short lines outside each corner, never a border.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/aspect-ratio.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { roll } from \"@/lib/0db/roll\"\n\n/** 1.7778 to 16 : 9. Finds the smallest denominator up to 20 that lands on a whole number. */\nfunction toFraction(ratio: number): [number, number] {\n  for (let b = 1; b <= 20; b++) if (Math.abs(ratio * b - Math.round(ratio * b)) < 0.01) return [Math.round(ratio * b), b]\n  return [Math.round(ratio * 10), 10]\n}\n\ntype AspectRatioProps = React.ComponentProps<\"div\"> & {\n  /** Width over height. 16 / 9 by default. */\n  ratio?: number\n  /**\n   * What sits in the frame's middle. true draws the ratio as a fraction (16 over 9);\n   * it rolls when the ratio changes. Anything else is shown as given.\n   */\n  label?: React.ReactNode\n}\n\n/** A frame kept to a ratio and marked the way a printer marks a crop: short lines outside each corner, never a border. */\nfunction AspectRatio({ ratio = 16 / 9, label, className, style, children, ...props }: AspectRatioProps) {\n  const [a, b] = toFraction(ratio)\n  const [shown, setShown] = React.useState<[number, number]>([a, b])\n  const before = React.useRef(ratio)\n  const refs = React.useRef<[HTMLSpanElement | null, HTMLSpanElement | null]>([null, null])\n\n  React.useEffect(() => {\n    if (before.current === ratio) return\n    const dir = ratio > before.current ? 1 : -1\n    before.current = ratio\n    const next = toFraction(ratio)\n    // The numerator and the denominator each roll the way the ratio moved.\n    refs.current.forEach((el, i) => el && roll(el, () => setShown((s) => (i ? [s[0], next[1]] : [next[0], s[1]])), \"0.5em\", dir))\n  }, [ratio])\n\n  return (\n    <div data-slot=\"aspect-ratio\" style={{ \"--ratio\": ratio, ...style } as React.CSSProperties} className={cn(\"db-ratio\", className)} {...props}>\n      {label === true ? (\n        <span className=\"db-fraction\" aria-hidden=\"true\">\n          <span ref={(el) => void (refs.current[0] = el)} className=\"db-yours\">{shown[0]}</span>\n          <i />\n          <span ref={(el) => void (refs.current[1] = el)}>{shown[1]}</span>\n        </span>\n      ) : (\n        label\n      )}\n      {children}\n    </div>\n  )\n}\n\nexport { AspectRatio, type AspectRatioProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/aspect-ratio.css",
+      "content": "@layer components {\n  /* ── db-ratio ── a frame kept to a ratio, marked the way a printer marks a crop */\n  @property --ratio { syntax: \"<number>\"; inherits: false; initial-value: 1.7778; }\n  .db-ratio {\n    position: relative; display: grid; place-items: center; aspect-ratio: var(--ratio);\n    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule);\n    transition: --ratio var(--db-andante) var(--db-breath);\n  }\n  .db-ratio::before {\n    --m: 12px; --g: 6px; --e: calc(var(--m) + var(--g));\n    content: \"\"; position: absolute; inset: calc(-1 * var(--e)); pointer-events: none;\n    background:\n      linear-gradient(var(--db-ink), var(--db-ink)) 0 var(--e) / var(--m) var(--db-hairline),\n      linear-gradient(var(--db-ink), var(--db-ink)) 100% var(--e) / var(--m) var(--db-hairline),\n      linear-gradient(var(--db-ink), var(--db-ink)) 0 calc(100% - var(--e)) / var(--m) var(--db-hairline),\n      linear-gradient(var(--db-ink), var(--db-ink)) 100% calc(100% - var(--e)) / var(--m) var(--db-hairline),\n      linear-gradient(var(--db-ink), var(--db-ink)) var(--e) 0 / var(--db-hairline) var(--m),\n      linear-gradient(var(--db-ink), var(--db-ink)) calc(100% - var(--e)) 0 / var(--db-hairline) var(--m),\n      linear-gradient(var(--db-ink), var(--db-ink)) var(--e) 100% / var(--db-hairline) var(--m),\n      linear-gradient(var(--db-ink), var(--db-ink)) calc(100% - var(--e)) 100% / var(--db-hairline) var(--m);\n    background-repeat: no-repeat;\n  }\n  .db-ratio > .db-fraction > * { display: inline-block; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/aspect-ratio.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/aspect-ratio.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "native",
+    "contract": "db-ratio"
+  },
+  "type": "registry:ui"
+}

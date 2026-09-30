@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "link",
+  "title": "Link",
+  "description": "A hairline underline at rest; pointing at it draws a highlighter stroke through the words, on from the left and off to the right.",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/link.tsx",
+      "content": "import * as React from \"react\"\nimport { Slot } from \"@radix-ui/react-slot\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype LinkProps = React.ComponentProps<\"a\"> & {\n  /** Render the child element (your router's link, say) with the link's look. */\n  asChild?: boolean\n  /** Leaves the site: opens in a new tab and takes the arrow, the one place an arrow belongs. */\n  external?: boolean\n}\n\n/** A hairline underline; pointing at it draws a highlighter stroke through the words. */\nfunction Link({ className, asChild = false, external = false, children, ...props }: LinkProps) {\n  const Comp = asChild ? Slot : \"a\"\n  return (\n    <Comp\n      data-slot=\"link\"\n      className={cn(\"db-link\", className)}\n      {...(external ? { target: \"_blank\", rel: \"noreferrer\" } : {})}\n      {...props}\n    >\n      {external && !asChild ? (\n        <>\n          {children}\n          <span aria-hidden=\"true\">&#8239;↗</span>\n          <span className=\"db-sr\"> (opens in a new tab)</span>\n        </>\n      ) : (\n        children\n      )}\n    </Comp>\n  )\n}\n\nexport { Link, type LinkProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "movement": "II",
+    "underneath": "native",
+    "contract": "db-link"
+  },
+  "type": "registry:ui"
+}

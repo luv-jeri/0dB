@@ -1,0 +1,25 @@
+@layer components {
+  /* ── db-disclose ── a plus that turns into a cross */
+  .db-disclose { border-top: var(--db-hairline) solid var(--db-rule); }
+  .db-disclose:not(:has(+ .db-disclose)) { border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-disclose > summary {
+    list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--db-space-5);
+    padding-block: var(--db-space-4); cursor: pointer;
+    font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink);
+    transition: font-stretch var(--db-andante) var(--db-exhale), font-weight var(--db-andante) var(--db-exhale);
+  }
+  .db-disclose[open] > summary { font-stretch: 112%; font-weight: 300; } /* the question breathes out as it opens */
+  .db-disclose > summary::-webkit-details-marker { display: none; }
+  .db-disclose > summary::after {
+    content: "+" / ""; font-weight: 200; font-size: 1.5em; line-height: 0.6; color: var(--db-graphite);
+    transition: rotate var(--db-andante) var(--db-spiccato);
+  }
+  .db-disclose[open] > summary::after { rotate: 45deg; }
+  .db-disclose[open] .db-disclose-body { animation: db-arrive var(--db-andante) var(--db-exhale) 90ms backwards; }
+  .db-disclose::details-content {
+    block-size: 0; overflow: clip;
+    transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete;
+  }
+  .db-disclose[open]::details-content { block-size: auto; }
+  .db-disclose-body { max-inline-size: var(--db-measure); padding-block-end: var(--db-space-5); color: var(--db-graphite); }
+}

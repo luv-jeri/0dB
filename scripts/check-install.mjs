@@ -71,7 +71,7 @@ for (const n of items.filter((n) => existsSync(`registry/0db/ui/${n}.tsx`)))
 // Server Component imports must carry its own.
 const examples = readdirSync("examples").filter((f) => f.endsWith(".tsx")).map((f) => path.basename(f, ".tsx"))
 for (const n of examples) put(`examples/${n}.tsx`, rewriteImports(readFileSync(`examples/${n}.tsx`, "utf8")))
-cpSync("components/site", path.join(app, "components/site"), { recursive: true })
+cpSync("components/site/state.tsx", path.join(app, "components/site/state.tsx"))
 const id = (n) => "X" + n.replace(/(^|-)([a-z0-9])/g, (_m, _d, c) => c.toUpperCase())
 put("app/page.tsx",
   examples.map((n) => `import * as ${id(n)} from "@/examples/${n}"`).join("\n") +

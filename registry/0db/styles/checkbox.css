@@ -19,9 +19,9 @@
   /* Pointing sketches the strike in pencil; checking inks it. */
   .db-check:is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) + span { background-position: 100% var(--y), 0 var(--y); background-size: 0% var(--db-stroke), 100% var(--db-hairline); }
   .db-check > input:checked + span { background-position: 0 var(--y), 100% var(--y); background-size: 100% var(--db-stroke), 0% var(--db-hairline); color: var(--db-pencil); font-weight: 300; }
-  .db-check:dir(rtl) > span { background-position: 0 var(--y), 0 var(--y); }
-  .db-check:dir(rtl):is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) + span { background-position: 0 var(--y), 100% var(--y); }
-  .db-check:dir(rtl) > input:checked + span { background-position: 100% var(--y), 0 var(--y); }
+  .db-check:is([dir="rtl"], [dir="rtl"] *) > span { background-position: 0 var(--y), 0 var(--y); }
+  .db-check:is([dir="rtl"], [dir="rtl"] *):is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) + span { background-position: 0 var(--y), 100% var(--y); }
+  .db-check:is([dir="rtl"], [dir="rtl"] *) > input:checked + span { background-position: 100% var(--y), 0 var(--y); }
   .db-check > input:focus-visible + span,
   .db-check[data-force~="focus"] > span { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 4px; }
   .db-check[data-force~="focus"] { outline: 0; }

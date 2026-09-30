@@ -1,0 +1,20 @@
+@layer components {
+  /* ── db-attach ── a file: its extension is its picture; a ring counts it in */
+  .db-attachments { list-style: none; margin: 0; padding: 0; border-top: var(--db-hairline) solid var(--db-rule); }
+  .db-attach { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--db-space-4); padding-block: var(--db-space-3); border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-attach-ext { font-size: var(--db-mf); line-height: 1; font-weight: 200; font-stretch: 125%; color: var(--db-ink); text-transform: lowercase; }
+  .db-attach-body { display: grid; min-width: 0; }
+  .db-attach-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.3; color: var(--db-ink); }
+  .db-attach-meta { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); font-variant-numeric: tabular-nums; }
+  .db-attach-ring { width: 22px; height: 22px; overflow: visible; rotate: -90deg; }
+  .db-attach-ring circle { fill: none; stroke-width: 1.5; }
+  .db-attach-track { stroke: var(--db-rule); }
+  .db-attach-arc { stroke: var(--db-ink); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 0)); transition: stroke-dashoffset var(--db-moderato) var(--db-breath), stroke var(--db-allegro); }
+  .db-attach-ring .db-attach-fill { fill: var(--db-ink); stroke: none; r: 0; transition: r var(--db-moderato) var(--db-spiccato); }
+  .db-attach[data-state="processing"] .db-attach-arc { --p: 1; stroke: var(--db-pencil); }
+  .db-attach[data-state="done"] .db-attach-arc { --p: 1; }
+  .db-attach[data-state="done"] .db-attach-fill { r: 5.5px; }
+  .db-attach[data-state="error"] .db-attach-arc { stroke: var(--db-signal); }
+  .db-attach[data-state="error"] .db-attach-meta { color: var(--db-signal); }
+  .db-attach > .db-btn { font-size: var(--db-pp); }
+}

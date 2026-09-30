@@ -17,9 +17,12 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith(".css"))) {
     const line = css.slice(0, m.index).split("\n").length
     bad.push(`${dir}/${file}:${line}  !important in "${selector}"`)
   }
+  // Lightning CSS lowers :dir() to a :lang() list, which misses a bare dir="rtl".
+  for (const m of css.matchAll(/:dir\(/g))
+    bad.push(`${dir}/${file}:${css.slice(0, m.index).split("\n").length}  :dir() — write :is([dir="rtl"], [dir="rtl"] *) instead`)
 }
 
 if (bad.length) {
-  console.error(`!important is only allowed on [hidden] and .db-sr in base.css:\n  ${bad.join("\n  ")}`)
+  console.error(`Registry CSS rules: !important only on [hidden] and .db-sr in base.css; no :dir().\n  ${bad.join("\n  ")}`)
   process.exit(1)
 }

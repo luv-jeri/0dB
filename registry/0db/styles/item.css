@@ -1,0 +1,19 @@
+@layer components {
+  /* ── db-item ── a ledger line: what it is, a dotted leader, what you can do */
+  .db-items { list-style: none; margin: 0; padding: 0; border-top: var(--db-hairline) solid var(--db-rule); }
+  .db-item { display: flex; align-items: center; gap: var(--db-space-4); padding-block: var(--db-space-4); border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-item-media { flex: none; display: inline-flex; }
+  .db-item-body { display: grid; min-width: 0; }
+  .db-item-title { color: var(--db-ink); }
+  .db-item-desc { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
+  .db-item-end { font-variant-numeric: tabular-nums; color: var(--db-ink); }
+  .db-item-leader { position: relative; flex: 1; min-width: var(--db-space-5); height: 2px; }
+  .db-item-leader::before, .db-item-leader::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, currentColor 0.8px, transparent 1.1px) 0 50% / 6px 2px repeat-x; }
+  .db-item-leader::before { color: var(--db-rule-strong); }
+  .db-item-leader::after {
+    color: var(--db-ink);
+    mask: linear-gradient(#000, #000) no-repeat 100% 0 / 0% 100%;
+    transition: mask-size var(--db-andante) var(--db-exhale), mask-position 0s;
+  }
+  .db-item:is(:hover, :focus-within, [data-force~="hover"]) .db-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
+}

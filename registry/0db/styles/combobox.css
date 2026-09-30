@@ -1,0 +1,56 @@
+@layer components {
+  /* ── db-combo ── a field that suggests. The closed line is a baseline like the input's;
+     what you chose is yours, in italic. The open list is a db-pop hung from it, holding
+     a cmdk Command, so the letters you typed are marked in each match and the rows arrive in turn. */
+  .db-field > .db-combo { grid-column: 1 / -1; }
+  .db-combo {
+    appearance: none; position: relative; display: block; width: 100%; margin: 0; border: 0; border-radius: 0; outline: 0;
+    padding: 0.3em 1.4em 0.42em 0; text-align: start; cursor: pointer;
+    background:
+      linear-gradient(var(--db-accent), var(--db-accent)) no-repeat var(--o, 0%) 100% / 0% var(--db-stroke),
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+    color: var(--db-ink);
+    font-family: var(--db-expression); font-style: italic; font-weight: 400;
+    font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.3;
+    transition: background-size var(--db-moderato) var(--db-exhale);
+  }
+  .db-combo[data-placeholder] { font-family: var(--db-voice); font-style: normal; font-size: var(--db-mp); color: var(--db-pencil); }
+  .db-combo-value { display: block; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .db-combo::after {
+    content: "↓" / ""; position: absolute; inset-inline-end: 0; bottom: 0.5em;
+    font-family: var(--db-voice); font-style: normal; font-size: var(--db-pp); line-height: 1; color: var(--db-pencil);
+    transition: translate var(--db-moderato) var(--db-exhale), color var(--db-allegro);
+  }
+  .db-combo:is(:hover, [data-force~="hover"])::after { translate: 0 2px; color: var(--db-ink); }
+  .db-combo[data-state="open"]::after { color: var(--db-ink); }
+  .db-combo:is(:focus-visible, [data-state="open"], [data-force~="focus"]) { background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
+  .db-combo[aria-invalid="true"] { background-image: linear-gradient(var(--db-signal), var(--db-signal)), linear-gradient(var(--db-signal), var(--db-signal)); }
+  .db-combo:disabled {
+    color: var(--db-pencil); cursor: not-allowed;
+    background-image: none, repeating-linear-gradient(90deg, var(--db-rule-strong) 0 2px, transparent 2px 6px);
+  }
+  .db-combo:disabled::after { content: none; }
+
+  /* The panel: as wide as the line, the search inside it set a size down from the palette's. */
+  .db-pop.db-combo-pop { width: max(var(--radix-popover-trigger-width), 16rem); padding: var(--db-space-4) 0 var(--db-space-2); }
+  .db-combo-pop .db-command { gap: var(--db-space-3); }
+  .db-combo-pop .db-command-input { width: calc(100% - 2 * var(--db-space-5)); margin-inline: var(--db-space-5); font-size: calc(var(--db-mp) * var(--db-expression-scale)); }
+  .db-combo-pop .db-command-input::placeholder { font-size: var(--db-mp); }
+  .db-combo-pop .db-command-list { max-height: 17rem; overscroll-behavior: contain; }
+
+  /* A row: a dot marks the one you point at (ink) and the one you chose (accent); the arrow the palette
+     draws is put away. */
+  .db-pop.db-combo-pop .db-command-option {
+    position: relative; padding: 0.32em var(--db-space-5) 0.32em calc(var(--db-space-5) + 0.7em); border-bottom: 0;
+  }
+  .db-pop.db-combo-pop .db-command-option::after { content: none; }
+  .db-pop.db-combo-pop .db-command-option::before {
+    content: ""; position: absolute; inset-inline-start: var(--db-space-5); top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%;
+    background: var(--db-ink); scale: 0; transition: scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-pop.db-combo-pop .db-command-option[aria-selected="true"] .db-command-name { translate: 0 0; }
+  .db-pop.db-combo-pop .db-command-option[aria-selected="true"]::before { scale: 1; }
+  .db-pop.db-combo-pop .db-command-option[data-chosen] { color: var(--db-ink); }
+  .db-pop.db-combo-pop .db-command-option[data-chosen]::before { background: var(--db-accent); scale: 1; }
+  .db-combo-pop .db-command-empty { padding-inline: var(--db-space-5); color: var(--db-pencil); }
+}
