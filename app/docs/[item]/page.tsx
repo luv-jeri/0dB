@@ -106,7 +106,7 @@ export default async function ItemPage({ params }: Params) {
         </Meta>
         <h1 className="doc-title">{meta.title}</h1>
         <p className="doc-summary">{meta.summary}</p>
-        <Link asChild className="db-report-item-link"><NextLink href={`/feedback/?kind=bug&item=${encodeURIComponent(meta.name)}`}>Report an issue with {meta.title}</NextLink></Link>
+        <Link asChild className="db-report-item-link"><NextLink href={`/feedback/?kind=bug&item=${encodeURIComponent(meta.name)}`} prefetch={false}>Report an issue with {meta.title}</NextLink></Link>
       </header>
 
       <section className="doc-section" id="example" data-rail="Example" aria-labelledby="example-h">

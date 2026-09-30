@@ -10,6 +10,8 @@ export const PAGES = [
   { href: "/docs/build-with-ai/", title: "Build with AI", num: "" },
   { href: "/docs/principles/", title: "Principles", num: "" },
   { href: "/docs/tokens/", title: "Tokens", num: "III" },
+  { href: "/feedback/", title: "Feedback", num: "" },
+  { href: "/requests/", title: "Requests", num: "" },
 ]
 
 /** Every token tokens.css defines in its first :root block, in order. */

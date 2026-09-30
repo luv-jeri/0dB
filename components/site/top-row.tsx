@@ -37,6 +37,7 @@ export function TopRow({ places, groups }: { places: Record<string, Place>; grou
         <span className="bar-num">{place.num}</span> <span>{place.name}</span>
       </p>
       <div className="bar-end">
+        <Link className="db-link db-report-entry" href="/feedback/" prefetch={false}>Feedback</Link>
         <Search groups={groups} />
         <ThemeControls />
       </div>
