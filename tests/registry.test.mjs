@@ -8,12 +8,14 @@ test("rewrites registry imports to consumer aliases", () => {
   const src = [
     `import { cn } from "@/registry/0db/lib/utils"`,
     `import { Spinner } from "./spinner"`,
+    `import { roll } from "@/registry/0db/lib/roll"`,
     `import * as Popover from "@/registry/0db/ui/popover"`,
     `import * as React from "react"`,
   ].join("\n")
   const out = rewriteImports(src)
   assert.match(out, /from "@\/lib\/utils"/)
   assert.match(out, /from "@\/components\/ui\/spinner"/)
+  assert.match(out, /from "@\/lib\/0db\/roll"/)
   assert.match(out, /from "@\/components\/ui\/popover"/)
   assert.match(out, /from "react"/)
   assert.doesNotMatch(out, /registry\/0db/)

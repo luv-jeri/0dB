@@ -25,6 +25,11 @@
           "target": "lib/utils.ts"
         },
         {
+          "path": "registry/0db/lib/roll.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/roll.ts"
+        },
+        {
           "path": "registry/0db/styles/tokens.css",
           "type": "registry:file",
           "target": "styles/0db/tokens.css"
@@ -141,6 +146,216 @@
       ],
       "css": {
         "@import \"@/styles/0db/fonts-salon.css\"": {}
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Three voices: a statement in an ink block, a bracket that steps apart, and a quiet line that redraws.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/spinner.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/button.css",
+          "type": "registry:file",
+          "target": "styles/0db/button.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/button.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-btn"
+      }
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Three periods breathing in turn, always beside the words that say what's happening.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/spinner.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/spinner.css",
+          "type": "registry:file",
+          "target": "styles/0db/spinner.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/spinner.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-dots"
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "No box. The words are the control, and checking strikes them through in the accent.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/checkbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/checkbox.css",
+          "type": "registry:file",
+          "target": "styles/0db/checkbox.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/checkbox.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-check"
+      }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "The question, set large, with two plain answers. The page holds still behind it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dialog.css",
+          "type": "registry:file",
+          "target": "styles/0db/dialog.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/dialog.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "hook",
+        "contract": "db-dialog"
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A whisper in parentheses above the thing it names.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tooltip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tooltip.css",
+          "type": "registry:file",
+          "target": "styles/0db/tooltip.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/tooltip.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-tip"
+      }
+    },
+    {
+      "name": "source",
+      "type": "registry:ui",
+      "title": "Source",
+      "description": "Code, set as type: what someone wrote is italic, keywords are ink, and nothing else takes colour.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/button.json"
+      ],
+      "dependencies": [
+        "sugar-high"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/source.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/source.css",
+          "type": "registry:file",
+          "target": "styles/0db/source.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/source.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-source"
+      }
+    },
+    {
+      "name": "steps",
+      "type": "registry:ui",
+      "title": "Steps",
+      "description": "A real sequence, numbered in large thin figures, with the current one in the accent.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/steps.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/steps.css",
+          "type": "registry:file",
+          "target": "styles/0db/steps.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/steps.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-steps"
       }
     }
   ]

@@ -1,0 +1,53 @@
+@layer components {
+  /* ── db-btn ── statement (reversed block), bracket ( ), quiet (a line) */
+  .db-btn {
+    appearance: none; border: 0; background: none; margin: 0; padding: 0;
+    display: inline-flex; align-items: baseline; gap: 0.4em;
+    font-family: var(--db-voice); font-size: var(--db-p); font-weight: 500; font-stretch: 100%;
+    line-height: 1.2; letter-spacing: 0.005em; white-space: nowrap;
+    color: var(--db-ink); text-decoration: none; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .db-btn[data-size="l"] { font-size: var(--db-mp); }
+  .db-btn:disabled, .db-btn[aria-disabled="true"] { color: var(--db-pencil); cursor: not-allowed; }
+  .db-btn[aria-busy="true"] { cursor: progress; }
+
+  .db-btn[data-variant="statement"] {
+    position: relative; --db-corner-inset: -9px;
+    background: var(--db-ink); color: var(--db-paper);
+    padding: 0.8em 1.15em 0.82em;
+    transition: font-stretch var(--db-moderato) var(--db-exhale), font-weight var(--db-moderato) var(--db-exhale), background-color var(--db-allegro), color var(--db-allegro), translate var(--db-allegro) var(--db-exhale);
+  }
+  .db-btn[data-variant="statement"]::after { opacity: 0; scale: 1.14 1.3; transition: opacity var(--db-allegro), scale var(--db-andante) var(--db-spiccato); }
+  .db-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-busy="true"]) { font-stretch: 114%; }
+  .db-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-busy="true"])::after { opacity: 1; scale: 1; }
+  .db-btn[data-variant="statement"]:active:not(:disabled, [aria-busy="true"]) { translate: 0 1px; font-weight: 680; font-stretch: 96%; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="statement"]:active:not(:disabled, [aria-busy="true"])::after { scale: 0.97 0.84; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="statement"]:disabled { background: var(--db-rule); color: var(--db-pencil); }
+
+  .db-btn[data-variant="bracket"]::before,
+  .db-btn[data-variant="bracket"]::after {
+    font-weight: 200; font-size: 1.2em; line-height: 0;
+    transition: translate var(--db-andante) var(--db-spiccato);
+  }
+  .db-btn[data-variant="bracket"]::before { content: "(" / ""; }
+  .db-btn[data-variant="bracket"]::after { content: ")" / ""; }
+  .db-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled)::before { translate: -0.3em 0; }
+  .db-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled)::after { translate: 0.3em 0; }
+  .db-btn[data-variant="bracket"]:active:not(:disabled)::before { translate: 0.12em 0; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="bracket"]:active:not(:disabled)::after { translate: -0.12em 0; transition-duration: var(--db-allegro); }
+
+  .db-btn[data-variant="quiet"] {
+    padding-bottom: 0.18em;
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% var(--db-hairline);
+  }
+  .db-btn[data-variant="quiet"]:is(:hover, [data-force~="hover"]):not(:disabled) {
+    animation: db-redraw var(--db-andante) var(--db-breath) both;
+  }
+  @keyframes db-redraw {
+    0%   { background-position: 100% 100%; background-size: 100% var(--db-hairline); }
+    45%  { background-position: 100% 100%; background-size: 0% var(--db-hairline); }
+    55%  { background-position: 0 100%;    background-size: 0% var(--db-stroke); }
+    100% { background-position: 0 100%;    background-size: 100% var(--db-stroke); }
+  }
+}

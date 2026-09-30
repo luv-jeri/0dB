@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "title": "Button",
+  "description": "Three voices: a statement in an ink block, a bracket that steps apart, and a quiet line that redraws.",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/spinner.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/button.tsx",
+      "content": "import * as React from \"react\"\nimport { Slot } from \"@radix-ui/react-slot\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Spinner } from \"@/components/ui/spinner\"\n\ntype ButtonProps = React.ComponentProps<\"button\"> & {\n  /**\n   * statement: reversed type in an ink block, one per view.\n   * bracket: a secondary action held in ( ).\n   * quiet: only a line, and the line redraws.\n   */\n  variant?: \"statement\" | \"bracket\" | \"quiet\"\n  size?: \"m\" | \"l\"\n  /** Render the child element (a link, say) with the button's look. */\n  asChild?: boolean\n  /**\n   * The button says what it's doing. A string replaces the label while busy\n   * (\"Save\" becomes \"Saving\"); true keeps the label. Either way the periods breathe.\n   */\n  busy?: boolean | string\n}\n\nfunction Button({ className, variant = \"bracket\", size = \"m\", asChild = false, busy = false, children, ...props }: ButtonProps) {\n  const Comp = asChild ? Slot : \"button\"\n  return (\n    <Comp\n      data-slot=\"button\"\n      data-variant={variant}\n      data-size={size === \"m\" ? undefined : size}\n      aria-busy={busy ? true : undefined}\n      className={cn(\"db-btn\", className)}\n      {...(asChild ? {} : { type: \"button\" as const })}\n      {...props}\n    >\n      {busy && !asChild ? (\n        <>\n          {typeof busy === \"string\" ? busy : children} <Spinner />\n        </>\n      ) : (\n        children\n      )}\n    </Comp>\n  )\n}\n\nexport { Button, type ButtonProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/button.css",
+      "content": "@layer components {\n  /* ── db-btn ── statement (reversed block), bracket ( ), quiet (a line) */\n  .db-btn {\n    appearance: none; border: 0; background: none; margin: 0; padding: 0;\n    display: inline-flex; align-items: baseline; gap: 0.4em;\n    font-family: var(--db-voice); font-size: var(--db-p); font-weight: 500; font-stretch: 100%;\n    line-height: 1.2; letter-spacing: 0.005em; white-space: nowrap;\n    color: var(--db-ink); text-decoration: none; cursor: pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .db-btn[data-size=\"l\"] { font-size: var(--db-mp); }\n  .db-btn:disabled, .db-btn[aria-disabled=\"true\"] { color: var(--db-pencil); cursor: not-allowed; }\n  .db-btn[aria-busy=\"true\"] { cursor: progress; }\n\n  .db-btn[data-variant=\"statement\"] {\n    position: relative; --db-corner-inset: -9px;\n    background: var(--db-ink); color: var(--db-paper);\n    padding: 0.8em 1.15em 0.82em;\n    transition: font-stretch var(--db-moderato) var(--db-exhale), font-weight var(--db-moderato) var(--db-exhale), background-color var(--db-allegro), color var(--db-allegro), translate var(--db-allegro) var(--db-exhale);\n  }\n  .db-btn[data-variant=\"statement\"]::after { opacity: 0; scale: 1.14 1.3; transition: opacity var(--db-allegro), scale var(--db-andante) var(--db-spiccato); }\n  .db-btn[data-variant=\"statement\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled, [aria-busy=\"true\"]) { font-stretch: 114%; }\n  .db-btn[data-variant=\"statement\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled, [aria-busy=\"true\"])::after { opacity: 1; scale: 1; }\n  .db-btn[data-variant=\"statement\"]:active:not(:disabled, [aria-busy=\"true\"]) { translate: 0 1px; font-weight: 680; font-stretch: 96%; transition-duration: var(--db-allegro); }\n  .db-btn[data-variant=\"statement\"]:active:not(:disabled, [aria-busy=\"true\"])::after { scale: 0.97 0.84; transition-duration: var(--db-allegro); }\n  .db-btn[data-variant=\"statement\"]:disabled { background: var(--db-rule); color: var(--db-pencil); }\n\n  .db-btn[data-variant=\"bracket\"]::before,\n  .db-btn[data-variant=\"bracket\"]::after {\n    font-weight: 200; font-size: 1.2em; line-height: 0;\n    transition: translate var(--db-andante) var(--db-spiccato);\n  }\n  .db-btn[data-variant=\"bracket\"]::before { content: \"(\" / \"\"; }\n  .db-btn[data-variant=\"bracket\"]::after { content: \")\" / \"\"; }\n  .db-btn[data-variant=\"bracket\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled)::before { translate: -0.3em 0; }\n  .db-btn[data-variant=\"bracket\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled)::after { translate: 0.3em 0; }\n  .db-btn[data-variant=\"bracket\"]:active:not(:disabled)::before { translate: 0.12em 0; transition-duration: var(--db-allegro); }\n  .db-btn[data-variant=\"bracket\"]:active:not(:disabled)::after { translate: -0.12em 0; transition-duration: var(--db-allegro); }\n\n  .db-btn[data-variant=\"quiet\"] {\n    padding-bottom: 0.18em;\n    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% var(--db-hairline);\n  }\n  .db-btn[data-variant=\"quiet\"]:is(:hover, [data-force~=\"hover\"]):not(:disabled) {\n    animation: db-redraw var(--db-andante) var(--db-breath) both;\n  }\n  @keyframes db-redraw {\n    0%   { background-position: 100% 100%; background-size: 100% var(--db-hairline); }\n    45%  { background-position: 100% 100%; background-size: 0% var(--db-hairline); }\n    55%  { background-position: 0 100%;    background-size: 0% var(--db-stroke); }\n    100% { background-position: 0 100%;    background-size: 100% var(--db-stroke); }\n  }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/button.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/button.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "native",
+    "contract": "db-btn"
+  },
+  "type": "registry:ui"
+}

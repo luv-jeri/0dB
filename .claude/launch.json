@@ -1,11 +1,7 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "specimen",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4173", "--directory", "specimen"],
-      "port": 4173
-    }
+    { "name": "docs", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 3000 },
+    { "name": "specimen", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "4173", "--directory", "specimen"], "port": 4173 }
   ]
 }

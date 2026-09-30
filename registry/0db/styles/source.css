@@ -1,0 +1,24 @@
+@layer components {
+  /* ── db-source ── code, set as type: a frame row (the name, a hairline, Copy)
+     over the lines. What someone wrote (strings, JSX text) is in the expression,
+     italic; keywords are ink; signs and comments are pencil. No second colour. */
+  .db-source { margin: 0; min-width: 0; }
+  .db-source-meta { margin-bottom: var(--db-space-4); }
+  .db-source-meta > .db-btn { font-size: var(--db-pp); }
+  .db-source-code {
+    margin: 0; overflow-x: auto; tab-size: 2;
+    font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375rem; line-height: 1.7; letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite); white-space: pre;
+    --sh-keyword: var(--db-ink); --sh-entity: var(--db-ink); --sh-class: var(--db-ink);
+    --sh-identifier: var(--db-graphite); --sh-property: var(--db-graphite);
+    --sh-string: var(--db-ink); --sh-jsxliterals: var(--db-ink);
+    --sh-sign: var(--db-pencil); --sh-comment: var(--db-pencil); --sh-space: inherit;
+  }
+  .db-source-code > code { font: inherit; }
+  .db-source-code .sh__token--keyword { font-weight: 500; }
+  .db-source-code :is(.sh__token--string, .sh__token--jsxliterals) {
+    font-family: var(--db-expression); font-style: italic; font-stretch: 100%;
+    font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;
+  }
+  .db-source-copy > span { display: inline-block; }
+}

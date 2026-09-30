@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "source",
+  "title": "Source",
+  "description": "Code, set as type: what someone wrote is italic, keywords are ink, and nothing else takes colour.",
+  "dependencies": [
+    "sugar-high"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json",
+    "https://0db.cojeev.com/r/button.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/source.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { highlight } from \"sugar-high\"\n\nimport { cn } from \"@/lib/utils\"\nimport { roll } from \"@/lib/0db/roll\"\nimport { Button } from \"@/components/ui/button\"\n\ntype SourceProps = Omit<React.ComponentProps<\"figure\">, \"children\"> & {\n  code: string\n  /** Shown in the frame row, e.g. a file name. */\n  title?: React.ReactNode\n  /** Hide the Copy action. */\n  noCopy?: boolean\n}\n\n/** Code, set as type. Strings are yours, in italic; keywords are ink; nothing else takes colour. */\nfunction Source({ code, title, noCopy = false, className, ...props }: SourceProps) {\n  const html = React.useMemo(() => highlight(code.replace(/\\n$/, \"\")), [code])\n  return (\n    <figure data-slot=\"source\" className={cn(\"db-source\", className)} {...props}>\n      {title || !noCopy ? (\n        <figcaption data-slot=\"source-meta\" className=\"db-meta db-source-meta\">\n          <span>{title}</span>\n          <hr />\n          {noCopy ? null : <CopyButton text={code} />}\n        </figcaption>\n      ) : null}\n      <pre className=\"db-source-code\" tabIndex={0}>\n        <code dangerouslySetInnerHTML={{ __html: html }} />\n      </pre>\n    </figure>\n  )\n}\n\n/** Copy keeps its name through the flow: Copy, then Copied. */\nfunction CopyButton({ text, className, ...props }: React.ComponentProps<typeof Button> & { text: string }) {\n  const label = React.useRef<HTMLSpanElement>(null)\n  const [copied, setCopied] = React.useState(false)\n  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)\n\n  React.useEffect(() => () => clearTimeout(timer.current), [])\n\n  const show = (next: boolean) => {\n    if (label.current) roll(label.current, () => setCopied(next), \"0.5em\", next ? 1 : -1)\n    else setCopied(next)\n  }\n\n  return (\n    <Button\n      variant=\"bracket\"\n      data-slot=\"source-copy\"\n      className={cn(\"db-source-copy\", className)}\n      onClick={async () => {\n        try {\n          await navigator.clipboard.writeText(text)\n        } catch {\n          return // the browser refused; the label stays \"Copy\", which is true\n        }\n        show(true)\n        clearTimeout(timer.current)\n        timer.current = setTimeout(() => show(false), 1800)\n      }}\n      {...props}\n    >\n      <span ref={label} aria-live=\"polite\">\n        {copied ? \"Copied\" : \"Copy\"}\n      </span>\n    </Button>\n  )\n}\n\nexport { Source, CopyButton, type SourceProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/source.css",
+      "content": "@layer components {\n  /* ── db-source ── code, set as type: a frame row (the name, a hairline, Copy)\n     over the lines. What someone wrote (strings, JSX text) is in the expression,\n     italic; keywords are ink; signs and comments are pencil. No second colour. */\n  .db-source { margin: 0; min-width: 0; }\n  .db-source-meta { margin-bottom: var(--db-space-4); }\n  .db-source-meta > .db-btn { font-size: var(--db-pp); }\n  .db-source-code {\n    margin: 0; overflow-x: auto; tab-size: 2;\n    font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375rem; line-height: 1.7; letter-spacing: 0.005em;\n    font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite); white-space: pre;\n    --sh-keyword: var(--db-ink); --sh-entity: var(--db-ink); --sh-class: var(--db-ink);\n    --sh-identifier: var(--db-graphite); --sh-property: var(--db-graphite);\n    --sh-string: var(--db-ink); --sh-jsxliterals: var(--db-ink);\n    --sh-sign: var(--db-pencil); --sh-comment: var(--db-pencil); --sh-space: inherit;\n  }\n  .db-source-code > code { font: inherit; }\n  .db-source-code .sh__token--keyword { font-weight: 500; }\n  .db-source-code :is(.sh__token--string, .sh__token--jsxliterals) {\n    font-family: var(--db-expression); font-style: italic; font-stretch: 100%;\n    font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;\n  }\n  .db-source-copy > span { display: inline-block; }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/source.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/source.css\"": {}
+  },
+  "meta": {
+    "movement": "X",
+    "underneath": "hook",
+    "contract": "db-source"
+  },
+  "type": "registry:ui"
+}

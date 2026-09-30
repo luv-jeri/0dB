@@ -1,0 +1,15 @@
+@layer components {
+  /* ── db-tip ── tooltip: a whisper in parentheses above the thing it names.
+     Radix positions it (side top, 8px off) and holds it for a still pointer;
+     focus shows it at once and Escape puts it away. */
+  .db-tip-text {
+    z-index: 50; width: max-content; max-width: 24ch; padding: 0.1em 0.35em; background: var(--db-paper);
+    font-family: var(--db-voice); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); text-align: center; white-space: normal;
+    animation: db-tip-in var(--db-moderato) var(--db-exhale);
+  }
+  .db-tip-text::before { content: "(" / ""; }
+  .db-tip-text::after { content: ")" / ""; }
+  .db-tip-text[data-state="closed"] { animation: db-tip-out var(--db-allegro) var(--db-breath) forwards; }
+  @keyframes db-tip-in { from { opacity: 0; translate: 0 0.3em; } }
+  @keyframes db-tip-out { to { opacity: 0; } }
+}

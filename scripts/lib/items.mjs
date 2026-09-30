@@ -13,6 +13,7 @@ export function rewriteImports(source) {
   return source.replace(/((?:from\s+|import\s+|import\s*\(\s*)["'])([^"']+)(["'])/g, (_m, start, value, end) => {
     const to = value
       .replace(/^@\/registry\/0db\/lib\/utils$/, "@/lib/utils")
+      .replace(/^@\/registry\/0db\/lib\//, "@/lib/0db/")
       .replace(/^@\/registry\/0db\/ui\//, "@/components/ui/")
       .replace(/^\.\/(?=[a-z])/, "@/components/ui/")
     return `${start}${to}${end}`

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "title": "Tooltip",
+  "description": "A whisper in parentheses above the thing it names.",
+  "dependencies": [
+    "@radix-ui/react-tooltip"
+  ],
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/tooltip.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as TooltipPrimitive from \"@radix-ui/react-tooltip\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** Holds a still pointer for 400ms before whispering; focus shows it at once. */\nfunction TooltipProvider({ delayDuration = 400, ...props }: React.ComponentProps<typeof TooltipPrimitive.Provider>) {\n  return <TooltipPrimitive.Provider data-slot=\"tooltip-provider\" delayDuration={delayDuration} {...props} />\n}\n\nfunction Tooltip(props: React.ComponentProps<typeof TooltipPrimitive.Root>) {\n  return (\n    <TooltipProvider>\n      <TooltipPrimitive.Root data-slot=\"tooltip\" {...props} />\n    </TooltipProvider>\n  )\n}\n\nfunction TooltipTrigger(props: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {\n  return <TooltipPrimitive.Trigger data-slot=\"tooltip-trigger\" {...props} />\n}\n\n/** A whisper in parentheses. Keep it to a few words; it names, it doesn't explain. */\nfunction TooltipContent({ className, sideOffset = 8, ...props }: React.ComponentProps<typeof TooltipPrimitive.Content>) {\n  return (\n    <TooltipPrimitive.Portal>\n      <TooltipPrimitive.Content data-slot=\"tooltip-content\" sideOffset={sideOffset} className={cn(\"db-tip-text\", className)} {...props} />\n    </TooltipPrimitive.Portal>\n  )\n}\n\nexport { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/tooltip.css",
+      "content": "@layer components {\n  /* ── db-tip ── tooltip: a whisper in parentheses above the thing it names.\n     Radix positions it (side top, 8px off) and holds it for a still pointer;\n     focus shows it at once and Escape puts it away. */\n  .db-tip-text {\n    z-index: 50; width: max-content; max-width: 24ch; padding: 0.1em 0.35em; background: var(--db-paper);\n    font-family: var(--db-voice); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); text-align: center; white-space: normal;\n    animation: db-tip-in var(--db-moderato) var(--db-exhale);\n  }\n  .db-tip-text::before { content: \"(\" / \"\"; }\n  .db-tip-text::after { content: \")\" / \"\"; }\n  .db-tip-text[data-state=\"closed\"] { animation: db-tip-out var(--db-allegro) var(--db-breath) forwards; }\n  @keyframes db-tip-in { from { opacity: 0; translate: 0 0.3em; } }\n  @keyframes db-tip-out { to { opacity: 0; } }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/tooltip.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/tooltip.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "radix",
+    "contract": "db-tip"
+  },
+  "type": "registry:ui"
+}

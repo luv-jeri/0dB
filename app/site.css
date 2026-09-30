@@ -1,0 +1,4 @@
+/* The docs site's own layout. Everything it draws is a 0dB item; this file only places them. */
+.spec-states { display: flex; flex-wrap: wrap; align-items: start; gap: var(--db-space-6) var(--db-space-7); padding-top: var(--db-space-5); border-top: var(--db-hairline) dotted var(--db-rule-strong); }
+.state { display: grid; justify-items: start; gap: var(--db-space-3); }
+.state-label { font-size: var(--db-pp); color: var(--db-pencil); }

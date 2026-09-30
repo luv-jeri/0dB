@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "steps",
+  "title": "Steps",
+  "description": "A real sequence, numbered in large thin figures, with the current one in the accent.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/steps.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** A real sequence, numbered. Only use it when the order matters. */\nfunction Steps({ className, ...props }: React.ComponentProps<\"ol\">) {\n  return <ol data-slot=\"steps\" className={cn(\"db-steps\", className)} {...props} />\n}\n\ntype StepProps = React.ComponentProps<\"li\"> & {\n  /** The step the person is on: its numeral is the view's one accent. */\n  current?: boolean\n  done?: boolean\n}\n\nfunction Step({ className, current, done, ...props }: StepProps) {\n  return (\n    <li\n      data-slot=\"step\"\n      data-current={current || undefined}\n      data-done={done || undefined}\n      aria-current={current ? \"step\" : undefined}\n      className={cn(\"db-step\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction StepTitle({ className, ...props }: React.ComponentProps<\"h3\">) {\n  return <h3 data-slot=\"step-title\" className={cn(\"db-step-title\", className)} {...props} />\n}\n\nexport { Steps, Step, StepTitle, type StepProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/steps.css",
+      "content": "@layer components {\n  /* ── db-steps ── a real sequence: large thin numerals in pencil, a hairline\n     between steps (after \"Less is more\"); the current numeral is the one accent\n     and lands with a small rebound when the sequence moves on. */\n  .db-steps { list-style: none; margin: 0; padding: 0; counter-reset: db-step; display: grid; gap: var(--db-space-6); }\n  .db-step {\n    counter-increment: db-step;\n    display: grid; grid-template-columns: 3.2ch minmax(0, 1fr); column-gap: var(--db-space-5); row-gap: var(--db-space-3);\n    padding-top: var(--db-space-4); border-top: var(--db-hairline) solid var(--db-rule);\n  }\n  .db-step::before {\n    content: counter(db-step); grid-row: 1 / span 3; align-self: start;\n    font-size: var(--db-f); line-height: 0.9; font-weight: 200; font-stretch: 88%;\n    font-variant-numeric: lining-nums tabular-nums; color: var(--db-pencil);\n  }\n  .db-step > * { grid-column: 2; min-width: 0; }\n  .db-step[data-done]::before { color: var(--db-ink); }\n  .db-step[data-current]::before { color: var(--db-accent); font-weight: 300; animation: db-land var(--db-moderato) var(--db-spiccato); }\n  .db-step-title { margin: 0; font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); font-weight: 400; color: var(--db-ink); }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/steps.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/steps.css\"": {}
+  },
+  "meta": {
+    "movement": "VIII",
+    "underneath": "native",
+    "contract": "db-steps"
+  },
+  "type": "registry:ui"
+}

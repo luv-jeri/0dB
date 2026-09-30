@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "Three periods breathing in turn, always beside the words that say what's happening.",
+  "registryDependencies": [
+    "https://0db.cojeev.com/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/spinner.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\n/**\n * Three periods breathing in turn. It never speaks for itself: put the words\n * that say what's happening beside it (\"Saving\"), so it stays aria-hidden.\n */\nfunction Spinner({ className, ...props }: React.ComponentProps<\"span\">) {\n  return (\n    <span data-slot=\"spinner\" aria-hidden=\"true\" className={cn(\"db-dots\", className)} {...props}>\n      <i />\n      <i />\n      <i />\n    </span>\n  )\n}\n\nexport { Spinner }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/spinner.css",
+      "content": "@layer components {\n  /* ── db-dots ── loading: three periods breathing in turn */\n  .db-dots { display: inline-flex; align-items: center; gap: 0.3em; height: 1em; vertical-align: -0.1em; }\n  .db-dots > i { width: 0.22em; height: 0.22em; border-radius: 50%; background: currentColor; animation: db-breathe 1280ms var(--db-breath) infinite; }\n  .db-dots > i:nth-child(2) { animation-delay: 160ms; }\n  .db-dots > i:nth-child(3) { animation-delay: 320ms; }\n  @keyframes db-breathe { 0%, 100% { opacity: 0.18; translate: 0 0; } 40% { opacity: 1; translate: 0 -0.16em; } }\n  @media (prefers-reduced-motion: reduce) { .db-dots > i { animation: none; opacity: 0.6; } }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/spinner.css"
+    }
+  ],
+  "css": {
+    "@import \"@/styles/0db/spinner.css\"": {}
+  },
+  "meta": {
+    "movement": "VII",
+    "underneath": "native",
+    "contract": "db-dots"
+  },
+  "type": "registry:ui"
+}
