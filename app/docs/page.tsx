@@ -1,0 +1,40 @@
+import type { Metadata } from "next"
+import NextLink from "next/link"
+
+import { Rows, Row, RowKind, RowMeta, RowTitle } from "@/registry/0db/ui/rows"
+import { catalog, UNDER } from "@/lib/site/catalog"
+
+export const metadata: Metadata = {
+  title: "Index",
+  description: "Every 0dB item, by movement.",
+}
+
+export default function DocsIndexPage() {
+  const count = catalog.reduce((n, m) => n + m.items.length, 0)
+  return (
+    <>
+      <header className="doc-head">
+        <h1 className="doc-title">Index</h1>
+        <p className="doc-summary">{count} items in eight movements. Each one is a typographic idea standing on a native element or a Radix primitive.</p>
+      </header>
+      {catalog.map((m) => (
+        <section key={m.num} className="doc-section" aria-labelledby={`m-${m.num}`}>
+          <h2 id={`m-${m.num}`}>
+            {m.num} {m.name}
+          </h2>
+          <Rows>
+            {m.items.map((e) => (
+              <Row key={e.meta.name} asChild>
+                <NextLink href={`/docs/${e.meta.name}/`}>
+                  <RowTitle>{e.meta.title}</RowTitle>
+                  <RowKind>{UNDER[e.meta.underneath]}</RowKind>
+                  <RowMeta>{e.meta.contract}</RowMeta>
+                </NextLink>
+              </Row>
+            ))}
+          </Rows>
+        </section>
+      ))}
+    </>
+  )
+}
