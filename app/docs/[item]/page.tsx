@@ -19,6 +19,7 @@ import { movementName, ordered, UNDER } from "@/lib/site/catalog"
 import { contractFor, motionRows, moveRows } from "@/lib/site/design-md"
 import { exampleSource, installCommand } from "@/lib/site/example-source"
 import { rewriteImports } from "@/scripts/lib/items.mjs"
+import { ItemExample } from "./examples"
 
 type Params = { params: Promise<{ item: string }> }
 
@@ -83,8 +84,6 @@ export default async function ItemPage({ params }: Params) {
   const entry = entries.find((e) => e.meta.name === item)
   if (!entry) notFound()
   const { meta } = entry
-  const Example = entry.example.default
-  const States = "States" in entry.example ? (entry.example.States as React.ComponentType) : null
   const at = ordered.findIndex((e) => e.meta.name === item)
   const prev = ordered[at - 1]?.meta
   const next = ordered[at + 1]?.meta
@@ -116,16 +115,16 @@ export default async function ItemPage({ params }: Params) {
         {/* The frame is itself Corners; the corners page shows its own, alone. */}
         {meta.name === "corners" ? (
           <div className="doc-example">
-            <Example />
+            <ItemExample item={item} />
           </div>
         ) : (
           <Corners className="doc-example">
-            <Example />
+            <ItemExample item={item} />
           </Corners>
         )}
-        {States ? (
+        {entry.hasStates ? (
           <div className="spec-states" inert aria-label="States, pinned">
-            <States />
+            <ItemExample item={item} states />
           </div>
         ) : null}
       </section>

@@ -4,6 +4,7 @@ import { ThemeScript } from "@/components/site/theme-script"
 import { TopRow } from "@/components/site/top-row"
 import { SmoothScroll } from "@/components/site/smooth-scroll"
 import { PageRail } from "@/components/site/page-rail"
+import { RegistryStyles } from "@/components/site/registry-styles"
 import { Toaster } from "@/registry/0db/ui/toast"
 import { TooltipProvider } from "@/registry/0db/ui/tooltip"
 import { places, searchGroups } from "@/lib/site/nav"
@@ -34,6 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <link rel="preload" href="/fonts/archivo-normal-e3a28eade2.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/bodoni-moda-italic-b737328c13.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <RegistryStyles />
       </head>
       <body>
         <a className="skip db-link" href="#content">Skip to the content</a>

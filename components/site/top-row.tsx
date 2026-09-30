@@ -29,7 +29,7 @@ export function TopRow({ places, groups }: { places: Record<string, Place>; grou
 
   return (
     <header className="bar">
-      <Link className="bar-mark" href="/" aria-label="0dB, home">
+      <Link className="bar-mark" href="/" prefetch={false} aria-label="0dB, home">
         <svg viewBox="0 0 20 13" aria-hidden="true"><path d="M1.5 11.5 A8.5 8.5 0 0 1 18.5 11.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /><circle cx="10" cy="10.2" r="1.7" fill="currentColor" /></svg>
         <span>0dB</span>
       </Link>

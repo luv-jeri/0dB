@@ -6,7 +6,23 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 :root { --bar: 4rem; }
-html { scroll-padding-top: calc(var(--bar) + var(--db-space-6)); }
+html { scroll-padding-top: calc(var(--bar) + var(--db-space-6)); scrollbar-gutter: stable; }
+/* The pre-paint theme script selects the ruler before the browser allocates a
+   native gutter. Its SSR hairline is already present; hydration only measures
+   the thumb. Touch, no-script and browsers without scroll timelines keep the
+   native stroke from base.css. The docs index makes the same choice in CSS. */
+@supports (animation-timeline: scroll()) {
+  @media (pointer: fine) {
+    html[data-page-scrollbar] { scrollbar-width: none; }
+    html[data-page-scrollbar]::-webkit-scrollbar { display: none; }
+    html[data-page-scrollbar] .page-rail .db-scrollbar[data-variant="page"]:not([data-idle]) { display: block; }
+  }
+  @media (pointer: fine) and (min-width: 860px) {
+    html[data-page-scrollbar] .docs-index-list { position: relative; scrollbar-width: none; }
+    html[data-page-scrollbar] .docs-index-list::-webkit-scrollbar { display: none; }
+    html[data-page-scrollbar] .docs-index-list > .db-scrollbar:not([data-idle]) { display: block; }
+  }
+}
 body { overflow-x: clip; }
 
 .skip { position: fixed; inset-block-start: var(--db-space-3); inset-inline-start: var(--db-margin); z-index: 50; translate: 0 -200%; }
