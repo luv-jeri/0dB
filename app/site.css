@@ -222,3 +222,5 @@ body { overflow-x: clip; }
   .doc-props tr > td:nth-child(3):not(:empty)::before { content: "Default "; font-size: var(--db-pp); color: var(--db-pencil); }
 }
 
+/* The smallest phones: the row keeps every word by tightening its gaps. */
+@media (max-width: 380px) { .bar { column-gap: var(--db-space-2); } .bar-end, .bar-controls { gap: var(--db-space-3); } }
