@@ -1,65 +1,15 @@
 "use client"
 
 import * as React from "react"
-import NextLink from "next/link"
 
 import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls"
-import { tempo } from "@/lib/site/tempo"
 import { Button } from "@/registry/0db/ui/button"
 import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
 import { Input } from "@/registry/0db/ui/field"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/registry/0db/ui/hover-card"
-import { Link } from "@/registry/0db/ui/link"
 import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
-import { Scrollbar } from "@/registry/0db/ui/scrollbar"
 import { Select } from "@/registry/0db/ui/select"
-import { Slider } from "@/registry/0db/ui/slider"
 
-// The home page's instruments. Each one plays a principle instead of stating it.
-
-/** Ours in roman, yours in italic: you write your name, and the page answers with it. */
-export function Hello() {
-  const [name, setName] = React.useState("")
-  const [hour, setHour] = React.useState(12)
-  const who = name.trim()
-  const late = hour >= 22 || hour < 5
-  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening"
-  return (
-    <div className="hello">
-      <label className="hello-ask">
-        My name is{" "}
-        <span className="hello-fill">
-          <Input
-            className="hello-name"
-            value={name}
-            placeholder="your name"
-            autoComplete="off"
-            spellCheck={false}
-            maxLength={32}
-            onChange={(e) => {
-              setName(e.target.value)
-              setHour(new Date().getHours())
-            }}
-          />
-          <span aria-hidden="true">.</span>
-        </span>
-      </label>
-      <p className="hello-reply" aria-live="polite">
-        {who ? (
-          late ? (
-            <>
-              Working late, <span className="db-yours">{who}</span>? We&rsquo;ll keep it quiet.
-            </>
-          ) : (
-            <>
-              {greeting}, <span className="db-yours">{who}</span>.
-            </>
-          )
-        ) : null}
-      </p>
-    </div>
-  )
-}
+// The home page's small instruments: the ones that answer a hand. Everything else on the page is a server component.
 
 const LEFT_OUT = ["Icons", "Boxes", "Shadows", "Gradients", "Monospace", "A second colour"]
 
@@ -128,201 +78,121 @@ export function TuneSentence() {
   )
 }
 
-/** What a level sounds like, from the threshold up. */
-const LEVELS: [number, string][] = [
-  [0, "The threshold of hearing."],
-  [10, "Breathing."],
-  [20, "Leaves, moving."],
-  [30, "A whisper."],
-  [40, "A quiet library."],
-  [50, "Rain."],
-  [60, "A conversation."],
-  [70, "A busy street."],
-  [85, "Heavy traffic."],
-  [90, "A lawnmower."],
-  [100, "A motorbike."],
-  [110, "A concert, near the front."],
-  [120, "A jet, taking off."],
-]
-const HARM = 85
-
-/** Type is the only ornament: loudness drawn with weight and width alone. At zero it spells the name. */
-export function Loudness() {
-  const [level, setLevel] = React.useState(0)
-  const frame = React.useRef(0)
-  const root = React.useRef<HTMLDivElement>(null)
-  React.useEffect(() => () => cancelAnimationFrame(frame.current), [])
-
-  /** Move the level from `from` to `to` on the breath curve, then call `then`. */
-  const glide = (from: number, to: number, then?: () => void) => {
-    cancelAnimationFrame(frame.current)
-    const began = performance.now()
-    const length = tempo("--db-adagio") || 1400
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - began) / length)
-      const eased = t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2 // the breath curve, near enough
-      setLevel(Math.round(from + (to - from) * eased))
-      if (t < 1) frame.current = requestAnimationFrame(tick)
-      else then?.()
+/** The install line as one press: the whole command, the reader's part in italic; pressing copies it. */
+export function CopyCommand({ command, emphasis }: { command: string; emphasis?: string }) {
+  const [copied, setCopied] = React.useState(false)
+  const timer = React.useRef(0)
+  React.useEffect(() => () => clearTimeout(timer.current), [])
+  const at = emphasis ? command.lastIndexOf(emphasis) : -1
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(command)
+    } catch {
+      return
     }
-    frame.current = requestAnimationFrame(tick)
+    setCopied(true)
+    clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setCopied(false), 2000)
   }
-
-  // Once, when it's well in view: the hand sweeps up to a conversation and back, so you see the slider is yours to move. Touching it stops the sweep.
-  React.useEffect(() => {
-    const el = root.current
-    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    let rest = 0
-    const seen = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) return
-        seen.disconnect()
-        glide(0, 60, () => (rest = window.setTimeout(() => glide(60, 0), 500)))
-      },
-      { threshold: 0.6 },
-    )
-    seen.observe(el)
-    const stop = () => {
-      clearTimeout(rest)
-      cancelAnimationFrame(frame.current)
-    }
-    el.addEventListener("pointerdown", stop)
-    el.addEventListener("keydown", stop)
-    return () => {
-      seen.disconnect()
-      stop()
-      el.removeEventListener("pointerdown", stop)
-      el.removeEventListener("keydown", stop)
-    }
-  }, [])
-
-  const quiet = () => {
-    cancelAnimationFrame(frame.current)
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return setLevel(0)
-    glide(level, 0)
-  }
-
-  const like = LEVELS.findLast(([at]) => level >= at)![1]
-  const harm = level >= HARM
   return (
-    <div ref={root} className="loud" data-harm={harm || undefined} style={{ "--loud": level / 120 } as React.CSSProperties}>
-      <p className="loud-figure" aria-hidden="true">
-        {level}
-        <span className="loud-unit">dB</span>
-      </p>
-      <p className="loud-like" aria-live="polite">
-        {like}
-        {harm ? <span className="loud-harm"> Hearing wears from here.</span> : null}
-      </p>
-      <div className="loud-hand">
-        <Slider
-          label="Loudness"
-          min={0}
-          max={120}
-          value={level}
-          unit=" dB"
-          onValueChange={(v) => {
-            cancelAnimationFrame(frame.current)
-            setLevel(v)
-          }}
-        />
-        <Button variant="quiet" disabled={level === 0} onClick={quiet}>
-          Back to quiet
+    <>
+      <button type="button" className="copy-cmd" data-copied={copied || undefined} onClick={copy}>
+        <code className="copy-cmd-text" dir="ltr">
+          {at < 0 || !emphasis ? (
+            command
+          ) : (
+            <>
+              {command.slice(0, at)}
+              <i>{emphasis}</i>
+              {command.slice(at + emphasis.length)}
+            </>
+          )}
+        </code>
+        <span className="copy-cmd-word" data-text="Copied">
+          <span>{copied ? "Copied" : "Copy"}</span>
+        </span>
+      </button>
+      <span className="db-sr" aria-live="polite">
+        {copied ? "Copied to the clipboard." : ""}
+      </span>
+    </>
+  )
+}
+
+const PROMPT = (thing: string) =>
+  `Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0dB. Use an installed 0dB component as precedent. Run the completion checklist and report evidence.`
+
+/** Ask for it: you write what you want in the blank, in your italic, and copy a prompt that already knows the rules. */
+export function AskFor() {
+  const [what, setWhat] = React.useState("")
+  const [copied, setCopied] = React.useState(false)
+  const timer = React.useRef(0)
+  React.useEffect(() => () => clearTimeout(timer.current), [])
+  const thing = what.trim() || "a pricing page"
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(PROMPT(thing))
+    } catch {
+      return
+    }
+    setCopied(true)
+    clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <div className="ask">
+      <label className="ask-line">
+        Build me{" "}
+        <span className="ask-fill">
+          <Input className="ask-what" value={what} placeholder="a pricing page" autoComplete="off" spellCheck={false} maxLength={48} onChange={(e) => setWhat(e.target.value)} />
+        </span>{" "}
+        in 0dB.
+      </label>
+      <div className="ask-foot">
+        <Button variant="bracket" onClick={copy}>
+          {copied ? "Copied" : "Copy the prompt"}
         </Button>
+        <span className="db-sr" aria-live="polite">
+          {copied ? "The prompt is on the clipboard." : ""}
+        </span>
       </div>
     </div>
   )
 }
 
-const TEMPI = [
-  {
-    name: "Allegro",
-    token: "allegro",
-    seconds: "0.16",
-    use: "Hover and press",
-  },
-  {
-    name: "Moderato",
-    token: "moderato",
-    seconds: "0.32",
-    use: "A state changes",
-  },
-  { name: "Andante", token: "andante", seconds: "0.64", use: "Panels arrive" },
-  {
-    name: "Adagio",
-    token: "adagio",
-    seconds: "1.40",
-    use: "The overture, once",
-  },
-]
-
-/** Nothing moves unless you do: four tempi, still until you point at one or play them together. */
-export function Tempi() {
-  const [across, setAcross] = React.useState(false)
+/**
+ * Share: the system's own sheet where there is one, else the link is copied. Plain words, no glyph.
+ * The label says what happened after: "Link copied", read out once.
+ */
+export function Share({ url, title, children }: { url: string; title: string; children: string }) {
+  const [copied, setCopied] = React.useState(false)
+  const t = React.useRef(0)
+  React.useEffect(() => () => clearTimeout(t.current), [])
+  async function share() {
+    const href = new URL(url, location.href).href
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, url: href })
+        return
+      } catch (e) {
+        if ((e as DOMException).name === "AbortError") return
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(href)
+      setCopied(true)
+      clearTimeout(t.current)
+      t.current = window.setTimeout(() => setCopied(false), 2400)
+    } catch {}
+  }
   return (
-    <div className="tempi" data-across={across || undefined}>
-      <ul className="tempi-list">
-        {TEMPI.map((t) => (
-          <li key={t.token} className="tempo" style={{ "--tempo": `var(--db-${t.token})` } as React.CSSProperties}>
-            <span className="tempo-name" lang="it">
-              {t.name}
-            </span>
-            <span className="tempo-use">{t.use}</span>
-            <span className="tempo-track" aria-hidden="true">
-              <span className="tempo-dot" />
-            </span>
-            <span className="tempo-time">{t.seconds}&#8239;s</span>
-          </li>
-        ))}
-      </ul>
-      <Button variant="bracket" aria-pressed={across} onClick={() => setAcross((a) => !a)}>
-        {across ? "Bring them back" : "Play all four"}
-      </Button>
-    </div>
-  )
-}
-
-/** Once an instrument is well in view, it shows in pencil what it does, once. Scrolling to it is the hand that starts it. */
-export function Cue({ children }: { children: React.ReactNode }) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  React.useEffect(() => {
-    const el = ref.current
-    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const seen = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) return
-        el.dataset.cued = ""
-        seen.disconnect()
-      },
-      { threshold: 0.6 },
-    )
-    seen.observe(el)
-    return () => seen.disconnect()
-  }, [])
-  return (
-    <div ref={ref} className="cue">
-      {children}
-    </div>
-  )
-}
-
-/** A piece in the programme. Resting on its name shows the piece itself, small and still, over the sentence that says what it is. */
-export function PieceLink({ href, title, summary, children }: { href: string; title: string; summary: string; children: React.ReactNode }) {
-  return (
-    <HoverCard openDelay={300} closeDelay={240}>
-      <HoverCardTrigger asChild>
-        <Link asChild variant="quiet">
-          <NextLink href={href}>{title}</NextLink>
-        </Link>
-      </HoverCardTrigger>
-      <HoverCardContent side="top" align="center" className="piece-peek">
-        {/* The piece itself, live: try it here, or follow the link for its page. */}
-        <div className="piece-peek-stage">
-          <div className="piece-peek-scale">{children}</div>
-          <Scrollbar />
-        </div>
-        <p className="piece-peek-summary">{summary}</p>
-      </HoverCardContent>
-    </HoverCard>
+    <>
+      <button type="button" className="share" data-copied={copied || undefined} onClick={share}>
+        {copied ? "Link copied" : children}
+      </button>
+      <span className="db-sr" aria-live="polite">
+        {copied ? "Link copied" : ""}
+      </span>
+    </>
   )
 }
