@@ -22,7 +22,7 @@
 | Icons | Words say what an icon only suggests, and an icon set brings a second visual language. Arrows appear only where there's real direction (↗ external, ↓ sort, → opens). |
 | Cards, fills and shadows | Space already separates things. A box around content says the space failed. |
 | A second accent colour | The accent means "you are here". Two accents would mean two places. Crimson is kept for errors, and the highlighter for reading marks. |
-| Motion that plays by itself | Nothing moves unless the person does. The overture on the home page is the single exception, and it plays once. |
+| Motion that plays by itself | Nothing moves unless the person does, apart from the overture on the home page, which plays once, and the owner-approved marquee, text-ribbon and word-relay autoplay exceptions (2026-10-01). Each autoplay exception is pausable and off under reduced motion. |
 | Decoration of what the person owns | Their choices and words are set in the italic expression face. That's the only way they're marked. |
 | Effects ported from 000h that have no type-only version (53): adjuster, ambient-background, animated-icon, assembly-part, bento-builder, buy-me-coffee, click-spark, contour-field, contours-background, depth-background, dither-dissolve, dither-sculpture, dock, elastic-mesh, falling-text, float-layer, flow-sculpture, folds-background, ghost-cursor, glass-sculpture, glyph-sculpture, grain-dissolve, icon, image-trail, infinite-spiral, ink-sculpture, magic-rings, meta-balls, orbit-images, organism-assembly, organism-composition, particle-sculpture, particle-text, pebbles-background, pigment-field, pixel-swap, portal-field, ripple-distortion, scroll-organism, sculpture-orbit, semantic-bloom, shape, shape-artwork, shape-scene, sprouts-background, strands, sunwash-background, swarm-cursor, typography-vortex, warp-text, weave-background, writing-caret, zoom-words | Each one's job is only its effect: shapes, fills, particles or motion that plays by itself. With the effect taken away nothing is left for type to carry. A few jobs are still done elsewhere: a hairline scene change covers the dissolves, and a link covers buy-me-coffee. click-spark was weighed as a type mark left where you press, and dropped: every control already answers its own press, so a second mark would decorate the press, not say anything. The owner decided this on 2026-09-30 (click-spark on 2026-10-01); the reasons for each are in `docs/superpowers/specs/2026-09-30-000h-port-inventory.md`, Table C. |
 | cva, a motion library, a docs framework | Data attributes, CSS and our own components already do the job. Each dependency is a second opinion about how things should look. |
@@ -37,7 +37,7 @@
 ## When in doubt
 
 1. Take something away before adding anything.
-2. Ask what the person did. If they did nothing, nothing moves.
+2. Ask what the person did. If they did nothing, nothing moves except the approved cases above.
 3. Ask whose words these are. Ours are roman, theirs are italic.
 4. Ask where the accent is. If there are two, remove one.
 5. Use the native element. Use Radix or cmdk only when the platform can't do it (menus, floating layers, the combobox and command).

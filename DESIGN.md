@@ -13,7 +13,7 @@ A design system for type and silence. Two typefaces, one accent, and a great dea
 2. **Type is the only ornament.** Weight, width, size, tracking and order carry every level of hierarchy. No icons, fills or shadows.
 3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic at `--db-expression-scale`: a picked option, a typed value, a switch state, a slider value, a named item they own. Musical and foreign terms are italic too (`.db-term`), by book convention.
 4. **One note of colour.** One accent marks where you are: the current page, the chosen option, focus. At most one accent mark in view. Crimson is only for errors. The highlighter is only for reading marks.
-5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture is the only motion that plays by itself, and it plays once.
+5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
 
 ## Conventions
 
@@ -232,12 +232,14 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 ### db-relay (word-relay)
 - Underneath: native `<button>`.
-- Anatomy: `<button class="db-relay" data-variant="statement">` holding `.db-relay-lead` (the sentence, ours), `.db-relay-word` (aria-hidden, the word that rolls) and a `.db-sr` copy of the chosen word with `aria-live="polite"`, so the button's name is the whole sentence and a reader hears the new word.
-- sentence (the default): mode-toggle's sentence, for any set of words. The lead is in the roman and graphite; the word is yours, in the expression italic and ink, on a hairline that hugs it. Pressing rolls it on to the next word (`lib/roll.ts`: out at the top, in from below; back the other way), and the word's box eases from the old width to the new (moderato, breath), so the line follows the word. The last wraps to the first. It never changes by itself.
+- Anatomy: `.db-relay-frame` holds the native `<button class="db-relay" data-variant="statement">` and the sibling `.db-relay-pause` word button beneath it (never a nested button). The sentence button holds `.db-relay-lead` (the sentence, ours), `.db-relay-word` (aria-hidden, the word that rolls) and a `.db-sr` copy of the chosen word, so the button's name is the whole sentence. Person-driven changes are polite live updates; automatic changes keep the live region off.
+- sentence (the default): mode-toggle's sentence, for any set of words. The lead is in the roman and graphite; the word is yours, in the expression italic and ink, on a hairline that hugs it. Pressing rolls it on to the next word (out at the top, in from below; back the other way), and the word's box eases from the old width to the new (moderato, breath), so the line follows the word. The last wraps to the first. Autoplay rolls to the next word every `interval` milliseconds (2400 by default, at least 1000); pressing or using the keys resets that reading interval.
 - statement: after "It has to be design.", where heavy condensed roman is answered by a large italic that overlaps it, the one accent on the italic word and its full stop. The lead stands heavy (800) and narrow (75%) in ink; the word drops under it half again as large, in the italic and the accent, rising 0.42em into the line above with a halo of the paper round its letters (`--db-relay-ground`), so it cuts the roman where they cross. Pointing sketches a pencil hairline under it.
-- Props: `words` (each with its own punctuation), `index` / `defaultIndex` / `onIndexChange(index)`.
+- Props: `words` (each with its own punctuation), `index` / `defaultIndex` / `onIndexChange(index)`. Controlled relays request the next index for both person-driven and automatic changes; the owner updates `index`. Disabled or single-word relays do not autoplay.
 - States: rest, hover (sentence: ink, and the hairline inks; statement: the pencil hairline), focus (accent outline), disabled.
-- Keyboard: Space or Enter goes to the next word; Down and Right to the next, Up and Left to the one before (Left and Right mirrored right to left); Home and End to the first and the last. Reduced motion: the word changes at once. Forced colours: the hairline and the word in CanvasText.
+- Keyboard: Space or Enter goes to the next word; Down and Right to the next, Up and Left to the one before (Left and Right mirrored right to left); Home and End to the first and the last. Reduced motion: the word changes at once. Forced colours: the hairline and the word in CanvasText; the statement separates its two lines so the forced background cannot cover the lead.
+- Autoplay (owner-approved exception, 2026-10-01): `autoplay` defaults to true; false keeps only person-driven behaviour and omits the pause control. `defaultPaused` starts it paused. The small roman `( pause )` / `( play )` button sits beneath the item at inline start, with `pauseLabel` / `playLabel` for its visible and accessible words. Explicit pause persists until play. Hover, focus within, an off-screen IntersectionObserver entry and a hidden tab suspend it; the person's scroll, drag, key or press takes over, and leaving interaction gives it 1600ms of rest before resuming. Reduced motion disables autoplay entirely and hides the unused control; `data-force="reduced"` shows that still state in docs. The clock uses rAF time deltas, cancels on unmount and never catches up hidden time.
+- Autoplay states: autoplaying, paused (play available), reduced motion (still); the pause button is a separate keyboard stop with visible accent focus and native Enter/Space activation.
 
 ### db-appearance (appearance)
 - Underneath: native, through `picks` and `mode-toggle`, plus a hook that reads and writes the four switches on `<html>`.
@@ -705,22 +707,26 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - solo: the mixing desk's solo button. Pointing at a line keeps it in ink and sends every other line back to a rule (`--db-rule-strong`), its dynamic's mark inked and its size shown, so you hear one size alone; the colour eases (`--db-andante`). Leaving brings every line back. A pointer aid only: the rows are aria-hidden and the text is read once.
 
 ### db-marquee (marquee)
-- Underneath: native, plus a hook that reads the scroll.
-- Anatomy: `<div class="db-marquee" data-variant="ticker | counter">` holding one `.db-marquee-row` (two for counter; `data-back` on the one that runs towards the start), each a `.db-marquee-track` of `.db-marquee-words` lists. The first list of the first row is the one readers get (`aria-label` from `label`); the copies that fill the band are aria-hidden and inert. `--o` is how far it has travelled, wrapped to one run (`--period`).
-- A band of words that moves only with the page's scroll: never by itself, with no idle speed. Its offset is how far the band has risen through the view times `speed` (0.4), read from the real layout in a frame asked for by the scroll event, which runs after a smooth scroller's own frame, so it keeps step with the page, stands the moment the scroll stops and runs back when you scroll back. Scrolling down it reads along, the words coming in at the end and leaving at the start; `reverse` turns it round.
+- Underneath: native, plus a hook that reads scroll and an elapsed-time animation clock.
+- Anatomy: `<div class="db-marquee" data-variant="ticker | counter">` holding `.db-marquee-frame` (overflow clip, a zero minimum inline size, inside a `minmax(0, 1fr)` grid column) and the `.db-marquee-pause` word button beneath it. The frame holds one `.db-marquee-row` (two for counter; `data-back` on the one that runs towards the start), each a `.db-marquee-track` of `.db-marquee-words` lists. The first list of the first row is the one readers get (`aria-label` from `label`); the copies that fill the band are aria-hidden and inert. `--o` is how far it has travelled, wrapped to one run (`--period`).
+- A band of words that drifts at 24px per second by default. Scrolling takes over immediately: its position is the accumulated drift plus how far the band has risen through the view times `speed` (0.4), read after a smooth scroller's frame. It runs back when you scroll back and resumes drifting after a short rest. Scrolling down it reads along, the words coming in at the end and leaving at the start; `reverse` turns both drift and scroll round. The duplicated track is clipped by its own frame and can never set the page's width.
 - band (the default): after "Renaissance." and "Less is more.", every word a statement closed by its own full stop, and after SPECTRA, set so large in a light weight that the frame's ends crop it. Pass a dynamic class (`db-fff`, `db-ff`) for the size.
 - ticker: small capitals, widely spaced (`--db-space-7`), in graphite between two hairlines, after the Renaissance poster's top row and the SHAPES / GRADIENTS frame row. No full stops: these are labels, not statements.
-- counter: after SPECTRA's two rows. The band twice, the upper row cut at its head and the lower at its feet, meeting on one hairline and running opposite ways as you scroll.
+- counter: after SPECTRA's two rows. The band twice, the upper row cut at its head and the lower at its feet, meeting on one hairline and running opposite ways during drift and scroll.
 - It measures again when its width or one run's width changes (a new face or size), so it needs no watch on `<html>`. Right to left the words read and travel the other way. Reduced motion: the words stand still and wrap as one list, the copies and the second row gone.
+- Autoplay (owner-approved exception, 2026-10-01): `autoplay` defaults to true; false keeps only person-driven behaviour and omits the pause control. `defaultPaused` starts it paused. The small roman `( pause )` / `( play )` button sits beneath the item at inline start, with `pauseLabel` / `playLabel` for its visible and accessible words. Explicit pause persists until play. Hover, focus within, an off-screen IntersectionObserver entry and a hidden tab suspend it; the person's scroll, drag, key or press takes over, and leaving interaction gives it 1600ms of rest before resuming. Reduced motion disables autoplay entirely and hides the unused control; `data-force="reduced"` shows that still state in docs. The clock uses rAF time deltas, cancels on unmount and never catches up hidden time.
+- Autoplay states: autoplaying, paused (play available), reduced motion (still); the pause button is a separate keyboard stop with visible accent focus and native Enter/Space activation.
 
 ### db-ribbon (text-ribbon)
 - Underneath: native, plus a hook that measures every letter with pretext (`@chenglou/pretext`, loaded when it's needed); the stage is a `role="slider"`.
-- Anatomy: `<div class="db-ribbon" data-variant="wave">` holding the phrase once for readers (`.db-sr`) and `.db-ribbon-stage` (the slider, one focus stop), which holds `.db-ribbon-plain` (the phrase, until it's laid), an aria-hidden `svg.db-ribbon-guide` and an aria-hidden `.db-ribbon-letters`: one span per letter and a `.db-ribbon-dot` between each repeat, each placed by the hook and carrying `--d`, its distance from the middle of the curve, 0 to 1.
+- Anatomy: `<div class="db-ribbon" data-variant="wave">` holding the phrase once for readers (`.db-sr`) and `.db-ribbon-stage` (the slider, one focus stop), followed by the `.db-ribbon-pause` word button beneath it. The stage holds `.db-ribbon-plain` (the phrase, until it's laid), an aria-hidden `svg.db-ribbon-guide` and an aria-hidden `.db-ribbon-letters`: one span per letter and a `.db-ribbon-dot` between each repeat, each placed by the hook and carrying `--d`, its distance from the middle of the curve, 0 to 1.
 - arc (the default): after WOVE, figures set round an arc with dots on it, fading and shrinking by distance. The phrase is repeated round an arch that spans 100°, each letter at its place in the real line (kerning included) and turned to the curve. At the crest it stands at full size in ink; toward the ends it shrinks (to 58%) and falls to pencil, and it fades out at the very ends. A hairline guide (`--db-rule`) runs 0.55em inside the letters, carrying a pencil dot between each repeat and one ink dot fixed at the crest, the "here" of WOVE's dial. The stage's height is reserved from its width in CSS (container units), so nothing moves when it's laid.
-- It moves only when you move it. Drag it along (sideways; on touch the page still scrolls up and down), or scroll the page, which carries it 0.6 of the scroll as it rises through the view, read from the real layout in a frame asked for by the scroll event, after a smooth scroller (Lenis) has moved the page. No loop, no drift, no inertia: it rests the moment you let go.
+- The phrase drifts at 0.6em per second. Drag it along (sideways; on touch the page still scrolls up and down), use the keys, or scroll the page to take over. Scroll carries it 0.6 of the page's movement, read from the real layout after a smooth scroller (Lenis) has moved it. Person-driven changes have no inertia; autoplay resumes after a short rest.
 - wave: after the script that sweeps through the capitals of "Less stress. More creativity.". The phrase rides a slow wave across the measure (0.6em high, a swell every 12em or more), every letter the same size and in ink, fading in and out only at the edges; the dots ride a guide under it.
 - Keyboard: Left and Right move it an em, Page Up and Page Down four, Home back to where it began. `aria-valuenow` is how far round the repeat it has gone, 0 to 100. Focus draws the accent outline and turns the crest dot to the accent. The letters are aria-hidden and the phrase is read once.
-- Under reduced motion the scroll doesn't carry it; the drag and the keys still do. It lays out again when its width changes or `<html>` changes face (it watches the pair, scheme, mode and key attributes, not `class`, which smooth scrolling toggles on every scroll). Before that, or without script, it's the plain phrase. The letters are placed left to right one by one, so it is for Latin phrases; the drag and the arrows follow the screen, not the page's direction. Forced colours: the letters and dots in CanvasText, the guide in GrayText.
+- Under reduced motion neither autoplay nor scroll carries it: it shows the still curve; the drag and the keys still work. It lays out again when its width changes or `<html>` changes face (it watches the pair, scheme, mode and key attributes, not `class`, which smooth scrolling toggles on every scroll). Before that, or without script, it's the plain phrase. The letters are placed left to right one by one, so it is for Latin phrases; the drag and the arrows follow the screen, not the page's direction. Forced colours: the letters and dots in CanvasText, the guide in GrayText.
+- Autoplay (owner-approved exception, 2026-10-01): `autoplay` defaults to true; false keeps only person-driven behaviour and omits the pause control. `defaultPaused` starts it paused. The small roman `( pause )` / `( play )` button sits beneath the item at inline start, with `pauseLabel` / `playLabel` for its visible and accessible words. Explicit pause persists until play. Hover, focus within, an off-screen IntersectionObserver entry and a hidden tab suspend it; the person's scroll, drag, key or press takes over, and leaving interaction gives it 1600ms of rest before resuming. Reduced motion disables autoplay entirely and hides the unused control; `data-force="reduced"` shows that still state in docs. The clock uses rAF time deltas, cancels on unmount and never catches up hidden time.
+- Autoplay states: autoplaying, paused (play available), reduced motion (still); the pause button is a separate keyboard stop with visible accent focus and native Enter/Space activation.
 
 ### db-sidebar (sidebar)
 - Underneath: native, plus a hook; a sheet on narrow screens.
@@ -1317,7 +1323,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Segue (`segue`) | The film editor's wipe; SHAPES / GRADIENTS (a hairline carrying a date and a name) | One hairline crosses and the next scene is behind it, its name carried on the line |
 | Horizon segue (`segue`) | Eclipse | The line rises like a horizon and the next scene comes up under it |
 | Scrub segue (`segue`) | The reader's own pace (the scrub gather) | The line stands as far across as the scroll has gone |
-| Marquee (`marquee`) | "Renaissance."; SPECTRA crop | Huge light words, each closed by a full stop, cropped by the frame and moved only by the scroll |
+| Marquee (`marquee`) | "Renaissance."; SPECTRA crop | Huge light words, each closed by a full stop, cropped by the frame, drifting until the reader takes over |
 | Ticker marquee (`marquee`) | The Renaissance top row; SHAPES / GRADIENTS frame row | Small capitals running between two hairlines |
 | Counter marquee (`marquee`) | SPECTRA's two cropped rows | Two rows cut at head and feet, meeting on a hairline, running opposite ways |
 | Line carousel (`carousel`) | "It has to be design." (the accent full stop); SPECTRA crop | The names as one line of type, read along |
@@ -1408,13 +1414,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Kagi corners (`corners`) | The Japanese corner brackets 「 」 | Two corners quote a phrase across its lines |
 | Tiling (`tiling`) | "Less is more."; Paul Rand's overrunning construction lines | Tiles held apart by one shared hairline, none round the outside; notes kept to the corners |
 | Crosses tiling (`tiling`) | "the uncreative" + corner signs | No lines: a registration cross on every tile's corners |
+| Editable tiling (`tiling`) | Paul Rand's construction sheet; "the silence that heals" corner marks | Pencil geometry stays visible while a held tile wears the one accent frame; words move and size it |
 | Meta (`meta`) | SHAPES / GRADIENTS frame row; "Healthy habits" corner notes | Words held apart by hairlines; stacked where they don't fit |
 | Scroll expand (`scroll-expand`) | The printer's crop marks; SHAPES / GRADIENTS frame | Crop marks open from a small mark to the measure as you scroll; the caption's rule draws out with them |
 | Horizon scroll expand (`scroll-expand`) | Eclipse | The plate opens up and down from a hairline horizon |
 | Proportional meta (`meta`) | The score's proportional notation | Each hairline as long as the interval it stands for |
 | Credits meta (`meta`) | SPECTRA credits | One rule, small columns of label over value |
 | Forme gather (`gather`) | The letterpress forme, type set mirrored in the chase | The line starts as its own mirror image and prints the right way round |
-| Editable tiling (`tiling`) | Paul Rand's construction sheet; "the silence that heals" corner marks | Pencil geometry stays visible while a held tile wears the one accent frame; words move and size it |
 | Coil gather (`gather`) | A ribbon wound on itself; WOVE's figures along an arc | The text starts wound in a spiral and unwinds onto the line |
 | Gather by word, by line (`gather`) | "Less is more." a word to a row; the Linotype slug | Whole words, or whole rows cast at once, settle instead of letters |
 | Scrub gather (`gather`) | The reader's own pace; a score read at sight | The settle is the scroll: it stops with you and undoes itself backwards |
@@ -1488,7 +1494,7 @@ Three rules, then one articulation per component.
 | Mode toggle (`mode-toggle`) | Legato | The disc slides, the dot sets, the lid closes, the word rolls |
 | Knockout mode toggle (`mode-toggle`) | Dusk and dawn | The ink falls over the second half from above and night reverses out; at dawn it lifts |
 | Hour mode toggle (`mode-toggle`) | Carry | The hour turns forward either way, the units first and the tens one step behind |
-| Word relay (`word-relay`) | Roll | The word turns over to the next (out at the top, in from below) and the line eases to its width |
+| Word relay (`word-relay`) | Roll | Every 2400ms by default, or on press/keys, the word turns over and the line follows its width; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Appearance (`appearance`) | Opening | The new page opens over the old as a circle from the control you touched |
 | Slider (`slider`) | Lift | The value rises while the hand is on it |
 | Spread slider (`slider`) | Ink follows | The ink runs through the letters with the hand |
@@ -1549,13 +1555,13 @@ Three rules, then one articulation per component.
 | Revise note (`note`) | Pencil, then ink, then written | Pointing sketches the strike in pencil; pressed, the pen strikes it in ink and the replacement is written in from the start; pressed again, both lift |
 | Ditto rows (`rows`) | Spell out | The ditto marks turn back into words, allegro |
 | Trail rows (`rows`) | Spiccato | Pointing inks the ring and it grows a quarter, landing with one rebound |
+| Editable tiling (`tiling`) | Glide | The tile itself glides to a keyboard-chosen position; pointer and reduced-motion edits place it directly. Nothing moves on mount or an external update |
 | Swapy (`swapy`) | Glide | Held, the ink prints across the row; the rows glide to their new places and their numbers turn over |
 | Transpose swapy (`swapy`) | Mark | The loop follows the held row through the margin, and fades when it is set down |
 | Link (`link`) | Pass-through | The highlighter passes through the word and the line gives way; an external link's ↗ steps the way it points |
 | Key (`kbd`) | Press | The corners close and the cap goes down with your key |
 | Typewriter key (`kbd`) | Spiccato | Pressed, the ring inks into a disc, goes down and lands with one small rebound |
 | Address link (`link`) | Written | Pointing writes the address in from where the words end; leaving, it's taken back the other way |
-| Editable tiling (`tiling`) | Glide | The tile itself glides to a keyboard-chosen position; pointer and reduced-motion edits place it directly. Nothing moves on mount or an external update |
 | Viewfinder corners (`corners`) | Spiccato | The marks glide onto what you point at and lock with one small rebound, then open back out to the whole |
 | Glide corners (`corners`) | Glide | Over moderato with breath, the frame glides from control to control and lands without a rebound; from rest it only fades in, and it fades out where it was |
 | Scroll expand (`scroll-expand`) | Rubato (the reader's tempo) | The crop and its marks open only as far as the scroll has gone, forwards or back |
@@ -1656,8 +1662,8 @@ Three rules, then one articulation per component.
 | Segue (`segue`) | Wipe | The hairline crosses carrying the next scene's number and name; the next scene drifts in behind it and the last is pushed on; back, it crosses the other way |
 | Horizon segue (`segue`) | Sunrise | The line rises from the foot and the next scene comes up under it; back, it sets |
 | Scrub segue (`segue`) | Rubato (the reader's tempo) | The line travels only as far as the scroll has gone, forwards or back |
-| Marquee (`marquee`) | Rubato (the reader's tempo) | The band travels only while the page scrolls, as far as it scrolls, and stands when you stop |
-| Counter marquee (`marquee`) | Contrary motion | The two rows travel opposite ways with the scroll |
+| Marquee (`marquee`) | Rubato (the reader's tempo) | A 24px/s drift yields to scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
+| Counter marquee (`marquee`) | Contrary motion | The two clipped rows drift or scroll opposite ways, sharing the same pause and reduced-motion rules |
 | Line carousel (`carousel`) | Reading on | The line slides; the name arriving at the start inks, its full stop takes the accent and its facts appear, while the one you left goes back to pencil |
 | Shelf carousel (`carousel`) | Taken out | The spine widens and its name turns to face you; the other narrows back into a spine |
 | Table (`table`) | Glide | The rows glide to their new order; a pick's ring lands |
@@ -1716,7 +1722,7 @@ Three rules, then one articulation per component.
 | Scrub gather (`gather`) | Rubato (the reader's tempo) | The pieces travel only as far as the scroll has gone, forwards or back |
 | Tale contour (`contour`) | Swish | The tail's wave moves with the hand across it; the lines further down follow later |
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
-| Text ribbon (`text-ribbon`) | Carried | The phrase travels along its curve as far as the hand or the scroll takes it, and rests when they stop |
+| Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`.

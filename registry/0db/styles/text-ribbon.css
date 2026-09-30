@@ -1,7 +1,7 @@
 @layer components {
   /* ── db-ribbon ── a phrase laid along a curve by pretext, repeated round with a dot between each time. Each letter is placed
      by the hook (translate, rotate, scale) and carries --d, its distance from the middle of the curve, 0 to 1; the colour and
-     the fade follow it here. It moves only while you move it: nothing eases, so it rests the moment you let go. */
+     the fade follow it here. The idle drift yields to the hand; pause, hover and focus hold the phrase in place. */
   .db-ribbon { container-type: inline-size; min-width: 0; }
   .db-ribbon-stage {
     position: relative; overflow: clip; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab;
@@ -40,4 +40,23 @@
     .db-ribbon-letters > .db-ribbon-dot, .db-ribbon-stage::after { background: CanvasText; forced-color-adjust: none; }
     .db-ribbon-guide path { stroke: GrayText; }
   }
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .db-ribbon-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--db-space-3); padding: var(--db-space-1) 0;
+    min-block-size: var(--db-space-5); color: var(--db-pencil); font: 400 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .db-ribbon-pause::before { content: "( "; }
+  .db-ribbon-pause::after { content: " )"; }
+  .db-ribbon-pause:hover { color: var(--db-ink); }
+  .db-ribbon-pause:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-ribbon-pause:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .db-ribbon[data-force~="reduced"] .db-ribbon-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .db-ribbon-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .db-ribbon-pause { color: ButtonText; }
+    .db-ribbon-pause:focus-visible { outline-color: Highlight; }
+  }
+
 }

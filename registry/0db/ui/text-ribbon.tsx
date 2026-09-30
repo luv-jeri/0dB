@@ -21,18 +21,24 @@ type TextRibbonProps = Omit<React.ComponentProps<"div">, "children"> & {
   variant?: "arc" | "wave"
   /** The name of the handle you move it by. */
   label?: string
+  autoplay?: boolean
+  defaultPaused?: boolean
+  pauseLabel?: string
+  playLabel?: string
+  "data-force"?: string
 }
 
 type Glyph = { el: HTMLSpanElement; x: number; dot?: boolean }
 
 /**
  * A phrase laid along a curve by pretext, repeated round like a ribbon with a dot between each time.
- * It moves only when you move it: drag it along, press the arrow keys, or scroll the page, and it stops
- * the moment you stop. There is no loop and no drift.
+ * It drifts until you take over: drag it along, press the arrow keys, scroll the page, or pause it.
  */
-function TextRibbon({ children: text, variant = "arc", label = "Move the phrase", className, ...props }: TextRibbonProps) {
+function TextRibbon({ children: text, variant = "arc", label = "Move the phrase", autoplay = true, defaultPaused = false, pauseLabel = "pause", playLabel = "play", "data-force": force, className, ...props }: TextRibbonProps) {
   const ref = React.useRef<HTMLDivElement>(null)
   const stage = React.useRef<HTMLDivElement>(null)
+  const [paused, setPaused] = React.useState(defaultPaused)
+  const drift = React.useRef<(delta: number) => void>(() => {})
 
   React.useEffect(() => {
     const root = ref.current, box = stage.current
@@ -47,6 +53,7 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
       } catch {
         return // the plain phrase stays
       }
+      if (cancelled) return
       const graphemes = new Intl.Segmenter(undefined, { granularity: "grapheme" })
       const layer = document.createElement("span")
       layer.className = "db-ribbon-letters"
@@ -65,7 +72,9 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
 
       let glyphs: Glyph[] = []
       let W = 0, size = 16, period = 1, length = 1
-      let hand = 0, scrolled = 0 // how far the phrase has been moved, by the hand and by the page
+      let hand = 0, scrolled = 0, carried = 0
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)")
+      const still = () => reduced.matches || !!force?.split(" ").includes("reduced")
       let place: (s: number) => { x: number; y: number; a: number } = () => ({ x: 0, y: 0, a: 0 })
 
       async function lay() {
@@ -132,7 +141,7 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
 
       const turn = (v: number) => ((v % period) + period) % period
       function paint() {
-        const shift = turn(hand + scrolled)
+        const shift = turn(hand + (still() ? 0 : scrolled + carried))
         for (const g of glyphs) {
           const s = g.x + shift - period
           const d = Math.min(1, Math.abs(s - length / 2) / (length / 2))
@@ -157,6 +166,10 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
 
       await lay()
       if (cancelled) return
+      drift.current = (delta) => {
+        carried = turn(carried + delta * size * 0.0006)
+        paint()
+      }
 
       const resized = new ResizeObserver(() => box.clientWidth !== W && lay())
       resized.observe(box)
@@ -167,6 +180,7 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
         cancelAnimationFrame(frame)
         resized.disconnect()
         restyled.disconnect()
+        drift.current = () => {}
       })
 
       // The hand: a drag along it moves it as far as the pointer goes, and it stays where it's let go.
@@ -210,28 +224,102 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
 
       // The page: scrolling moves it along as the ribbon rises through the view, read from the real layout in a frame
       // asked for by the scroll event, which runs after a smooth scroller has moved the page. Not under reduced motion.
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const onScroll = () => {
-          cancelAnimationFrame(frame)
-          frame = requestAnimationFrame(() => {
-            scrolled = -box.getBoundingClientRect().top * ARC.scroll
-            paint()
-          })
-        }
-        onScroll()
-        addEventListener("scroll", onScroll, { passive: true })
-        off.push(() => removeEventListener("scroll", onScroll))
+      const onScroll = () => {
+        if (still()) return
+        cancelAnimationFrame(frame)
+        frame = requestAnimationFrame(() => {
+          scrolled = -box.getBoundingClientRect().top * ARC.scroll
+          paint()
+        })
       }
+      onScroll()
+      reduced.addEventListener("change", ask)
+      addEventListener("scroll", onScroll, { passive: true })
+      off.push(() => {
+        reduced.removeEventListener("change", ask)
+        removeEventListener("scroll", onScroll)
+      })
     })()
 
     return () => {
       cancelled = true
       off.splice(0).forEach((f) => f())
     }
-  }, [text, variant])
+  }, [text, variant, force])
+
+  // A single clock for idle motion. Every pause cancels it; resuming starts with a fresh delta.
+  React.useEffect(() => {
+    const root = ref.current
+    if (!root) return
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)")
+    let running = false, held = false, visible = false, hovered = root.matches(":hover"), frame = 0, last = 0, timer = 0, restUntil = 0
+    const forced = force?.split(" ") ?? []
+    const tick = (time: number) => {
+      if (!running) return
+      const delta = last ? Math.min(time - last, 64) : 0
+      last = time
+      drift.current(delta)
+      if (running) frame = requestAnimationFrame(tick)
+    }
+    const sync = () => {
+      running = false
+      cancelAnimationFrame(frame)
+      clearTimeout(timer)
+      last = 0
+      const resting = performance.now() < restUntil
+      const stopped = !autoplay || paused || reduced.matches || forced.includes("reduced") || forced.includes("hover") || forced.includes("focus") || !visible || hovered || held || root.contains(document.activeElement) || document.hidden
+      root.dataset.autoplay = stopped || resting ? "paused" : "playing"
+      if (stopped) return
+      if (resting) timer = window.setTimeout(sync, restUntil - performance.now())
+      else { running = true; frame = requestAnimationFrame(tick) }
+    }
+    const rest = () => {
+      restUntil = performance.now() + 1600
+      sync()
+    }
+    const enter = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return
+      hovered = true
+      rest()
+    }
+    const leave = () => { hovered = false; rest() }
+    const down = () => { held = true; rest() }
+    const up = () => { if (held) { held = false; rest() } }
+    const seen = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync() })
+    seen.observe(root)
+    root.addEventListener("pointerenter", enter)
+    root.addEventListener("pointerleave", leave)
+    root.addEventListener("pointerdown", down)
+    addEventListener("pointerup", up)
+    addEventListener("pointercancel", up)
+    root.addEventListener("keydown", rest)
+    root.addEventListener("focusin", rest)
+    root.addEventListener("focusout", rest)
+    addEventListener("scroll", rest, { passive: true })
+    document.addEventListener("visibilitychange", sync)
+    reduced.addEventListener("change", sync)
+    sync()
+    return () => {
+      running = false
+      cancelAnimationFrame(frame)
+      clearTimeout(timer)
+      seen.disconnect()
+      root.removeEventListener("pointerenter", enter)
+      root.removeEventListener("pointerleave", leave)
+      root.removeEventListener("pointerdown", down)
+      removeEventListener("pointerup", up)
+      removeEventListener("pointercancel", up)
+      root.removeEventListener("keydown", rest)
+      root.removeEventListener("focusin", rest)
+      root.removeEventListener("focusout", rest)
+      removeEventListener("scroll", rest)
+      document.removeEventListener("visibilitychange", sync)
+      reduced.removeEventListener("change", sync)
+    }
+  }, [autoplay, paused, force])
 
   return (
-    <div ref={ref} data-slot="text-ribbon" data-variant={variant === "arc" ? undefined : variant} className={cn("db-ribbon", className)} {...props}>
+    <div ref={ref} data-slot="text-ribbon" data-force={force} data-variant={variant === "arc" ? undefined : variant} className={cn("db-ribbon", className)} {...props}>
       <span className="db-sr">{text}</span>
       <div
         ref={stage}
@@ -247,6 +335,7 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
       >
         <span className="db-ribbon-plain" aria-hidden="true">{text}</span>
       </div>
+      {autoplay && <button type="button" className="db-ribbon-pause" onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
     </div>
   )
 }

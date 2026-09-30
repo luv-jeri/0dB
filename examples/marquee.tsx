@@ -22,8 +22,23 @@ export default function Example() {
 export function States() {
   return (
     <>
-      <State label="Band">
+      <State label="Autoplaying">
         <Marquee className="db-f" label="Words" style={{ width: "20rem", maxWidth: "100%" }}>
+          {words.map((w) => <span key={w}>{w}</span>)}
+        </Marquee>
+      </State>
+      <State label="Paused">
+        <Marquee defaultPaused className="db-f" label="Paused words" style={{ width: "20rem", maxWidth: "100%" }}>
+          {words.map((w) => <span key={w}>{w}</span>)}
+        </Marquee>
+      </State>
+      <State label="Reduced motion">
+        <Marquee data-force="reduced" className="db-f" label="Still words" style={{ width: "20rem", maxWidth: "100%" }}>
+          {words.map((w) => <span key={w}>{w}</span>)}
+        </Marquee>
+      </State>
+      <State label="Scroll only">
+        <Marquee autoplay={false} className="db-f" label="Scroll words" style={{ width: "20rem", maxWidth: "100%" }}>
           {words.map((w) => <span key={w}>{w}</span>)}
         </Marquee>
       </State>

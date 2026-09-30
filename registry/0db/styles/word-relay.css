@@ -1,7 +1,7 @@
 @layer components {
   /* ── db-relay ── a sentence whose last word is yours to change: mode-toggle's sentence, for any set of words.
      The lead is ours, in the roman; the word is the one you chose, in the italic, on a hairline that hugs it.
-     Pressing rolls the word on (lib/roll.ts) and the hook eases the word's box to its new width. */
+     The word rolls on and its box eases to the new width; the autoplay clock yields to the person. */
   .db-relay {
     appearance: none; border: 0; background: none; padding: 0; margin: 0; font: inherit; letter-spacing: inherit;
     color: var(--db-graphite); text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent;
@@ -34,6 +34,27 @@
   .db-relay[data-variant="statement"]:is(:hover, [data-force~="hover"]) .db-relay-word { background-image: linear-gradient(var(--db-pencil), var(--db-pencil)); background-size: calc(100% - 0.28em) var(--db-hairline); }
   @media (forced-colors: active) {
     .db-relay-word { background-image: linear-gradient(CanvasText, CanvasText); }
-    .db-relay[data-variant="statement"] .db-relay-word { color: CanvasText; -webkit-text-stroke: 0; }
+    .db-relay[data-variant="statement"] .db-relay-word { color: CanvasText; -webkit-text-stroke: 0; margin-block-start: 0; margin-inline-start: 0; }
   }
+  .db-relay-frame { display: inline-grid; justify-items: start; max-inline-size: 100%; vertical-align: baseline; }
+
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .db-relay-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--db-space-3); padding: var(--db-space-1) 0;
+    min-block-size: var(--db-space-5); color: var(--db-pencil); font: 400 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .db-relay-pause::before { content: "( "; }
+  .db-relay-pause::after { content: " )"; }
+  .db-relay-pause:hover { color: var(--db-ink); }
+  .db-relay-pause:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-relay-pause:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .db-relay-frame[data-force~="reduced"] .db-relay-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .db-relay-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .db-relay-pause { color: ButtonText; }
+    .db-relay-pause:focus-visible { outline-color: Highlight; }
+  }
+
 }

@@ -18,7 +18,7 @@ export default function Example() {
         <p className="db-mp" style={{ margin: 0 }}>
           <WordRelay words={["slowly.", "at a walk.", "at a run."]} index={pace} onIndexChange={setPace}>Read the page</WordRelay>
         </p>
-        <p className="db-pp" style={{ margin: 0, color: "var(--db-pencil)" }}>Press the sentence, or use the arrow keys once it has focus.</p>
+        <p className="db-pp" style={{ margin: 0, color: "var(--db-pencil)" }}>A new word every 2.4 seconds. Press the sentence or use the arrow keys to take over; pause lets it rest.</p>
       </div>
     </div>
   )
@@ -27,7 +27,11 @@ export default function Example() {
 export function States() {
   return (
     <>
-      <State label="Rest"><p className="db-mp" style={{ margin: 0 }}><WordRelay words={ends}>It has to be</WordRelay></p></State>
+      <State label="Autoplaying"><p className="db-mp" style={{ margin: 0 }}><WordRelay words={ends}>It has to be</WordRelay></p></State>
+      <State label="Paused"><p className="db-mp" style={{ margin: 0 }}><WordRelay defaultPaused words={ends}>It has to be</WordRelay></p></State>
+      <State label="Reduced motion"><p className="db-mp" style={{ margin: 0 }}><WordRelay data-force="reduced" words={ends}>It has to be</WordRelay></p></State>
+      <State label="A slower reading"><p className="db-mp" style={{ margin: 0 }}><WordRelay interval={4000} words={ends}>It has to be</WordRelay></p></State>
+      <State label="Press only"><p className="db-mp" style={{ margin: 0 }}><WordRelay autoplay={false} words={ends}>It has to be</WordRelay></p></State>
       <State label="Hover"><p className="db-mp" style={{ margin: 0 }}><WordRelay words={ends} data-force="hover">It has to be</WordRelay></p></State>
       <State label="Focus"><p className="db-mp" style={{ margin: 0 }}><WordRelay words={ends} data-force="focus">It has to be</WordRelay></p></State>
       <State label="Disabled"><p className="db-mp" style={{ margin: 0 }}><WordRelay words={ends} disabled>It has to be</WordRelay></p></State>
