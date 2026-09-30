@@ -25,6 +25,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       # typecheck, lint, tests, registry, drift, examples, build, pages
       - run: npm run check
+      - run: npm run -s check:install
       - uses: actions/upload-artifact@v4
         if: github.ref == 'refs/heads/main'
         with:
