@@ -3,9 +3,6 @@
   "name": "dropzone",
   "title": "Dropzone",
   "description": "Files, dropped or chosen. The area is only its corner marks, and files carried over it close them in; the sentence is a real file input, and what you hold is listed as attachments.",
-  "dependencies": [
-    "image"
-  ],
   "registryDependencies": [
     "https://0db.cojeev.com/r/0db.json",
     "https://0db.cojeev.com/r/attachment.json"

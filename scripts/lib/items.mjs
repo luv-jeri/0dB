@@ -3,10 +3,10 @@
 import { readdirSync, readFileSync, existsSync } from "node:fs"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
+import ts from "typescript"
 
 export const SOURCE = "registry/0db"
 export const MOVEMENTS = ["II", "IV", "VI", "VII", "VIII", "IX", "X", "XI"]
-const specifiers = /(?:from\s+|import\s+|import\s*\(\s*)["']([^"']+)["']/g
 const platform = /^(react|react-dom|next)(\/|$)/
 
 export function rewriteImports(source) {
@@ -23,12 +23,24 @@ export function rewriteImports(source) {
 export function deriveDeps(source) {
   const npm = new Set()
   const siblings = new Set()
-  for (const [, spec] of source.matchAll(specifiers)) {
+  // Parse TSX so comments, strings and JSX prose cannot become dependencies.
+  const file = ts.createSourceFile("item.tsx", source, ts.ScriptTarget.Latest, false, ts.ScriptKind.TSX)
+  function add(spec) {
     if (spec.startsWith("./")) siblings.add(spec.slice(2))
     else if (spec.startsWith("@/registry/0db/ui/")) siblings.add(spec.slice("@/registry/0db/ui/".length))
-    else if (spec.startsWith("@/") || spec.startsWith(".") || platform.test(spec)) continue
+    else if (spec.startsWith("@/") || spec.startsWith(".") || platform.test(spec)) return
     else npm.add(spec.startsWith("@") ? spec.split("/").slice(0, 2).join("/") : spec.split("/")[0])
   }
+  function visit(node) {
+    const spec = ts.isImportDeclaration(node) || ts.isExportDeclaration(node)
+      ? node.moduleSpecifier
+      : ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword
+        ? node.arguments[0]
+        : undefined
+    if (spec && ts.isStringLiteralLike(spec)) add(spec.text)
+    ts.forEachChild(node, visit)
+  }
+  visit(file)
   return { npm: [...npm].sort(), siblings: [...siblings].sort() }
 }
 
