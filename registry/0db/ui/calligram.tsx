@@ -198,6 +198,7 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
       }
 
       async function lay() {
+        if (cancelled || !el!.isConnected) return
         const style = getComputedStyle(el!)
         const base = parseFloat(style.fontSize)
         if (variant === "rain") {
@@ -205,10 +206,12 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
           return
         }
         if (variant === "mirror" && middle.current) await document.fonts.load(`italic 400 ${REF}px ${getComputedStyle(middle.current).fontFamily}`, centre)
+        if (cancelled || !el!.isConnected) return
         const next = `${style.fontStyle} ${style.fontWeight} ${REF}px ${style.fontFamily}`
         if (next !== face || !prepared) {
           face = next
           await document.fonts.load(face, text)
+          if (cancelled || !el!.isConnected) return
           prepared = lib.prepareWithSegments(text, face)
           longest = Math.max(...prepared.widths)
         }

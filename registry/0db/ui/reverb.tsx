@@ -96,6 +96,7 @@ function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", cl
       const word = text.trim().split(/\s+/)[0]
 
       async function lay() {
+        if (cancelled || !el!.isConnected) return
         const lines = [...el!.querySelectorAll<HTMLElement>(".db-reverb-line")]
         const styles = lines.map((l) => getComputedStyle(l))
         const fonts = styles.map((s) => `${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily}`)

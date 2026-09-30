@@ -56,9 +56,11 @@ function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, v
       const decay = variant === "decay"
 
       async function lay() {
+        if (cancelled || !el!.isConnected) return
         const styles = cells.map((c) => getComputedStyle(c))
         const fonts = styles.map((s) => `${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily}`)
         await Promise.all(fonts.map((f) => document.fonts.load(f, text)))
+        if (cancelled || !el!.isConnected) return
         let above = Infinity // the size above: a quieter line is never louder, even where a fluid size crosses another's
         let rest = text // decay: what the lines above haven't said yet
         const width = cells[0].clientWidth // one column for every line; a line decay has no words for is hidden
@@ -100,7 +102,7 @@ function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, v
       resized.observe(el)
       // A change of pair or scheme on <html> can change the face: lay out again.
       const restyled = new MutationObserver(() => lay())
-      restyled.observe(document.documentElement, { attributes: true })
+      restyled.observe(document.documentElement, { attributeFilter: ["data-pair", "data-scheme", "data-mode", "data-key"] })
       off.push(() => { resized.disconnect(); restyled.disconnect() })
     })()
 

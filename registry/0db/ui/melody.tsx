@@ -86,6 +86,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
       }
 
       async function lay() {
+        if (cancelled || !el!.isConnected) return
         const style = getComputedStyle(el!)
         const next = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
         if (next !== font) {

@@ -70,11 +70,13 @@ function Contour({ children: text, shape = "diminuendo", least = 0.3, variant = 
       const start = { segmentIndex: 0, graphemeIndex: 0 }
 
       async function lay() {
+        if (cancelled || !el!.isConnected) return
         const style = getComputedStyle(el!)
         const next = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
         if (next !== font || !prepared) {
           font = next
           await document.fonts.load(font, text)
+          if (cancelled || !el!.isConnected) return
           prepared = lib.prepareWithSegments(text, font)
           // A phrase ends at a comma, a colon, a full stop, a question or a dash, with its mark.
           phrases = (text.match(/[^,;:.!?—–]+(?:[,;:.!?—–]+|$)/g) ?? [text]).map((p) => p.trim()).filter(Boolean).map((p) => lib.prepareWithSegments(p, font))

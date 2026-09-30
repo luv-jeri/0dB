@@ -78,6 +78,7 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
       let place: (s: number) => { x: number; y: number; a: number } = () => ({ x: 0, y: 0, a: 0 })
 
       async function lay() {
+        if (cancelled || !box!.isConnected) return
         const style = getComputedStyle(box!)
         const font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
         await document.fonts.load(font, text)

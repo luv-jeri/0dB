@@ -56,6 +56,7 @@ function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", 
       const pool: HTMLSpanElement[] = []
 
       async function measure() {
+        if (cancelled || !el!.isConnected) return
         const style = getComputedStyle(el!)
         const next = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
         size = parseFloat(style.fontSize)
@@ -64,6 +65,7 @@ function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", 
         if (next !== font || !prepared) {
           font = next
           await document.fonts.load(font, text)
+          if (cancelled || !el!.isConnected) return
           prepared = lib.prepareWithSegments(text, font, { letterSpacing: parseFloat(style.letterSpacing) || 0 })
         }
         W = el!.clientWidth
@@ -144,8 +146,8 @@ function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", 
       const move = (e: PointerEvent) => {
         if (e.pointerType === "touch" || !hand.matches || still.matches || !prepared) return
         const box = el.getBoundingClientRect()
-        tx = e.clientX - box.left
-        ty = e.clientY - box.top
+        tx = (e.clientX - box.left) / (box.width / el.offsetWidth || 1)
+        ty = (e.clientY - box.top) / (box.height / el.offsetHeight || 1)
         if (!inside) { inside = true; cx = tx; cy = ty } // it opens where the hand arrived
         tr = R
         go()
@@ -162,7 +164,7 @@ function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", 
       resized.observe(el)
       // A change of pair or scheme on <html> can change the face: measure again.
       const restyled = new MutationObserver(again)
-      restyled.observe(document.documentElement, { attributes: true })
+      restyled.observe(document.documentElement, { attributeFilter: ["data-pair", "data-scheme", "data-mode", "data-key"] })
       off.push(() => { resized.disconnect(); restyled.disconnect() })
     })()
 
@@ -228,6 +230,9 @@ function useWeight(
       probe.remove()
 
       const box = el!.getBoundingClientRect()
+      // Ranges are in viewport pixels; the letter layer is in local CSS pixels. A fitted specimen
+      // may be transformed, so undo that scale before placing its letters over the original text.
+      const sx = box.width / el!.offsetWidth || 1, sy = box.height / el!.offsetHeight || 1
       const range = document.createRange()
       const next: typeof letters = []
       layer!.replaceChildren()
@@ -239,10 +244,10 @@ function useWeight(
         if (!b) continue
         const span = layer!.appendChild(document.createElement("span"))
         span.textContent = segment
-        const x = b.left - box.left + b.width / 2, y = b.top - box.top
+        const x = (b.left - box.left + b.width / 2) / sx, y = (b.top - box.top) / sy
         // Its line box is its content area, so the letter sits on the baseline it had in the text.
-        span.style.cssText = `translate:calc(${x}px - 50%) ${y}px;line-height:${b.height}px`
-        next.push({ span, x, y: y + b.height / 2, t: 0 })
+        span.style.cssText = `translate:calc(${x}px - 50%) ${y}px;line-height:${b.height / sy}px`
+        next.push({ span, x, y: y + b.height / sy / 2, t: 0 })
       }
       letters = next
       layer!.hidden = !live
@@ -282,8 +287,8 @@ function useWeight(
       if (e.pointerType === "touch" || !hand.matches || still.matches) return
       if (dirty && !live) measure()
       const box = el.getBoundingClientRect()
-      tx = e.clientX - box.left
-      ty = e.clientY - box.top
+      tx = (e.clientX - box.left) / (box.width / el.offsetWidth || 1)
+      ty = (e.clientY - box.top) / (box.height / el.offsetHeight || 1)
       if (!inside) { inside = true; cx = tx; cy = ty }
       tr = R
       go()
@@ -296,7 +301,7 @@ function useWeight(
     const resized = new ResizeObserver(stale)
     resized.observe(el)
     const restyled = new MutationObserver(stale)
-    restyled.observe(document.documentElement, { attributes: true })
+    restyled.observe(document.documentElement, { attributeFilter: ["data-pair", "data-scheme", "data-mode", "data-key"] })
     el.addEventListener("pointermove", move)
     el.addEventListener("pointerleave", leave)
     return () => {

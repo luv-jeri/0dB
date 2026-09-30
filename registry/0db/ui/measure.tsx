@@ -85,11 +85,13 @@ function Measure({ children: text, defaultMeasure = 62, min = 20, max = 110, var
       let font = "", prepared: ReturnType<typeof lib.prepareWithSegments> | undefined, ch = 8
 
       async function measureFace() {
+        if (cancelled || !el!.isConnected) return
         const style = getComputedStyle(el!)
         const next = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
         if (next !== font || !prepared) {
           font = next
           await document.fonts.load(font, text)
+          if (cancelled || !el!.isConnected) return
           prepared = lib.prepareWithSegments(text, font)
           // A character is the average one in this text, so "62 characters a line" is what the lines really hold.
           ch = lib.layoutNextLine(prepared, { segmentIndex: 0, graphemeIndex: 0 }, 1e6)!.width / text.length

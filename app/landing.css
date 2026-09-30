@@ -69,46 +69,75 @@
 .passage-mark { font-family: var(--db-expression); font-style: italic; font-weight: 600; font-size: var(--db-mf); line-height: 1; letter-spacing: -0.02em; color: var(--db-pencil); }
 .passage-mark abbr { text-decoration: none; cursor: help; }
 .passage-note { max-width: 28ch; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); text-wrap: pretty; }
-.passage-title { max-width: 16em; font-size: clamp(var(--db-ff), 5.2vw, 150px); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 300; color: var(--db-ink); text-wrap: balance; }
+.passage-title { position: relative; max-width: 16em; font-size: clamp(var(--db-ff), 5.2vw, 150px); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 300; color: var(--db-ink); text-wrap: balance; }
+.passage-line { position: absolute; display: block; width: max-content; overflow: clip; pointer-events: none; line-height: 1; }
+.passage-line > span { display: block; white-space: pre; }
 .passage-body { margin-top: var(--db-space-7); display: grid; justify-items: start; row-gap: var(--db-space-7); }
 .passage-body > * { max-width: 100%; }
 .passage-wide { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; margin-top: var(--db-space-7); }
 
 /* ── the pieces: every name as one wall of type, by movement; beside it, the stage ── */
-.pieces { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; }
-.pieces-wall { grid-column: 1 / 8; display: grid; row-gap: var(--db-space-4); font-size: clamp(var(--db-mp), 2.05vw, 60px); line-height: 1.28; letter-spacing: -0.012em; font-weight: 300; color: var(--db-graphite); }
+.pieces { position: relative; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; }
+.pieces-lead { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; color: var(--db-rule-strong); }
+.pieces-lead path { fill: none; stroke: currentColor; stroke-width: var(--db-hairline); }
+.pieces-wall { grid-column: 1 / 6; display: grid; row-gap: var(--db-space-4); font-size: clamp(var(--db-mp), 2.05vw, 60px); line-height: 1.28; letter-spacing: -0.012em; font-weight: 300; color: var(--db-pencil); }
 .pieces-movement { text-wrap: pretty; }
 /* A movement's name runs in ahead of its pieces, small, as a programme sets it. */
 .pieces-move { display: inline; margin-inline-end: 0.5em; font-size: var(--db-pp); line-height: 1; letter-spacing: 0.01em; font-weight: 400; color: var(--db-pencil); vertical-align: 0.9em; white-space: nowrap; }
 .pieces-num { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1.15em); color: var(--db-ink); }
 .pieces-names { display: inline; margin: 0; padding: 0; list-style: none; }
 .pieces-names > li { display: inline; }
-.pieces-name { position: relative; white-space: nowrap; color: inherit; text-decoration: none; transition: color var(--db-allegro); }
+.pieces-name { position: relative; padding-inline-end: 0.45em; white-space: nowrap; color: inherit; text-decoration: none; transition: color var(--db-allegro); }
 .pieces-name:hover, .pieces-name:focus-visible { color: var(--db-ink); }
-.pieces-name[data-current] { color: var(--db-ink); }
-/* Where you are, as the "Appreciation" pager marks it: one accent dot under the name. */
-.pieces-name::after { content: ""; position: absolute; inset-inline-start: 50%; inset-block-end: -0.12em; width: var(--db-dot); height: var(--db-dot); margin-inline-start: calc(var(--db-dot) / -2); border-radius: 50%; background: var(--db-accent); scale: 0; transition: scale var(--db-moderato) var(--db-spiccato); }
+.pieces-name[data-current] { color: var(--db-ink); text-decoration: underline; text-decoration-thickness: var(--db-hairline); text-underline-offset: 0.18em; }
+.pieces-name:focus-visible { outline: var(--db-hairline) solid var(--db-ink); outline-offset: 4px; }
+/* The one accent belongs to the name being read, next to its ink. */
+.pieces-name::after { content: ""; position: absolute; inset-inline-end: 0.04em; inset-block-start: 0.45em; width: var(--db-dot); height: var(--db-dot); border-radius: 50%; background: var(--db-accent); scale: 0; transition: scale var(--db-allegro) var(--db-exhale); }
 .pieces-name[data-current]::after { scale: 1; }
 .pieces-n { margin-inline-start: 0.15em; font-size: 0.34em; letter-spacing: 0; font-variant-numeric: tabular-nums; vertical-align: 1.5em; line-height: 0; color: var(--db-pencil); }
 
-.pieces-stage { grid-column: 8 / -1; position: sticky; top: calc(var(--bar) + var(--db-space-6)); display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-4); }
+.pieces-stage { grid-column: 6 / -1; position: sticky; top: calc(var(--bar) + var(--db-space-6)); display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-4); }
 .pieces-where { display: flex; align-items: baseline; gap: var(--db-space-4); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
 .pieces-where::after { content: ""; order: 1; flex: 1; height: var(--db-hairline); background: var(--db-rule-strong); align-self: center; }
 .pieces-where > :last-child { order: 2; }
 .pieces-where-num { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); color: var(--db-ink); }
-.pieces-count { font-variant-numeric: tabular-nums; color: var(--db-ink); }
+.pieces-count { direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; color: var(--db-ink); }
 .pieces-of { color: var(--db-pencil); }
-.pieces-title { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: clamp(var(--db-mf), 3vw, 92px); line-height: 1.1; letter-spacing: var(--db-f-tr); font-weight: 300; color: var(--db-ink); }
-/* A letter is a sort in a set line: it can slide to its new place, or be cut in (landing-index, Title). */
-.pieces-title > [aria-hidden] > span { display: inline-block; white-space: pre; }
-/* A new movement is cut into the running head. */
-.pieces-where-name { display: inline-block; animation: pieces-cut var(--db-allegro) var(--db-exhale) both; }
-@keyframes pieces-cut { from { clip-path: inset(0 0 100% 0); translate: 0 0.5em; } to { clip-path: inset(0 0 -20% 0); } }
-/* The stage keeps one size whatever plays on it, framed by corner marks, as "the silence that heals" frames its text. */
-.pieces-preview { --db-corner: var(--db-space-4); height: clamp(17rem, 46svh, 40rem); display: grid; place-items: safe center; justify-items: center; padding: var(--db-space-5); overflow: hidden; }
-/* The piece is laid out a quarter wider than the stage and set down at four fifths, so it fits and stays live. */
-.pieces-preview-scale { --s: 0.8; display: grid; justify-items: center; width: calc(100% / var(--s)); scale: var(--s); transform-origin: 50% 50%; } /* laid out 1/s wide and centred, then scaled about its middle: it fits the frame exactly */
-.pieces-preview-scale > * { max-width: 100%; }
+.pieces-title { overflow: clip; white-space: nowrap; font-size: clamp(var(--db-mf), 3vw, 92px); line-height: 1.2; letter-spacing: var(--db-f-tr); font-weight: 300; color: var(--db-ink); }
+.pieces-title > span { display: block; animation: pieces-cut var(--db-allegro) var(--db-exhale); }
+.pieces-where-name { display: inline-block; }
+@keyframes pieces-cut { from { transform: translateY(105%); } to { transform: translateY(0); } }
+/* The accent stays at the selected name. The specimens retain their full ink/pencil hierarchy. */
+.pieces-preview { --db-accent: var(--db-ink); --db-mark: var(--db-rule); --db-on-mark: var(--db-ink); --db-signal: var(--db-ink); --db-andante: var(--db-moderato); --db-corner: var(--db-space-3); position: relative; height: clamp(26rem, 58svh, 44rem); padding: var(--db-space-4); overflow: clip; isolation: isolate; }
+.pieces-preview-scale { position: absolute; top: 50%; left: 50%; width: var(--preview-width); transform: translate(-50%, -50%) scale(var(--preview-scale, 0.5)); transform-origin: center; }
+.pieces-preview-demo { display: grid; justify-items: center; }
+.pieces-preview-demo > :is(.grid, .flex) { width: 100%; max-width: none; gap: var(--db-space-5); }
+.pieces-preview-demo > .grid { grid-template-columns: repeat(var(--preview-columns), minmax(0, 1fr)); align-items: center; justify-items: stretch; }
+.pieces-preview-demo > .grid > * { min-width: 0; max-width: 100%; grid-column: auto; }
+.pieces-preview-demo > .grid > .grid { width: 100%; gap: var(--db-space-3); margin-block: 0; }
+.pieces-preview-demo > .grid > p:not([class*="db-"]) { grid-column: 1 / -1; }
+.pieces-preview-demo > .flex { justify-content: center; }
+.pieces-preview-demo > .grid > .flex { justify-content: center; gap: var(--db-space-5); }
+.pieces-preview-scale[data-piece="calendar"] .pieces-preview-demo > .grid > .grid { align-self: start; }
+.pieces-preview-scale[data-piece="calendar"] .db-month { --big: 90px; width: 100%; gap: var(--db-space-4); }
+.pieces-preview-scale[data-piece="calendar"] .db-month-head { row-gap: var(--db-space-4); }
+.pieces-preview-scale[data-piece="button"] .pieces-preview-demo > .grid > .grid { justify-items: center; }
+.pieces-preview-scale[data-piece="button"] .db-btn[data-variant="space"] { width: 100%; }
+.pieces-preview-scale[data-pinned] .pieces-preview-demo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--db-space-5); align-items: center; }
+.pieces-preview-scale[data-pinned] .state { width: 100%; min-width: 0; }
+.pieces-preview-demo .grid:is([class*="sm:grid-cols-2"], [class*="md:grid-cols-2"], [class*="lg:grid-cols-2"]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pieces-preview-demo .grid:is([class*="sm:grid-cols-3"], [class*="md:grid-cols-3"]) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pieces-preview-scale[data-piece="sidebar"] .pieces-preview-demo > .grid { grid-template-columns: auto minmax(0, 1fr); }
+.pieces-preview-scale[data-piece="contour"] .pieces-preview-demo > .grid > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pieces-preview-scale[data-piece="tiling"] .pieces-preview-demo > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pieces-preview-scale[data-piece="agent-state"] .pieces-preview-demo > .grid { justify-items: center; }
+.pieces-preview-scale[data-piece="tabs"] .pieces-preview-demo > .grid > .grid:last-child { grid-column: 1 / -1; }
+.pieces-preview-scale[data-piece="steps"] .db-steps[data-variant="rise"] { grid-auto-flow: column; }
+.pieces-preview-scale[data-piece="activity-feed"] .db-feed-date { font-size: var(--db-f); }
+.pieces-preview-scale[data-piece="waterfall"] { --db-ffff: 120px; --db-fff: 80px; --db-ff: 60px; }
+.pieces-loading { color: var(--db-pencil); font-size: var(--db-p); }
+@media (prefers-reduced-motion: reduce) { .pieces-title > span { animation: none; } }
+@media (forced-colors: active) { .pieces-name[data-current]::after { background: Highlight; } }
 .pieces-summary { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; height: calc(3 * var(--db-p-lh) * var(--db-p)); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
 .pieces-actions { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-6); row-gap: var(--db-space-3); font-size: var(--db-p); }
 .pieces-more { margin-top: var(--db-space-6); font-size: var(--db-p); line-height: var(--db-p-lh); letter-spacing: 0; color: var(--db-graphite); }
@@ -211,15 +240,16 @@
   .toy-controls > * { grid-column: 1 / -1; justify-self: start; }
   .toy-actions { justify-content: start; }
   /* The stage stands at the top of the view and the wall scrolls under it; the name crossing the playhead plays. */
+  .pieces-lead { display: none; }
   .pieces { grid-template-columns: minmax(0, 1fr); }
   .pieces-stage { grid-column: 1; grid-row: 1; z-index: 2; top: var(--bar); margin-inline: calc(-1 * var(--db-margin)); padding: var(--db-space-4) var(--db-margin) var(--db-space-5); background: var(--db-paper); box-shadow: inset 0 calc(-1 * var(--db-hairline)) var(--db-rule); row-gap: var(--db-space-3); }
   .pieces-wall { grid-column: 1; grid-row: 2; margin-top: var(--db-space-7); padding-bottom: 30svh; font-size: var(--db-mp); }
-  .pieces-preview { height: clamp(11rem, 30svh, 18rem); padding: var(--db-space-4); }
-  .pieces-preview-scale { --s: 0.62; }
+  .pieces-preview { height: clamp(17rem, 40svh, 22rem); padding: var(--db-space-3); }
   .pieces-summary { -webkit-line-clamp: 2; height: calc(2 * var(--db-p-lh) * var(--db-pp)); font-size: var(--db-pp); }
 }
 /* A phone: the headline stacks a word to a line, the way "Less / is / more." stands. */
 @container (max-width: 560px) {
+  .toy-places { font-size: var(--db-pp); }
   .hero-word { display: block; }
   .hero-line[data-line="quiet"] .hero-word { display: grid; justify-content: start; }
   .hero-title { font-size: min(26cqi, 22svh); line-height: 0.82; }
@@ -233,4 +263,3 @@
   .coda-title { font-size: var(--db-f); }
   .copy-cmd-text { font-size: var(--db-p); }
 }
-  .toy-places { font-size: var(--db-pp); }

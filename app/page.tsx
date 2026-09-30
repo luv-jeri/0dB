@@ -4,13 +4,12 @@ import "./landing.css"
 
 import { AskFor, LeftOut, Share, TuneSentence } from "@/components/site/landing"
 import { Cta, Hero } from "@/components/site/landing-hero"
-import { PieceIndex, type Movement } from "@/components/site/landing-index"
+import { PassageTitle, PieceIndex, type Movement } from "@/components/site/landing-index"
 import { ShareCall } from "@/components/site/landing-share"
 import { Toy } from "@/components/site/landing-toy"
 import { catalog } from "@/lib/site/catalog"
 import { entries } from "@/lib/site/entries"
 import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Gather } from "@/registry/0db/ui/gather"
 import { Link } from "@/registry/0db/ui/link"
 
 // The home page arrives as noise and turns it down to 0 dB. Then, in order: the whole library, playing; your
@@ -32,7 +31,7 @@ type PassageProps = {
   children: React.ReactNode
 }
 
-/** A passage: its dynamic and a note in the margin, a title that settles out of dust as it comes into view. */
+/** A passage: its dynamic and a note in the margin, a title whose lines rise through their baselines as it comes into view. */
 function Passage({ id, mark, title, note, rail, className, wide, children }: PassageProps) {
   return (
     <section className={className ? `passage ${className}` : "passage"} aria-labelledby={id}>
@@ -43,9 +42,9 @@ function Passage({ id, mark, title, note, rail, className, wide, children }: Pas
         {note ? <p className="passage-note">{note}</p> : null}
       </div>
       <div className="stave">
-        <Gather as="h2" id={id} data-rail={rail} className="passage-title">
+        <PassageTitle id={id} data-rail={rail} className="passage-title">
           {title}
-        </Gather>
+        </PassageTitle>
         {wide ? null : <div className="passage-body">{children}</div>}
       </div>
       {wide ? <div className="passage-wide">{children}</div> : null}

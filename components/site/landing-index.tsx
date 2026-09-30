@@ -15,154 +15,350 @@ export type Movement = { num: string; name: string; pieces: Piece[] }
 
 type Example = React.ComponentType
 const loaded = new Map<string, Example>()
-const load = (name: string) => import(`@/examples/${name}`).then((m: { default: Example }) => m.default)
-// The home page's own sheet carries only what it sets; a piece on the stage needs its styles too. They come
-// in one sheet, fetched as the index nears, off the path of the first paint.
+const load = async (name: string) => (await liveExample(name)) ?? import(`@/examples/${name}`).then((m: { default: Example; States?: Example }) => PINNED.has(name) && m.States ? m.States : m.default)
+// Layers are shown in place, so every surface can be read together without opening a portal.
+const PINNED = new Set(["dialog", "popover", "hover-card", "tooltip", "drawer", "toast", "context-menu", "dropdown-menu", "tour", "typography"])
 let styled: Promise<unknown> | null = null
 const style = () => (styled ??= import("@/app/registry.css").catch(() => {}))
+const FACE = ["data-pair", "data-scheme", "data-mode", "data-key"]
+const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
 
-/** A piece that throws on its own stage leaves the stage to its words. */
+/** The browser measures the actual balanced lines, including tracking and the selected variable face.
+ * The server's text keeps its layout throughout. Only offscreen headings are armed; an initial paint
+ * is never hidden or delayed. Each line passes its own baseline mask once, then leaves plain text. */
+export function PassageTitle({ children, ...props }: React.ComponentProps<"h2"> & { children: string }) {
+  const ref = React.useRef<HTMLHeadingElement>(null)
+  React.useEffect(() => {
+    const el = ref.current, source = el?.firstElementChild as HTMLElement | null
+    if (!el || !source || still() || el.getBoundingClientRect().top < innerHeight) return
+    let layers: HTMLElement[] = [], animations: Animation[] = []
+    const finish = () => {
+      animations.forEach((a) => a.cancel())
+      animations = []
+      layers.forEach((l) => l.remove())
+      layers = []
+      source.style.removeProperty("color")
+    }
+    const view = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      view.disconnect()
+      if (still()) return
+      const node = source.firstChild
+      if (!node) return
+      const box = el.getBoundingClientRect(), css = getComputedStyle(el)
+      const lines: { text: string; x: number; y: number; height: number }[] = []
+      const range = document.createRange()
+      for (const word of children.matchAll(/\S+\s*/g)) {
+        range.setStart(node, word.index!)
+        range.setEnd(node, word.index! + word[0].trimEnd().length)
+        const rect = range.getBoundingClientRect(), last = lines.at(-1)
+        if (last && Math.abs(last.y - (rect.top - box.top)) < 2) last.text += word[0]
+        else lines.push({ text: word[0], x: rect.left - box.left, y: rect.top - box.top, height: rect.height })
+      }
+      const ms = (token: string) => parseFloat(css.getPropertyValue(token)) || 0
+      layers = lines.map((line, i) => {
+        const mask = document.createElement("span"), ink = document.createElement("span")
+        mask.className = "passage-line"
+        mask.setAttribute("aria-hidden", "true")
+        Object.assign(mask.style, { left: `${line.x}px`, top: `${line.y}px`, height: `${line.height * 1.12}px` })
+        ink.textContent = line.text.trimEnd()
+        mask.append(ink)
+        el.append(mask)
+        const animation = ink.animate([{ transform: "translateY(110%)" }, { transform: "translateY(0)" }], {
+          duration: ms("--db-moderato"), delay: i * ms("--db-arpeggio"), easing: css.getPropertyValue("--db-exhale").trim(), fill: "both",
+        })
+        animations.push(animation)
+        return mask
+      })
+      source.style.color = "transparent"
+      Promise.all(animations.map((a) => a.finished)).then(finish).catch(() => {})
+    }, { threshold: 0.08 })
+    view.observe(el)
+    const resize = new ResizeObserver(finish)
+    resize.observe(el)
+    const theme = new MutationObserver(finish)
+    theme.observe(document.documentElement, { attributeFilter: FACE })
+    const motion = matchMedia("(prefers-reduced-motion: reduce)")
+    motion.addEventListener("change", finish)
+    return () => { view.disconnect(); resize.disconnect(); theme.disconnect(); motion.removeEventListener("change", finish); finish() }
+  }, [children])
+  return <h2 {...props} ref={ref}><span>{children}</span></h2>
+}
+
+/** A failure stays legible and offers the actual specimen instead of an empty stage. */
 class Guard extends React.Component<{ children: React.ReactNode }, { failed: boolean }> {
   state = { failed: false }
-  static getDerivedStateFromError() {
-    return { failed: true }
-  }
+  static getDerivedStateFromError() { return { failed: true } }
   render() {
-    return this.state.failed ? null : this.props.children
+    return this.state.failed ? <p data-preview-error>Preview unavailable. Open the component below.</p> : this.props.children
   }
+}
+
+// These are layouts for the examples, not changes to the components' contracts. Each gallery keeps all
+// its variants mounted. A natural-size sheet is fitted in both dimensions, including after live changes.
+const COLUMNS: Record<string, number> = {
+  "accordion": 2, "activity-feed": 2, "agent-chat": 2, "area-chart": 2, "avatar": 2, "breadcrumb": 2,
+  "calendar": 2, "chart": 2, "checkbox": 2, "collapsible": 3, "combobox": 2, "data-table": 2, "dialog": 3,
+  "dropzone": 2, "empty": 2, "field": 2, "form": 2, "grid": 2, "input-group": 2, "input-otp": 2,
+  "item": 2, "line-chart": 2, "mode-toggle": 3, "number-input": 2, "pagination": 1, "picks": 2,
+  "progress": 2, "radio-group": 2, "scroll-area": 2, "scrollbar": 2, "scroll-expand": 2, "select": 2, "skeleton": 2, "steps": 2, "stat": 2,
+  "sheet": 2, "source": 2, "spinner": 3, "table": 2, "tabs": 2, "thread": 2, "tiling": 2, "toggle": 2, "tree": 2, "typography": 2,
+}
+const WIDTHS: Record<string, number> = { "calendar": 880, "agent-chat": 1000, "agent-state": 240, "data-table": 1100, "table": 1000, "form": 960, "source": 1000, "dialog": 1100 }
+
+// A shared clock gives externally controlled specimens the same beat as native controls.
+function useDemoClock() {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [step, setStep] = React.useState(0)
+  React.useEffect(() => {
+    const el = ref.current
+    const tick = (e: Event) => setStep((e as CustomEvent<number>).detail)
+    el?.addEventListener("preview-step", tick)
+    return () => el?.removeEventListener("preview-step", tick)
+  }, [])
+  return { ref, step }
+}
+
+async function liveExample(name: string): Promise<Example | null> {
+  if (name === "word-relay") {
+    const { WordRelay } = await import("@/registry/0db/ui/word-relay")
+    return function RelayVariations() {
+      const { ref, step } = useDemoClock()
+      const [own, setOwn] = React.useState<number | null>(null)
+      return <div ref={ref} data-demo-clock className="grid">{(["statement", "sentence"] as const).map((variant) => <p className={variant === "statement" ? "db-f" : "db-mp"} style={{ margin: 0 }} key={variant}><WordRelay variant={variant} autoplay={false} index={(own ?? step) % 4} onIndexChange={setOwn} words={["design.", "type.", "silence.", "yours."]}>It has to be</WordRelay></p>)}</div>
+    }
+  }
+  if (name === "scroll-expand") {
+    const { ScrollExpand } = await import("@/registry/0db/ui/scroll-expand")
+    return function ExpandVariations() {
+      const { ref, step } = useDemoClock()
+      return <div ref={ref} data-demo-clock className="grid">{(["mark", "horizon"] as const).map((variant) => <ScrollExpand key={variant} variant={variant} progress={[1, 0.25, 0.6, 1, 0.6][step % 5]} caption={[variant, "Space opens"]}><p className="db-f" style={{ margin: 0, paddingBlock: "var(--db-space-6)" }}>Space<br />does the<br />layout.</p></ScrollExpand>)}</div>
+    }
+  }
+  if (name === "steps") {
+    const { Steps, Step, StepTitle } = await import("@/registry/0db/ui/steps")
+    return function StepVariations() {
+      const { ref, step } = useDemoClock()
+      return <div ref={ref} data-demo-clock className="grid">{(["margin", "rise", "cascade", "folio"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Steps variant={variant} value={step % 3 + 1}>{["Brief", "Scope", "Call"].map((title) => <Step key={title}><StepTitle>{title}</StepTitle></Step>)}</Steps></div>)}</div>
+    }
+  }
+  if (name === "activity-feed") {
+    const { ActivityFeed } = await import("@/registry/0db/ui/activity-feed")
+    const entries = [
+      { id: "proof", who: "Ada", what: "approved the proof", at: "2026-09-30T16:40" },
+      { id: "mark", who: "Bruno", what: "shared the mark", at: "2026-09-30T14:12" },
+      { id: "brief", what: "The brief was agreed", at: "2026-09-30T14:02" },
+    ]
+    return function FeedVariations() {
+      return <div className="grid">{(["ledger", "almanac", "lapse"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><ActivityFeed variant={variant} entries={entries} initial={2} days={{ "2026-09-30": "Today" }} /></div>)}</div>
+    }
+  }
+  if (name === "thread") {
+    const { Thread, ThreadDay } = await import("@/registry/0db/ui/thread")
+    const { Message, MessageBody, MessageBubble, MessageHeader } = await import("@/registry/0db/ui/message")
+    return function ThreadVariations() {
+      const { ref, step } = useDemoClock()
+      const words = ["The proofs are back.", "The flag holds at stamp size.", "Send it to the ferry office."]
+      return <div ref={ref} data-demo-clock className="grid">{(["default", "rests", "running"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Thread variant={variant} label={`${variant} thread`} style={{ height: "15rem" }}><ThreadDay>Today</ThreadDay><Message><MessageHeader name="Ada" time="09:40" dateTime="2026-09-30T09:40" /><MessageBody><MessageBubble>The harbour mark is ready.</MessageBubble></MessageBody></Message><Message key={step % 3} arriving={step > 0}><MessageHeader name="Bruno" time="10:40" dateTime="2026-09-30T10:40" /><MessageBody><MessageBubble>{words[step % 3]}</MessageBubble></MessageBody></Message></Thread></div>)}</div>
+    }
+  }
+  if (name === "tiling") {
+    const { TilingEditor } = await import("@/registry/0db/ui/tiling")
+    return function TilingVariations() {
+      const { ref, step } = useDemoClock()
+      const layout = [
+        { id: "space", label: "Space", column: step % 2 ? 7 : 1, row: 1, span: 6, rows: 1 },
+        { id: "type", label: "Type", column: step % 2 ? 1 : 7, row: 2, span: 6, rows: 1 },
+      ]
+      const [own, setOwn] = React.useState<typeof layout | null>(null)
+      return <div ref={ref} data-demo-clock className="grid">{(["rules", "crosses"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><TilingEditor variant={variant} label="Make room for the words" value={own ?? layout} onValueChange={setOwn} /></div>)}</div>
+    }
+  }
+  if (name === "mode-toggle") {
+    const { ModeToggle } = await import("@/registry/0db/ui/mode-toggle")
+    return function ModeVariations() {
+      return <div className="grid">{(["stop", "dimmer", "noon", "eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const).map((variant) => <div key={variant} className="grid"><span className="db-label">{variant}</span><ModeToggle variant={variant} /></div>)}</div>
+    }
+  }
+  if (name === "progress") {
+    const { Progress } = await import("@/registry/0db/ui/progress")
+    return function ProgressVariations() {
+      const { ref, step } = useDemoClock()
+      return <div ref={ref} data-demo-clock className="grid">{(["hairline", "sentence", "count", "parentheses", "tally"] as const).map((variant) => <div key={variant} className="grid"><span className="db-label">{variant}</span><Progress variant={variant} value={(step % 5) * 25} label="Setting the type" /></div>)}</div>
+    }
+  }
+  if (name === "agent-state") {
+    const { AgentState } = await import("@/registry/0db/ui/agent-state")
+    return function AgentVariations() {
+      const { ref, step } = useDemoClock()
+      const state = (["ready", "thinking", "working", "input", "done"] as const)[step % 5]
+      return <div ref={ref} data-demo-clock className="grid">{(["dot", "word"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><AgentState variant={variant} state={state} /></div>)}</div>
+    }
+  }
+  if (name === "sheet") {
+    const { Sheet, SheetTitle, SheetDescription } = await import("@/registry/0db/ui/sheet")
+    return function SheetVariations() {
+      return <div className="grid">{(["spine", "shelf", "rag", "fold"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Sheet><dialog open className="db-sheet" data-side="end" data-variant={variant === "spine" ? undefined : variant} style={{ position: "relative", inset: "auto", translate: "none", width: "100%", height: "18rem", maxHeight: "none", transition: "none" }}><p className="db-sheet-spine" aria-hidden="true">The brief</p><SheetTitle>The brief</SheetTitle><SheetDescription>Keep the flag. Lose the anchor. Set the timetable large.</SheetDescription></dialog></Sheet></div>)}</div>
+    }
+  }
+  return null
 }
 
 function Preview({ name }: { name: string }) {
   const [got, setGot] = React.useState<{ name: string; E: Example } | null>(null)
+  const [failed, setFailed] = React.useState(false)
+  const ref = React.useRef<HTMLDivElement>(null)
   const Piece = loaded.get(name) ?? (got?.name === name ? got.E : null)
   React.useEffect(() => {
     if (loaded.has(name)) return
     let live = true
-    load(name)
-      .then((E) => {
-        loaded.set(name, E)
-        if (live) setGot({ name, E })
-      })
-      .catch(() => {})
-    return () => {
-      live = false
-    }
+    load(name).then((E) => { loaded.set(name, E); if (live) setGot({ name, E }) }).catch(() => live && setFailed(true))
+    return () => { live = false }
   }, [name])
-  return Piece ? (
-    <Guard key={name}>{React.createElement(Piece)}</Guard>
-  ) : null
+  React.useLayoutEffect(() => {
+    const sheet = ref.current, frame = sheet?.parentElement
+    if (!sheet || !frame || !Piece) return
+    let raf = 0
+    const fit = () => {
+      const css = getComputedStyle(frame)
+      const w = frame.clientWidth - parseFloat(css.paddingLeft) - parseFloat(css.paddingRight)
+      const h = frame.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom)
+      const width = Math.max(sheet.offsetWidth, sheet.scrollWidth), height = Math.max(sheet.offsetHeight, sheet.scrollHeight)
+      const scale = Math.min(w / width, h / height, 1.15)
+      sheet.style.setProperty("--preview-scale", String(scale))
+      sheet.dataset.fitted = "true"
+    }
+    const queue = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fit) }
+    const resize = new ResizeObserver(queue)
+    resize.observe(sheet)
+    resize.observe(frame)
+    const changes = new MutationObserver(queue)
+    changes.observe(sheet, { subtree: true, childList: true, characterData: true })
+    const theme = new MutationObserver(queue)
+    theme.observe(document.documentElement, { attributeFilter: FACE })
+    document.fonts.ready.then(queue)
+    fit()
+    return () => { cancelAnimationFrame(raf); resize.disconnect(); changes.disconnect(); theme.disconnect() }
+  }, [Piece, name])
+  return (
+    <div className="pieces-preview-scale" ref={ref} data-piece={name} data-pinned={PINNED.has(name) || undefined} style={{ "--preview-width": `${WIDTHS[name] ?? 680}px`, "--preview-columns": COLUMNS[name] ?? 1 } as React.CSSProperties}>
+      <div className="pieces-preview-demo">
+        {failed ? <p data-preview-error>Preview unavailable. Open the component below.</p> : Piece ? <Guard key={name}>{React.createElement(Piece)}</Guard> : <p className="pieces-loading" role="status">Setting the type…</p>}
+      </div>
+    </div>
+  )
 }
 
 const WORDS = ["quiet", "hush", "rest", "0dB"]
-const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
-
-/** Sets a field the way typing does, so the component's own handlers hear it. */
-function type(el: HTMLInputElement | HTMLTextAreaElement, value: string) {
-  const proto = el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
+function type(el: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, value: string) {
+  const proto = el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : el instanceof HTMLSelectElement ? HTMLSelectElement.prototype : HTMLInputElement.prototype
   Object.getOwnPropertyDescriptor(proto, "value")?.set?.call(el, value)
   el.dispatchEvent(new Event("input", { bubbles: true }))
+  el.dispatchEvent(new Event("change", { bubbles: true }))
 }
 
-/**
- * While nobody is using the piece on the stage, it plays itself: it strikes its checkboxes, flips its switches,
- * steps its tabs and sliders, and types into its fields, one move at a time, so you see it answer. It only
- * makes moves that stay on the stage: nothing that opens a layer, follows a link, submits or copies. The
- * moment a hand or a key comes to the stage, it stops and leaves the piece to you.
- */
+/** Each variation answers on the same beat. No navigation, submit, copy, portal or global theme action.
+ * A pointer or keyboard on the stage pauses the performance; reduced motion never starts it. */
 function usePerform(frame: React.RefObject<HTMLElement | null>, stage: React.RefObject<HTMLElement | null>, key: string) {
   React.useEffect(() => {
     const root = frame.current, host = stage.current
-    if (!root || !host || still()) return
-    let idle = true, seen = true, turn = 0, wait = 0, step = 0
-    const timers = new Set<number>()
-    const later = (f: () => void, ms: number) => { const t = window.setTimeout(() => { timers.delete(t); f() }, ms); timers.add(t) }
-    const hands = () => { idle = false; clearTimeout(wait) }
-    const away = () => { clearTimeout(wait); wait = window.setTimeout(() => (idle = true), 2500) }
-    const events: [string, () => void][] = [["pointerenter", hands], ["pointerdown", hands], ["focusin", hands], ["keydown", hands], ["pointerleave", away], ["focusout", away]]
-    events.forEach(([e, f]) => host.addEventListener(e, f))
-    const view = new IntersectionObserver(([e]) => (seen = e.isIntersecting))
-    view.observe(host)
-
-    const moves = () =>
-      [...root.querySelectorAll<HTMLElement>(
-        'input[type=checkbox], input[type=radio], input[type=range], input:not([type]), input[type=text], input[type=search], input[type=number], textarea, [role=switch], [role=checkbox], [role=radio], [role=tab], [role=slider], [role=spinbutton], [aria-pressed], button[aria-expanded]:not([aria-haspopup])',
-      )].filter((el) => !el.closest("a, [aria-haspopup], [data-perform=off]") && !(el as HTMLInputElement).disabled && !(el as HTMLInputElement).readOnly && el.getClientRects().length > 0 && el.getAttribute("aria-disabled") !== "true")
-
-    function play(el: HTMLElement) {
-      if (el instanceof HTMLInputElement && el.type === "range") {
-        const min = +el.min || 0, max = +(el.max || 100), n = +el.value
-        type(el, String(n + (max - min) / 5 > max ? min : n + (max - min) / 5))
-        el.dispatchEvent(new Event("change", { bubbles: true }))
-      } else if (el instanceof HTMLInputElement && el.type === "number") {
-        type(el, String((+el.value || 0) + 1))
-      } else if ((el instanceof HTMLInputElement && !["checkbox", "radio"].includes(el.type)) || el instanceof HTMLTextAreaElement) {
-        const word = WORDS[step++ % WORDS.length], was = el.value
-        if (was) { type(el, ""); return }
-        ;[...word].forEach((_, i) => later(() => idle && type(el, word.slice(0, i + 1)), 90 * (i + 1)))
-      } else if (el.matches("[role=slider], [role=spinbutton]")) {
-        el.dispatchEvent(new KeyboardEvent("keydown", { key: step++ % 6 < 3 ? "ArrowRight" : "ArrowLeft", bubbles: true }))
-      } else {
-        if (el.getAttribute("role") === "tab") el.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }))
-        el.click()
-      }
+    if (!root || !host) return
+    const motion = matchMedia("(prefers-reduced-motion: reduce)")
+    let idle = true, seen = false, turn = 0, wait = 0, beat = 0, ready = false
+    const hands = (event: Event) => {
+      if (!event.isTrusted) return
+      idle = false; clearTimeout(wait)
+      root.querySelectorAll<HTMLElement>("[data-performing]").forEach((el) => { delete el.dataset.force; delete el.dataset.performing })
     }
-
-    const beat = window.setInterval(() => {
-      if (!idle || !seen || document.hidden) return
-      const all = moves()
-      if (all.length) play(all[turn++ % all.length])
-    }, 1400)
+    const away = () => { clearTimeout(wait); wait = window.setTimeout(() => { idle = !host.matches(":hover") && !host.contains(document.activeElement) }, 900) }
+    const events: [string, EventListener][] = [["pointerenter", hands], ["pointerdown", hands], ["focusin", hands], ["keydown", hands], ["pointerleave", away], ["focusout", away]]
+    events.forEach(([e, f]) => host.addEventListener(e, f))
+    const view = new IntersectionObserver(([e]) => { seen = e.isIntersecting })
+    view.observe(host)
+    const perform = () => {
+      if (!idle || !seen || motion.matches || document.hidden) return
+      root.querySelectorAll("[data-demo-clock]").forEach((el) => el.dispatchEvent(new CustomEvent("preview-step", { detail: turn + 1 })))
+      const controls = [...root.querySelectorAll<HTMLElement>('input:not([type=file]):not([type=hidden]), textarea, select, [role=switch], [role=checkbox], [role=radio], [role=tab], [role=slider], [role=spinbutton], [aria-pressed], button[aria-expanded]:not([aria-haspopup]), .db-month-day')]
+        .filter((el) => !el.closest('a, [aria-haspopup], [data-perform=off], .db-appearance, .db-sidebar, .db-tiling-editor') && !(el as HTMLInputElement).disabled && !(el as HTMLInputElement).readOnly && el.getClientRects().length > 0 && el.getAttribute("aria-disabled") !== "true")
+      const groups = new Map<Element, HTMLElement[]>()
+      for (const el of controls) {
+        const group = el.closest('[role=tablist], [role=radiogroup], fieldset, .db-checklist, .db-toggle-group, .db-month') ?? el
+        groups.set(group, [...(groups.get(group) ?? []), el])
+      }
+      groups.forEach((all) => {
+        const el = all[turn % all.length]
+        if (el instanceof HTMLSelectElement) {
+          const options = [...el.options].filter((o) => !o.disabled)
+          if (options.length) type(el, options[(turn + 1) % options.length].value)
+        } else if (el instanceof HTMLInputElement && el.type === "range") {
+          const min = +el.min || 0, max = +(el.max || 100)
+          type(el, String(min + (max - min) * ((turn + 1) % 5) / 4))
+        } else if (el instanceof HTMLInputElement && el.type === "number") {
+          type(el, String((+el.min || 0) + ((turn + 1) % 5) * (+el.step || 1)))
+        } else if (el.matches('[role=slider], [role=spinbutton]')) {
+          el.dispatchEvent(new KeyboardEvent("keydown", { key: turn % 6 < 3 ? "ArrowRight" : "ArrowLeft", bubbles: true }))
+        } else if ((el instanceof HTMLInputElement && !["checkbox", "radio", "button", "submit"].includes(el.type)) || el instanceof HTMLTextAreaElement) {
+          type(el, el instanceof HTMLInputElement && el.inputMode === "numeric" ? String((turn + 1) % 10) : WORDS[turn % WORDS.length])
+        } else {
+          if (el.getAttribute("role") === "tab") el.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }))
+          el.click()
+        }
+      })
+      // Hover-only components use their documented forced state; every variant demonstrates together.
+      root.querySelectorAll<HTMLElement>('.db-btn, .db-link, .db-kbd, .db-card, .db-reverb, .db-note, .db-avatar, .db-corners').forEach((el) => {
+        if (turn % 2 === 0) { el.dataset.force = "hover"; el.dataset.performing = "true" }
+        else if (el.dataset.performing) { delete el.dataset.force; delete el.dataset.performing }
+      })
+      const name = root.querySelector<HTMLElement>("[data-piece]")?.dataset.piece
+      const actions: Record<string, RegExp> = {
+        "fraction": /^(One done|Undo one)$/i, "steps": /^(Next|Back)$/i, "segue": /^(Next scene|Back)$/i,
+        "marker": /^Draw them again$/i, "thread": /^Send the next part$/i, "timer": /^(Start|Pause)$/i,
+      }
+      if (name && actions[name]) {
+        const buttons = [...root.querySelectorAll<HTMLButtonElement>("button")].filter((b) => !b.disabled && actions[name].test(b.textContent?.trim() ?? ""))
+        const next = buttons.filter((b) => !/^(Back|Undo)/i.test(b.textContent ?? ""))
+        ;(turn % 4 === 3 ? buttons.filter((b) => /^(Back|Undo)/i.test(b.textContent ?? "")) : next).forEach((b) => b.click())
+      }
+      root.querySelectorAll<HTMLElement>(".db-melody").forEach((el) => el.dispatchEvent(new KeyboardEvent("keydown", { key: turn % 2 ? "Home" : "Enter", bubbles: true })))
+      root.querySelectorAll<HTMLDetailsElement>(".db-collapse").forEach((el) => { el.open = turn % 2 === 0 })
+      root.querySelectorAll(".db-accordion").forEach((group) => {
+        const items = [...group.querySelectorAll<HTMLDetailsElement>(":scope > details")]
+        items.forEach((el, i) => { el.open = i === turn % items.length })
+      })
+      root.querySelectorAll<HTMLElement>(".db-carousel-track").forEach((track) => {
+        const next = track.children[(turn + 1) % track.children.length] as HTMLElement | undefined
+        if (!next) return
+        if (track.parentElement?.dataset.variant === "shelf") next.querySelector<HTMLButtonElement>(".db-carousel-spine")?.click()
+        else {
+          const scale = track.getBoundingClientRect().width / track.offsetWidth
+          track.scrollTo({ left: track.scrollLeft + (next.getBoundingClientRect().left - track.getBoundingClientRect().left) / scale, behavior: "smooth" })
+        }
+      })
+      root.querySelectorAll<HTMLElement>(".db-wake").forEach((el) => {
+        const box = el.getBoundingClientRect()
+        el.dispatchEvent(new PointerEvent("pointermove", { clientX: box.left + box.width * ((turn % 4 + 1) / 5), clientY: box.top + box.height / 2, pointerType: "mouse" }))
+      })
+      root.dataset.beat = String(++turn)
+    }
+    const start = () => {
+      if (ready || !root.querySelector('[data-fitted]')) return
+      ready = true
+      beat = window.setTimeout(function tick() { perform(); beat = window.setTimeout(tick, 600) }, 220)
+    }
+    const loaded = new MutationObserver(start)
+    loaded.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-fitted"] })
+    start()
     return () => {
-      clearInterval(beat)
-      clearTimeout(wait)
-      timers.forEach(clearTimeout)
-      view.disconnect()
+      clearTimeout(beat); clearTimeout(wait); loaded.disconnect(); view.disconnect()
+      delete root.dataset.beat
       events.forEach(([e, f]) => host.removeEventListener(e, f))
     }
   }, [frame, stage, key])
 }
 
-/**
- * The title as a line of type being reset: letters the old name and the new share slide to their new places,
- * and the rest are cut in, the way a compositor swaps a word in a set line. Quick, and still under reduced motion.
- */
+/** A whole name cuts through one line mask. Its letters never leave their word. */
 function Title({ text }: { text: string }) {
-  const ref = React.useRef<HTMLParagraphElement>(null)
-  const last = React.useRef<{ ch: string; x: number }[]>([])
-  React.useLayoutEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const origin = el.getBoundingClientRect().left
-    const spans = [...el.querySelectorAll<HTMLElement>("[data-ch]")]
-    const now = spans.map((s) => ({ ch: s.dataset.ch!.toLowerCase(), x: s.getBoundingClientRect().left - origin }))
-    const before = last.current
-    last.current = now
-    if (!before.length || still()) return
-    const used = new Set<number>()
-    spans.forEach((s, i) => {
-      let best = -1
-      before.forEach((b, j) => { if (!used.has(j) && b.ch === now[i].ch && b.ch !== " " && (best < 0 || Math.abs(j - i) < Math.abs(best - i))) best = j })
-      if (best >= 0) {
-        used.add(best)
-        const dx = before[best].x - now[i].x
-        if (Math.abs(dx) > 0.5) s.animate([{ translate: `${dx}px 0` }, { translate: "0 0" }], { duration: 220, easing: "cubic-bezier(.2,.7,.2,1)" })
-      } else {
-        s.animate([{ clipPath: "inset(0 0 100% 0)", translate: "0 0.35em" }, { clipPath: "inset(0 0 -20% 0)", translate: "0 0" }], { duration: 180, delay: 14 * i, easing: "cubic-bezier(.2,.7,.2,1)", fill: "backwards" })
-      }
-    })
-  }, [text])
-  return (
-    <p className="pieces-title" ref={ref}>
-      <span className="db-sr">{text}</span>
-      <span aria-hidden="true">
-        {Array.from(text).map((c, i) => (
-          <span key={`${i}${c}`} data-ch={c}>
-            {c}
-          </span>
-        ))}
-      </span>
-    </p>
-  )
+  return <p className="pieces-title"><span key={text}>{text}</span></p>
 }
 
 export function PieceIndex({ movements, total }: { movements: Movement[]; total: number }) {
@@ -173,12 +369,36 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
   const hold = React.useRef(0)
   const stage = React.useRef<HTMLElement>(null)
   const frame = React.useRef<HTMLDivElement>(null)
+  const lead = React.useRef<SVGPathElement>(null)
   const piece = all[at]
+  // A hairline joins the chosen name to the stage. Its endpoints follow the sticky stage on scroll.
+  React.useEffect(() => {
+    const el = root.current, path = lead.current
+    if (!el || !path) return
+    let raf = 0
+    const draw = () => {
+      const name = el.querySelector(`[data-at="${at}"]`), target = stage.current
+      if (!name || !target) return
+      const box = el.getBoundingClientRect(), a = name.getBoundingClientRect(), b = target.getBoundingClientRect()
+      const rtl = getComputedStyle(el).direction === "rtl"
+      const wall = el.querySelector(".pieces-wall")!.getBoundingClientRect()
+      const x = (rtl ? wall.left - 5 : wall.right + 5) - box.left, y = a.top + a.height / 2 - box.top
+      const end = (rtl ? b.right + 8 : b.left - 8) - box.left, to = b.top + 12 - box.top
+      const mid = (x + end) / 2
+      path.setAttribute("d", `M${x},${y}H${mid}V${to}H${end}`)
+    }
+    const queue = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw) }
+    const resize = new ResizeObserver(queue)
+    resize.observe(el)
+    addEventListener("scroll", queue, { passive: true })
+    draw()
+    return () => { cancelAnimationFrame(raf); resize.disconnect(); removeEventListener("scroll", queue) }
+  }, [at])
   // The piece itself follows once the name has held for a moment: a flick through the wall fetches and mounts
   // nothing on the way, and a piece is never torn down while it's still measuring itself.
   const [playing, setPlaying] = React.useState(at)
   React.useEffect(() => {
-    const t = window.setTimeout(() => setPlaying(at), 260)
+    const t = window.setTimeout(() => setPlaying(at), 60)
     return () => clearTimeout(t)
   }, [at])
 
@@ -216,7 +436,7 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
   React.useEffect(() => () => clearTimeout(hold.current), [])
   const point = (i: number) => {
     clearTimeout(hold.current)
-    hold.current = window.setTimeout(() => setAt(i), 140) // a hand sweeping across the wall doesn't mount every piece it crosses
+    hold.current = window.setTimeout(() => setAt(i), 30) // a hand sweeping across the wall doesn't mount every piece it crosses
   }
 
   usePerform(frame, stage, `${awake}${playing}`)
@@ -224,6 +444,7 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
   let n = -1
   return (
     <div className="pieces" ref={root}>
+      <svg className="pieces-lead" aria-hidden="true"><path ref={lead} /></svg>
       <div className="pieces-wall">
         {movements.map((m) => (
           <div key={m.num} className="pieces-movement">
@@ -240,6 +461,7 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
                   <li key={p.name}>
                     <NextLink
                       href={`/docs/${p.name}/`}
+                      prefetch={false}
                       className="pieces-name"
                       data-at={i}
                       data-current={i === at || undefined}
@@ -288,11 +510,10 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
           </span>
         </p>
         <Title text={piece.title} />
-        <div className="db-corners pieces-preview">
-          <div className="pieces-preview-scale" ref={frame}>
-            {awake && playing === at ? <Preview name={piece.name} /> : null}
-          </div>
+        <div className="db-corners pieces-preview" ref={frame} aria-label={`${piece.title} variations`} aria-describedby="pieces-performance">
+          {awake && playing === at ? <Preview key={piece.name} name={piece.name} /> : null}
         </div>
+        <span className="db-sr" id="pieces-performance">Variations play together. Point at or focus the preview to pause and try them.</span>
         <p className="pieces-summary">{piece.summary}</p>
         <p className="pieces-actions">
           <NextLink href={`/docs/${piece.name}/`} className="db-link pieces-open">
