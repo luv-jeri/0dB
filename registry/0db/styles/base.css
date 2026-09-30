@@ -313,3 +313,92 @@
     .db-fraction[data-variant="vinculum"] > i { background-image: linear-gradient(CanvasText, CanvasText); background-color: GrayText; }
   }
 }
+
+@layer components {
+  /* Reading grade belongs to the expression itself, never its containing panel. --db-reading is
+     the local scale: existing sidecars keep their size and leading, and read the grade through
+     --db-expression-scale. One rule owns weight, optical size and tracking across text roles.
+     Display roles (mf and above, overprint/signature, sforzando, statement, fitted type and large
+     figures) deliberately do not enter this list. .db-reading opts a new text-size italic in. */
+  :is(
+    .db-reading,
+    .db-input:not(.db-field:is([data-variant="overprint"], [data-variant="signature"]) > .db-input),
+    .db-input-group-input, .db-number:not([data-variant="scale"]) :is(.db-number-input, .db-number-figures), .db-command-line-blank,
+    [contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"],
+    .db-combo:not([data-placeholder]), .db-combo-ghost, .db-combo-pop .db-command-input,
+    .db-combo-pop[data-multiple] .db-command-option[data-chosen] :is(.db-command-name, .db-combo-pre, .db-combo-hit, .db-combo-post),
+    .db-select select, .db-select-word, .db-select-ghosts,
+    .db-prose :is(em, i):not(:where(h1 *, h2 *, h3 *)), .db-prose blockquote,
+    .db-term:not(:where(h1 *, h2 *, h3 *, .db-mf, .db-f, .db-ff, .db-fff, .db-ffff, .db-mf *, .db-f *, .db-ff *, .db-fff *, .db-ffff *)), :is(.db-pp, .db-p, .db-mp) > .db-yours,
+    .db-crumbs:not([data-variant="stack"]) .db-yours, .db-meta .db-yours, .db-agent-note .db-yours,
+    .db-prose .db-yours:not(:where(h1 *, h2 *, h3 *)),
+    .db-quest-log-a .db-yours, .db-quest[data-variant="definition"] .db-quest-sentence > .db-yours,
+    .db-choice:not([data-variant="sforzando"]) .db-choice-yours,
+    .db-switch-state, .db-switch-either, .db-switch-ask,
+    .db-mode-roll, .db-mode-state, .db-mode-block, .db-mode-digit, .db-mode-typeset-pencil, .db-mode-typeset-letters i,
+    .db-relay:not([data-variant="statement"]) .db-relay-word,
+    .db-toggles-item[data-state="on"]:not(:has(.db-toggles-word)),
+    .db-toggle[data-state="on"] > .db-toggle-label:not([data-text]) > span,
+    .db-check:is([data-variant="stet"], [data-variant="circled"]) > input:checked + span,
+    .db-menu-item[data-state="checked"], .db-date[data-set], .db-table tr[data-picked] .db-table-name,
+    .db-tag[data-variant="series"], .db-reactions > .db-tag[aria-pressed="true"] > :first-child,
+    .db-msg[data-from="you"] .db-msg-body, .db-attach-name, .db-agent-drop,
+    .db-card[data-variant="epigraph"] .db-card-body, .db-peek[data-variant="quote"] blockquote,
+    .db-btn[data-variant="stave"], .db-command-line-yours, .db-note-now, .db-alert-correction :is(del, ins),
+    .db-source-code :is(.sh__token--string, .sh__token--jsxliterals, .sh__token--comment),
+    .db-measure-count, .db-waterfall-mark, .db-swap-tr, .db-ratio-rest .db-yours,
+    .db-melody-dynamic, .db-dial-marking,
+    .db-chart-row[data-series="1"] > .db-chart-name, .db-radar-figure[data-series="1"], .db-radar-name[data-series="1"],
+    .db-avatar:not([data-count], [data-size="l"], [data-variant="fit"], [data-variant="monogram"]),
+    .db-month-day[aria-selected="true"] .db-month-n
+  ),
+  :root :is(.db-pick-title[data-text], .db-picks[data-variant="rubric"] .db-pick-rest,
+    .db-toggle-label, .db-toggles-word, .db-toggles[data-variant="fingering"] .db-toggles-item)::after {
+    --db-reading: var(--db-expression-text-scale);
+    --db-expression-scale: var(--db-reading);
+    font-weight: max(var(--db-reading-weight, 400), var(--db-expression-text-weight));
+    font-optical-sizing: none;
+    font-variation-settings: var(--db-expression-text-variation);
+    letter-spacing: var(--db-expression-text-tracking);
+  }
+  /* Explicit text roles also work on a native editable, or on custom expression text. */
+  .db-reading, [contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"] {
+    font-family: var(--db-expression); font-style: italic;
+    font-size: calc(var(--db-expression-text-scale) * 1em); color: var(--db-ink);
+  }
+  /* Prose nested inside an already italic passage must not multiply the x-height lift again. */
+  .db-prose :is(blockquote, em, i) :is(em, i) { font-size: 1em; }
+  /* The companion roman runs do not inherit the expression's extra weight or optical cut. */
+  :is(.db-input, .db-input-group-input, .db-number-input, .db-command-input)::placeholder,
+  .db-combo-ghost > span, .db-prose blockquote footer {
+    font-weight: 400; font-optical-sizing: auto; font-variation-settings: normal; letter-spacing: normal;
+  }
+  /* Small muted italics get full ink. Keep intentional ink reversals, accent states, invisible
+     measurement copies, disabled controls and roman placeholders in their original roles. */
+  .db-prose :is(em, i):not(:where(h1 *, h2 *, h3 *, mark *, .db-link *)),
+  .db-term:not(:where(h1 *, h2 *, h3 *, .db-mf, .db-f, .db-ff, .db-fff, .db-ffff, .db-mf *, .db-f *, .db-ff *, .db-fff *, .db-ffff *)),
+  .db-agent-drop, .db-waterfall-mark, .db-swap-tr, .db-switch-ask,
+  .db-ratio-rest .db-fraction > .db-yours,
+  .db-source-code :is(.sh__token--string, .sh__token--jsxliterals, .sh__token--comment),
+  .db-chart-row[data-series="1"] > .db-chart-name, .db-radar-figure[data-series="1"], .db-radar-name[data-series="1"] { color: var(--db-ink); }
+  /* These score markings already carry a bolder weight; keep that emphasis in the reading cut. */
+  .db-melody-dynamic, .db-dial-marking { --db-reading-weight: 600; }
+  .db-melody-dynamic { fill: var(--db-ink); }
+  .db-dial-marking[data-mark="niente"] { --db-reading-weight: 400; color: var(--db-ink); }
+  /* Appearance's answer is text in a narrow container, a display line when there is room. */
+  @container (width < 36rem) {
+    .db-appearance-answer > .db-yours {
+      --db-reading: var(--db-expression-text-scale); --db-expression-scale: var(--db-reading);
+      font-weight: var(--db-expression-text-weight); font-optical-sizing: none;
+      font-variation-settings: var(--db-expression-text-variation); letter-spacing: var(--db-expression-text-tracking);
+    }
+  }
+  @media (forced-colors: active) {
+    .db-reading, [contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"],
+    .db-prose :is(em, i), .db-term, .db-agent-drop, .db-waterfall-mark, .db-swap-tr, .db-switch-ask,
+    .db-ratio-rest .db-fraction > .db-yours,
+    .db-source-code :is(.sh__token--string, .sh__token--jsxliterals, .sh__token--comment),
+    .db-chart-row[data-series="1"] > .db-chart-name, .db-radar-figure[data-series="1"], .db-radar-name[data-series="1"] { color: CanvasText; }
+    .db-melody-dynamic { fill: CanvasText; }
+  }
+}

@@ -26,7 +26,7 @@
   .db-prose small { font-size: var(--db-pp); color: var(--db-pencil); }
   .db-prose > :first-child { margin-top: 0; }
   .db-prose strong { font-weight: 500; color: var(--db-ink); }
-  .db-prose em { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); }
+  .db-prose :is(em, i) { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); }
   .db-prose ul ul, .db-prose ol ol, .db-prose ul ol, .db-prose ol ul { margin-top: 0.35em; }
   .db-prose li > ul { padding-inline-start: 1.1em; } /* a nested list steps in by its dash, so the dash hangs under its parent's words */
   .db-prose hr { margin-block: 2em; }

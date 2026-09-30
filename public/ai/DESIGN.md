@@ -11,7 +11,7 @@ A design system for type and silence. Two typefaces, one accent, and a great dea
 
 1. **Silence is structure.** Space does the layout. A hairline appears only where space alone can't hold two things apart.
 2. **Type is the only ornament.** Weight, width, size, tracking and order carry every level of hierarchy. No icons, fills or shadows.
-3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic at `--db-expression-scale`: a picked option, a typed value, a switch state, a slider value, a named item they own. Musical and foreign terms are italic too (`.db-term`), by book convention.
+3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic: a picked option, a typed value, a switch state, a slider value, a named item they own. Display uses `--db-expression-scale`; text uses the same face in its reading grade, with more ink, a little air and a text-size optical cut where available. Musical and foreign terms are italic too (`.db-term`), by book convention.
 4. **One note of colour.** One accent marks where you are: the current page, the chosen option, focus. At most one accent mark in view. Crimson is only for errors. The highlighter is only for reading marks.
 5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
 
@@ -65,7 +65,7 @@ All text colours (ink, graphite, pencil, accent, signal) clear 4.5:1 on their pa
 
 - `--db-voice`: a grotesque. Everything the interface says.
 - `--db-expression`: an italic serif. Everything the person says back.
-- `--db-expression-scale`: lifts the italic until the two x-heights meet. It's set per pair.
+- `--db-expression-scale`: lifts the display italic until the two x-heights meet. It's set per pair; text roles locally use the reading scale below.
 
 | Pair | Voice | Expression | Scale |
 |---|---|---|---|
@@ -73,6 +73,19 @@ All text colours (ink, graphite, pencil, accent, signal) clear 4.5:1 on their pa
 | press | Schibsted Grotesk (weight 400–900) | Newsreader (optical size 6–72) | 1.1 |
 | paris | Instrument Sans (width 75–100, weight 400–700) | EB Garamond | 1.24 |
 | salon | Bricolage Grotesque (optical size, width 75–100, weight 200–800) | Cormorant | 1.26 |
+
+**The expression's reading grade.** The italic is the same family at every size. At the text steps (`pp`, `p`, `mp`), thin display strokes need more ink and small counters need room. `base.css` applies one shared grade to typed inputs and textareas, editable text, selected values, text-size personal words, prose `em` / `i` and quotations, and small italic labels. `--db-reading` is the local scale and supplies `--db-expression-scale` on the expression element itself, never on a panel. Existing leading and component geometry stay with the sidecar. `.db-reading` opts a new text-size expression into the same rule; use it on the italic, not a parent containing roman or display type.
+
+| Pair | `--db-expression-text-opsz` | `--db-expression-text-weight` | `--db-expression-text-tracking` | `--db-expression-text-scale` |
+|---|---|---|---|---|
+| parma | 6 | 500 | 0.012em | 1.18 |
+| press | 6 | 500 | 0.01em | 1.12 |
+| paris | No optical-size axis | 500 | 0.015em | 1.3 |
+| salon | No optical-size axis | 600 | 0.015em | 1.38 |
+
+For Bodoni Moda and Newsreader, `--db-expression-text-variation` pins `"opsz"` to `--db-expression-text-opsz` with automatic optical sizing off. Garamond and Cormorant use `normal` variation settings and their real weight axes. Small italic prose and labels use full `--db-ink`, rather than graphite or pencil; intentional accent states, ink reversals, invisible measurement copies, disabled controls and roman placeholders keep their own colours. On cotton paper, ink is 18.85:1 by day and 15.59:1 in nocturne; contrast is measured independently of the font's stroke quality.
+
+Display italics keep their original optical sizing, weight, tracking, scale and colour: hero lines, titles, large figures, the overprint and signature fields, sforzando choices, statement relays and fitted type. Do not apply a reading grade to a whole component to catch a small label. Cormorant remains Cormorant; if a use still cannot be read at 16px after grading, propose a text-italic companion for owner review rather than silently substituting a family.
 
 The width moves (the title's exhale, the statement button, the disclosure) only travel as far as each voice's width axis allows. Schibsted has no width axis, so under press they change weight only.
 - `--db-measure`: 62ch.
@@ -220,15 +233,16 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - Keyboard: Space toggles.
 
 ### db-mode-toggle (mode-toggle)
-- Underneath: native `<button>` with `aria-pressed` (pressed means Nocturne). Its name is "Night mode" and never changes; the state says which.
-- Anatomy: `<button class="db-mode" data-variant="eclipse | horizon | words | fermata | sentence | knockout | hour" aria-pressed aria-label="Night mode"><span class="db-mode-art" aria-hidden="true">…</span></button>`. Sizes are in `em`, so it takes the size of the text around it; the hit area is 0.4em wider than the drawing.
-- It only reports the choice: `mode` / `defaultMode` / `onModeChange(mode, event)`. The page applies it (`document.documentElement.dataset.mode = mode`). The site's `useTheme()` does, through a view transition that opens from the toggle.
+- Underneath: native `<button>` with `aria-pressed` (pressed means Nocturne), except typeset, a real `role="switch"` with `aria-checked` for Nocturne. Its name is "Night mode" and never changes; the state says which.
+- Anatomy: `<button class="db-mode" data-variant="eclipse | horizon | words | fermata | sentence | knockout | hour | typeset" aria-pressed aria-label="Night mode"><span class="db-mode-art" aria-hidden="true">…</span></button>`. For typeset, `role="switch"` and `aria-checked` replace `aria-pressed`. Sizes are in `em`, so it takes the size of the text around it; the hit area is 0.4em wider than the drawing.
+- It only reports the choice: `mode` / `defaultMode` / `onModeChange(mode, event)`. The page applies it (`document.documentElement.dataset.mode = mode`). The site's `useTheme()` does, through a view transition; the typeset header reveals the new scheme with a clean circular wipe from the toggle, timed to the letter reset (moderato). The appearance hook only starts a View Transition when supported and reduced motion is off; otherwise the scheme swaps instantly.
 - Eclipse: a ring and a disc that fills it; by day the whole sun, and at night a mask bites the disc from the upper right and leaves a crescent on the moon's rim (registered `--db-mode-x`, mirrored in RTL). The disc meets the ring: with a gap between them, day read as a checked radio. Horizon: a hairline; the dot stands above it filled by day and sets below it as a ring at night, landing with spiccato. Words: drawn like a select, since it sits in sentences beside them. The word you read by stands in the italic on a hairline, with ↕ in the pencil where a select has ↓; pointing inks both and nudges the arrow toward the other word. Choosing rolls it the way the sun goes: night comes down from above, day comes up from below, and the hairline narrows or widens to the new word. Fermata: the sign as an eye; the lid arc comes down over the dot at night and closes. Sentence: "Read by light." / "Read by night."; the last word rolls (light in from below, night in from above) and the full stop is a dot or a ring.
 - Knockout: after "the uncreative", where part of a word is reversed out of an ink block. It reads "midday": `mid` in heavy roman on the paper, the half you chose in the italic (`.db-mode-block`). At night the ink falls over the second half from above, the way Nocturne falls over the page, and "night" reverses out of it; at dawn the ink lifts back up. Pointing lets a sliver of ink fall by day, or lifts it a little at night.
 - Hour: after the numbers used as data in "the silence that heals". Noon by day and midnight at night: 12:00 and 00:00, the hour yours in the italic and the minutes ours in pencil, in tabular figures and always left to right. A clock only goes forward, so whichever way you choose, the hour turns forward, out at the top and in from below, the units first and the tens one step behind like a carry. It turns only after the mode has changed (`data-turned`), so nothing rolls on first paint.
-- States: rest (graphite), hover (ink), focus (accent outline), disabled. Forced colours restate every part in system colours.
+- Typeset: after Paul Rand's measured letters and the roman/italic contrast of "It has to be design." One word at rest, Day or Nocturne, on the surrounding text's baseline and at its size. The current mode is an interface label in the roman; hover or keyboard focus pencils in two italic letters from the alternative, then restores the word on leave. There is no dividing line or second word at rest. A hidden native Nocturne reserves the longer measure before script and after measurement, so switching cannot move the header; the hit target is at least 44px tall. Pretext loads dynamically after both fonts, measuring each word and its prefixes with kerning. Shared glyphs keep their identity and glide between measured positions; these two names share no glyphs, so their letters fade out/in in place, in reading order, finishing at moderato. RTL anchors the intact English word at inline start and reverses the sequence and preview edge. Colour-only changes reuse the layout; resize and the four appearance attributes can remeasure, never scrolling's class changes. Before measurement the current native word remains readable. After a press the preview rests until fresh pointer movement or keyboard focus; View Transition hit-testing cannot retrigger it. Reduced motion (also data-force="reduced") disables previews and swaps instantly. In the site header, `::view-transition-new(root)` opens a clean circle from the toggle while the old root stays still, without opacity fading, at the same 320ms tempo. The header variant disables the body colour transition so the wipe reveals the final paper immediately.
+- States: rest (graphite), hover (ink), focus (accent outline), disabled. Forced colours restate every part in system colours; typeset prints its letters and pencil preview in ButtonText, with a Highlight focus outline.
 - Keyboard: Space or Enter.
-- The site's bar uses eclipse (the smallest, and it reads without a label); Tune uses sentence.
+- The site's bar uses typeset, its measure reserved in both modes; Tune uses sentence.
 
 ### db-relay (word-relay)
 - Underneath: native `<button>`.
@@ -249,7 +263,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - It writes only the four switches (`data-mode`, `data-scheme`, `data-key`, `data-pair`; cotton and parma are no attribute) and keeps them together as one JSON object under `0db-theme` in localStorage. `useAppearance()` reads `<html>` through a MutationObserver, so a head script, the page and every control agree. With `value` it holds nothing and writes nothing: `onValueChange(value, from)` reports.
 - Motion: the new appearance opens over the old as a circle from the control you touched (a view transition, andante, breath; `--db-appearance-x`, `--db-appearance-y` on `<html>`). Reduced motion, or no view transitions, changes it at once. The page restores the stored choice before first paint with a one-line script in `<head>` (the docs site's `theme-script.tsx`).
 - States: those of picks and the mode toggle. Keyboard: Tab through the toggle and the three groups; arrow keys move each choice.
-- The site's bar opens it from Tune, in a popover, beside the eclipse toggle.
+- The site's bar opens it from Tune, in a popover, beside the typeset toggle.
 
 ### db-ruler (slider)
 - Underneath: native range, plus a hook for the readout.
@@ -994,6 +1008,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 ### db-prose (typography)
 - Underneath: native.
 - Anatomy: `<article class="db-prose">` wrapping plain HTML: headings, `p`, `.db-prose-lead`, `blockquote`, lists, `code`.
+- Text-size `em`, `i` and block quotations use the expression reading grade from base. Nested italics do not multiply the scale again. Italics inside display headings keep their display settings.
 - swiss (the default, `data-variant="swiss"`): set for reading at `--db-measure`. Headings step by the dynamics; quotes are in the expression; quote marks and list dashes hang in the margin so the edge stays true (`hanging-punctuation` where supported); numbered lists step in instead, a number being too wide to hang, so the numbers stand on the edge. A nested list steps in by its dash, so its dash hangs under its parent's words, and list items take half a paragraph's pause (0.5em) between them. Code is the voice, condensed.
 - book: the page of a book, by the compositor's rule "indent or space, never both" (Tschichold's Penguin rules, Bringhurst). Paragraphs follow on with no space between them, each indented an em and a half, and the first after a heading or a break flush; they are justified and hyphenated, with old-style figures where the face has them. The opening line after a heading is set in spaced capitals (`::first-line`, so it re-sets itself at every width). A break (`hr`) is a dinkus of three spaced dots instead of a rule. Quotes are indented both sides at body size.
 - run-on: the scribe's paragraph. A passage's paragraphs run on as one block, and where each begins a pilcrow (¶, the expression face, ink, decorative to screen readers) stands in the line: the silence between paragraphs is kept as one mark. The lead and anything that isn't a paragraph stay blocks. For short passages; long reading wants swiss or book.
@@ -1169,6 +1184,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Mode toggle (`mode-toggle`) | The fermata sign; "28 December" dots | A disc, a dot or an eyelid crosses from day to night |
 | Knockout mode toggle (`mode-toggle`) | "the uncreative" | Midday to midnight: the second half reversed out of the ink |
 | Hour mode toggle (`mode-toggle`) | "the silence that heals" numbers as data | Noon and midnight as 12:00 and 00:00 |
+| Typeset mode toggle (`mode-toggle`) | "It has to be design." roman/italic contrast; Paul Rand dimension lines | One word in a fixed measure; two italic pencil sorts preview the compositor resetting the line |
 | Word relay (`word-relay`) | Mode toggle's sentence; "It has to be design." (the italic word) | The last word rolls on to the next; the line follows it |
 | Statement word relay (`word-relay`) | "It has to be design." scale contrast | Heavy narrow roman; the chosen word large in the italic and the accent, cutting across it |
 | Appearance (`appearance`) | "Healthy habits → for creatives"; the score's pizzicato (picks) | The choice written back as one sentence, yours in the italic; the night toggle finishes it |
@@ -1494,6 +1510,7 @@ Three rules, then one articulation per component.
 | Mode toggle (`mode-toggle`) | Legato | The disc slides, the dot sets, the lid closes, the word rolls |
 | Knockout mode toggle (`mode-toggle`) | Dusk and dawn | The ink falls over the second half from above and night reverses out; at dawn it lifts |
 | Hour mode toggle (`mode-toggle`) | Carry | The hour turns forward either way, the units first and the tens one step behind |
+| Typeset mode toggle (`mode-toggle`) | Reset | Measured glyphs fade in place (shared glyphs glide), in reading order; two italic sorts preview on hover/focus. A circular scheme wipe opens from the header toggle in the same moderato; reduced motion swaps instantly |
 | Word relay (`word-relay`) | Roll | Every 2400ms by default, or on press/keys, the word turns over and the line follows its width; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Appearance (`appearance`) | Opening | The new page opens over the old as a circle from the control you touched |
 | Slider (`slider`) | Lift | The value rises while the hand is on it |
