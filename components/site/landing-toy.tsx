@@ -33,9 +33,17 @@ export function Toy() {
   const db = loudness(text)
   const say = text.trim() || " "
   const root = React.useRef<HTMLDivElement>(null)
+  const dismissing = React.useRef(false)
   const share = useShare(`/?say=${encodeURIComponent(text.trim())}#noise`)
   const { open, show } = share
   const held = open ? hold : null
+
+  // Remember the gesture before useShare's document listener closes the panel.
+  React.useEffect(() => {
+    const press = (event: PointerEvent) => { dismissing.current = open && !!root.current?.contains(event.target as Node) }
+    window.addEventListener("pointerdown", press, true)
+    return () => window.removeEventListener("pointerdown", press, true)
+  }, [open])
 
   // The ring stops where it's asked, or mid-words from a control, kept whole inside the section.
   const stop = React.useCallback(
@@ -79,6 +87,9 @@ export function Toy() {
       data-quiet={quiet || undefined}
       data-held={held ? "" : undefined}
       onClick={(e) => {
+        const dismissed = dismissing.current
+        dismissing.current = false
+        if (dismissed && e.detail > 0) return
         if (open || (e.target as Element).closest("input, button, a, label, textarea, .toy-controls")) return
         const b = e.currentTarget.getBoundingClientRect()
         stop(e.clientX - b.left, e.clientY - b.top, null)

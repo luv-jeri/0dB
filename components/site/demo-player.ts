@@ -402,7 +402,7 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
     const hands = (event: Event) => {
       if (event.isTrusted && !driving) cancel(true)
     }
-    const events = ["pointerenter", "pointerdown", "keydown", "focusin"]
+    const events = ["pointerenter", "pointerdown", "keydown", "focusin", "click"]
     events.forEach((e) => surface.addEventListener(e, hands, true))
     const away = () => { if (run && document.hidden) cancel(true) }
     document.addEventListener("visibilitychange", away)

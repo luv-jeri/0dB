@@ -57,7 +57,7 @@ function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChan
       data-scene={scene}
       data-rested={scene && rested ? "" : undefined}
       // A scene change swaps what is under the pointer; only a real leave ends the rest.
-      onPointerLeave={(e) => { if (!document.documentElement.matches(":active-view-transition")) setRested(false); onPointerLeave?.(e) }}
+      onPointerLeave={(e) => { if (!CSS.supports("selector(:active-view-transition)") || !document.documentElement.matches(":active-view-transition")) setRested(false); onPointerLeave?.(e) }}
       onBlur={(e) => { setRested(false); onBlur?.(e) }}
       role={scene ? "switch" : undefined}
       aria-checked={scene ? now === "nocturne" : undefined}

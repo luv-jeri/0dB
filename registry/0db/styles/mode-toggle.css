@@ -228,6 +228,7 @@
   /* Forced colours drop backgrounds and masks' colours: say what each part is. */
   @media (forced-colors: active) {
     .db-mode { color: ButtonText; }
+    .db-mode:is([data-variant="stop"], [data-variant="dimmer"]) { --db-ink: ButtonText; --db-graphite: ButtonText; --db-pencil: GrayText; }
     .db-mode:focus-visible, .db-mode[data-force~="focus"] { outline-color: Highlight; }
     .db-mode-art::before, .db-mode-art::after, .db-mode-roll, .db-mode-state { forced-color-adjust: none; }
     .db-mode[data-variant="eclipse"] .db-mode-art::before, .db-mode[data-variant="fermata"] .db-mode-art::after { background: ButtonText; }

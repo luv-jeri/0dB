@@ -142,6 +142,7 @@
   .db-tiling-output textarea { display: block; inline-size: 100%; block-size: var(--db-space-10); margin-block-start: var(--db-space-3); padding: var(--db-space-3); border: 0; border-block: var(--db-hairline) solid var(--db-rule); background: none; color: var(--db-ink); font: inherit; resize: vertical; direction: ltr; unicode-bidi: isolate; }
   @container (width < 24rem) { .db-tiling-editor .db-tile { padding-inline: var(--db-space-2); } }
   @media (forced-colors: active) {
+    .db-tiling-editor { --db-ink: CanvasText; --db-rule-strong: CanvasText; --db-accent: Highlight; }
     .db-tiling-editor .db-tiling-sheet::before { forced-color-adjust: none; --db-rule: GrayText; --db-rule-strong: GrayText; }
     .db-tiling-editor .db-tile::before { border-color: CanvasText; }
     .db-tiling-landing { outline-color: Highlight; }

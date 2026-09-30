@@ -159,9 +159,35 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
   const animateNext = React.useRef(false)
   const suppressClick = React.useRef(false)
   const drag = React.useRef<{
-    tile: TilingItem; base: TilingLayout; pointer: number; x: number; y: number; left: number; top: number
+    tile: TilingItem; base: TilingLayout; pointer: number; x: number; y: number
     columnStep: number; rowStep: number; rtl: boolean; kind: EditKind; moved: boolean; preview: TilingItem[]
   } | null>(null)
+
+  // Before capture, the release can land anywhere. A lost window also ends the gesture.
+  React.useEffect(() => {
+    const abandon = () => {
+      const pending = drag.current
+      drag.current = null
+      if (!pending?.moved) return
+      animateNext.current = true
+      setEdit(null)
+      setNotice((before) => ({ text: "Edit cancelled. Saved layout unchanged.", sequence: before.sequence + 1 }))
+      const handle = handles.current.get(pending.tile.id)
+      if (handle?.hasPointerCapture(pending.pointer)) handle.releasePointerCapture(pending.pointer)
+    }
+    const end = (event: PointerEvent) => {
+      const pending = drag.current
+      if (pending?.pointer === event.pointerId && (event.type === "pointercancel" || !pending.moved)) abandon()
+    }
+    document.addEventListener("pointerup", end, true)
+    document.addEventListener("pointercancel", end, true)
+    window.addEventListener("blur", abandon)
+    return () => {
+      document.removeEventListener("pointerup", end, true)
+      document.removeEventListener("pointercancel", end, true)
+      window.removeEventListener("blur", abandon)
+    }
+  }, [])
 
   const say = (text: string) => setNotice((before) => ({ text, sequence: before.sequence + 1 }))
   const commit = (next: TilingItem[]) => {
@@ -197,12 +223,14 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
     if (!board) return
     const bounds = board.getBoundingClientRect()
     const cs = getComputedStyle(board)
+    const scaleX = bounds.width / board.offsetWidth || 1
+    const scaleY = bounds.height / board.offsetHeight || 1
     const glide = animateNext.current && !matchMedia("(prefers-reduced-motion: reduce)").matches
     const seen = new Map<string, { x: number; y: number }>()
     Array.from(board.children).forEach((node) => {
       if (!(node instanceof HTMLElement) || !node.dataset.id) return
       const rect = node.getBoundingClientRect()
-      const at = { x: rect.left - bounds.left, y: rect.top - bounds.top }
+      const at = { x: (rect.left - bounds.left) / scaleX, y: (rect.top - bounds.top) / scaleY }
       const before = previous.current.get(node.dataset.id)
       seen.set(node.dataset.id, at)
       if (glide && before && !node.hasAttribute("data-dragging") && (Math.abs(at.x - before.x) > 0.5 || Math.abs(at.y - before.y) > 0.5)) {
@@ -250,19 +278,26 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
     const board = sheet.current
     const bounds = board.getBoundingClientRect()
     const cs = getComputedStyle(board)
+    const scaleX = bounds.width / board.offsetWidth || 1
+    const scaleY = bounds.height / board.offsetHeight || 1
     suppressClick.current = false
     // Do not capture or prevent the initial press: links and buttons still receive a click.
-    drag.current = { tile, base: tiles, pointer: event.pointerId, x: event.clientX, y: event.clientY, left: bounds.left, top: bounds.top, columnStep: (bounds.width + parseFloat(cs.columnGap)) / 12, rowStep: parseFloat(cs.gridAutoRows) + parseFloat(cs.rowGap), rtl: cs.direction === "rtl", kind, moved: false, preview: copyTiles(tiles) }
+    drag.current = { tile, base: tiles, pointer: event.pointerId, x: (event.clientX - bounds.left) / scaleX, y: (event.clientY - bounds.top) / scaleY, columnStep: (board.offsetWidth + parseFloat(cs.columnGap)) / 12, rowStep: parseFloat(cs.gridAutoRows) + parseFloat(cs.rowGap), rtl: cs.direction === "rtl", kind, moved: false, preview: copyTiles(tiles) }
     setSelected(tile.id)
   }
   const pointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     const pending = drag.current
     if (!pending || pending.pointer !== event.pointerId || !sheet.current) return
+    if (!(event.buttons & 1)) { cancel(); return }
     if (pending.base !== tiles) { cancel(); return }
-    const bounds = sheet.current.getBoundingClientRect()
-    const x = event.clientX - pending.x + pending.left - bounds.left
-    const y = event.clientY - pending.y + pending.top - bounds.top
-    if (!pending.moved && Math.hypot(x, y) < 6) return
+    const board = sheet.current
+    const bounds = board.getBoundingClientRect()
+    const scaleX = bounds.width / board.offsetWidth || 1
+    const scaleY = bounds.height / board.offsetHeight || 1
+    const x = (event.clientX - bounds.left) / scaleX - pending.x
+    const y = (event.clientY - bounds.top) / scaleY - pending.y
+    // Translations and grid steps are local; the click threshold stays in viewport pixels.
+    if (!pending.moved && Math.hypot(x * scaleX, y * scaleY) < 6) return
     if (!pending.moved) {
       pending.moved = true
       event.currentTarget.focus({ preventScroll: true })
