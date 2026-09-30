@@ -144,22 +144,39 @@
 .ask .ask-what { width: auto; min-width: 4ch; max-width: 100%; field-sizing: content; padding-block: 0 0.08em; font-size: calc(var(--db-expression-scale) * 1em); letter-spacing: 0; }
 .ask .ask-what::placeholder { font-size: 1em; font-family: var(--db-expression); font-style: italic; }
 
-/* ── make some noise: your words, set huge, and the same words running loud around them ── */
-.toy { grid-column: 1 / -1; position: relative; isolation: isolate; container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-8); padding-block: var(--db-space-7) var(--db-space-6); }
+/* ── make some noise: every click turns it up; past 100 dB it opens a way to pass it on ── */
+.toy { --level: 0; grid-column: 1 / -1; position: relative; isolation: isolate; container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-8); padding-block: var(--db-space-7) var(--db-space-6); cursor: pointer; }
 .toy-noise { position: absolute; z-index: -1; inset-block: 0; left: 50%; width: 100vw; height: 100%; translate: -50% 0; pointer-events: none; color: var(--db-ink); }
-/* Yours in italic. Its box keeps room for the loudest setting, so turning it down never moves what's below. */
-.toy-say { display: grid; max-width: 13em; font-family: var(--db-expression); font-style: italic; font-size: clamp(var(--db-ff), 10cqi, 280px); line-height: 0.95; letter-spacing: -0.02em; font-weight: 400; color: var(--db-ink); overflow-wrap: anywhere; text-wrap: balance; }
+/* Yours in italic, as loud as the level: heavier, tighter and larger (scaled, so nothing below moves). Its box
+   keeps room for the loudest setting. The echoes behind it are the canvas's. */
+.toy-say { display: grid; max-width: min(13em, 92cqi); font-family: var(--db-expression); font-style: italic; font-size: clamp(var(--db-ff), 10cqi, 280px); line-height: 0.95; letter-spacing: 0.005em; color: var(--db-ink); overflow-wrap: anywhere; text-wrap: balance; cursor: text; }
 .toy-say > span, .toy-say::after { grid-area: 1 / 1; }
-.toy-say::after { content: attr(data-text); font-weight: 800; visibility: hidden; }
-.toy-say > span { transition: font-weight var(--db-adagio) var(--db-exhale); }
-.toy:not([data-quiet]) .toy-say > span { font-weight: 800; transition-duration: var(--db-allegro); }
-.toy-controls { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--db-gutter); row-gap: var(--db-space-6); align-items: end; }
-.toy-field { grid-column: 1 / 6; display: grid; row-gap: var(--db-space-2); }
+.toy-say::after { content: attr(data-text); font-weight: 900; visibility: hidden; }
+.toy-say > span { font-weight: calc(300 + 600 * var(--level)); letter-spacing: calc(0.005em - 0.035em * var(--level)); scale: calc(1 + 0.08 * var(--level)); transform-origin: 0 100%; }
+[dir="rtl"] .toy-say > span { transform-origin: 100% 100%; }
+.toy-controls { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--db-gutter); row-gap: var(--db-space-6); align-items: end; cursor: auto; }
+.toy-field { grid-column: 1 / 5; display: grid; row-gap: var(--db-space-2); }
 .toy-label { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
 .toy .toy-input { font-size: var(--db-mp); }
-.toy-reading { grid-column: 6 / 9; justify-self: end; }
-.toy-meter { font-size: clamp(var(--db-f), 4.4cqi, 120px); line-height: 1; font-weight: 200; font-stretch: 112%; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--db-ink); }
-.toy-actions { grid-column: 9 / -1; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: end; column-gap: var(--db-space-6); row-gap: var(--db-space-3); font-size: var(--db-p); }
+.toy-level { grid-column: 5 / 9; }
+/* The slider sets its figure and unit as two runs, and the unit would move as the figure shrinks; the reading
+   beside it is one run, set larger, so the level only ever grows or shrinks at its end. */
+.toy-level .db-ruler-loud > .db-ruler-yours { display: none; }
+.toy-out { grid-column: 9 / -1; display: grid; justify-items: start; row-gap: var(--db-space-4); }
+.toy-db { font-size: clamp(var(--db-f), 4.4cqi, 120px); line-height: 1; font-weight: 200; font-stretch: 112%; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--db-ink); }
+.toy-actions { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-6); row-gap: var(--db-space-3); font-size: var(--db-p); }
+/* The share moment: a border of words runs round it as the level climbs, and when it closes, it opens. Both
+   states stand in the same cell, so the reveal moves nothing. */
+.toy-moment { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); padding: calc(var(--db-space-7) + 20px) calc(var(--db-space-7) + 20px); cursor: auto; }
+.text-frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--db-graphite); }
+.toy-before, .toy-after { grid-area: 1 / 1; transition: opacity var(--db-andante) var(--db-exhale), visibility var(--db-andante); }
+.toy-before { align-self: center; max-width: 36ch; font-family: var(--db-expression); font-style: italic; font-size: var(--db-mf); line-height: var(--db-mf-lh); color: var(--db-graphite); }
+.toy-after { display: grid; justify-items: start; row-gap: var(--db-space-4); }
+.toy:not([data-earned]) .toy-after, .toy[data-earned] .toy-before { opacity: 0; visibility: hidden; }
+.toy-ask { max-width: 14em; font-size: clamp(var(--db-f), 6cqi, 170px); line-height: 0.95; letter-spacing: -0.04em; font-weight: 250; color: var(--db-ink); text-wrap: balance; }
+.toy-why { max-width: 48ch; font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
+.toy-send { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-3) var(--db-space-7); margin-top: var(--db-space-3); font-size: var(--db-f); line-height: 1.1; letter-spacing: -0.025em; font-weight: 250; }
+.toy-send .cta { font-size: inherit; }
 
 /* ── help build it: three calls, each with its reason ── */
 .help-list { display: grid; row-gap: var(--db-space-7); margin: 0; padding: 0; list-style: none; }
@@ -167,8 +184,9 @@
 .help-note { max-width: 44ch; font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
 
 /* ── the coda: the last call, then the echo into silence ── */
-.coda { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; row-gap: var(--db-space-7); padding-block: var(--db-space-9) var(--db-space-8); }
+.coda { position: relative; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; row-gap: var(--db-space-7); padding: var(--db-space-9) calc(var(--db-space-5) + 20px) var(--db-space-8); }
 .coda > * { grid-column: 4 / -1; }
+.coda > .text-frame { grid-area: auto; color: var(--db-pencil); }
 .coda-title { max-width: 12em; font-size: clamp(var(--db-ff), 7.4vw, 220px); line-height: 0.9; letter-spacing: -0.045em; font-weight: 250; color: var(--db-ink); text-wrap: balance; }
 .coda-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-6); }
 .landing .fine { margin-block: var(--db-space-7) 0; font-family: var(--db-expression); font-style: italic; font-size: var(--db-mf); line-height: 1; color: var(--db-graphite); }
@@ -182,8 +200,8 @@
   .passage-margin { margin-bottom: var(--db-space-5); padding-top: 0; }
   .passage { padding-block: var(--db-space-5) var(--db-space-8); }
   .hero-foot > * { grid-column: 1 / -1; grid-row: auto; }
-  .toy-controls > * { grid-column: 1 / -1; justify-self: start; }
-  .toy-actions { justify-content: start; }
+  .toy-controls > * { grid-column: 1 / -1; }
+  .toy-moment { padding: calc(var(--db-space-6) + 20px) calc(var(--db-space-5) + 20px); }
   /* The stage stands at the top of the view and the wall scrolls under it; the name crossing the playhead plays. */
   .pieces { grid-template-columns: minmax(0, 1fr); }
   .pieces-stage { grid-column: 1; grid-row: 1; z-index: 2; top: var(--bar); margin-inline: calc(-1 * var(--db-margin)); padding: var(--db-space-4) var(--db-margin) var(--db-space-5); background: var(--db-paper); box-shadow: inset 0 calc(-1 * var(--db-hairline)) var(--db-rule); row-gap: var(--db-space-3); }
@@ -198,6 +216,8 @@
   .hero-line[data-line="quiet"] .hero-word { display: grid; justify-content: start; }
   .hero-title { font-size: min(26cqi, 22svh); line-height: 0.82; }
   .cta[data-size="l"] { font-size: min(var(--db-f), 14cqi); }
+  .toy-ask { font-size: min(var(--db-f), 9.5cqi); }
+  .toy-send { font-size: min(var(--db-f), 8cqi); }
 }
 @media (max-width: 560px) {
   .left-out.db-checklist, .passage-title { font-size: var(--db-f); line-height: var(--db-f-lh); }

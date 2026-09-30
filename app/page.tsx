@@ -3,6 +3,7 @@ import NextLink from "next/link"
 import "./landing.css"
 
 import { AskFor, LeftOut, Share, TuneSentence } from "@/components/site/landing"
+import { TextFrame } from "@/components/site/landing-frame"
 import { Cta, Hero } from "@/components/site/landing-hero"
 import { PieceIndex, type Movement } from "@/components/site/landing-index"
 import { Toy } from "@/components/site/landing-toy"
@@ -85,7 +86,7 @@ export default function Home() {
         className="passage-noise"
         wide
         title="Make some noise."
-        note="Type anything, as loud as you like. Then turn it down, and send it to someone."
+        note="Every click here turns it up. Get it loud enough, then pass it on. Or turn it down: the story of the name."
       >
         <Toy />
       </Passage>
@@ -157,6 +158,7 @@ export default function Home() {
       </Passage>
 
       <section className="coda" aria-labelledby="coda-title">
+        <TextFrame words="0 dB · the quietest sound a person can hear · now make something quiet · " />
         <h2 className="coda-title" id="coda-title">
           Now make something quiet.
         </h2>
