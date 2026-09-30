@@ -152,7 +152,7 @@
       "name": "link",
       "type": "registry:ui",
       "title": "Link",
-      "description": "A hairline underline at rest; pointing at it draws a highlighter stroke through the words, on from the left and off to the right.",
+      "description": "A hairline underline at rest; pointing at it, focusing it or holding its card open draws a highlighter stroke through the whole word, on from the left and off to the right.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json"
       ],
@@ -238,7 +238,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Three voices: a statement in an ink block, a bracket that steps apart, and a quiet line that redraws.",
+      "description": "One family of three (a statement in an ink block, a bracket that steps apart, a quiet line that redraws) and four heroes for the big call to action: overture, fermata, stave and ink. Nothing moves its neighbours.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json",
         "https://0db.cojeev.com/r/spinner.json"
@@ -837,7 +837,8 @@
       "title": "Dialog",
       "description": "The question, set large, with two plain answers. The page holds still behind it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/scrollbar.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -1240,7 +1241,8 @@
       "title": "Command",
       "description": "What you type is set as large as a headline, in italic. Matches are marked; the chosen row steps forward.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://0db.cojeev.com/r/0db.json",
+        "https://0db.cojeev.com/r/scrollbar.json"
       ],
       "dependencies": [
         "@radix-ui/react-dialog",
@@ -1270,10 +1272,11 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "A column of words beside the work. Folded, each word keeps only its initial, set large and light; the page you're on carries the dot.",
+      "description": "A column of words beside the work. Folded, it becomes a ruler: a numeral for each group, a tick for each link, and the name comes out into the margin when you point at it.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json",
         "https://0db.cojeev.com/r/button.json",
+        "https://0db.cojeev.com/r/scrollbar.json",
         "https://0db.cojeev.com/r/sheet.json"
       ],
       "dependencies": [
@@ -2003,6 +2006,37 @@
       }
     },
     {
+      "name": "calligram",
+      "type": "registry:ui",
+      "title": "Calligram",
+      "description": "A paragraph that fills a shape, as Apollinaire's calligrams did: each line is as wide as the shape is at that height, so the outline is only implied.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/calligram.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/calligram.css",
+          "type": "registry:file",
+          "target": "styles/0db/calligram.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/calligram.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-calligram"
+      }
+    },
+    {
       "name": "command-line",
       "type": "registry:ui",
       "title": "Command line",
@@ -2094,6 +2128,158 @@
       }
     },
     {
+      "name": "gather",
+      "type": "registry:ui",
+      "title": "Gather",
+      "description": "A line whose letters start as dust and settle into place as it scrolls into view, then give way to the real text.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/gather.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/gather.css",
+          "type": "registry:file",
+          "target": "styles/0db/gather.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/gather.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-gather"
+      }
+    },
+    {
+      "name": "measure",
+      "type": "registry:ui",
+      "title": "Measure",
+      "description": "A paragraph whose measure you set by dragging its right edge, with the number of characters a line and a verdict on it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/measure.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/measure.css",
+          "type": "registry:file",
+          "target": "styles/0db/measure.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/measure.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-measure"
+      }
+    },
+    {
+      "name": "melody",
+      "type": "registry:ui",
+      "title": "Melody",
+      "description": "A sentence set on a stave, each word a note. Point at one and the phrase plays from it.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/melody.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/melody.css",
+          "type": "registry:file",
+          "target": "styles/0db/melody.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/melody.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-melody"
+      }
+    },
+    {
+      "name": "mode-toggle",
+      "type": "registry:ui",
+      "title": "Mode toggle",
+      "description": "The way from day to night. One button, pressed at night, drawn five ways: a disc sliding over a ring, a dot setting below a hairline, two words with one struck through, the fermata as an eye, or a sentence whose last word rolls.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/mode-toggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/mode-toggle.css",
+          "type": "registry:file",
+          "target": "styles/0db/mode-toggle.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/mode-toggle.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-mode-toggle"
+      }
+    },
+    {
+      "name": "reverb",
+      "type": "registry:ui",
+      "title": "Reverb",
+      "description": "A phrase that echoes into silence: each line quieter, more open and a dynamic smaller, drifting right like a canon, ending on a rest.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/reverb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/reverb.css",
+          "type": "registry:file",
+          "target": "styles/0db/reverb.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/reverb.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-reverb"
+      }
+    },
+    {
       "name": "source",
       "type": "registry:ui",
       "title": "Source",
@@ -2151,6 +2337,68 @@
         "movement": "VIII",
         "underneath": "native",
         "contract": "db-steps"
+      }
+    },
+    {
+      "name": "wake",
+      "type": "registry:ui",
+      "title": "Wake",
+      "description": "A paragraph that parts around your pointer like water around a hand: the lines it crosses split in two and the words move on.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/wake.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/wake.css",
+          "type": "registry:file",
+          "target": "styles/0db/wake.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/wake.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-wake"
+      }
+    },
+    {
+      "name": "waterfall",
+      "type": "registry:ui",
+      "title": "Waterfall",
+      "description": "A type specimen waterfall: one sentence at every dynamic, loudest first, each line filled to the measure with as many whole words as the size holds.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/waterfall.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/waterfall.css",
+          "type": "registry:file",
+          "target": "styles/0db/waterfall.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/waterfall.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-waterfall"
       }
     }
   ]

@@ -25,7 +25,7 @@
   }
   .db-sheet[open] .db-sheet-spine { animation: db-spine var(--db-andante) var(--db-exhale) 240ms backwards; }
   @keyframes db-spine { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
-  .db-sheet > * + * { margin-block-start: var(--db-space-6); }
+  .db-sheet > * + *:not(.db-scrollbar) { margin-block-start: var(--db-space-6); }
   .db-sheet-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
   .db-sheet-body { max-width: 40ch; }
 }

@@ -5,6 +5,7 @@ import { Command as CommandPrimitive } from "cmdk"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 
 import { cn } from "@/registry/0db/lib/utils"
+import { Scrollbar } from "@/registry/0db/ui/scrollbar"
 
 const SearchContext = React.createContext("")
 const SearchSetter = React.createContext<(search: string) => void>(() => {})
@@ -60,8 +61,14 @@ function CommandInput({ className, onValueChange, ...props }: React.ComponentPro
   )
 }
 
-function CommandList({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.List>) {
-  return <CommandPrimitive.List data-slot="command-list" className={cn("db-command-list", className)} {...props} />
+/** The rows, on the scrollbar's rail when there are more than fit. */
+function CommandList({ className, children, ...props }: React.ComponentProps<typeof CommandPrimitive.List>) {
+  return (
+    <CommandPrimitive.List data-slot="command-list" className={cn("db-command-list", className)} {...props}>
+      {children}
+      <Scrollbar />
+    </CommandPrimitive.List>
+  )
 }
 
 /** Empty copy names something to try. */

@@ -1,0 +1,17 @@
+@layer components {
+  /* ── db-gather ── a line whose letters start as dust and settle into place. Pretext puts each
+     letter where the real text would have it; the last to land gives the real text back. Until
+     script runs, or under reduced motion, it's just the line. */
+  .db-gather { position: relative; margin: 0; text-wrap: wrap; }
+  .db-gather[data-phase] > .db-gather-text { opacity: 0; } /* still there for readers, and it holds the height */
+  .db-gather-glyphs { position: absolute; inset: 0; pointer-events: none; user-select: none; }
+  .db-gather-glyphs > span {
+    position: absolute; white-space: pre; opacity: 1; translate: 0 0;
+    transition: translate var(--db-andante) var(--db-exhale), opacity var(--db-andante) var(--db-exhale);
+    transition-delay: min(calc(var(--n) * var(--db-arpeggio)), 1s); /* a long line arrives in a second, not a minute */
+  }
+  .db-gather[data-phase="dust"] .db-gather-glyphs > span {
+    opacity: 0.18; /* pp: the quietest a thing can be and still be seen */
+    translate: var(--dx) var(--dy);
+  }
+}

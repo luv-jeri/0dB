@@ -12,7 +12,8 @@ export const MANIFESTO =
 
 type Cursor = { segmentIndex: number; graphemeIndex: number }
 
-export function Overture() {
+/** The hero. `children` is the plain statement of what 0dB is, set beside the wordmark. */
+export function Overture({ children }: { children?: React.ReactNode }) {
   const region = React.useRef<HTMLDivElement>(null)
   const linesRef = React.useRef<HTMLDivElement>(null)
   const markRef = React.useRef<SVGSVGElement>(null)
@@ -156,6 +157,7 @@ export function Overture() {
       <p className="overture-def">
         <i className="db-term">noun, in acoustics.</i> The quietest sound a person can hear.
       </p>
+      {children ? <div className="overture-what">{children}</div> : null}
       <p className="flow-caption margin">The pause goes where you point, and stays where you leave it.</p>
       <div className="flow" ref={region} aria-hidden="true">
         <svg className="flow-mark" ref={markRef} viewBox="-100 -100 200 200">

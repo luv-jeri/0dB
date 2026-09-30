@@ -32,7 +32,7 @@
   .db-prose img { display: block; max-inline-size: 100%; block-size: auto; }
   .db-prose figcaption { margin-top: 0.6em; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
   .db-prose pre {
-    overflow-x: auto; tab-size: 2; white-space: pre;
+    tab-size: 2; white-space: pre-wrap; overflow-wrap: anywhere; /* code wraps: nothing in the page scrolls sideways */
     font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375em; line-height: 1.7; letter-spacing: 0.005em;
     font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite);
   }

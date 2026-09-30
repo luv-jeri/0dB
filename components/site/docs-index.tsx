@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/registry/0db/ui/button"
 import { Sidebar, SidebarGroup, SidebarLink } from "@/registry/0db/ui/sidebar"
 
-export type IndexGroup = { label: string; links: { href: string; title: string }[] }
+export type IndexGroup = { label: string; links: { href: string; title: string; summary?: string }[] }
 
 // Folding is remembered, and every open docs tab folds together.
 const STORE = "0db-index-folded"
@@ -34,7 +34,7 @@ function setFolded(next: boolean) {
   heard.forEach((notify) => notify())
 }
 
-/** The docs' left index: the pages, then every item by movement. The page you're on takes the accent. Folds to initials. */
+/** The docs' left index: the pages, then every item by movement. The page you're on takes the accent. Folds to a ruler: a numeral per movement, a tick per page, and pointing at one names it with a line about it. */
 export function DocsIndex({ groups }: { groups: IndexGroup[] }) {
   const path = usePathname()
   const here = path.endsWith("/") ? path : path + "/"
@@ -51,12 +51,11 @@ export function DocsIndex({ groups }: { groups: IndexGroup[] }) {
       >
         {folded ? "Unfold" : "Fold"}
       </Button>
-      {/* Lenis leaves this column's own scrolling alone. */}
-      <Sidebar id="docs-index" label="Documentation" className="docs-index-list db-scroll" folded={folded} compact data-lenis-prevent>
+      <Sidebar id="docs-index" label="Documentation" className="docs-index-list" folded={folded} compact>
         {groups.map((g) => (
           <SidebarGroup key={g.label} label={g.label}>
             {g.links.map((l) => (
-              <SidebarLink key={l.href} asChild current={here === l.href}>
+              <SidebarLink key={l.href} asChild current={here === l.href} preview={l.summary}>
                 <NextLink href={l.href}>{l.title}</NextLink>
               </SidebarLink>
             ))}

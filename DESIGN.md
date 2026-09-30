@@ -118,9 +118,16 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 ### db-btn (button)
 - Underneath: native `<button>`, plus Slot for `asChild`.
-- Anatomy: `<button class="db-btn" data-variant="statement | bracket | quiet">`. Optional `data-size="l"`.
-- Statement: reversed type in an ink block, one per view. On hover the letters widen (`font-stretch` 100% to 114%) and corner marks close in around the block (`db-corners`), landing with spiccato. Pressed, it holds its breath: weight 680, width 96%, down 1px, the corners clasped tight. Bracket: `( Label )`. The parentheses step apart on hover and close in on press. Quiet: a hairline underline that retracts and redraws at stroke width.
-- States: rest, hover, focus (accent outline, 4px offset), disabled (pencil), busy (`aria-busy="true"` plus the doing word and `db-dots`).
+- Anatomy: `<button class="db-btn" data-variant="statement | bracket | quiet | overture | fermata | stave | ink">` holding `<span class="db-btn-label" data-text="Label"><span>Label</span></span>` (Button writes the label wrapper; `data-text` is present when the label is plain text). Optional `data-size="l"`.
+- One box. Every variant shares the line-height 1.2 and `--py` (0.7em) vertical padding, and centres its label, so the family stands at one height on one baseline: 2.6em, which is also a 44px target at the base size. Bracket's parentheses are drawn outside the flow so the label alone sets the baseline. Focus is the one accent ring (`--db-stroke`, 4px offset) on every variant.
+- Nothing moves its neighbours. The label reserves its widest state: `.db-btn-label::after` is an invisible copy set at the hover weight and width (`--w-on`, `--s-on`) sharing the label's grid cell, so the button is always as wide as its widest state and the letters swell inside it. Everything else that moves (corners, parentheses, the arc, the dot, the staves, the ink) is absolute or transformed. If the label holds elements rather than text, there is no copy and the swell isn't reserved.
+- The family. Statement: reversed type in an ink block, one per view. On hover the letters widen (`font-stretch` to 114%, inside the reserved width) and corner marks close in (`db-corners`), landing with spiccato. Pressed, it drops 1px and the corners clasp. Bracket: `( Label )`; the parentheses step apart on hover and close in on press. Quiet: a hairline underline that retracts and redraws at stroke width.
+- The heroes, for the big call to action; all type-led, and each steps down one size on a phone.
+  - Overture: light (200) type that swells to heavy (800) as you come to it; the accent full stop that follows the word (its room is always reserved) lands with spiccato. Pressed, the weight settles at 560. Size `m` is the `mf` step, `l` is `f`.
+  - Fermata: the sign for a held note. A pencil dot sits above the word at rest; pointing draws an arc over it from the middle outward (`clip-path`) and turns the dot accent. Pressed, the arc holds: it settles lower and thickens to the stroke.
+  - Stave: the word in the expression italic (it is a term) between two staves of five hairlines that never cross it. At rest each stave is a short stub beside the word; pointing runs them out to the button's edges (mirrored right to left); pressed, they draw in.
+  - Ink: an outlined hairline block. Pointing fills it with ink from the side the pointer came in (`data-edge`, set on pointer enter and leave, so the ink also leaves toward the side you go) and the words reverse to paper. With no pointer (keyboard) the ink comes from the inline start, so it mirrors right to left.
+- States: rest, hover, focus (accent outline; the heroes also show their hover on `:focus-visible`), disabled (pencil; the block or outline goes to the rule; no hover), busy (`aria-busy="true"` plus the doing word and `db-dots`; no hover, progress cursor). Forced colours: the blocks get a `ButtonText` border, and the ink and dots use `Highlight`.
 - Keyboard: native button.
 
 ### db-dots (spinner)
@@ -161,6 +168,15 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - The full stop is the state too: `.db-switch-stop` is a filled dot when on and a hairline ring when off (the calendar's done and to-come). Ink fills it from the rim inward, and drains back out (an inset `box-shadow` over `--db-andante`).
 - States: on, off, hover (the underline darkens), focus, disabled.
 - Keyboard: Space toggles.
+
+### db-mode-toggle (mode-toggle)
+- Underneath: native `<button>` with `aria-pressed` (pressed means Nocturne). Its name is "Night mode" and never changes; the state says which.
+- Anatomy: `<button class="db-mode" data-variant="eclipse | horizon | words | fermata | sentence" aria-pressed aria-label="Night mode"><span class="db-mode-art" aria-hidden="true">…</span></button>`. Sizes are in `em`, so it takes the size of the text around it; the hit area is 0.4em wider than the drawing.
+- It only reports the choice: `mode` / `defaultMode` / `onModeChange(mode, event)`. The page applies it (`document.documentElement.dataset.mode = mode`). The site's `useTheme()` does, through a view transition that opens from the toggle.
+- Eclipse: a ring with a disc inside; a mask bites the disc from the upper right at night and leaves a crescent (registered `--db-mode-x`, mirrored in RTL). Horizon: a hairline; the dot stands above it filled by day and sets below it as a ring at night, landing with spiccato. Words: "day night", the chosen one cross-fades into the italic, the other is roman pencil and struck through like the checkbox. Fermata: the sign as an eye; the lid arc comes down over the dot at night and closes. Sentence: "Read by light." / "Read by night."; the last word rolls (light in from below, night in from above) and the full stop is a dot or a ring.
+- States: rest (graphite), hover (ink), focus (accent outline), disabled. Forced colours restate every part in system colours.
+- Keyboard: Space or Enter.
+- The site's bar uses eclipse (the smallest, and it reads without a label); Tune uses sentence.
 
 ### db-ruler (slider)
 - Underneath: native range, plus a hook for the readout.
@@ -373,11 +389,65 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `data-fade` lets the colour follow the shape, ink where it's loud and pencil where it's quiet, so the quietest line still reads.
 - It lays out again when its width changes or `<html>` changes face. Before the fonts arrive, or without script, it's a plain paragraph.
 
+### db-melody (melody)
+- Underneath: native, plus a hook that measures and lays the words out with pretext (`@chenglou/pretext`, loaded when it's needed).
+- Anatomy: `<figure class="db-melody" tabindex="0" aria-label>` holding one `.db-melody-stave` per line, each with a `.db-melody-staff` (five hairlines in `--db-rule`, an opening barline, and a closing one) and its `.db-melody-note` words, positioned by pretext's measures. The last stave ends on a double bar.
+- A sentence set on a stave, each word a note: its baseline sits on a line or in a space, following `contour` (steps, 0 the bottom line, 8 the top, odd numbers the spaces). Without one, the sentence writes its own tune: long words rise, the phrase rocks, and it comes home to where it began.
+- The words are spaced evenly across the measure and wrap onto a new stave when it's full; the last stave keeps to a moderate gap, a rest rather than a stretch. No word stands alone on the last stave: it takes one from the stave before when that one can spare it.
+- Pointing at a word sounds it: it takes the accent, lifts a little and lands, and the words after it do the same in turn, one `--db-arpeggio` apart, then settle back to ink. The same word sounded twice starts over.
+- Keyboard: the figure is one focus stop, and Enter plays the phrase from the first word. The words are aria-hidden; the figure's label is the plain sentence. Under reduced motion there's no lift and no travel: the sounded words hold the accent until you leave.
+- It lays out again when its width changes or `<html>` changes face. Before the fonts arrive, or without script, it's the plain sentence.
+
+### db-reverb (reverb)
+- Underneath: native, plus a hook that measures the echoes' drift with pretext (`@chenglou/pretext`, loaded when it's needed).
+- Anatomy: `<p class="db-reverb">` holding the phrase as `.db-reverb-line`, then an aria-hidden `.db-reverb-echoes` with one `.db-reverb-echo` per echo and a closing `.db-reverb-rest`.
+- A phrase that echoes into silence. Each echo is quieter: the colour steps from ink through graphite to pencil and then fades by opacity, the letters open a little each time, and the size steps down a dynamic (`from`, mf by default: mf, mp, p, pp, and it stays at pp).
+- Each echo is shifted right by the width of the previous echo's first word, measured in that echo's own type, so they drift like a canon. The last thing is a rest: a hairline at pp in pencil.
+- Pointing at it lets the echoes breathe out: each drifts a little further, one `--db-arpeggio` after the last, and settles back on leave. Arriving isn't a move: the shifts are placed before the easing switches on.
+- The phrase is read once. The echoes and the rest are aria-hidden and can't be selected. Before pretext has measured, or without script, the echoes simply stack.
+
+### db-gather (gather)
+- Underneath: native, plus a hook that measures every letter with pretext (`@chenglou/pretext`, loaded when it's needed) and an IntersectionObserver.
+- Anatomy: `<h2 | h3 | p class="db-gather">` holding the real text (`.db-gather-text`) and, while it runs, an aria-hidden `.db-gather-glyphs` with one span per letter. `data-phase` is `wait`, `dust` or `gather`, and is absent when it's plain.
+- A line whose letters start as dust: scattered by a fixed hash of their index, at most 1.2em off their place, at pp opacity. They settle into place when the line scrolls into view (once) or, if it hasn't yet, when it's pointed at. Each letter travels for `--db-andante`, one `--db-arpeggio` after the last.
+- Each letter's place is its x in the real line, kerning included, and its row, so the settled state is the real layout. When the last letter lands the real text is given back, so selecting and copying work; the text is in the DOM throughout for readers.
+- Pass a dynamic class (`db-f`, `db-mf`…) for the size; the line wraps and aligns as the text would.
+- Under reduced motion, without script, or before pretext arrives, it's just the line.
+
+### db-wake (wake)
+- Underneath: native, plus a hook that lays the lines out with pretext (`@chenglou/pretext`, loaded when it's needed).
+- Anatomy: `<p class="db-wake">` holding `.db-wake-plain` (the text, always in the flow), `.db-wake-lines` (aria-hidden runs, one span per run, shown only while the wake is open) and, with `mark`, `.db-wake-ring`.
+- A paragraph that parts around your hand like water. A fine pointer (not touch, not reduced motion) opens a circle of `radius` em (3.2) under it; each row the circle crosses is set as two runs, one either side, sharing one cursor through the text, so the words are pushed on rather than hidden. A run too short to read stays empty.
+- The circle's radius eases in as the pointer arrives and out as it leaves, and it follows the pointer a little behind. The frame loop runs only while something is still moving. `data-live` is set on the paragraph while the wake is drawn; the plain text goes transparent then and stays in the flow, so nothing below it moves. Two lines of room under the paragraph (`--db-wake-room`) hold what the circle pushes on.
+- No shape is drawn by default; `mark` draws a hairline ring inside the hole. Touch, keyboard and reduced motion get the plain paragraph, which is also what a screen reader reads. It measures again when its width changes or `<html>` changes face.
+
+### db-calligram (calligram)
+- Underneath: native, plus a hook that lays the lines out with pretext.
+- Anatomy: `<p class="db-calligram" data-shape>` holding the text for readers (`.db-sr`), `.db-calligram-lines` (aria-hidden, one block per line, each carrying `--t`, how far it is from the shape's widest part) and, for `fermata`, `.db-calligram-dot`.
+- A paragraph that fills a shape, as Apollinaire's calligrams did. Each line is as wide as the shape's chord at its height and is centred in it, spread to both sides by its gaps and a little by its letters, so the outline is only implied: nothing is drawn. `circle` is the 0 of 0dB, `fermata` a half-disc of text over one accent dot, `wave` widths that swell and narrow like a sound wave (eleven rows a swell).
+- The circle and the half-disc are filled exactly: the size of the type is found (it never exceeds twice the inherited size) so the last word lands in the last row, and the box has its own aspect ratio, so nothing moves when the lines arrive. `size` is the shape's width (default 34rem, never wider than its space). The wave takes the inherited size and its height follows its rows.
+- `data-fade` lets the colour follow the shape, ink at the widest and pencil at the narrowest. It is a still ornament: pointing shows nothing. It lays out again when its width changes or `<html>` changes face; before that it is a plain paragraph.
+
+### db-measure (measure)
+- Underneath: native, plus a hook that lays the lines out with pretext; the handle is a `role="slider"`.
+- Anatomy: `<div class="db-measure">` holding `.db-measure-read` (the count and the verdict, aria-hidden), `.db-measure-stage` with `.db-measure-track` (a hairline, the comfortable range in the accent), `.db-measure-handle` (the slider: a hairline down the paragraph's right edge, `.db-measure-ring` on the track) and `.db-measure-body` (the text once for readers in `.db-sr`, the lines aria-hidden).
+- A paragraph whose measure you set by dragging its right edge; pressing the track moves the handle there. Pretext lays the lines again whenever the width changes, so they follow the hand. The count is in the expression italic ("62 characters a line", the average character of this text, so it is what the lines really hold); under it, in pencil, the verdict: under 45 "too short to read in", 45 to 75 "comfortable" (that range is the accent on the track), over 75 "the eye loses the next line". The handle stops at the edge of its container; on a narrow screen the paragraph sets a size down so the comfortable range is still there.
+- Keyboard: the handle is focusable; left and right (or down and up) step one character, Page steps ten, Home and End go to the ends. `aria-valuenow` is characters a line and `aria-valuetext` says the verdict. Focus draws the accent ring around the handle's ring.
+
+### db-waterfall (waterfall)
+- Underneath: native, plus a hook that lays the lines out with pretext.
+- Anatomy: `<div class="db-waterfall">` holding the text for readers once (`.db-sr`) and, per dynamic, an aria-hidden `.db-waterfall-row`: `.db-waterfall-mark` (the dynamic, in the expression italic, pencil), `.db-waterfall-text` (the line) and `.db-waterfall-px` (its size).
+- A type specimen waterfall: the same words at every dynamic from `from` (ffff) to `to` (pp), loudest first. Each line takes as many whole words as the measure holds at its size (pretext counts them) and never wraps or ellipsises (`white-space: nowrap; overflow-x: clip` is only a safety). Its tracking then opens by up to a twentieth of an em to reach the edge, unless the line already holds all the words. A first word wider than the line sets that line smaller instead of breaking; a quieter line is never set louder than the one above it.
+- Pointing at a line shows its size in pixels in pencil at its end; on a narrow container the size takes the mark's place. `italic` sets the specimen in the expression face. It lays out again when its width changes or `<html>` changes face; before that each line is the plain text, clipped.
+
 ### db-sidebar (sidebar)
 - Underneath: native, plus a hook; a sheet on narrow screens.
-- Anatomy: `<nav class="db-sidebar">` holding `.db-sidebar-head`, `.db-sidebar-label` group names, and links whose word is split into `.db-sidebar-i` (the initial) and `.db-sidebar-rest`. `aria-current="page"` on the current one. `data-folded` folds it; `data-compact` sets it a size down with the links closed up, for a long index.
-- Folded, each word keeps only its initial, large and light like a monogram, while the rest folds away in turn. The current page carries the accent dot.
-- Keyboard: links, plus the fold button you give it (`aria-expanded`, `aria-controls` naming the nav).
+- Anatomy: `<nav class="db-sidebar db-scroll">` holding `.db-sidebar-list` (with `.db-sidebar-head`, groups, and a `.db-scrollbar` as the nav's last child). A group is `.db-sidebar-label` (`.db-sidebar-i` the numeral or initial, `.db-sidebar-rest` the remainder) over `.db-sidebar-links`; a link is `.db-sidebar-link` holding `.db-sidebar-text`. `aria-current="page"` on the current one. `data-folded` folds the list; `data-compact` sets it a size down with the links closed up, for a long index. While folded, one `.db-sidebar-callout` (aria-hidden, `position: fixed`, `pointer-events: none`) is placed beside whatever is pointed at or focused.
+- Unfolded: words, with a dot before the current page and a ring before the one pointed at. Folded: a ruler about 3rem wide (`--db-sidebar-rail`) on the column's own hairline. Each group keeps its roman numeral ("VI Controls" keeps VI) or else its initial, in pencil (ink for the group you are in); each link is a short tick off the hairline that stretches when pointed at; the current page's tick is the longest, with the accent dot at its far end. Both modes say the same thing: where you are, and what each thing is called.
+- Pointing at a tick, or focusing it, names it in the margin: a leader line is drawn from the tick to its full name, the group's name beneath, and any `preview` (a sentence) after a beat. Pointing at a numeral names the whole group. It stays inside the window, never takes the pointer, and Escape puts it away. The words stay in the page as the link's accessible name, folded or not; the callout is a pointer aid and is hidden from assistive technology.
+- The words fold away in turn (`--db-arpeggio`) while the ticks grow; with reduced motion it is instant.
+- Scrolling: the nav is the scroller and takes the scrollbar's rail, which rides the column's own hairline (`--line: 0`). Folded ticks are 1.5rem tall so each is a target.
+- Keyboard: links (Tab moves tick to tick and shows each name), plus the fold button you give it (`aria-expanded`, `aria-controls` naming the nav). Below 860px the same words open in a sheet and never fold.
 
 ### db-card (card)
 - Underneath: native.
@@ -387,7 +457,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 ### db-peek (hover-card)
 - Underneath: Radix HoverCard.
 - Anatomy: `<span class="db-peek"><a>Name</a><span class="db-peek-card">` holding `.db-peek-name` (aria-hidden), a sentence and `.db-peek-meta`.
-- The name, set large and cropped by the card's edge, slides in to meet you. It waits 450ms for the pointer; focus shows it at once. Where anchor positioning exists, the card flips or centres rather than leave the screen.
+- The name, set large and cropped by the card's edge, slides in to meet you. It is decorative and not selectable (`user-select: none`): a selection would only paint a slab of yellow across the crop. It waits 450ms for the pointer; focus shows it at once. While the card is open its trigger holds the link's highlighter (`data-state="open"`), black on yellow, so you can see what the card belongs to. The card's text meets 4.5:1 on its paper in every scheme and mode: the body (graphite) 7.1 to 10.6, the meta line (pencil) 4.63 (statue, day) to 5.91, the name (ink) 11.7 to 18.9; selected, 16.5. Where anchor positioning exists, the card flips or centres rather than leave the screen.
 
 ### db-tip (tooltip)
 - Underneath: Radix Tooltip.
@@ -414,17 +484,19 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 ### db-scroll (scroll-area)
 - Underneath: native overflow, with the scrollbar.
-- Anatomy: `<div class="db-scroll" tabindex="0" role="region" aria-label>`. Add `data-lenis-prevent` when smooth scrolling is on.
+- Anatomy: `<div class="db-scroll" tabindex="0" role="region" aria-label>` holding a `.db-scrollbar` last. The rail also sets `data-lenis-prevent` on it while there is something to scroll, so smooth scrolling leaves it alone.
 - A rule appears at an edge only while there's more beyond it. Pure CSS: paper backgrounds that scroll (`background-attachment: local`) cover rules that don't.
+- Every scroller in the library carries the rail: the command list (so the combobox too), the dialog, sheet and drawer, the thread and the sidebar. Nothing on the site scrolls on the browser's own bar. Code and text areas don't scroll at all (they wrap and grow); the native select's picker and the carousel's track hide the bar.
 
 ### db-scrollbar (scrollbar)
 - Underneath: hook (`useScrollbar`).
-- Anatomy: `<div class="db-scrollbar" aria-hidden="true"><span class="db-scrollbar-thumb"></span></div>`. Inside a vertical scroller it is the scroller's last child (the scroller gets `position: relative` if it was static). `data-variant="page"` fixes it to the window's inline end instead. The page variant also takes one `<span class="db-scrollbar-mark" data-num data-name data-for style="--at; --i">` per section.
-- Script (`scrollbar(rail, host, { min, sections })`) sets `--view` (the share in view, with a thumb of at least `min` px), `--max` (how far the box scrolls), `data-idle` when there's nothing to scroll, then `data-ready`. It re-measures on resize and on any change inside the box, and puts the rail back if a list redraws its children. It turns on only for a fine pointer with scroll timelines; otherwise the thin native stroke stays.
-- A ruler: a hairline and an ink thumb as long as the view. Inside a scroller, the rail is pinned by the scroller's own timeline (`animation-timeline: scroll(nearest)`, translating by `--max`), so it stays on the edge with no script running while you scroll. The thumb rides the same timeline. On the page, a mark shows where each movement begins, and the current one is ink (`data-now`).
+- Anatomy: `<div class="db-scrollbar" aria-hidden="true"><span class="db-scrollbar-thumb"></span></div>` placed anywhere inside a scroller (it finds the nearest one around it: a cmdk list keeps it inside its sizer). `data-axis="x"` runs it along the bottom of a box that scrolls sideways (right-to-left reverses it: `--dir`). `data-variant="page"` fixes it to the window's inline end instead, and takes one `<span class="db-scrollbar-mark" data-num data-name style="--at; --i">` per section.
+- Script sets `--view` (the share in view, with a thumb of at least `min` px), `--max` (how far the box scrolls), `--dir`, `data-idle` when there's nothing to scroll, then `data-ready`; it then marks the host `data-scrollbar-host` (`="pin"` when it also had to be given `position: relative`) and, while there is something to scroll, `data-lenis-prevent`. It re-measures on resize and on any change inside the box. It turns on only for a fine pointer with scroll timelines; otherwise the thin native stroke stays.
+- The site has one page rail, in the root layout (`PageRail`): elements with an `id` and `data-rail="Name"` become its marks, numbered in order.
+- A ruler: a hairline and an ink thumb as long as the view. Inside a scroller, the rail is pinned by the scroller's own timeline (`animation-timeline: scroll(nearest)`, translating by `--max`), so it stays on the edge with no script running while you scroll. The thumb rides the same timeline. On the page, a mark shows where each section begins, and the current one is ink (`data-now`).
 - Pointing sketches: pointing at a scroller darkens its rail; pointing at the rail thickens the thumb, and on the page the numbers arrive down the rail in turn, with a mark's name when you point at it. Holding the thumb (`data-dragging`) inks it in the accent, because it marks where you are.
-- Pointer only: pressing a page mark goes to its movement, pressing the rail centres the thumb there, and the thumb drags. Pressing doesn't move focus, so an open list stays open. The keyboard scrolls as always, which is why the rail is hidden from assistive technology.
-- Without the rail: every scroller gets a thin stroke on a clear track (`scrollbar-color` from `:root`, `scrollbar-width: thin`) that darkens from rule to pencil when pointed at. Safari, which lacks `scrollbar-color`, gets a hairline thumb that thickens. Horizontal scrollers (tables) always use this.
+- Pointer only: pressing a page mark goes to its section, pressing the rail centres the thumb there, and the thumb drags. Pressing doesn't move focus, so an open list stays open. The keyboard scrolls as always, which is why the rail is hidden from assistive technology.
+- Once the rail is running, the host's own bar is gone (`scrollbar-width: none` on `[data-scrollbar-host]`). Without the rail (touch, or before the script) every scroller gets a thin stroke on a clear track (`scrollbar-color` from `:root`, `scrollbar-width: thin`) that darkens from rule to pencil when pointed at; Safari, which lacks `scrollbar-color`, gets a hairline thumb that thickens.
 
 ### db-ratio (aspect-ratio)
 - Underneath: native `aspect-ratio`.
@@ -495,7 +567,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 ### db-link (link)
 - Underneath: native `<a>`. Its CSS lives in base.css, so every item may use it.
-- A hairline underline, with a highlighter stroke on hover that goes on from the left and comes off to the right.
+- A hairline underline in the current colour. Pointing, focusing (`:focus-visible`) or holding its card open (`data-state="open"`, a hover card's trigger) draws the highlighter through the whole word, ascenders and descenders included, on from the left and off to the right (mirrored right to left). The stroke runs 0.12em past each end, like a pen overshooting, and the text turns `--db-on-mark` with the first frames of the stroke (and back after the last), so the words are never ink on ink in Nocturne. `.db-prose a` is the same link.
 
 ### db-kbd (kbd)
 - Underneath: native `<kbd>`. Its CSS lives in base.css, so every item may use it.
@@ -515,7 +587,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 
 ### Globals
-- `mark`, `::selection`: the highlighter.
+- `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
 ## The overture (specimen only)
@@ -534,6 +606,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Radio (`radio-group`) | "It has to be design." | Chosen word turns italic; the rest step back |
 | Dial (`dial`) | WOVE | Numbers on an arc; the dial rolls |
 | Switch (`switch`) | "28 December" dots | The full stop is a dot or a ring |
+| Mode toggle (`mode-toggle`) | The fermata sign; "28 December" dots | A disc, a dot or an eyelid crosses from day to night |
 | Slider (`slider`) | Paul Rand dimension lines | Value set in a dimension from zero |
 | Field error (`field`) | Weingart callouts | Pill on a leader line from the baseline |
 | Progress (`progress`) | Dot calendar | A ring per item fills |
@@ -580,6 +653,9 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Attachment (`attachment`) | "the uncreative" | The extension is the picture |
 | Message scroller (`thread`) | WOVE | The new count rolls in an ink pill |
 | Questionnaire (`questionnaire`) | Healthy habits → | Your answers written as one sentence |
+| Melody (`melody`) | The score | The sentence sits on a stave, a word to a line or space |
+| Reverb (`reverb`) | The score's dynamics | The phrase echoes quieter and drifts, ending on a rest |
+| Gather (`gather`) | Dust | The letters settle from scatter to the real layout |
 
 ## Motion
 
@@ -600,6 +676,7 @@ Three rules, then one articulation per component.
 | Dial (`dial`) | Spiccato | The dial swings a touch past its stop |
 | Picks (`picks`) | Pencil, then ink | A ring on hover, then the dot lands |
 | Switch (`switch`) | Legato | The word rolls; ink fills the full stop from its rim |
+| Mode toggle (`mode-toggle`) | Legato | The disc slides, the dot sets, the lid closes, the word rolls |
 | Slider (`slider`) | Lift | The value rises while the hand is on it |
 | Field (`field`) | From the touch | The accent line grows out from where you touched it |
 | Field error (`field`) | Arpeggio | Dot, leader, pill, in that order |
@@ -638,6 +715,8 @@ Three rules, then one articulation per component.
 | Tooltip (`tooltip`) | Wait | It appears only for a still pointer |
 | Sheet (`sheet`) | Spine | The page slides in; the title runs up the spine |
 | Drawer (`drawer`) | Spiccato | It lands with a rebound; it follows your drag down |
+| Wake (`wake`) | Wake | The text parts around the pointer; the circle swells as you arrive and closes as you leave |
+| Measure (`measure`) | Drag | The right edge follows the hand and the lines are laid again on every move |
 | Collapsible (`collapsible`) | Arpeggio | The rest opens at reading speed, line by line |
 | Resizable (`resizable`) | Measure | The rule inks; the dimensions appear while held |
 | Aspect ratio (`aspect-ratio`) | Breath | The frame eases to the ratio; the fraction rolls |
@@ -653,6 +732,9 @@ Three rules, then one articulation per component.
 | Attachment (`attachment`) | Count in | The ring fills, turns, then lands as a dot |
 | Message scroller (`thread`) | Spiccato | The new-messages pill lands; its count rolls |
 | Questionnaire (`questionnaire`) | Turn | Questions turn in from where you're heading; the sentence writes in |
+| Melody (`melody`) | Arpeggio | The word you point at sounds, then the rest of the phrase in turn |
+| Reverb (`reverb`) | Decay | The echoes drift a little further while pointed at |
+| Gather (`gather`) | Settle | The letters fly in from dust and land, one after another |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`.

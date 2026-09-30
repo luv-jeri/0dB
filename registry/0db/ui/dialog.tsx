@@ -4,6 +4,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "@/registry/0db/lib/utils"
+import { Scrollbar } from "@/registry/0db/ui/scrollbar"
 
 type DialogContextValue = {
   open: boolean
@@ -71,6 +72,7 @@ function DialogTrigger({ asChild = false, onClick, ...props }: React.ComponentPr
  * The bare <dialog>, opened as a modal while the Dialog is open. The sheet and
  * the drawer are surfaces too; they bring their own class.
  * Focus goes to the element marked data-autofocus, or the browser's first choice.
+ * Taller than the window, it scrolls, on the scrollbar's rail.
  */
 function DialogSurface({ className, children, onClick, ...props }: React.ComponentProps<"dialog">) {
   const { open, setOpen, alert, titleId, descriptionId } = useDialog()
@@ -112,6 +114,7 @@ function DialogSurface({ className, children, onClick, ...props }: React.Compone
       {...props}
     >
       {children}
+      <Scrollbar />
     </dialog>
   )
 }

@@ -58,8 +58,16 @@
 @import "../registry/0db/styles/alert.css";
 @import "../registry/0db/styles/skeleton.css";
 @import "../registry/0db/styles/date-picker.css";
+@import "../registry/0db/styles/calligram.css";
 @import "../registry/0db/styles/command-line.css";
 @import "../registry/0db/styles/contour.css";
 @import "../registry/0db/styles/form.css";
+@import "../registry/0db/styles/gather.css";
+@import "../registry/0db/styles/measure.css";
+@import "../registry/0db/styles/melody.css";
+@import "../registry/0db/styles/mode-toggle.css";
+@import "../registry/0db/styles/reverb.css";
 @import "../registry/0db/styles/source.css";
 @import "../registry/0db/styles/steps.css";
+@import "../registry/0db/styles/wake.css";
+@import "../registry/0db/styles/waterfall.css";

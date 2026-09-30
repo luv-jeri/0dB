@@ -6,9 +6,10 @@ import { State } from "@/components/site/state"
 import { Button } from "@/registry/0db/ui/button"
 import { Sidebar, SidebarGroup, SidebarHead, SidebarLink } from "@/registry/0db/ui/sidebar"
 
+// Folded, pointing at a tick names it and shows its line.
 const pages = {
-  Work: ["Projects", "Clients", "Journal"],
-  Studio: ["People", "Settings"],
+  Work: { Projects: "Seven of them, three live.", Clients: "Who we work for, and since when.", Journal: "What the studio writes down." },
+  "II Studio": { People: "Nine, and a dog.", Settings: "Hours, billing and who can sign in." },
 }
 
 export default function Example() {
@@ -20,11 +21,12 @@ export default function Example() {
         <SidebarHead>Halden Studio</SidebarHead>
         {Object.entries(pages).map(([group, names]) => (
           <SidebarGroup key={group} label={group}>
-            {names.map((name) => (
+            {Object.entries(names).map(([name, line]) => (
               <SidebarLink
                 key={name}
                 href={`#${name.toLowerCase()}`}
                 current={name === current}
+                preview={line}
                 onClick={(e) => {
                   e.preventDefault()
                   setCurrent(name)
@@ -41,7 +43,7 @@ export default function Example() {
           {folded ? "Unfold the sidebar" : "Fold the sidebar"}
         </Button>
         <p className="db-mf">{current}</p>
-        <p>Seven projects, three of them live. Choose a page on the left, or fold the column away to give the work the room.</p>
+        <p>Seven projects, three of them live. Choose a page on the left, or fold the column to a ruler and point at a tick.</p>
       </div>
     </div>
   )

@@ -31,6 +31,7 @@
   textarea.db-input {
     --lh: 2.25rem;
     min-height: calc(var(--lh) * 4); padding: 0; resize: vertical;
+    field-sizing: content; scrollbar-width: none; /* it grows with what you write, so it has nothing to scroll (the browser bar stays away) */
     line-height: var(--lh);
     background:
       linear-gradient(var(--db-accent), var(--db-accent)) no-repeat var(--o, 0%) 100% / 0% var(--db-stroke),

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "link",
   "title": "Link",
-  "description": "A hairline underline at rest; pointing at it draws a highlighter stroke through the words, on from the left and off to the right.",
+  "description": "A hairline underline at rest; pointing at it, focusing it or holding its card open draws a highlighter stroke through the whole word, on from the left and off to the right.",
   "dependencies": [
     "@radix-ui/react-slot"
   ],

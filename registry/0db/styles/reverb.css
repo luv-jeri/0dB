@@ -1,0 +1,25 @@
+@layer components {
+  /* ── db-reverb ── a phrase that echoes into silence: each line quieter, more open, a dynamic
+     smaller, and shifted right by the last echo's first word (pretext measures it). It ends on a
+     rest, a hairline in pencil. Pointing at it lets the echoes breathe out a little further. */
+  .db-reverb { margin: 0; overflow-x: clip; } /* a phrase too long for its drift is cut, never a sideways scroll */
+  .db-reverb-line {
+    display: block;
+    font-size: var(--size); line-height: var(--lh); letter-spacing: calc(var(--tr) + var(--open) * 1em);
+    color: var(--db-ink); opacity: var(--o);
+  }
+  .db-reverb-echoes { display: block; user-select: none; }
+  .db-reverb-echo { white-space: nowrap; } /* an echo is one line: it drifts, it doesn't wrap */
+  .db-reverb-echo[data-tone="graphite"] { color: var(--db-graphite); }
+  .db-reverb-echo[data-tone="pencil"] { color: var(--db-pencil); }
+  .db-reverb-rest {
+    display: block; inline-size: var(--db-space-6); block-size: var(--db-hairline);
+    margin-block-start: var(--db-space-3); background: var(--db-pencil); opacity: 0.3; /* pp, in pencil: silence */
+  }
+  .db-reverb-echo, .db-reverb-rest { translate: var(--x, 0px) 0; }
+  .db-reverb[data-ready] :is(.db-reverb-echo, .db-reverb-rest) {
+    transition: translate var(--db-andante) var(--db-exhale);
+    transition-delay: calc(var(--k) * var(--db-arpeggio));
+  }
+  .db-reverb:is(:hover, [data-force~="hover"]) :is(.db-reverb-echo, .db-reverb-rest) { translate: calc(var(--x, 0px) * 1.2) 0; }
+}

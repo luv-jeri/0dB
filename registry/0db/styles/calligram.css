@@ -1,0 +1,16 @@
+@layer components {
+  /* ── db-calligram ── a paragraph that fills a shape. There is no outline: the lines are laid to the
+     shape's width at their height, centred, and that is the whole drawing. The circle and the
+     fermata's half-disc have a height of their own, so nothing moves when the lines arrive. */
+  .db-calligram { --size: 34rem; width: min(100%, var(--size)); max-width: 100%; margin: 0; font-size: var(--db-p); line-height: 1.4; }
+  .db-calligram-lines { display: block; box-sizing: border-box; text-align: center; color: var(--db-ink); }
+  .db-calligram-lines > span { display: block; white-space: pre; }
+  .db-calligram[data-shape="circle"] .db-calligram-lines { aspect-ratio: 1; }
+  .db-calligram[data-shape="fermata"] .db-calligram-lines { aspect-ratio: 2; }
+  /* Before the layout, the plain text waits inside the shape's box. */
+  .db-calligram-lines:not([data-laid]) { display: grid; place-content: center; overflow: hidden; font-size: var(--db-pp); line-height: var(--db-pp-lh); }
+  .db-calligram[data-shape="wave"] .db-calligram-lines:not([data-laid]) { display: block; }
+  .db-calligram[data-fade] .db-calligram-lines > span { color: color-mix(in oklab, var(--db-ink) calc((1 - var(--t)) * 100%), var(--db-pencil)); }
+  /* The fermata's dot, under the middle of the arc. */
+  .db-calligram-dot { display: block; width: var(--db-dot); height: var(--db-dot); margin: var(--db-space-4) auto 0; border-radius: 50%; background: var(--db-accent); }
+}

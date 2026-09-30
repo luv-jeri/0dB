@@ -5,10 +5,10 @@ const groups: IndexGroup[] = [
   {
     label: "Start",
     links: [
-      { href: "/docs/", title: "Index" },
-      { href: "/docs/install/", title: "Install" },
-      { href: "/docs/principles/", title: "Principles" },
-      { href: "/docs/tokens/", title: "Tokens" },
+      { href: "/docs/", title: "Index", summary: "Every item, by movement." },
+      { href: "/docs/install/", title: "Install", summary: "The base, then any item, with the shadcn CLI." },
+      { href: "/docs/principles/", title: "Principles", summary: "What the library will and won't do." },
+      { href: "/docs/tokens/", title: "Tokens", summary: "Type, space, tempo and colour, each to copy." },
     ],
   },
   ...catalog.map((m) => ({
@@ -16,6 +16,7 @@ const groups: IndexGroup[] = [
     links: m.items.map((e) => ({
       href: `/docs/${e.meta.name}/`,
       title: e.meta.title,
+      summary: e.meta.summary,
     })),
   })),
 ]

@@ -1,0 +1,102 @@
+@layer components {
+  @property --db-mode-x { syntax: "<length>"; inherits: false; initial-value: 0px; }
+  /* ── db-mode ── the day and night toggle: one button, pressed at night, drawn five ways.
+     Every drawing reads aria-pressed, so the styles never need a second source of truth. */
+  .db-mode {
+    --dir: 1;
+    appearance: none; border: 0; background: none; font: inherit; color: var(--db-graphite);
+    display: inline-flex; align-items: center; vertical-align: middle; cursor: pointer;
+    padding: 0.4em; margin: -0.4em; /* a hit area larger than the drawing, without moving anything */
+    -webkit-tap-highlight-color: transparent;
+    transition: color var(--db-allegro) var(--db-breath);
+  }
+  .db-mode:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
+  .db-mode:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
+  .db-mode:focus-visible, .db-mode[data-force~="focus"] { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 0; }
+  .db-mode[data-force~="focus"] { outline-offset: 0; }
+  .db-mode:disabled { opacity: 0.55; cursor: not-allowed; }
+  .db-mode-art { position: relative; display: block; flex: none; }
+  .db-mode-art::before, .db-mode-art::after { content: ""; position: absolute; }
+
+  /* eclipse: a ring, and a disc inside it that a mask bites into. Day is the whole disc; night is a crescent. */
+  .db-mode[data-variant="eclipse"] .db-mode-art { width: 1.5em; height: 1.5em; border-radius: 50%; border: var(--db-stroke) solid currentColor; box-sizing: border-box; }
+  .db-mode[data-variant="eclipse"] .db-mode-art::before {
+    inset: 0.16em; border-radius: 50%; background: currentColor;
+    --db-mode-x: 1.7em;
+    -webkit-mask: radial-gradient(circle at calc(50% + var(--dir) * var(--db-mode-x)) calc(50% - var(--db-mode-x)), transparent 0.5em, #000 calc(0.5em + 0.6px));
+    mask: radial-gradient(circle at calc(50% + var(--dir) * var(--db-mode-x)) calc(50% - var(--db-mode-x)), transparent 0.5em, #000 calc(0.5em + 0.6px));
+    transition: --db-mode-x var(--db-andante) var(--db-breath);
+  }
+  .db-mode[data-variant="eclipse"][aria-pressed="true"] .db-mode-art::before { --db-mode-x: 0.3em; }
+
+  /* horizon: a hairline, and a dot that stands above it by day, sets below it at night, and empties as it goes. */
+  .db-mode[data-variant="horizon"] .db-mode-art { width: 2.2em; height: 1.8em; }
+  .db-mode[data-variant="horizon"] .db-mode-art::before { inset: 50% 0 auto; border-top: var(--db-hairline) solid currentColor; }
+  .db-mode[data-variant="horizon"] .db-mode-art::after {
+    left: calc(50% - 0.25em); top: 0.05em; width: 0.5em; height: 0.5em; border-radius: 50%;
+    box-shadow: inset 0 0 0 0.25em currentColor;
+    transition: top var(--db-andante) var(--db-spiccato), box-shadow var(--db-andante) var(--db-exhale);
+  }
+  .db-mode[data-variant="horizon"][aria-pressed="true"] .db-mode-art::after { top: 1.25em; box-shadow: inset 0 0 0 var(--db-stroke) currentColor; }
+
+  /* fermata: the sign as an eye. The arc is the lid over the dot; at night it comes down and closes over it. */
+  .db-mode[data-variant="fermata"] .db-mode-art { width: 1.9em; height: 1.3em; }
+  .db-mode[data-variant="fermata"] .db-mode-art::before {
+    inset: 0 0 auto; height: 0.8em; border-top: var(--db-stroke) solid currentColor; border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    transition: height var(--db-moderato) var(--db-exhale), top var(--db-moderato) var(--db-exhale);
+  }
+  .db-mode[data-variant="fermata"] .db-mode-art::after {
+    left: calc(50% - 0.21em); top: 0.72em; width: 0.42em; height: 0.42em; border-radius: 50%; background: currentColor;
+    transition: scale var(--db-moderato) var(--db-exhale);
+  }
+  .db-mode[data-variant="fermata"][aria-pressed="true"] .db-mode-art::before { height: 0; top: 0.93em; }
+  .db-mode[data-variant="fermata"][aria-pressed="true"] .db-mode-art::after { scale: 1 0.14; }
+
+  /* words: day and night. The chosen one cross-fades into the italic and the other is struck through in pencil, the way the checkbox is. */
+  .db-mode[data-variant="words"] .db-mode-art { display: flex; gap: 0.7em; }
+  .db-mode-w {
+    --y: 58%;
+    display: inline-grid; padding-inline: 0.18em; margin-inline: -0.18em;
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 var(--y) / 100% var(--db-hairline);
+    transition: background-size var(--db-moderato) var(--db-breath), color var(--db-moderato) var(--db-breath);
+  }
+  .db-mode-w > * { grid-area: 1 / 1; transition: opacity var(--db-moderato) var(--db-breath); }
+  .db-mode-w > i { font-family: var(--db-expression); font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; letter-spacing: 0; align-self: center; }
+  .db-mode-w:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% var(--y); }
+  /* Not chosen: roman, pencil, struck. Chosen: italic, ink, clear. */
+  .db-mode-w { color: var(--db-pencil); }
+  .db-mode-w > i { opacity: 0; }
+  .db-mode[data-variant="words"][aria-pressed="false"] .db-mode-w:first-child, .db-mode[data-variant="words"][aria-pressed="true"] .db-mode-w:last-child { color: var(--db-ink); background-size: 0% var(--db-hairline); }
+  .db-mode[data-variant="words"][aria-pressed="false"] .db-mode-w:first-child > span, .db-mode[data-variant="words"][aria-pressed="true"] .db-mode-w:last-child > span { opacity: 0; }
+  .db-mode[data-variant="words"][aria-pressed="false"] .db-mode-w:first-child > i, .db-mode[data-variant="words"][aria-pressed="true"] .db-mode-w:last-child > i { opacity: 1; }
+  .db-mode[data-variant="words"]:is(:hover, [data-force~="hover"]) .db-mode-w:is(:first-child, :last-child) { color: var(--db-ink); }
+
+  /* sentence: "Read by light." and "Read by night." The last word rolls the way the sun goes: light rises in from below, night sets in from above. The full stop is a dot by day and a ring by night. */
+  .db-mode[data-variant="sentence"] .db-mode-art { white-space: nowrap; }
+  .db-mode-state {
+    display: inline-grid; vertical-align: baseline; overflow: clip;
+    padding: 0.12em 0.14em 0.24em; margin-block: -0.12em -0.24em; margin-inline: -0.08em -0.14em;
+    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink);
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0.14em calc(100% - 0.1em) / calc(100% - 0.28em) var(--db-hairline);
+    transition: background-color var(--db-moderato);
+  }
+  .db-mode-state > span { grid-area: 1 / 1; transition: translate var(--db-moderato) var(--db-breath), opacity var(--db-moderato) var(--db-breath); }
+  .db-mode[aria-pressed="true"] .db-mode-state > :first-child { translate: 0 110%; opacity: 0; }
+  .db-mode[aria-pressed="false"] .db-mode-state > :last-child { translate: 0 -110%; opacity: 0; }
+  .db-mode:is(:hover, [data-force~="hover"]) .db-mode-state { background-image: linear-gradient(var(--db-ink), var(--db-ink)); }
+  .db-mode-stop {
+    display: inline-block; width: max(0.22em, 5px); height: max(0.22em, 5px); margin-inline-start: 0.24em; border-radius: 50%;
+    box-shadow: inset 0 0 0 0.5em currentColor; transition: box-shadow var(--db-andante) var(--db-exhale);
+  }
+  .db-mode[aria-pressed="true"] .db-mode-stop { box-shadow: inset 0 0 0 var(--db-hairline) currentColor; }
+
+  /* Forced colours drop backgrounds and masks' colours: say what each part is. */
+  @media (forced-colors: active) {
+    .db-mode { color: ButtonText; }
+    .db-mode:focus-visible, .db-mode[data-force~="focus"] { outline-color: Highlight; }
+    .db-mode-art::before, .db-mode-art::after, .db-mode-w, .db-mode-state { forced-color-adjust: none; }
+    .db-mode[data-variant="eclipse"] .db-mode-art::before, .db-mode[data-variant="fermata"] .db-mode-art::after { background: ButtonText; }
+    .db-mode-w { background-image: linear-gradient(ButtonText, ButtonText); color: ButtonText; }
+    .db-mode-state { color: ButtonText; background-image: linear-gradient(ButtonText, ButtonText); }
+  }
+}

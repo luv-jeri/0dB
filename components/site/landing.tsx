@@ -6,9 +6,9 @@ import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls
 import { Button } from "@/registry/0db/ui/button"
 import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
 import { Input } from "@/registry/0db/ui/field"
+import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
 import { Select } from "@/registry/0db/ui/select"
 import { Slider } from "@/registry/0db/ui/slider"
-import { Switch } from "@/registry/0db/ui/switch"
 
 // The home page's instruments. Each one plays a principle instead of stating it.
 
@@ -27,7 +27,7 @@ export function Hello() {
           <Input
             className="hello-name"
             value={name}
-            placeholder="yours"
+            placeholder="your name"
             autoComplete="off"
             spellCheck={false}
             maxLength={32}
@@ -115,10 +115,10 @@ export function TuneSentence() {
         </Select>
         ,
       </span>{" "}
-      and{" "}
-      <Switch aria-label="Read it by night" on="night" off="day" checked={theme.mode === "nocturne"} onCheckedChange={(on) => set({ mode: on ? "nocturne" : "day" })}>
-        read it by
-      </Switch>
+      and read it by{" "}
+      <span className="tune-bind">
+        <ModeToggle variant="words" aria-label="Read it by night" mode={theme.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} />.
+      </span>
     </p>
   )
 }
@@ -238,6 +238,30 @@ export function Tempi() {
       <Button variant="bracket" aria-pressed={across} onClick={() => setAcross((a) => !a)}>
         {across ? "Bring them back" : "Play all four"}
       </Button>
+    </div>
+  )
+}
+
+/** Once an instrument is well in view, it shows in pencil what it does, once. Scrolling to it is the hand that starts it. */
+export function Cue({ children }: { children: React.ReactNode }) {
+  const ref = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    const el = ref.current
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const seen = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return
+        el.dataset.cued = ""
+        seen.disconnect()
+      },
+      { threshold: 0.6 },
+    )
+    seen.observe(el)
+    return () => seen.disconnect()
+  }, [])
+  return (
+    <div ref={ref} className="cue">
+      {children}
     </div>
   )
 }

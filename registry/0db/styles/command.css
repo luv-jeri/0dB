@@ -12,7 +12,7 @@
   }
   .db-command-input::placeholder { font-family: var(--db-voice); font-style: normal; font-weight: 200; font-size: var(--db-f); color: var(--db-pencil); opacity: 1; }
   .db-command-input:focus-visible { background-image: linear-gradient(var(--db-accent), var(--db-accent)); background-size: 100% var(--db-stroke); }
-  .db-command-list { max-height: 22rem; overflow: auto; }
+  .db-command-list { max-height: 22rem; overflow: auto; padding-inline-end: var(--db-space-4); } /* the rows stop short of the scrollbar's rail */
   .db-command-group [cmdk-group-heading] { margin-block: var(--db-space-4) var(--db-space-1); margin-inline: 0; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
   .db-command-separator { height: var(--db-hairline); margin-block: var(--db-space-3); background: var(--db-rule); }
   .db-command-option {

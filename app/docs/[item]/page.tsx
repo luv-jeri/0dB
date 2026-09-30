@@ -32,8 +32,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return entry ? { title: entry.meta.title, description: entry.meta.summary } : {}
 }
 
-const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
-
 /** The files `shadcn add` writes for this item, read from its published payload. */
 function payload(name: string) {
   const json = JSON.parse(readFileSync(`public/r/${name}.json`, "utf8")) as {
@@ -52,6 +50,7 @@ function payload(name: string) {
 function Rows({ title, table }: { title: string; table: { header: string[]; rows: string[][] } }) {
   return (
     <div className="doc-table" role="region" aria-label={title} tabIndex={0}>
+      <Scrollbar axis="x" />
       <Table>
         <TableCaption>{title}</TableCaption>
         <TableHeader>
@@ -91,15 +90,6 @@ export default async function ItemPage({ params }: Params) {
   const { npm, files } = payload(meta.name)
   const siblings = entry.siblings as string[]
 
-  const sections = [
-    { id: "example", name: "Example" },
-    { id: "install", name: "Install" },
-    { id: "usage", name: "Usage" },
-    ...(contract ? [{ id: "contract", name: "Contract" }] : []),
-    ...(meta.props.length ? [{ id: "props", name: "Props" }] : []),
-    ...(moves.rows.length || motion.rows.length ? [{ id: "craft", name: "Craft" }] : []),
-  ].map((s, i) => ({ ...s, num: ROMAN[i] }))
-
   return (
     <article>
       <header className="doc-head">
@@ -114,7 +104,7 @@ export default async function ItemPage({ params }: Params) {
         <p className="doc-summary">{meta.summary}</p>
       </header>
 
-      <section className="doc-section" id="example" aria-labelledby="example-h">
+      <section className="doc-section" id="example" data-rail="Example" aria-labelledby="example-h">
         <h2 id="example-h" className="db-sr">
           Example
         </h2>
@@ -135,7 +125,7 @@ export default async function ItemPage({ params }: Params) {
         ) : null}
       </section>
 
-      <section className="doc-section doc-install" id="install" aria-labelledby="install-h">
+      <section className="doc-section doc-install" id="install" data-rail="Install" aria-labelledby="install-h">
         <h2 id="install-h">Install</h2>
         <Tabs defaultValue="cli">
           <TabsList aria-label="How to install">
@@ -195,22 +185,23 @@ export default async function ItemPage({ params }: Params) {
         </Tabs>
       </section>
 
-      <section className="doc-section" id="usage" aria-labelledby="usage-h">
+      <section className="doc-section" id="usage" data-rail="Usage" aria-labelledby="usage-h">
         <h2 id="usage-h">Usage</h2>
         <Source title={`${meta.name}-example.tsx`} code={exampleSource(meta.name)} />
       </section>
 
       {contract ? (
-        <section className="doc-section" id="contract" aria-labelledby="contract-h">
+        <section className="doc-section" id="contract" data-rail="Contract" aria-labelledby="contract-h">
           <h2 id="contract-h">Contract</h2>
           <Prose dangerouslySetInnerHTML={{ __html: contract }} />
         </section>
       ) : null}
 
       {meta.props.length ? (
-        <section className="doc-section" id="props" aria-labelledby="props-h">
+        <section className="doc-section" id="props" data-rail="Props" aria-labelledby="props-h">
           <h2 id="props-h">Props</h2>
           <div className="doc-table" role="region" aria-label={`Props of ${meta.title}`} tabIndex={0}>
+            <Scrollbar axis="x" />
             <Table>
               <TableCaption>Props of {meta.title}</TableCaption>
               <TableHeader>
@@ -241,7 +232,7 @@ export default async function ItemPage({ params }: Params) {
       ) : null}
 
       {moves.rows.length || motion.rows.length ? (
-        <section className="doc-section" id="craft" aria-labelledby="craft-h">
+        <section className="doc-section" id="craft" data-rail="Craft" aria-labelledby="craft-h">
           <h2 id="craft-h">Craft</h2>
           <div className="doc-steps">
             {moves.rows.length ? <Rows title="Where its move comes from" table={moves} /> : null}
@@ -277,7 +268,6 @@ export default async function ItemPage({ params }: Params) {
         </PaginationContent>
       </Pagination>
 
-      <Scrollbar variant="page" className="doc-scrollbar" sections={sections} />
     </article>
   )
 }

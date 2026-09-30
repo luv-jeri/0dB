@@ -5,7 +5,7 @@ import * as React from "react"
 import { Pick, Picks } from "@/registry/0db/ui/picks"
 import { Popover, PopoverContent, PopoverTrigger } from "@/registry/0db/ui/popover"
 import { Select } from "@/registry/0db/ui/select"
-import { Switch } from "@/registry/0db/ui/switch"
+import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
 import { Button } from "@/registry/0db/ui/button"
 import { THEME_KEY } from "@/components/site/theme-script"
 
@@ -65,14 +65,13 @@ export function useTheme() {
   return [theme, set] as const
 }
 
-/** Nocturne, and the tuning popover: scheme, key and pair. */
+/** The day and night toggle, and the tuning popover: scheme, key and pair. */
 export function ThemeControls() {
   const [theme, set] = useTheme()
-  // In the bar on wide screens; inside Tune where the bar has no room for it.
-  const nocturne = (className: string) => (
-    <Switch labelClassName={className} checked={theme.mode === "nocturne"} onCheckedChange={(on) => set({ mode: on ? "nocturne" : "day" })}>
-      Nocturne is
-    </Switch>
+  // The toggle reports; the change goes through useTheme so the page opens as a circle from the toggle itself.
+  const mode = theme.mode === "nocturne" ? "nocturne" : "day"
+  const toggle = (variant: "eclipse" | "sentence", className?: string) => (
+    <ModeToggle variant={variant} mode={mode} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} className={className} />
   )
 
   return (
@@ -82,7 +81,7 @@ export function ThemeControls() {
           <Button variant="quiet">Tune</Button>
         </PopoverTrigger>
         <PopoverContent align="end" className="tune">
-          {nocturne("tune-nocturne")}
+          {toggle("sentence", "tune-mode")}
           <Picks legend="Scheme" name="scheme" value={theme.scheme ?? "cotton"} onValueChange={(scheme) => set({ scheme })}>
             {SCHEMES.map((s) => <Pick key={s} value={s}>{s}</Pick>)}
           </Picks>
@@ -99,7 +98,7 @@ export function ThemeControls() {
           </Picks>
         </PopoverContent>
       </Popover>
-      {nocturne("bar-nocturne")}
+      {toggle("eclipse", "bar-mode")}
     </div>
   )
 }

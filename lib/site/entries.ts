@@ -127,16 +127,32 @@ import skeletonMeta from "@/content/skeleton"
 import * as skeletonExample from "@/examples/skeleton"
 import datePickerMeta from "@/content/date-picker"
 import * as datePickerExample from "@/examples/date-picker"
+import calligramMeta from "@/content/calligram"
+import * as calligramExample from "@/examples/calligram"
 import commandLineMeta from "@/content/command-line"
 import * as commandLineExample from "@/examples/command-line"
 import contourMeta from "@/content/contour"
 import * as contourExample from "@/examples/contour"
 import formMeta from "@/content/form"
 import * as formExample from "@/examples/form"
+import gatherMeta from "@/content/gather"
+import * as gatherExample from "@/examples/gather"
+import measureMeta from "@/content/measure"
+import * as measureExample from "@/examples/measure"
+import melodyMeta from "@/content/melody"
+import * as melodyExample from "@/examples/melody"
+import modeToggleMeta from "@/content/mode-toggle"
+import * as modeToggleExample from "@/examples/mode-toggle"
+import reverbMeta from "@/content/reverb"
+import * as reverbExample from "@/examples/reverb"
 import sourceMeta from "@/content/source"
 import * as sourceExample from "@/examples/source"
 import stepsMeta from "@/content/steps"
 import * as stepsExample from "@/examples/steps"
+import wakeMeta from "@/content/wake"
+import * as wakeExample from "@/examples/wake"
+import waterfallMeta from "@/content/waterfall"
+import * as waterfallExample from "@/examples/waterfall"
 
 export const entries = [
   { meta: linkMeta, example: linkExample, siblings: [], npm: ["@radix-ui/react-slot"] },
@@ -164,7 +180,7 @@ export const entries = [
   { meta: noteMeta, example: noteExample, siblings: [], npm: [] },
   { meta: progressMeta, example: progressExample, siblings: [], npm: [] },
   { meta: toastMeta, example: toastExample, siblings: ["button"], npm: [] },
-  { meta: dialogMeta, example: dialogExample, siblings: [], npm: ["@radix-ui/react-slot"] },
+  { meta: dialogMeta, example: dialogExample, siblings: ["scrollbar"], npm: ["@radix-ui/react-slot"] },
   { meta: emptyMeta, example: emptyExample, siblings: ["button"], npm: [] },
   { meta: toggleMeta, example: toggleExample, siblings: [], npm: ["@radix-ui/react-toggle"] },
   { meta: toggleGroupMeta, example: toggleGroupExample, siblings: ["toggle"], npm: ["@radix-ui/react-toggle-group"] },
@@ -177,8 +193,8 @@ export const entries = [
   { meta: dropdownMenuMeta, example: dropdownMenuExample, siblings: ["kbd","popover"], npm: ["@radix-ui/react-dropdown-menu"] },
   { meta: menubarMeta, example: menubarExample, siblings: ["dropdown-menu","popover"], npm: ["@radix-ui/react-menubar"] },
   { meta: navigationMenuMeta, example: navigationMenuExample, siblings: [], npm: ["@radix-ui/react-navigation-menu"] },
-  { meta: commandMeta, example: commandExample, siblings: [], npm: ["@radix-ui/react-dialog","cmdk"] },
-  { meta: sidebarMeta, example: sidebarExample, siblings: ["button","sheet"], npm: ["@radix-ui/react-slot"] },
+  { meta: commandMeta, example: commandExample, siblings: ["scrollbar"], npm: ["@radix-ui/react-dialog","cmdk"] },
+  { meta: sidebarMeta, example: sidebarExample, siblings: ["button","scrollbar","sheet"], npm: ["@radix-ui/react-slot"] },
   { meta: cardMeta, example: cardExample, siblings: ["meta"], npm: ["@radix-ui/react-slot"] },
   { meta: hoverCardMeta, example: hoverCardExample, siblings: [], npm: ["@radix-ui/react-hover-card"] },
   { meta: tooltipMeta, example: tooltipExample, siblings: [], npm: ["@radix-ui/react-tooltip"] },
@@ -203,9 +219,17 @@ export const entries = [
   { meta: alertMeta, example: alertExample, siblings: ["button"], npm: [] },
   { meta: skeletonMeta, example: skeletonExample, siblings: [], npm: [] },
   { meta: datePickerMeta, example: datePickerExample, siblings: ["calendar","field","popover"], npm: [] },
+  { meta: calligramMeta, example: calligramExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: commandLineMeta, example: commandLineExample, siblings: ["radio-group","source"], npm: [] },
   { meta: contourMeta, example: contourExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: formMeta, example: formExample, siblings: ["button","field"], npm: [] },
+  { meta: gatherMeta, example: gatherExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: measureMeta, example: measureExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: melodyMeta, example: melodyExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: modeToggleMeta, example: modeToggleExample, siblings: [], npm: [] },
+  { meta: reverbMeta, example: reverbExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: sourceMeta, example: sourceExample, siblings: ["button"], npm: ["sugar-high"] },
   { meta: stepsMeta, example: stepsExample, siblings: [], npm: [] },
+  { meta: wakeMeta, example: wakeExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: waterfallMeta, example: waterfallExample, siblings: [], npm: ["@chenglou/pretext"] },
 ]

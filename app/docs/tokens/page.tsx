@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs"
 import type { Metadata } from "next"
 
 import { CopyButton } from "@/registry/0db/ui/source"
+import { Waterfall } from "@/registry/0db/ui/waterfall"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0db/ui/table"
 
 export const metadata: Metadata = {
@@ -32,6 +33,10 @@ export default function Tokens() {
         <h1 className="doc-title">Tokens</h1>
         <p className="doc-summary">Every item reads only these. The values shown are Day; the scheme, key, pair and Nocturne switches change them in place.</p>
       </header>
+      <section className="doc-section" aria-labelledby="t-heard">
+        <h2 id="t-heard">The dynamics, heard</h2>
+        <Waterfall>Every size steps by a fourth, like a scale, from the overture down to the quietest caption on the page.</Waterfall>
+      </section>
       {groups().map((g) => (
         <section key={g.title} className="doc-section" aria-labelledby={`t-${g.title}`}>
           <h2 id={`t-${g.title}`}>{g.title}</h2>

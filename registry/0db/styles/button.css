@@ -1,53 +1,155 @@
 @layer components {
-  /* ── db-btn ── statement (reversed block), bracket ( ), quiet (a line) */
+  /* ── db-btn ── one family (statement, bracket, quiet) and four heroes (overture, fermata, stave, ink).
+     Every variant shares one box: the same line-height and vertical padding, so they stand on one
+     baseline at one height. Nothing ever changes the box: what swells or draws does so inside it. */
   .db-btn {
-    appearance: none; border: 0; background: none; margin: 0; padding: 0;
-    display: inline-flex; align-items: baseline; gap: 0.4em;
-    font-family: var(--db-voice); font-size: var(--db-p); font-weight: 500; font-stretch: 100%;
-    line-height: 1.2; letter-spacing: 0.005em; white-space: nowrap;
+    --py: 0.7em; --dir: 1;
+    --w: 500; --w-on: 500; --s: 100%; --s-on: 100%; /* the label's weight and width at rest and pointed at */
+    appearance: none; border: 0; background: none; margin: 0; padding: var(--py) 0.25em;
+    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.4em;
+    font-family: var(--db-voice); font-size: var(--db-p); font-weight: 500; line-height: 1.2; letter-spacing: 0.005em; white-space: nowrap;
     color: var(--db-ink); text-decoration: none; cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
+  .db-btn:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
   .db-btn[data-size="l"] { font-size: var(--db-mp); }
-  .db-btn:disabled, .db-btn[aria-disabled="true"] { color: var(--db-pencil); cursor: not-allowed; }
+  .db-btn:is(:disabled, [aria-disabled="true"]) { color: var(--db-pencil); cursor: not-allowed; }
   .db-btn[aria-busy="true"] { cursor: progress; }
 
+  /* The label reserves the width of its widest state: an invisible copy at the hover weight shares its cell. */
+  .db-btn-label { display: inline-grid; justify-items: var(--align, center); }
+  .db-btn-label > span, .db-btn-label::after { grid-area: 1 / 1; }
+  .db-btn-label > span { position: relative; font-weight: var(--w); font-stretch: var(--s); transition: font-weight var(--db-moderato) var(--db-exhale), font-stretch var(--db-moderato) var(--db-exhale); }
+  .db-btn-label::after { content: attr(data-text) / ""; visibility: hidden; height: 0; font-weight: var(--w-on); font-stretch: var(--s-on); }
+  .db-btn:is(:hover, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) > .db-btn-label > span { font-weight: var(--w-on); font-stretch: var(--s-on); }
+
+  /* ── the family ── */
   .db-btn[data-variant="statement"] {
-    position: relative; --db-corner-inset: -9px;
-    background: var(--db-ink); color: var(--db-paper);
-    padding: 0.8em 1.15em 0.82em;
-    transition: font-stretch var(--db-moderato) var(--db-exhale), font-weight var(--db-moderato) var(--db-exhale), background-color var(--db-allegro), color var(--db-allegro), translate var(--db-allegro) var(--db-exhale);
+    --s-on: 114%; --db-corner-inset: -9px;
+    background: var(--db-ink); color: var(--db-paper); padding-inline: 1.25em;
+    transition: background-color var(--db-allegro), color var(--db-allegro), translate var(--db-allegro) var(--db-exhale);
   }
   .db-btn[data-variant="statement"]::after { opacity: 0; scale: 1.14 1.3; transition: opacity var(--db-allegro), scale var(--db-andante) var(--db-spiccato); }
-  .db-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-busy="true"]) { font-stretch: 114%; }
-  .db-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-busy="true"])::after { opacity: 1; scale: 1; }
-  .db-btn[data-variant="statement"]:active:not(:disabled, [aria-busy="true"]) { translate: 0 1px; font-weight: 680; font-stretch: 96%; transition-duration: var(--db-allegro); }
-  .db-btn[data-variant="statement"]:active:not(:disabled, [aria-busy="true"])::after { scale: 0.97 0.84; transition-duration: var(--db-allegro); }
-  .db-btn[data-variant="statement"]:disabled { background: var(--db-rule); color: var(--db-pencil); }
+  .db-btn[data-variant="statement"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { opacity: 1; scale: 1; }
+  .db-btn[data-variant="statement"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { translate: 0 1px; }
+  .db-btn[data-variant="statement"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { scale: 0.97 0.84; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="statement"]:is(:disabled, [aria-disabled="true"]) { background: var(--db-rule); color: var(--db-pencil); }
 
+  /* The parentheses are drawn outside the flow, so the label alone sets the baseline and the box. */
+  .db-btn[data-variant="bracket"] { padding-inline: 1.2em; }
   .db-btn[data-variant="bracket"]::before,
   .db-btn[data-variant="bracket"]::after {
-    font-weight: 200; font-size: 1.2em; line-height: 0;
+    position: absolute; inset-block: 0; display: grid; align-items: center;
+    font-weight: 200; font-size: 1.2em; line-height: 1;
     transition: translate var(--db-andante) var(--db-spiccato);
   }
-  .db-btn[data-variant="bracket"]::before { content: "(" / ""; }
-  .db-btn[data-variant="bracket"]::after { content: ")" / ""; }
-  .db-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled)::before { translate: -0.3em 0; }
-  .db-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled)::after { translate: 0.3em 0; }
-  .db-btn[data-variant="bracket"]:active:not(:disabled)::before { translate: 0.12em 0; transition-duration: var(--db-allegro); }
-  .db-btn[data-variant="bracket"]:active:not(:disabled)::after { translate: -0.12em 0; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="bracket"]::before { content: "(" / ""; inset-inline-start: 0.1em; }
+  .db-btn[data-variant="bracket"]::after { content: ")" / ""; inset-inline-end: 0.1em; }
+  .db-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-disabled="true"])::before { translate: calc(-0.3em * var(--dir)) 0; }
+  .db-btn[data-variant="bracket"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-disabled="true"])::after { translate: calc(0.3em * var(--dir)) 0; }
+  .db-btn[data-variant="bracket"]:active:not(:disabled, [aria-disabled="true"])::before { translate: calc(0.12em * var(--dir)) 0; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="bracket"]:active:not(:disabled, [aria-disabled="true"])::after { translate: calc(-0.12em * var(--dir)) 0; transition-duration: var(--db-allegro); }
 
   .db-btn[data-variant="quiet"] {
-    padding-bottom: 0.18em;
-    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% var(--db-hairline);
+    --at: calc(100% - var(--py) + 0.14em); padding-inline: 0.1em; /* the line stands just under the words, inside the shared box */
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 var(--at) / 100% var(--db-hairline);
   }
-  .db-btn[data-variant="quiet"]:is(:hover, [data-force~="hover"]):not(:disabled) {
+  .db-btn[data-variant="quiet"]:is(:hover, [data-force~="hover"]):not(:disabled, [aria-disabled="true"]) {
     animation: db-redraw var(--db-andante) var(--db-breath) both;
   }
   @keyframes db-redraw {
-    0%   { background-position: 100% 100%; background-size: 100% var(--db-hairline); }
-    45%  { background-position: 100% 100%; background-size: 0% var(--db-hairline); }
-    55%  { background-position: 0 100%;    background-size: 0% var(--db-stroke); }
-    100% { background-position: 0 100%;    background-size: 100% var(--db-stroke); }
+    0%   { background-position: 100% var(--at); background-size: 100% var(--db-hairline); }
+    45%  { background-position: 100% var(--at); background-size: 0% var(--db-hairline); }
+    55%  { background-position: 0 var(--at);    background-size: 0% var(--db-stroke); }
+    100% { background-position: 0 var(--at);    background-size: 100% var(--db-stroke); }
+  }
+
+  /* ── the heroes ── each its own personality, all type-led; each keeps the box it rests in */
+  .db-btn:is([data-variant="fermata"], [data-variant="stave"], [data-variant="ink"]) { font-size: var(--db-mp); }
+  .db-btn:is([data-variant="fermata"], [data-variant="stave"], [data-variant="ink"])[data-size="l"] { font-size: var(--db-mf); }
+
+  /* overture: light, and swelling to heavy as you come to it; a full stop lands after the word. */
+  .db-btn[data-variant="overture"] {
+    --w: 200; --w-on: 800; --align: start; --py: 0.1em;
+    align-items: baseline; justify-content: flex-start; gap: 0.06em; padding-inline: 0; font-size: var(--db-mf); letter-spacing: -0.02em; line-height: 1.1;
+  }
+  .db-btn[data-variant="overture"][data-size="l"] { font-size: var(--db-f); }
+  .db-btn[data-variant="overture"]::after {
+    content: ""; flex: none; inline-size: 0.16em; block-size: 0.16em; border-radius: 50%; background: var(--db-accent);
+    opacity: 0; scale: 0.4; transition: opacity var(--db-allegro), scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-btn[data-variant="overture"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { opacity: 1; scale: 1; }
+  .db-btn[data-variant="overture"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) > .db-btn-label > span { font-weight: var(--w-on); }
+  .db-btn[data-variant="overture"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) > .db-btn-label > span { font-weight: 560; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="overture"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { scale: 0.7; transition-duration: var(--db-allegro); }
+
+  /* fermata: an arc over the word and a dot under the arc, the sign for a held note. Pointing draws the arc in from its middle; pressing holds it, and the arc settles lower. */
+  .db-btn[data-variant="fermata"] { --py: 0.6em; padding: 0.95em 0.9em 0.6em; }
+  .db-btn[data-variant="fermata"]::before {
+    content: ""; position: absolute; inset-inline: 0.5em; inset-block-start: 0.12em; block-size: 0.55em;
+    border: var(--db-hairline) solid currentColor; border-block-end: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    clip-path: inset(0 50% 0 50%);
+    transition: clip-path var(--db-andante) var(--db-exhale), translate var(--db-moderato) var(--db-spiccato), border-width var(--db-allegro);
+  }
+  .db-btn[data-variant="fermata"]::after {
+    content: ""; position: absolute; inset-inline-start: 50%; inset-block-start: 0.36em; inline-size: 0.18em; block-size: 0.18em; margin-inline-start: -0.09em; border-radius: 50%;
+    background: var(--db-pencil); transition: background-color var(--db-allegro), translate var(--db-moderato) var(--db-spiccato);
+  }
+  .db-btn[data-variant="fermata"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { clip-path: inset(0); }
+  .db-btn[data-variant="fermata"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { background: var(--db-accent); }
+  .db-btn[data-variant="fermata"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { clip-path: inset(0); translate: 0 0.2em; border-width: var(--db-stroke); transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="fermata"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { translate: 0 0.2em; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="fermata"]:is(:disabled, [aria-disabled="true"])::after { background: var(--db-rule-strong); }
+
+  /* stave: the word in the expression italic, between two staves of five hairlines that never cross it.
+     Pointing runs each stave out from the word to the button's edge. */
+  .db-btn[data-variant="stave"] {
+    --w: 400; --w-on: 400; --run: 2.6em; --reach: 0.42;
+    padding-inline: var(--run); font-family: var(--db-expression); font-style: italic; letter-spacing: 0;
+    font-size: calc(var(--db-mp) * var(--db-expression-scale));
+  }
+  .db-btn[data-variant="stave"][data-size="l"] { font-size: calc(var(--db-mf) * var(--db-expression-scale)); }
+  .db-btn[data-variant="stave"]::before, .db-btn[data-variant="stave"]::after {
+    content: ""; position: absolute; inset-block-start: 50%; inline-size: calc(var(--run) - 0.5em); block-size: calc(0.68em + var(--db-hairline)); translate: 0 -50%;
+    background: repeating-linear-gradient(to bottom, var(--db-rule-strong) 0 var(--db-hairline), transparent var(--db-hairline) 0.17em);
+    scale: var(--reach) 1; transition: scale var(--db-andante) var(--db-exhale);
+  }
+  .db-btn[data-variant="stave"]::before { inset-inline-start: 0; transform-origin: 100% 50%; }
+  .db-btn[data-variant="stave"]::after { inset-inline-end: 0; transform-origin: 0 50%; }
+  .db-btn[data-variant="stave"]:is([dir="rtl"], [dir="rtl"] *)::before { transform-origin: 0 50%; }
+  .db-btn[data-variant="stave"]:is([dir="rtl"], [dir="rtl"] *)::after { transform-origin: 100% 50%; }
+  .db-btn[data-variant="stave"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --reach: 1; }
+  .db-btn[data-variant="stave"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --reach: 0.7; }
+
+  /* ink: an outlined block; pointing fills it with ink from the side you came in, and the words reverse out. */
+  .db-btn[data-variant="ink"] {
+    --py: 0.85em; --side: 0; isolation: isolate; padding-inline: 1.6em; letter-spacing: 0.01em;
+    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink);
+    transition: color var(--db-allegro), box-shadow var(--db-allegro);
+  }
+  .db-btn[data-variant="ink"]:is([dir="rtl"], [dir="rtl"] *) { --side: 100%; }
+  .db-btn[data-variant="ink"][data-edge="left"] { --side: 0; }
+  .db-btn[data-variant="ink"][data-edge="right"] { --side: 100%; }
+  .db-btn[data-variant="ink"]::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; background: var(--db-ink);
+    scale: 0 1; transform-origin: var(--side) 50%; transition: scale var(--db-moderato) var(--db-exhale);
+  }
+  .db-btn[data-variant="ink"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { color: var(--db-paper); }
+  .db-btn[data-variant="ink"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { scale: 1 1; }
+  .db-btn[data-variant="ink"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { color: var(--db-paper); }
+  .db-btn[data-variant="ink"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { scale: 1 0.92; transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="ink"]:is(:disabled, [aria-disabled="true"]) { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }
+
+  /* On a phone the large heroes step down one size, so the widest still fits. */
+  @media (max-width: 40rem) {
+    .db-btn:is([data-variant="fermata"], [data-variant="ink"])[data-size="l"] { font-size: var(--db-mp); }
+    .db-btn[data-variant="stave"][data-size="l"] { font-size: calc(var(--db-mp) * var(--db-expression-scale)); }
+    .db-btn[data-variant="overture"][data-size="l"] { font-size: var(--db-mf); }
+  }
+
+  @media (forced-colors: active) {
+    .db-btn:is([data-variant="statement"], [data-variant="ink"]) { border: 1px solid ButtonText; }
+    .db-btn[data-variant="ink"]::before, .db-btn[data-variant="overture"]::after, .db-btn[data-variant="fermata"]::after { forced-color-adjust: none; background: Highlight; }
+    .db-btn[data-variant="ink"]:is(:hover, :focus-visible, [data-force~="hover"]) { color: HighlightText; }
   }
 }

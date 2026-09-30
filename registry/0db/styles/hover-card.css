@@ -11,7 +11,7 @@
   @keyframes db-peek-in { from { opacity: 0; } }
   @keyframes db-peek-out { to { opacity: 0; } }
   .db-peek-name {
-    margin-inline-end: -30%; white-space: nowrap;
+    margin-inline-end: -30%; white-space: nowrap; user-select: none; /* decorative and cropped: a selection would only paint a slab of yellow */
     font-size: var(--db-ff); line-height: 0.85; letter-spacing: var(--db-ff-tr); font-weight: 200; color: var(--db-ink);
   }
   .db-peek[data-state="open"] .db-peek-name { animation: db-peek-slide var(--db-andante) var(--db-exhale); }
