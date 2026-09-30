@@ -28,3 +28,11 @@
 /_next/static/*
   ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+/site-styles/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
