@@ -2,144 +2,133 @@
 
 import * as React from "react"
 
-import { Share } from "@/components/site/landing"
-import { TextFrame } from "@/components/site/landing-frame"
-import { Cta } from "@/components/site/landing-hero"
 import { Noise } from "@/components/site/landing-noise"
+import { SharePlaces, useShare } from "@/components/site/landing-share"
 import { Button } from "@/registry/0db/ui/button"
 import { Input } from "@/registry/0db/ui/field"
-import { Slider } from "@/registry/0db/ui/slider"
 
-// Make some noise: every click in the section turns it up. The level shows on 0dB's own slider, and in the
-// type: your words grow heavier, larger and tighter, and echo deeper behind themselves, and the field of
-// small type around them closes up and darkens toward them. Stop, and it dies away slowly. Past 100 dB a
-// border of words has run all the way round the share moment, and it opens: pass it on. The link carries
-// your words and your loudest, so whoever opens it lands on your noise. "Turn it down" hushes it to 0 dB.
+// Make some noise: your words, set huge, and around them the same words run small and loud, as pretext flows
+// every row around the letters. "Turn it down" spreads the silence out from your sentence until it rests,
+// set light, at 0 dB. The link it shares carries the sentence, so whoever opens it hears it turned down too.
+// A fine pointer carries a pause in the noise, drawn as a ring with one word in it: Share. Inside the ring it
+// is quiet, your words too. A click anywhere copies the link, and the ring stops and opens, and the places
+// to send it stand in the silence. Touch and keys have the same thing in "Share it".
 
 const START = "MAKE SOME NOISE!!!"
-const REPO = "https://github.com/luv-jeri/0dB"
-const PEAK = 120 // dB at the top of the slider
-const EARN = 100 // dB that opens the share moment
-const PUNCH = 0.18 // a click's worth, of the whole range
-const HOLD = 1200 // ms it holds after a click before it dies away
-const DECAY = 0.05 // of the range a second, dying away
 
-type Engine = { raise(): void; set(n: number, own?: boolean): void; hush(): void }
+/** How loud a sentence reads, near enough: longer, more capitals and more exclamation marks are louder. */
+export function loudness(text: string) {
+  const t = text.trim()
+  if (!t) return 0
+  const letters = t.replace(/[^\p{L}]/gu, "")
+  const caps = letters ? letters.replace(/[^\p{Lu}]/gu, "").length / letters.length : 0
+  const bangs = (t.match(/!/g) ?? []).length
+  return Math.min(140, Math.round(38 + Math.min(34, t.length * 0.9) + caps * 36 + Math.min(30, bangs * 7)))
+}
 
 export function Toy() {
   const [text, setText] = React.useState(START)
-  const [db, setDb] = React.useState(0)
-  const [best, setBest] = React.useState(0)
-  const [earned, setEarned] = React.useState(false)
-  const [sent, setSent] = React.useState(0)
-  const root = React.useRef<HTMLDivElement>(null)
-  const engine = React.useRef<Engine | null>(null)
+  const [quiet, setQuiet] = React.useState(true)
+  const [hold, setHold] = React.useState<{ x: number; y: number; r: number } | null>(null)
+  const db = loudness(text)
   const say = text.trim() || " "
-  const level = db / PEAK
+  const root = React.useRef<HTMLDivElement>(null)
+  const share = useShare(`/?say=${encodeURIComponent(text.trim())}#noise`)
+  const { open, show } = share
+  const held = open ? hold : null
 
+  // The ring stops where it's asked, or mid-words from a control, kept whole inside the section.
+  const stop = React.useCallback(
+    (x: number | null, y: number | null, from: Element | null) => {
+      const el = root.current
+      const disc = el?.querySelector<HTMLElement>(".toy-places")
+      if (!el || !disc) return
+      const b = el.getBoundingClientRect()
+      const r = disc.offsetWidth / 2
+      const say = el.querySelector(".toy-say")!.getBoundingClientRect()
+      const within = (n: number, size: number) => (size < 2 * r ? size / 2 : Math.min(size - r, Math.max(r, n)))
+      setHold({
+        x: within(x ?? b.width / 2, b.width),
+        y: within(y ?? say.top + say.height / 2 - b.top, b.height),
+        r,
+      })
+      show(from, !!from)
+    },
+    [show],
+  )
+
+  // Opened from a shared link: the sentence arrives loud, then turns itself down.
   React.useEffect(() => {
-    const still = matchMedia("(prefers-reduced-motion: reduce)")
-    let aim = 0, shown = 0, held = 0, frame = 0, last = 0, hushing = false, own = false
-    function tick(now: number) {
-      frame = 0
-      const dt = last ? Math.min(64, now - last) / 1000 : 0
-      last = now
-      // It dies away on its own, slowly, a moment after the last click; reduced motion holds it where it is.
-      if (!still.matches && !hushing && now - held > HOLD) aim = Math.max(0, aim - DECAY * dt)
-      shown = still.matches ? aim : shown + (aim - shown) * (hushing ? 0.05 : 0.22)
-      if (Math.abs(aim - shown) < 0.002) shown = aim
-      const n = Math.round(shown * PEAK)
-      setDb(n)
-      if (own) {
-        setBest((b) => Math.max(b, n))
-        if (n >= EARN) setEarned(true)
-      }
-      if (!still.matches && (shown > 0 || aim > 0)) frame = requestAnimationFrame(tick)
-      else { last = 0; hushing = false }
-    }
-    const go = () => { if (!frame) frame = requestAnimationFrame(tick) }
-    engine.current = {
-      raise: () => { own = true; hushing = false; aim = Math.min(1, aim + PUNCH); held = performance.now(); go() },
-      set: (n, mine = true) => { own ||= mine; hushing = false; aim = shown = n; held = performance.now(); go() },
-      hush: () => { hushing = true; aim = 0; go() },
-    }
-
-    // Opened from a shared link: their words, at their level, dying away until you turn it up again.
-    const q = new URLSearchParams(location.search)
-    const said = q.get("say")?.slice(0, 80)
-    const at = Math.min(PEAK, Math.max(0, Math.round(Number(q.get("db")) || 0)))
-    const arrive = window.setTimeout(() => {
-      if (said) setText(said)
-      if (at) { setSent(at); engine.current?.set(at / PEAK, false) }
+    const shared = new URLSearchParams(location.search).get("say")?.slice(0, 80)
+    if (!shared) return
+    const loud = window.setTimeout(() => {
+      setText(shared)
+      setQuiet(false)
     })
-
-    // Any click in the section is noise, except on the things that do something else.
-    const section = root.current?.closest("section")
-    const click = (e: MouseEvent) => {
-      if (!(e.target instanceof Element) || e.target.closest("a, button, input, label, [data-slot=slider]")) return
-      engine.current?.raise()
-    }
-    section?.addEventListener("click", click)
+    const hush = window.setTimeout(() => setQuiet(true), 1600)
     return () => {
-      cancelAnimationFrame(frame)
-      clearTimeout(arrive)
-      section?.removeEventListener("click", click)
-      engine.current = null
+      clearTimeout(loud)
+      clearTimeout(hush)
     }
   }, [])
 
-  const url = `/?say=${encodeURIComponent(text.trim())}&db=${best}#noise`
-
   return (
-    <div ref={root} className="toy" data-earned={earned || undefined} style={{ "--level": level.toFixed(3) } as React.CSSProperties}>
-      <Noise className="toy-noise" words={`${say}  `} level={level} />
+    <div
+      ref={root}
+      className="toy"
+      data-quiet={quiet || undefined}
+      data-held={held ? "" : undefined}
+      onClick={(e) => {
+        if (open || (e.target as Element).closest("input, button, a, label, textarea, .toy-controls")) return
+        const b = e.currentTarget.getBoundingClientRect()
+        stop(e.clientX - b.left, e.clientY - b.top, null)
+      }}
+    >
+      <Noise className="toy-noise" words={`${say} ${db}dB  `} quiet={quiet} peak={db} hold={held} />
+      <div className="toy-ring" aria-hidden="true" data-noise-ring>
+        <span className="toy-ring-say">
+          Share<span className="toy-ring-stop">.</span>
+        </span>
+      </div>
       <p className="toy-say" data-noise-glyphs data-noise-center data-text={say}>
-        <span data-noise-echo>{say}</span>
+        <span>{say}</span>
       </p>
       <div className="toy-controls" data-hush>
         <label className="toy-field">
           <span className="toy-label">Your words</span>
-          <Input className="toy-input" value={text} maxLength={80} autoComplete="off" spellCheck={false} onChange={(e) => setText(e.target.value)} />
+          <Input
+            className="toy-input"
+            value={text}
+            maxLength={80}
+            autoComplete="off"
+            spellCheck={false}
+            onChange={(e) => {
+              setText(e.target.value)
+              setQuiet(false)
+            }}
+          />
         </label>
-        <Slider className="toy-level" variant="dynamics" label="Noise" max={PEAK} value={db} aria-valuetext={`${db} dB`} onValueChange={(v) => engine.current?.set(v / PEAK)} />
-        <div className="toy-out">
-          <p className="toy-db" dir="ltr" aria-hidden="true">
-            {`${db} dB`}
-          </p>
-          <div className="toy-actions">
-            <Button variant="bracket" onClick={() => engine.current?.raise()}>
-              Turn it up
-            </Button>
-            <Button variant="bracket" onClick={() => engine.current?.hush()}>
-              Turn it down
-            </Button>
-          </div>
+        <p className="toy-reading">
+          <span className="toy-meter" dir="ltr" aria-hidden="true" data-noise-meter=" dB">
+            0 dB
+          </span>
+          <span className="db-sr">{quiet ? "0 dB" : `${db} dB`}</span>
+        </p>
+        <div className="toy-actions">
+          <Button variant="bracket" onClick={() => setQuiet((q) => !q)}>
+            {quiet ? "Make some noise" : "Turn it down"}
+          </Button>
+          <button type="button" className="share" aria-expanded={open} onClick={(e) => (open ? share.close() : stop(null, null, e.currentTarget))}>
+            Share it
+          </button>
         </div>
       </div>
-      <div className="toy-moment" data-hush>
-        <TextFrame
-          className="toy-frame"
-          words={earned ? `pass it on · ${say} · ${best} dB · ` : "louder · "}
-          fill={earned ? 1 : Math.min(1, db / EARN)}
-          run={earned ? 1 + level * 5 : 0}
-        />
-        <p className="toy-before" aria-hidden={earned || undefined}>
-          {sent ? `Sent to you at ${sent} dB. Turn it up past ${EARN}, then pass it on.` : `Click anywhere here to turn it up. Past ${EARN} dB, it's yours to send.`}
-        </p>
-        <div className="toy-after" inert={!earned}>
-          <p className="toy-ask">Loud enough. Now pass it on.</p>
-          <p className="toy-why">Sharing helps us keep 0dB going. So does a star: it&apos;s how we know it&apos;s wanted.</p>
-          <p className="toy-send">
-            <Share url={url} title={`${best} dB of noise, turned down to 0 dB`}>
-              Share it
-            </Share>
-            <Cta href={REPO}>Star it on GitHub</Cta>
-          </p>
-        </div>
-        <p className="db-sr" role="status">
-          {earned ? "Loud enough. Share it, or star it on GitHub." : ""}
-        </p>
-      </div>
+      <SharePlaces
+        share={share}
+        text={`I made some noise, then turned it down to 0 dB: “${say.trim()}”`}
+        className="toy-places"
+        style={hold ? ({ "--hx": `${hold.x}px`, "--hy": `${hold.y}px` } as React.CSSProperties) : undefined}
+      />
     </div>
   )
 }

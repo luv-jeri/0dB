@@ -3,9 +3,9 @@ import NextLink from "next/link"
 import "./landing.css"
 
 import { AskFor, LeftOut, Share, TuneSentence } from "@/components/site/landing"
-import { TextFrame } from "@/components/site/landing-frame"
 import { Cta, Hero } from "@/components/site/landing-hero"
 import { PieceIndex, type Movement } from "@/components/site/landing-index"
+import { ShareCall } from "@/components/site/landing-share"
 import { Toy } from "@/components/site/landing-toy"
 import { catalog } from "@/lib/site/catalog"
 import { entries } from "@/lib/site/entries"
@@ -86,7 +86,7 @@ export default function Home() {
         className="passage-noise"
         wide
         title="Make some noise."
-        note="Every click here turns it up. Get it loud enough, then pass it on. Or turn it down: the story of the name."
+        note="Type anything, as loud as you like. Then turn it down, and send it to someone."
       >
         <Toy />
       </Passage>
@@ -154,11 +154,15 @@ export default function Home() {
             <Cta href={REPO}>Star it on GitHub</Cta>
             <p className="help-note">We need your support to keep working on this. A star is how we know it&rsquo;s wanted.</p>
           </li>
+          <li>
+            <ShareCall url="/" text="0dB: React components, set in type" note="Send it to someone who builds interfaces. It's how a small library gets found.">
+              Share it
+            </ShareCall>
+          </li>
         </ul>
       </Passage>
 
       <section className="coda" aria-labelledby="coda-title">
-        <TextFrame words="0 dB · the quietest sound a person can hear · now make something quiet · " />
         <h2 className="coda-title" id="coda-title">
           Now make something quiet.
         </h2>
