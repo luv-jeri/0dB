@@ -54,15 +54,15 @@
      italic and its size in parentheses, a semicolon between and a full stop at the end. The ring stays only while a
      file is on its way. */
   .db-attachments[data-variant="enclosure"] { border-top: 0; font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-pencil); }
-  .db-attachments[data-variant="enclosure"]::before { content: "Encl.\00a0(" attr(data-count) ")\00a0\00a0" / ""; color: var(--db-graphite); }
+  .db-attachments[data-variant="enclosure"]::before { content: attr(data-enclosure-label) "\00a0(" attr(data-count) ")\00a0\00a0" / ""; color: var(--db-graphite); }
   .db-attachments[data-variant="enclosure"] > .db-attach { display: inline; padding: 0; border: 0; }
   .db-attachments[data-variant="enclosure"] > .db-attach:not(:last-child)::after { content: ";" / ""; margin-inline-end: 0.3em; }
   .db-attachments[data-variant="enclosure"] > .db-attach:last-child::after { content: "." / ""; }
   .db-attachments[data-variant="enclosure"] :is(.db-attach-ext, .db-attach[data-state="done"] .db-attach-ring) { display: none; }
   .db-attachments[data-variant="enclosure"] :is(.db-attach-body, .db-attach-name, .db-attach-meta) { display: inline; font-size: inherit; line-height: inherit; }
-  .db-attachments[data-variant="enclosure"] .db-attach-name { white-space: normal; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; }
-  .db-attachments[data-variant="enclosure"] .db-attach-meta { white-space: nowrap; }
-  .db-attachments[data-variant="enclosure"] .db-attach-meta::before { content: "\00a0(" / ""; }
+  .db-attachments[data-variant="enclosure"] .db-attach-name { white-space: normal; overflow-wrap: anywhere; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; }
+  .db-attachments[data-variant="enclosure"] .db-attach-meta { white-space: normal; overflow-wrap: anywhere; }
+  .db-attachments[data-variant="enclosure"] .db-attach-meta::before { content: "(" / ""; }
   .db-attachments[data-variant="enclosure"] .db-attach-meta::after { content: ")" / ""; }
   .db-attachments[data-variant="enclosure"] .db-attach-ring { display: inline; width: 0.7em; height: 0.7em; margin-inline-start: 0.35em; vertical-align: -0.05em; }
   .db-attachments[data-variant="enclosure"] .db-attach > .db-btn { display: inline-flex; margin-inline-start: 0.35em; vertical-align: baseline; }

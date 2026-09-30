@@ -10,13 +10,13 @@ export function States() {
   return (
     <>
       <State label="The house">
-        <Appearance value={{}} className="w-[22rem]" />
+        <Appearance value={{}} className="w-[22rem] max-w-full" />
       </State>
       <State label="Its own key">
-        <Appearance value={{ scheme: "blueprint", pair: "press" }} className="w-[22rem]" />
+        <Appearance value={{ scheme: "blueprint", pair: "press" }} className="w-[22rem] max-w-full" />
       </State>
       <State label="Keyed, by night">
-        <Appearance value={{ mode: "nocturne", scheme: "riso", key: "viridian", pair: "salon" }} className="w-[22rem]" />
+        <Appearance value={{ mode: "nocturne", scheme: "riso", key: "viridian", pair: "salon" }} className="w-[22rem] max-w-full" />
       </State>
     </>
   )

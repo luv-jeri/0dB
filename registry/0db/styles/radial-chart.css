@@ -22,7 +22,7 @@
     transition: box-shadow var(--db-allegro) var(--db-exhale);
   }
   /* The dot rides the arc's end, its centre on the stroke's centre line. */
-  .db-ring-head { position: absolute; inset: 0; rotate: calc(var(--db-ring-start, 0deg) + (var(--db-ring-from) + var(--db-ring-p)) * var(--db-ring-sweep, 1) * 1turn); }
+  .db-ring-head { position: absolute; top: 0; left: 50%; inline-size: 0; block-size: 50%; transform-origin: 50% 100%; rotate: calc(var(--db-ring-start, 0deg) + (var(--db-ring-from) + var(--db-ring-p)) * var(--db-ring-sweep, 1) * 1turn); }
   .db-ring[data-head="start"] > .db-ring-head { rotate: calc(var(--db-ring-start, 0deg) + var(--db-ring-from) * var(--db-ring-sweep, 1) * 1turn); }
   .db-ring-head::after {
     content: ""; position: absolute; top: calc(var(--db-stroke) / 2); left: 50%; inline-size: var(--db-dot); block-size: var(--db-dot); border-radius: 50%; translate: -50% -50%;

@@ -136,17 +136,15 @@
   :is(.db-link, .db-prose a)[data-variant="reference"]::after {
     content: counter(db-note, db-notes) / ""; margin-inline-start: 0.06em; font-size: 0.62em; line-height: 0; vertical-align: 0.62em; font-weight: 500;
   }
-  /* address: after the printed page, where a link is spelled out so a reader can go there. Pointing or focusing writes where it
-     goes, small and in parentheses, after the words, from where they end; nothing after it moves. For a link on its own line. */
-  @property --db-link-em { syntax: "<length>"; inherits: true; initial-value: 0px; }
-  :is(.db-link, .db-prose a)[data-variant="address"] { position: relative; --db-link-em: 1em; }
+  /* address: reserve its measure at rest, so revealing it moves nothing. When the line is full, the address steps under. */
+  .db-link-addressed { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-1) 0.36em; max-inline-size: 100%; }
+  .db-link-addressed > .db-link { max-inline-size: 100%; overflow-wrap: anywhere; }
   .db-link-address {
-    position: absolute; bottom: 0.26em; margin-inline-start: calc(0.36 * var(--db-link-em)); white-space: nowrap; pointer-events: none;
+    min-inline-size: 0; overflow-wrap: anywhere; pointer-events: none;
     font-size: max(0.6em, var(--db-pp)); line-height: 1; letter-spacing: 0.02em; color: var(--db-pencil); -webkit-text-fill-color: currentColor;
     clip-path: inset(0 100% 0 0); transition: clip-path var(--db-allegro) var(--db-exhale);
   }
-  :is(.db-link, .db-prose a):has(> .db-link-out) > .db-link-address { margin-inline-start: calc(1.36 * var(--db-link-em)); }
-  :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) > .db-link-address { clip-path: inset(0); transition-duration: var(--db-moderato); }
+  .db-link-addressed > .db-link:is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) + .db-link-address { clip-path: inset(0); transition-duration: var(--db-moderato); }
   :is([dir="rtl"], [dir="rtl"] *) .db-link-address { clip-path: inset(0 0 0 100%); }
   @media (forced-colors: active) {
     .db-link, .db-prose a { -webkit-text-fill-color: currentColor; background-image: none; border-block-end-color: currentColor; }

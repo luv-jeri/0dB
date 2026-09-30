@@ -37,7 +37,7 @@ function Link({ className, asChild = false, external = false, variant, children,
         ({addressOf(props.href)})
       </span>
     ) : null
-  return (
+  const link = (
     <Comp
       data-slot="link"
       data-variant={variant}
@@ -51,11 +51,12 @@ function Link({ className, asChild = false, external = false, variant, children,
         <>
           {children}
           {external ? out : null}
-          {address}
         </>
       )}
     </Comp>
   )
+  // Keep room for the address even at rest; it steps under the words when their measure is full.
+  return address ? <span className="db-link-addressed">{link}{address}</span> : link
 }
 
 export { Link, type LinkProps }

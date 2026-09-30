@@ -56,7 +56,7 @@ export function States() {
       <State label="Transpose, held"><Swapy className={w} label="Transpose, held" variant="transpose" items={set.slice(0, 3)} defaultHeld="b" /></State>
       <State label="Disabled"><Swapy className={w} label="Disabled" items={issue.slice(0, 3)} disabled /></State>
       <State label="Right to left, held">
-        <div dir="rtl" lang="ar"><Swapy className={w} label="الترتيب" items={rtl} defaultHeld="b" /></div>
+        <div dir="rtl" lang="ar" className="max-w-full"><Swapy className={w} label="الترتيب" items={rtl} defaultHeld="b" /></div>
       </State>
     </>
   )

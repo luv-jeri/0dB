@@ -11,15 +11,18 @@ type AttachmentListProps = React.ComponentProps<"ul"> & {
    * enclosure: the files written as a letter's enclosure line, "Encl. (2)", run on in one sentence.
    */
   variant?: "default" | "reverse" | "enclosure"
+  /** The word before the enclosure count. */
+  enclosureLabel?: string
 }
 
 /** The list the files sit in. */
-function AttachmentList({ variant = "default", className, children, ...props }: AttachmentListProps) {
+function AttachmentList({ variant = "default", enclosureLabel = "Encl.", className, children, ...props }: AttachmentListProps) {
   return (
     <ul
       data-slot="attachment-list"
       data-variant={variant === "default" ? undefined : variant}
       data-count={variant === "enclosure" ? React.Children.count(children) : undefined}
+      data-enclosure-label={variant === "enclosure" ? enclosureLabel : undefined}
       aria-label={variant === "enclosure" ? "Enclosures" : undefined}
       className={cn("db-attachments", className)}
       {...props}
@@ -40,10 +43,12 @@ type AttachmentProps = Omit<React.ComponentProps<"li">, "children"> & {
   progress?: number
   /** Shows a Remove button, labelled with the file's name. */
   onRemove?: () => void
+  /** The button's word, also followed by the file name in its accessible name. */
+  removeLabel?: string
 }
 
 /** A file: its extension is its picture, a ring counts it in and fills to a dot when it's safe. */
-function Attachment({ name, size, status, state = "done", progress, onRemove, className, style, ...props }: AttachmentProps) {
+function Attachment({ name, size, status, state = "done", progress, onRemove, removeLabel = "Remove", className, style, ...props }: AttachmentProps) {
   const ext = name.includes(".") ? name.slice(name.lastIndexOf(".") + 1) : ""
   return (
     <li
@@ -55,7 +60,7 @@ function Attachment({ name, size, status, state = "done", progress, onRemove, cl
     >
       <span className="db-attach-ext" data-ext={ext} aria-hidden="true">{ext}</span>
       <span className="db-attach-body">
-        <span className="db-attach-name">{name}</span>
+        <span className="db-attach-name">{name}</span>{" "}
         <span className="db-attach-meta">{status ?? size}</span>
       </span>
       <svg className="db-attach-ring" viewBox="0 0 22 22" aria-hidden="true">
@@ -64,8 +69,8 @@ function Attachment({ name, size, status, state = "done", progress, onRemove, cl
         <circle className="db-attach-fill" cx="11" cy="11" />
       </svg>
       {onRemove ? (
-        <Button variant="bracket" aria-label={`Remove ${name}`} onClick={onRemove}>
-          Remove
+        <Button variant="bracket" aria-label={`${removeLabel} ${name}`} onClick={onRemove}>
+          {removeLabel}
         </Button>
       ) : null}
     </li>
