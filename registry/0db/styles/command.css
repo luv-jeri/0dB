@@ -30,7 +30,7 @@
   .db-command-option[aria-selected="true"] .db-command-name { translate: var(--step) 0; }
   .db-command-option[aria-selected="true"]::after { opacity: 1; translate: 0 0; }
   .db-command-option[aria-disabled="true"] { cursor: not-allowed; opacity: 0.5; }
-  .db-command-option mark { padding: 0; }
+  .db-command-option mark { padding: 0; margin: 0; } /* part of a word: no overshoot, or it would crowd the letters either side */
   .db-command-empty { padding-block: var(--db-space-4); font-size: var(--db-mp); color: var(--db-graphite); }
 
   /* The ⌘K dialog. */

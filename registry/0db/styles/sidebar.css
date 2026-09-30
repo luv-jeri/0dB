@@ -21,10 +21,6 @@
   @media (min-width: 860px) { .db-sidebar > [data-slot="sidebar-trigger"] { display: none; } }
   @media (max-width: 859.98px) { .db-sidebar > .db-sidebar-list { display: none; } }
   .db-sheet.db-sidebar-sheet { width: min(20rem, calc(100vw - var(--db-space-6))); }
-  /* The spine keeps to the sheet's left gutter (the list is as tall as the sheet, so it can't sit beside it). */
-  .db-sheet.db-sidebar-sheet .db-sheet-spine { left: var(--db-space-4); }
-  .db-sheet.db-sidebar-sheet:is([dir="rtl"], [dir="rtl"] *) .db-sheet-spine { left: auto; right: var(--db-space-4); }
-
   .db-sidebar-head { margin-block-end: var(--db-space-4); font-weight: 600; color: var(--db-ink); white-space: nowrap; }
   .db-sidebar-group { display: grid; justify-items: start; gap: var(--db-space-1); }
   .db-sidebar-group + .db-sidebar-group, .db-sidebar-head + .db-sidebar-group { margin-block-start: var(--db-space-4); }

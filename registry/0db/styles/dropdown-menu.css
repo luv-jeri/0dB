@@ -12,9 +12,10 @@
     margin: 0; padding: 0.34em var(--db-space-5); cursor: pointer; user-select: none; outline: 0;
     color: var(--db-graphite);
     background: linear-gradient(var(--db-mark), var(--db-mark)) no-repeat 100% 0 / 0% 100%;
-    transition: background-size var(--db-allegro) var(--db-exhale), background-position 0s, color var(--db-allegro);
+    /* The colour flips with the first frames of the stroke and back after the last, as the link's does, so the words are never pale on yellow. */
+    transition: background-size var(--db-allegro) var(--db-exhale), background-position 0s, color 0s linear var(--db-allegro);
   }
-  .db-menu-item:is([data-highlighted], .db-menu-sub[data-state="open"]) { background-position: 0 0; background-size: 100% 100%; color: var(--db-on-mark); }
+  .db-menu-item:is([data-highlighted], .db-menu-sub[data-state="open"]) { background-position: 0 0; background-size: 100% 100%; color: var(--db-on-mark); transition-delay: 0s; }
   .db-menu-item:is([dir="rtl"], [dir="rtl"] *) { background-position: 0 0; }
   .db-menu-item:is([dir="rtl"], [dir="rtl"] *):is([data-highlighted], .db-menu-sub[data-state="open"]) { background-position: 100% 0; }
 

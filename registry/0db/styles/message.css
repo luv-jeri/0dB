@@ -36,7 +36,9 @@
   :is([dir="rtl"], [dir="rtl"] *) .db-bubble[data-align="end"]::before { rotate: 38deg; }
   .db-bubble[data-variant="ink"] { padding: 0.55em 0.95em 0.6em; background: var(--db-ink); color: var(--db-paper); }
   .db-bubble[data-variant="ink"]::before { inset-inline-start: 0.9em; top: 100%; height: 0.7em; }
-  .db-bubble[data-variant="mark"] > p { display: inline; padding: 0 0.1em; background: var(--db-mark); color: var(--db-on-mark); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .db-bubble[data-variant="mark"] > p { display: inline; padding: 0 0.12em; background: var(--db-mark); color: var(--db-on-mark); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  /* Selected inside the highlighter, the words reverse, as they do in a mark: yellow on yellow would lose them. */
+  .db-bubble[data-variant="mark"] > p ::selection, .db-bubble[data-variant="mark"] > p::selection { background: var(--db-ink); color: var(--db-paper); }
   .db-reactions { display: flex; flex-wrap: wrap; gap: var(--db-space-2); }
   .db-reactions > .db-tag[aria-pressed="true"] { color: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
   .db-reactions > .db-tag[aria-pressed="true"] > :first-child { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; }

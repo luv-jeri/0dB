@@ -467,7 +467,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 ### db-sheet, db-drawer (sheet, drawer)
 - Underneath: native `<dialog>`, through the dialog item.
 - Anatomy: `<dialog class="db-sheet" closedby="any">` with `.db-sheet-spine` (the title again, aria-hidden). `<dialog class="db-drawer" closedby="any">` with `<button class="db-drawer-handle">`. Both share the dialog backdrop.
-- A sheet is a page slid in from the end edge, its title running up the spine like a book's (`db-spine`). A drawer rises from below and lands with spiccato; its handle is the fermata's arc. Dragging the handle down sets `--pull` and `data-pulling`, and past a threshold it closes.
+- A sheet is a page slid in from the end edge, its title running up the spine like a book's (`db-spine`), in its own column: the sheet's start padding, on the left, or the right in right-to-left. A drawer rises from below and lands with spiccato; its handle is the fermata's arc. Dragging the handle down sets `--pull` and `data-pulling`, and past a threshold it closes.
 - Keyboard: Escape closes; the handle closes on Enter. Smooth scrolling pauses while open.
 
 ### db-collapse (collapsible)

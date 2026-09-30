@@ -5,7 +5,7 @@
   .db-sheet {
     --from: 100% 0; /* where it waits, off the edge it comes from */
     position: fixed; inset-block: 0; inset-inline: auto 0; margin: 0; width: min(32rem, calc(100vw - var(--db-space-6))); height: 100dvh; max-width: none; max-height: none;
-    padding: var(--db-space-7) var(--db-space-6) var(--db-space-6) var(--db-space-8); overflow: auto;
+    padding-block: var(--db-space-7) var(--db-space-6); padding-inline: var(--db-space-8) var(--db-space-6); overflow: auto;
     border: 0; border-inline-start: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite);
     translate: var(--from);
     transition: translate var(--db-andante) var(--db-exhale), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
@@ -18,11 +18,14 @@
   .db-sheet:is([data-side="top"], [data-side="bottom"]) { inset-inline: 0; width: 100%; height: auto; max-height: 85dvh; border-inline-start: 0; }
   .db-sheet[data-side="top"] { --from: 0 -100%; inset-block: 0 auto; border-block-end: var(--db-hairline) solid var(--db-ink); }
   .db-sheet[data-side="bottom"] { --from: 0 100%; inset-block: auto 0; border-block-start: var(--db-hairline) solid var(--db-ink); }
+  /* left and right, not inset-inline-start: in the spine's own vertical writing mode that means top,
+     and the spine fell into the text. The sheet's space-8 inline-start padding is its column. */
   .db-sheet-spine {
-    position: absolute; inset-inline-start: var(--db-space-4); bottom: var(--db-space-6);
+    position: absolute; left: var(--db-space-4); bottom: var(--db-space-6);
     writing-mode: vertical-rl; rotate: 180deg; white-space: nowrap;
     font-size: var(--db-f); line-height: 1; letter-spacing: var(--db-f-tr); font-weight: 200; color: var(--db-ink);
   }
+  .db-sheet-spine:is([dir="rtl"], [dir="rtl"] *) { left: auto; right: var(--db-space-4); }
   .db-sheet[open] .db-sheet-spine { animation: db-spine var(--db-andante) var(--db-exhale) 240ms backwards; }
   @keyframes db-spine { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
   .db-sheet > * + *:not(.db-scrollbar) { margin-block-start: var(--db-space-6); }
