@@ -232,11 +232,17 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
           paint()
         })
       }
+      const onMotion = () => {
+        cancelAnimationFrame(frame)
+        // Restore the still curve now; resuming reads any scrolling that happened while it was still.
+        scrolled = still() ? 0 : -box.getBoundingClientRect().top * ARC.scroll
+        paint()
+      }
       onScroll()
-      reduced.addEventListener("change", ask)
+      reduced.addEventListener("change", onMotion)
       addEventListener("scroll", onScroll, { passive: true })
       off.push(() => {
-        reduced.removeEventListener("change", ask)
+        reduced.removeEventListener("change", onMotion)
         removeEventListener("scroll", onScroll)
       })
     })()
