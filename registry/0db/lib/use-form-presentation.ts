@@ -8,16 +8,18 @@ export function useFormPresentation(root: React.RefObject<HTMLElement | null>, s
   React.useEffect(() => {
     const el = root.current
     if (!el) return
-    let live = true
+    let resetTimer = 0
     const watch = new MutationObserver(sync)
     watch.observe(el, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ["value", "checked", "type"] })
     const reset = (event: Event) => {
       if (![...el.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")].some((control) => control.form === event.target)) return
-      queueMicrotask(() => { if (live) sync() })
+      // A user-triggered reset can drain microtasks before its default action restores the controls.
+      window.clearTimeout(resetTimer)
+      resetTimer = window.setTimeout(sync, 0)
     }
     el.ownerDocument.addEventListener("reset", reset, true)
     return () => {
-      live = false
+      window.clearTimeout(resetTimer)
       watch.disconnect()
       el.ownerDocument.removeEventListener("reset", reset, true)
     }

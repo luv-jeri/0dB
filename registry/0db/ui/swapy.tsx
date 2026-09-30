@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Row, RowKind, RowMeta, RowTitle, Rows } from "@/registry/0db/ui/rows"
 
@@ -58,6 +59,7 @@ function Swapy({
   disabled = false,
   defaultHeld,
   className,
+  ref: forwardedRef,
   ...props
 }: SwapyProps) {
   const [local, setLocal] = React.useState<readonly string[]>(defaultOrder)
@@ -69,6 +71,7 @@ function Swapy({
   const [dragging, setDragging] = React.useState(false)
   const drag = React.useRef<{ id: string; pointer: number; moved: boolean; wasHeld: boolean } | null>(null)
   const root = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(root, forwardedRef)
   const list = React.useRef<HTMLUListElement>(null)
   const arc = React.useRef<SVGSVGElement>(null)
   const was = React.useRef(new Map<string, { top: number; at: number }>())
@@ -157,7 +160,7 @@ function Swapy({
 
   return (
     <div
-      ref={root}
+      ref={composedRef}
       data-slot="swapy"
       data-variant={variant === "default" ? undefined : variant}
       data-holding={held ? "" : undefined}

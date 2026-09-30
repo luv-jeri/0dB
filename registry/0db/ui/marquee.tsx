@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type MarqueeProps = Omit<React.ComponentProps<"div">, "children"> & {
@@ -32,8 +33,9 @@ type MarqueeProps = Omit<React.ComponentProps<"div">, "children"> & {
  * A band of words that drifts, with a visible pause control. Scroll takes over and keeps step with smooth scrolling.
  * The first run of words is the list readers get; the copies that fill the band are hidden from them.
  */
-function Marquee({ children, variant = "band", speed = 0.4, reverse = false, label, autoplay = true, defaultPaused = false, pauseLabel = "pause", playLabel = "play", "data-force": force, className, ...props }: MarqueeProps) {
+function Marquee({ children, variant = "band", speed = 0.4, reverse = false, label, autoplay = true, defaultPaused = false, pauseLabel = "pause", playLabel = "play", "data-force": force, className, ref: forwardedRef, ...props }: MarqueeProps) {
   const ref = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const [paused, setPaused] = React.useState(defaultPaused)
   const drift = React.useRef<(delta: number) => void>(() => {})
   const [copies, setCopies] = React.useState(2)
@@ -153,7 +155,7 @@ function Marquee({ children, variant = "band", speed = 0.4, reverse = false, lab
 
   const rows = variant === "counter" ? 2 : 1
   return (
-    <div ref={ref} data-slot="marquee" data-force={force} data-variant={variant === "band" ? undefined : variant} className={cn("db-marquee", className)} {...props}>
+    <div ref={composedRef} data-slot="marquee" data-force={force} data-variant={variant === "band" ? undefined : variant} className={cn("db-marquee", className)} {...props}>
       <div className="db-marquee-frame">
         {Array.from({ length: rows }, (_, row) => (
           <div key={row} className="db-marquee-row" data-back={reverse !== (row === 1) || undefined}>
