@@ -88,20 +88,17 @@ function Slider({
         <output className="db-ruler-loud" htmlFor={inputId} style={{ "--chars": word?.length } as React.CSSProperties}>
           <span aria-hidden="true">{word}</span>{" "}
           <span className="db-ruler-yours">
-            {value}
-            {unit}
+            {`${value}${unit}`}
           </span>
         </output>
       ) : shape === "spread" ? (
         <output className="db-ruler-yours db-ruler-corner" htmlFor={inputId}>
-          {value}
-          {unit}
+          {`${value}${unit}`}
         </output>
       ) : (
         <output ref={out} className="db-ruler-value" htmlFor={inputId}>
           <span ref={figure}>
-            {value}
-            {unit}
+            {`${value}${unit}`}
           </span>
         </output>
       )}

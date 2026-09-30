@@ -4,7 +4,7 @@ Extracted from DESIGN.md.
 
 ### db-field (field)
 - Underneath: native input and textarea, plus a hook for the counter. The count and filled state follow controlled values, child changes and native form resets as well as input events.
-- Anatomy: `.db-field` holding a `.db-label`, an optional `.db-field-count`, then the `input` or `textarea`, then an optional `.db-field-hint` or `.db-field-error`.
+- Anatomy: `.db-field` holding a `.db-label`, an optional `.db-field-count`, then the `input` or `textarea`, then an optional `.db-field-hint` or `.db-field-error`. The counter stays at the inline end and reads count / limit, isolated left to right even on an RTL page.
 - No box, only a baseline. Focus draws the accent line outward from where the pointer touched it (script sets `--o`, a percentage) or from the left for the keyboard, and shows the counter. The placeholder steps back to half strength on focus.
 - Yours: the typed value, in the italic. The placeholder stays in the voice, in pencil.
 - Textarea: ruled like paper, with lines every `--lh` (2.25rem) that scroll with the text.

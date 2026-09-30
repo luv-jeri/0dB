@@ -45,7 +45,10 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
     let cancelled = false
     const off: (() => void)[] = []
     // Whatever runs, letting go restores the plain line.
-    const finish = () => off.splice(0).forEach((f) => f())
+    const finish = () => {
+      cancelled = true
+      off.splice(0).forEach((f) => f())
+    }
 
     // The real text steps aside (still there for readers) while the letters are measured.
     el.dataset.phase = "wait"
@@ -65,15 +68,23 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
       } catch {
         return finish() // the plain line stays
       }
+      if (cancelled) return
       const graphemes = new Intl.Segmenter(undefined, { granularity: "grapheme" })
 
       let width = 0
       async function lay() {
+        if (cancelled) return
         const style = getComputedStyle(el!)
         const font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
-        await document.fonts.load(font, text)
+        try {
+          await document.fonts.load(font, text)
+        } catch {
+          if (!cancelled) finish() // the plain line stays if the face cannot load
+          return
+        }
+        if (cancelled) return
         const W = el!.clientWidth
-        if (cancelled || !W || (!scrub && !el!.dataset.phase)) return // gone, hidden, or already arrived (a scrub never arrives for good)
+        if (!W || (!scrub && !el!.dataset.phase)) return // hidden or already arrived (a scrub never arrives for good)
         width = W
         const size = parseFloat(style.fontSize)
         const lh = parseFloat(style.lineHeight) || size * 1.2
@@ -146,6 +157,7 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
       // any smooth scroller that moves the page itself.
       let frame = 0
       function scrubbed() {
+        if (cancelled) return
         const top = el!.getBoundingClientRect().top + scrollY, h = innerHeight
         const from = Math.max(0, top - h), to = Math.min(document.documentElement.scrollHeight - h, top - 0.4 * h)
         const p = to <= from ? 1 : Math.min(1, Math.max(0, (scrollY - from) / (to - from)))
@@ -156,6 +168,7 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
       // Asked for from the scroll event, the frame runs after a smooth scroller's own frame has moved the page, so the
       // letters and the page move in the same frame.
       const onScroll = () => {
+        if (cancelled) return
         cancelAnimationFrame(frame)
         frame = requestAnimationFrame(scrubbed)
       }
@@ -191,7 +204,7 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
       layer.addEventListener("transitionend", arrived)
 
       const settle = () => {
-        if (el.dataset.phase !== "dust") return
+        if (cancelled || el.dataset.phase !== "dust") return
         void layer.offsetWidth // the dust has been drawn once, so it can travel
         el.dataset.phase = "gather"
       }
@@ -206,7 +219,6 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
     })()
 
     return () => {
-      cancelled = true
       finish()
     }
   }, [text, variant, by, scrub])

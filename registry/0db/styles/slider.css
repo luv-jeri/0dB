@@ -25,7 +25,7 @@
       linear-gradient(var(--db-ink), var(--db-ink)) 100% 55% / var(--db-hairline) 12px no-repeat;
     transition: translate var(--db-andante) var(--db-spiccato);
   }
-  .db-ruler-value > span { white-space: nowrap; }
+  .db-ruler-value > span { white-space: nowrap; direction: ltr; unicode-bidi: isolate; }
   /* Too short a gap for the figure: the draughtsman's rule. The line stays true between its ticks and the figure
      stands outside, past the far one. */
   .db-ruler-value[data-outside] { gap: 0; }
@@ -60,7 +60,7 @@
   .db-ruler-scale > span { position: absolute; top: 0; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--n)); translate: -50% 0; }
   .db-ruler:has(input:disabled) { opacity: 0.45; }
   .db-ruler:has(input:disabled) input { cursor: not-allowed; }
-  .db-ruler-yours { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-mf)); line-height: 1; color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums; transition: translate var(--db-andante) var(--db-spiccato); }
+  .db-ruler-yours { direction: ltr; unicode-bidi: isolate; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-mf)); line-height: 1; color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums; transition: translate var(--db-andante) var(--db-spiccato); }
 
   /* ── spread ── after "Renaissance.", whose words are spread to the edges: the label's letters are the ruler's marks,
      set out across its whole length. The hand stands through them and inks every letter it has passed, splitting the
@@ -112,6 +112,8 @@
   }
   .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-letters { background-image: linear-gradient(270deg, var(--db-ink) calc(var(--p) * 100%), var(--db-pencil) 0); }
   .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-value { left: auto; right: calc(var(--thumb) / 2); }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-value[data-outside] > span { inset-inline-start: auto; inset-inline-end: calc(100% + 0.28em); }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-corner { text-align: start; }
   .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-scale > span { left: auto; right: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--n)); translate: 50% 0; }
 
   /* Forced colours: the ruler restates its tokens in system colours, so every drawn tick and the hand survive. */

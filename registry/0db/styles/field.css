@@ -2,7 +2,7 @@
   /* ── db-field ── no box, only a baseline; your words arrive in italic */
   .db-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; row-gap: var(--db-space-1); }
   .db-field > .db-label { grid-column: 1; }
-  .db-field-count { grid-column: 2; font-size: var(--db-pp); color: var(--db-pencil); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity var(--db-allegro); }
+  .db-field-count { grid-column: 2; direction: ltr; unicode-bidi: isolate; font-size: var(--db-pp); color: var(--db-pencil); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity var(--db-allegro); }
   .db-field:focus-within .db-field-count, .db-field[data-force~="focus"] .db-field-count { opacity: 1; }
   .db-field > .db-input { grid-column: 1 / -1; }
 

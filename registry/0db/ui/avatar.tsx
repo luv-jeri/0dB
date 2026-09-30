@@ -34,10 +34,15 @@ function useFit(ref: React.RefObject<HTMLSpanElement | null>, text: string, on: 
     let live = true
     const ctx = document.createElement("canvas").getContext("2d")
     const fit = async () => {
+      if (!live || !ctx) return
       const cs = getComputedStyle(el)
       const font = `${cs.fontStyle} ${cs.fontWeight} 100px ${cs.fontFamily}`
-      await document.fonts.load(font, text)
-      if (!live || !ctx) return
+      try {
+        await document.fonts.load(font, text)
+      } catch {
+        return // keep the fallback size if the face cannot load
+      }
+      if (!live) return
       ctx.font = font
       const w = ctx.measureText(text).width
       if (w) el.style.setProperty("--fit", `${(100 * el.clientWidth) / w}px`)
@@ -45,7 +50,7 @@ function useFit(ref: React.RefObject<HTMLSpanElement | null>, text: string, on: 
     fit()
     // ponytail: the box is set in rem, so only the pair (on <html>) changes the fit; add a ResizeObserver if the box ever follows its container.
     const mo = new MutationObserver(fit)
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-pair"] })
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-pair", "data-scheme", "data-mode", "data-key"] })
     return () => { live = false; mo.disconnect() }
   }, [ref, text, on])
 }
