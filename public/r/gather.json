@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/gather.css\"": {}
+    "@import \"../styles/0db/gather.css\"": {}
   },
   "meta": {
     "movement": "II",

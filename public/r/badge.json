@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/badge.css\"": {}
+    "@import \"../styles/0db/badge.css\"": {}
   },
   "meta": {
     "movement": "VIII",

@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/thread.css\"": {}
+    "@import \"../styles/0db/thread.css\"": {}
   },
   "meta": {
     "movement": "XI",

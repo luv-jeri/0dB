@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/combobox.css\"": {}
+    "@import \"../styles/0db/combobox.css\"": {}
   },
   "meta": {
     "movement": "VI",

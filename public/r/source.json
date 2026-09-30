@@ -24,7 +24,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/source.css\"": {}
+    "@import \"../styles/0db/source.css\"": {}
   },
   "meta": {
     "movement": "X",

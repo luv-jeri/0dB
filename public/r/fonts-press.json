@@ -15,7 +15,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/fonts-press.css\"": {}
+    "@import \"../styles/0db/fonts-press.css\"": {}
   },
   "type": "registry:item"
 }

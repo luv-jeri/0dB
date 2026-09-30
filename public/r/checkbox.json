@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/checkbox.css\"": {}
+    "@import \"../styles/0db/checkbox.css\"": {}
   },
   "meta": {
     "movement": "VI",

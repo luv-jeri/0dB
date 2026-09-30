@@ -24,7 +24,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/toggle-group.css\"": {}
+    "@import \"../styles/0db/toggle-group.css\"": {}
   },
   "meta": {
     "movement": "VI",

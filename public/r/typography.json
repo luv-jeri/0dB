@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/typography.css\"": {}
+    "@import \"../styles/0db/typography.css\"": {}
   },
   "meta": {
     "movement": "X",

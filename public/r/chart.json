@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/chart.css\"": {}
+    "@import \"../styles/0db/chart.css\"": {}
   },
   "meta": {
     "movement": "X",

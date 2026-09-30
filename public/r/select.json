@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/select.css\"": {}
+    "@import \"../styles/0db/select.css\"": {}
   },
   "meta": {
     "movement": "VI",

@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/slider.css\"": {}
+    "@import \"../styles/0db/slider.css\"": {}
   },
   "meta": {
     "movement": "VI",

@@ -15,7 +15,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/fonts-salon.css\"": {}
+    "@import \"../styles/0db/fonts-salon.css\"": {}
   },
   "type": "registry:item"
 }

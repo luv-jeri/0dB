@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/toast.css\"": {}
+    "@import \"../styles/0db/toast.css\"": {}
   },
   "meta": {
     "movement": "VII",

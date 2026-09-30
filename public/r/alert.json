@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/alert.css\"": {}
+    "@import \"../styles/0db/alert.css\"": {}
   },
   "meta": {
     "movement": "VII",

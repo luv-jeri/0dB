@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/melody.css\"": {}
+    "@import \"../styles/0db/melody.css\"": {}
   },
   "meta": {
     "movement": "II",

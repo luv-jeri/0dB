@@ -44,7 +44,7 @@ test("every component item installs its sidecar through a css @import", () => {
     const sidecar = item.files.find((f) => f.path.endsWith(".css"))
     if (!sidecar) continue
     assert.equal(sidecar.target, `styles/0db/${item.name}.css`, item.name)
-    assert.ok(item.css?.[`@import "@/styles/0db/${item.name}.css"`], `${item.name} css import`)
+    assert.ok(item.css?.[`@import "../styles/0db/${item.name}.css"`], `${item.name} css import`)
     assert.ok(item.registryDependencies[0].endsWith("/r/0db.json"), `${item.name} depends on the base`)
   }
 })
@@ -54,7 +54,7 @@ test("base item exposes theme variables for Tailwind", () => {
   assert.equal(base.type, "registry:base")
   assert.equal(base.cssVars.theme["color-paper"], "var(--db-paper)")
   assert.equal(base.css[":root, :root[data-mode]"]["--background"], "var(--db-paper)")
-  assert.ok(base.css[`@import "@/styles/0db/base.css"`])
+  assert.ok(base.css[`@import "../styles/0db/base.css"`])
 })
 
 test("registry:check detects a stale payload", () => {

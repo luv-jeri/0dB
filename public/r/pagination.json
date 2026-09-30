@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/pagination.css\"": {}
+    "@import \"../styles/0db/pagination.css\"": {}
   },
   "meta": {
     "movement": "VIII",

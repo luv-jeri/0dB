@@ -66,9 +66,9 @@
         }
       },
       "css": {
-        "@import \"@/styles/0db/tokens.css\"": {},
-        "@import \"@/styles/0db/fonts.css\"": {},
-        "@import \"@/styles/0db/base.css\"": {},
+        "@import \"../styles/0db/tokens.css\"": {},
+        "@import \"../styles/0db/fonts.css\"": {},
+        "@import \"../styles/0db/base.css\"": {},
         "@custom-variant dark (&:where([data-mode=\"nocturne\"], [data-mode=\"nocturne\"] *))": {},
         ":root, :root[data-mode]": {
           "--background": "var(--db-paper)",
@@ -107,7 +107,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/fonts-press.css\"": {}
+        "@import \"../styles/0db/fonts-press.css\"": {}
       }
     },
     {
@@ -126,7 +126,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/fonts-paris.css\"": {}
+        "@import \"../styles/0db/fonts-paris.css\"": {}
       }
     },
     {
@@ -145,7 +145,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/fonts-salon.css\"": {}
+        "@import \"../styles/0db/fonts-salon.css\"": {}
       }
     },
     {
@@ -258,7 +258,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/button.css\"": {}
+        "@import \"../styles/0db/button.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -286,7 +286,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/spinner.css\"": {}
+        "@import \"../styles/0db/spinner.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -314,7 +314,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/checkbox.css\"": {}
+        "@import \"../styles/0db/checkbox.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -362,7 +362,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/radio-group.css\"": {}
+        "@import \"../styles/0db/radio-group.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -390,7 +390,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/dial.css\"": {}
+        "@import \"../styles/0db/dial.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -418,7 +418,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/picks.css\"": {}
+        "@import \"../styles/0db/picks.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -446,7 +446,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/switch.css\"": {}
+        "@import \"../styles/0db/switch.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -474,7 +474,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/slider.css\"": {}
+        "@import \"../styles/0db/slider.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -502,7 +502,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/field.css\"": {}
+        "@import \"../styles/0db/field.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -530,7 +530,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/select.css\"": {}
+        "@import \"../styles/0db/select.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -561,7 +561,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/tabs.css\"": {}
+        "@import \"../styles/0db/tabs.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -592,7 +592,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/pagination.css\"": {}
+        "@import \"../styles/0db/pagination.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -623,7 +623,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/breadcrumb.css\"": {}
+        "@import \"../styles/0db/breadcrumb.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -651,7 +651,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/accordion.css\"": {}
+        "@import \"../styles/0db/accordion.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -682,7 +682,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/rows.css\"": {}
+        "@import \"../styles/0db/rows.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -710,7 +710,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/calendar.css\"": {}
+        "@import \"../styles/0db/calendar.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -738,7 +738,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/badge.css\"": {}
+        "@import \"../styles/0db/badge.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -766,7 +766,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/note.css\"": {}
+        "@import \"../styles/0db/note.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -794,7 +794,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/progress.css\"": {}
+        "@import \"../styles/0db/progress.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -823,7 +823,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/toast.css\"": {}
+        "@import \"../styles/0db/toast.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -855,7 +855,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/dialog.css\"": {}
+        "@import \"../styles/0db/dialog.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -884,7 +884,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/empty.css\"": {}
+        "@import \"../styles/0db/empty.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -915,7 +915,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/toggle.css\"": {}
+        "@import \"../styles/0db/toggle.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -947,7 +947,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/toggle-group.css\"": {}
+        "@import \"../styles/0db/toggle-group.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -976,7 +976,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/button-group.css\"": {}
+        "@import \"../styles/0db/button-group.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -1006,7 +1006,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/input-group.css\"": {}
+        "@import \"../styles/0db/input-group.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -1035,7 +1035,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/input-otp.css\"": {}
+        "@import \"../styles/0db/input-otp.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -1066,7 +1066,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/combobox.css\"": {}
+        "@import \"../styles/0db/combobox.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -1097,7 +1097,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/popover.css\"": {}
+        "@import \"../styles/0db/popover.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1130,7 +1130,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/context-menu.css\"": {}
+        "@import \"../styles/0db/context-menu.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1163,7 +1163,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/dropdown-menu.css\"": {}
+        "@import \"../styles/0db/dropdown-menu.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1196,7 +1196,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/menubar.css\"": {}
+        "@import \"../styles/0db/menubar.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1227,7 +1227,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/navigation-menu.css\"": {}
+        "@import \"../styles/0db/navigation-menu.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -1260,7 +1260,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/command.css\"": {}
+        "@import \"../styles/0db/command.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -1294,7 +1294,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/sidebar.css\"": {}
+        "@import \"../styles/0db/sidebar.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -1326,7 +1326,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/card.css\"": {}
+        "@import \"../styles/0db/card.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1357,7 +1357,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/hover-card.css\"": {}
+        "@import \"../styles/0db/hover-card.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1388,7 +1388,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/tooltip.css\"": {}
+        "@import \"../styles/0db/tooltip.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1417,7 +1417,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/sheet.css\"": {}
+        "@import \"../styles/0db/sheet.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1446,7 +1446,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/drawer.css\"": {}
+        "@import \"../styles/0db/drawer.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1475,7 +1475,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/collapsible.css\"": {}
+        "@import \"../styles/0db/collapsible.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1503,7 +1503,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/resizable.css\"": {}
+        "@import \"../styles/0db/resizable.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1532,7 +1532,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/scroll-area.css\"": {}
+        "@import \"../styles/0db/scroll-area.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1560,7 +1560,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/scrollbar.css\"": {}
+        "@import \"../styles/0db/scrollbar.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1588,7 +1588,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/aspect-ratio.css\"": {}
+        "@import \"../styles/0db/aspect-ratio.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1616,7 +1616,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/carousel.css\"": {}
+        "@import \"../styles/0db/carousel.css\"": {}
       },
       "meta": {
         "movement": "IX",
@@ -1644,7 +1644,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/table.css\"": {}
+        "@import \"../styles/0db/table.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -1672,7 +1672,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/chart.css\"": {}
+        "@import \"../styles/0db/chart.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -1700,7 +1700,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/avatar.css\"": {}
+        "@import \"../styles/0db/avatar.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -1728,7 +1728,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/item.css\"": {}
+        "@import \"../styles/0db/item.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -1759,7 +1759,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/typography.css\"": {}
+        "@import \"../styles/0db/typography.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -1789,7 +1789,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/message.css\"": {}
+        "@import \"../styles/0db/message.css\"": {}
       },
       "meta": {
         "movement": "XI",
@@ -1817,7 +1817,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/marker.css\"": {}
+        "@import \"../styles/0db/marker.css\"": {}
       },
       "meta": {
         "movement": "XI",
@@ -1846,7 +1846,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/attachment.css\"": {}
+        "@import \"../styles/0db/attachment.css\"": {}
       },
       "meta": {
         "movement": "XI",
@@ -1877,7 +1877,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/thread.css\"": {}
+        "@import \"../styles/0db/thread.css\"": {}
       },
       "meta": {
         "movement": "XI",
@@ -1909,7 +1909,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/questionnaire.css\"": {}
+        "@import \"../styles/0db/questionnaire.css\"": {}
       },
       "meta": {
         "movement": "XI",
@@ -1938,7 +1938,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/alert.css\"": {}
+        "@import \"../styles/0db/alert.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -1966,7 +1966,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/skeleton.css\"": {}
+        "@import \"../styles/0db/skeleton.css\"": {}
       },
       "meta": {
         "movement": "VII",
@@ -1997,7 +1997,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/date-picker.css\"": {}
+        "@import \"../styles/0db/date-picker.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -2028,7 +2028,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/calligram.css\"": {}
+        "@import \"../styles/0db/calligram.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2058,7 +2058,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/command-line.css\"": {}
+        "@import \"../styles/0db/command-line.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -2089,7 +2089,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/contour.css\"": {}
+        "@import \"../styles/0db/contour.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2119,7 +2119,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/form.css\"": {}
+        "@import \"../styles/0db/form.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -2150,7 +2150,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/gather.css\"": {}
+        "@import \"../styles/0db/gather.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2181,7 +2181,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/measure.css\"": {}
+        "@import \"../styles/0db/measure.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2212,7 +2212,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/melody.css\"": {}
+        "@import \"../styles/0db/melody.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2240,7 +2240,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/mode-toggle.css\"": {}
+        "@import \"../styles/0db/mode-toggle.css\"": {}
       },
       "meta": {
         "movement": "VI",
@@ -2271,7 +2271,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/reverb.css\"": {}
+        "@import \"../styles/0db/reverb.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2303,7 +2303,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/source.css\"": {}
+        "@import \"../styles/0db/source.css\"": {}
       },
       "meta": {
         "movement": "X",
@@ -2331,7 +2331,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/steps.css\"": {}
+        "@import \"../styles/0db/steps.css\"": {}
       },
       "meta": {
         "movement": "VIII",
@@ -2362,7 +2362,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/wake.css\"": {}
+        "@import \"../styles/0db/wake.css\"": {}
       },
       "meta": {
         "movement": "II",
@@ -2393,7 +2393,7 @@
         }
       ],
       "css": {
-        "@import \"@/styles/0db/waterfall.css\"": {}
+        "@import \"../styles/0db/waterfall.css\"": {}
       },
       "meta": {
         "movement": "II",

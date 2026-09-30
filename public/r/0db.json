@@ -62,9 +62,9 @@
     }
   },
   "css": {
-    "@import \"@/styles/0db/tokens.css\"": {},
-    "@import \"@/styles/0db/fonts.css\"": {},
-    "@import \"@/styles/0db/base.css\"": {},
+    "@import \"../styles/0db/tokens.css\"": {},
+    "@import \"../styles/0db/fonts.css\"": {},
+    "@import \"../styles/0db/base.css\"": {},
     "@custom-variant dark (&:where([data-mode=\"nocturne\"], [data-mode=\"nocturne\"] *))": {},
     ":root, :root[data-mode]": {
       "--background": "var(--db-paper)",

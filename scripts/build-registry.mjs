@@ -11,7 +11,8 @@ const check = process.argv.includes("--check")
 const baseURL = (process.env.DB_REGISTRY_URL ?? "https://0db.cojeev.com").replace(/\/$/, "")
 const url = (name) => `${baseURL}/r/${name}.json`
 const style = (name) => ({ path: `${SOURCE}/styles/${name}.css`, type: "registry:file", target: `styles/0db/${name}.css` })
-const imports = (...names) => Object.fromEntries(names.map((n) => [`@import "@/styles/0db/${n}.css"`, {}]))
+// Relative to app/globals.css: Tailwind inlines @import with its own resolver, which knows no tsconfig alias.
+const imports = (...names) => Object.fromEntries(names.map((n) => [`@import "../styles/0db/${n}.css"`, {}]))
 
 // Tailwind theme and shadcn aliases come from theme.css, so the docs and installs agree.
 const theme = readFileSync(`${SOURCE}/styles/theme.css`, "utf8")

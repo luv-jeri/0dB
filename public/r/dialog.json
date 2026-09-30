@@ -24,7 +24,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/dialog.css\"": {}
+    "@import \"../styles/0db/dialog.css\"": {}
   },
   "meta": {
     "movement": "VII",

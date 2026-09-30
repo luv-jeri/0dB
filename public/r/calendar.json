@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/calendar.css\"": {}
+    "@import \"../styles/0db/calendar.css\"": {}
   },
   "meta": {
     "movement": "VIII",

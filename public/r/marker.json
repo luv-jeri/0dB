@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/marker.css\"": {}
+    "@import \"../styles/0db/marker.css\"": {}
   },
   "meta": {
     "movement": "XI",

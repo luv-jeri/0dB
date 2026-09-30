@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/note.css\"": {}
+    "@import \"../styles/0db/note.css\"": {}
   },
   "meta": {
     "movement": "VIII",

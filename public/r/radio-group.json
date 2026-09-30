@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/radio-group.css\"": {}
+    "@import \"../styles/0db/radio-group.css\"": {}
   },
   "meta": {
     "movement": "VI",

@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/date-picker.css\"": {}
+    "@import \"../styles/0db/date-picker.css\"": {}
   },
   "meta": {
     "movement": "VI",

@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/progress.css\"": {}
+    "@import \"../styles/0db/progress.css\"": {}
   },
   "meta": {
     "movement": "VII",

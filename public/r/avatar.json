@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/avatar.css\"": {}
+    "@import \"../styles/0db/avatar.css\"": {}
   },
   "meta": {
     "movement": "X",

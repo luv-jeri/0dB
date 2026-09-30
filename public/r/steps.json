@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/steps.css\"": {}
+    "@import \"../styles/0db/steps.css\"": {}
   },
   "meta": {
     "movement": "VIII",

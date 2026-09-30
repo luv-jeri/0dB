@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/input-otp.css\"": {}
+    "@import \"../styles/0db/input-otp.css\"": {}
   },
   "meta": {
     "movement": "VI",

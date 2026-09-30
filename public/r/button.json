@@ -24,7 +24,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/button.css\"": {}
+    "@import \"../styles/0db/button.css\"": {}
   },
   "meta": {
     "movement": "VI",

@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/switch.css\"": {}
+    "@import \"../styles/0db/switch.css\"": {}
   },
   "meta": {
     "movement": "VI",

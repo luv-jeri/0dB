@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/attachment.css\"": {}
+    "@import \"../styles/0db/attachment.css\"": {}
   },
   "meta": {
     "movement": "XI",

@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/calligram.css\"": {}
+    "@import \"../styles/0db/calligram.css\"": {}
   },
   "meta": {
     "movement": "II",

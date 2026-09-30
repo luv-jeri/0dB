@@ -22,7 +22,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/input-group.css\"": {}
+    "@import \"../styles/0db/input-group.css\"": {}
   },
   "meta": {
     "movement": "VI",

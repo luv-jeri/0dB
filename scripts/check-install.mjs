@@ -6,7 +6,7 @@
 // Slow and uses the network (npm install), so it runs apart from `npm run check`.
 import { createServer } from "node:http"
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, existsSync, statSync, cpSync } from "node:fs"
-import { execFileSync } from "node:child_process"
+import { spawn } from "node:child_process"
 import path from "node:path"
 import { chromium } from "playwright"
 import { rewriteImports } from "./lib/items.mjs"
@@ -16,7 +16,13 @@ const app = path.resolve(".tmp/install-app")
 const pkg = JSON.parse(readFileSync("package.json", "utf8"))
 const v = (name) => pkg.dependencies[name] ?? pkg.devDependencies[name]
 const put = (file, text) => { mkdirSync(path.dirname(path.join(app, file)), { recursive: true }); writeFileSync(path.join(app, file), typeof text === "string" ? text : JSON.stringify(text, null, 2) + "\n") }
-const run = (cmd, args, cwd = app) => execFileSync(cmd, args, { cwd, stdio: "inherit", env: { ...process.env, NEXT_TELEMETRY_DISABLED: "1" } })
+// Async on purpose: the registry is served from this process, so a sync child would block the server it asks.
+const run = (cmd, args, cwd = app) =>
+  new Promise((resolve, reject) => {
+    spawn(cmd, args, { cwd, stdio: "inherit", env: { ...process.env, NEXT_TELEMETRY_DISABLED: "1" } })
+      .on("error", reject)
+      .on("exit", (code) => (code === 0 ? resolve() : reject(new Error(`${cmd} exited ${code}`))))
+  })
 const failures = []
 
 // The registry, served from public/ with the production base URL swapped for this server's.
@@ -57,12 +63,12 @@ put("components.json", {
 put("app/globals.css", '@import "tailwindcss";\n\n:root {\n  --background: oklch(1 0 0);\n  --foreground: oklch(0.145 0 0);\n}\n\n@layer base {\n  body { background: var(--background); color: var(--foreground); }\n}\n')
 put("app/layout.tsx", 'import "./globals.css"\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return <html lang="en"><body>{children}</body></html>\n}\n')
 
-run("npm", ["install", "--no-audit", "--no-fund", "--loglevel=error"])
+await run("npm", ["install", "--no-audit", "--no-fund", "--loglevel=error"])
 
 // every item installs
 const items = JSON.parse(readFileSync("registry.json", "utf8")).items.map((i) => i.name)
 try {
-  run(process.execPath, [path.join(here, "node_modules/shadcn/dist/index.js"), "add", "--yes", "--overwrite", ...items.map((n) => `${base}/r/${n}.json`)])
+  await run(process.execPath, [path.join(here, "node_modules/shadcn/dist/index.js"), "add", "--yes", "--overwrite", ...items.map((n) => `${base}/r/${n}.json`)])
 } catch { failures.push("every item installs: shadcn add failed (output above)") }
 for (const n of items.filter((n) => existsSync(`registry/0db/ui/${n}.tsx`)))
   if (!existsSync(path.join(app, `components/ui/${n}.tsx`))) failures.push(`every item installs: components/ui/${n}.tsx is missing`)
@@ -78,7 +84,7 @@ put("app/page.tsx",
   "\n\nconst all = [" + examples.map((n) => `["${n}", ${id(n)}]`).join(", ") + "] as const\n\n" +
   "export default function Page() {\n  return (\n    <main>\n      {all.map(([name, m]) => {\n        const States = \"States\" in m ? m.States : null\n" +
   "        return <section key={name} data-example={name}><m.default />{States ? <States /> : null}</section>\n      })}\n    </main>\n  )\n}\n")
-try { run("npm", ["run", "build"]) } catch { failures.push("server page renders every example: next build failed (output above)") }
+try { await run("npm", ["run", "build"]) } catch { failures.push("server page renders every example: next build failed (output above)") }
 
 if (existsSync(path.join(app, "out/index.html"))) {
   const out = path.join(app, "out")

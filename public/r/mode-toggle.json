@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/mode-toggle.css\"": {}
+    "@import \"../styles/0db/mode-toggle.css\"": {}
   },
   "meta": {
     "movement": "VI",

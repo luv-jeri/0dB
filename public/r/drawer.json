@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/drawer.css\"": {}
+    "@import \"../styles/0db/drawer.css\"": {}
   },
   "meta": {
     "movement": "IX",

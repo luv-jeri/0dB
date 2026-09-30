@@ -25,7 +25,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/dropdown-menu.css\"": {}
+    "@import \"../styles/0db/dropdown-menu.css\"": {}
   },
   "meta": {
     "movement": "IX",

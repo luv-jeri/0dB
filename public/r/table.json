@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/table.css\"": {}
+    "@import \"../styles/0db/table.css\"": {}
   },
   "meta": {
     "movement": "X",

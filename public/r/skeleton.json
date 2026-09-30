@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/skeleton.css\"": {}
+    "@import \"../styles/0db/skeleton.css\"": {}
   },
   "meta": {
     "movement": "VII",

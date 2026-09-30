@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/wake.css\"": {}
+    "@import \"../styles/0db/wake.css\"": {}
   },
   "meta": {
     "movement": "II",

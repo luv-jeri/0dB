@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/scrollbar.css\"": {}
+    "@import \"../styles/0db/scrollbar.css\"": {}
   },
   "meta": {
     "movement": "IX",

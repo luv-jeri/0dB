@@ -22,7 +22,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/form.css\"": {}
+    "@import \"../styles/0db/form.css\"": {}
   },
   "meta": {
     "movement": "VI",

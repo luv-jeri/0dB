@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/resizable.css\"": {}
+    "@import \"../styles/0db/resizable.css\"": {}
   },
   "meta": {
     "movement": "IX",

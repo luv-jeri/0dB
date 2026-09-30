@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/tabs.css\"": {}
+    "@import \"../styles/0db/tabs.css\"": {}
   },
   "meta": {
     "movement": "VIII",

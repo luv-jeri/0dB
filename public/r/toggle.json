@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/toggle.css\"": {}
+    "@import \"../styles/0db/toggle.css\"": {}
   },
   "meta": {
     "movement": "VI",

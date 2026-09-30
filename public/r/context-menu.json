@@ -25,7 +25,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/context-menu.css\"": {}
+    "@import \"../styles/0db/context-menu.css\"": {}
   },
   "meta": {
     "movement": "IX",

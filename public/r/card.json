@@ -24,7 +24,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/card.css\"": {}
+    "@import \"../styles/0db/card.css\"": {}
   },
   "meta": {
     "movement": "IX",

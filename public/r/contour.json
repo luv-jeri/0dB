@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/contour.css\"": {}
+    "@import \"../styles/0db/contour.css\"": {}
   },
   "meta": {
     "movement": "II",

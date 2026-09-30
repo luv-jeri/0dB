@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/dial.css\"": {}
+    "@import \"../styles/0db/dial.css\"": {}
   },
   "meta": {
     "movement": "VI",

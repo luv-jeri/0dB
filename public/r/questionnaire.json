@@ -24,7 +24,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/questionnaire.css\"": {}
+    "@import \"../styles/0db/questionnaire.css\"": {}
   },
   "meta": {
     "movement": "XI",

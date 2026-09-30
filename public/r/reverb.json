@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/reverb.css\"": {}
+    "@import \"../styles/0db/reverb.css\"": {}
   },
   "meta": {
     "movement": "II",

@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/scroll-area.css\"": {}
+    "@import \"../styles/0db/scroll-area.css\"": {}
   },
   "meta": {
     "movement": "IX",

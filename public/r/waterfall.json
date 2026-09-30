@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/waterfall.css\"": {}
+    "@import \"../styles/0db/waterfall.css\"": {}
   },
   "meta": {
     "movement": "II",

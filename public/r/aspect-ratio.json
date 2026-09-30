@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/aspect-ratio.css\"": {}
+    "@import \"../styles/0db/aspect-ratio.css\"": {}
   },
   "meta": {
     "movement": "IX",

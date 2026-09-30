@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/carousel.css\"": {}
+    "@import \"../styles/0db/carousel.css\"": {}
   },
   "meta": {
     "movement": "IX",

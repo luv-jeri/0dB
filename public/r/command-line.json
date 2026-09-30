@@ -22,7 +22,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/command-line.css\"": {}
+    "@import \"../styles/0db/command-line.css\"": {}
   },
   "meta": {
     "movement": "X",

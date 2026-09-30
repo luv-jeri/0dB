@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/tooltip.css\"": {}
+    "@import \"../styles/0db/tooltip.css\"": {}
   },
   "meta": {
     "movement": "IX",

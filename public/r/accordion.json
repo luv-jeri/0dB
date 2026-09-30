@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/accordion.css\"": {}
+    "@import \"../styles/0db/accordion.css\"": {}
   },
   "meta": {
     "movement": "VIII",

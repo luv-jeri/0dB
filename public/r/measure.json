@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/measure.css\"": {}
+    "@import \"../styles/0db/measure.css\"": {}
   },
   "meta": {
     "movement": "II",

@@ -20,7 +20,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/spinner.css\"": {}
+    "@import \"../styles/0db/spinner.css\"": {}
   },
   "meta": {
     "movement": "VII",

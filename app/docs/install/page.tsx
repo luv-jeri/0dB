@@ -47,7 +47,10 @@ export default function Install() {
           </Step>
           <Step>
             <StepTitle>Add an item</StepTitle>
-            <p>Each item brings the base and the siblings it needs. Its stylesheet is imported into your global CSS for you.</p>
+            <p>
+              Each item brings the base and the siblings it needs. Its stylesheet is imported into your global CSS for you, by a path relative to app/globals.css. If yours is in
+              src/app/, start each 0dB import with <code>../../</code> instead.
+            </p>
             <CommandLine runner command={`shadcn@latest add ${BASE}/button.json ${BASE}/checkbox.json`} />
           </Step>
           <Step>

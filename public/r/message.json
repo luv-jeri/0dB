@@ -22,7 +22,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/message.css\"": {}
+    "@import \"../styles/0db/message.css\"": {}
   },
   "meta": {
     "movement": "XI",

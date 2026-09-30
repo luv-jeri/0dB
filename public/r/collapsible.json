@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/collapsible.css\"": {}
+    "@import \"../styles/0db/collapsible.css\"": {}
   },
   "meta": {
     "movement": "IX",

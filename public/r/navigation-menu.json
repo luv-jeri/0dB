@@ -23,7 +23,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/navigation-menu.css\"": {}
+    "@import \"../styles/0db/navigation-menu.css\"": {}
   },
   "meta": {
     "movement": "VIII",

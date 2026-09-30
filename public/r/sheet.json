@@ -21,7 +21,7 @@
     }
   ],
   "css": {
-    "@import \"@/styles/0db/sheet.css\"": {}
+    "@import \"../styles/0db/sheet.css\"": {}
   },
   "meta": {
     "movement": "IX",
