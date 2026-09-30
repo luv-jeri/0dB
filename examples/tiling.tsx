@@ -1,12 +1,28 @@
-import { Tile, Tiling } from "@/registry/0db/ui/tiling"
+"use client"
+
+import * as React from "react"
+
+import { Tile, Tiling, TilingEditor, type TilingLayout } from "@/registry/0db/ui/tiling"
 import { State } from "@/components/site/state"
 
 const word = "db-fff font-medium text-(--db-ink)"
 const note = "db-pp max-w-[18ch] text-(--db-graphite)"
+const arrangement: TilingLayout = [
+  { id: "less", label: "Less", column: 1, row: 1, span: 7, rows: 2 },
+  { id: "space", label: "Space", column: 9, row: 1, span: 4, rows: 3 },
+  { id: "but", label: "but", column: 1, row: 3, span: 4, rows: 1 },
+  { id: "better", label: "better.", column: 1, row: 4, span: 7, rows: 1 },
+]
+const small: TilingLayout = [
+  { id: "space", label: "Space", column: 1, row: 1, span: 4, rows: 1 },
+  { id: "type", label: "Type", column: 7, row: 2, span: 5, rows: 1 },
+]
 
 export default function Example() {
+  const [layout, setLayout] = React.useState(arrangement)
   return (
     <div className="grid w-full gap-(--db-space-9)">
+      <TilingEditor label="Make room for your own arrangement" value={layout} onValueChange={setLayout} copyLayout />
       {/* One sheet after "Less is more.": the headline set a word to a tile, the notes kept to the corners, a large number at the foot. */}
       <Tiling aria-label="Less but better">
         <Tile span={8}>
@@ -80,6 +96,21 @@ export function States() {
       </State>
       <State label="Right to left">
         <Tiling dir="rtl" className="w-[26rem] max-w-full">{cells(5)}</Tiling>
+      </State>
+      <State label="Editing, rules">
+        <div className="w-[48rem] max-w-full"><TilingEditor label="A sheet to arrange" defaultValue={small} /></div>
+      </State>
+      <State label="Holding, crosses">
+        <div className="w-[48rem] max-w-full"><TilingEditor label="Space, picked up" variant="crosses" defaultValue={small} defaultHeld="space" /></div>
+      </State>
+      <State label="Editing, right to left">
+        <div className="w-[48rem] max-w-full"><TilingEditor dir="rtl" label="مساحة للكلمات" defaultValue={[
+          { id: "space", label: "مساحة", column: 1, row: 1, span: 4, rows: 1 },
+          { id: "type", label: "كلمات", column: 7, row: 2, span: 5, rows: 1 },
+        ]} /></div>
+      </State>
+      <State label="Empty, ready for a tile">
+        <div className="w-[48rem] max-w-full"><TilingEditor label="Your first arrangement" defaultValue={[]} copyLayout /></div>
       </State>
     </>
   )

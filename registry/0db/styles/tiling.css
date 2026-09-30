@@ -45,4 +45,61 @@
 
   /* Forced colours would drop the lines and crosses, which are background images: keep them, in CanvasText. */
   @media (forced-colors: active) { .db-tiling { --line: CanvasText; } .db-tiling[data-variant="crosses"] .db-tile::before { --c: CanvasText; } .db-tile::before { forced-color-adjust: none; } }
+
+  /* Editing is a drafting sheet, not a second treatment of the tiles. The static rules above stay untouched.
+     Fixed tracks keep pointer geometry independent of the content. Narrow screens scroll the same twelve columns. */
+  .db-tiling-editor { --gap: var(--db-space-4); --db-tiling-row: var(--db-space-9); inline-size: 100%; }
+  .db-tiling-toolbar, .db-tiling-actions { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--db-space-2) var(--db-space-5); }
+  .db-tiling-toolbar { justify-content: space-between; }
+  .db-tiling-caption { font-size: var(--db-p); color: var(--db-ink); }
+  .db-tiling-editor button {
+    appearance: none; border: 0; background: none; color: var(--db-graphite); padding: var(--db-space-3) 0;
+    font: inherit; font-size: var(--db-pp); line-height: var(--db-pp-lh); min-block-size: var(--db-space-6); cursor: pointer;
+  }
+  .db-tiling-editor button:hover { color: var(--db-ink); text-decoration: underline; text-underline-offset: var(--db-space-1); }
+  .db-tiling-editor button:disabled { color: var(--db-pencil); cursor: default; text-decoration: none; }
+  .db-tiling-hint, .db-tiling-status { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
+  .db-tiling-hint { max-inline-size: var(--db-measure); margin-block: var(--db-space-2) var(--db-space-5); direction: ltr; unicode-bidi: isolate; }
+  .db-tiling-status { min-block-size: 3em; margin-block-start: var(--db-space-4); direction: ltr; unicode-bidi: isolate; }
+  .db-tiling-viewport { overflow: auto; overscroll-behavior-inline: contain; padding: var(--db-space-4); margin-inline: calc(-1 * var(--db-space-4)); }
+  .db-tiling-viewport:focus-visible { outline-color: var(--db-pencil); outline-offset: 0; }
+  .db-tiling-canvas { min-inline-size: 48rem; }
+  .db-tiling-columns { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); margin-block-end: var(--db-space-4); color: var(--db-pencil); font-size: var(--db-pp); font-variant-numeric: tabular-nums; }
+  .db-tiling-columns bdi { direction: ltr; unicode-bidi: isolate; }
+  .db-tiling-editor .db-tiling-sheet {
+    position: relative; isolation: isolate; grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: repeat(var(--db-tiling-rows, 2), var(--db-tiling-row)); grid-auto-rows: var(--db-tiling-row);
+    clip-path: inset(calc(-1 * var(--over)));
+  }
+  .db-tiling-editor[data-variant="crosses"] .db-tiling-sheet { clip-path: none; }
+  .db-tiling-editor .db-tiling-sheet::before {
+    content: ""; position: absolute; inset: calc(var(--gap) / -2); z-index: -1; pointer-events: none;
+    background-image: linear-gradient(to right, var(--db-rule) var(--db-hairline), transparent var(--db-hairline)), linear-gradient(to bottom, var(--db-rule) var(--db-hairline), transparent var(--db-hairline));
+    background-size: calc(100% / 12) calc(var(--db-tiling-row) + var(--gap));
+  }
+  .db-tiling-editor[data-variant="crosses"] .db-tiling-sheet::before {
+    background-image: radial-gradient(circle at var(--db-hairline) var(--db-hairline), var(--db-rule-strong) 0 var(--db-hairline), transparent calc(var(--db-hairline) + 0.5px));
+  }
+  .db-tiling-editor .db-tile { container-type: inline-size; min-block-size: 0; padding-block: var(--db-space-6); }
+  .db-tiling-editor .db-tile[data-held] { --db-corner: var(--db-space-3); --db-corner-inset: calc(-1 * var(--db-space-1)); --db-corner-colour: var(--db-accent); z-index: 1; }
+  .db-tiling-editor .db-tile button { position: absolute; user-select: none; -webkit-user-select: none; touch-action: none; min-inline-size: var(--db-space-6); text-align: start; }
+  .db-tiling-editor .db-tiling-move { inset-block-start: 0; inset-inline-start: 0; cursor: grab; }
+  .db-tiling-editor .db-tiling-size { inset-block-end: 0; inset-inline-end: 0; text-align: end; cursor: nwse-resize; }
+  .db-tiling-editor .db-tiling-size:is([dir="rtl"], [dir="rtl"] *) { cursor: nesw-resize; }
+  .db-tiling-editor .db-tile[data-held] button:focus-visible { outline: none; text-decoration: underline; text-underline-offset: var(--db-space-1); }
+  .db-tiling-content { inline-size: 100%; min-block-size: 0; overflow: auto; margin-block: auto; }
+  .db-tiling-name {
+    --db-tiling-type-room: calc((var(--db-tiling-row) * var(--rows) + var(--gap) * (var(--rows) - 1) - var(--db-space-6) * 2) / var(--db-mf-lh));
+    display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font: italic 400 min(calc(clamp(var(--db-mp), 16cqi, var(--db-ff)) * var(--db-expression-scale)), var(--db-tiling-type-room)) / var(--db-mf-lh) var(--db-expression); color: var(--db-ink);
+  }
+  .db-tiling-empty { grid-column: 1 / 6; grid-row: 1 / 3; align-self: center; font-size: var(--db-mf); line-height: var(--db-mf-lh); color: var(--db-ink); }
+  .db-tiling-empty span { font-size: var(--db-p); color: var(--db-pencil); }
+  .db-tiling-output { font-size: var(--db-pp); color: var(--db-graphite); }
+  .db-tiling-output summary { cursor: pointer; padding-block: var(--db-space-3); }
+  .db-tiling-output textarea { display: block; inline-size: 100%; block-size: var(--db-space-10); margin-block-start: var(--db-space-3); padding: var(--db-space-3); border: 0; border-block: var(--db-hairline) solid var(--db-rule); background: none; color: var(--db-ink); font: inherit; resize: vertical; direction: ltr; unicode-bidi: isolate; }
+  @media (forced-colors: active) {
+    .db-tiling-editor .db-tiling-sheet::before { forced-color-adjust: none; --db-rule: GrayText; --db-rule-strong: GrayText; }
+    .db-tiling-editor .db-tile[data-held]::after { --c: Highlight; }
+  }
 }
