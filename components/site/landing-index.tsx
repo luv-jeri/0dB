@@ -4,6 +4,7 @@ import * as React from "react"
 import NextLink from "next/link"
 
 import { Share } from "@/components/site/landing"
+import { useDemoClock, useDemoPlayer } from "@/components/site/demo-player"
 
 // The whole library at a glance: every name set as one wall of type, by movement, as a concert programme
 // runs its pieces on. Beside it, a stage plays the piece you're at, live. Pointing at or focusing a name
@@ -105,19 +106,6 @@ const COLUMNS: Record<string, number> = {
   "sheet": 2, "source": 2, "spinner": 3, "table": 2, "tabs": 2, "thread": 2, "tiling": 2, "toggle": 2, "tree": 2, "typography": 2,
 }
 const WIDTHS: Record<string, number> = { "calendar": 880, "agent-chat": 1000, "agent-state": 240, "data-table": 1100, "table": 1000, "form": 960, "source": 1000, "dialog": 1100 }
-
-// A shared clock gives externally controlled specimens the same beat as native controls.
-function useDemoClock() {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const [step, setStep] = React.useState(0)
-  React.useEffect(() => {
-    const el = ref.current
-    const tick = (e: Event) => setStep((e as CustomEvent<number>).detail)
-    el?.addEventListener("preview-step", tick)
-    return () => el?.removeEventListener("preview-step", tick)
-  }, [])
-  return { ref, step }
-}
 
 async function liveExample(name: string): Promise<Example | null> {
   if (name === "word-relay") {
@@ -249,113 +237,6 @@ function Preview({ name }: { name: string }) {
   )
 }
 
-const WORDS = ["quiet", "hush", "rest", "0dB"]
-function type(el: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, value: string) {
-  const proto = el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : el instanceof HTMLSelectElement ? HTMLSelectElement.prototype : HTMLInputElement.prototype
-  Object.getOwnPropertyDescriptor(proto, "value")?.set?.call(el, value)
-  el.dispatchEvent(new Event("input", { bubbles: true }))
-  el.dispatchEvent(new Event("change", { bubbles: true }))
-}
-
-/** Each variation answers on the same beat. No navigation, submit, copy, portal or global theme action.
- * A pointer or keyboard on the stage pauses the performance; reduced motion never starts it. */
-function usePerform(frame: React.RefObject<HTMLElement | null>, stage: React.RefObject<HTMLElement | null>, key: string) {
-  React.useEffect(() => {
-    const root = frame.current, host = stage.current
-    if (!root || !host) return
-    const motion = matchMedia("(prefers-reduced-motion: reduce)")
-    let idle = true, seen = false, turn = 0, wait = 0, beat = 0, ready = false
-    const hands = (event: Event) => {
-      if (!event.isTrusted) return
-      idle = false; clearTimeout(wait)
-      root.querySelectorAll<HTMLElement>("[data-performing]").forEach((el) => { delete el.dataset.force; delete el.dataset.performing })
-    }
-    const away = () => { clearTimeout(wait); wait = window.setTimeout(() => { idle = !host.matches(":hover") && !host.contains(document.activeElement) }, 900) }
-    const events: [string, EventListener][] = [["pointerenter", hands], ["pointerdown", hands], ["focusin", hands], ["keydown", hands], ["pointerleave", away], ["focusout", away]]
-    events.forEach(([e, f]) => host.addEventListener(e, f))
-    const view = new IntersectionObserver(([e]) => { seen = e.isIntersecting })
-    view.observe(host)
-    const perform = () => {
-      if (!idle || !seen || motion.matches || document.hidden) return
-      root.querySelectorAll("[data-demo-clock]").forEach((el) => el.dispatchEvent(new CustomEvent("preview-step", { detail: turn + 1 })))
-      const controls = [...root.querySelectorAll<HTMLElement>('input:not([type=file]):not([type=hidden]), textarea, select, [role=switch], [role=checkbox], [role=radio], [role=tab], [role=slider], [role=spinbutton], [aria-pressed], button[aria-expanded]:not([aria-haspopup]), .db-month-day')]
-        .filter((el) => !el.closest('a, [aria-haspopup], [data-perform=off], .db-appearance, .db-sidebar, .db-tiling-editor') && !(el as HTMLInputElement).disabled && !(el as HTMLInputElement).readOnly && el.getClientRects().length > 0 && el.getAttribute("aria-disabled") !== "true")
-      const groups = new Map<Element, HTMLElement[]>()
-      for (const el of controls) {
-        const group = el.closest('[role=tablist], [role=radiogroup], fieldset, .db-checklist, .db-toggle-group, .db-month') ?? el
-        groups.set(group, [...(groups.get(group) ?? []), el])
-      }
-      groups.forEach((all) => {
-        const el = all[turn % all.length]
-        if (el instanceof HTMLSelectElement) {
-          const options = [...el.options].filter((o) => !o.disabled)
-          if (options.length) type(el, options[(turn + 1) % options.length].value)
-        } else if (el instanceof HTMLInputElement && el.type === "range") {
-          const min = +el.min || 0, max = +(el.max || 100)
-          type(el, String(min + (max - min) * ((turn + 1) % 5) / 4))
-        } else if (el instanceof HTMLInputElement && el.type === "number") {
-          type(el, String((+el.min || 0) + ((turn + 1) % 5) * (+el.step || 1)))
-        } else if (el.matches('[role=slider], [role=spinbutton]')) {
-          el.dispatchEvent(new KeyboardEvent("keydown", { key: turn % 6 < 3 ? "ArrowRight" : "ArrowLeft", bubbles: true }))
-        } else if ((el instanceof HTMLInputElement && !["checkbox", "radio", "button", "submit"].includes(el.type)) || el instanceof HTMLTextAreaElement) {
-          type(el, el instanceof HTMLInputElement && el.inputMode === "numeric" ? String((turn + 1) % 10) : WORDS[turn % WORDS.length])
-        } else {
-          if (el.getAttribute("role") === "tab") el.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, button: 0 }))
-          el.click()
-        }
-      })
-      // Hover-only components use their documented forced state; every variant demonstrates together.
-      root.querySelectorAll<HTMLElement>('.db-btn, .db-link, .db-kbd, .db-card, .db-reverb, .db-note, .db-avatar, .db-corners').forEach((el) => {
-        if (turn % 2 === 0) { el.dataset.force = "hover"; el.dataset.performing = "true" }
-        else if (el.dataset.performing) { delete el.dataset.force; delete el.dataset.performing }
-      })
-      const name = root.querySelector<HTMLElement>("[data-piece]")?.dataset.piece
-      const actions: Record<string, RegExp> = {
-        "fraction": /^(One done|Undo one)$/i, "steps": /^(Next|Back)$/i, "segue": /^(Next scene|Back)$/i,
-        "marker": /^Draw them again$/i, "thread": /^Send the next part$/i, "timer": /^(Start|Pause)$/i,
-      }
-      if (name && actions[name]) {
-        const buttons = [...root.querySelectorAll<HTMLButtonElement>("button")].filter((b) => !b.disabled && actions[name].test(b.textContent?.trim() ?? ""))
-        const next = buttons.filter((b) => !/^(Back|Undo)/i.test(b.textContent ?? ""))
-        ;(turn % 4 === 3 ? buttons.filter((b) => /^(Back|Undo)/i.test(b.textContent ?? "")) : next).forEach((b) => b.click())
-      }
-      root.querySelectorAll<HTMLElement>(".db-melody").forEach((el) => el.dispatchEvent(new KeyboardEvent("keydown", { key: turn % 2 ? "Home" : "Enter", bubbles: true })))
-      root.querySelectorAll<HTMLDetailsElement>(".db-collapse").forEach((el) => { el.open = turn % 2 === 0 })
-      root.querySelectorAll(".db-accordion").forEach((group) => {
-        const items = [...group.querySelectorAll<HTMLDetailsElement>(":scope > details")]
-        items.forEach((el, i) => { el.open = i === turn % items.length })
-      })
-      root.querySelectorAll<HTMLElement>(".db-carousel-track").forEach((track) => {
-        const next = track.children[(turn + 1) % track.children.length] as HTMLElement | undefined
-        if (!next) return
-        if (track.parentElement?.dataset.variant === "shelf") next.querySelector<HTMLButtonElement>(".db-carousel-spine")?.click()
-        else {
-          const scale = track.getBoundingClientRect().width / track.offsetWidth
-          track.scrollTo({ left: track.scrollLeft + (next.getBoundingClientRect().left - track.getBoundingClientRect().left) / scale, behavior: "smooth" })
-        }
-      })
-      root.querySelectorAll<HTMLElement>(".db-wake").forEach((el) => {
-        const box = el.getBoundingClientRect()
-        el.dispatchEvent(new PointerEvent("pointermove", { clientX: box.left + box.width * ((turn % 4 + 1) / 5), clientY: box.top + box.height / 2, pointerType: "mouse" }))
-      })
-      root.dataset.beat = String(++turn)
-    }
-    const start = () => {
-      if (ready || !root.querySelector('[data-fitted]')) return
-      ready = true
-      beat = window.setTimeout(function tick() { perform(); beat = window.setTimeout(tick, 600) }, 220)
-    }
-    const loaded = new MutationObserver(start)
-    loaded.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-fitted"] })
-    start()
-    return () => {
-      clearTimeout(beat); clearTimeout(wait); loaded.disconnect(); view.disconnect()
-      delete root.dataset.beat
-      events.forEach(([e, f]) => host.removeEventListener(e, f))
-    }
-  }, [frame, stage, key])
-}
-
 /** A whole name cuts through one line mask. Its letters never leave their word. */
 function Title({ text }: { text: string }) {
   return <p className="pieces-title"><span key={text}>{text}</span></p>
@@ -439,7 +320,8 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
     hold.current = window.setTimeout(() => setAt(i), 30) // a hand sweeping across the wall doesn't mount every piece it crosses
   }
 
-  usePerform(frame, stage, `${awake}${playing}`)
+  const [performance, resetPerformance] = React.useReducer((n: number) => n + 1, 0)
+  useDemoPlayer({ root: frame, host: stage, item: all[playing].name, identity: `${awake}${playing}`, reset: resetPerformance })
 
   let n = -1
   return (
@@ -511,7 +393,7 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
         </p>
         <Title text={piece.title} />
         <div className="db-corners pieces-preview" ref={frame} aria-label={`${piece.title} variations`} aria-describedby="pieces-performance">
-          {awake && playing === at ? <Preview key={piece.name} name={piece.name} /> : null}
+          {awake && playing === at ? <Preview key={`${piece.name}-${performance}`} name={piece.name} /> : null}
         </div>
         <span className="db-sr" id="pieces-performance">Variations play together. Point at or focus the preview to pause and try them.</span>
         <p className="pieces-summary">{piece.summary}</p>

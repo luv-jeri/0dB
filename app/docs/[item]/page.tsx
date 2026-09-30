@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import NextLink from "next/link"
 import { notFound } from "next/navigation"
 
-import { Corners } from "@/registry/0db/ui/corners"
 import { Meta } from "@/registry/0db/ui/meta"
 import { Prose } from "@/registry/0db/ui/typography"
 import { Source } from "@/registry/0db/ui/source"
@@ -20,6 +19,7 @@ import { contractFor, motionRows, moveRows } from "@/lib/site/design-md"
 import { exampleSource, installCommand } from "@/lib/site/example-source"
 import { rewriteImports } from "@/scripts/lib/items.mjs"
 import { ItemExample } from "./examples"
+import { DemoExample } from "./demo-example"
 
 type Params = { params: Promise<{ item: string }> }
 
@@ -112,16 +112,7 @@ export default async function ItemPage({ params }: Params) {
         <h2 id="example-h" className="db-sr">
           Example
         </h2>
-        {/* The frame is itself Corners; the corners page shows its own, alone. */}
-        {meta.name === "corners" ? (
-          <div className="doc-example">
-            <ItemExample item={item} />
-          </div>
-        ) : (
-          <Corners className="doc-example">
-            <ItemExample item={item} />
-          </Corners>
-        )}
+        <DemoExample item={item}><ItemExample item={item} /></DemoExample>
         {entry.hasStates ? (
           <div className="spec-states" inert aria-label="States, pinned">
             <ItemExample item={item} states />

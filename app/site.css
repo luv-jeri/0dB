@@ -139,6 +139,7 @@ body { overflow-x: clip; }
 .doc-example { padding: var(--db-space-8) var(--db-space-7); }
 /* Layered, so an example's own max-w-* still wins. */
 @layer base {
+  .doc-demo-controls { display: flex; justify-content: flex-end; align-items: center; min-block-size: 44px; margin-block-end: var(--db-space-3); }
   .doc-example > * { max-width: 100%; }
 }
 .doc-install [data-slot="tabs-content"] > p { max-width: var(--db-measure); margin-bottom: var(--db-space-6); }
