@@ -113,7 +113,7 @@ try {
     const specimen = new URL(response.url).pathname.startsWith("/specimen/")
     const required = specimen
       ? { "script-src": ["https://esm.sh"], "style-src": ["https://fonts.googleapis.com"], "font-src": ["https://fonts.gstatic.com"], "connect-src": ["https://esm.sh"], "frame-src": ["'none'"] }
-      : { "script-src": ["https://challenges.cloudflare.com"], "connect-src": ["https://feedback-0db.cojeev.com", "https://challenges.cloudflare.com"], "frame-src": ["https://challenges.cloudflare.com"] }
+      : { "script-src": ["https://challenges.cloudflare.com", "https://static.cloudflareinsights.com"], "connect-src": ["https://feedback-0db.cojeev.com", "https://challenges.cloudflare.com"], "frame-src": ["https://challenges.cloudflare.com"] }
     for (const [directive, sources] of Object.entries(required)) {
       for (const source of sources) assert(policy[directive]?.includes(source), `${directive} must permit ${source}`)
     }
