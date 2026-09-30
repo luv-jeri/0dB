@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type Run = { items: HTMLElement[]; l: number; r: number; t: number; h: number }
@@ -199,15 +200,14 @@ function ToggleGroup({ className, variant = "slur", dir, children, ref, ...props
   // words and arrow keys around. Without a dir, the group takes the direction of the page around it,
   // read as the group mounts, before the first paint.
   const [around, setAround] = React.useState<"rtl">()
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLDivElement | null) => {
+    ownRef.current = node
+    const up = node?.parentElement
+    if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
+  }, [dir, ownRef]), ref)
   return (
     <ToggleGroupPrimitive.Root
-      ref={(node: HTMLDivElement | null) => {
-        ownRef.current = node
-        const up = node?.parentElement
-        if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
-        if (typeof ref === "function") ref(node)
-        else if (ref) ref.current = node
-      }}
+      ref={composedRef}
       data-slot="toggle-group"
       data-variant={variant}
       dir={dir ?? around}

@@ -13,5 +13,6 @@ export default defineComponent({
     { name: "CardLink", type: "a", description: "Goes inside CardTitle. Its hit area stretches over the whole card, so the card is a single target with one focus ring." },
     { name: "CardSum", type: "dl", description: "For ledger: a <div> of <dt> and <dd> per line, the last one the total. The figures are tabular, so the column adds up by eye." },
     { name: "CardFooter", type: "div", description: "A frame row: each child is a small fact, with a hairline between them." },
+    { name: "CardLink asChild", type: "boolean", default: "false", description: "Lend the stretched link and focus treatment to a single child link, such as your router's Link." },
   ],
 })

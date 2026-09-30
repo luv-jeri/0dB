@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type Variant = "names" | "lead" | "inline"
@@ -26,15 +27,14 @@ function NavigationMenu({ variant = "names", className, dir, ref, ...props }: Na
   // Radix writes dir="ltr" on the nav unless told otherwise. Without a dir, the menu takes the direction
   // of the page around it, read as it mounts (as the menus and the tabs do), so its words and keys mirror.
   const [around, setAround] = React.useState<"rtl">()
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLElement | null) => {
+    const up = node?.parentElement
+    if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
+  }, [dir]), ref)
   return (
     <VariantContext.Provider value={variant}>
       <NavigationMenuPrimitive.Root
-        ref={(node: HTMLElement | null) => {
-          const up = node?.parentElement
-          if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
-          if (typeof ref === "function") ref(node)
-          else if (ref) ref.current = node
-        }}
+        ref={composedRef}
         dir={dir ?? around}
         data-slot="navigation-menu"
         data-variant={variant}

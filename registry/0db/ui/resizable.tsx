@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type GroupContext = {
@@ -52,9 +53,10 @@ type GroupProps = React.ComponentProps<"div"> & {
  * each, as direct children, in that order (panel, handle, panel, ...). Children are told apart by their place, not their type,
  * so this works when they arrive from a Server Component. Moved, each panel's share is drawn as a dimension.
  */
-function ResizablePanelGroup({ direction, variant = "rule", text = "", className, children, ...props }: GroupProps) {
+function ResizablePanelGroup({ direction, variant = "rule", text = "", className, children, ref: forwardedRef, ...props }: GroupProps) {
   const id = React.useId()
   const ref = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const flow = useFlow(ref, variant === "flow" ? text : "")
   const nodes = React.Children.toArray(children)
   const panels = nodes.filter((_, at) => at % 2 === 0) as React.ReactElement<PanelProps>[]
@@ -77,7 +79,7 @@ function ResizablePanelGroup({ direction, variant = "rule", text = "", className
   return (
     <Group.Provider value={{ id, direction, sizes, mins, resize, variant, flow }}>
       <FlowText.Provider value={text}>
-      <div ref={ref} data-slot="resizable" data-direction={direction} data-variant={variant === "rule" ? undefined : variant} className={cn("db-resize", className)} {...props}>
+      <div ref={composedRef} data-slot="resizable" data-direction={direction} data-variant={variant === "rule" ? undefined : variant} className={cn("db-resize", className)} {...props}>
         {nodes.map((node, at) => (
           <Index.Provider key={at} value={Math.floor(at / 2)}>
             {node}
@@ -266,9 +268,10 @@ const WIDE = 125
  * axis goes first (condensed as the pane narrows, extended as it widens), and only past its ends does
  * the size change. Elsewhere it is a plain heading.
  */
-function ResizableTitle({ className, children, ...props }: React.ComponentProps<"h3">) {
+function ResizableTitle({ className, children, ref: forwardedRef, ...props }: React.ComponentProps<"h3">) {
   const { variant } = useGroup()
   const ref = React.useRef<HTMLHeadingElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   React.useEffect(() => {
     const el = ref.current
     const word = el?.firstElementChild as HTMLElement | null
@@ -308,7 +311,7 @@ function ResizableTitle({ className, children, ...props }: React.ComponentProps<
     }
   }, [variant])
   return (
-    <h3 ref={ref} data-slot="resizable-title" className={cn("db-resize-title", className)} {...props}>
+    <h3 ref={composedRef} data-slot="resizable-title" className={cn("db-resize-title", className)} {...props}>
       <span>{children}</span>
     </h3>
   )

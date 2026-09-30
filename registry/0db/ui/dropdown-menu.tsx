@@ -3,6 +3,8 @@
 import * as React from "react"
 import * as MenuPrimitive from "@radix-ui/react-dropdown-menu"
 
+import { marginaliaUnder } from "@/registry/0db/lib/menu-room"
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 // Radix reads direction from its own provider, not the page, so on a right-to-left page a menu
@@ -22,13 +24,12 @@ function DropdownMenu({ dir, ...props }: React.ComponentProps<typeof MenuPrimiti
 
 function DropdownMenuTrigger({ ref, ...props }: React.ComponentProps<typeof MenuPrimitive.Trigger>) {
   const setAround = React.useContext(Around)
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLButtonElement | null) => {
+    if (node && getComputedStyle(node).direction === "rtl") setAround("rtl")
+  }, [setAround]), ref)
   return (
     <MenuPrimitive.Trigger
-      ref={(node: HTMLButtonElement | null) => {
-        if (node && getComputedStyle(node).direction === "rtl") setAround("rtl")
-        if (typeof ref === "function") ref(node)
-        else if (ref) ref.current = node
-      }}
+      ref={composedRef}
       data-slot="dropdown-menu-trigger"
       {...props}
     />
@@ -71,8 +72,8 @@ function useMarginalia(on: boolean) {
   const onFocus = (event: React.FocusEvent<HTMLDivElement>) => {
     const menu = event.currentTarget, item = (event.target as HTMLElement).closest<HTMLElement>("[role^='menuitem']")
     if (!on || !item || item.closest("[role='menu']") !== menu) return
-    const room = document.documentElement.clientWidth - menu.getBoundingClientRect().right
-    setNote({ hint: item.dataset.hint, y: item.offsetTop + item.offsetHeight / 2, under: room < 220 })
+    const under = marginaliaUnder(menu.getBoundingClientRect(), document.documentElement.clientWidth, getComputedStyle(menu).direction)
+    setNote({ hint: item.dataset.hint, y: item.offsetTop + item.offsetHeight / 2, under })
   }
   const el = on ? (
     <div className="db-menu-note" aria-hidden data-under={note.under ? "" : undefined} data-empty={note.hint ? undefined : ""} style={{ "--db-note-y": `${note.y}px` } as React.CSSProperties}>
@@ -183,11 +184,8 @@ const DROP = 18
 function useSubmenuPlace({ ref, sideOffset = 2, alignOffset = -8, collisionPadding = 20, style }: SubPlace) {
   const look = React.useContext(MenuLook)
   const [drop, setDrop] = React.useState<{ side: number; align: number } | null>(null)
-  const own = React.useRef<HTMLDivElement>(null)
-  React.useImperativeHandle(ref, () => own.current as HTMLDivElement)
   const place = React.useCallback(
     (node: HTMLDivElement | null) => {
-      own.current = node
       const item = node && document.getElementById(node.getAttribute("aria-labelledby") ?? "")
       if (!node || !item) return
       const r = item.getBoundingClientRect()
@@ -200,7 +198,7 @@ function useSubmenuPlace({ ref, sideOffset = 2, alignOffset = -8, collisionPaddi
     [sideOffset, collisionPadding],
   )
   return {
-    ref: place,
+    ref: useComposedRefs(place, ref),
     sideOffset: drop ? drop.side : sideOffset,
     alignOffset: drop ? drop.align : alignOffset,
     collisionPadding,

@@ -17,5 +17,6 @@ export default defineComponent({
     { name: "Pick children", type: "ReactNode", description: "Anything: a PickTitle and a PickDescription, a swatch, a specimen. Plain text is taken as the title." },
     { name: "PickTitle children", type: "ReactNode", description: "The pick's name. Plain text crosses into the italic when chosen, and it is the text rubric takes the initial from and watermark sets behind the list. A name in a script without capitals (Arabic, Hebrew, Devanagari, Han) isn't split; rubric hangs a pilcrow beside it. A name in the other direction from the page takes a dir attribute." },
     { name: "PickDescription", type: "span props", description: "A line under the title, in the pencil; graphite once chosen. Rubric's capital drops through its first line." },
+    { name: "Pick labelClassName", type: "string", description: "Classes for the choice's label wrapper. className goes to the native radio." },
   ],
 })

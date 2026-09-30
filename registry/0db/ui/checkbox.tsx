@@ -2,8 +2,12 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
+import { useFormPresentation } from "@/registry/0db/lib/use-form-presentation"
 import { cn } from "@/registry/0db/lib/utils"
 import { Fraction } from "@/registry/0db/ui/fraction"
+
+const GroupSync = React.createContext<(() => void) | null>(null)
 
 type CheckboxProps = Omit<React.ComponentProps<"input">, "type"> & {
   /** The words are the control. */
@@ -22,6 +26,8 @@ type CheckboxProps = Omit<React.ComponentProps<"input">, "type"> & {
 
 /** No box. The words are the control; checking marks them, by default striking them through in the accent. */
 function Checkbox({ children, variant = "strike", className, labelClassName, "data-force": force, ...props }: CheckboxProps) {
+  const sync = React.useContext(GroupSync)
+  React.useLayoutEffect(() => { sync?.() })
   return (
     <label data-slot="checkbox" data-variant={variant} data-force={force} className={cn("db-check", labelClassName)}>
       <input type="checkbox" className={className} {...props} />
@@ -47,22 +53,24 @@ type CheckboxGroupProps = React.ComponentProps<"fieldset"> & {
 const defaultDone = (count: number, total: number) => (count === total ? "done. Ready when you are." : "done")
 
 /** A list of checkboxes under a small legend, with an optional tally whose figures turn like a counter's wheels. */
-function CheckboxGroup({ legend, tally = false, done = defaultDone, className, children, onChange, ...props }: CheckboxGroupProps) {
+function CheckboxGroup({ legend, tally = false, done = defaultDone, className, children, onChange, ref: forwardedRef, ...props }: CheckboxGroupProps) {
   const set = React.useRef<HTMLFieldSetElement>(null)
+  const composedRef = useComposedRefs(set, forwardedRef)
   // null until the first count, so the fraction arrives with its figures and doesn't turn over on load.
   const [state, setState] = React.useState<{ count: number; total: number } | null>(null)
 
   const count = React.useCallback(() => {
     const boxes = [...(set.current?.querySelectorAll<HTMLInputElement>("input[type=checkbox]") ?? [])]
-    setState({ count: boxes.filter((b) => b.checked).length, total: boxes.length })
+    const next = { count: boxes.filter((b) => b.checked).length, total: boxes.length }
+    setState((was) => was?.count === next.count && was.total === next.total ? was : next)
   }, [])
 
-  React.useEffect(count, [count])
+  useFormPresentation(set, count)
 
   return (
-    <>
+    <GroupSync.Provider value={count}>
       <fieldset
-        ref={set}
+        ref={composedRef}
         data-slot="checkbox-group"
         className={cn("db-checklist", className)}
         onChange={(e) => {
@@ -84,7 +92,7 @@ function CheckboxGroup({ legend, tally = false, done = defaultDone, className, c
           ) : null}
         </p>
       ) : null}
-    </>
+    </GroupSync.Provider>
   )
 }
 

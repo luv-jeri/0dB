@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { roll } from "@/registry/0db/lib/roll"
+import { useDigitRoll } from "@/registry/0db/lib/use-digit-roll"
 import { cn } from "@/registry/0db/lib/utils"
 
 type FractionProps = Omit<React.ComponentProps<"span">, "children"> & {
@@ -18,8 +18,6 @@ const plain = (v: React.ReactNode): v is string | number => typeof v === "string
 // A number, however it's grouped or pointed (12, 1 284, 0.75): figures, and no letters.
 const figures = /^[^\p{L}]*\d[^\p{L}]*$/u
 const digit = /\d/
-// Two numbers of one shape, the same marks in the same places, turn figure by figure.
-const alike = (a: string, b: string) => a.length === b.length && figures.test(a) && figures.test(b) && [...a].every((c, i) => (digit.test(c) ? digit.test(b[i]) : c === b[i]))
 // ponytail: reads the figures and the point only, which is enough to pick the way the wheels turn.
 const amount = (v: string | number) => (typeof v === "number" ? v : Number(v.replace(/[^\d.]/g, "")))
 const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -30,31 +28,7 @@ const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
  * A number that gains or loses a figure, or a word, turns over whole; anything else just changes.
  */
 function Side({ value, className, hidden }: { value: React.ReactNode; className?: string; hidden?: boolean }) {
-  const [shown, setShown] = React.useState(value)
-  const was = React.useRef(value)
-  const now = React.useRef(value) // what's on the page, for a change that lands mid-turn
-  const whole = React.useRef<HTMLSpanElement>(null)
-  const figs = React.useRef<(HTMLSpanElement | null)[]>([])
-  const show = React.useCallback((v: React.ReactNode | ((s: React.ReactNode) => React.ReactNode)) => {
-    setShown((s) => (now.current = typeof v === "function" ? v(s) : v))
-  }, [])
-
-  React.useEffect(() => {
-    const before = was.current
-    was.current = value
-    if (Object.is(value, before)) return
-    if (!whole.current || !plain(value) || !plain(before)) return show(value)
-    const [a, b, on] = [String(before), String(value), String(now.current)]
-    const dir = amount(value) < amount(before) ? -1 : 1
-    if (!alike(a, b) || on.length !== b.length) return roll(whole.current, () => show(value), "0.5em", dir)
-    // ponytail: the timers aren't cleared; a later change must not cancel a wheel that's still turning.
-    for (let k = b.length - 1, n = 0; k >= 0; k--) {
-      const el = figs.current[k]
-      if (a[k] === b[k] || !el) continue
-      const put = () => show((s) => (String(s).length === b.length ? String(s).slice(0, k) + b[k] + String(s).slice(k + 1) : s))
-      setTimeout(() => roll(el, put, "0.5em", dir), still() ? 0 : n++ * 36) // --db-arpeggio
-    }
-  }, [value, show])
+  const { shown, whole, figs } = useDigitRoll(value, { order: plain(value) ? amount(value) : 0, numeric: true })
 
   const text = plain(value) && plain(shown) ? String(shown) : null
   return (

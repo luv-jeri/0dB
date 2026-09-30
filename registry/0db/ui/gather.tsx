@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 /** The attributes on <html> that can change the face. Not class: smooth scrolling toggles one on every scroll. */
@@ -33,9 +34,10 @@ const rand = (i: number, salt: number) => {
  * reader of the page always gets it. Nothing runs without script, or under reduced motion: it's just
  * the line.
  */
-function Gather({ children: text, as = "p", variant = "dust", by = "letter", scrub = false, className, ...props }: GatherProps) {
+function Gather({ children: text, as = "p", variant = "dust", by = "letter", scrub = false, className, ref: forwardedRef, ...props }: GatherProps) {
   const Tag = as as "p"
   const ref = React.useRef<HTMLParagraphElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
 
   React.useEffect(() => {
     const el = ref.current
@@ -210,7 +212,7 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
   }, [text, variant, by, scrub])
 
   return (
-    <Tag ref={ref} data-slot="gather" data-variant={variant === "dust" ? undefined : variant} data-by={by === "letter" ? undefined : by} className={cn("db-gather", className)} {...props}>
+    <Tag ref={composedRef} data-slot="gather" data-variant={variant === "dust" ? undefined : variant} data-by={by === "letter" ? undefined : by} className={cn("db-gather", className)} {...props}>
       <span className="db-gather-text">{text}</span>
     </Tag>
   )

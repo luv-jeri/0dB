@@ -3,6 +3,7 @@
 import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
+import { activeIndex } from "@/registry/0db/lib/chart-index"
 import { rove } from "@/registry/0db/lib/rove"
 import { Grid } from "@/registry/0db/ui/grid"
 
@@ -55,16 +56,22 @@ const poly = (p: XY[]) => `M${p.map(([x, y]) => `${x},${y}`).join("L")}Z`
  */
 function RadarChart({ data, series, label, max, format = figures.format, now = 0, cell = 27, className, style, ...props }: RadarChartProps) {
   const force = props["data-force"]?.split(" ").includes("hover")
-  const [shown, setShown] = React.useState(force ? now : -1)
+  const [active, setShown] = React.useState(force ? now : -1)
+  const shown = activeIndex(active, data.length)
+  // Forget an axis that was removed, so adding axes later cannot revive an old highlight.
+  if (active !== shown) setShown(shown)
   const [w, setW] = React.useState(0)
   const draw = React.useRef<SVGSVGElement>(null)
   const plot = React.useRef<HTMLDivElement>(null)
-  React.useEffect(() => {
-    const el = draw.current
+  const observe = React.useCallback((el: SVGSVGElement | null) => {
+    draw.current = el
     if (!el) return
     const ro = new ResizeObserver(([e]) => setW(e.contentRect.width))
     ro.observe(el)
-    return () => ro.disconnect()
+    return () => {
+      ro.disconnect()
+      draw.current = null
+    }
   }, [])
 
   const list = series?.length ? series.slice(0, 3) : [{ key: "value", label: "" }]
@@ -118,7 +125,7 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
           onPointerLeave={rest}
           onBlur={(e) => !plot.current?.contains(e.relatedTarget) && setShown(-1)}
         >
-          <svg ref={draw} data-slot="radar-chart-draw" className="db-radar-draw" aria-hidden="true">
+          <svg ref={observe} data-slot="radar-chart-draw" className="db-radar-draw" aria-hidden="true">
             {w ? (
               <g transform={`translate(${w / 2} ${w / 2})`}>
                 <g className="db-radar-build">
@@ -190,7 +197,7 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
               <button
                 key={d.label}
                 type="button"
-                tabIndex={i === (shown >= 0 ? shown : now) ? 0 : -1}
+                tabIndex={i === (shown >= 0 ? shown : activeIndex(now, n, 0)) ? 0 : -1}
                 data-slot="radar-chart-axis"
                 className="db-radar-axis"
                 data-shown={i === shown || undefined}

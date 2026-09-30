@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 /** The attributes on <html> that can change the face. Not class: smooth scrolling toggles one on every scroll. */
@@ -44,8 +45,9 @@ const TALE = { measure: 0.5, turn: 7, floor: 10 } // half the measure a line, a 
  * at the phrases. Until the fonts have come and the layout is done, it's a plain paragraph, and a
  * reader of the page always gets the plain text.
  */
-function Contour({ children: text, shape = "diminuendo", least = 0.3, variant = "edge", fade = false, className, ...props }: ContourProps) {
+function Contour({ children: text, shape = "diminuendo", least = 0.3, variant = "edge", fade = false, className, ref: forwardedRef, ...props }: ContourProps) {
   const ref = React.useRef<HTMLParagraphElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const [lines, setLines] = React.useState<Line[] | null>(null)
 
   React.useEffect(() => {
@@ -183,7 +185,7 @@ function Contour({ children: text, shape = "diminuendo", least = 0.3, variant = 
   )
 
   return (
-    <p ref={ref} data-slot="contour" data-shape={shape} data-variant={variant === "edge" ? undefined : variant} data-fade={fade || undefined} className={cn("db-contour", className)} {...props}>
+    <p ref={composedRef} data-slot="contour" data-shape={shape} data-variant={variant === "edge" ? undefined : variant} data-fade={fade || undefined} className={cn("db-contour", className)} {...props}>
       {lines ? (
         <>
           <span className="db-sr">{text}</span>

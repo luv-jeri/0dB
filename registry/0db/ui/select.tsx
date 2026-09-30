@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type SelectProps = React.ComponentProps<"select"> & {
@@ -50,10 +51,11 @@ const ms = (v: string, fallback: number) => (v.trim().endsWith("ms") ? parseFloa
 const still = () => typeof matchMedia === "undefined" || matchMedia("(prefers-reduced-motion: reduce)").matches
 
 /** A choice inside a sentence. The chosen word is yours, in italic over a hairline. Give it <option>s. */
-function Select({ label, variant = "underline", className, rootClassName, "data-force": force, children, onChange, ...props }: SelectProps) {
+function Select({ label, variant = "underline", className, rootClassName, "data-force": force, children, onChange, ref: forwardedRef, ...props }: SelectProps) {
   const Root = label ? "label" : "span"
   const drawn = variant !== "underline"
   const select = React.useRef<HTMLSelectElement>(null)
+  const composedRef = useComposedRefs(select, forwardedRef)
   const box = React.useRef<HTMLSpanElement>(null)
   const word = React.useRef<HTMLSpanElement>(null)
   const ghosts = React.useRef<HTMLSpanElement>(null)
@@ -170,7 +172,7 @@ function Select({ label, variant = "underline", className, rootClassName, "data-
     <Root data-slot="select" data-variant={drawn ? variant : undefined} data-force={force} className={cn("db-select", rootClassName)}>
       {label ? <span>{label}</span> : null}
       <span ref={box} className="db-select-box">
-        <select ref={select} data-slot="select-input" className={className} onChange={change} {...props}>
+        <select ref={composedRef} data-slot="select-input" className={className} onChange={change} {...props}>
           {children}
         </select>
         {drawn ? (

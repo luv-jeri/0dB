@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
-import { roll } from "@/registry/0db/lib/roll"
+import { useDigitRoll } from "@/registry/0db/lib/use-digit-roll"
 import { Button } from "@/registry/0db/ui/button"
 import { Ring } from "@/registry/0db/ui/radial-chart"
 
@@ -46,23 +46,8 @@ const at = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digi
 
 /** The figures turn over like a counter's wheels, only those that changed, the units first. */
 function Figures({ text }: { text: string }) {
-  const [shown, setShown] = React.useState(text)
-  const was = React.useRef(text)
-  const figs = React.useRef<(HTMLSpanElement | null)[]>([])
-  React.useEffect(() => {
-    const before = was.current
-    was.current = text
-    if (before === text) return
-    if (before.length !== text.length) return setShown(text)
-    const dir = text < before ? -1 : 1
-    for (let k = text.length - 1, n = 0; k >= 0; k--) {
-      const el = figs.current[k]
-      if (before[k] === text[k] || !el) continue
-      const put = () => setShown((s) => (s.length === text.length ? s.slice(0, k) + text[k] + s.slice(k + 1) : text))
-      // ponytail: the timers aren't cleared; roll() already drops a turn that a later one overtakes.
-      setTimeout(() => roll(el, put, "0.4em", dir), still() ? 0 : n++ * 36) // --db-arpeggio
-    }
-  }, [text])
+  const { shown: valueShown, figs } = useDigitRoll(text, { order: text, distance: "0.4em" })
+  const shown = String(valueShown)
   return (
     <span className="db-timer-figures" dir="ltr" aria-hidden="true">
       {[...shown].map((f, k) => (

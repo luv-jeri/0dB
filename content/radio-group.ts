@@ -17,5 +17,6 @@ export default defineComponent({
     { name: "RadioGroupItem value", type: "string", description: "What this word stands for." },
     { name: "RadioGroupItem children", type: "string", description: "The word. Plain text, because the italic copy is drawn from it." },
     { name: "RadioGroupItem disabled", type: "boolean", default: "false", description: "The word steps back and can't be chosen." },
+    { name: "RadioGroupItem labelClassName", type: "string", description: "Classes for the word's label wrapper. className goes to the native radio." },
   ],
 })

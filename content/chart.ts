@@ -19,5 +19,6 @@ export default defineComponent({
     { name: "format", type: "(value: number) => string", description: "Formats the number and the bar labels. Defaults to en-GB grouping." },
     { name: "variant", type: '"stems" | "spark" | "isotype"', default: '"stems"', description: "stems: hairlines and dots against one very large number, as large as the chart allows. spark: word-sized, set inside a sentence; stems as tall as a capital, spanning the data's own range, the accent dot on now, and the number following in the text's own size. isotype: each bar a column of dots, one dot a fixed amount, ink for what was had and hairline rings for the room left to the ceiling; now's top dot is the accent, a key says what a dot counts, and pointing at a column counts its dots up." },
     { name: "each", type: "number", default: "a tenth of the ceiling", description: "isotype: what one dot counts. Values round to the nearest dot; the number and each bar's label stay exact." },
+    { name: "ChartFrame layer", type: "(geometry: ChartGeometry) => ReactNode", description: "Optional drawing beneath the plot's points. Geometry provides normalized [from, to] spans per series and the series list; LineChart and AreaChart use this shared frame." },
   ],
 })

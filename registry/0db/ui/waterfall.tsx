@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 const DYNAMICS = ["pp", "p", "mp", "mf", "f", "ff", "fff", "ffff"] as const
@@ -31,8 +32,9 @@ type Row = { text: string; spacing: number; scale: number; px: number; rest?: bo
  * every line but the one you point at, as a mixing desk's solo button does. Before the fonts and the layout arrive, each line
  * is the plain text, clipped; a reader always gets the words once.
  */
-function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, variant = "specimen", className, ...props }: WaterfallProps) {
+function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, variant = "specimen", className, ref: forwardedRef, ...props }: WaterfallProps) {
   const ref = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const [rows, setRows] = React.useState<Row[] | null>(null)
   const [a, b] = [DYNAMICS.indexOf(from), DYNAMICS.indexOf(to)]
   const shown = DYNAMICS.slice(Math.min(a, b), Math.max(a, b) + 1).reverse()
@@ -109,7 +111,7 @@ function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, v
   }, [text, from, to, italic, variant])
 
   return (
-    <div ref={ref} data-slot="waterfall" data-variant={variant === "specimen" ? undefined : variant} data-italic={italic || undefined} className={cn("db-waterfall", className)} {...props}>
+    <div ref={composedRef} data-slot="waterfall" data-variant={variant === "specimen" ? undefined : variant} data-italic={italic || undefined} className={cn("db-waterfall", className)} {...props}>
       <span className="db-sr">{text}</span>
       {shown.map((d, i) => {
         const row = rows?.[i]

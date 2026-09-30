@@ -30,6 +30,11 @@
           "target": "lib/0db/chart-index.ts"
         },
         {
+          "path": "registry/0db/lib/menu-room.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/menu-room.ts"
+        },
+        {
           "path": "registry/0db/lib/number.ts",
           "type": "registry:lib",
           "target": "lib/0db/number.ts"
@@ -55,6 +60,11 @@
           "target": "lib/0db/use-digit-roll.ts"
         },
         {
+          "path": "registry/0db/lib/use-form-presentation.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-form-presentation.ts"
+        },
+        {
           "path": "registry/0db/styles/tokens.css",
           "type": "registry:file",
           "target": "styles/0db/tokens.css"
@@ -73,6 +83,11 @@
           "path": "FONT-NOTICES.md",
           "type": "registry:file",
           "target": "styles/0db/FONT-NOTICES.md"
+        },
+        {
+          "path": "LICENCE",
+          "type": "registry:file",
+          "target": "styles/0db/LICENCE-0db.md"
         }
       ],
       "cssVars": {

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type AvatarProps = Omit<React.ComponentProps<"span">, "children"> & {
@@ -71,13 +72,10 @@ function Avatar({ alt, src, fallback, size = "m", variant = "ring", here, count,
     )
   }
 
+  const composedRef = useComposedRefs(own, ref)
   return (
     <span
-      ref={(el) => {
-        own.current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      }}
+      ref={composedRef}
       data-slot="avatar"
       role="img"
       aria-label={here ? `${alt}, here now` : alt}

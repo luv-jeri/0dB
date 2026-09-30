@@ -16,5 +16,7 @@ export default defineComponent({
     { name: "number", type: "ReactNode", description: "The figure's number, set as data before the caption (01). Read as \"Figure 01\"." },
     { name: "caption", type: "ReactNode", description: "What the picture is, in the voice." },
     { name: "credit", type: "ReactNode", description: "Who made it, in the pencil, at the far end of the caption row." },
+    { name: "loading", type: '"lazy" | "eager"', default: '"lazy"', description: "Use eager for a picture that must load immediately, such as the first visible image. Otherwise the browser loads it near the viewport." },
+    { name: "srcSet / sizes", type: "string", description: "Native responsive image candidates and slot sizes, passed to the img." },
   ],
 })

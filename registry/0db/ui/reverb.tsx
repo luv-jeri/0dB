@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 /** The <html> switches that change the face; smooth scrolling toggles a class there on every scroll, which must not re-lay the text. */
@@ -55,8 +56,9 @@ function fading(text: string, n: number) {
  * answered each other across the church; the vowels keep every echo under the phrase, letter for
  * letter, and lose the consonants first.
  */
-function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", className, ...props }: ReverbProps) {
+function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", className, ref: forwardedRef, ...props }: ReverbProps) {
   const ref = React.useRef<HTMLParagraphElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const n = Math.max(1, Math.round(echoes))
   const first = DYNAMICS.indexOf(from)
   // 0 is the phrase itself; 1…n are the echoes.
@@ -140,7 +142,7 @@ function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", cl
   }, [text, n, from, variant])
 
   return (
-    <p ref={ref} data-slot="reverb" data-variant={variant} className={cn("db-reverb", className)} {...props}>
+    <p ref={composedRef} data-slot="reverb" data-variant={variant} className={cn("db-reverb", className)} {...props}>
       <span className="db-reverb-line" style={line(0)}>
         {text}
       </span>

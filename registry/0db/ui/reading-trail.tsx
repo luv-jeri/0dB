@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Item, ItemActions, ItemContent, ItemGroup, ItemTitle } from "@/registry/0db/ui/item"
 import { Scrollbar } from "@/registry/0db/ui/scrollbar"
@@ -14,7 +15,7 @@ type TrailSection = {
   num?: string
 }
 
-type ReadingTrailProps = Omit<React.ComponentProps<"nav">, "children" | "ref"> & {
+type ReadingTrailProps = Omit<React.ComponentProps<"nav">, "children"> & {
   sections: TrailSection[]
   /**
    * contents: the page's contents, set as a contents page: each section's number and name, a dotted leader, and
@@ -54,9 +55,10 @@ type Place = { now: number; folios: number[] }
  * A trail through a long page: its sections by number and name, the one you are in carrying the accent, and a dotted
  * leader that inks as you read it. Reads the window's scroll; links are the page's own anchors.
  */
-function ReadingTrail({ sections, variant = "contents", label = "On this page", pinned, className, style, ...props }: ReadingTrailProps) {
+function ReadingTrail({ sections, variant = "contents", label = "On this page", pinned, className, style, ref: forwardedRef, ...props }: ReadingTrailProps) {
   const key = JSON.stringify(sections.map((s) => s.id))
   const [el, setEl] = React.useState<HTMLElement | null>(null)
+  const composedRef = useComposedRefs(setEl, forwardedRef)
   const [place, setPlace] = React.useState<Place>({ now: pinned?.now ?? -1, folios: [] })
   // The spine's head turns only when you move it, never on arrival.
   const [turned, setTurned] = React.useState(false)
@@ -112,7 +114,7 @@ function ReadingTrail({ sections, variant = "contents", label = "On this page", 
   const Root = sections.length ? "nav" : "div"
   return (
     <Root
-      ref={setEl}
+      ref={composedRef}
       data-slot="reading-trail"
       data-variant={variant}
       aria-label={sections.length ? label : undefined}

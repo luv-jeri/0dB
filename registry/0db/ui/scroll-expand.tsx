@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { Corners } from "@/registry/0db/ui/corners"
 import { Meta } from "@/registry/0db/ui/meta"
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type ScrollExpandProps = Omit<React.ComponentProps<"figure">, "children"> & {
@@ -23,8 +24,9 @@ type ScrollExpandProps = Omit<React.ComponentProps<"figure">, "children"> & {
  * closes again when you scroll back. The share of the measure it has reached is read out at the end of
  * the caption. Under reduced motion, or without script, it stands open.
  */
-function ScrollExpand({ children, caption, variant = "mark", progress, className, ...props }: ScrollExpandProps) {
+function ScrollExpand({ children, caption, variant = "mark", progress, className, ref: forwardedRef, ...props }: ScrollExpandProps) {
   const ref = React.useRef<HTMLElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const share = React.useRef<HTMLSpanElement>(null)
 
   React.useEffect(() => {
@@ -64,7 +66,7 @@ function ScrollExpand({ children, caption, variant = "mark", progress, className
   }, [progress])
 
   return (
-    <figure ref={ref} data-slot="scroll-expand" data-variant={variant === "mark" ? undefined : variant} className={cn("db-expand", className)} {...props}>
+    <figure ref={composedRef} data-slot="scroll-expand" data-variant={variant === "mark" ? undefined : variant} className={cn("db-expand", className)} {...props}>
       <Corners className="db-expand-frame">
         <div className="db-expand-plate">{children}</div>
       </Corners>

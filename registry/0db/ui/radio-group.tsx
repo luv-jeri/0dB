@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type Variant = "legato" | "glissando" | "ballot" | "sforzando"
@@ -127,12 +128,13 @@ function RadioGroup({
   children,
   onPointerOver,
   onPointerLeave,
-  ...props
+  ref: forwardedRef, ...props
 }: RadioGroupProps) {
   const generated = React.useId()
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue)
   const value = controlled ?? uncontrolled
   const box = React.useRef<HTMLFieldSetElement>(null)
+  const composedRef = useComposedRefs(box, forwardedRef)
   const dot = React.useRef<HTMLSpanElement>(null)
   const slur = React.useRef<SVGPathElement>(null)
   const was = React.useRef(value)
@@ -329,7 +331,7 @@ function RadioGroup({
   return (
     <RadioGroupContext.Provider value={ctx}>
       <fieldset
-        ref={box}
+        ref={composedRef}
         data-slot="radio-group"
         data-variant={variant}
         data-orientation={orientation}

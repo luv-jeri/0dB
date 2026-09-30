@@ -2,7 +2,9 @@
 
 import * as React from "react"
 
-import { roll } from "@/registry/0db/lib/roll"
+import { useDigitRoll } from "@/registry/0db/lib/use-digit-roll"
+import { useComposedRefs } from "@/registry/0db/lib/refs"
+import { reader, raw } from "@/registry/0db/lib/number"
 import { cn } from "@/registry/0db/lib/utils"
 import { Button } from "@/registry/0db/ui/button"
 import { useFieldControl, useLineOrigin } from "@/registry/0db/ui/field"
@@ -31,23 +33,6 @@ type NumberInputProps = Omit<React.ComponentProps<"input">, "type" | "value" | "
   "data-force"?: string
 }
 
-const still = () => typeof matchMedia === "undefined" || matchMedia("(prefers-reduced-motion: reduce)").matches
-
-/** The locale's decimal mark, and a reader for what someone typed: grouping, currency and spaces are ignored. */
-function reader(locale: string) {
-  const decimal = new Intl.NumberFormat(locale).formatToParts(1.5).find((p) => p.type === "decimal")?.value ?? "."
-  /** A number, null for nothing typed, undefined for something that isn't a number. */
-  return (text: string): number | null | undefined => {
-    const bare = text.replace(/[−–]/g, "-").split(decimal).map((s) => s.replace(/[^\d-]/g, "")).join(".")
-    if (!/\d/.test(bare)) return /[^\s]/.test(text) ? undefined : null
-    const n = Number(bare)
-    return Number.isFinite(n) ? n : undefined
-  }
-}
-
-/** The figures you edit: the locale's decimal mark, no grouping, as many decimals as the number has. */
-const raw = (n: number | null, locale: string) => (n === null ? "" : new Intl.NumberFormat(locale, { useGrouping: false, maximumFractionDigits: 20 }).format(n))
-
 const decimals = (n: number) => (String(n).split(".")[1] ?? "").length
 
 /**
@@ -55,28 +40,8 @@ const decimals = (n: number) => (String(n).split(".")[1] ?? "").length
  * turn, the units first and each place one arpeggio later; otherwise it turns over whole. `instant` skips the turn.
  */
 function Figures({ text, value, instant }: { text: string; value: number | null; instant: boolean }) {
-  const [shown, setShown] = React.useState(text)
-  const was = React.useRef({ text, value })
-  const now = React.useRef(text)
-  const whole = React.useRef<HTMLSpanElement>(null)
-  const figs = React.useRef<(HTMLSpanElement | null)[]>([])
-  const show = React.useCallback((v: string | ((s: string) => string)) => setShown((s) => (now.current = typeof v === "function" ? v(s) : v)), [])
-
-  React.useEffect(() => {
-    const before = was.current
-    was.current = { text, value }
-    if (before.text === text) return
-    if (instant || !whole.current) return show(text)
-    const dir = value !== null && before.value !== null && value < before.value ? -1 : 1
-    if (before.text.length !== text.length || now.current.length !== text.length) return roll(whole.current, () => show(text), "0.5em", dir)
-    // ponytail: the timers aren't cleared; roll() already drops a turn that a later one overtakes on the same figure.
-    for (let k = text.length - 1, n = 0; k >= 0; k--) {
-      const el = figs.current[k]
-      if (before.text[k] === text[k] || !el) continue
-      const put = () => show((s) => (s.length === text.length ? s.slice(0, k) + text[k] + s.slice(k + 1) : s))
-      setTimeout(() => roll(el, put, "0.5em", dir), still() ? 0 : n++ * 36) // --db-arpeggio
-    }
-  }, [text, value, instant, show])
+  const { shown: valueShown, whole, figs } = useDigitRoll(text, { order: value ?? 0, instant })
+  const shown = String(valueShown)
 
   return (
     <span ref={whole} className="db-number-figures" aria-hidden="true">
@@ -115,7 +80,7 @@ function NumberInput({
   onKeyDown,
   onPointerDown,
   "data-force": force,
-  ...props
+  ref: forwardedRef, ...props
 }: NumberInputProps) {
   const field = useFieldControl()
   const [own, setOwn] = React.useState<number | null>(defaultValue)
@@ -124,6 +89,7 @@ function NumberInput({
   const [editing, setEditing] = React.useState(false)
   const [held, setHeld] = React.useState(false)
   const input = React.useRef<HTMLInputElement>(null)
+  const composedRef = useComposedRefs(input, forwardedRef)
   const read = React.useMemo(() => reader(locale), [locale])
   const origin = useLineOrigin<HTMLInputElement>((el) => el.closest<HTMLElement>(".db-number") ?? el, { onPointerDown, onFocus } as React.ComponentProps<"input">)
 
@@ -201,7 +167,7 @@ function NumberInput({
           <input
             data-slot="number-input-control"
             {...props}
-            ref={input}
+            ref={composedRef}
             className="db-number-input"
             type="text"
             inputMode={(min ?? -1) >= 0 && Number.isInteger(step) ? "numeric" : "decimal"}

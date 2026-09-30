@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type WakeProps = Omit<React.ComponentProps<"p">, "children"> & {
@@ -26,8 +27,9 @@ type WakeProps = Omit<React.ComponentProps<"p">, "children"> & {
  * the loop runs only while something is still moving. Touch, keyboard and reduced motion get the
  * plain paragraph, and the plain paragraph is always the one a reader hears.
  */
-function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", className, ...props }: WakeProps) {
+function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", className, ref: forwardedRef, ...props }: WakeProps) {
   const ref = React.useRef<HTMLParagraphElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const lines = React.useRef<HTMLSpanElement>(null)
   const ring = React.useRef<HTMLSpanElement>(null)
 
@@ -174,7 +176,7 @@ function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", 
   useWeight(ref, lines, ring, text, radius, variant === "weight")
 
   return (
-    <p ref={ref} data-slot="wake" data-variant={variant === "circle" ? undefined : variant} className={cn("db-wake", className)} {...props}>
+    <p ref={composedRef} data-slot="wake" data-variant={variant === "circle" ? undefined : variant} className={cn("db-wake", className)} {...props}>
       <span className="db-wake-plain">{text}</span>
       <span ref={lines} aria-hidden="true" hidden className="db-wake-lines" />
       {mark ? <span ref={ring} aria-hidden="true" hidden className="db-wake-ring" /> : null}

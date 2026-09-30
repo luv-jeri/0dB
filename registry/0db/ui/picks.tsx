@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type Variant = "pizzicato" | "rubric" | "watermark" | "register"
@@ -28,11 +29,12 @@ type PicksProps = Omit<React.ComponentProps<"fieldset">, "defaultValue" | "onCha
  * Watermark lays the chosen title behind the list, huge and faint, as a sheet shows its mark held to the light.
  * Register marks the chosen pick's two far corners with the printer's registration crosses.
  */
-function Picks({ variant = "pizzicato", name, legend, value: controlled, defaultValue, onValueChange, className, children, ...props }: PicksProps) {
+function Picks({ variant = "pizzicato", name, legend, value: controlled, defaultValue, onValueChange, className, children, ref: forwardedRef, ...props }: PicksProps) {
   const generated = React.useId()
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue)
   const value = controlled ?? uncontrolled
   const box = React.useRef<HTMLFieldSetElement>(null)
+  const composedRef = useComposedRefs(box, forwardedRef)
   const was = React.useRef(value)
   const turn = React.useRef(0) // register: quarter turns the crosses have made
   const plucked = variant === "pizzicato"
@@ -103,7 +105,7 @@ function Picks({ variant = "pizzicato", name, legend, value: controlled, default
 
   return (
     <PicksContext.Provider value={ctx}>
-      <fieldset ref={box} data-slot="picks" data-variant={variant} className={cn("db-picks", className)} {...props}>
+      <fieldset ref={composedRef} data-slot="picks" data-variant={variant} className={cn("db-picks", className)} {...props}>
         {legend ? <legend className="db-label">{legend}</legend> : null}
         {children}
         {plucked ? (

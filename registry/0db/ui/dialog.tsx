@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Scrollbar } from "@/registry/0db/ui/scrollbar"
 
@@ -74,9 +75,10 @@ function DialogTrigger({ asChild = false, onClick, ...props }: React.ComponentPr
  * Focus goes to the element marked data-autofocus, or the browser's first choice.
  * Taller than the window, it scrolls, on the scrollbar's rail.
  */
-function DialogSurface({ className, children, onClick, ...props }: React.ComponentProps<"dialog">) {
+function DialogSurface({ className, children, onClick, ref: forwardedRef, ...props }: React.ComponentProps<"dialog">) {
   const { open, setOpen, alert, titleId, descriptionId } = useDialog()
   const ref = React.useRef<HTMLDialogElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
 
   React.useEffect(() => {
     const d = ref.current
@@ -98,7 +100,7 @@ function DialogSurface({ className, children, onClick, ...props }: React.Compone
 
   return (
     <dialog
-      ref={ref}
+      ref={composedRef}
       role={alert ? "alertdialog" : undefined}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}

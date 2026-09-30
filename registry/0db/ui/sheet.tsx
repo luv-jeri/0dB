@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { Slot } from "@radix-ui/react-slot"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Dialog, DialogActions, DialogClose, DialogSurface, DialogTrigger, useDialog } from "@/registry/0db/ui/dialog"
 
@@ -237,12 +238,13 @@ type SheetPanelsProps = Omit<React.ComponentProps<"div">, "defaultValue"> & {
  * spine, large, and the name you left shrinks into the pencil below it; the names below are the way back. The
  * panels must be direct children: their titles are read from them to set the trail.
  */
-function SheetPanels({ defaultValue, onValueChange, className, children, ...props }: SheetPanelsProps) {
+function SheetPanels({ defaultValue, onValueChange, className, children, ref: forwardedRef, ...props }: SheetPanelsProps) {
   const { open } = useDialog()
   const [path, setPath] = React.useState([defaultValue])
   const [step, setStep] = React.useState<"in" | "out">("in")
   const openers = React.useRef<(HTMLElement | null)[]>([])
   const host = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(host, forwardedRef)
   const titles = new Map<string, React.ReactNode>()
   React.Children.forEach(children, (c) => {
     if (React.isValidElement<SheetPanelProps>(c) && c.props.value) titles.set(c.props.value, c.props.title)
@@ -270,7 +272,7 @@ function SheetPanels({ defaultValue, onValueChange, className, children, ...prop
 
   return (
     <PanelsContext.Provider value={{ path, root: defaultValue, go }}>
-      <div ref={host} data-slot="sheet-panels" data-step={step} className={cn("db-sheet-panels", className)} {...props}>
+      <div ref={composedRef} data-slot="sheet-panels" data-step={step} className={cn("db-sheet-panels", className)} {...props}>
         {/* The spine is the trail: the root at the foot, the panel you are in written large at the head. */}
         <nav className="db-sheet-spine db-sheet-trail" aria-label="Path">
           {path.map((v, i) => {

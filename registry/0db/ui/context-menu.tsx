@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as MenuPrimitive from "@radix-ui/react-context-menu"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { DropdownMenuShortcut, MenuLook, useSubmenuPlace } from "@/registry/0db/ui/dropdown-menu"
 
@@ -26,13 +27,12 @@ function ContextMenu({ dir, ...props }: React.ComponentProps<typeof MenuPrimitiv
 
 function ContextMenuTrigger({ ref, onContextMenu, onPointerDown, ...props }: React.ComponentProps<typeof MenuPrimitive.Trigger>) {
   const { setAround, atRef } = React.useContext(Around)
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLSpanElement | null) => {
+    if (node && getComputedStyle(node).direction === "rtl") setAround("rtl")
+  }, [setAround]), ref)
   return (
     <MenuPrimitive.Trigger
-      ref={(node: HTMLSpanElement | null) => {
-        if (node && getComputedStyle(node).direction === "rtl") setAround("rtl")
-        if (typeof ref === "function") ref(node)
-        else if (ref) ref.current = node
-      }}
+      ref={composedRef}
       data-slot="context-menu-trigger"
       onContextMenu={(event) => {
         atRef.current = { x: event.clientX, y: event.clientY }
@@ -95,18 +95,17 @@ function ContextMenuContent({
   const { dir, atRef } = React.useContext(Around)
   const [shift, setShift] = React.useState<Point>({ x: 0, y: 0 })
   const pad = typeof collisionPadding === "number" ? collisionPadding : Math.max(...Object.values(collisionPadding), 0)
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLDivElement | null) => {
+    if (node) {
+      const { x, y } = atRef.current, html = document.documentElement
+      const next = { x: reach(x, node.offsetWidth, html.clientWidth, pad, dir !== "rtl") - (x + 2), y: reach(y - 2, node.offsetHeight, html.clientHeight, pad, true) - y }
+      setShift((was) => (was.x === next.x && was.y === next.y ? was : next))
+    }
+  }, [atRef, dir, pad]), ref)
   return (
     <MenuPrimitive.Portal>
       <MenuPrimitive.Content
-        ref={(node: HTMLDivElement | null) => {
-          if (node) {
-            const { x, y } = atRef.current, html = document.documentElement
-            const next = { x: reach(x, node.offsetWidth, html.clientWidth, pad, dir !== "rtl") - (x + 2), y: reach(y - 2, node.offsetHeight, html.clientHeight, pad, true) - y }
-            setShift((was) => (was.x === next.x && was.y === next.y ? was : next))
-          }
-          if (typeof ref === "function") ref(node)
-          else if (ref) ref.current = node
-        }}
+        ref={composedRef}
         data-slot="context-menu-content"
         data-at="point"
         data-variant={variant}

@@ -156,6 +156,7 @@ function Thread({ label, newLabel = "new", variant = "default", className, child
 
   const jump = () => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
+    scroller.current?.focus({ preventScroll: true })
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: reduced ? "auto" : "smooth" })
   }
 

@@ -14,5 +14,6 @@ export default defineComponent({
     { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Called with the new state." },
     { name: "on", type: "string", default: "\"on\"", description: "The word for on, in italic." },
     { name: "off", type: "string", default: "\"off\"", description: "The word for off." },
+    { name: "labelClassName", type: "string", description: "Classes for the sentence's label wrapper. className goes to the native checkbox." },
   ],
 })

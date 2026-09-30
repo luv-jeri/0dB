@@ -14,5 +14,6 @@ export default defineComponent({
     { name: "DialogMeta", type: "div", description: "The frame row over the question: what this is, a hairline, one fact." },
     { name: "data-autofocus", type: "attribute", description: "Put it on the answer that should take focus when the dialog opens." },
     { name: "DialogSurface", type: "dialog", description: "The bare native dialog. Sheet and drawer build on it." },
+    { name: "DialogTrigger / DialogClose asChild", type: "boolean", default: "false", description: "Pass the open or close behaviour to one child control instead of rendering another button." },
   ],
 })

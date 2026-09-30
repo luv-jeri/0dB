@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type TableProps = React.ComponentProps<"table"> & {
@@ -39,13 +40,10 @@ function TableBody({ ref, ...props }: React.ComponentProps<"tbody">) {
       row.animate([{ translate: `0 ${from - row.offsetTop}px` }, { translate: "0 0" }], tempo)
     }
   })
+  const composedRef = useComposedRefs(own, ref)
   return (
     <tbody
-      ref={(el) => {
-        own.current = el
-        if (typeof ref === "function") ref(el)
-        else if (ref) ref.current = el
-      }}
+      ref={composedRef}
       data-slot="table-body"
       {...props}
     />

@@ -14,5 +14,6 @@ export default defineComponent({
     { name: "CheckboxGroup legend", type: "ReactNode", description: "The small label over the list." },
     { name: "CheckboxGroup tally", type: "boolean", default: "false", description: "Show how many are done, as a <Fraction>: each figure that changes turns over on its own wheel, the way the count went." },
     { name: "CheckboxGroup done", type: "(count, total) => ReactNode", description: "What the tally says after the fraction." },
+    { name: "labelClassName", type: "string", description: "Classes for the visible label wrapper. className goes to the native checkbox." },
   ],
 })

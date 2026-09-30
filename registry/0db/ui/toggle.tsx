@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as TogglePrimitive from "@radix-ui/react-toggle"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type ToggleProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, "asChild"> & {
@@ -58,13 +59,10 @@ function useFaces(variant: string, children: React.ReactNode) {
  */
 function Toggle({ className, variant = "fermata", note = "on", children, ref, ...props }: ToggleProps) {
   const ownRef = useFaces(variant, children)
+  const composedRef = useComposedRefs(ownRef, ref)
   return (
     <TogglePrimitive.Root
-      ref={(node: HTMLButtonElement | null) => {
-        ownRef.current = node
-        if (typeof ref === "function") ref(node)
-        else if (ref) ref.current = node
-      }}
+      ref={composedRef}
       data-slot="toggle"
       data-variant={variant}
       className={cn("db-toggle", className)}

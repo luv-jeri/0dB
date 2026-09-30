@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 /** The attributes on <html> that can change the face. Not class: smooth scrolling toggles one on every scroll. */
@@ -74,8 +75,9 @@ function streaks(words: string[], most: number) {
  * the size of the type is found so the last word lands in the last row. Pointing shows nothing new.
  * Until the fonts and the layout are ready it is a plain paragraph.
  */
-function Calligram({ children: text, shape = "circle", variant = "fill", centre, size, fade = false, className, style, ...props }: CalligramProps) {
+function Calligram({ children: text, shape = "circle", variant = "fill", centre, size, fade = false, className, style, ref: forwardedRef, ...props }: CalligramProps) {
   const ref = React.useRef<HTMLParagraphElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const middle = React.useRef<HTMLSpanElement>(null)
   const [laid, setLaid] = React.useState<Laid | null>(null)
 
@@ -249,7 +251,7 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
   }, [text, shape, variant, centre])
 
   return (
-    <p ref={ref} data-slot="calligram" data-shape={variant === "fill" ? shape : undefined} data-variant={variant === "fill" ? undefined : variant} data-fade={fade || undefined} className={cn("db-calligram", className)} style={{ ...(size ? { "--size": size } : null), ...style } as React.CSSProperties} {...props}>
+    <p ref={composedRef} data-slot="calligram" data-shape={variant === "fill" ? shape : undefined} data-variant={variant === "fill" ? undefined : variant} data-fade={fade || undefined} className={cn("db-calligram", className)} style={{ ...(size ? { "--size": size } : null), ...style } as React.CSSProperties} {...props}>
       <span className="db-sr">{text}</span>
       <span
         aria-hidden="true"

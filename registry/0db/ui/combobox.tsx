@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Badge } from "@/registry/0db/ui/badge"
 import { Command, CommandEmpty, CommandHint, CommandInput, CommandItem, CommandList } from "@/registry/0db/ui/command"
@@ -10,7 +11,7 @@ import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/regist
 
 type ComboboxOption = { value: string; label: string; hint?: string }
 
-type ComboboxBase = Omit<React.ComponentProps<"button">, "value" | "defaultValue" | "onChange" | "type"> & {
+type ComboboxOptions = {
   /** Labels should be unique: they are what the list is matched and marked on. */
   options: ComboboxOption[]
   /** Set above the line. Left out, label it with a Field, or with aria-label. */
@@ -23,6 +24,8 @@ type ComboboxBase = Omit<React.ComponentProps<"button">, "value" | "defaultValue
   "data-force"?: string
 }
 
+type ComboboxBase = Omit<React.ComponentProps<"button">, "value" | "defaultValue" | "onChange" | "type"> & ComboboxOptions
+
 type ComboboxOne = ComboboxBase & {
   multiple?: false
   value?: string
@@ -33,7 +36,15 @@ type ComboboxOne = ComboboxBase & {
    * concordance: the matches hang from what you typed, lined up on it, as a concordance sets a word.
    * pencil: you type on the line itself, and the rest of the best match is pencilled in after the caret.
    */
-  variant?: "list" | "concordance" | "pencil"
+  variant?: "list" | "concordance"
+}
+
+type ComboboxPencilProps = Omit<React.ComponentProps<"input">, "value" | "defaultValue" | "type"> & ComboboxOptions & {
+  multiple?: false
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  variant: "pencil"
 }
 
 type ComboboxMany = ComboboxBase & {
@@ -50,7 +61,7 @@ type ComboboxMany = ComboboxBase & {
   variant?: "list" | "concordance"
 }
 
-type ComboboxProps = ComboboxOne | ComboboxMany
+type ComboboxProps = ComboboxOne | ComboboxMany | ComboboxPencilProps
 
 /** A tempo token in milliseconds: the tokens are written in seconds or milliseconds. */
 const ms = (v: string, fallback: number) => (v.trim().endsWith("ms") ? parseFloat(v) : parseFloat(v) * 1000) || fallback
@@ -99,7 +110,7 @@ function ComboboxControl({
   onKeyDown,
   name,
   ...props
-}: ComboboxProps) {
+}: ComboboxOne | ComboboxMany) {
   const field = useFieldControl()
   const [open, setOpen] = React.useState(false)
   const listId = React.useId()
@@ -197,7 +208,7 @@ function ComboboxControl({
               </Badge>
             ))}
             {button}
-            {name ? picked.map((v) => <input key={v} type="hidden" name={name} value={v} />) : null}
+            {name ? picked.map((v) => <input key={v} type="hidden" name={name} value={v} disabled={props.disabled} />) : null}
           </div>
         </PopoverAnchor>
       ) : (
@@ -269,10 +280,13 @@ const SHOWN = 5 // ponytail: the pencil lists the first five matches, so it neve
  * in our roman; Tab or the right arrow (at the end) takes them and they ink into your italic. Up and Down move
  * through the few matches below the line, Enter picks one, Escape puts the line back.
  */
-function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange, label, placeholder = "Start typing", empty = "Nothing matches. Try part of a name.", className, id, disabled, "aria-label": named, "data-force": force }: ComboboxOne) {
+function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange, label, placeholder = "Start typing", empty = "Nothing matches. Try part of a name.", className, id, disabled, readOnly, dir = "auto", "aria-label": named, "data-force": force, ref, onFocus, onPointerDown, onChange, onClick, onKeyDown, onBlur, variant, multiple, ...props }: ComboboxPencilProps) {
+  void variant
+  void multiple
   const field = useFieldControl()
   const listId = React.useId()
   const input = React.useRef<HTMLInputElement>(null)
+  const composedRef = useComposedRefs(input, ref)
   const [own, setOwn] = React.useState(defaultValue)
   const value = valueProp ?? own
   const chosen = options.find((o) => o.value === value)
@@ -292,9 +306,10 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
   const shown = [...found.filter((o) => o.label.toLowerCase().startsWith(q)), ...found.filter((o) => !o.label.toLowerCase().startsWith(q))].slice(0, SHOWN)
   const active = open ? shown[Math.min(at, shown.length - 1)] : undefined
   const rest = active && text && active.label.toLowerCase().startsWith(text.toLowerCase()) ? active.label.slice(text.length) : ""
-  const origin = useLineOrigin<HTMLInputElement>((el) => el, {})
+  const origin = useLineOrigin<HTMLInputElement>((el) => el, { onFocus, onPointerDown })
 
   const choose = (o: ComboboxOption) => {
+    if (disabled || readOnly) return
     if (valueProp === undefined) setOwn(o.value)
     onValueChange?.(o.value)
     setText(o.label)
@@ -308,6 +323,8 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
   }
 
   const key = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    onKeyDown?.(e)
+    if (e.defaultPrevented || readOnly) return
     const atEnd = e.currentTarget.selectionStart === text.length
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       e.preventDefault()
@@ -332,32 +349,41 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
     <div data-slot="combobox" data-variant="pencil" data-force={force} className={cn("db-combo-pencil", className)}>
       <span className="db-combo-line">
         <input
-          ref={input}
+          {...props}
+          ref={composedRef}
           type="text"
-          dir="auto" // the line and its pencil copy both take the direction of what's typed, so they stay in register
+          dir={dir} // the line and its pencil copy both take the direction of what's typed, so they stay in register
           role="combobox"
-          autoComplete="off"
-          spellCheck={false}
+          autoComplete={props.autoComplete ?? "off"}
+          spellCheck={props.spellCheck ?? false}
           aria-autocomplete="list"
           aria-expanded={open}
           aria-controls={listId}
           aria-activedescendant={active ? `${listId}-${shown.indexOf(active)}` : undefined}
           aria-label={named ?? (label && !field.id ? label : undefined)}
-          aria-invalid={field["aria-invalid"]}
-          aria-describedby={field["aria-describedby"]}
+          aria-invalid={props["aria-invalid"] ?? field["aria-invalid"]}
+          aria-describedby={props["aria-describedby"] ?? field["aria-describedby"]}
           id={id ?? field.id}
           disabled={disabled}
+          readOnly={readOnly}
           placeholder={placeholder}
           value={text}
           className="db-input"
           onChange={(e) => {
+            onChange?.(e)
+            if (e.defaultPrevented) return
             setText(e.target.value)
             setOpen(true)
             setAt(0)
           }}
-          onClick={() => setOpen(true)}
+          onClick={(e) => {
+            onClick?.(e)
+            if (!e.defaultPrevented && !readOnly) setOpen(true)
+          }}
           onKeyDown={key}
-          onBlur={() => {
+          onBlur={(e) => {
+            onBlur?.(e)
+            if (e.defaultPrevented) return
             setOpen(false)
             const exact = options.find((o) => o.label.toLowerCase() === q)
             if (exact && exact.value !== value) choose(exact)
@@ -365,7 +391,7 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
           }}
           {...origin}
         />
-        <span className="db-combo-ghost" dir="auto" aria-hidden="true">
+        <span className="db-combo-ghost" dir={dir} aria-hidden="true">
           {text}
           <span>{rest}</span>
         </span>

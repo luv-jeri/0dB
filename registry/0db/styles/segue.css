@@ -7,6 +7,7 @@
   .db-segue > .db-segue-scene { grid-area: 1 / 1; min-width: 0; }
   .db-segue > .db-segue-scene:not([data-current], [data-part]) { visibility: hidden; }
   .db-segue[data-scrub] > .db-segue-scene:not([data-current], [data-part]) { visibility: visible; opacity: 0; } /* still read, in order */
+  .db-segue > .db-segue-scene:not([data-current]) { pointer-events: none; }
   .db-segue[data-phase="cross"] { transition: --db-segue-p var(--db-andante) var(--db-breath); }
 
   /* The line: a frame-sized layer whose one edge is the hairline, translated across. Drawn only while crossing. */

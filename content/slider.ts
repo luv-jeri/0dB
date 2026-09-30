@@ -15,5 +15,6 @@ export default defineComponent({
     { name: "onValueChange", type: "(value: number) => void", description: "Called with the new value as the hand moves." },
     { name: "unit", type: "string", description: "Set after the number as written: \" kg\" with its space, \"%\" without." },
     { name: "disabled", type: "boolean", default: "false", description: "The ruler fades and the hand stays put." },
+    { name: "className", type: "string", description: "Classes for the ruler's outer div; the input props apply to the native range inside it." },
   ],
 })

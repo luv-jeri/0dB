@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Button } from "@/registry/0db/ui/button"
 import { useFieldControl, useLineOrigin } from "@/registry/0db/ui/field"
@@ -21,13 +22,14 @@ type InputGroupProps = React.ComponentProps<"div"> & {
 }
 
 /** Ours and yours on one line. Put text, the input and an action inside; the accent draws only under your part. */
-function InputGroup({ className, variant = "line", onInput, onPointerDown, children, ...props }: InputGroupProps) {
+function InputGroup({ className, variant = "line", onInput, onPointerDown, children, ref: forwardedRef, ...props }: InputGroupProps) {
   const root = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(root, forwardedRef)
   const [value, setValue] = React.useState("")
   React.useLayoutEffect(() => setValue(root.current?.querySelector("input")?.value ?? ""), [])
   return (
     <div
-      ref={root}
+      ref={composedRef}
       data-slot="input-group"
       data-variant={variant}
       data-filled={value ? "" : undefined}

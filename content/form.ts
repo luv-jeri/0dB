@@ -14,5 +14,7 @@ export default defineComponent({
     { name: "FormSubmit busy", type: "string", description: "What the button says while sending, keeping the action's name: Send becomes Sending. Without it the label stays and the periods breathe." },
     { name: "FormSubmit sent", type: "string", description: "What it says once sent, until something changes: Send becomes Sent. Without it the label stays." },
     { name: "FormPostscript, FormPostmark", type: "parts", description: "The letter's postscript and the postmark. The Form renders them itself; they're exported to pin a state in documentation." },
+    { name: "FormPostscript errors", type: "Record<string, string>", description: "Required when rendering the part yourself: control IDs mapped to messages. Each message links to its control. Form supplies these automatically for its letter variant." },
+    { name: "FormPostmark date", type: "Date", description: "Required when rendering the part yourself: when the form was sent. Form supplies it automatically for its postmark variant." },
   ],
 })

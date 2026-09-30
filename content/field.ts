@@ -16,5 +16,6 @@ export default defineComponent({
     { name: "maxLength", type: "number", description: "Passed to the control, and the top of the count." },
     { name: "Input / Textarea", type: "native", description: "Real controls with every native prop. Textarea is ruled like paper. Both also work outside a Field." },
     { name: "FieldError", type: "component", description: "The callout on its own, for an error you place yourself." },
+    { name: "id", type: "string", default: "generated", description: "The control's ID, used by the label and hint/error associations. Input and Textarea inherit it; a custom control must use the same ID." },
   ],
 })

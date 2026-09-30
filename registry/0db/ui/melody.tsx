@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 /** The <html> switches that change the face; smooth scrolling toggles a class there on every scroll, which must not re-lay the text. */
@@ -55,8 +56,9 @@ function tune(words: string[]) {
  * in rings. `cutaway` draws the staff only under the words, as a cutaway score drops an instrument's
  * lines while it rests.
  */
-function Melody({ children: text, contour, variant = "stave", className, style, onKeyDown, onBlur, onPointerLeave, ...props }: MelodyProps) {
+function Melody({ children: text, contour, variant = "stave", className, style, onKeyDown, onBlur, onPointerLeave, ref: forwardedRef, ...props }: MelodyProps) {
   const ref = React.useRef<HTMLElement>(null)
+  const composedRef = useComposedRefs(ref, forwardedRef)
   const [layout, setLayout] = React.useState<Layout | null>(null)
   // noteheads: the word you're at, and the one you were at, so the discs fill or empty in turn from there.
   const [pos, setPos] = React.useState({ at: -1, from: -1 })
@@ -307,7 +309,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
 
   return (
     <figure
-      ref={ref}
+      ref={composedRef}
       data-slot="melody"
       tabIndex={0}
       aria-label={text}

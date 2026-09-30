@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type RowsProps = React.ComponentProps<"ul"> & {
@@ -18,7 +19,7 @@ type RowsProps = React.ComponentProps<"ul"> & {
 /** An index: hairline-separated rows. The one you point at reverses out of ink and steps forward. */
 function Rows({ className, variant = "reverse", ref, ...props }: RowsProps) {
   const own = React.useRef<HTMLUListElement>(null)
-  React.useImperativeHandle(ref, () => own.current as HTMLUListElement)
+  const composedRef = useComposedRefs(own, ref)
   // ditto: after every render, mark each kind or year that repeats the one in the row above.
   React.useLayoutEffect(() => {
     if (variant !== "ditto" || !own.current) return
@@ -34,7 +35,7 @@ function Rows({ className, variant = "reverse", ref, ...props }: RowsProps) {
       above = here
     }
   })
-  return <ul ref={own} data-slot="rows" data-variant={variant === "reverse" ? undefined : variant} className={cn("db-rows", className)} {...props} />
+  return <ul ref={composedRef} data-slot="rows" data-variant={variant === "reverse" ? undefined : variant} className={cn("db-rows", className)} {...props} />
 }
 
 type RowProps = Omit<React.ComponentProps<"li">, "onClick"> & {

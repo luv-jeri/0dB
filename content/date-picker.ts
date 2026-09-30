@@ -16,5 +16,6 @@ export default defineComponent({
     { name: "variant", type: '"dots" | "ruler" | "ghost" | "parenthesis"', default: '"dots"', description: "How the month draws time; see Calendar. Each holds at popover size: the ghost scales with the month, and the parenthesis line wraps to it." },
     { name: "locale", type: "string", default: '"en-GB"', description: "Month and weekday names, for the line and the month." },
     { name: "Keyboard", type: "note", description: "Enter or Space opens the month; its arrows move by day and week and Enter chooses. Escape closes it and puts focus back on the date." },
+    { name: "rootClassName", type: "string", description: "Classes for the outer sentence and label. className goes to the button that opens the month." },
   ],
 })

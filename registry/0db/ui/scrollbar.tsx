@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 
 type ScrollbarSection = {
@@ -227,10 +228,11 @@ type ScrollbarProps = Omit<React.ComponentProps<"div">, "children"> &
  * the sections are marks on the rail that scroll to the element with that id. Anyone who can't point still needs
  * those sections elsewhere on the page (a table of contents).
  */
-function Scrollbar({ variant = "inner", axis = "y", min = variant === "page" ? 40 : 24, sections, className, "data-force": force, ...props }: ScrollbarProps) {
+function Scrollbar({ variant = "inner", axis = "y", min = variant === "page" ? 40 : 24, sections, className, "data-force": force, ref: forwardedRef, ...props }: ScrollbarProps) {
   const rail = useScrollbar({ variant, axis, min, sections, still: force !== undefined })
+  const composedRef = useComposedRefs(rail, forwardedRef)
   return (
-    <div ref={rail} data-force={force} data-slot="scrollbar" data-variant={variant} data-axis={variant === "inner" && axis === "x" ? "x" : undefined} aria-hidden="true" className={cn("db-scrollbar", className)} {...props}>
+    <div ref={composedRef} data-force={force} data-slot="scrollbar" data-variant={variant} data-axis={variant === "inner" && axis === "x" ? "x" : undefined} aria-hidden="true" className={cn("db-scrollbar", className)} {...props}>
       <span data-slot="scrollbar-thumb" className="db-scrollbar-thumb" />
       {variant === "leaves" && <span data-slot="scrollbar-leaves" className="db-scrollbar-leaves" />}
       {sections?.map((s, i) => (

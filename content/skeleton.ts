@@ -15,5 +15,6 @@ export default defineComponent({
     { name: "SkeletonLine.height", type: "string", default: '"1.7em"', description: "Any CSS height; a headline is about 2.8em." },
     { name: "SkeletonLine.index", type: "number", default: "0", description: "Position in the stack, so the stroke reads down the lines in turn." },
     { name: "SkeletonRing", type: "span", description: "Where an avatar or a mark will be. Set size for anything other than 2.75rem." },
+    { name: "SkeletonRing size", type: "string", default: '"2.75rem"', description: "Any CSS length for both the width and height of the ring." },
   ],
 })

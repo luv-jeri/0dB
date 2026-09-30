@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as MenuPrimitive from "@radix-ui/react-menubar"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { DropdownMenuShortcut, MenuLook, useSubmenuPlace } from "@/registry/0db/ui/dropdown-menu"
 
@@ -42,14 +43,13 @@ function Menubar({ className, dir, ref, variant = "pocket", children, onFocus, o
   const [path, setPath] = React.useState<string[] | null>(null)
   const caption = variant === "caption"
   const rest = props["aria-label"]
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLDivElement | null) => {
+    const up = node?.parentElement
+    if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
+  }, [dir]), ref)
   return (
     <MenuPrimitive.Root
-      ref={(node: HTMLDivElement | null) => {
-        const up = node?.parentElement
-        if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
-        if (typeof ref === "function") ref(node)
-        else if (ref) ref.current = node
-      }}
+      ref={composedRef}
       data-slot="menubar"
       data-variant={variant}
       dir={dir ?? around}
@@ -119,11 +119,11 @@ function MenubarContent({
 }: React.ComponentProps<typeof MenuPrimitive.Content>) {
   const look = React.useContext(Look) === "leaders" ? "leaders" : "list"
   const node = React.useRef<HTMLDivElement>(null)
-  React.useImperativeHandle(ref, () => node.current as HTMLDivElement)
+  const composedRef = useComposedRefs(node, ref)
   return (
     <MenuPrimitive.Portal>
       <MenuPrimitive.Content
-        ref={node}
+        ref={composedRef}
         data-slot="menubar-content"
         data-variant={look}
         align={align}

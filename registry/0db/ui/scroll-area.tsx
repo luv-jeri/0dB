@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { Scrollbar, type ScrollbarSection } from "@/registry/0db/ui/scrollbar"
 
@@ -92,12 +93,13 @@ function useCatchword(box: React.RefObject<HTMLDivElement | null>, on: boolean) 
  * variant="catchword" sets the first word waiting below on the foot rule; variant="wheel" turns the children of
  * what you put inside on an arc, the one in the middle in ink.
  */
-function ScrollArea({ className, children, sections, variant = "ruled", ...props }: ScrollAreaProps) {
+function ScrollArea({ className, children, sections, variant = "ruled", ref: forwardedRef, ...props }: ScrollAreaProps) {
   const named = props["aria-label"] || props["aria-labelledby"]
   const box = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(box, forwardedRef)
   useCatchword(box, variant === "catchword")
   return (
-    <div ref={box} data-slot="scroll-area" data-variant={variant} tabIndex={0} role={named ? "region" : undefined} className={cn("db-scroll", className)} {...props}>
+    <div ref={composedRef} data-slot="scroll-area" data-variant={variant} tabIndex={0} role={named ? "region" : undefined} className={cn("db-scroll", className)} {...props}>
       {children}
       {variant === "catchword" && (
         <div className="db-scroll-foot" aria-hidden="true">

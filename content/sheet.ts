@@ -19,5 +19,7 @@ export default defineComponent({
     { name: "SheetPanelLink to", type: "string", description: "Steps into the panel with that value; focus moves to its heading, and going back returns focus here. Bare, a line of type with an arrow; asChild lends the move to your own control." },
     { name: "SheetSpine", type: "p", description: "The sheet's name, running up its spine. Decorative; SheetTitle is the readable heading." },
     { name: "data-autofocus", type: "attribute", description: "Put it on the control that should take focus when the sheet opens." },
+    { name: "SheetTrigger / SheetPanelLink asChild", type: "boolean", default: "false", description: "Lend the opening or panel navigation behaviour to one child control." },
+    { name: "SheetPanel value / title", type: "string / ReactNode", description: "Required: the panel's unique value, used by SheetPanelLink.to, and its title, used for the heading and spine trail." },
   ],
 })

@@ -12,5 +12,6 @@ export default defineComponent({
     { name: "label", type: "ReactNode", description: "The words before the choice, such as Sort by. They label the select, and clicking them opens it." },
     { name: "children", type: "<option>[]", description: "The choices. A real select underneath, so keyboard, forms and autofill are the browser's own." },
     { name: "value / defaultValue / onChange", type: "native", description: "Every native select prop passes through." },
+    { name: "rootClassName", type: "string", description: "Classes for the outer sentence and label. className goes to the native select." },
   ],
 })

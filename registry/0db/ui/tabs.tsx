@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
 import { cn } from "@/registry/0db/lib/utils"
 import { roll } from "@/registry/0db/lib/roll"
 
@@ -21,14 +22,13 @@ function Tabs({ className, variant = "line", orientation, dir, ref, ...props }: 
   // tabs and arrow keys around. Without a dir, the tabs take the direction of the page around them,
   // read as they mount, before the first paint (as the menus and the toggle group do).
   const [around, setAround] = React.useState<"rtl">()
+  const composedRef = useComposedRefs(React.useCallback((node: HTMLDivElement | null) => {
+    const up = node?.parentElement
+    if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
+  }, [dir]), ref)
   return (
     <TabsPrimitive.Root
-      ref={(node: HTMLDivElement | null) => {
-        const up = node?.parentElement
-        if (!dir && up && getComputedStyle(up).direction === "rtl") setAround("rtl")
-        if (typeof ref === "function") ref(node)
-        else if (ref) ref.current = node
-      }}
+      ref={composedRef}
       dir={dir ?? around}
       data-slot="tabs"
       data-variant={variant}
@@ -87,18 +87,16 @@ function useFollow() {
       resize.disconnect()
     }
   }, [])
-  return (node: HTMLDivElement | null) => {
-    list.current = node
-  }
+  return list
 }
 
 /** Words with a hairline beneath; a line slides to the one in view, leading edge first. */
-// ponytail: takes no ref of its own; the hook owns it. Add a merged ref if someone needs the list element.
-function TabsList({ className, children, ...props }: Omit<React.ComponentProps<typeof TabsPrimitive.List>, "ref">) {
+function TabsList({ className, children, ref, ...props }: React.ComponentProps<typeof TabsPrimitive.List>) {
   const follow = useFollow()
+  const composedRef = useComposedRefs(follow, ref)
   return (
     <TabsPrimitive.List
-      ref={follow}
+      ref={composedRef}
       data-slot="tabs-list"
       className={cn("db-tabs", className)}
       {...props}

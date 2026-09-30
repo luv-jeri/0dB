@@ -15,5 +15,6 @@ export default defineComponent({
     { name: "RowTitle", type: "span", description: "The name, set large." },
     { name: "RowKind", type: "span", description: "What it is, in graphite." },
     { name: "RowMeta", type: "span", description: "The quiet fact at the end: a year, a count." },
+    { name: "Row onClick", type: "MouseEventHandler<HTMLElement>", description: "Passed to the inner link, slotted child, or plain div. Use href for navigation or asChild with a button for a keyboard-accessible action." },
   ],
 })

@@ -2,18 +2,21 @@
 
 import * as React from "react"
 
+import { useComposedRefs } from "@/registry/0db/lib/refs"
+import { useFormPresentation } from "@/registry/0db/lib/use-form-presentation"
 import { cn } from "@/registry/0db/lib/utils"
 
 /** Errors a Form found, keyed by the id of the control they belong to. */
 const FieldErrors = React.createContext<Record<string, string>>({})
 const FieldErrorsProvider = FieldErrors.Provider
 
-type FieldContext = { id: string; hintId?: string; errorId?: string; invalid: boolean; maxLength?: number }
+type FieldContext = { id: string; hintId?: string; errorId?: string; invalid: boolean; maxLength?: number; sync: () => void }
 const FieldCtx = React.createContext<FieldContext | null>(null)
 
 /** What a control inside a Field needs: its id, what describes it, whether it's wrong. Empty outside a Field. */
 function useFieldControl() {
   const ctx = React.useContext(FieldCtx)
+  React.useLayoutEffect(() => { ctx?.sync() })
   return {
     id: ctx?.id,
     maxLength: ctx?.maxLength,
@@ -41,17 +44,19 @@ type FieldProps = Omit<React.ComponentProps<"div">, "id"> & {
 }
 
 /** One control on a baseline. Wraps an Input, Textarea, InputGroup or InputOTP and wires label, hint and error to it. */
-function Field({ label, hint, error, count, maxLength, id, variant = "line", className, children, onInput, ...props }: FieldProps) {
+function Field({ label, hint, error, count, maxLength, id, variant = "line", className, children, onInput, ref: forwardedRef, ...props }: FieldProps) {
   const made = React.useId()
   const controlId = id ?? made
   const formErrors = React.useContext(FieldErrors)
   const message = error ?? formErrors[controlId]
   const root = React.useRef<HTMLDivElement>(null)
+  const composedRef = useComposedRefs(root, forwardedRef)
   const [typed, setTyped] = React.useState(0)
-  React.useEffect(() => {
-    const el = root.current?.querySelector<HTMLInputElement>("input, textarea")
-    if (el) setTyped(el.value.length)
+  const sync = React.useCallback(() => {
+    const el = root.current?.querySelector<HTMLInputElement | HTMLTextAreaElement>('input:not([type="hidden"]), textarea')
+    setTyped(el?.value.length ?? 0)
   }, [])
+  useFormPresentation(root, sync)
 
   const ctx: FieldContext = {
     id: controlId,
@@ -59,12 +64,13 @@ function Field({ label, hint, error, count, maxLength, id, variant = "line", cla
     errorId: message ? `${controlId}-error` : undefined,
     invalid: Boolean(message),
     maxLength,
+    sync,
   }
 
   return (
     <FieldCtx.Provider value={ctx}>
       <div
-        ref={root}
+        ref={composedRef}
         data-slot="field"
         data-variant={variant}
         data-filled={typed > 0 ? "" : undefined}
