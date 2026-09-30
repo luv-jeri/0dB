@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import NextLink from "next/link"
 
 import { Rows, Row, RowKind, RowMeta, RowTitle } from "@/registry/0db/ui/rows"
+import { Link } from "@/registry/0db/ui/link"
 import { catalog, UNDER } from "@/lib/site/catalog"
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function DocsIndexPage() {
       <header className="doc-head">
         <h1 className="doc-title">Index</h1>
         <p className="doc-summary">{count} items in {catalog.length} movements. Each one is a typographic idea standing on a native element or a Radix primitive.</p>
+        <p><Link asChild><NextLink href="/docs/build-with-ai/">Build with AI</NextLink></Link></p>
       </header>
       {catalog.map((m) => (
         <section key={m.num} className="doc-section" aria-labelledby={`m-${m.num}`}>

@@ -7,6 +7,7 @@ const groups: IndexGroup[] = [
     links: [
       { href: "/docs/", title: "Index", summary: "Every item, by movement." },
       { href: "/docs/install/", title: "Install", summary: "The base, then any item, with the shadcn CLI." },
+      { href: "/docs/build-with-ai/", title: "Build with AI", summary: "Rules, references and prompts for your AI tool." },
       { href: "/docs/principles/", title: "Principles", summary: "What the library will and won't do." },
       { href: "/docs/tokens/", title: "Tokens", summary: "Type, space, tempo and colour, each to copy." },
     ],

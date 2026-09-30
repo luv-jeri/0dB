@@ -7,6 +7,7 @@ export const PAGES = [
   { href: "/", title: "Overture", num: "" },
   { href: "/docs/", title: "Index", num: "" },
   { href: "/docs/install/", title: "Install", num: "I" },
+  { href: "/docs/build-with-ai/", title: "Build with AI", num: "" },
   { href: "/docs/principles/", title: "Principles", num: "" },
   { href: "/docs/tokens/", title: "Tokens", num: "III" },
 ]
