@@ -1,0 +1,233 @@
+# 0dB
+
+> **Silence is structure.** Space does the layout. A hairline appears only where space alone can't hold two things apart. **Type is the only ornament.** Weight, width, size, tracking and order carry every level of hierarchy. No icons, fills or shadows. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic at `--db-expression-scale`: a picked option, a typed value, a switch state, a slider value, a named item they own. Musical and foreign terms are italic too (`.db-term`), by book convention. **One note of colour.** One accent marks where you are: the current page, the chosen option, focus. At most one accent mark in view. Crimson is only for errors. The highlighter is only for reading marks. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
+
+A type-led component registry. Read intent, core design and relevant contracts before creating a component.
+
+## Documentation
+
+- [Install](https://0db.cojeev.com/docs/install/): Install the library and its base
+- [Principles](https://0db.cojeev.com/docs/principles/): The system's design principles
+- [Tokens](https://0db.cojeev.com/docs/tokens/): Colour, type, space and motion tokens
+- [Link](https://0db.cojeev.com/docs/link/): link usage and examples
+- [Meta](https://0db.cojeev.com/docs/meta/): meta usage and examples
+- [Kbd](https://0db.cojeev.com/docs/kbd/): kbd usage and examples
+- [Corners](https://0db.cojeev.com/docs/corners/): corners usage and examples
+- [Button](https://0db.cojeev.com/docs/button/): button usage and examples
+- [Spinner](https://0db.cojeev.com/docs/spinner/): spinner usage and examples
+- [Checkbox](https://0db.cojeev.com/docs/checkbox/): checkbox usage and examples
+- [Fraction](https://0db.cojeev.com/docs/fraction/): fraction usage and examples
+- [Radio group](https://0db.cojeev.com/docs/radio-group/): radio-group usage and examples
+- [Dial](https://0db.cojeev.com/docs/dial/): dial usage and examples
+- [Picks](https://0db.cojeev.com/docs/picks/): picks usage and examples
+- [Switch](https://0db.cojeev.com/docs/switch/): switch usage and examples
+- [Slider](https://0db.cojeev.com/docs/slider/): slider usage and examples
+- [Field](https://0db.cojeev.com/docs/field/): field usage and examples
+- [Select](https://0db.cojeev.com/docs/select/): select usage and examples
+- [Tabs](https://0db.cojeev.com/docs/tabs/): tabs usage and examples
+- [Pagination](https://0db.cojeev.com/docs/pagination/): pagination usage and examples
+- [Breadcrumb](https://0db.cojeev.com/docs/breadcrumb/): breadcrumb usage and examples
+- [Accordion](https://0db.cojeev.com/docs/accordion/): accordion usage and examples
+- [Rows](https://0db.cojeev.com/docs/rows/): rows usage and examples
+- [Calendar](https://0db.cojeev.com/docs/calendar/): calendar usage and examples
+- [Badge](https://0db.cojeev.com/docs/badge/): badge usage and examples
+- [Note](https://0db.cojeev.com/docs/note/): note usage and examples
+- [Progress](https://0db.cojeev.com/docs/progress/): progress usage and examples
+- [Toast](https://0db.cojeev.com/docs/toast/): toast usage and examples
+- [Dialog](https://0db.cojeev.com/docs/dialog/): dialog usage and examples
+- [Empty](https://0db.cojeev.com/docs/empty/): empty usage and examples
+- [Toggle](https://0db.cojeev.com/docs/toggle/): toggle usage and examples
+- [Toggle group](https://0db.cojeev.com/docs/toggle-group/): toggle-group usage and examples
+- [Button group](https://0db.cojeev.com/docs/button-group/): button-group usage and examples
+- [Input group](https://0db.cojeev.com/docs/input-group/): input-group usage and examples
+- [Input OTP](https://0db.cojeev.com/docs/input-otp/): input-otp usage and examples
+- [Combobox](https://0db.cojeev.com/docs/combobox/): combobox usage and examples
+- [Popover](https://0db.cojeev.com/docs/popover/): popover usage and examples
+- [Context menu](https://0db.cojeev.com/docs/context-menu/): context-menu usage and examples
+- [Dropdown menu](https://0db.cojeev.com/docs/dropdown-menu/): dropdown-menu usage and examples
+- [Menubar](https://0db.cojeev.com/docs/menubar/): menubar usage and examples
+- [Navigation menu](https://0db.cojeev.com/docs/navigation-menu/): navigation-menu usage and examples
+- [Command](https://0db.cojeev.com/docs/command/): command usage and examples
+- [Sidebar](https://0db.cojeev.com/docs/sidebar/): sidebar usage and examples
+- [Card](https://0db.cojeev.com/docs/card/): card usage and examples
+- [Hover card](https://0db.cojeev.com/docs/hover-card/): hover-card usage and examples
+- [Tooltip](https://0db.cojeev.com/docs/tooltip/): tooltip usage and examples
+- [Sheet](https://0db.cojeev.com/docs/sheet/): sheet usage and examples
+- [Drawer](https://0db.cojeev.com/docs/drawer/): drawer usage and examples
+- [Collapsible](https://0db.cojeev.com/docs/collapsible/): collapsible usage and examples
+- [Resizable](https://0db.cojeev.com/docs/resizable/): resizable usage and examples
+- [Scroll area](https://0db.cojeev.com/docs/scroll-area/): scroll-area usage and examples
+- [Scrollbar](https://0db.cojeev.com/docs/scrollbar/): scrollbar usage and examples
+- [Aspect ratio](https://0db.cojeev.com/docs/aspect-ratio/): aspect-ratio usage and examples
+- [Carousel](https://0db.cojeev.com/docs/carousel/): carousel usage and examples
+- [Table](https://0db.cojeev.com/docs/table/): table usage and examples
+- [Chart](https://0db.cojeev.com/docs/chart/): chart usage and examples
+- [Avatar](https://0db.cojeev.com/docs/avatar/): avatar usage and examples
+- [Item](https://0db.cojeev.com/docs/item/): item usage and examples
+- [Typography](https://0db.cojeev.com/docs/typography/): typography usage and examples
+- [Message](https://0db.cojeev.com/docs/message/): message usage and examples
+- [Marker](https://0db.cojeev.com/docs/marker/): marker usage and examples
+- [Attachment](https://0db.cojeev.com/docs/attachment/): attachment usage and examples
+- [Thread](https://0db.cojeev.com/docs/thread/): thread usage and examples
+- [Questionnaire](https://0db.cojeev.com/docs/questionnaire/): questionnaire usage and examples
+- [Alert](https://0db.cojeev.com/docs/alert/): alert usage and examples
+- [Skeleton](https://0db.cojeev.com/docs/skeleton/): skeleton usage and examples
+- [Date picker](https://0db.cojeev.com/docs/date-picker/): date-picker usage and examples
+- [Activity feed](https://0db.cojeev.com/docs/activity-feed/): activity-feed usage and examples
+- [Agent chat](https://0db.cojeev.com/docs/agent-chat/): agent-chat usage and examples
+- [Agent state](https://0db.cojeev.com/docs/agent-state/): agent-state usage and examples
+- [Appearance](https://0db.cojeev.com/docs/appearance/): appearance usage and examples
+- [Area chart](https://0db.cojeev.com/docs/area-chart/): area-chart usage and examples
+- [Calligram](https://0db.cojeev.com/docs/calligram/): calligram usage and examples
+- [Command line](https://0db.cojeev.com/docs/command-line/): command-line usage and examples
+- [Contour](https://0db.cojeev.com/docs/contour/): contour usage and examples
+- [Data table](https://0db.cojeev.com/docs/data-table/): data-table usage and examples
+- [Dropzone](https://0db.cojeev.com/docs/dropzone/): dropzone usage and examples
+- [Figure](https://0db.cojeev.com/docs/figure/): figure usage and examples
+- [Form](https://0db.cojeev.com/docs/form/): form usage and examples
+- [Gather](https://0db.cojeev.com/docs/gather/): gather usage and examples
+- [Grid](https://0db.cojeev.com/docs/grid/): grid usage and examples
+- [Line chart](https://0db.cojeev.com/docs/line-chart/): line-chart usage and examples
+- [Marquee](https://0db.cojeev.com/docs/marquee/): marquee usage and examples
+- [Measure](https://0db.cojeev.com/docs/measure/): measure usage and examples
+- [Melody](https://0db.cojeev.com/docs/melody/): melody usage and examples
+- [Mode toggle](https://0db.cojeev.com/docs/mode-toggle/): mode-toggle usage and examples
+- [Number input](https://0db.cojeev.com/docs/number-input/): number-input usage and examples
+- [Pie chart](https://0db.cojeev.com/docs/pie-chart/): pie-chart usage and examples
+- [Radar chart](https://0db.cojeev.com/docs/radar-chart/): radar-chart usage and examples
+- [Radial chart](https://0db.cojeev.com/docs/radial-chart/): radial-chart usage and examples
+- [Reading trail](https://0db.cojeev.com/docs/reading-trail/): reading-trail usage and examples
+- [Reverb](https://0db.cojeev.com/docs/reverb/): reverb usage and examples
+- [Scroll expand](https://0db.cojeev.com/docs/scroll-expand/): scroll-expand usage and examples
+- [Segue](https://0db.cojeev.com/docs/segue/): segue usage and examples
+- [Source](https://0db.cojeev.com/docs/source/): source usage and examples
+- [Stat](https://0db.cojeev.com/docs/stat/): stat usage and examples
+- [Steps](https://0db.cojeev.com/docs/steps/): steps usage and examples
+- [Swapy](https://0db.cojeev.com/docs/swapy/): swapy usage and examples
+- [Text ribbon](https://0db.cojeev.com/docs/text-ribbon/): text-ribbon usage and examples
+- [Tiling](https://0db.cojeev.com/docs/tiling/): tiling usage and examples
+- [Timer](https://0db.cojeev.com/docs/timer/): timer usage and examples
+- [Tour](https://0db.cojeev.com/docs/tour/): tour usage and examples
+- [Tree](https://0db.cojeev.com/docs/tree/): tree usage and examples
+- [Wake](https://0db.cojeev.com/docs/wake/): wake usage and examples
+- [Waterfall](https://0db.cojeev.com/docs/waterfall/): waterfall usage and examples
+- [Word relay](https://0db.cojeev.com/docs/word-relay/): word-relay usage and examples
+
+## AI references
+
+- [AGENTS.md](https://0db.cojeev.com/ai/AGENTS.md): Downloadable 0dB instructions or reference
+- [INTENT.md](https://0db.cojeev.com/ai/INTENT.md): Downloadable 0dB instructions or reference
+- [DESIGN.md](https://0db.cojeev.com/ai/DESIGN.md): Downloadable 0dB instructions or reference
+- [DESIGN-core.md](https://0db.cojeev.com/ai/DESIGN-core.md): Downloadable 0dB instructions or reference
+- [components/link.md](https://0db.cojeev.com/ai/components/link.md): Downloadable 0dB instructions or reference
+- [components/meta.md](https://0db.cojeev.com/ai/components/meta.md): Downloadable 0dB instructions or reference
+- [components/kbd.md](https://0db.cojeev.com/ai/components/kbd.md): Downloadable 0dB instructions or reference
+- [components/corners.md](https://0db.cojeev.com/ai/components/corners.md): Downloadable 0dB instructions or reference
+- [components/button.md](https://0db.cojeev.com/ai/components/button.md): Downloadable 0dB instructions or reference
+- [components/spinner.md](https://0db.cojeev.com/ai/components/spinner.md): Downloadable 0dB instructions or reference
+- [components/checkbox.md](https://0db.cojeev.com/ai/components/checkbox.md): Downloadable 0dB instructions or reference
+- [components/fraction.md](https://0db.cojeev.com/ai/components/fraction.md): Downloadable 0dB instructions or reference
+- [components/radio-group.md](https://0db.cojeev.com/ai/components/radio-group.md): Downloadable 0dB instructions or reference
+- [components/dial.md](https://0db.cojeev.com/ai/components/dial.md): Downloadable 0dB instructions or reference
+- [components/picks.md](https://0db.cojeev.com/ai/components/picks.md): Downloadable 0dB instructions or reference
+- [components/switch.md](https://0db.cojeev.com/ai/components/switch.md): Downloadable 0dB instructions or reference
+- [components/slider.md](https://0db.cojeev.com/ai/components/slider.md): Downloadable 0dB instructions or reference
+- [components/field.md](https://0db.cojeev.com/ai/components/field.md): Downloadable 0dB instructions or reference
+- [components/select.md](https://0db.cojeev.com/ai/components/select.md): Downloadable 0dB instructions or reference
+- [components/tabs.md](https://0db.cojeev.com/ai/components/tabs.md): Downloadable 0dB instructions or reference
+- [components/pagination.md](https://0db.cojeev.com/ai/components/pagination.md): Downloadable 0dB instructions or reference
+- [components/breadcrumb.md](https://0db.cojeev.com/ai/components/breadcrumb.md): Downloadable 0dB instructions or reference
+- [components/accordion.md](https://0db.cojeev.com/ai/components/accordion.md): Downloadable 0dB instructions or reference
+- [components/rows.md](https://0db.cojeev.com/ai/components/rows.md): Downloadable 0dB instructions or reference
+- [components/calendar.md](https://0db.cojeev.com/ai/components/calendar.md): Downloadable 0dB instructions or reference
+- [components/badge.md](https://0db.cojeev.com/ai/components/badge.md): Downloadable 0dB instructions or reference
+- [components/note.md](https://0db.cojeev.com/ai/components/note.md): Downloadable 0dB instructions or reference
+- [components/progress.md](https://0db.cojeev.com/ai/components/progress.md): Downloadable 0dB instructions or reference
+- [components/toast.md](https://0db.cojeev.com/ai/components/toast.md): Downloadable 0dB instructions or reference
+- [components/dialog.md](https://0db.cojeev.com/ai/components/dialog.md): Downloadable 0dB instructions or reference
+- [components/empty.md](https://0db.cojeev.com/ai/components/empty.md): Downloadable 0dB instructions or reference
+- [components/toggle.md](https://0db.cojeev.com/ai/components/toggle.md): Downloadable 0dB instructions or reference
+- [components/toggle-group.md](https://0db.cojeev.com/ai/components/toggle-group.md): Downloadable 0dB instructions or reference
+- [components/button-group.md](https://0db.cojeev.com/ai/components/button-group.md): Downloadable 0dB instructions or reference
+- [components/input-group.md](https://0db.cojeev.com/ai/components/input-group.md): Downloadable 0dB instructions or reference
+- [components/input-otp.md](https://0db.cojeev.com/ai/components/input-otp.md): Downloadable 0dB instructions or reference
+- [components/combobox.md](https://0db.cojeev.com/ai/components/combobox.md): Downloadable 0dB instructions or reference
+- [components/popover.md](https://0db.cojeev.com/ai/components/popover.md): Downloadable 0dB instructions or reference
+- [components/context-menu.md](https://0db.cojeev.com/ai/components/context-menu.md): Downloadable 0dB instructions or reference
+- [components/dropdown-menu.md](https://0db.cojeev.com/ai/components/dropdown-menu.md): Downloadable 0dB instructions or reference
+- [components/menubar.md](https://0db.cojeev.com/ai/components/menubar.md): Downloadable 0dB instructions or reference
+- [components/navigation-menu.md](https://0db.cojeev.com/ai/components/navigation-menu.md): Downloadable 0dB instructions or reference
+- [components/command.md](https://0db.cojeev.com/ai/components/command.md): Downloadable 0dB instructions or reference
+- [components/sidebar.md](https://0db.cojeev.com/ai/components/sidebar.md): Downloadable 0dB instructions or reference
+- [components/card.md](https://0db.cojeev.com/ai/components/card.md): Downloadable 0dB instructions or reference
+- [components/hover-card.md](https://0db.cojeev.com/ai/components/hover-card.md): Downloadable 0dB instructions or reference
+- [components/tooltip.md](https://0db.cojeev.com/ai/components/tooltip.md): Downloadable 0dB instructions or reference
+- [components/sheet.md](https://0db.cojeev.com/ai/components/sheet.md): Downloadable 0dB instructions or reference
+- [components/drawer.md](https://0db.cojeev.com/ai/components/drawer.md): Downloadable 0dB instructions or reference
+- [components/collapsible.md](https://0db.cojeev.com/ai/components/collapsible.md): Downloadable 0dB instructions or reference
+- [components/resizable.md](https://0db.cojeev.com/ai/components/resizable.md): Downloadable 0dB instructions or reference
+- [components/scroll-area.md](https://0db.cojeev.com/ai/components/scroll-area.md): Downloadable 0dB instructions or reference
+- [components/scrollbar.md](https://0db.cojeev.com/ai/components/scrollbar.md): Downloadable 0dB instructions or reference
+- [components/aspect-ratio.md](https://0db.cojeev.com/ai/components/aspect-ratio.md): Downloadable 0dB instructions or reference
+- [components/carousel.md](https://0db.cojeev.com/ai/components/carousel.md): Downloadable 0dB instructions or reference
+- [components/table.md](https://0db.cojeev.com/ai/components/table.md): Downloadable 0dB instructions or reference
+- [components/chart.md](https://0db.cojeev.com/ai/components/chart.md): Downloadable 0dB instructions or reference
+- [components/avatar.md](https://0db.cojeev.com/ai/components/avatar.md): Downloadable 0dB instructions or reference
+- [components/item.md](https://0db.cojeev.com/ai/components/item.md): Downloadable 0dB instructions or reference
+- [components/typography.md](https://0db.cojeev.com/ai/components/typography.md): Downloadable 0dB instructions or reference
+- [components/message.md](https://0db.cojeev.com/ai/components/message.md): Downloadable 0dB instructions or reference
+- [components/marker.md](https://0db.cojeev.com/ai/components/marker.md): Downloadable 0dB instructions or reference
+- [components/attachment.md](https://0db.cojeev.com/ai/components/attachment.md): Downloadable 0dB instructions or reference
+- [components/thread.md](https://0db.cojeev.com/ai/components/thread.md): Downloadable 0dB instructions or reference
+- [components/questionnaire.md](https://0db.cojeev.com/ai/components/questionnaire.md): Downloadable 0dB instructions or reference
+- [components/alert.md](https://0db.cojeev.com/ai/components/alert.md): Downloadable 0dB instructions or reference
+- [components/skeleton.md](https://0db.cojeev.com/ai/components/skeleton.md): Downloadable 0dB instructions or reference
+- [components/date-picker.md](https://0db.cojeev.com/ai/components/date-picker.md): Downloadable 0dB instructions or reference
+- [components/activity-feed.md](https://0db.cojeev.com/ai/components/activity-feed.md): Downloadable 0dB instructions or reference
+- [components/agent-chat.md](https://0db.cojeev.com/ai/components/agent-chat.md): Downloadable 0dB instructions or reference
+- [components/agent-state.md](https://0db.cojeev.com/ai/components/agent-state.md): Downloadable 0dB instructions or reference
+- [components/appearance.md](https://0db.cojeev.com/ai/components/appearance.md): Downloadable 0dB instructions or reference
+- [components/area-chart.md](https://0db.cojeev.com/ai/components/area-chart.md): Downloadable 0dB instructions or reference
+- [components/calligram.md](https://0db.cojeev.com/ai/components/calligram.md): Downloadable 0dB instructions or reference
+- [components/command-line.md](https://0db.cojeev.com/ai/components/command-line.md): Downloadable 0dB instructions or reference
+- [components/contour.md](https://0db.cojeev.com/ai/components/contour.md): Downloadable 0dB instructions or reference
+- [components/data-table.md](https://0db.cojeev.com/ai/components/data-table.md): Downloadable 0dB instructions or reference
+- [components/dropzone.md](https://0db.cojeev.com/ai/components/dropzone.md): Downloadable 0dB instructions or reference
+- [components/figure.md](https://0db.cojeev.com/ai/components/figure.md): Downloadable 0dB instructions or reference
+- [components/form.md](https://0db.cojeev.com/ai/components/form.md): Downloadable 0dB instructions or reference
+- [components/gather.md](https://0db.cojeev.com/ai/components/gather.md): Downloadable 0dB instructions or reference
+- [components/grid.md](https://0db.cojeev.com/ai/components/grid.md): Downloadable 0dB instructions or reference
+- [components/line-chart.md](https://0db.cojeev.com/ai/components/line-chart.md): Downloadable 0dB instructions or reference
+- [components/marquee.md](https://0db.cojeev.com/ai/components/marquee.md): Downloadable 0dB instructions or reference
+- [components/measure.md](https://0db.cojeev.com/ai/components/measure.md): Downloadable 0dB instructions or reference
+- [components/melody.md](https://0db.cojeev.com/ai/components/melody.md): Downloadable 0dB instructions or reference
+- [components/mode-toggle.md](https://0db.cojeev.com/ai/components/mode-toggle.md): Downloadable 0dB instructions or reference
+- [components/number-input.md](https://0db.cojeev.com/ai/components/number-input.md): Downloadable 0dB instructions or reference
+- [components/pie-chart.md](https://0db.cojeev.com/ai/components/pie-chart.md): Downloadable 0dB instructions or reference
+- [components/radar-chart.md](https://0db.cojeev.com/ai/components/radar-chart.md): Downloadable 0dB instructions or reference
+- [components/radial-chart.md](https://0db.cojeev.com/ai/components/radial-chart.md): Downloadable 0dB instructions or reference
+- [components/reading-trail.md](https://0db.cojeev.com/ai/components/reading-trail.md): Downloadable 0dB instructions or reference
+- [components/reverb.md](https://0db.cojeev.com/ai/components/reverb.md): Downloadable 0dB instructions or reference
+- [components/scroll-expand.md](https://0db.cojeev.com/ai/components/scroll-expand.md): Downloadable 0dB instructions or reference
+- [components/segue.md](https://0db.cojeev.com/ai/components/segue.md): Downloadable 0dB instructions or reference
+- [components/source.md](https://0db.cojeev.com/ai/components/source.md): Downloadable 0dB instructions or reference
+- [components/stat.md](https://0db.cojeev.com/ai/components/stat.md): Downloadable 0dB instructions or reference
+- [components/steps.md](https://0db.cojeev.com/ai/components/steps.md): Downloadable 0dB instructions or reference
+- [components/swapy.md](https://0db.cojeev.com/ai/components/swapy.md): Downloadable 0dB instructions or reference
+- [components/text-ribbon.md](https://0db.cojeev.com/ai/components/text-ribbon.md): Downloadable 0dB instructions or reference
+- [components/tiling.md](https://0db.cojeev.com/ai/components/tiling.md): Downloadable 0dB instructions or reference
+- [components/timer.md](https://0db.cojeev.com/ai/components/timer.md): Downloadable 0dB instructions or reference
+- [components/tour.md](https://0db.cojeev.com/ai/components/tour.md): Downloadable 0dB instructions or reference
+- [components/tree.md](https://0db.cojeev.com/ai/components/tree.md): Downloadable 0dB instructions or reference
+- [components/wake.md](https://0db.cojeev.com/ai/components/wake.md): Downloadable 0dB instructions or reference
+- [components/waterfall.md](https://0db.cojeev.com/ai/components/waterfall.md): Downloadable 0dB instructions or reference
+- [components/word-relay.md](https://0db.cojeev.com/ai/components/word-relay.md): Downloadable 0dB instructions or reference
+- [cursor.md](https://0db.cojeev.com/ai/cursor.md): Downloadable 0dB instructions or reference
+- [copilot.md](https://0db.cojeev.com/ai/copilot.md): Downloadable 0dB instructions or reference
+- [devin.md](https://0db.cojeev.com/ai/devin.md): Downloadable 0dB instructions or reference
+- [SKILL.md](https://0db.cojeev.com/ai/SKILL.md): Downloadable 0dB instructions or reference
+
+## Optional
+
+- [Full context](https://0db.cojeev.com/llms-full.txt): Intent, core design and every item contract; load on demand
+- [Install the AI kit](https://0db.cojeev.com/r/ai.json): shadcn registry item with project-root destinations

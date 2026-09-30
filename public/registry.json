@@ -25,6 +25,21 @@
           "target": "lib/utils.ts"
         },
         {
+          "path": "registry/0db/lib/chart-index.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/chart-index.ts"
+        },
+        {
+          "path": "registry/0db/lib/number.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/number.ts"
+        },
+        {
+          "path": "registry/0db/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/refs.ts"
+        },
+        {
           "path": "registry/0db/lib/roll.ts",
           "type": "registry:lib",
           "target": "lib/0db/roll.ts"
@@ -33,6 +48,11 @@
           "path": "registry/0db/lib/rove.ts",
           "type": "registry:lib",
           "target": "lib/0db/rove.ts"
+        },
+        {
+          "path": "registry/0db/lib/use-digit-roll.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-digit-roll.ts"
         },
         {
           "path": "registry/0db/styles/tokens.css",
@@ -2312,9 +2332,6 @@
         "https://0db.cojeev.com/r/0db.json",
         "https://0db.cojeev.com/r/attachment.json"
       ],
-      "dependencies": [
-        "image"
-      ],
       "files": [
         {
           "path": "registry/0db/ui/dropzone.tsx",
@@ -2487,7 +2504,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "A band of words that travels only as far as the page scrolls: it stands still when you stop and runs back when you scroll back.",
+      "description": "A band of words that drifts through a clipped frame. Scroll takes over; a small pause word lets it rest.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json"
       ],
@@ -2959,7 +2976,7 @@
       "name": "text-ribbon",
       "type": "registry:ui",
       "title": "Text ribbon",
-      "description": "A phrase laid along an arch or a wave by pretext and repeated round like a ribbon; it moves only when you drag it or scroll, and rests when you let go.",
+      "description": "A phrase travelling along an arch or a wave, measured by pretext. Drag, keys and scroll take over; pause holds it in place.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json"
       ],
@@ -2990,7 +3007,7 @@
       "name": "tiling",
       "type": "registry:ui",
       "title": "Tiling",
-      "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed: the sheet of \"Less is more.\", its notes kept to the corners.",
+      "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or arrange it yourself: pick up a word, move it, give it room, and keep the layout.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json"
       ],
@@ -3169,7 +3186,7 @@
       "name": "word-relay",
       "type": "registry:ui",
       "title": "Word relay",
-      "description": "A sentence whose last word is yours to change: press it and the word rolls on to the next, in the italic, and the line follows it.",
+      "description": "A sentence whose last word rolls on every 2.4 seconds, in the italic. Press or use the keys to take over, or pause to hold a word.",
       "registryDependencies": [
         "https://0db.cojeev.com/r/0db.json"
       ],
@@ -3192,6 +3209,584 @@
         "underneath": "native",
         "contract": "db-relay"
       }
+    },
+    {
+      "name": "ai",
+      "type": "registry:item",
+      "title": "0dB AI kit",
+      "description": "Source-generated instructions and component contracts for building with 0dB.",
+      "files": [
+        {
+          "path": "registry/0db/ai/AGENTS.md",
+          "type": "registry:file",
+          "target": "~/AGENTS.md"
+        },
+        {
+          "path": "registry/0db/ai/docs/AGENTS.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/AGENTS.md"
+        },
+        {
+          "path": "registry/0db/ai/INTENT.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/INTENT.md"
+        },
+        {
+          "path": "registry/0db/ai/DESIGN.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/DESIGN.md"
+        },
+        {
+          "path": "registry/0db/ai/DESIGN-core.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/DESIGN-core.md"
+        },
+        {
+          "path": "registry/0db/ai/components/link.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/link.md"
+        },
+        {
+          "path": "registry/0db/ai/components/meta.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/meta.md"
+        },
+        {
+          "path": "registry/0db/ai/components/kbd.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/kbd.md"
+        },
+        {
+          "path": "registry/0db/ai/components/corners.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/corners.md"
+        },
+        {
+          "path": "registry/0db/ai/components/button.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/button.md"
+        },
+        {
+          "path": "registry/0db/ai/components/spinner.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/spinner.md"
+        },
+        {
+          "path": "registry/0db/ai/components/checkbox.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/checkbox.md"
+        },
+        {
+          "path": "registry/0db/ai/components/fraction.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/fraction.md"
+        },
+        {
+          "path": "registry/0db/ai/components/radio-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/radio-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dial.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dial.md"
+        },
+        {
+          "path": "registry/0db/ai/components/picks.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/picks.md"
+        },
+        {
+          "path": "registry/0db/ai/components/switch.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/switch.md"
+        },
+        {
+          "path": "registry/0db/ai/components/slider.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/slider.md"
+        },
+        {
+          "path": "registry/0db/ai/components/field.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/field.md"
+        },
+        {
+          "path": "registry/0db/ai/components/select.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/select.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tabs.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tabs.md"
+        },
+        {
+          "path": "registry/0db/ai/components/pagination.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/pagination.md"
+        },
+        {
+          "path": "registry/0db/ai/components/breadcrumb.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/breadcrumb.md"
+        },
+        {
+          "path": "registry/0db/ai/components/accordion.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/accordion.md"
+        },
+        {
+          "path": "registry/0db/ai/components/rows.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/rows.md"
+        },
+        {
+          "path": "registry/0db/ai/components/calendar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/calendar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/badge.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/badge.md"
+        },
+        {
+          "path": "registry/0db/ai/components/note.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/note.md"
+        },
+        {
+          "path": "registry/0db/ai/components/progress.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/progress.md"
+        },
+        {
+          "path": "registry/0db/ai/components/toast.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/toast.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dialog.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dialog.md"
+        },
+        {
+          "path": "registry/0db/ai/components/empty.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/empty.md"
+        },
+        {
+          "path": "registry/0db/ai/components/toggle.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/toggle.md"
+        },
+        {
+          "path": "registry/0db/ai/components/toggle-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/toggle-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/button-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/button-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/input-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/input-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/input-otp.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/input-otp.md"
+        },
+        {
+          "path": "registry/0db/ai/components/combobox.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/combobox.md"
+        },
+        {
+          "path": "registry/0db/ai/components/popover.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/popover.md"
+        },
+        {
+          "path": "registry/0db/ai/components/context-menu.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/context-menu.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dropdown-menu.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dropdown-menu.md"
+        },
+        {
+          "path": "registry/0db/ai/components/menubar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/menubar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/navigation-menu.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/navigation-menu.md"
+        },
+        {
+          "path": "registry/0db/ai/components/command.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/command.md"
+        },
+        {
+          "path": "registry/0db/ai/components/sidebar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/sidebar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/card.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/card.md"
+        },
+        {
+          "path": "registry/0db/ai/components/hover-card.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/hover-card.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tooltip.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tooltip.md"
+        },
+        {
+          "path": "registry/0db/ai/components/sheet.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/sheet.md"
+        },
+        {
+          "path": "registry/0db/ai/components/drawer.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/drawer.md"
+        },
+        {
+          "path": "registry/0db/ai/components/collapsible.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/collapsible.md"
+        },
+        {
+          "path": "registry/0db/ai/components/resizable.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/resizable.md"
+        },
+        {
+          "path": "registry/0db/ai/components/scroll-area.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/scroll-area.md"
+        },
+        {
+          "path": "registry/0db/ai/components/scrollbar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/scrollbar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/aspect-ratio.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/aspect-ratio.md"
+        },
+        {
+          "path": "registry/0db/ai/components/carousel.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/carousel.md"
+        },
+        {
+          "path": "registry/0db/ai/components/table.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/table.md"
+        },
+        {
+          "path": "registry/0db/ai/components/chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/avatar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/avatar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/item.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/item.md"
+        },
+        {
+          "path": "registry/0db/ai/components/typography.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/typography.md"
+        },
+        {
+          "path": "registry/0db/ai/components/message.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/message.md"
+        },
+        {
+          "path": "registry/0db/ai/components/marker.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/marker.md"
+        },
+        {
+          "path": "registry/0db/ai/components/attachment.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/attachment.md"
+        },
+        {
+          "path": "registry/0db/ai/components/thread.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/thread.md"
+        },
+        {
+          "path": "registry/0db/ai/components/questionnaire.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/questionnaire.md"
+        },
+        {
+          "path": "registry/0db/ai/components/alert.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/alert.md"
+        },
+        {
+          "path": "registry/0db/ai/components/skeleton.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/skeleton.md"
+        },
+        {
+          "path": "registry/0db/ai/components/date-picker.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/date-picker.md"
+        },
+        {
+          "path": "registry/0db/ai/components/activity-feed.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/activity-feed.md"
+        },
+        {
+          "path": "registry/0db/ai/components/agent-chat.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/agent-chat.md"
+        },
+        {
+          "path": "registry/0db/ai/components/agent-state.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/agent-state.md"
+        },
+        {
+          "path": "registry/0db/ai/components/appearance.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/appearance.md"
+        },
+        {
+          "path": "registry/0db/ai/components/area-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/area-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/calligram.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/calligram.md"
+        },
+        {
+          "path": "registry/0db/ai/components/command-line.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/command-line.md"
+        },
+        {
+          "path": "registry/0db/ai/components/contour.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/contour.md"
+        },
+        {
+          "path": "registry/0db/ai/components/data-table.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/data-table.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dropzone.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dropzone.md"
+        },
+        {
+          "path": "registry/0db/ai/components/figure.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/figure.md"
+        },
+        {
+          "path": "registry/0db/ai/components/form.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/form.md"
+        },
+        {
+          "path": "registry/0db/ai/components/gather.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/gather.md"
+        },
+        {
+          "path": "registry/0db/ai/components/grid.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/grid.md"
+        },
+        {
+          "path": "registry/0db/ai/components/line-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/line-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/marquee.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/marquee.md"
+        },
+        {
+          "path": "registry/0db/ai/components/measure.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/measure.md"
+        },
+        {
+          "path": "registry/0db/ai/components/melody.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/melody.md"
+        },
+        {
+          "path": "registry/0db/ai/components/mode-toggle.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/mode-toggle.md"
+        },
+        {
+          "path": "registry/0db/ai/components/number-input.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/number-input.md"
+        },
+        {
+          "path": "registry/0db/ai/components/pie-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/pie-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/radar-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/radar-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/radial-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/radial-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/reading-trail.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/reading-trail.md"
+        },
+        {
+          "path": "registry/0db/ai/components/reverb.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/reverb.md"
+        },
+        {
+          "path": "registry/0db/ai/components/scroll-expand.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/scroll-expand.md"
+        },
+        {
+          "path": "registry/0db/ai/components/segue.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/segue.md"
+        },
+        {
+          "path": "registry/0db/ai/components/source.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/source.md"
+        },
+        {
+          "path": "registry/0db/ai/components/stat.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/stat.md"
+        },
+        {
+          "path": "registry/0db/ai/components/steps.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/steps.md"
+        },
+        {
+          "path": "registry/0db/ai/components/swapy.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/swapy.md"
+        },
+        {
+          "path": "registry/0db/ai/components/text-ribbon.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/text-ribbon.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tiling.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tiling.md"
+        },
+        {
+          "path": "registry/0db/ai/components/timer.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/timer.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tour.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tour.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tree.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tree.md"
+        },
+        {
+          "path": "registry/0db/ai/components/wake.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/wake.md"
+        },
+        {
+          "path": "registry/0db/ai/components/waterfall.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/waterfall.md"
+        },
+        {
+          "path": "registry/0db/ai/components/word-relay.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/word-relay.md"
+        },
+        {
+          "path": "registry/0db/ai/cursor.mdc",
+          "type": "registry:file",
+          "target": "~/.cursor/rules/0db.mdc"
+        },
+        {
+          "path": "registry/0db/ai/copilot.instructions.md",
+          "type": "registry:file",
+          "target": "~/.github/instructions/0db.instructions.md"
+        },
+        {
+          "path": "registry/0db/ai/devin.md",
+          "type": "registry:file",
+          "target": "~/.devin/rules/0db.md"
+        },
+        {
+          "path": "registry/0db/ai/claude/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/0db-component/SKILL.md"
+        },
+        {
+          "path": "registry/0db/ai/agents/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.agents/skills/0db-component/SKILL.md"
+        },
+        {
+          "path": "registry/0db/ai/manifest.json",
+          "type": "registry:file",
+          "target": "~/docs/0db/manifest.json"
+        }
+      ]
     }
   ]
 }

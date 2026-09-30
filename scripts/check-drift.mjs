@@ -5,6 +5,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs"
 import path from "node:path"
 import { readItems, SOURCE } from "./lib/items.mjs"
+import { buildAiKit, checkAiKit, validateAiKit } from "./lib/ai-kit.mjs"
 
 const failures = []
 const fail = (check, msg) => failures.push(`${check}: ${msg}`)
@@ -48,6 +49,22 @@ for (const f of scanned) {
     if (/--f-[a-z]|(?<![A-Za-z0-9_@/.-])f-(?=[a-z]+[a-z-]*\b)/.test(line.replace(/https?:\S+/g, "")))
       fail("no f- names remain", `${f}:${i + 1}  ${line.trim().slice(0, 80)}`)
   })
+}
+
+// The AI adapters, downloadable references and registry payload share the real sources.
+try {
+  const kit = buildAiKit({ items, baseURL: process.env.DB_REGISTRY_URL ?? "https://0db.cojeev.com" })
+  for (const message of [...checkAiKit(kit), ...validateAiKit(kit)]) fail("AI kit", message)
+  const payload = JSON.parse(readFileSync("public/r/ai.json", "utf8"))
+  if (payload.name !== "ai" || payload.type !== "registry:item") fail("AI kit", "invalid registry item")
+  if (payload.files?.length !== kit.item.files.length) fail("AI kit", "registry file coverage differs")
+  for (const expected of kit.item.files) {
+    const file = payload.files?.find((f) => f.target === expected.target)
+    if (!file || file.type !== "registry:file" || file.path !== expected.path || file.content !== kit.files.get(expected.path))
+      fail("AI kit", `registry file differs: ${expected.target}`)
+  }
+} catch (error) {
+  fail("AI kit", error.message)
 }
 
 if (failures.length) {

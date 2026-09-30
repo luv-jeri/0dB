@@ -1,0 +1,32 @@
+# 0dB: picks
+
+Extracted from DESIGN.md.
+
+### db-picks (picks)
+- Underneath: native radios, plus a hook that places pizzicato's dot and string and register's crosses.
+- Anatomy: `<fieldset class="db-picks" data-variant="pizzicato | rubric | watermark | register">`, a legend, then `<label><input type="radio">…any content…</label>` per pick, usually `<span class="db-pick-title">` and `<span class="db-pick-description">`. A plain-text title is written as `<span aria-hidden data-initial><span class="db-pick-initial" data-text><span>I</span></span><span class="db-pick-rest" data-text><span>nitial</span></span></span>` plus the whole name in `.db-sr`. A name in a script without capitals (its first letter is the same upper and lower case) is marked `data-caseless` and not split: the initial holds a pilcrow and the rest holds the whole name. Pizzicato adds `.db-picks-string` and `.db-picks-dot`; register adds `.db-picks-origin` and two `.db-picks-cross` (`data-corner="start | end"`).
+- For choices that carry their own content, such as a specimen or a swatch. Yours: the chosen title crosses into the italic (a cross-fade of an italic copy in the same cell, so nothing moves), and its description steps up from pencil to graphite.
+- Pizzicato (the default): one accent dot hangs in the margin beside the chosen title, level with its x-height. Pointing at another sketches a hairline ring where the dot would land; pressing tightens it. Choosing another slides the dot there (`--db-picks-y`, moderato, breath) along a hairline string that runs the length of the list; the string is pulled aside as the dot travels, let go on arrival, rings in five shrinking half-swings and fades back to silence (`data-plucked`, a registered `--db-picks-d`). The title turns italic as the dot lands. Script measures the picks (`--db-picks-top`, `--db-picks-len`, `--db-picks-y`) on choice, resize and font load, and sets `data-placed`; until then the chosen pick's hover ring, filled in the accent, stands in for the dot, so nothing jumps at hydration. A first choice is plucked where it lands.
+- Rubric: the chosen title's initial is lifted out of the word and hung in the margin, two lines deep (title and the first description line), in the italic and the accent, the way a rubricator painted a section's one red letter. Every pick keeps the margin (`--db-space-7`, inside the label so focus and the pointer include the capital), so nothing reflows: the capital grows from its place in the word into the margin (andante, exhale) while a ghost of the small letter narrows to nothing and the rest of the name closes up to the edge and turns italic. Pointing leans the initial italic in place. A pick without a description keeps that second line free. It mirrors in right-to-left. A cased name on a right-to-left page (a Latin name among Arabic) begins at the end away from the margin, so its initial has nowhere to hang: the name stays whole, in its own order (an isolated left-to-right run), and the pilcrow hangs in the margin instead. A pick given `dir="ltr"` is a left-to-right block and hangs its capital in its own margin. A name without capitals, as in Arabic, Hebrew, Devanagari or Han, has no initial to hang, and lifting its first letter out would break a joined word; there the rubricator's other mark, an accent pilcrow (mirrored right to left), grows into the margin instead, and the name stays whole.
+- Watermark: the chosen title lies behind the list, huge (`--db-fff` in the expression italic) and faint (ink at 8%), set against the list's foot and end edge and cropped by them, the way a sheet shows its mould's mark held to the light and the poster's ghost numerals stand behind its words. Each title carries its own mark (`.db-pick-title::before`, from `data-text`), so choosing another fades one mark down while the next comes up out of the paper (andante, exhale); nothing travels. The title itself crosses into the italic as pizzicato's does. Forced colours drop the mark. A title with rich content has no mark.
+- Register: the printer's registration crosses, as the posters mark their corners with a pair of + signs. Two accent crosses stand off the chosen pick's far corners, the top of its start side and the foot of its end side, by `--db-picks-out`. Script measures them (`--db-picks-x0`, `-y0`, `-x1`, `-y1`) from `.db-picks-origin` on choice, resize and font load. Choosing another sends the pair there (moderato, breath), the far one two arpeggio steps behind, each turning a quarter the way the pick went (`--db-picks-turn`); a cross turned a quarter is the same cross, so it only reads as turning while it moves. Pointing sketches the pair in pencil at that pick. Until it's measured, the chosen pick's own pair stands in, inked. Each pick keeps `--db-space-5` either side for the crosses.
+- States: rest, hover (ink), focus (accent outline around the label), chosen, disabled (pencil at 55%, no hover). Forced colours: the dot, the rubric capital and the register crosses use `Highlight`, the ring, string and pencil crosses `CanvasText`. Reduced motion: every tempo collapses, so the dot and capital arrive without travel.
+- Keyboard: native radio group (Tab into the chosen pick, arrow keys move the choice).
+- The specimen uses it for the pair and scheme pickers.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Picks (`picks`) | Pizzicato | A ring on hover; the dot slides to the choice along a string that is plucked and rings to silence |
+| Picks, rubric (`picks`) | Rubrication | The initial leans on hover; chosen, it grows into the margin as a two-line accent capital and the name closes up in italic |
+| Picks, watermark (`picks`) | Held to the light | One mark fades down and the next comes up out of the paper |
+| Picks, register (`picks`) | Register | Pencil crosses on hover; chosen, the accent pair travels to the new corners, turning a quarter, the far one a beat behind |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Picks (`picks`) | The score's pizzicato; the rubricated initial | A plucked string carries the dot; or the chosen initial hangs in the margin (a pilcrow, for a script without capitals) |
+| Picks, watermark (`picks`) | The poster's ghost numerals; the papermaker's watermark | The chosen name lies huge and faint behind the list |
+| Picks, register (`picks`) | The posters' + corner signs; the printer's registration marks | Two crosses mark the chosen pick's far corners |
