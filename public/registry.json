@@ -1,0 +1,147 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "0db",
+  "homepage": "https://0db.cojeev.com",
+  "items": [
+    {
+      "name": "0db",
+      "type": "registry:base",
+      "extends": "none",
+      "title": "0dB",
+      "description": "0dB tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "config": {
+        "registries": {
+          "@0db": "https://0db.cojeev.com/r/{name}.json"
+        }
+      },
+      "files": [
+        {
+          "path": "registry/0db/lib/utils.ts",
+          "type": "registry:lib",
+          "target": "lib/utils.ts"
+        },
+        {
+          "path": "registry/0db/styles/tokens.css",
+          "type": "registry:file",
+          "target": "styles/0db/tokens.css"
+        },
+        {
+          "path": "registry/0db/styles/fonts.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts.css"
+        },
+        {
+          "path": "registry/0db/styles/base.css",
+          "type": "registry:file",
+          "target": "styles/0db/base.css"
+        },
+        {
+          "path": "FONT-NOTICES.md",
+          "type": "registry:file",
+          "target": "styles/0db/FONT-NOTICES.md"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "color-paper": "var(--db-paper)",
+          "color-ink": "var(--db-ink)",
+          "color-graphite": "var(--db-graphite)",
+          "color-pencil": "var(--db-pencil)",
+          "color-rule": "var(--db-rule)",
+          "color-rule-strong": "var(--db-rule-strong)",
+          "color-accent": "var(--db-accent)",
+          "color-signal": "var(--db-signal)",
+          "color-mark": "var(--db-mark)",
+          "font-voice": "var(--db-voice)",
+          "font-expression": "var(--db-expression)"
+        }
+      },
+      "css": {
+        "@import \"@/styles/0db/tokens.css\"": {},
+        "@import \"@/styles/0db/fonts.css\"": {},
+        "@import \"@/styles/0db/base.css\"": {},
+        "@custom-variant dark (&:where([data-mode=\"nocturne\"], [data-mode=\"nocturne\"] *))": {},
+        ":root, :root[data-mode]": {
+          "--background": "var(--db-paper)",
+          "--foreground": "var(--db-graphite)",
+          "--card": "var(--db-paper)",
+          "--card-foreground": "var(--db-graphite)",
+          "--popover": "var(--db-paper)",
+          "--popover-foreground": "var(--db-graphite)",
+          "--primary": "var(--db-ink)",
+          "--primary-foreground": "var(--db-paper)",
+          "--secondary": "var(--db-paper)",
+          "--secondary-foreground": "var(--db-ink)",
+          "--muted": "var(--db-paper)",
+          "--muted-foreground": "var(--db-pencil)",
+          "--destructive": "var(--db-signal)",
+          "--border": "var(--db-rule)",
+          "--input": "var(--db-rule-strong)",
+          "--ring": "var(--db-accent)",
+          "--radius": "0rem"
+        }
+      }
+    },
+    {
+      "name": "fonts-press",
+      "type": "registry:item",
+      "title": "Pair: press",
+      "description": "Schibsted Grotesk and Newsreader, for <html data-pair=\"press\">.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/styles/fonts-press.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts-press.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/fonts-press.css\"": {}
+      }
+    },
+    {
+      "name": "fonts-paris",
+      "type": "registry:item",
+      "title": "Pair: paris",
+      "description": "Instrument Sans and EB Garamond, for <html data-pair=\"paris\">.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/styles/fonts-paris.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts-paris.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/fonts-paris.css\"": {}
+      }
+    },
+    {
+      "name": "fonts-salon",
+      "type": "registry:item",
+      "title": "Pair: salon",
+      "description": "Bricolage Grotesque and Cormorant, for <html data-pair=\"salon\">.",
+      "registryDependencies": [
+        "https://0db.cojeev.com/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/styles/fonts-salon.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts-salon.css"
+        }
+      ],
+      "css": {
+        "@import \"@/styles/0db/fonts-salon.css\"": {}
+      }
+    }
+  ]
+}
