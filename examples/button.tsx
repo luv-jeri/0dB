@@ -11,9 +11,13 @@ export default function Example() {
       </div>
       <div className="flex flex-wrap items-baseline gap-x-14 gap-y-8">
         <Button variant="overture" size="l">Install 0dB</Button>
-        <Button variant="fermata" size="l">Hear the pause</Button>
+        <Button variant="crescendo" size="l">Turn it up</Button>
         <Button variant="stave" size="l">Read the score</Button>
         <Button variant="ink" size="l">Browse the library</Button>
+      </div>
+      <div className="grid justify-items-start gap-y-6">
+        <Button variant="space" size="l">Watch this space.</Button>
+        <Button variant="repeat">Play it again</Button>
       </div>
     </div>
   )
@@ -37,9 +41,9 @@ export function States() {
       <State label="Overture"><Button variant="overture">Begin</Button></State>
       <State label="Pointed at"><Button variant="overture" data-force="hover">Begin</Button></State>
       <State label="Disabled"><Button variant="overture" disabled>Begin</Button></State>
-      <State label="Fermata"><Button variant="fermata">Hold</Button></State>
-      <State label="Pointed at"><Button variant="fermata" data-force="hover">Hold</Button></State>
-      <State label="Disabled"><Button variant="fermata" disabled>Hold</Button></State>
+      <State label="Crescendo"><Button variant="crescendo">Louder</Button></State>
+      <State label="Pointed at"><Button variant="crescendo" data-force="hover">Louder</Button></State>
+      <State label="Disabled"><Button variant="crescendo" disabled>Louder</Button></State>
       <State label="Stave"><Button variant="stave">Listen</Button></State>
       <State label="Pointed at"><Button variant="stave" data-force="hover">Listen</Button></State>
       <State label="Disabled"><Button variant="stave" disabled>Listen</Button></State>
@@ -47,6 +51,13 @@ export function States() {
       <State label="Pointed at"><Button variant="ink" data-force="hover">Enter</Button></State>
       <State label="Focus"><Button variant="ink" data-force="focus">Enter</Button></State>
       <State label="Disabled"><Button variant="ink" disabled>Enter</Button></State>
+      <State label="Space"><Button variant="space" className="w-44">Read on</Button></State>
+      <State label="Pointed at"><Button variant="space" className="w-44" data-force="hover">Read on</Button></State>
+      <State label="Disabled"><Button variant="space" className="w-44" disabled>Read on</Button></State>
+      <State label="Repeat"><Button variant="repeat">Again</Button></State>
+      <State label="Pointed at"><Button variant="repeat" data-force="hover">Again</Button></State>
+      <State label="Disabled"><Button variant="repeat" disabled>Again</Button></State>
+      <State label="Busy"><Button variant="repeat" busy="Replaying">Again</Button></State>
     </>
   )
 }

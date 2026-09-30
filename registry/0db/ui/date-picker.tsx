@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
-import { Calendar } from "@/registry/0db/ui/calendar"
+import { Calendar, type CalendarProps } from "@/registry/0db/ui/calendar"
 import { useFieldControl } from "@/registry/0db/ui/field"
 import { Popover, PopoverContent, PopoverTrigger } from "@/registry/0db/ui/popover"
 
@@ -18,6 +18,8 @@ type DatePickerProps = Omit<React.ComponentProps<"button">, "value" | "defaultVa
   /** Days before today can't be chosen. */
   disablePast?: boolean
   locale?: string
+  /** How the month draws time: "dots" (the default, the poster), "ruler", "ghost" or "parenthesis". */
+  variant?: CalendarProps["variant"]
   /** Classes for the sentence around the date. className goes to the button. */
   rootClassName?: string
   /** Pins a state for documentation ("hover", "focus"); set on the button. */
@@ -49,6 +51,7 @@ function DatePicker({
   placeholder = "choose a day",
   disablePast,
   locale = "en-GB",
+  variant,
   className,
   rootClassName,
   ...props
@@ -87,8 +90,19 @@ function DatePicker({
             {value ? words(value, locale) : placeholder}
           </button>
         </PopoverTrigger>
-        <PopoverContent data-slot="date-picker-content" className="db-date-pop" aria-label={label ?? "Choose a day"}>
-          <Calendar value={value} disablePast={disablePast} locale={locale} onValueChange={pick} />
+        <PopoverContent
+          data-slot="date-picker-content"
+          className="db-date-pop"
+          aria-label={label ?? "Choose a day"}
+          // Open on the day (the chosen one, else today), not on the month's first arrow.
+          onOpenAutoFocus={(e) => {
+            const day = (e.currentTarget as HTMLElement).querySelector<HTMLElement>('[data-slot="calendar-day"][tabindex="0"]')
+            if (!day) return
+            e.preventDefault()
+            day.focus()
+          }}
+        >
+          <Calendar value={value} disablePast={disablePast} locale={locale} variant={variant} onValueChange={pick} />
         </PopoverContent>
       </Popover>
       {spoken ? (

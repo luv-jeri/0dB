@@ -32,10 +32,16 @@ type FieldProps = Omit<React.ComponentProps<"div">, "id"> & {
   maxLength?: number
   /** The control's id. Made for you when omitted. */
   id?: string
+  /**
+   * How the label and your words share the line. line: the label above a baseline. overprint: the label is a heavy
+   * condensed word and your italic is printed over it, knocked out in paper. signature: a cross marks where to write
+   * and the label is a caption under the line, as on a printed form.
+   */
+  variant?: "line" | "overprint" | "signature"
 }
 
 /** One control on a baseline. Wraps an Input, Textarea, InputGroup or InputOTP and wires label, hint and error to it. */
-function Field({ label, hint, error, count, maxLength, id, className, children, onInput, ...props }: FieldProps) {
+function Field({ label, hint, error, count, maxLength, id, variant = "line", className, children, onInput, ...props }: FieldProps) {
   const made = React.useId()
   const controlId = id ?? made
   const formErrors = React.useContext(FieldErrors)
@@ -44,8 +50,8 @@ function Field({ label, hint, error, count, maxLength, id, className, children, 
   const [typed, setTyped] = React.useState(0)
   React.useEffect(() => {
     const el = root.current?.querySelector<HTMLInputElement>("input, textarea")
-    if (count && el) setTyped(el.value.length)
-  }, [count])
+    if (el) setTyped(el.value.length)
+  }, [])
 
   const ctx: FieldContext = {
     id: controlId,
@@ -60,10 +66,12 @@ function Field({ label, hint, error, count, maxLength, id, className, children, 
       <div
         ref={root}
         data-slot="field"
+        data-variant={variant}
+        data-filled={typed > 0 ? "" : undefined}
         className={cn("db-field", className)}
         onInput={(e) => {
           onInput?.(e)
-          if (count && (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) setTyped(e.target.value.length)
+          if ((e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) setTyped(e.target.value.length)
         }}
         {...props}
       >
@@ -78,6 +86,7 @@ function Field({ label, hint, error, count, maxLength, id, className, children, 
             {maxLength ? ` / ${maxLength}` : null}
           </span>
         ) : null}
+        {variant === "signature" ? <span className="db-field-mark" aria-hidden="true" /> : null}
         {children}
         {hint ? (
           <p data-slot="field-hint" id={ctx.hintId} className="db-field-hint">

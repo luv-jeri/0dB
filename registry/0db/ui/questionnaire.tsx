@@ -3,7 +3,6 @@
 import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
-import { roll } from "@/registry/0db/lib/roll"
 import { Button } from "@/registry/0db/ui/button"
 import { Field, FieldError, Textarea } from "@/registry/0db/ui/field"
 import { Fraction } from "@/registry/0db/ui/fraction"
@@ -23,6 +22,13 @@ type Question = {
 }
 
 type QuestionnaireProps = Omit<React.ComponentProps<"form">, "onSubmit" | "children"> & {
+  /**
+   * sentence (the default): one question at a time; at the end, your answers written into one sentence.
+   * interview: every question asked stays above the next, small, with your answer beside it, like the
+   * printed interview's Q and A; press an answer to go back to it. definition: at the end you are
+   * defined, as the dictionary sets an entry: the headword reversed out of ink, then the sentence.
+   */
+  variant?: "sentence" | "interview" | "definition"
   questions: Question[]
   /** Writes the answers into one sentence. Only what was answered is in `answers`. */
   sentence: (answers: Answers) => string
@@ -31,31 +37,40 @@ type QuestionnaireProps = Omit<React.ComponentProps<"form">, "onSubmit" | "child
   submitLabel?: string
   /** Said when a choice is needed to go on. */
   error?: string
+  /** Definition only: the headword and its part of speech, from the answers. */
+  entry?: (answers: Answers) => { word: string; kind: string }
+  /** Answers to start from, to resume a questionnaire. */
+  defaultAnswers?: Answers
+  /** The question to start at, to resume one (its length is the end). */
+  defaultStep?: number
 }
 
 /**
- * Questions one at a time, set large. The count rolls, the hairline fills, and each
+ * Questions one at a time, set large. In an interview the asked ones stay above as Q and A; in a
+ * definition the end is a dictionary entry. The count rolls, the hairline fills, and each
  * question turns in from the side you're heading. At the end your answers are written
  * into one sentence in italic, word by word.
  */
 function Questionnaire({
+  variant = "sentence",
   questions,
   sentence,
   onComplete,
   submitLabel = "Send answers",
   error = "Choose one to go on, or skip this question.",
+  entry,
+  defaultAnswers,
+  defaultStep = 0,
   className,
   ...props
 }: QuestionnaireProps) {
   const base = React.useId()
   const total = questions.length
-  const [at, setAt] = React.useState(0)
+  const [at, setAt] = React.useState(() => Math.min(Math.max(0, defaultStep), total))
   const [dir, setDir] = React.useState<1 | -1>(1)
   const [turned, setTurned] = React.useState(false)
-  const [answers, setAnswers] = React.useState<Answers>({})
+  const [answers, setAnswers] = React.useState<Answers>(() => defaultAnswers ?? {})
   const [missing, setMissing] = React.useState(false)
-  const [shown, setShown] = React.useState(1)
-  const count = React.useRef<HTMLSpanElement>(null)
   const step = React.useRef<HTMLDivElement>(null)
   const again = React.useRef<HTMLButtonElement>(null)
   const moved = React.useRef(false)
@@ -63,21 +78,16 @@ function Questionnaire({
   const done = at >= total
   const q = questions[at]
   const clean = (): Answers => Object.fromEntries(Object.entries(answers).filter(([, v]) => v?.trim()))
+  const said = done && variant === "definition" && entry ? entry(clean()) : null
 
-  // The count rolls the way you're heading.
+  // The count rolls the way you're heading (the fraction turns its own figures over).
   const n = Math.min(at + 1, total)
-  React.useEffect(() => {
-    if (n === shown) return
-    const el = count.current?.querySelector<HTMLElement>(".db-yours")
-    if (el) roll(el, () => setShown(n), "0.45em", n > shown ? 1 : -1)
-    else setShown(n)
-  }, [n, shown])
 
   // Focus goes to each new question (not on first load).
   React.useEffect(() => {
     if (!moved.current) return
     if (done) again.current?.focus({ preventScroll: true })
-    else step.current?.querySelector<HTMLElement>("input:checked, input, textarea")?.focus({ preventScroll: true })
+    else (step.current?.querySelector<HTMLElement>("input:checked") ?? step.current?.querySelector<HTMLElement>("input, textarea"))?.focus({ preventScroll: true })
   }, [at, done])
 
   function go(to: number, heading: 1 | -1) {
@@ -97,6 +107,7 @@ function Questionnaire({
     <form
       data-slot="questionnaire"
       noValidate
+      data-variant={variant}
       className={cn("db-quest", className)}
       onSubmit={(e) => {
         e.preventDefault()
@@ -108,9 +119,32 @@ function Questionnaire({
       {...props}
     >
       <div data-slot="questionnaire-head" className="db-quest-head">
-        <Fraction ref={count} aria-hidden="true" count={shown} total={total} />
+        <Fraction aria-hidden="true" count={n} total={total} />
         <progress max={total} value={n} aria-label={done ? `All ${total} answered` : `Question ${n} of ${total}`} />
       </div>
+
+      {variant === "interview" && at > 0 ? (
+        <ol data-slot="questionnaire-log" className="db-quest-log">
+          {questions.slice(0, at).map((p, i) => {
+            const a = answers[p.id]?.trim()
+            return (
+              <li key={p.id}>
+                <p id={`${base}-log-${p.id}`} className="db-quest-log-q">
+                  <span className="db-quest-hang" aria-hidden="true">Q</span>
+                  {p.question}
+                </p>
+                <p className="db-quest-log-a">
+                  <span className="db-quest-hang" aria-hidden="true">A</span>
+                  <button type="button" aria-describedby={`${base}-log-${p.id}`} onClick={() => go(i, -1)}>
+                    {a ? <span className="db-yours">{a}</span> : "Skipped"}
+                    <span className="db-sr">, change</span>
+                  </button>
+                </p>
+              </li>
+            )
+          })}
+        </ol>
+      ) : null}
 
       {q ? (
         <div
@@ -149,9 +183,16 @@ function Questionnaire({
 
       {/* Always mounted, so the sentence is announced when it arrives. */}
       <div data-slot="questionnaire-end" data-done={done ? "" : undefined} className="db-quest-step">
-        <p data-slot="questionnaire-sentence" className="db-quest-sentence" aria-live="polite">
-          {done
-            ? sentence(clean())
+        <div data-slot="questionnaire-said" className="db-quest-said" aria-live="polite">
+          {said ? (
+            <p data-slot="questionnaire-entry" className="db-quest-entry">
+              <span className="db-quest-word db-yours">{said.word}</span>
+              <span className="db-quest-kind">{said.kind}</span>
+            </p>
+          ) : null}
+          {done ? (
+            <p data-slot="questionnaire-sentence" className="db-quest-sentence">
+              {sentence(clean())
                 .split(" ")
                 .map((w, i) => (
                   <React.Fragment key={i}>
@@ -160,9 +201,10 @@ function Questionnaire({
                       {w}
                     </span>
                   </React.Fragment>
-                ))
-            : null}
-        </p>
+                ))}
+            </p>
+          ) : null}
+        </div>
         {done ? (
           <Button
             ref={again}

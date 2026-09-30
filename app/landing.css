@@ -2,13 +2,14 @@
 
 /* ── the landing page: a hairpin. Passages swell from p to ff and close to pp; each carries
    its dynamic in the margin like a score, with the principle's note beneath it. ── */
-.passage { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; padding-block: var(--db-space-9); border-top: var(--db-hairline) solid var(--db-rule); }
+/* Each passage hangs just under its rule and keeps its silence for the end, before the next rule (DESIGN.md "Space, line, shape"). */
+.passage { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; padding-block: var(--db-space-6) var(--db-space-9); border-top: var(--db-hairline) solid var(--db-rule); }
 .passage-margin { display: grid; gap: var(--db-space-4); padding-top: 0.55em; }
 .passage-mark { font-family: var(--db-expression); font-style: italic; font-weight: 600; font-size: var(--db-mf); line-height: 1; letter-spacing: -0.02em; color: var(--db-pencil); }
 .passage-mark abbr { text-decoration: none; cursor: help; }
 .passage-note { max-width: 28ch; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
 .passage-title { max-width: 16em; font-size: var(--db-ff); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 300; color: var(--db-ink); text-wrap: balance; }
-.passage-body { margin-top: var(--db-space-8); }
+.passage-body { margin-top: var(--db-space-7); }
 
 /* The hero says plainly what this is, beside the wordmark: the definition is the joke, this is the fact. */
 .overture:has(> .overture-what) > .overture-title { grid-row: 1; grid-column: 1 / 8; }
@@ -18,7 +19,8 @@
 .what-body { max-width: 34ch; font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); text-wrap: pretty; }
 .what-meta { margin-top: var(--db-space-2); }
 .what-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-6); margin-top: var(--db-space-4); }
-.try-these { grid-column: 4 / -1; padding-block: var(--db-space-7) var(--db-space-6); font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
+/* It names the passages, so it stands on the first one's rule, close to it and far from the overture. */
+.try-these { grid-column: 4 / -1; padding-block: var(--db-space-7) var(--db-space-4); font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
 
 /* Each passage modulates into its own key, named in the margin beside its dynamic. */
 .passage[data-key="ultramarine"] { --db-accent: #2b2bee; }
@@ -32,7 +34,7 @@
 .passage-mark { color: var(--db-accent); }
 .passage-key { font-family: var(--db-voice); font-style: normal; font-weight: 400; font-size: var(--db-pp); letter-spacing: 0; color: var(--db-pencil); }
 /* The direction: what to do, in plain words, led in by a stroke of the passage's colour. */
-.passage-direction { display: flex; align-items: baseline; gap: var(--db-space-3); margin-top: var(--db-space-6); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-ink); }
+.passage-direction { display: flex; align-items: baseline; gap: var(--db-space-3); margin-top: var(--db-space-5); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-ink); }
 .passage-direction::before { content: ""; flex: none; width: var(--db-space-6); height: var(--db-stroke); align-self: center; background: var(--db-accent); }
 .passage-direction + .passage-body { margin-top: var(--db-space-7); }
 
@@ -43,13 +45,12 @@
   .cue[data-cued] .db-select-box::after { animation: cue-nudge 0.8s var(--db-breath) 0.4s 2; }
   .cue[data-cued] .tune-bind:nth-of-type(2) .db-select-box::after { animation-delay: 0.55s; }
   .cue[data-cued] .tune-bind:nth-of-type(3) .db-select-box::after { animation-delay: 0.7s; }
-  .cue[data-cued] .loud-figure { animation: cue-swell 2.4s var(--db-breath) 0.4s; }
+  .cue[data-cued] .tune-sentence .db-mode .db-mode-art::after { animation: cue-nudge 0.8s var(--db-breath) 0.85s 2; }
   .cue[data-cued] .tempo-dot { animation: cue-cross var(--tempo) var(--db-exhale) 0.5s 2 alternate; }
 }
 @keyframes cue-line { 35%, 65% { background-size: 45% var(--db-stroke), 100% var(--db-hairline); } }
 @keyframes cue-unstrike { 35%, 65% { background-size: 0% var(--db-stroke), 100% var(--db-hairline); color: var(--db-ink); font-weight: 400; } }
 @keyframes cue-nudge { 50% { translate: 0 4px; color: var(--db-ink); } }
-@keyframes cue-swell { 45%, 55% { font-weight: 520; font-stretch: 94%; } }
 @keyframes cue-cross { to { inset-inline-start: 100%; margin-inline-start: -0.5rem; background-color: var(--db-accent); } }
 
 /* Ours in roman, yours in italic. The field is part of the sentence, at the sentence's size. */
@@ -69,6 +70,8 @@
 .tune-sentence .db-select, .tune-sentence .db-switch { font-size: inherit; line-height: inherit; color: inherit; }
 .tune-key select { color: var(--db-accent); }
 .tune-bind { white-space: nowrap; }
+/* The arrows say "choose here" in the accent, the one note of colour, so the four choices read as the places to act. */
+.tune-sentence :is(.db-select-box, .db-mode .db-mode-art)::after { color: var(--db-accent); }
 
 /* Type is the only ornament: loudness is weight and width, nothing else. */
 .loud { --loud: 0; display: grid; gap: var(--db-space-5); }
@@ -97,18 +100,24 @@
 .programme-name { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
 .programme-num { display: inline-block; min-width: 2.6em; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); color: var(--db-ink); }
 .programme-items { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--db-space-1) var(--db-space-4); font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
-.programme-items .db-link { text-decoration-color: transparent; }
+/* Resting on a piece shows it: the live example, small and still, on a stage above the sentence that says what it is. */
+.piece-peek.db-peek { width: min(26rem, 86vw); padding: 0; gap: 0; }
+/* The stage holds the piece live. A tall one (an accordion opened) scrolls inside it on the 0dB rail, and starts at its top rather than centred out of reach. */
+.piece-peek-stage { display: grid; justify-items: center; align-content: safe center; min-block-size: 12rem; max-block-size: min(20rem, 50dvh); padding: var(--db-space-4); overflow: auto; overscroll-behavior: contain; box-shadow: inset 0 calc(-1 * var(--db-hairline)) var(--db-rule); }
+.piece-peek-scale { zoom: 0.7; max-inline-size: calc(100% / 0.7); }
+.piece-peek-summary { padding: var(--db-space-4) var(--db-space-5) var(--db-space-5); color: var(--db-graphite); text-wrap: pretty; }
 
 .install-line { max-width: 44rem; }
 .install-foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-6); margin-top: var(--db-space-8); }
 
 /* The coda closes the hairpin: the words narrow and fade to nothing. */
-.coda { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; padding-block: var(--db-space-10) var(--db-space-6); border-top: var(--db-hairline) solid var(--db-rule); }
+/* The coda begins in silence alone: the hairpin closes without a line. */
+.coda { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; padding-block: var(--db-space-8) var(--db-space-6); }
 .coda-mark { padding-top: 0.4em; }
 .coda-text { max-width: 40rem; font-size: var(--db-mf); line-height: 1.3; letter-spacing: var(--db-mf-tr); font-weight: 300; }
 .landing .fine { grid-column: 4 / -1; margin-block: var(--db-space-7) var(--db-space-9); text-align: start; }
 /* Interludes: a line of music between passages, and the held pause before the end. */
-.interlude, .hold { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; padding-block: var(--db-space-9); border-top: var(--db-hairline) solid var(--db-rule); }
+.interlude, .hold { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: start; padding-block: var(--db-space-6) var(--db-space-9); border-top: var(--db-hairline) solid var(--db-rule); }
 .interlude-note, .hold-note { max-width: 22ch; padding-top: 0.4em; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
 .interlude-melody { max-width: 52rem; }
 .hold { border-top: 0; padding-block-start: 0; }
@@ -125,7 +134,7 @@
   .passage > *, .coda > * { grid-column: 1 / -1; }
   .passage-margin { margin-bottom: var(--db-space-5); padding-top: 0; }
   .passage-body { margin-top: var(--db-space-7); }
-  .passage { padding-block: var(--db-space-8); }
+  .passage, .interlude { padding-block: var(--db-space-5) var(--db-space-8); }
   .programme-movement { grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-2); }
 }
 @media (max-width: 560px) {

@@ -59,4 +59,47 @@
   .db-field-error::before { content: ""; position: absolute; inset-inline-start: 1.1em; bottom: 100%; width: var(--db-hairline); height: var(--db-space-5); background: var(--db-signal); transform-origin: top; animation: db-draw-y var(--db-moderato) var(--db-breath) 60ms backwards; }
   .db-field-error::after { content: ""; position: absolute; inset-inline-start: calc(1.1em - 2px); bottom: calc(100% + var(--db-space-5) - 2.5px); width: 5px; height: 5px; border-radius: 50%; background: var(--db-signal); animation: db-land var(--db-moderato) var(--db-spiccato) backwards; }
   @keyframes db-callout { from { color: transparent; box-shadow: inset 0 0 0 var(--db-hairline) transparent; } }
+  /* ── overprint ── "It has to be design.": the label is a heavy condensed word, and your italic is printed over it,
+     knocked out of it by a paper outline. Focus takes a breath in (the word condenses) and your words take the accent. */
+  .db-field[data-variant="overprint"] > .db-label {
+    grid-row: 1; grid-column: 1 / -1; align-self: start; margin-bottom: 0.45em;
+    font-size: var(--db-f); line-height: 0.9; letter-spacing: var(--db-f-tr); font-weight: 800; font-stretch: 78%; color: var(--db-ink);
+    transition: font-stretch var(--db-moderato) var(--db-exhale), color var(--db-moderato);
+  }
+  .db-field[data-variant="overprint"] > .db-field-count { grid-row: 1; align-self: start; position: relative; }
+  .db-field[data-variant="overprint"] > .db-input {
+    grid-row: 1; align-self: end; position: relative; padding-bottom: 0.22em; line-height: 1.2;
+    font-size: calc(var(--db-mf) * var(--db-expression-scale)); caret-color: var(--db-accent);
+    -webkit-text-stroke: 0.11em var(--db-paper); paint-order: stroke fill;
+    background-size: 0% var(--db-stroke), 100% var(--db-hairline); /* the accent is in your words, so the line stays a hairline */
+    transition: color var(--db-moderato);
+  }
+  .db-field[data-variant="overprint"] > .db-input::placeholder { color: transparent; } /* the label is the prompt */
+  .db-field[data-variant="overprint"]:is(:focus-within, [data-force~="focus"]) > .db-label { font-stretch: 62%; }
+  .db-field[data-variant="overprint"]:is(:focus-within, [data-force~="focus"]) > .db-input { color: var(--db-accent); background-size: 0% var(--db-stroke), 100% var(--db-hairline); }
+  .db-field[data-variant="overprint"]:has(> .db-input:disabled) > .db-label { color: var(--db-pencil); }
+
+  /* ── signature ── the printed form: a cross marks where to write, the label is a caption under the line.
+     Arriving, the + turns to the × of "sign here" and inks; once you've written, it steps back. */
+  .db-field[data-variant="signature"] > .db-input { grid-row: 1; padding-inline-start: 0.7em; padding-bottom: 0.22em; line-height: 1.2; font-size: calc(var(--db-mf) * var(--db-expression-scale)); }
+  .db-field[data-variant="signature"] > .db-field-mark {
+    grid-row: 1; grid-column: 1; align-self: end; justify-self: start; position: relative;
+    width: 0.4em; height: 0.4em; margin-bottom: 0.46em; margin-inline-start: 0.04em; font-size: var(--db-mf); color: var(--db-pencil); pointer-events: none;
+    background:
+      linear-gradient(currentColor, currentColor) no-repeat center / 100% var(--db-stroke),
+      linear-gradient(currentColor, currentColor) no-repeat center / var(--db-stroke) 100%;
+    transition: rotate var(--db-moderato) var(--db-spiccato), color var(--db-moderato);
+  }
+  .db-field[data-variant="signature"]:is(:focus-within, [data-force~="focus"]) > .db-field-mark { rotate: 45deg; color: var(--db-ink); }
+  .db-field[data-variant="signature"][data-filled]:not(:focus-within, [data-force~="focus"]) > .db-field-mark { rotate: 45deg; }
+  .db-field[data-variant="signature"] > .db-label { grid-row: 2; align-self: start; }
+  .db-field[data-variant="signature"] > .db-field-count { grid-row: 2; align-self: start; }
+  /* The caption holds the start under the line, so the callout hangs from the end. */
+  .db-field[data-variant="signature"] > .db-field-error { grid-row: 2; justify-self: end; }
+  .db-field[data-variant="signature"] > .db-field-error::before { inset-inline-start: auto; inset-inline-end: 1.1em; }
+  .db-field[data-variant="signature"] > .db-field-error::after { inset-inline-start: auto; inset-inline-end: calc(1.1em - 2px); }
+  /* Forced colours: the lines are drawn, so the field restates its tokens in system colours and keeps them. */
+  @media (forced-colors: active) {
+    .db-field, .db-input { forced-color-adjust: none; color: CanvasText; --db-paper: Canvas; --db-ink: CanvasText; --db-graphite: CanvasText; --db-pencil: GrayText; --db-rule-strong: GrayText; --db-accent: Highlight; --db-signal: CanvasText; }
+  }
 }

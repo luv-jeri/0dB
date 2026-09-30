@@ -38,4 +38,45 @@
     @starting-style { .db-select select:open::picker(select) { opacity: 0; translate: 0 -6px; } }
     .db-select select:open option { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc((sibling-index() - 1) * var(--db-arpeggio)); }
   }
+
+  /* ── The drawn variants: the select keeps the focus, the keyboard and the list, but its own words
+     are made invisible and a copy is set in the same place that script can move. The hairline moves
+     to the box, so it can stretch between the old word's width and the new one's. */
+  .db-select[data-variant] .db-select-box { display: inline-grid; background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / calc(100% - 0.6em) var(--db-hairline); }
+  .db-select[data-variant] .db-select-box:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% 100%; }
+  .db-select[data-variant] .db-select-box > * { grid-area: 1 / 1; }
+  .db-select[data-variant] select { color: transparent; background: none; }
+  .db-select[data-variant] option { color: var(--db-ink); } /* a native list would take the select's colour */
+  .db-select-word, .db-select-ghosts {
+    padding: 0 0.6em 0.1em 0; white-space: pre; pointer-events: none; color: var(--db-ink);
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.2;
+  }
+  .db-select-word:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 0.6em; }
+  .db-select-word > span { display: inline-block; }
+  .db-select-ghosts { position: relative; }
+  .db-select-ghosts > span { position: absolute; top: 0; color: var(--db-pencil); }
+  .db-select:has(select:disabled) :is(.db-select-word, .db-select-ruby) { color: var(--db-pencil); pointer-events: none; }
+  .db-select[data-variant] select:disabled + .db-select-word { cursor: not-allowed; }
+
+  /* ruby: the other choices set small above the word, as ruby rides over a line of Japanese.
+     Ours (roman, pencil) over yours (italic, ink). They hang from the word's start and may overhang
+     the words after it, so the sentence gives them a line of their own above. */
+  .db-select[data-variant="ruby"] .db-select-box { margin-block-start: calc(var(--db-pp) * var(--db-pp-lh)); }
+  .db-select-ruby {
+    position: absolute; inset-inline-start: 0; bottom: 100%; display: flex; gap: 0 0.9em; white-space: nowrap;
+    font-family: var(--db-voice); font-style: normal; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil);
+  }
+  .db-select-ruby > span {
+    padding-block: 0.3em 0.15em; cursor: pointer;
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% var(--db-hairline);
+    transition: color var(--db-allegro), background-size var(--db-moderato) var(--db-exhale);
+  }
+  .db-select-ruby > span:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% 100%; }
+  .db-select-ruby > span:hover, .db-select[data-force~="hover"] .db-select-ruby > span:first-child { color: var(--db-ink); background-size: 100% var(--db-hairline); }
+
+  @media (forced-colors: active) {
+    .db-select[data-variant] select { color: CanvasText; }
+    .db-select-word, .db-select-ghosts { display: none; }
+    .db-select-ruby > span:hover { color: LinkText; }
+  }
 }

@@ -33,6 +33,44 @@
   .db-command-option mark { padding: 0; margin: 0; } /* part of a word: no overshoot, or it would crowd the letters either side */
   .db-command-empty { padding-block: var(--db-space-4); font-size: var(--db-mp); color: var(--db-graphite); }
 
+  /* ── mesostic ── John Cage's mesostics, the printed concordance: every row is set on one vertical axis at the place
+     your words appear. The found letters stand on the axis in roman capitals, the rest of the name falls away either side,
+     and what you type sits on the same axis above them, so the query reads straight down through the results.
+     The axis is the middle of the rows less the arrow's column; the input's text starts there too. */
+  .db-command[data-variant="mesostic"] { --axis-tail: var(--db-space-6); }
+  .db-command[data-variant="mesostic"] .db-command-input { padding-inline-start: calc(50% - (var(--db-space-4) + var(--axis-tail)) / 2); }
+  .db-command[data-variant="mesostic"] :is([cmdk-group-heading], .db-command-empty) { padding-inline-start: calc(50% - var(--axis-tail) / 2); }
+  .db-command[data-variant="mesostic"] .db-command-option { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) var(--axis-tail); grid-auto-flow: row; column-gap: 0; }
+  .db-command[data-variant="mesostic"] .db-command-name { display: contents; }
+  .db-command[data-variant="mesostic"] .db-command-before { grid-area: 1 / 1; justify-self: end; min-width: 0; max-width: 100%; overflow: hidden; white-space: pre; font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  .db-command[data-variant="mesostic"] .db-command-key { grid-area: 1 / 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: pre; font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  .db-command[data-variant="mesostic"] .db-command-option > :not(.db-command-name) { grid-area: 1 / 1; justify-self: start; }
+  .db-command[data-variant="mesostic"] .db-command-option::after { grid-area: 1 / 3; }
+  .db-command[data-variant="mesostic"] mark { background: none; color: inherit; margin: 0; }
+  .db-command[data-variant="mesostic"] .db-command-key > mark:first-child { color: var(--db-ink); font-weight: 600; text-transform: uppercase; }
+  .db-command[data-variant="mesostic"] .db-command-option:is(:hover, [aria-selected="true"]) :is(.db-command-before, .db-command-key) { color: var(--db-ink); }
+  @media (max-width: 40rem) {
+    .db-command[data-variant="mesostic"] { --axis-tail: var(--db-space-5); }
+    .db-command[data-variant="mesostic"] .db-command-option > :not(.db-command-name) { grid-area: 2 / 2; }
+  }
+
+  /* ── index ── a book's index, run in: each group's name hangs in the margin as the headword, and its rows run on after it
+     as one paragraph, sub-entries parted by semicolons and closed with a full stop. A match is marked; the chosen entry is
+     underlined in ink. Rows that stop matching leave the sentence, which closes up. */
+  .db-command[data-variant="index"] .db-command-group { display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr); column-gap: var(--db-space-5); align-items: baseline; margin-block-start: var(--db-space-4); }
+  .db-command[data-variant="index"] .db-command-group [cmdk-group-heading] { margin: 0; }
+  .db-command[data-variant="index"] .db-command-group [cmdk-group-items] { font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  .db-command[data-variant="index"] .db-command-option { display: inline; padding: 0; border: 0; animation-name: db-command-fade; }
+  .db-command[data-variant="index"] .db-command-option > * { margin-inline-start: 0.3em; }
+  .db-command[data-variant="index"] .db-command-option > .db-command-name { margin: 0; text-decoration: underline var(--db-hairline) transparent; text-underline-offset: 0.2em; transition: text-decoration-color var(--db-allegro), color var(--db-allegro); }
+  .db-command[data-variant="index"] .db-command-option::after { content: ";\00a0" / ""; inline-size: auto; opacity: 1; translate: none; color: var(--db-pencil); }
+  .db-command[data-variant="index"] .db-command-option:last-child::after { content: "." / ""; }
+  .db-command[data-variant="index"] .db-command-option:is(:hover, [aria-selected="true"]) > .db-command-name { translate: none; text-decoration-color: currentColor; }
+  .db-command[data-variant="index"] .db-command-separator { display: none; }
+  @media (max-width: 40rem) {
+    .db-command[data-variant="index"] .db-command-group { grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-1); }
+  }
+
   /* The ⌘K dialog. */
   .db-command-overlay {
     position: fixed; inset: 0; z-index: 50;

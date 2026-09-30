@@ -3,8 +3,17 @@ import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "@/registry/0db/lib/utils"
 
-function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
-  return <nav data-slot="breadcrumb" aria-label="Breadcrumb" className={cn("db-crumbs", className)} {...props} />
+type BreadcrumbProps = React.ComponentProps<"nav"> & {
+  /**
+   * slashes: one line, divided by leaning hairlines.
+   * stack: a stair, one step a line, each set in a little further; where you are is the large italic at the foot.
+   * elide: the steps between the first and the last two elided, one full stop for each; they open back into words for a still pointer or focus.
+   */
+  variant?: "slashes" | "stack" | "elide"
+}
+
+function Breadcrumb({ variant = "slashes", className, ...props }: BreadcrumbProps) {
+  return <nav data-slot="breadcrumb" data-variant={variant} aria-label="Breadcrumb" className={cn("db-crumbs", className)} {...props} />
 }
 
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
@@ -26,9 +35,9 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   return <span data-slot="breadcrumb-page" aria-current="page" className={cn("db-yours", className)} {...props} />
 }
 
-/** A hairline drawn leaning like a slash. Put one between each pair of items. */
+/** A hairline drawn leaning like a slash (nothing, in a stack; elided with its steps, in elide). Put one between each pair of items. */
 function BreadcrumbSeparator({ className, ...props }: React.ComponentProps<"li">) {
   return <li data-slot="breadcrumb-separator" role="presentation" aria-hidden="true" className={className} {...props} />
 }
 
-export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator }
+export { type BreadcrumbProps, Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator }

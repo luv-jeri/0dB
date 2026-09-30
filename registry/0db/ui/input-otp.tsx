@@ -13,11 +13,19 @@ type InputOTPProps = Omit<React.ComponentProps<"input">, "value" | "defaultValue
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
+  /**
+   * How the code waits and ends. line: short baselines, three and three; whole, they ink in turn. close-up: a dot
+   * waits for each digit; whole, the spaces close and the proofreader's close-up mark ties the halves into one figure.
+   * lyric: each digit is read back in words under it, as lyrics sit under their notes, so you can check it aloud.
+   */
+  variant?: "line" | "close-up" | "lyric"
   /** Called once, when the last slot fills. */
   onComplete?: (value: string) => void
   /** Pins a state for documentation ("focus"); set on the root. */
   "data-force"?: string
 }
+
+const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 
 /**
  * One real input holds the code, so paste, autofill and the keyboard all work natively.
@@ -25,6 +33,7 @@ type InputOTPProps = Omit<React.ComponentProps<"input">, "value" | "defaultValue
  */
 function InputOTP({
   length = 6,
+  variant = "line",
   group = length % 2 === 0 ? length / 2 : length % 3 === 0 ? 3 : 0,
   value,
   defaultValue = "",
@@ -54,17 +63,24 @@ function InputOTP({
   }
 
   const slots: React.ReactNode[] = []
+  const lyric = variant === "lyric"
   for (let i = 0; i < length; i++) {
     if (i > 0 && group > 0 && i % group === 0) slots.push(<span key={`sep${i}`} className="db-code-sep" aria-hidden="true" />)
     slots.push(
       <span key={i} data-slot="input-otp-slot" className="db-code-slot" style={{ "--i": i } as React.CSSProperties} data-here={i === here ? "" : undefined} aria-hidden="true">
         {code[i] ? <span key={code[i]}>{code[i]}</span> : null}
+        {lyric && code[i] ? (
+          <span key={`w${code[i]}`} className="db-code-word">
+            {WORDS[+code[i]]}
+            {i === length - 1 ? "." : group > 0 && (i + 1) % group === 0 ? "," : null}
+          </span>
+        ) : null}
       </span>
     )
   }
 
   return (
-    <div data-slot="input-otp" data-force={force} data-state={full ? (invalid ? "wrong" : "done") : undefined} className={cn("db-code", className)}>
+    <div data-slot="input-otp" data-variant={variant} data-force={force} data-state={full ? (invalid ? "wrong" : "done") : undefined} className={cn("db-code", className)}>
       <input
         inputMode="numeric"
         autoComplete="one-time-code"

@@ -1,0 +1,79 @@
+@layer components {
+  /* ── db-tree ── a hierarchy set as a contents page: names on hairline branches. Each open folder's branch hangs from under the
+     first letter of its name, and every name sits on it at a dot, so the depth is read off the lines, not from boxes or icons.
+     A leaf is a small graphite dot, a closed folder a ring, an open one a filled dot; the chosen leaf is the one accent and
+     its name turns italic. A value (a size, a folio) is joined to its name by the item's leader. */
+  .db-tree {
+    --db-tree-pad: var(--db-space-2); /* a row's padding above and below its name */
+    --db-tree-indent: var(--db-space-5); /* from a dot to its name, and so from a branch to the next one in */
+    --d: 7px;
+    padding-inline-start: calc(var(--d) / 2); min-width: 0;
+    font-size: var(--db-p); line-height: var(--db-p-lh); letter-spacing: var(--db-p-tr);
+  }
+  .db-tree-list { list-style: none; margin: 0; padding: 0; }
+  .db-tree-list .db-tree-list { padding-inline-start: var(--db-tree-indent); }
+
+  .db-tree .db-tree-node { position: relative; padding: 0; border: 0; }
+  .db-tree .db-tree-row { position: relative; display: flex; align-items: baseline; gap: var(--db-space-4); padding-block: var(--db-tree-pad); padding-inline-start: var(--db-tree-indent); border: 0; }
+  .db-tree-folder > summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .db-tree-folder > summary::-webkit-details-marker { display: none; }
+
+  /* The branch: each row carries its own length of it, the last one stopping at its dot. */
+  .db-tree-node::before, .db-tree-tail::before {
+    content: ""; position: absolute; inset-block: 0; inset-inline-start: calc(var(--db-hairline) / -2); inline-size: var(--db-hairline);
+    background: var(--db-rule-strong); transform-origin: top;
+  }
+  :is(.db-tree-list, .db-tree .db-collapse-list) > :is(.db-tree-node, .db-tree-tail):last-child::before { inset-block-end: auto; block-size: calc(var(--db-tree-pad) + 0.5lh); }
+  .db-tree > .db-tree-list > :first-child::before { inset-block-start: calc(var(--db-tree-pad) + 0.5lh); } /* the root's branch starts at its first name */
+  .db-tree > .db-tree-list > :only-child::before { content: none; }
+  .db-tree-list > .db-tree-tail:has(> .db-collapse[open])::before { block-size: calc(2 * var(--db-tree-pad) + 1lh); }
+
+  /* The dots */
+  .db-tree-row::after {
+    content: ""; position: absolute; box-sizing: border-box; inset-inline-start: calc(var(--d) / -2); inset-block-start: calc(var(--db-tree-pad) + 0.5lh - var(--d) / 2);
+    inline-size: var(--d); block-size: var(--d); border-radius: 50%; border: var(--db-hairline) solid var(--c, var(--db-graphite)); background: var(--c, var(--db-graphite));
+    scale: 0.6; transition: scale var(--db-moderato) var(--db-spiccato), background-color var(--db-allegro), border-color var(--db-allegro);
+  }
+  .db-tree-folder > .db-tree-row::after { --c: var(--db-ink); scale: 1; background: var(--db-paper); }
+  .db-tree-folder[open] > .db-tree-row::after { background: var(--db-ink); }
+  .db-tree-row[data-selected]::after { --c: var(--db-accent); scale: 1; }
+
+  /* The names: folders set firm, leaves in graphite that inks as you point; the chosen one italic, as yours. */
+  .db-tree-name { appearance: none; margin: 0; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; color: var(--db-graphite); text-align: start; text-decoration: none; cursor: pointer; transition: color var(--db-allegro); }
+  .db-tree-row:is(:hover, :focus-within, [data-force~="hover"]) .db-tree-name, .db-tree-name[aria-current] { color: var(--db-ink); }
+  .db-tree-name[aria-current] .db-item-title { font-style: italic; }
+  .db-tree-folder > summary .db-item-title { font-weight: 500; }
+  .db-tree-count { margin-inline-start: 0.2em; font-size: var(--db-pp); font-weight: 400; font-variant-numeric: tabular-nums; color: var(--db-pencil); }
+  .db-tree .db-item-end { color: var(--db-graphite); }
+  .db-tree-folder > summary:is(:hover, :focus-visible, [data-force~="hover"]) .db-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
+  .db-tree-empty { margin: 0; padding-block: var(--db-tree-pad); padding-inline-start: calc(2 * var(--db-tree-indent)); font-size: var(--db-pp); color: var(--db-pencil); }
+
+  /* A long folder ends in the rest of itself, as the collapsible does: "and 6 more" stands on the branch's end. */
+  .db-tree-tail { position: relative; }
+  .db-tree .db-tree-tail > .db-collapse:is(*, [open]) > summary { --py: var(--db-tree-pad); display: flex; inline-size: fit-content; margin-block: 0; margin-inline: var(--db-tree-indent) 0; line-height: inherit; }
+  .db-tree .db-collapse-list > li { padding-block: 0; border: 0; }
+  .db-tree .db-tree-tail > .db-collapse::details-content { overflow-clip-margin: var(--d); } /* the rest's dots and branch stand on its edge */
+  .db-tree .db-collapse-list > .db-tree-row { padding-block: var(--db-tree-pad); }
+
+  /* Opening a folder: its branch draws down and its names arrive in turn under it. Not for folders open from the start. */
+  .db-tree-folder::details-content { block-size: 0; overflow: clip; transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete; }
+  .db-tree-folder[open]::details-content { block-size: auto; }
+  .db-tree-folder[data-arriving][open] > .db-tree-list > li { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--db-arpeggio)); }
+  .db-tree-folder[data-arriving][open] > .db-tree-list > li::before { animation: db-draw-y var(--db-andante) var(--db-exhale) backwards; animation-delay: calc((sibling-index() - 1) * 2 * var(--db-arpeggio)); }
+
+  /* ── outline ── the book's decimal contents: every name numbered by its place (1, 1.2, 1.2.3) in a pencil column, flush to one
+     edge at every depth, and no lines; the depth is in the numbers. An open folder's number inks; the chosen leaf's is the accent. */
+  .db-tree[data-variant="outline"] { --db-tree-indent: calc(3em + var(--db-space-4)); padding-inline-start: 0; }
+  .db-tree[data-variant="outline"] .db-tree-list { padding-inline-start: 0; counter-reset: db-tree; }
+  .db-tree[data-variant="outline"] .db-tree-node { counter-increment: db-tree; }
+  .db-tree[data-variant="outline"] :is(.db-tree-node, .db-tree-tail)::before { content: none; }
+  .db-tree[data-variant="outline"] .db-tree-row { padding-inline-start: 0; }
+  .db-tree[data-variant="outline"] .db-tree-row::after {
+    content: counters(db-tree, ".") / ""; position: static; order: -1; flex: none; inline-size: 3em; block-size: auto; scale: 1;
+    border: 0; border-radius: 0; background: none; font-variant-numeric: tabular-nums; color: var(--c, var(--db-pencil)); transition: color var(--db-allegro);
+  }
+  .db-tree[data-variant="outline"] .db-tree-folder[open] > .db-tree-row::after { --c: var(--db-ink); }
+  .db-tree[data-variant="outline"] .db-tree-row[data-selected]::after { --c: var(--db-accent); }
+  .db-tree[data-variant="outline"] .db-tree-list .db-tree-list .db-tree-folder > summary .db-item-title { font-weight: 400; }
+  .db-tree[data-variant="outline"] > .db-tree-list > .db-tree-node > .db-tree-folder > summary .db-item-title { font-weight: 600; }
+}

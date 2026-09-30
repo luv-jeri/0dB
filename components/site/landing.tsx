@@ -1,12 +1,17 @@
 "use client"
 
 import * as React from "react"
+import NextLink from "next/link"
 
 import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls"
+import { tempo } from "@/lib/site/tempo"
 import { Button } from "@/registry/0db/ui/button"
 import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
 import { Input } from "@/registry/0db/ui/field"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/registry/0db/ui/hover-card"
+import { Link } from "@/registry/0db/ui/link"
 import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
+import { Scrollbar } from "@/registry/0db/ui/scrollbar"
 import { Select } from "@/registry/0db/ui/select"
 import { Slider } from "@/registry/0db/ui/slider"
 
@@ -145,27 +150,62 @@ const HARM = 85
 export function Loudness() {
   const [level, setLevel] = React.useState(0)
   const frame = React.useRef(0)
+  const root = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => () => cancelAnimationFrame(frame.current), [])
+
+  /** Move the level from `from` to `to` on the breath curve, then call `then`. */
+  const glide = (from: number, to: number, then?: () => void) => {
+    cancelAnimationFrame(frame.current)
+    const began = performance.now()
+    const length = tempo("--db-adagio") || 1400
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - began) / length)
+      const eased = t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2 // the breath curve, near enough
+      setLevel(Math.round(from + (to - from) * eased))
+      if (t < 1) frame.current = requestAnimationFrame(tick)
+      else then?.()
+    }
+    frame.current = requestAnimationFrame(tick)
+  }
+
+  // Once, when it's well in view: the hand sweeps up to a conversation and back, so you see the slider is yours to move. Touching it stops the sweep.
+  React.useEffect(() => {
+    const el = root.current
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    let rest = 0
+    const seen = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return
+        seen.disconnect()
+        glide(0, 60, () => (rest = window.setTimeout(() => glide(60, 0), 500)))
+      },
+      { threshold: 0.6 },
+    )
+    seen.observe(el)
+    const stop = () => {
+      clearTimeout(rest)
+      cancelAnimationFrame(frame.current)
+    }
+    el.addEventListener("pointerdown", stop)
+    el.addEventListener("keydown", stop)
+    return () => {
+      seen.disconnect()
+      stop()
+      el.removeEventListener("pointerdown", stop)
+      el.removeEventListener("keydown", stop)
+    }
+  }, [])
 
   const quiet = () => {
     cancelAnimationFrame(frame.current)
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return setLevel(0)
-    const from = level
-    const began = performance.now()
-    const tempo = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--db-adagio")) || 1400
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - began) / tempo)
-      const eased = t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2 // the breath curve, near enough
-      setLevel(Math.round(from * (1 - eased)))
-      if (t < 1) frame.current = requestAnimationFrame(tick)
-    }
-    frame.current = requestAnimationFrame(tick)
+    glide(level, 0)
   }
 
   const like = LEVELS.findLast(([at]) => level >= at)![1]
   const harm = level >= HARM
   return (
-    <div className="loud" data-harm={harm || undefined} style={{ "--loud": level / 120 } as React.CSSProperties}>
+    <div ref={root} className="loud" data-harm={harm || undefined} style={{ "--loud": level / 120 } as React.CSSProperties}>
       <p className="loud-figure" aria-hidden="true">
         {level}
         <span className="loud-unit">dB</span>
@@ -263,5 +303,26 @@ export function Cue({ children }: { children: React.ReactNode }) {
     <div ref={ref} className="cue">
       {children}
     </div>
+  )
+}
+
+/** A piece in the programme. Resting on its name shows the piece itself, small and still, over the sentence that says what it is. */
+export function PieceLink({ href, title, summary, children }: { href: string; title: string; summary: string; children: React.ReactNode }) {
+  return (
+    <HoverCard openDelay={300} closeDelay={240}>
+      <HoverCardTrigger asChild>
+        <Link asChild variant="quiet">
+          <NextLink href={href}>{title}</NextLink>
+        </Link>
+      </HoverCardTrigger>
+      <HoverCardContent side="top" align="center" className="piece-peek">
+        {/* The piece itself, live: try it here, or follow the link for its page. */}
+        <div className="piece-peek-stage">
+          <div className="piece-peek-scale">{children}</div>
+          <Scrollbar />
+        </div>
+        <p className="piece-peek-summary">{summary}</p>
+      </HoverCardContent>
+    </HoverCard>
   )
 }

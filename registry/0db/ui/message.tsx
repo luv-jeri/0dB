@@ -5,18 +5,31 @@ import * as React from "react"
 import { cn } from "@/registry/0db/lib/utils"
 import { roll } from "@/registry/0db/lib/roll"
 import { Avatar, type AvatarProps } from "@/registry/0db/ui/avatar"
+import { Spinner } from "@/registry/0db/ui/spinner"
 
 type MessageProps = React.ComponentProps<"article"> & {
   /** Theirs sit at the start in roman; yours sit at the end, in italic. */
   from?: "them" | "you"
   /** Writes the body in from the left when it mounts. */
   arriving?: boolean
+  /**
+   * script: a play text. The name stands in the margin, the words in the column, and only the type says who is speaking.
+   * quote: no face. A large quotation mark opens theirs at the start and closes yours at the end.
+   */
+  variant?: "default" | "script" | "quote"
 }
 
 /** A message: what they wrote is roman, what you wrote is italic. */
-function Message({ className, from = "them", arriving, ...props }: MessageProps) {
+function Message({ className, from = "them", arriving, variant = "default", ...props }: MessageProps) {
   return (
-    <article data-slot="message" data-from={from} data-arriving={arriving || undefined} className={cn("db-msg", className)} {...props} />
+    <article
+      data-slot="message"
+      data-from={from}
+      data-arriving={arriving || undefined}
+      data-variant={variant === "default" ? undefined : variant}
+      className={cn("db-msg", className)}
+      {...props}
+    />
   )
 }
 
@@ -72,6 +85,39 @@ function MessageBubble({ align = "start", variant = "default", className, childr
   return (
     <p {...shared} className={cn("db-bubble", className)} {...props}>
       {children}
+    </p>
+  )
+}
+
+type MessageTypingProps = Omit<React.ComponentProps<"p">, "children"> & {
+  /** True only while the other side is writing. Keep it mounted and drive this, so the words are heard when it starts. */
+  writing: boolean
+  /** What a screen reader hears while it shows, such as "Ada is writing". */
+  label?: string
+  /** Which side the tail leans to, as on a bubble. */
+  align?: "start" | "end"
+}
+
+/**
+ * The other side is writing: the tail and three periods where their words will be, in pencil, breathing
+ * as a busy button's do. Not writing, it stays mounted as an empty, silent status that takes no room.
+ */
+function MessageTyping({ writing, label = "Writing", align = "start", className, ...props }: MessageTypingProps) {
+  return (
+    <p
+      data-slot="message-typing"
+      data-writing={writing || undefined}
+      data-align={align === "end" ? "end" : undefined}
+      role="status"
+      className={cn("db-bubble db-typing", !writing && "db-sr", className)}
+      {...props}
+    >
+      {writing ? (
+        <>
+          <Spinner />
+          <span className="db-sr">{label}</span>
+        </>
+      ) : null}
     </p>
   )
 }
@@ -139,9 +185,11 @@ export {
   MessageHeader,
   MessageBody,
   MessageBubble,
+  MessageTyping,
   MessageFooter,
   MessageStatus,
   MessageReactions,
   MessageReaction,
   type MessageProps,
+  type MessageTypingProps,
 }

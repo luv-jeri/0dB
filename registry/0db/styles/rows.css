@@ -9,6 +9,8 @@
     align-items: baseline; column-gap: var(--db-space-6);
     padding-block: var(--db-space-4); color: inherit; text-decoration: none; --step: 8px;
   }
+  /* A row that is a button (a sheet's trigger) spans the row as a link does, and reads from the start. */
+  button.db-rows-link { inline-size: 100%; margin: 0; border: 0; background: none; text-align: start; cursor: pointer; }
   :is([dir="rtl"], [dir="rtl"] *) .db-rows-link { --step: -8px; }
   .db-rows-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); transition: translate var(--db-moderato) var(--db-exhale); }
   .db-rows-kind { color: var(--db-graphite); }
@@ -20,17 +22,59 @@
   }
   :is([dir="rtl"], [dir="rtl"] *) .db-rows-link::after { content: "←" / ""; }
   /* The row you point at reverses: ink wipes in from the side your hand came in, the heaviest emphasis there is. */
-  .db-rows-link:is(a[href], button)::before {
+  .db-rows:not([data-variant]) .db-rows-link:is(a[href], button)::before {
     content: ""; position: absolute; inset: 0 calc(-1 * var(--db-space-3)); z-index: -1;
     background: var(--db-ink); scale: 1 0; transform-origin: 50% 0;
     transition: scale var(--db-moderato) var(--db-exhale);
   }
   .db-rows-link[data-edge="bottom"]::before { transform-origin: 50% 100%; }
   .db-rows-link:is(a[href], button) > * { transition: color var(--db-allegro), translate var(--db-moderato) var(--db-exhale), opacity var(--db-allegro); }
-  .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"])::before { scale: 1 1; }
-  .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"]) > * { color: var(--db-paper); }
-  .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"])::after { color: var(--db-paper); opacity: 1; translate: 0 0; }
+  .db-rows:not([data-variant]) .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"])::before { scale: 1 1; }
+  .db-rows:not([data-variant]) .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"]) > * { color: var(--db-paper); }
+  .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"])::after { opacity: 1; translate: 0 0; }
+  .db-rows:not([data-variant]) .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"])::after { color: var(--db-paper); }
   .db-rows-link:is(a[href], button):is(:hover, :focus-visible, [data-force~="hover"]) .db-rows-title { translate: var(--step) 0; }
   .db-rows-link:focus-visible { outline-offset: 4px; }
-  @media (max-width: 40rem) { .db-rows-link { column-gap: var(--db-space-4); } .db-rows-link::after { display: none; } } /* room for the names; the ink still says which row */
+  /* Narrow, the title takes its own line and the kind and meta sit under it, near it: side by side they would run into each other. */
+  @media (max-width: 40rem) {
+    .db-rows-link { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--db-space-4); row-gap: var(--db-space-1); }
+    .db-rows-link > .db-rows-title { grid-column: 1 / -1; }
+    .db-rows-link > .db-rows-kind { justify-self: start; } /* as wide as its word, so a ditto stands over the word */
+    .db-rows-link::after { display: none; } /* the ink still says which row */
+  }
+
+  /* ditto: a kind or a year that repeats the row above is set as a ditto mark, as a ledger or a typed list does, so only what
+     changes is written out and the marks set a rhythm down the column. Pointing at a row (or focusing it) spells its dittos out. */
+  .db-rows[data-variant="ditto"] [data-ditto] { position: relative; transition: color var(--db-allegro); }
+  .db-rows[data-variant="ditto"] :is(.db-rows-kind, .db-rows-meta)[data-ditto] { color: transparent; }
+  .db-rows[data-variant="ditto"] [data-ditto]::after {
+    content: "\2033" / ""; position: absolute; inset: 0; text-align: center; font-size: 1.3em; line-height: 1.2; color: var(--db-pencil); transition: opacity var(--db-allegro);
+  }
+  .db-rows[data-variant="ditto"] .db-rows-link:is(:hover, :focus-visible, [data-force~="hover"]) .db-rows-kind[data-ditto] { color: var(--db-graphite); }
+  .db-rows[data-variant="ditto"] .db-rows-link:is(:hover, :focus-visible, [data-force~="hover"]) .db-rows-meta[data-ditto] { color: var(--db-pencil); }
+  .db-rows[data-variant="ditto"] .db-rows-link:is(:hover, :focus-visible, [data-force~="hover"]) [data-ditto]::after { opacity: 0; }
+
+  @media (forced-colors: active) {
+    .db-rows[data-variant="ditto"] [data-ditto] { forced-color-adjust: none; }
+    .db-rows[data-variant="ditto"] [data-ditto]::after,
+    .db-rows[data-variant="ditto"] .db-rows-link:is(:hover, :focus-visible, [data-force~="hover"]) :is(.db-rows-kind, .db-rows-meta)[data-ditto] { color: CanvasText; }
+  }
+
+  /* trail: after the "28 December" calendar, a ring hung in the margin before each row: to come, a hairline ring; been, filled
+     with ink (the browser's own :visited, so nothing is stored); here (aria-current), the accent. Pointing inks the ring's line. */
+  .db-rows[data-variant="trail"] .db-rows-link::before {
+    content: ""; position: absolute; inset-inline-start: calc(-1 * var(--db-space-5)); inset-block-start: calc(var(--db-space-4) + var(--db-mf) * 0.62);
+    inline-size: var(--db-space-3); block-size: var(--db-space-3); margin-block-start: calc(var(--db-space-3) / -2); box-sizing: border-box; border-radius: 50%;
+    border: var(--db-hairline) solid var(--db-rule-strong); background-color: var(--db-paper);
+    transition: border-color var(--db-allegro), scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-rows[data-variant="trail"] .db-rows-link:is(:hover, :focus-visible, [data-force~="hover"])::before { border-color: var(--db-ink); scale: 1.25; }
+  .db-rows[data-variant="trail"] .db-rows-link:is(:visited, [data-force~="visited"])::before { border-color: var(--db-ink); background-color: var(--db-ink); }
+  .db-rows[data-variant="trail"] .db-rows-link[aria-current]::before { border-color: var(--db-accent); background-color: var(--db-accent); }
+  @media (max-width: 40rem) { .db-rows[data-variant="trail"] .db-rows-link { padding-inline-start: var(--db-space-5); } .db-rows[data-variant="trail"] .db-rows-link::before { inset-inline-start: 0; } }
+  @media (forced-colors: active) {
+    .db-rows[data-variant="trail"] .db-rows-link::before { forced-color-adjust: none; border-color: CanvasText; background-color: Canvas; }
+    .db-rows[data-variant="trail"] .db-rows-link:is(:visited, [data-force~="visited"])::before { border-color: VisitedText; background-color: VisitedText; }
+    .db-rows[data-variant="trail"] .db-rows-link[aria-current]::before { border-color: Highlight; background-color: Highlight; }
+  }
 }

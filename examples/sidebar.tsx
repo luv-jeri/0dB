@@ -4,7 +4,7 @@ import * as React from "react"
 
 import { State } from "@/components/site/state"
 import { Button } from "@/registry/0db/ui/button"
-import { Sidebar, SidebarGroup, SidebarHead, SidebarLink } from "@/registry/0db/ui/sidebar"
+import { Sidebar, SidebarGroup, SidebarHead, SidebarLink, type SidebarProps } from "@/registry/0db/ui/sidebar"
 
 // Folded, pointing at a tick names it and shows its line.
 const pages = {
@@ -12,12 +12,16 @@ const pages = {
   "II Studio": { People: "Nine, and a dog.", Settings: "Hours, billing and who can sign in." },
 }
 
+type Variant = NonNullable<SidebarProps["variant"]>
+const variants: Variant[] = ["words", "chapter", "numerals"]
+
 export default function Example() {
   const [current, setCurrent] = React.useState("Projects")
   const [folded, setFolded] = React.useState(false)
+  const [variant, setVariant] = React.useState<Variant>("words")
   return (
     <div className="grid gap-10 min-[860px]:grid-cols-[auto_minmax(0,1fr)]">
-      <Sidebar id="studio-app" label="Studio app" sheetLabel="Studio" folded={folded}>
+      <Sidebar id="studio-app" label="Studio app" sheetLabel="Studio" folded={folded} variant={variant}>
         <SidebarHead>Halden Studio</SidebarHead>
         {Object.entries(pages).map(([group, names]) => (
           <SidebarGroup key={group} label={group}>
@@ -39,6 +43,13 @@ export default function Example() {
         ))}
       </Sidebar>
       <div className="grid content-start justify-items-start gap-4">
+        <div role="group" aria-label="Sidebar variant" className="flex flex-wrap gap-x-6 gap-y-2">
+          {variants.map((v) => (
+            <Button key={v} variant="quiet" aria-pressed={v === variant} disabled={folded} onClick={() => setVariant(v)}>
+              {v[0].toUpperCase() + v.slice(1)}
+            </Button>
+          ))}
+        </div>
         <Button variant="quiet" aria-expanded={!folded} aria-controls="studio-app" onClick={() => setFolded((f) => !f)}>
           {folded ? "Unfold the sidebar" : "Fold the sidebar"}
         </Button>
@@ -60,6 +71,19 @@ export function States() {
       </State>
       <State label="Current">
         <SidebarGroup label="Work"><SidebarLink href="#projects" current>Projects</SidebarLink></SidebarGroup>
+      </State>
+      <State label="Chapter, closed and opened">
+        <Sidebar label="Chapter" variant="chapter">
+          <SidebarGroup label="Work"><SidebarLink href="#projects" current>Projects</SidebarLink><SidebarLink href="#clients">Clients</SidebarLink></SidebarGroup>
+          <SidebarGroup label="II Studio"><SidebarLink href="#people">People</SidebarLink></SidebarGroup>
+          <SidebarGroup label="III Books" data-force="hover"><SidebarLink href="#ledger">Ledger</SidebarLink></SidebarGroup>
+        </Sidebar>
+      </State>
+      <State label="Numerals">
+        <Sidebar label="Numerals" variant="numerals">
+          <SidebarGroup label="Work"><SidebarLink href="#projects" current>Projects</SidebarLink><SidebarLink href="#clients">Clients</SidebarLink></SidebarGroup>
+          <SidebarGroup label="Studio"><SidebarLink href="#people">People</SidebarLink><SidebarLink href="#settings">Settings</SidebarLink></SidebarGroup>
+        </Sidebar>
       </State>
     </>
   )

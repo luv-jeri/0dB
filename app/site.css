@@ -83,15 +83,20 @@ body { overflow-x: clip; }
 .fine { grid-column: 1 / -1; margin-block: var(--db-space-8); text-align: end; font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: var(--db-fff); line-height: 1; letter-spacing: -0.02em; color: var(--db-ink); }
 
 /* ── the docs frame: the index in the margin, the page on the stave ── */
-.docs { padding-top: calc(var(--bar) + var(--db-space-7)); padding-bottom: var(--db-space-10); align-items: start; }
+/* The room at the foot belongs to the page, not the grid: in the grid it would end the index's sticky run early and strand it above the bottom of the window. */
+.docs { padding-top: calc(var(--bar) + var(--db-space-7)); align-items: start; }
 /* The index holds still while the page scrolls; its own list scrolls under the fold button. Folded, it is a
    narrow ruler in the first column and the page takes the room. It sits above the page so its callout can. */
 .docs-index { grid-column: 1 / 4; position: sticky; z-index: 10; top: calc(var(--bar) + var(--db-space-7)); display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: start; row-gap: var(--db-space-4); max-height: calc(100dvh - var(--bar) - var(--db-space-8)); }
 .docs-index-fold { font-size: var(--db-pp); }
-.docs-index-list { justify-self: stretch; min-height: 0; padding-block: var(--db-space-2); }
+/* The list is as wide as its longest word, so its rule stands beside the words it belongs to and the gutter before the page stays empty:
+   the page's hanging dashes and numbers hang into silence, not against a line. */
+.docs-index-list { justify-self: start; inline-size: fit-content; max-inline-size: 100%; min-height: 0; padding-block: var(--db-space-2); }
 .docs:has(> .docs-index[data-folded]) .docs-index { grid-column: 1 / 2; inline-size: 3rem; }
 .docs:has(> .docs-index[data-folded]) .docs-main { grid-column: 2 / -1; }
-.docs-main { grid-column: 4 / -1; min-width: 0; }
+.docs-main { grid-column: 4 / -1; min-width: 0; padding-bottom: var(--db-space-10); }
+/* In the bar the key sits inside the search button's underline: a shorter cap keeps its corners clear of it. */
+.bar-search .db-kbd { height: 1.7em; margin-inline-start: 0.15em; }
 
 .doc-head { display: grid; gap: var(--db-space-5); margin-bottom: var(--db-space-8); }
 .doc-title { margin-inline-start: -0.04em; font-size: var(--db-fff); line-height: var(--db-fff-lh); letter-spacing: var(--db-fff-tr); font-weight: 300; color: var(--db-ink); }
@@ -103,7 +108,16 @@ body { overflow-x: clip; }
 @keyframes site-settle { from { letter-spacing: 0.03em; } }
 .doc-summary { max-width: 40ch; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
 
-.doc-section { padding-block: var(--db-space-7); border-top: var(--db-hairline) solid var(--db-rule); }
+/* A section begins at its rule: the heading hangs just under it, and the silence goes before the rule, never between
+   a heading and what it names. Near to far: rule to heading, heading to content, one section to the next. */
+.doc-section { padding-block: var(--db-space-5) var(--db-space-8); border-top: var(--db-hairline) solid var(--db-rule); }
+/* A section with no visible heading straight after the head is the lead going on (the principles' five rules, an item's example
+   in its corners): no rule between them. */
+.doc-head + .doc-section:not(:has(> h2:not(.db-sr))) { padding-top: 0; border-top: 0; }
+/* A heading whose content opens with its own rule (rows, steps) stands on that rule instead: one line per boundary, and the silence
+   before it is the section's. */
+.doc-section:has(> h2 + :is(.db-rows, .db-steps)) { padding-top: 0; border-top: 0; }
+.doc-section > h2:has(+ :is(.db-rows, .db-steps)) { margin-bottom: var(--db-space-3); }
 .doc-section > h2 { margin-bottom: var(--db-space-6); font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 400; color: var(--db-ink); }
 .doc-lead { max-width: var(--db-measure); margin-bottom: var(--db-space-7); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
 .doc-example { padding: var(--db-space-8) var(--db-space-7); }
@@ -112,15 +126,18 @@ body { overflow-x: clip; }
   .doc-example > * { max-width: 100%; }
 }
 .doc-install [data-slot="tabs-content"] > p { max-width: var(--db-measure); margin-bottom: var(--db-space-6); }
-.doc-steps { display: grid; gap: var(--db-space-6); }
-.doc-foot { margin-top: var(--db-space-9); }
+.doc-steps { display: grid; gap: var(--db-space-7); }
+/* Two blocks of one kind in a section each carry a name you can see: a p-size line in ink, near what it names. */
+.doc-sub { margin-bottom: var(--db-space-3); font-size: var(--db-p); line-height: var(--db-p-lh); font-weight: 400; color: var(--db-ink); }
+/* The way on is the page's last section: it begins at a rule like the others, after the same silence. */
+.doc-foot { padding-top: var(--db-space-5); border-top: var(--db-hairline) solid var(--db-rule); }
 
 /* The states sit on the example's inset, so the two read as one block. */
 .spec-states { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-6) var(--db-space-7); margin-top: var(--db-space-6); padding: var(--db-space-5) var(--db-space-7) 0; border-top: var(--db-hairline) dotted var(--db-rule-strong); }
 .state { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: var(--db-space-3); min-width: 0; max-width: 100%; }
 .state-label { font-size: var(--db-pp); color: var(--db-pencil); }
 
-.page-rail.db-scrollbar { top: var(--bar); }
+.page-rail { --db-trail-top: var(--bar); }
 
 /* The tokens page: every token, click to copy. */
 .token-list { columns: 3 16rem; column-gap: var(--db-gutter); }
@@ -144,25 +161,30 @@ body { overflow-x: clip; }
   .bar-search kbd { display: none; }
   .doc-example { padding: var(--db-space-6) var(--db-space-4); }
   .spec-states { padding-inline: var(--db-space-4); }
+  /* The margin is too narrow here for a dash to hang in without touching the edge of the screen: the list steps in. */
+  .db-prose ul { padding-inline-start: 1.1em; }
 }
 
 /* The tuning popover in the bar. */
 .bar-controls { display: flex; align-items: center; gap: var(--db-space-5); }
-.tune { display: grid; gap: var(--db-space-6); width: min(26rem, calc(100vw - 2 * var(--db-margin))); }
-.tune-mode { justify-self: start; }
-.tune-note { display: block; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
+.tune { width: min(26rem, calc(100vw - 2 * var(--db-margin))); padding: var(--db-space-5); }
 
 /* Code outside prose (tables, notes) reads like prose's: the voice, condensed. No monospace anywhere. */
 .docs-main :not(pre) > code { font-family: var(--db-voice); font-stretch: 78%; font-weight: 500; letter-spacing: 0.01em; color: var(--db-ink); }
 .doc-install [data-slot="tabs-content"] { padding-top: var(--db-space-6); }
+/* Under the tabs' own line the steps start in silence: the first step draws no second rule. */
+.doc-install [data-slot="tabs-content"] > .db-steps > .db-step:first-child { padding-top: 0; border-top: 0; }
 
 /* Wide tables scroll sideways inside the page, never the page itself. */
 .doc-table { overflow-x: auto; overscroll-behavior-x: contain; }
-
-/* A change of theme opens the new page as a circle from the control that made it. */
-::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-::view-transition-new(root) { animation: site-reveal var(--db-andante) var(--db-breath); }
-@keyframes site-reveal {
-  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); }
-  to { clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 0)); }
+/* On a phone a prop is a small entry, not four columns: its name, type and default on one line, what it does beneath at full measure.
+   The column heads go (kept for screen readers); the default says its own name. */
+@media (max-width: 560px) {
+  .doc-props thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .doc-props tr { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-2) var(--db-space-4); padding-block: var(--db-space-4); border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .doc-props tr > td { padding: 0; border: 0; }
+  .doc-props tr > td:nth-child(3) { margin-inline-start: auto; }
+  .doc-props tr > td:last-child { flex-basis: 100%; }
+  .doc-props tr > td:nth-child(3):not(:empty)::before { content: "Default "; font-size: var(--db-pp); color: var(--db-pencil); }
 }
+

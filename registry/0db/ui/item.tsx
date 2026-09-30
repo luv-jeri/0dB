@@ -2,9 +2,18 @@ import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
 
+type ItemGroupProps = React.ComponentProps<"ul"> & {
+  /**
+   * leader: a dotted leader joins what it is to its value. lineation: as in a critical edition, every
+   * fifth line carries its number in the margin, and the line you point at shows its own. words: the
+   * description runs in along the leader, small, and runs out in an ellipsis before the value.
+   */
+  variant?: "leader" | "lineation" | "words"
+}
+
 /** A ledger of items. */
-function ItemGroup({ className, ...props }: React.ComponentProps<"ul">) {
-  return <ul data-slot="item-group" className={cn("db-items", className)} {...props} />
+function ItemGroup({ className, variant = "leader", ...props }: ItemGroupProps) {
+  return <ul data-slot="item-group" data-variant={variant === "leader" ? undefined : variant} className={cn("db-items", className)} {...props} />
 }
 
 type ItemProps = React.ComponentProps<"li"> & {

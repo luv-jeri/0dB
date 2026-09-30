@@ -9,4 +9,57 @@
       linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) 0 0 / 100% var(--db-hairline) no-repeat scroll,
       linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) 0 100% / 100% var(--db-hairline) no-repeat scroll;
   }
+  /* The scroll area wears the page's rail: as wide, its hairline as far in, with a mark at each of its sections.
+     It holds two rails (down and along), so it is positioned itself rather than have each rail ask for it. */
+  .db-scroll[data-slot="scroll-area"] { position: relative; }
+  .db-scroll[data-slot="scroll-area"] > .db-scrollbar { --line: 0.5rem; width: 1.5rem; }
+  .db-scroll[data-slot="scroll-area"] > .db-scrollbar[data-axis="x"] { width: auto; height: 1.5rem; }
+
+  /* Catchword, after the printer's: the first word of the next page set alone on a line at the foot of this one, so the
+     reader goes on. While there's more below, a foot line of paper rides the bottom of the box (sticky, with no script) and
+     the text passes under it; on it, at the far end and clear of the rail, waits the first word the foot cuts off, over
+     the rule. Each new word turns in as it arrives. Pressing it turns the box to that line. At the end the word and the rule go. */
+  .db-scroll-foot {
+    position: sticky; bottom: 0; z-index: 2; display: flex; justify-content: flex-end; align-items: end; height: 1.625rem; padding-inline-end: 1.75rem;
+    background: var(--db-paper); pointer-events: none;
+    border-block-end: var(--db-hairline) solid var(--db-rule-strong); /* the rule, drawn on the foot so it sits over what passes under */
+  }
+  .db-scroll-foot:has(> [data-idle]) { border-block-end-color: transparent; }
+  .db-scroll-catchword {
+    padding-block-end: 0.2rem; font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-pencil);
+    white-space: nowrap; cursor: pointer; pointer-events: auto; transition: color var(--db-allegro) var(--db-exhale);
+  }
+  .db-scroll-catchword:hover { color: var(--db-ink); }
+  .db-scroll-catchword[data-idle] { visibility: hidden; }
+  .db-scroll-catchword[data-turn] { animation: db-scroll-turn var(--db-allegro) var(--db-exhale); }
+  @keyframes db-scroll-turn { from { opacity: 0; translate: 0 0.6em; } }
+
+  /* Wheel, after WOVE, where numbers ride an arc, shrinking and fading by their distance from the chosen one: the children
+     of what you put inside turn on an arc as the box scrolls. The row in the middle stands at the start edge, full size, in
+     ink; rows toward the top and bottom fall back along the curve toward the rail, a little smaller, and step back to pencil.
+     Each row runs on its own view timeline, so the wheel keeps time with the scroll and nothing moves while it rests.
+     With reduced motion only the ink changes. */
+  .db-scroll[data-variant="wheel"] { --db-scroll-arc: var(--db-space-7); overflow-x: hidden; padding-inline-end: var(--db-scroll-arc); }
+  .db-scroll[data-variant="wheel"] > :first-child > * { transform-origin: left center; }
+  :is([dir="rtl"], [dir="rtl"] *).db-scroll[data-variant="wheel"] { --db-scroll-dir: -1; }
+  :is([dir="rtl"], [dir="rtl"] *).db-scroll[data-variant="wheel"] > :first-child > * { transform-origin: right center; }
+  @supports (animation-timeline: view()) {
+    .db-scroll[data-variant="wheel"] > :first-child > * { animation: db-scroll-wheel linear both; animation-timeline: view(); }
+    @media (prefers-reduced-motion: reduce) { .db-scroll[data-variant="wheel"] > :first-child > * { animation-name: db-scroll-wheel-still; } }
+  }
+  /* Offset by the square of the distance d from the middle (d = 1, 0.8, 0.6, 0.4, 0.2, 0), so the curve reads across a short box. */
+  @keyframes db-scroll-wheel {
+    0%, 100% { translate: calc(var(--db-scroll-arc) * var(--db-scroll-dir, 1)) 0; scale: 0.84; color: var(--db-rule-strong); }
+    10%, 90% { translate: calc(0.64 * var(--db-scroll-arc) * var(--db-scroll-dir, 1)) 0; scale: 0.9; }
+    20%, 80% { translate: calc(0.36 * var(--db-scroll-arc) * var(--db-scroll-dir, 1)) 0; scale: 0.94; color: var(--db-pencil); }
+    30%, 70% { translate: calc(0.16 * var(--db-scroll-arc) * var(--db-scroll-dir, 1)) 0; scale: 0.97; color: var(--db-graphite); }
+    40%, 60% { translate: calc(0.04 * var(--db-scroll-arc) * var(--db-scroll-dir, 1)) 0; scale: 0.99; }
+    50% { translate: 0 0; scale: 1; color: var(--db-ink); }
+  }
+  @keyframes db-scroll-wheel-still {
+    0%, 100% { color: var(--db-rule-strong); }
+    20%, 80% { color: var(--db-pencil); }
+    30%, 70% { color: var(--db-graphite); }
+    50% { color: var(--db-ink); }
+  }
 }

@@ -1,13 +1,33 @@
+"use client"
+
 import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
+
+type Variant = "tail" | "catchword" | "sotto"
+
+const Kind = React.createContext<Variant>("tail")
+
+type CollapsibleProps = React.ComponentProps<"details"> & {
+  /**
+   * tail: the words "and 4 more" are the control, as the list's last line. catchword: the first name of the
+   * rest waits at the foot, flush to the far edge, the way a printer set the next page's first word; opening,
+   * it steps back to the start as the first row. sotto: the rest is already there, said under the breath in
+   * one line of fine print; opening says it in full.
+   */
+  variant?: Variant
+}
 
 /**
  * A list that ends in the rest of itself: "and 4 more" is the control. Native
  * <details>. Show the first rows yourself (a CollapsibleList), then this holds the rest.
  */
-function Collapsible({ className, ...props }: React.ComponentProps<"details">) {
-  return <details data-slot="collapsible" className={cn("db-collapse", className)} {...props} />
+function Collapsible({ className, variant = "tail", ...props }: CollapsibleProps) {
+  return (
+    <Kind.Provider value={variant}>
+      <details data-slot="collapsible" data-variant={variant === "tail" ? undefined : variant} className={cn("db-collapse", className)} {...props} />
+    </Kind.Provider>
+  )
 }
 
 type CollapsibleTriggerProps = React.ComponentProps<"summary"> & {
@@ -16,10 +36,16 @@ type CollapsibleTriggerProps = React.ComponentProps<"summary"> & {
 }
 
 function CollapsibleTrigger({ children, openLabel, className, ...props }: CollapsibleTriggerProps) {
+  const variant = React.useContext(Kind)
   return (
-    <summary data-slot="collapsible-trigger" data-variant="quiet" className={cn("db-btn", className)} {...props}>
+    <summary
+      data-slot="collapsible-trigger"
+      data-variant={variant === "tail" ? "quiet" : undefined}
+      className={cn(variant === "tail" ? "db-btn" : "db-collapse-cue", className)}
+      {...props}
+    >
       <span>{children}</span>
-      <span>{openLabel ?? children}</span>
+      <span data-echo={openLabel === undefined ? "" : undefined}>{openLabel ?? children}</span>
     </summary>
   )
 }
@@ -33,4 +59,4 @@ function CollapsibleList({ className, ...props }: React.ComponentProps<"ul">) {
   return <ul data-slot="collapsible-list" className={cn("db-collapse-list", className)} {...props} />
 }
 
-export { Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleList, type CollapsibleTriggerProps }
+export { Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleList, type CollapsibleProps, type CollapsibleTriggerProps }

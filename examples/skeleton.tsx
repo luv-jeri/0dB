@@ -1,8 +1,9 @@
-import { Skeleton, SkeletonLine, SkeletonRing } from "@/registry/0db/ui/skeleton"
+import { Skeleton, SkeletonLine, SkeletonRing, type SkeletonProps } from "@/registry/0db/ui/skeleton"
 import { State } from "@/components/site/state"
 
-const lines = (
-  <Skeleton>
+// A headline and a paragraph that ends short, as a real one does.
+const lines = (variant?: SkeletonProps["variant"]) => (
+  <Skeleton variant={variant}>
     <SkeletonLine width="38%" height="2.8em" index={0} />
     <SkeletonLine width="94%" index={1} />
     <SkeletonLine width="88%" index={2} />
@@ -10,10 +11,17 @@ const lines = (
   </Skeleton>
 )
 
+const variants = ["baseline", "metrics", "words"] as const
+
 export default function Example() {
   return (
-    <div aria-busy="true" style={{ width: "min(36rem, 100%)" }}>
-      {lines}
+    <div aria-busy="true" className="grid w-[min(36rem,100%)] gap-(--db-space-8)">
+      {variants.map((v) => (
+        <div key={v} className="grid gap-4">
+          <span className="db-label">{v}</span>
+          {lines(v)}
+        </div>
+      ))}
     </div>
   )
 }
@@ -21,8 +29,16 @@ export default function Example() {
 export function States() {
   return (
     <>
-      <State label="At rest"><div style={{ width: "16rem" }}>{lines}</div></State>
-      <State label="Loading"><div aria-busy="true" style={{ width: "16rem" }}>{lines}</div></State>
+      {variants.map((v) => (
+        <State key={`${v}-rest`} label={`${v[0].toUpperCase()}${v.slice(1)}, at rest`}>
+          <div style={{ width: "16rem" }}>{lines(v)}</div>
+        </State>
+      ))}
+      {variants.map((v) => (
+        <State key={`${v}-busy`} label="Loading">
+          <div aria-busy="true" style={{ width: "16rem" }}>{lines(v)}</div>
+        </State>
+      ))}
       <State label="Ring"><SkeletonRing /></State>
     </>
   )

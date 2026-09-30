@@ -11,10 +11,12 @@ type ButtonProps = React.ComponentProps<"button"> & {
    * The base set, one family: statement (reversed type in an ink block, one per view),
    * bracket (a secondary action held in ( )) and quiet (only a line, and the line redraws).
    * The hero set, for the big call to action: overture (the word swells and ends in a full stop),
-   * fermata (an arc is drawn over the word), stave (the word set across five lines) and
+   * crescendo (a hairpin under the word opens as it swells), stave (the word set across five lines) and
    * ink (an outlined block that fills from the side you came in).
+   * The measures: space (the words spread across the line; pointing gathers them and the silence
+   * they leave becomes an arrow) and repeat (the word between repeat signs, for doing it again).
    */
-  variant?: "statement" | "bracket" | "quiet" | "overture" | "fermata" | "stave" | "ink"
+  variant?: "statement" | "bracket" | "quiet" | "overture" | "crescendo" | "stave" | "ink" | "space" | "repeat"
   size?: "m" | "l"
   /** Render the child element (a link, say) with the button's look. */
   asChild?: boolean
@@ -34,6 +36,25 @@ function textOf(node: React.ReactNode) {
     else if (c != null && typeof c !== "boolean") plain = false
   })
   return plain ? text : null
+}
+
+/**
+ * Space's label: the words as flex items with a real space between each, so the name reads as
+ * one phrase, and a lead before them that grows into an arrow as the spaces close.
+ */
+function Spread({ text }: { text: string }) {
+  const words = text.trim().split(/\s+/)
+  return (
+    <span className="db-btn-label">
+      <span className="db-btn-lead" aria-hidden="true" />
+      {words.map((w, i) => (
+        <React.Fragment key={i}>
+          {i > 0 ? <span className="db-btn-gap"> </span> : null}
+          <span>{w}</span>
+        </React.Fragment>
+      ))}
+    </span>
+  )
 }
 
 /**
@@ -57,14 +78,18 @@ function Button({ className, variant = "bracket", size = "m", asChild = false, b
     e.currentTarget.dataset.edge = e.clientX < r.left + r.width / 2 ? "left" : "right"
   }
   const child = asChild && React.isValidElement<{ children?: React.ReactNode }>(children) ? children : null
+  const label = (words: React.ReactNode) => {
+    const text = variant === "space" ? textOf(words) : null
+    return text ? <Spread text={text} /> : <Label>{words}</Label>
+  }
   const content =
     busy && !asChild ? (
       <>
-        <Label>{typeof busy === "string" ? busy : children}</Label>
+        {label(typeof busy === "string" ? busy : children)}
         <Spinner />
       </>
     ) : (
-      <Label>{child ? child.props.children : children}</Label>
+      label(child ? child.props.children : children)
     )
   return (
     <Comp

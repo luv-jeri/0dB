@@ -13,4 +13,36 @@
     animation: db-land var(--db-moderato) var(--db-spiccato);
   }
   .db-thread-new { display: inline-block; font-variant-numeric: tabular-nums; }
+
+  /* ── rests ── the space between two messages is the silence between them: its gap grows with the log of the minutes
+     (script sets --db-rest). A pause of an hour or more is said in that silence the way the marker's lapse says it:
+     "3 hours later", in pencil, centred, its letters spread by how long it went quiet (--db-lapse, the lapse's scale). */
+  .db-thread[data-variant="rests"] .db-thread-scroll { gap: var(--db-space-3); }
+  .db-thread[data-variant="rests"] .db-thread-scroll > .db-msg {
+    --db-rest-gap: min(var(--db-space-9), calc(var(--db-rest, 0) * var(--db-space-2) * 1.25));
+    position: relative; margin-block-start: var(--db-rest-gap);
+  }
+  .db-thread[data-variant="rests"] .db-thread-scroll > [data-slot="thread-day"] { margin-block: var(--db-space-5); }
+  .db-thread[data-variant="rests"] .db-msg[data-rest]::after {
+    --db-rest-tr: calc(var(--db-pp-tr) + var(--db-lapse, 0) * 0.36em);
+    content: attr(data-rest) / ""; position: absolute; inset-inline: 0; margin-inline: auto; width: fit-content; pointer-events: none;
+    inset-block-start: calc((var(--db-rest-gap) + var(--db-space-3)) / -2); translate: 0 -50%;
+    font: 400 var(--db-pp) / 1 var(--db-voice); letter-spacing: var(--db-rest-tr); padding-inline-start: var(--db-rest-tr); white-space: nowrap; color: var(--db-pencil); direction: ltr; unicode-bidi: isolate; /* the words are the library's English */
+  }
+
+  /* ── running ── scrolled back, the top edge carries the day you are in and the time of the first message in view,
+     on a hairline between them (the SHAPES / GRADIENTS frame row). Its day rolls as the days change. */
+  .db-thread-head {
+    position: absolute; inset-block-start: 0; inset-inline: 0 var(--db-space-4); z-index: 1; margin: 0;
+    display: flex; align-items: center; gap: var(--db-space-3); padding-block: var(--db-space-2);
+    background: var(--db-paper); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite);
+    transition: opacity var(--db-moderato) var(--db-exhale);
+  }
+  .db-thread-head:not([data-shown]) { opacity: 0; visibility: hidden; }
+  .db-thread-head > span { display: inline-block; }
+  .db-thread-head::after { content: ""; order: 1; flex: 1; height: var(--db-hairline); background: var(--db-rule-strong); }
+  .db-thread-head > time { order: 2; color: var(--db-pencil); font-variant-numeric: tabular-nums; }
+  @media (forced-colors: active) {
+    .db-thread-head::after { background: CanvasText; }
+  }
 }

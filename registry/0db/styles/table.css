@@ -29,4 +29,29 @@
   .db-table-pick:hover { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
   .db-table-pick:checked { background: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); animation: db-land var(--db-moderato) var(--db-spiccato); }
   .db-table-pick:indeterminate { background: linear-gradient(90deg, var(--db-ink) 50%, transparent 50%); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
+
+  /* ── forte ── SPECTRA's giant type against tiny data: the column you sort by is also set loud, in large thin figures, and the
+     rest stays small print on the same baselines. Re-sorted, the loudness passes to the new column as the rows glide. */
+  .db-table[data-variant="forte"] td { transition: color var(--db-moderato), font-size var(--db-moderato) var(--db-breath); }
+  .db-table[data-variant="forte"] td[data-sorted] { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 250; }
+  .db-table[data-variant="forte"] tr[data-picked] td[data-sorted].db-table-name { font-size: calc(var(--db-expression-scale) * var(--db-mf)); }
+  @media (max-width: 40rem) { .db-table[data-variant="forte"] td[data-sorted] { font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); } }
+
+  /* ── cross ── the road atlas's distance chart: point at a cell (or focus inside it) and its row and its column cross in ink,
+     their headings too; the cell where they meet is the accent; everything else steps back to pencil. A reading aid only: every
+     figure reads in full without it. ponytail: one rule per column, to eight columns; add rules if a chart grows wider. */
+  .db-table[data-variant="cross"] :is(th, td) { transition: color var(--db-allegro); }
+  @media (max-width: 30rem) { .db-table[data-variant="cross"] { font-size: var(--db-pp); line-height: var(--db-pp-lh); } } /* a distance chart is small print; on a phone it keeps its columns */
+  .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) :is(th, td) { color: var(--db-pencil); }
+  .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) tbody tr:has(> td:is(:hover, :focus-within, [data-force~="hover"])) > *,
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(1):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(1),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(2):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(2),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(3):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(3),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(4):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(4),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(5):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(5),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(6):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(6),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(7):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(7),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(8):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(8) { color: var(--db-ink); }
+  .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) tbody td:is(:hover, :focus-within, [data-force~="hover"]):is(:hover, :focus-within, [data-force~="hover"]) { color: var(--db-accent); }
+  @media (forced-colors: active) { .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) tbody td:is(:hover, :focus-within, [data-force~="hover"]):is(:hover, :focus-within, [data-force~="hover"]) { color: Highlight; } }
 }

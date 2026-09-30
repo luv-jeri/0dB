@@ -1,6 +1,56 @@
-import { Prose, ProseLead } from "@/registry/0db/ui/typography"
+import { Prose, ProseLead, type ProseProps } from "@/registry/0db/ui/typography"
+import { State } from "@/components/site/state"
+
+function Passage({ variant }: { variant: ProseProps["variant"] }) {
+  return (
+    <Prose variant={variant}>
+      <h3>On leaving space</h3>
+      <p>
+        A page is mostly paper. The type takes a small part of it, and the rest is the room the reader breathes in. Set
+        the margins first, before a single word, and the words will know where to stand.
+      </p>
+      <p>
+        The old compositors had a rule for it: indent or space, never both. An ordered page needs little else, only the
+        steady measure of its lines and the space kept between them.
+      </p>
+      <p>What is left out is part of the design. It is the part the reader never notices, and the part they would miss.</p>
+      <hr />
+      <p>Two faces, one accent, and a great deal of paper: that is the whole of the system.</p>
+    </Prose>
+  )
+}
 
 export default function Example() {
+  return (
+    <div className="grid gap-y-16">
+      <Swiss />
+      {(["book", "run-on"] as const).map((v) => (
+        <div key={v} className="grid gap-y-4">
+          <span className="db-label">{v}</span>
+          <Passage variant={v} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export function States() {
+  const short = (variant: ProseProps["variant"]) => (
+    <Prose variant={variant} className="w-80">
+      <p>A page is mostly paper, and the type takes a small part of it.</p>
+      <p>Set the margins first, and the words will know where to stand.</p>
+    </Prose>
+  )
+  return (
+    <>
+      <State label="swiss">{short("swiss")}</State>
+      <State label="book">{short("book")}</State>
+      <State label="run-on">{short("run-on")}</State>
+    </>
+  )
+}
+
+function Swiss() {
   return (
     <Prose>
       <h2>Why two faces are enough</h2>

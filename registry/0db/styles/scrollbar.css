@@ -65,6 +65,14 @@
     opacity: 0; visibility: hidden;
     transition: opacity var(--db-allegro) var(--db-exhale), visibility 0s var(--db-allegro);
   }
+  /* Sideways, a mark is a tick rising from the rail, its number above it. The number leans into the box as its mark
+     nears either end (by its share of the rail), so it is never cut off by the box's edge. */
+  .db-scrollbar[data-axis="x"] .db-scrollbar-mark { inset-block: 0; inset-inline: calc(var(--at) * 100%) auto; width: 1rem; height: auto; margin: 0; margin-inline-start: -0.5rem; }
+  .db-scrollbar[data-axis="x"] .db-scrollbar-mark::before { top: auto; bottom: var(--line); inset-inline: 50% auto; width: var(--db-hairline); height: 0.5rem; }
+  .db-scrollbar[data-axis="x"] .db-scrollbar-mark::after { top: auto; bottom: 100%; inset-inline: 50% auto; translate: calc(var(--at) * -100% * var(--dir, 1)) 0; }
+  /* A box is short, so down its side a number leans into it as its mark nears the top or bottom (by its share of the
+     rail), the way the sideways ones do: the first is never cut off by the box's top edge. The page's rail is tall enough. */
+  .db-scrollbar:not([data-variant="page"], [data-axis]) .db-scrollbar-mark::after { translate: 0 calc(var(--at) * -100%); }
   /* Pointing sketches: pointing at what scrolls darkens the rail; pointing at the rail thickens the thumb
      and brings the page's numbers down the rail in turn. */
   :hover > .db-scrollbar::before, .db-scrollbar:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"])::before { background: var(--db-rule-strong); }
@@ -73,8 +81,62 @@
     opacity: 1; visibility: visible; transition-delay: calc(var(--i, 0) * var(--db-arpeggio)), 0s;
   }
   .db-scrollbar-mark:hover::after { content: attr(data-num) "\2002" attr(data-name); color: var(--db-ink); }
+  .db-scrollbar-mark[data-num=""]:hover::after { content: attr(data-name); } /* a section without a numeral goes by its name */
   .db-scrollbar-mark:hover::before { background: var(--db-ink); }
   /* Holding inks it: the thumb is where you are, so it takes the one accent. */
   .db-scrollbar:is([data-dragging], [data-force~="active"]) .db-scrollbar-thumb { background: var(--db-accent); }
   .db-scrollbar[data-dragging] { cursor: grabbing; } /* pointer capture keeps it while the hand is down */
+
+  /* Numeral, after "the silence that heals" (14 / 08), where numbers are the data: the thumb is a figure, how far down
+     you are from 00 to 100, riding the hairline on a dot. It counts through every number as the box scrolls: a counter on
+     a registered number that the scroller's own timeline drives, so it keeps time with any smooth scrolling. */
+  @property --db-scrollbar-read { syntax: "<number>"; inherits: true; initial-value: 0; }
+  @property --db-scrollbar-n { syntax: "<integer>"; inherits: false; initial-value: 0; }
+  .db-scrollbar[data-variant="numeral"] { width: 3.25rem; }
+  .db-scrollbar[data-variant="numeral"] .db-scrollbar-thumb { inset-inline-start: 0; width: auto; height: 1.5rem; margin: 0; background: none; animation-name: db-scrollbar-read; }
+  @keyframes db-scrollbar-read { to { translate: 0 calc((1 / var(--view) - 1) * 100%); --db-scrollbar-read: 1; } }
+  .db-scrollbar[data-variant="numeral"][data-force] .db-scrollbar-thumb { --db-scrollbar-read: var(--p, 0); }
+  .db-scrollbar[data-variant="numeral"] .db-scrollbar-thumb::before {
+    content: ""; position: absolute; top: 50%; inset-inline-end: calc(var(--db-hairline) / 2 - 0.1875rem); width: 0.375rem; height: 0.375rem;
+    translate: 0 -50%; border-radius: 50%; background: var(--db-ink); transition: background-color var(--db-allegro) var(--db-exhale), scale var(--db-allegro) var(--db-spiccato);
+  }
+  .db-scrollbar[data-variant="numeral"] .db-scrollbar-thumb::after {
+    --db-scrollbar-n: round(var(--db-scrollbar-read) * 100, 1); counter-reset: db-scrollbar-read var(--db-scrollbar-n); content: counter(db-scrollbar-read, decimal-leading-zero);
+    position: absolute; inset-block: 0; inset-inline-end: calc(0.1875rem + var(--db-space-2)); line-height: 1.5rem; font-size: var(--db-p); letter-spacing: var(--db-p-tr);
+    font-variant-numeric: tabular-nums; color: var(--db-pencil); transition: color var(--db-allegro) var(--db-exhale);
+  }
+  .db-scrollbar[data-variant="numeral"]:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"]) .db-scrollbar-thumb::after { color: var(--db-ink); }
+  .db-scrollbar[data-variant="numeral"]:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"]) .db-scrollbar-thumb::before { scale: 1.34; }
+  .db-scrollbar[data-variant="numeral"]:is([data-dragging], [data-force~="active"]) .db-scrollbar-thumb { background: none; }
+  .db-scrollbar[data-variant="numeral"]:is([data-dragging], [data-force~="active"]) .db-scrollbar-thumb::before { background: var(--db-accent); }
+  .db-scrollbar[data-variant="numeral"]:is([data-dragging], [data-force~="active"]) .db-scrollbar-thumb::after { color: var(--db-accent); }
+  /* Numbers of the section marks stand clear of the figure. */
+  .db-scrollbar[data-variant="numeral"] .db-scrollbar-mark::after { inset-inline-end: calc(100% + var(--db-space-1)); }
+
+  /* Leaves, after the "Less but better" calendar: a disc for every screenful the box holds, down from the top of its rail.
+     Those you've read are ink, the one you're on is the one accent, those to come are hairline rings. There is no thumb:
+     press a disc and the box turns to that leaf. The script lays the discs and marks data-read and data-now as you scroll. */
+  .db-scrollbar[data-variant="leaves"] { width: 1.5rem; --line: 0.5rem; }
+  .db-scrollbar[data-variant="leaves"]::before, .db-scrollbar[data-variant="leaves"] .db-scrollbar-thumb { display: none; }
+  .db-scrollbar-leaves { position: absolute; inset: 0; display: grid; align-content: start; }
+  .db-scrollbar-leaf { position: relative; height: 1.125rem; cursor: pointer; }
+  .db-scrollbar-leaf::before {
+    content: ""; position: absolute; top: 50%; inset-inline-end: calc(var(--line) + var(--db-hairline) / 2 - 0.3125rem); width: 0.625rem; height: 0.625rem;
+    translate: 0 -50%; box-sizing: border-box; border-radius: 50%; border: var(--db-hairline) solid var(--db-rule-strong);
+    transition: background-color var(--db-allegro) var(--db-exhale), border-color var(--db-allegro) var(--db-exhale), scale var(--db-allegro) var(--db-spiccato);
+  }
+  .db-scrollbar-leaf[data-read]::before { background: var(--db-ink); border-color: var(--db-ink); }
+  .db-scrollbar-leaf[data-now]::before { background: var(--db-accent); border-color: var(--db-accent); }
+  .db-scrollbar-leaf:hover::before { scale: 1.2; }
+  .db-scrollbar-leaf::after {
+    content: attr(data-leaf); position: absolute; top: 50%; inset-inline-end: calc(100% + var(--db-space-1)); translate: 0 -50%;
+    padding-inline: 0.4em; white-space: nowrap; background: var(--db-paper); font-size: var(--db-pp); line-height: 1; font-variant-numeric: tabular-nums; color: var(--db-ink);
+    opacity: 0; visibility: hidden; transition: opacity var(--db-allegro) var(--db-exhale), visibility 0s var(--db-allegro);
+  }
+  .db-scrollbar-leaf:hover::after { opacity: 1; visibility: visible; transition-delay: 0s; }
+
+  /* Forced colours paint over backgrounds, which is how the thumb, the dot and the discs are drawn: keep them, in system colours. */
+  @media (forced-colors: active) {
+    .db-scrollbar { forced-color-adjust: none; --db-paper: Canvas; --db-ink: CanvasText; --db-pencil: GrayText; --db-rule: GrayText; --db-rule-strong: GrayText; --db-accent: Highlight; }
+  }
 }

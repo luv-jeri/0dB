@@ -35,4 +35,39 @@
     font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink);
   }
   .db-command-line-row > .db-source-copy { flex: none; margin: 0; font-size: var(--db-pp); }
+
+  /* parsed: the interlinear gloss (a linguist's word-by-word gloss; the dictionary entry of "the uncreative",
+     the part of speech set small under the word). Each glossed word stands over a short rule, its gloss hung
+     beneath in small type; the words keep one baseline and the line teaches itself. Pointing at a word inks
+     its rule and its gloss. */
+  .db-command-line[data-variant="parsed"] .db-command-line-text { line-height: calc(var(--db-mp-lh) + 0.2); }
+  .db-command-line-word { display: inline-flex; flex-direction: column; max-inline-size: 100%; vertical-align: baseline; text-indent: 0; }
+  .db-command-line-said { align-self: flex-start; padding-block-end: 0.1em; border-block-end: var(--db-hairline) solid var(--db-rule-strong); transition: border-color var(--db-allegro); }
+  .db-command-line-gloss {
+    padding-block: var(--db-space-1) var(--db-space-2); padding-inline-end: var(--db-space-4); font-family: var(--db-voice); font-stretch: 100%;
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-pencil);
+    white-space: nowrap; transition: color var(--db-allegro);
+  }
+  .db-command-line-word:hover > .db-command-line-said, .db-command-line[data-force~="hover"] .db-command-line-word:first-child > .db-command-line-said { border-block-end-color: var(--db-ink); }
+  .db-command-line-word:hover > .db-command-line-gloss, .db-command-line[data-force~="hover"] .db-command-line-word:first-child > .db-command-line-gloss { color: var(--db-ink); }
+
+  /* synopsis: a manual page's synopsis, where the words you replace are set in italic. Here that part is a
+     blank you write in, in your italic; it grows with what you write, and Copy copies your line. Focus draws
+     the accent under your part only. */
+  .db-command-line-blank {
+    appearance: none; margin: 0; padding: 0 0.05em; border: 0; border-radius: 0; background: none; outline: 0;
+    field-sizing: content; min-inline-size: 2ch;
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-stretch: 100%;
+    font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; letter-spacing: 0; color: var(--db-ink);
+    box-shadow: inset 0 calc(-1 * var(--db-hairline)) 0 var(--db-ink);
+    transition: box-shadow var(--db-allegro);
+  }
+  .db-command-line[data-force~="focus"] { outline: none; }
+  .db-command-line-blank::placeholder { color: var(--db-pencil); opacity: 1; }
+  .db-command-line-blank:focus-visible, .db-command-line[data-force~="focus"] .db-command-line-blank { box-shadow: inset 0 calc(-1 * var(--db-stroke)) 0 var(--db-accent); }
+
+  @media (forced-colors: active) {
+    .db-command-line-blank:focus-visible { outline: 2px solid Highlight; }
+    .db-command-line-said { border-block-end-color: CanvasText; }
+  }
 }

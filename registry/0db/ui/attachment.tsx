@@ -5,9 +5,28 @@ import * as React from "react"
 import { cn } from "@/registry/0db/lib/utils"
 import { Button } from "@/registry/0db/ui/button"
 
+type AttachmentListProps = React.ComponentProps<"ul"> & {
+  /**
+   * reverse: the extension is reversed out of an ink block that prints across it as the file arrives.
+   * enclosure: the files written as a letter's enclosure line, "Encl. (2)", run on in one sentence.
+   */
+  variant?: "default" | "reverse" | "enclosure"
+}
+
 /** The list the files sit in. */
-function AttachmentList({ className, ...props }: React.ComponentProps<"ul">) {
-  return <ul data-slot="attachment-list" className={cn("db-attachments", className)} {...props} />
+function AttachmentList({ variant = "default", className, children, ...props }: AttachmentListProps) {
+  return (
+    <ul
+      data-slot="attachment-list"
+      data-variant={variant === "default" ? undefined : variant}
+      data-count={variant === "enclosure" ? React.Children.count(children) : undefined}
+      aria-label={variant === "enclosure" ? "Enclosures" : undefined}
+      className={cn("db-attachments", className)}
+      {...props}
+    >
+      {children}
+    </ul>
+  )
 }
 
 type AttachmentProps = Omit<React.ComponentProps<"li">, "children"> & {
@@ -34,7 +53,7 @@ function Attachment({ name, size, status, state = "done", progress, onRemove, cl
       style={progress === undefined ? style : ({ "--p": progress, ...style } as React.CSSProperties)}
       {...props}
     >
-      <span className="db-attach-ext" aria-hidden="true">{ext}</span>
+      <span className="db-attach-ext" data-ext={ext} aria-hidden="true">{ext}</span>
       <span className="db-attach-body">
         <span className="db-attach-name">{name}</span>
         <span className="db-attach-meta">{status ?? size}</span>
@@ -53,4 +72,4 @@ function Attachment({ name, size, status, state = "done", progress, onRemove, cl
   )
 }
 
-export { Attachment, AttachmentList, type AttachmentProps }
+export { Attachment, AttachmentList, type AttachmentProps, type AttachmentListProps }

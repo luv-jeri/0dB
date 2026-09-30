@@ -4,10 +4,13 @@ import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
 
-/** The dynamics, loudest first: each echo steps one down, and stays at pp. */
+/** The <html> switches that change the face; smooth scrolling toggles a class there on every scroll, which must not re-lay the text. */
+const FACE = ["data-pair", "data-scheme", "data-mode", "data-key"]
+
 /** How much further the echoes drift when pointed at. */
 const BREATH = 1.2
 
+/** The dynamics, loudest first: each echo steps one down, and stays at pp. */
 const DYNAMICS = ["ffff", "fff", "ff", "f", "mf", "mp", "p", "pp"] as const
 type Dynamic = (typeof DYNAMICS)[number]
 
@@ -18,6 +21,29 @@ type ReverbProps = Omit<React.ComponentProps<"p">, "children"> & {
   echoes?: number
   /** The dynamic the phrase is set in. */
   from?: Dynamic
+  /** canon: each echo drifts on by a word. antiphon: the echoes answer from either wall in turn. vowels: the consonants go first. */
+  variant?: "canon" | "antiphon" | "vowels"
+}
+
+const VOWEL = /^[aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ]/i
+
+/**
+ * For the vowels: the letters of the phrase, and the echo each one is lost in. In a live room the
+ * reverberation masks the short consonants first and the long vowels ring on, so the consonants
+ * (and the punctuation) go first, in a fixed order hashed from their place, then the vowels. By the
+ * last echo about a tenth is left. Spaces are never lost, so every echo keeps the phrase's layout.
+ */
+function fading(text: string, n: number) {
+  const seg = typeof Intl !== "undefined" && "Segmenter" in Intl ? [...new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text)].map((s) => s.segment) : Array.from(text)
+  const letters = seg.map((g, i) => ({ g, i })).filter(({ g }) => /\S/.test(g))
+  const hash = (i: number) => (((i + 1) * 2654435761) >>> 0) / 4294967296
+  const order = [...letters].sort((a, b) => Number(VOWEL.test(a.g)) + hash(a.i) - (Number(VOWEL.test(b.g)) + hash(b.i)))
+  const lost = new Array<number>(seg.length).fill(Infinity)
+  order.forEach(({ i }, j) => {
+    // letter j of the order is lost in the first echo k where round(L k / (n + 0.5)) passes it
+    for (let k = 1; k <= n; k++) if (j < Math.round((letters.length * k) / (n + 0.5))) { lost[i] = k; break }
+  })
+  return seg.map((g, i) => ({ g, lost: lost[i] }))
 }
 
 /**
@@ -25,27 +51,34 @@ type ReverbProps = Omit<React.ComponentProps<"p">, "children"> & {
  * graphite to pencil and then fades, the letters open, the size steps down a dynamic. Each echo is
  * shifted right by the width of the last one's first word, which pretext measures, so they drift
  * like a canon. It ends on a rest. Before pretext has measured, the echoes simply stack.
+ * The antiphon sends the echoes back from either wall in turn, as the two choirs of San Marco
+ * answered each other across the church; the vowels keep every echo under the phrase, letter for
+ * letter, and lose the consonants first.
  */
-function Reverb({ children: text, echoes = 5, from = "mf", className, ...props }: ReverbProps) {
+function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", className, ...props }: ReverbProps) {
   const ref = React.useRef<HTMLParagraphElement>(null)
   const n = Math.max(1, Math.round(echoes))
   const first = DYNAMICS.indexOf(from)
   // 0 is the phrase itself; 1…n are the echoes.
   const line = (k: number) => {
-    const d = DYNAMICS[Math.min(first + k, DYNAMICS.length - 1)]
+    // The vowels keep the phrase's own size and spacing, so every echo lies letter for letter under it.
+    const d = DYNAMICS[variant === "vowels" ? first : Math.min(first + k, DYNAMICS.length - 1)]
     return {
       "--size": `var(--db-${d})`,
       "--lh": `var(--db-${d}-lh)`,
       "--tr": `var(--db-${d}-tr)`,
-      "--open": k * 0.02, // the letters open a little more each time, in em
+      "--open": variant === "vowels" ? 0 : k * 0.02, // the letters open a little more each time, in em
       "--k": k,
       "--o": k <= 2 ? 1 : 1 - (0.7 * (k - 2)) / Math.max(1, n - 2), // ink, graphite, pencil, then it fades
     } as React.CSSProperties
   }
 
+  const letters = React.useMemo(() => (variant === "vowels" ? fading(text, n) : null), [variant, text, n])
+
   React.useEffect(() => {
     const el = ref.current
-    if (!el) return
+    // Only the canon drifts; the antiphon keeps to its walls, the vowels to the phrase's columns.
+    if (!el || variant !== "canon") return
     let cancelled = false
     let frame = 0
     let width = 0
@@ -89,7 +122,7 @@ function Reverb({ children: text, echoes = 5, from = "mf", className, ...props }
       if (cancelled) return
       // A change of pair or scheme on <html> can change the face: measure again.
       const restyled = new MutationObserver(() => lay())
-      restyled.observe(document.documentElement, { attributes: true })
+      restyled.observe(document.documentElement, { attributeFilter: FACE })
       const resized = new ResizeObserver(() => el.clientWidth !== width && lay())
       resized.observe(el)
       off.push(() => {
@@ -104,20 +137,20 @@ function Reverb({ children: text, echoes = 5, from = "mf", className, ...props }
       off.forEach((f) => f())
       delete el.dataset.ready
     }
-  }, [text, n, from])
+  }, [text, n, from, variant])
 
   return (
-    <p ref={ref} data-slot="reverb" className={cn("db-reverb", className)} {...props}>
+    <p ref={ref} data-slot="reverb" data-variant={variant} className={cn("db-reverb", className)} {...props}>
       <span className="db-reverb-line" style={line(0)}>
         {text}
       </span>
       <span aria-hidden="true" className="db-reverb-echoes">
         {Array.from({ length: n }, (_, i) => i + 1).map((k) => (
-          <span key={k} className="db-reverb-line db-reverb-echo" data-tone={k === 1 ? "graphite" : "pencil"} style={line(k)}>
-            {text}
+          <span key={k} className="db-reverb-line db-reverb-echo" data-tone={k === 1 ? "graphite" : "pencil"} data-side={variant === "antiphon" ? (k % 2 ? "end" : "start") : undefined} style={line(k)}>
+            {letters ? letters.map(({ g, lost }, i) => (lost <= k ? <span key={i} className="db-reverb-lost">{g}</span> : g)) : text}
           </span>
         ))}
-        <i className="db-reverb-rest" style={line(n + 1)} />
+        <i className="db-reverb-rest" data-side={variant === "antiphon" ? ((n + 1) % 2 ? "end" : "start") : undefined} style={line(n + 1)} />
       </span>
     </p>
   )

@@ -33,7 +33,7 @@ export function Search({ groups }: { groups: SearchGroup[] }) {
   return (
     <>
       <Button variant="quiet" className="bar-search" onClick={() => setOpen(true)} aria-keyshortcuts="Meta+K Control+K">
-        Search <Kbd>⌘K</Kbd>
+        Search <Kbd dir="ltr">⌘K</Kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen} title="Search the docs">
         <CommandInput placeholder="A component, a page or a token" />

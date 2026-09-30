@@ -3,7 +3,7 @@ import NextLink from "next/link"
 import "./landing.css"
 
 import { Overture } from "@/components/site/overture"
-import { Cue, Hello, LeftOut, Loudness, Tempi, TuneSentence } from "@/components/site/landing"
+import { Cue, Hello, LeftOut, Loudness, PieceLink, Tempi, TuneSentence } from "@/components/site/landing"
 import { catalog } from "@/lib/site/catalog"
 import { entries } from "@/lib/site/entries"
 import { principles } from "@/lib/site/principles"
@@ -124,7 +124,7 @@ export default function Home() {
           <Button variant="ink" asChild>
             <NextLink href="/docs/">Read the docs</NextLink>
           </Button>
-          <Button variant="fermata" asChild>
+          <Button variant="crescendo" asChild>
             <NextLink href="/docs/install/">Install it</NextLink>
           </Button>
         </div>
@@ -178,9 +178,9 @@ export default function Home() {
               <ul className="programme-items">
                 {m.items.map((e) => (
                   <li key={e.meta.name}>
-                    <Link asChild>
-                      <NextLink href={`/docs/${e.meta.name}/`}>{e.meta.title}</NextLink>
-                    </Link>
+                    <PieceLink href={`/docs/${e.meta.name}/`} title={e.meta.title} summary={e.meta.summary}>
+                      <e.example.default />
+                    </PieceLink>
                   </li>
                 ))}
               </ul>

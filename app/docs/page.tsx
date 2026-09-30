@@ -15,11 +15,11 @@ export default function DocsIndexPage() {
     <>
       <header className="doc-head">
         <h1 className="doc-title">Index</h1>
-        <p className="doc-summary">{count} items in eight movements. Each one is a typographic idea standing on a native element or a Radix primitive.</p>
+        <p className="doc-summary">{count} items in {catalog.length} movements. Each one is a typographic idea standing on a native element or a Radix primitive.</p>
       </header>
       {catalog.map((m) => (
         <section key={m.num} className="doc-section" aria-labelledby={`m-${m.num}`}>
-          <h2 id={`m-${m.num}`}>
+          <h2 id={`m-${m.num}`} data-rail={m.name} data-rail-num={m.num}>
             {m.num} {m.name}
           </h2>
           <Rows>

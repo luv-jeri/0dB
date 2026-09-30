@@ -8,4 +8,21 @@
   .db-wake-lines { position: absolute; inset: 0 0 auto; pointer-events: none; }
   .db-wake-lines > span { position: absolute; inset: 0 auto auto 0; white-space: pre; }
   .db-wake-ring { position: absolute; inset: 0 auto auto 0; border: var(--db-hairline) solid var(--db-rule-strong); border-radius: 50%; pointer-events: none; }
+  /* river: after the typesetter's river of white, made on purpose. The gutter runs the paragraph's whole height at the hand;
+     every row is set as two runs either side of it, so the paragraph reads as two columns. The mark is a hairline down its middle. */
+  .db-wake[data-variant="river"] .db-wake-ring { width: 0; border-width: 0 0 0 var(--db-hairline); border-radius: 0; }
+  /* caesura: the paragraph opens at the line you point at, a breath above and below it, and closes as you go. The mark is a rule
+     in each breath, the held line between them, as the "Less is more." poster sets its lines between hairlines. */
+  .db-wake[data-variant="caesura"] .db-wake-ring { border-width: var(--db-hairline) 0; border-radius: 0; }
+  /* weight: the letterpress's impression. Nothing parts: each letter near the hand presses heavier and, on a face
+     with a width axis, narrower by as much, so it keeps its set width, as "It has to be design." sets its roman heavy
+     and condensed. The letters are placed from the plain text itself and centred on their places; --t (0 to 1) is
+     how hard each is pressed. The mark is a hairline ring round the hand's reach. */
+  .db-wake[data-variant="weight"] { padding-bottom: 0; }
+  .db-wake[data-variant="weight"] .db-wake-lines > span {
+    font-synthesis: none;
+    font-weight: calc(var(--db-wake-w0, 400) + var(--t, 0) * (800 - var(--db-wake-w0, 400)));
+    font-stretch: calc((var(--db-wake-s0, 100) + var(--t, 0) * (var(--db-wake-s1, 100) - var(--db-wake-s0, 100))) * 1%);
+  }
+  @media (forced-colors: active) { .db-wake-ring { border-color: GrayText; } }
 }

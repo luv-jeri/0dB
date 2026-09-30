@@ -30,7 +30,7 @@ export default function Install() {
         <p className="doc-summary">0dB is a shadcn registry. You own the code it writes: every item lands in your project as a component and a small stylesheet.</p>
       </header>
       <section className="doc-section" aria-labelledby="steps-h">
-        <h2 id="steps-h">Four steps</h2>
+        <h2 id="steps-h" data-rail="Four steps">Four steps</h2>
         <Steps>
           <Step>
             <StepTitle>Start from a Next app with Tailwind v4</StepTitle>
@@ -63,7 +63,7 @@ export default function Install() {
         </Steps>
       </section>
       <section className="doc-section" aria-labelledby="notes-h">
-        <h2 id="notes-h">Worth knowing</h2>
+        <h2 id="notes-h" data-rail="Worth knowing">Worth knowing</h2>
         <Prose>
           <ul>
             <li>

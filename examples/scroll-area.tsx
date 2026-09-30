@@ -1,27 +1,147 @@
 import { ScrollArea } from "@/registry/0db/ui/scroll-area"
+import { State } from "@/components/site/state"
 
-const notes = [
-  ["0.1", "Every component in one stylesheet, fenced for the library."],
-  ["0.1", "Four type pairs and five colour schemes."],
-  ["0.1", "Motion that answers the hand, and rests."],
-  ["0.1", "Right-to-left support for crumbs, checkboxes and fields."],
-  ["0.1", "The overture: text that parts around the pause."],
-  ["0.0", "Twenty posters pinned to a wall."],
-  ["0.0", "One rule: ours in roman, yours in italic."],
-  ["0.0", "A name, taken from music."],
+const releases = [
+  { version: "0.4", name: "The library", notes: ["Every component in one stylesheet, fenced for the library.", "Right-to-left support for crumbs, checkboxes and fields."] },
+  { version: "0.3", name: "Colour", notes: ["Four type pairs and five colour schemes."] },
+  { version: "0.2", name: "Motion", notes: ["Motion that answers the hand, and rests.", "The overture: text that parts around the pause."] },
+  { version: "0.1", name: "Posters", notes: ["Twenty posters pinned to a wall.", "One rule: ours in roman, yours in italic."] },
+  { version: "0.0", name: "A name", notes: ["A name, taken from music."] },
 ]
 
+const threshold = [
+  "Zero decibels is the quietest sound a person can hear. The library sits at that threshold, and it gives an interface two typefaces, one accent and a great deal of space to lean on.",
+  "Space does the layout. Where a box would say that things belong together, the gap between them says it first, and more quietly.",
+  "Type is the only ornament. A word can be large or small, roman or italic, ink or pencil, and that is all the decoration there is.",
+  "One colour marks where you are. If two things on the page were in the accent, there would be two places to be.",
+  "Nothing moves unless you do. The page waits, the way a room waits for someone to speak.",
+]
+
+const dynamics = [
+  ["ppp", "As soft as it can be played"],
+  ["pp", "Very soft"],
+  ["p", "Soft"],
+  ["mp", "Moderately soft"],
+  ["mf", "Moderately loud"],
+  ["f", "Loud"],
+  ["ff", "Very loud"],
+  ["fff", "As loud as it can be played"],
+  ["fp", "Loud, then at once soft"],
+  ["sfz", "A sudden weight on one note"],
+  ["cresc.", "Growing louder"],
+  ["dim.", "Growing softer"],
+]
+
+function Threshold() {
+  return (
+    <div className="grid gap-[var(--db-space-4)] py-[var(--db-space-3)] pe-[var(--db-space-6)]">
+      {threshold.map((t) => <p key={t}>{t}</p>)}
+    </div>
+  )
+}
+
+function Dynamics({ rows = dynamics }: { rows?: string[][] }) {
+  return (
+    <ul className="grid gap-[var(--db-space-2)] py-[var(--db-space-6)]">
+      {rows.map(([mark, meaning]) => (
+        <li key={mark}>
+          <span className="inline-block w-14 tabular-nums">{mark}</span>
+          {meaning}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** Ruled: each release is a section, and a mark on the rail. Catchword: the first word below waits on the foot rule. Wheel: the dynamics turn on an arc. */
 export default function Example() {
   return (
-    <ScrollArea aria-label="Release notes" className="max-h-56 max-w-xl">
-      <ul className="grid gap-3 py-[var(--db-space-4)] pe-[var(--db-space-5)]">
-        {notes.map(([version, note]) => (
-          <li key={note}>
-            <b className="me-2 font-medium text-[var(--db-ink)]">{version}</b>
-            {note}
-          </li>
-        ))}
-      </ul>
-    </ScrollArea>
+    <div className="grid items-start gap-x-(--db-space-8) gap-y-(--db-space-7) md:grid-cols-2">
+      <ScrollArea
+        aria-label="Release notes"
+        sections={releases.map((r) => ({ id: `release-${r.version}`, num: r.version, name: r.name }))}
+        className="max-h-56 max-w-xl md:col-span-2"
+      >
+        <div className="grid gap-[var(--db-space-5)] py-[var(--db-space-4)] pe-[var(--db-space-6)]">
+          {releases.map((r) => (
+            <section key={r.version} id={`release-${r.version}`} aria-labelledby={`release-${r.version}-h`}>
+              <h3 id={`release-${r.version}-h`}>
+                <span className="inline-block w-10 tabular-nums">{r.version}</span>
+                {r.name}
+              </h3>
+              <ul className="grid gap-1 ps-10">
+                {r.notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </ScrollArea>
+      <ScrollArea variant="catchword" aria-label="The threshold" className="max-h-56">
+        <Threshold />
+      </ScrollArea>
+      <ScrollArea variant="wheel" aria-label="Dynamics" className="max-h-56">
+        <Dynamics />
+      </ScrollArea>
+    </div>
+  )
+}
+
+export function States() {
+  return (
+    <>
+      <State label="Sideways">
+        <ScrollArea aria-label="Release notes, sideways" sections={releases.map((r) => ({ id: `across-${r.version}`, num: r.version, name: r.name }))} className="w-full max-w-md">
+          <div className="flex w-max gap-[var(--db-space-6)] pe-[var(--db-space-4)] pb-[var(--db-space-6)]">
+            {releases.map((r) => (
+              <section key={r.version} id={`across-${r.version}`} aria-label={`${r.version} ${r.name}`} className="grid w-44 content-start gap-1">
+                <p className="text-[var(--db-ink)]">
+                  <span className="inline-block w-10 tabular-nums">{r.version}</span>
+                  {r.name}
+                </p>
+                {r.notes.map((n) => (
+                  <p key={n}>{n}</p>
+                ))}
+              </section>
+            ))}
+          </div>
+        </ScrollArea>
+      </State>
+      <State label="Catchword">
+        <ScrollArea variant="catchword" aria-label="The threshold, narrow" className="max-h-40 w-64">
+          <Threshold />
+        </ScrollArea>
+      </State>
+      <State label="Catchword, right to left">
+        <ScrollArea variant="catchword" dir="rtl" aria-label="Right to left" className="max-h-32 w-64">
+          <div className="grid gap-[var(--db-space-3)] py-[var(--db-space-3)] pe-[var(--db-space-6)]">
+            <p>صفر ديسيبل هو أهدأ صوت يمكن أن يسمعه الإنسان.</p>
+            <p>المسافة ترتّب الصفحة، والحرف هو الزينة الوحيدة.</p>
+            <p>لون واحد يدلّ على مكانك، ولا شيء غيره.</p>
+            <p>لا شيء يتحرّك ما لم تتحرّك أنت.</p>
+          </div>
+        </ScrollArea>
+      </State>
+      <State label="Wheel">
+        <ScrollArea variant="wheel" aria-label="Dynamics, short" className="max-h-40 w-80 max-w-full">
+          <Dynamics rows={dynamics.slice(0, 8)} />
+        </ScrollArea>
+      </State>
+      <State label="Wheel, right to left">
+        <ScrollArea variant="wheel" dir="rtl" aria-label="Dynamics, right to left" className="max-h-40 w-80 max-w-full">
+          <Dynamics rows={dynamics.slice(0, 8)} />
+        </ScrollArea>
+      </State>
+      <State label="Without sections">
+        <ScrollArea aria-label="Release notes, unmarked" className="max-h-32 max-w-xs">
+          <ul className="grid gap-1 py-[var(--db-space-3)] pe-[var(--db-space-6)]">
+            {releases.flatMap((r) => r.notes).map((n) => (
+              <li key={n}>{n}</li>
+            ))}
+          </ul>
+        </ScrollArea>
+      </State>
+    </>
   )
 }

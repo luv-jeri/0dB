@@ -7,8 +7,13 @@ import { cn } from "@/registry/0db/lib/utils"
 type Mode = "day" | "nocturne"
 
 type ModeToggleProps = Omit<React.ComponentProps<"button">, "children" | "onChange"> & {
-  /** Five ways to draw the same choice. eclipse: a disc slides over a ring; horizon: the dot rises or sets; words: day and night, one struck through; fermata: the arc is an eyelid; sentence: "Read by light." and "Read by night." */
-  variant?: "eclipse" | "horizon" | "words" | "fermata" | "sentence"
+  /**
+   * Seven ways to draw the same choice. eclipse: a disc slides over a ring; horizon: the dot rises or sets; words: the chosen word,
+   * drawn like a select, rolls to the other; fermata: the arc is an eyelid; sentence: "Read by light." and "Read by night.";
+   * knockout: "midday" and "midnight", the second half reversed out of the ink as night falls; hour: 12:00 and 00:00, the hour
+   * turning forward whichever way you go.
+   */
+  variant?: "eclipse" | "horizon" | "words" | "fermata" | "sentence" | "knockout" | "hour"
   /** The mode, when you hold it (controlled). */
   mode?: Mode
   /** The mode to start in, when the toggle holds it. */
@@ -19,28 +24,27 @@ type ModeToggleProps = Omit<React.ComponentProps<"button">, "children" | "onChan
   "data-force"?: string
 }
 
-const pair = (word: string) => (
-  <span className="db-mode-w">
-    <span>{word}</span>
-    <i>{word}</i>
-  </span>
-)
-
 /**
- * The day and night toggle. One button, pressed when it is night, drawn five ways: a disc sliding
- * across a ring, a dot above or below a hairline, two words with one struck through, the fermata
- * as an eye, or a sentence whose last word rolls. It only reports the choice; the page applies it,
+ * The day and night toggle. One button, pressed when it is night, drawn seven ways: a disc sliding
+ * across a ring, a dot above or below a hairline, a word on a hairline that rolls to the other, the fermata
+ * as an eye, a sentence whose last word rolls, midday turning to midnight in an ink block, or a clock
+ * turning from noon to midnight. It only reports the choice; the page applies it,
  * for instance `document.documentElement.dataset.mode = mode`.
  */
 function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChange, onClick, className, "data-force": force, "aria-label": label = "Night mode", ...props }: ModeToggleProps) {
   const [own, setOwn] = React.useState<Mode>(defaultMode)
   const now = mode ?? own
+  // The hour only turns once the mode has changed, so nothing rolls on first paint.
+  const [start] = React.useState(now)
+  const [turned, setTurned] = React.useState(false)
+  if (!turned && now !== start) setTurned(true)
   return (
     <button
       type="button"
       data-slot="mode-toggle"
       data-variant={variant}
       data-force={force}
+      data-turned={variant === "hour" && turned ? "" : undefined}
       aria-pressed={now === "nocturne"}
       aria-label={label}
       className={cn("db-mode", className)}
@@ -55,10 +59,10 @@ function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChan
     >
       <span className="db-mode-art" aria-hidden="true">
         {variant === "words" ? (
-          <>
-            {pair("day")}
-            {pair("night")}
-          </>
+          <span className="db-mode-roll">
+            <span>day</span>
+            <span>night</span>
+          </span>
         ) : variant === "sentence" ? (
           <>
             Read by{" "}
@@ -68,6 +72,20 @@ function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChan
             </span>
             <span className="db-mode-stop" />
           </>
+        ) : variant === "knockout" ? (
+          <>
+            <span className="db-mode-mid">mid</span>
+            <span className="db-mode-block">
+              <span>day</span>
+              <span>night</span>
+            </span>
+          </>
+        ) : variant === "hour" ? (
+          <span className="db-mode-hour">
+            <span className="db-mode-digit"><span>1</span><span>0</span></span>
+            <span className="db-mode-digit"><span>2</span><span>0</span></span>
+            <span className="db-mode-min">:00</span>
+          </span>
         ) : null}
       </span>
     </button>

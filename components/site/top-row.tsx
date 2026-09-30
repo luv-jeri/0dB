@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 
 import { ThemeControls } from "@/components/site/theme-controls"
 import { Search, type SearchGroup } from "@/components/site/search"
+import { tempo } from "@/lib/site/tempo"
 
 type Place = { num: string; name: string }
 
@@ -23,8 +24,7 @@ export function TopRow({ places, groups }: { places: Record<string, Place>; grou
     const order = Object.values(places).map((p) => p.name)
     const dir = order.indexOf(place.name) >= order.indexOf(last.current) ? 1 : -1
     last.current = place.name
-    const tempo = parseFloat(getComputedStyle(el).getPropertyValue("--db-moderato")) || 0
-    el.animate([{ translate: `0 ${0.7 * dir}em`, opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: tempo, easing: "cubic-bezier(.16,1,.3,1)" })
+    el.animate([{ translate: `0 ${0.7 * dir}em`, opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: tempo("--db-moderato", el), easing: "cubic-bezier(.16,1,.3,1)" })
   }, [place.name, places])
 
   return (

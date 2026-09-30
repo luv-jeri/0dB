@@ -119,8 +119,24 @@ function DialogSurface({ className, children, onClick, ...props }: React.Compone
   )
 }
 
-function DialogContent({ className, ...props }: React.ComponentProps<"dialog">) {
-  return <DialogSurface data-slot="dialog-content" className={cn("db-dialog", className)} {...props} />
+type DialogContentProps = React.ComponentProps<"dialog"> & {
+  /**
+   * frame: corner marks and a row of facts over the question. reply: the question heavy and narrow, the answers
+   * set large in the italic, because the answer is yours; use bare DialogClose buttons for them. ruled: a poster's
+   * grid of hairlines, the question large on ruled lines, the detail on the far side, the answers in the cells below.
+   */
+  variant?: "frame" | "reply" | "ruled"
+}
+
+function DialogContent({ className, variant = "frame", ...props }: DialogContentProps) {
+  return (
+    <DialogSurface
+      data-slot="dialog-content"
+      data-variant={variant === "frame" ? undefined : variant}
+      className={cn("db-dialog", className)}
+      {...props}
+    />
+  )
 }
 
 /** A frame row over the question: what this is, a hairline, and one fact. */
@@ -170,4 +186,5 @@ export {
   DialogActions as DialogFooter,
   DialogClose,
   useDialog,
+  type DialogContentProps,
 }

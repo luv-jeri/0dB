@@ -13,6 +13,12 @@ export default function Example() {
       <Field label="Notes" count maxLength={400} hint="Ruled like paper. The lines scroll with what you write.">
         <Textarea rows={4} placeholder="What should we know first?" />
       </Field>
+      <Field variant="overprint" label="Working title">
+        <Input autoComplete="off" />
+      </Field>
+      <Field variant="signature" label="Signed, in full" hint="Your name as it should appear on the agreement.">
+        <Input autoComplete="name" />
+      </Field>
     </div>
   )
 }
@@ -25,6 +31,13 @@ export function States() {
       <State label="Filled"><Field label="Label" className="w-52"><Input defaultValue="Halden" /></Field></State>
       <State label="Error"><Field label="Label" error="Add the ending." className="w-52"><Input defaultValue="hello@studio" /></Field></State>
       <State label="Disabled"><Field label="Label" className="w-52"><Input defaultValue="Locked" disabled /></Field></State>
+      <State label="overprint, rest"><Field variant="overprint" label="Title" className="w-52"><Input /></Field></State>
+      <State label="overprint, focus"><Field variant="overprint" label="Title" data-force="focus" className="w-52"><Input defaultValue="Nocturne" /></Field></State>
+      <State label="overprint, filled"><Field variant="overprint" label="Title" className="w-52"><Input defaultValue="Nocturne" /></Field></State>
+      <State label="signature, rest"><Field variant="signature" label="Signed" className="w-52"><Input /></Field></State>
+      <State label="signature, focus"><Field variant="signature" label="Signed" data-force="focus" className="w-52"><Input defaultValue="Halden" /></Field></State>
+      <State label="signature, signed"><Field variant="signature" label="Signed" className="w-52"><Input defaultValue="Halden" /></Field></State>
+      <State label="signature, error"><Field variant="signature" label="Signed" error="Sign in full." className="w-52"><Input defaultValue="A." /></Field></State>
     </>
   )
 }

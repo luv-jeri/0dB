@@ -1,24 +1,61 @@
 @layer components {
-  /* ── db-ratio ── a frame kept to a ratio, marked the way a printer marks a crop */
+  /* ── db-ratio ── a frame kept to a ratio, marked the way a printer marks a crop: trim marks, never a border */
   @property --ratio { syntax: "<number>"; inherits: false; initial-value: 1.7778; }
   .db-ratio {
-    position: relative; display: grid; place-items: center; aspect-ratio: var(--ratio);
-    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule);
+    /* --ratio is registered so it can ease, and so it doesn't inherit; --r carries it to the parts and pseudo-elements. */
+    --r: var(--ratio); --c: var(--db-ink); --line: var(--db-rule-strong);
+    position: relative; display: grid; place-items: center; aspect-ratio: var(--ratio); container-type: inline-size;
     transition: --ratio var(--db-andante) var(--db-breath);
   }
   .db-ratio::before {
     --m: 12px; --g: 6px; --e: calc(var(--m) + var(--g));
     content: ""; position: absolute; inset: calc(-1 * var(--e)); pointer-events: none;
     background:
-      linear-gradient(var(--db-ink), var(--db-ink)) 0 var(--e) / var(--m) var(--db-hairline),
-      linear-gradient(var(--db-ink), var(--db-ink)) 100% var(--e) / var(--m) var(--db-hairline),
-      linear-gradient(var(--db-ink), var(--db-ink)) 0 calc(100% - var(--e)) / var(--m) var(--db-hairline),
-      linear-gradient(var(--db-ink), var(--db-ink)) 100% calc(100% - var(--e)) / var(--m) var(--db-hairline),
-      linear-gradient(var(--db-ink), var(--db-ink)) var(--e) 0 / var(--db-hairline) var(--m),
-      linear-gradient(var(--db-ink), var(--db-ink)) calc(100% - var(--e)) 0 / var(--db-hairline) var(--m),
-      linear-gradient(var(--db-ink), var(--db-ink)) var(--e) 100% / var(--db-hairline) var(--m),
-      linear-gradient(var(--db-ink), var(--db-ink)) calc(100% - var(--e)) 100% / var(--db-hairline) var(--m);
+      linear-gradient(var(--c), var(--c)) 0 var(--e) / var(--m) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 100% var(--e) / var(--m) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 0 calc(100% - var(--e)) / var(--m) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 100% calc(100% - var(--e)) / var(--m) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) var(--e) 0 / var(--db-hairline) var(--m),
+      linear-gradient(var(--c), var(--c)) calc(100% - var(--e)) 0 / var(--db-hairline) var(--m),
+      linear-gradient(var(--c), var(--c)) var(--e) 100% / var(--db-hairline) var(--m),
+      linear-gradient(var(--c), var(--c)) calc(100% - var(--e)) 100% / var(--db-hairline) var(--m);
     background-repeat: no-repeat;
   }
-  .db-ratio > .db-fraction > * { display: inline-block; }
+  .db-ratio > .db-fraction > *, .db-ratio-rest .db-fraction > * { display: inline-block; }
+  /* The fraction keeps to the frame: full size in a wide one, smaller in a small one. */
+  .db-ratio > .db-fraction { font-size: min(var(--db-f), 17cqi); }
+
+  /* Diagonal: the paste-up artist's scaling line, from the foot of the start edge to the head of the end edge.
+     Every frame whose corner lies on it has the same ratio. The ratio is written along it, standing on it,
+     and swings with it as the frame eases. */
+  .db-ratio[data-variant="diagonal"]::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(to bottom right, transparent calc(50% - 0.6px), var(--line) calc(50% - 0.6px) calc(50% + 0.6px), transparent calc(50% + 0.6px));
+  }
+  .db-ratio[data-variant="diagonal"] > .db-fraction { transform: rotate(calc(-1 * atan2(1, var(--r)))) translateY(-62%); }
+  .db-ratio[data-variant="diagonal"]:is([dir="rtl"], [dir="rtl"] *)::after { background: linear-gradient(to bottom left, transparent calc(50% - 0.6px), var(--line) calc(50% - 0.6px) calc(50% + 0.6px), transparent calc(50% + 0.6px)); }
+  .db-ratio[data-variant="diagonal"]:is([dir="rtl"], [dir="rtl"] *) > .db-fraction { transform: rotate(atan2(1, var(--r))) translateY(-62%); }
+
+  /* Square: the largest square ruled off from the start (or the head, when the frame stands tall),
+     the ratio in the square and what's left named by its own, in the pencil. The rule glides as the frame eases;
+     at 1 : 1 there is nothing left and it runs to nothing. */
+  .db-ratio[data-variant="square"]::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(var(--line), var(--line)) no-repeat calc(100% / var(--r)) 0 / var(--db-hairline) calc(clamp(0, (var(--r) - 1) * 1000, 1) * 100%),
+      linear-gradient(var(--line), var(--line)) no-repeat 0 calc(var(--r) * 100%) / calc(clamp(0, (1 - var(--r)) * 1000, 1) * 100%) var(--db-hairline);
+  }
+  .db-ratio[data-variant="square"]:is([dir="rtl"], [dir="rtl"] *)::after { background-position: calc(100% - 100% / var(--r)) 0, 0 calc(var(--r) * 100%); }
+  .db-ratio[data-variant="square"] > .db-fraction { position: absolute; display: flex; flex-wrap: wrap; place-content: center; }
+  .db-ratio-rest { position: absolute; display: grid; place-items: center; animation: db-ratio-rest var(--db-moderato) var(--db-exhale) var(--db-andante) backwards; }
+  @keyframes db-ratio-rest { from { opacity: 0; } }
+  .db-ratio[data-variant="square"][data-orient="landscape"] > .db-fraction { inset-block: 0; inset-inline-start: 0; width: calc(100% / var(--r)); }
+  .db-ratio[data-variant="square"][data-orient="portrait"] > .db-fraction { inset-inline: 0; inset-block-start: 0; height: calc(var(--r) * 100%); }
+  .db-ratio-rest .db-fraction { font-size: min(var(--db-mp), 9cqi); }
+  .db-ratio-rest .db-fraction > * { color: var(--db-pencil); }
+  .db-ratio[data-orient="landscape"] > .db-ratio-rest { inset-block: 0; inset-inline: calc(100% / var(--r)) 0; }
+  .db-ratio[data-orient="portrait"] > .db-ratio-rest { inset-inline: 0; inset-block: calc(var(--r) * 100%) 0; }
+
+  /* Forced colours would drop the marks and lines, which are background images: keep them, in CanvasText. */
+  @media (forced-colors: active) { .db-ratio { --c: CanvasText; --line: CanvasText; } .db-ratio::before, .db-ratio::after { forced-color-adjust: none; } }
 }

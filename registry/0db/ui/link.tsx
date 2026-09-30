@@ -6,28 +6,53 @@ import { cn } from "@/registry/0db/lib/utils"
 type LinkProps = React.ComponentProps<"a"> & {
   /** Render the child element (your router's link, say) with the link's look. */
   asChild?: boolean
-  /** Leaves the site: opens in a new tab and takes the arrow, the one place an arrow belongs. */
+  /** Leaves the site: opens in a new tab and takes the ↗, the one place an arrow belongs. */
   external?: boolean
+  /**
+   * quiet sets the underline in rule, for a run of links that already reads as links. reference drops the line for a raised
+   * reference mark (* † ‡ …). address writes where the link goes after it when pointed at (not with asChild).
+   */
+  variant?: "quiet" | "reference" | "address"
 }
 
+/** Hangs past the end of the line (see base.css), so the link keeps room for it and it never starts a line alone. */
+const out = (
+  <>
+    <span className="db-link-out" aria-hidden="true">
+      ↗
+    </span>
+    <span className="db-sr"> (opens in a new tab)</span>
+  </>
+)
+
+/** Where a link goes, as print spells it out: no scheme, no www, no trailing slash. */
+const addressOf = (href: string) => href.replace(/^[a-z][a-z0-9+.-]*:(\/\/)?/i, "").replace(/^www\./, "").replace(/\/$/, "") || href
+
 /** A hairline underline; pointing at it draws a highlighter stroke through the words. */
-function Link({ className, asChild = false, external = false, children, ...props }: LinkProps) {
+function Link({ className, asChild = false, external = false, variant, children, ...props }: LinkProps) {
   const Comp = asChild ? Slot : "a"
+  const address =
+    variant === "address" && !asChild && props.href ? (
+      <span className="db-link-address" aria-hidden="true">
+        ({addressOf(props.href)})
+      </span>
+    ) : null
   return (
     <Comp
       data-slot="link"
+      data-variant={variant}
       className={cn("db-link", className)}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
       {...props}
     >
-      {external && !asChild ? (
+      {asChild ? (
+        children
+      ) : (
         <>
           {children}
-          <span aria-hidden="true">&#8239;↗</span>
-          <span className="db-sr"> (opens in a new tab)</span>
+          {external ? out : null}
+          {address}
         </>
-      ) : (
-        children
       )}
     </Comp>
   )

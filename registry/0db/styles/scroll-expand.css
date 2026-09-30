@@ -1,0 +1,33 @@
+@layer components {
+  /* ── db-expand ── a plate cropped by four corner marks that open with the scroll, from a small mark to the measure.
+     --p (0 to 1) is set by the hook from the real scroll position; without it the plate stands open. The crop is a
+     clip-path, so the whole plate is in the flow and read from the start; the corner marks stand a step outside it,
+     as a printer's crop marks stand outside the trim. Nothing eases: the crop is exactly where the scroll is. */
+  .db-expand {
+    --q: calc(1 - var(--p, 1));
+    --m: var(--db-expand-mark, var(--db-space-8));
+    margin: 0; display: grid; gap: var(--db-space-4); min-width: 0;
+  }
+  .db-expand-frame {
+    --cx: calc(var(--q) * max(0px, 50% - var(--m) / 2));
+    --cy: var(--cx);
+    --db-corner: var(--db-space-4);
+    --db-corner-inset: calc(var(--cy) - var(--db-space-2)) calc(var(--cx) - var(--db-space-2));
+    min-width: 0;
+  }
+  .db-expand-plate { clip-path: inset(var(--cy) var(--cx)); }
+  /* The caption's row is as wide as the crop (never narrower than it can read), so its hairlines draw out as it opens,
+     the rule of SHAPES / GRADIENTS carrying the date and the name. The share of the measure closes the row. */
+  .db-expand-caption { inline-size: max(min(100%, 20rem), calc(var(--m) + var(--p, 1) * (100% - var(--m)))); justify-self: center; }
+  .db-expand-share { color: var(--db-pencil); font-variant-numeric: tabular-nums lining-nums; }
+
+  /* horizon: after Eclipse, where the disc stands on one line. The crop starts as a hairline across the whole measure
+     and opens up and down from it; the horizon itself is drawn while it's shut and fades as the plate opens. */
+  .db-expand[data-variant="horizon"] .db-expand-frame { --cx: 0px; --cy: calc(var(--q) * (50% - var(--db-hairline) / 2)); }
+  .db-expand[data-variant="horizon"] .db-expand-frame::before {
+    content: ""; position: absolute; inset-inline: 0; top: calc(50% - var(--db-hairline) / 2); block-size: var(--db-hairline);
+    background: var(--db-rule-strong); opacity: calc(1 - min(1, 4 * var(--p, 1))); pointer-events: none; /* gone by a quarter open */
+  }
+  .db-expand[data-variant="horizon"] .db-expand-caption { inline-size: 100%; }
+  @media (forced-colors: active) { .db-expand[data-variant="horizon"] .db-expand-frame::before { background: CanvasText; } }
+}

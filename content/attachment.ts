@@ -15,5 +15,6 @@ export default defineComponent({
     { name: "progress", type: "number", description: "How far an upload has got, 0 to 1." },
     { name: "onRemove", type: "() => void", description: "Shows a bracket Remove button labelled with the file's name." },
     { name: "AttachmentList", type: "ul props", description: "The list the files sit in." },
+    { name: "AttachmentList variant", type: '"default" | "reverse" | "enclosure"', default: '"default"', description: "reverse: no ring; the extension is reversed out of an ink block that prints across its letters as progress grows, pencil while checking, ink when safe, crimson where a failed upload stopped. enclosure: a letter's enclosure line, \"Encl. (2)\" then each file run on in one sentence, its size in parentheses; a ring shows only while a file is on its way. The list is labelled Enclosures." },
   ],
 })

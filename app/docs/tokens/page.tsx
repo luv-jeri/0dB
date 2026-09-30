@@ -34,12 +34,12 @@ export default function Tokens() {
         <p className="doc-summary">Every item reads only these. The values shown are Day; the scheme, key, pair and Nocturne switches change them in place.</p>
       </header>
       <section className="doc-section" aria-labelledby="t-heard">
-        <h2 id="t-heard">The dynamics, heard</h2>
+        <h2 id="t-heard" data-rail="Dynamics">The dynamics, heard</h2>
         <Waterfall>Every size steps by a fourth, like a scale, from the overture down to the quietest caption on the page.</Waterfall>
       </section>
       {groups().map((g) => (
         <section key={g.title} className="doc-section" aria-labelledby={`t-${g.title}`}>
-          <h2 id={`t-${g.title}`}>{g.title}</h2>
+          <h2 id={`t-${g.title}`} data-rail={g.title}>{g.title}</h2>
           <div className="doc-table" role="region" aria-label={`${g.title} tokens`} tabIndex={0}>
             <Table>
               <TableCaption>{g.title} tokens</TableCaption>

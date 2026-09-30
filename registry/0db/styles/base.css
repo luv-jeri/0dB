@@ -23,9 +23,9 @@
   :where(input, textarea) { caret-color: var(--db-accent); }
   /* The highlighter: selection, <mark> and a pointed-at link are one thing. Black on yellow, 16:1, in every scheme and mode.
      Selecting inside a highlight reverses to ink, or the selection would vanish into it. */
-  ::selection { background: var(--db-mark); color: var(--db-on-mark); text-shadow: none; }
+  ::selection { background: var(--db-mark); color: var(--db-on-mark); -webkit-text-fill-color: var(--db-on-mark); text-shadow: none; }
   :is(mark, .db-link:is(:hover, :focus-visible, [data-force~="hover"], [data-state="open"]), .db-prose a:is(:hover, :focus-visible))::selection,
-  :is(mark, .db-link:is(:hover, :focus-visible, [data-force~="hover"], [data-state="open"]), .db-prose a:is(:hover, :focus-visible)) ::selection { background: var(--db-ink); color: var(--db-paper); }
+  :is(mark, .db-link:is(:hover, :focus-visible, [data-force~="hover"], [data-state="open"]), .db-prose a:is(:hover, :focus-visible)) ::selection { background: var(--db-ink); color: var(--db-paper); -webkit-text-fill-color: var(--db-paper); }
   :focus-visible, [data-force~="focus"] { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 4px; }
   mark { background: var(--db-mark); color: var(--db-on-mark); padding-inline: 0.12em; margin-inline: -0.12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
   hr { border: 0; height: var(--db-hairline); background: var(--db-rule); margin: 0; }
@@ -78,41 +78,136 @@
     overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
   }
 
-  /* ── db-link ── a hairline underline at rest; pointing draws the highlighter through the whole word, ascenders and descenders included.
-     The colour flips with the first frames of the stroke and back after the last (the stroke is quick), so the words are never ink on ink. */
+  /* ── db-link ── one link: a hairline under the words at rest. Pointing draws the highlighter through the whole word, ascenders and
+     descenders included, on from the left and off to the right, a pen passing through, and the line gives way to it. Three layers,
+     sized together: the top two clipped to the letters (the dark the stroke brings, over the resting colour), then the yellow, so the
+     letters turn exactly where the stroke has reached and are never dark on dark. The line is the box's bottom border, clear of the
+     descenders and outside the letters' clip, so :visited can recolour it. Focus inks it in the accent under the stroke; pressing
+     snaps it back under the stroke in ink. */
   .db-link, .db-prose a {
+    --db-link-line: currentColor;
     color: inherit;
-    text-decoration-line: underline;
-    text-decoration-thickness: var(--db-hairline);
-    text-decoration-color: currentColor;
-    text-underline-offset: 0.22em;
-    padding-inline: 0.12em; margin-inline: -0.12em; box-decoration-break: clone; -webkit-box-decoration-break: clone;
-    background: linear-gradient(var(--db-mark), var(--db-mark)) no-repeat 100% 0 / 0% 100%;
-    transition: background-size var(--db-moderato) var(--db-exhale), background-position 0s, color 0s linear var(--db-allegro), text-decoration-color var(--db-allegro);
+    text-decoration: none;
+    border-block-end: var(--db-hairline) solid var(--db-link-line);
+    box-decoration-break: clone; -webkit-box-decoration-break: clone;
+    background-image: linear-gradient(var(--db-on-mark), var(--db-on-mark)), linear-gradient(currentColor, currentColor), linear-gradient(var(--db-mark), var(--db-mark));
+    background-repeat: no-repeat;
+    background-position: 100% 0, 0 0, 100% 0;
+    background-size: 0% 100%, 100% 100%, 0% 100%;
+    -webkit-background-clip: text, text, padding-box; background-clip: text, text, padding-box;
+    -webkit-text-fill-color: transparent;
+    /* The line comes back, and the stroke's overshoot is given back, once the pen has passed. */
+    transition: background-size var(--db-moderato) var(--db-exhale), background-position 0s, border-color var(--db-allegro) linear var(--db-allegro), padding 0s linear var(--db-allegro), margin 0s linear var(--db-allegro);
   }
-  /* The stroke goes on from the left and comes off to the right: a pen passing through. */
-  :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-state="open"]) {
-    background-position: 0 0; background-size: 100% 100%;
-    color: var(--db-on-mark);
-    text-decoration-color: transparent;
-    transition-delay: 0s, 0s, 0s, 0s;
+  /* Quiet: for a run of links that already reads as links (an index, a programme), the line in rule so the run isn't a barcode. */
+  :is(.db-link, .db-prose a)[data-variant="quiet"] { --db-link-line: var(--db-rule-strong); }
+  /* Read: the line fades to pencil. (Browsers let :visited change colours only, and keep the unvisited colour's alpha.) */
+  :is(.db-link, .db-prose a):is(:visited, [data-force~="visited"]) { border-block-end-color: var(--db-pencil); }
+  :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) {
+    background-position: 0 0, 0 0, 0 0;
+    background-size: 100% 100%, 100% 100%, 100% 100%;
+    border-block-end-color: transparent;
+    padding-inline: 0.12em; margin-inline: -0.12em; /* the stroke runs 0.12em past each end, like a pen overshooting; the words stay put */
+    transition-delay: 0s;
   }
-  :is([dir="rtl"], [dir="rtl"] *):is(.db-link, .db-prose a) { background-position: 0 0; }
-  :is([dir="rtl"], [dir="rtl"] *):is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-state="open"]) { background-position: 100% 0; }
-  @media (forced-colors: active) { :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"]) { color: LinkText; } }
+  :is([dir="rtl"], [dir="rtl"] *):is(.db-link, .db-prose a) { background-position: 0 0, 0 0, 0 0; }
+  :is([dir="rtl"], [dir="rtl"] *):is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) { background-position: 100% 0, 0 0, 100% 0; }
+  /* Focus: the stroke, and under it the accent line (the one note of colour: you are here), in place of the outline box. */
+  :is(.db-link, .db-prose a):is(:focus-visible, [data-force~="focus"]) { outline: none; border-block-end: var(--db-stroke) solid var(--db-accent); }
+  /* Pressed: the pen bears down, and the line snaps back under the stroke in ink, at the stroke's weight. */
+  :is(.db-link, .db-prose a):is(:active, [data-force~="press"]) { border-block-end: var(--db-stroke) solid var(--db-ink); transition-duration: var(--db-moderato), 0s, 60ms, 0s, 0s; transition-delay: 0s; }
+  /* External: the ↗ hangs just past the end of the line, off it, on the last line, and the link keeps room for it so it can't be
+     stranded. Pointing sends it a step the way it points. */
+  :is(.db-link, .db-prose a):has(> .db-link-out) { position: relative; margin-inline-end: 0.84em; }
+  :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]):has(> .db-link-out) { margin-inline-end: 0.72em; }
+  .db-link-out {
+    /* No inline inset: it stays where the words end, on the last line however the link wraps, clear of the stroke's overshoot. */
+    position: absolute; margin-inline-start: 0.3em; bottom: 0.3em; font-size: 0.72em; line-height: 1; pointer-events: none;
+    -webkit-text-fill-color: currentColor; transition: translate var(--db-moderato) var(--db-spiccato);
+  }
+  :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) .db-link-out { translate: 0.12em -0.12em; }
+  :is([dir="rtl"], [dir="rtl"] *) .db-link-out { scale: -1 1; }
+  :is([dir="rtl"], [dir="rtl"] *):is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) .db-link-out { translate: -0.12em -0.12em; }
+  /* reference: after the book's reference marks. No line; a raised mark after the words, in the printer's order (* † ‡ § ‖ ¶,
+     then doubled), numbered down the page. The mark is the sign that there's more; pointing strokes the words and the mark. */
+  @counter-style db-notes { system: symbolic; symbols: "*" "†" "‡" "§" "‖" "¶"; }
+  :root { counter-reset: db-note; }
+  :is(.db-link, .db-prose a)[data-variant="reference"] { counter-increment: db-note; border-block-end-color: transparent; }
+  :is(.db-link, .db-prose a)[data-variant="reference"]::after {
+    content: counter(db-note, db-notes) / ""; margin-inline-start: 0.06em; font-size: 0.62em; line-height: 0; vertical-align: 0.62em; font-weight: 500;
+  }
+  /* address: after the printed page, where a link is spelled out so a reader can go there. Pointing or focusing writes where it
+     goes, small and in parentheses, after the words, from where they end; nothing after it moves. For a link on its own line. */
+  @property --db-link-em { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  :is(.db-link, .db-prose a)[data-variant="address"] { position: relative; --db-link-em: 1em; }
+  .db-link-address {
+    position: absolute; bottom: 0.26em; margin-inline-start: calc(0.36 * var(--db-link-em)); white-space: nowrap; pointer-events: none;
+    font-size: max(0.6em, var(--db-pp)); line-height: 1; letter-spacing: 0.02em; color: var(--db-pencil); -webkit-text-fill-color: currentColor;
+    clip-path: inset(0 100% 0 0); transition: clip-path var(--db-allegro) var(--db-exhale);
+  }
+  :is(.db-link, .db-prose a):has(> .db-link-out) > .db-link-address { margin-inline-start: calc(1.36 * var(--db-link-em)); }
+  :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"], [data-force~="focus"], [data-state="open"]) > .db-link-address { clip-path: inset(0); transition-duration: var(--db-moderato); }
+  :is([dir="rtl"], [dir="rtl"] *) .db-link-address { clip-path: inset(0 0 0 100%); }
+  @media (forced-colors: active) {
+    .db-link, .db-prose a { -webkit-text-fill-color: currentColor; background-image: none; border-block-end-color: currentColor; }
+    :is(.db-link, .db-prose a):is(:hover, :focus-visible, [data-force~="hover"]) { color: LinkText; border-block-end-color: currentColor; }
+    :is(.db-link, .db-prose a):is(:focus-visible, [data-force~="focus"]) { outline: var(--db-stroke) solid LinkText; }
+  }
 
-  /* ── db-meta ── a frame row: words held apart by hairlines */
-  .db-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--db-space-1) var(--db-space-4); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
-  .db-meta > hr { flex: 1; min-width: var(--db-space-5); }
+  /* ── db-meta ── a frame row: words held apart by hairlines. The row never wraps, so a hairline can't be left pointing at nothing
+     at the end of a line: where the words don't fit, each one stacks in its place, tops level, as the corner notes of a poster do. */
+  .db-meta { display: flex; align-items: first baseline; gap: var(--db-space-1) var(--db-space-4); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
+  .db-meta > :not(hr) { text-wrap: balance; }
+  .db-meta > hr { flex: 1; min-width: var(--db-space-4); translate: 0 -0.32em; }
+  /* proportional: after the score's proportional (space) notation, where distance is time. Each hairline is as long as the
+     interval it stands for (--db-span, set from the component's at), so the silence between the words is to scale. */
+  .db-meta[data-variant="proportional"] > hr { flex: var(--db-span, 1) 1 0; min-width: var(--db-space-2); background: var(--db-rule-strong); }
+  /* credits: after Ikeda's SPECTRA credits. One rule, and under it small columns hung from it, each a pencil label over its value. */
+  .db-meta[data-variant="credits"] { flex-wrap: wrap; align-items: start; gap: var(--db-space-3) var(--db-space-6); padding-block-start: var(--db-space-2); border-block-start: var(--db-hairline) solid var(--db-rule-strong); }
+  .db-meta-item { display: grid; gap: 0.1em; }
+  .db-meta-label { color: var(--db-pencil); }
+  .db-meta-item > :last-child { color: var(--db-ink); font-variant-numeric: tabular-nums lining-nums; }
 
-  /* ── db-kbd ── a key, drawn as a ring; a chord (two glyphs) stretches it to a stadium of the same height */
+  /* ── db-kbd ── a key, drawn as the corners of its cap: the frame that doesn't close, as the statement button and the dialog
+     wear it, with room inside for the name. Pressing closes it: the corners run together into the whole cap, ink in, and the
+     key goes down a little. It sits on the text's baseline, so a key reads as a word in the sentence. */
   .db-kbd {
-    display: inline-grid; place-items: center; min-width: 1.7em; height: 1.7em; padding-inline: 0.35em; border-radius: 999px; white-space: nowrap;
-    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
-    font: 500 0.8em/1 var(--db-voice); color: var(--db-ink); vertical-align: 0.1em;
-    transition: scale var(--db-moderato) var(--db-spiccato), box-shadow var(--db-allegro);
+    --c: var(--db-rule-strong); --l: 0.36em;
+    display: inline-grid; place-items: center; box-sizing: border-box; min-width: 2em; height: 2em; padding-inline: 0.55em; white-space: nowrap;
+    font: 500 0.78em/1 var(--db-voice); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; color: var(--db-ink); vertical-align: baseline;
+    direction: ltr; unicode-bidi: isolate; /* ⌘K reads ⌘K on a right-to-left page too */
+    background:
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--db-hairline) var(--l),
+      linear-gradient(var(--c), var(--c)) 100% 0 / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 100% 0 / var(--db-hairline) var(--l),
+      linear-gradient(var(--c), var(--c)) 0 100% / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 0 100% / var(--db-hairline) var(--l),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--db-hairline) var(--l);
+    background-repeat: no-repeat;
+    transition: background-size var(--db-moderato) var(--db-exhale), translate var(--db-moderato) var(--db-spiccato);
   }
-  .db-kbd[data-pressed] { scale: 0.86; box-shadow: inset 0 0 0 var(--db-stroke) var(--db-ink); transition-duration: 60ms; }
+  .db-kbd[data-pressed] { --c: var(--db-ink); --l: 51%; translate: 0 0.08em; transition-duration: 60ms; }
+  /* typewriter: after the round keys of the machine Weingart's letter was typed on, and the dot calendar's discs. The key is a
+     ring; pressed, it inks into a disc with the letter reversed out of it in paper, goes down, and lands. */
+  .db-kbd[data-variant="typewriter"] {
+    background: none; border: var(--db-hairline) solid var(--db-rule-strong); border-radius: 50%; min-width: 2em; height: 2em; padding-inline: 0.55em;
+    transition: background-color var(--db-allegro) var(--db-exhale), border-color var(--db-allegro) var(--db-exhale), color var(--db-allegro) var(--db-exhale), translate var(--db-moderato) var(--db-spiccato), scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-kbd[data-variant="typewriter"][data-pressed] { background-color: var(--db-ink); border-color: var(--db-ink); color: var(--db-paper); scale: 0.92; transition-duration: 60ms, 60ms, 60ms, var(--db-moderato), var(--db-moderato); }
+  /* chord: after the figured bass, where the notes to play with the bass are stacked small beside it. The key stands full size and
+     its modifiers are stacked small before it, in one cap: keys held together, read as one. */
+  .db-kbd[data-variant="chord"] { grid-auto-flow: column; column-gap: 0.28em; height: auto; min-height: 2em; padding-block: 0.3em; }
+  .db-kbd-mods { display: grid; justify-items: end; row-gap: 0.14em; font-size: 0.62em; letter-spacing: 0; color: var(--db-graphite); transition: color var(--db-allegro) var(--db-exhale); }
+  .db-kbd-key { font-size: 1.18em; }
+  .db-kbd[data-variant="chord"][data-pressed] .db-kbd-mods { color: var(--db-ink); }
+  @media (forced-colors: active) {
+    .db-kbd { forced-color-adjust: none; --c: CanvasText; color: CanvasText; }
+    .db-kbd[data-variant="typewriter"] { border-color: CanvasText; }
+    .db-kbd[data-variant="typewriter"][data-pressed] { background-color: CanvasText; color: Canvas; }
+    .db-kbd-mods { color: CanvasText; }
+  }
 
   /* ── db-corners ── four corner marks: a frame that doesn't close.
      Any element with position can wear them; the statement button and the dialog do. */
@@ -132,9 +227,91 @@
     background-repeat: no-repeat;
   }
   .db-corners { position: relative; }
+  /* viewfinder: after the camera's framing marks ("the silence that heals" was shot on a phone). At rest the marks frame the whole;
+     point at or focus a part and they glide onto it and lock, with one small rebound. The component sets --db-aim-* from the part. */
+  .db-corners[data-variant="viewfinder"] { --aim-pad: 0px; }
+  .db-corners[data-variant="viewfinder"][data-aim] { --aim-pad: var(--db-space-2); }
+  .db-corners[data-variant="viewfinder"]::after {
+    inset: auto; left: calc(var(--db-aim-x, 0px) - var(--aim-pad)); top: calc(var(--db-aim-y, 0px) - var(--aim-pad));
+    width: calc(var(--db-aim-w, 100%) + 2 * var(--aim-pad)); height: calc(var(--db-aim-h, 100%) + 2 * var(--aim-pad));
+    transition: left var(--db-moderato) var(--db-spiccato), top var(--db-moderato) var(--db-spiccato), width var(--db-moderato) var(--db-spiccato), height var(--db-moderato) var(--db-spiccato);
+  }
+  /* Focus: the marks are the focus ring, in the accent, and the part keeps no outline box of its own. */
+  .db-corners[data-variant="viewfinder"] > :focus-visible { outline: none; }
+  .db-corners[data-variant="viewfinder"]:has(> :focus-visible)::after { --c: var(--db-accent); }
+  @media (forced-colors: active) { .db-corners[data-variant="viewfinder"]:has(> :focus-visible)::after { --c: Highlight; } }
+  /* glide: the viewfinder's marks, lent to a group of controls at any depth (a toolbar, a row of links). At rest there is no
+     frame; point at or focus a control and one frame appears round it, then glides from control to control as you move, and
+     fades where it last was when you leave. It lands with breath, not the viewfinder's rebound: it is following you, not
+     locking on. Arriving from rest it only fades in, so it never flies in from a corner. */
+  .db-corners[data-variant="glide"]::after {
+    --pad: var(--db-space-2);
+    inset: auto; left: calc(var(--db-aim-x, 0px) - var(--pad)); top: calc(var(--db-aim-y, 0px) - var(--pad));
+    width: calc(var(--db-aim-w, 0px) + 2 * var(--pad)); height: calc(var(--db-aim-h, 0px) + 2 * var(--pad));
+    opacity: 0;
+    transition: opacity var(--db-allegro) var(--db-breath), left var(--db-moderato) var(--db-breath), top var(--db-moderato) var(--db-breath), width var(--db-moderato) var(--db-breath), height var(--db-moderato) var(--db-breath);
+  }
+  .db-corners[data-variant="glide"][data-aim]::after { opacity: 1; }
+  .db-corners[data-variant="glide"][data-landing]::after { transition: opacity var(--db-allegro) var(--db-breath); }
+  .db-corners[data-variant="glide"] :focus-visible { outline: none; }
+  .db-corners[data-variant="glide"]:has(:focus-visible)::after { --c: var(--db-accent); }
+  @media (forced-colors: active) { .db-corners[data-variant="glide"]:has(:focus-visible)::after { --c: Highlight; } }
+  /* kagi: after the Japanese corner brackets 「 」, where the corner mark is the quotation mark. Only two corners, the opening one
+     before the first word and the closing one after the last, however many lines the words run across. */
+  .db-corners[data-variant="kagi"] {
+    --l: var(--db-corner, 0.42em); --c: var(--db-corner-colour, currentColor);
+    position: static; display: inline; quotes: none; padding-inline: 0.3em; box-decoration-break: slice; -webkit-box-decoration-break: slice;
+    background:
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--db-stroke),
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--db-stroke) var(--l),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--l) var(--db-stroke),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--db-stroke) var(--l);
+    background-repeat: no-repeat;
+  }
+  .db-corners[data-variant="kagi"]::after { content: none; }
+  /* A word joiner: the opening corner never waits alone at the end of the line before its first word. */
+  .db-corners[data-variant="kagi"]::before { content: "\2060"; }
+  :is([dir="rtl"], [dir="rtl"] *).db-corners[data-variant="kagi"] { background-position: 100% 0, 100% 0, 0 100%, 0 100%; }
+  @media (forced-colors: active) { :is(.db-corners, .db-btn[data-variant="statement"], .db-dialog)::after, .db-corners[data-variant="kagi"] { forced-color-adjust: none; --c: CanvasText; }
+    .db-corners[data-variant="kagi"] { color: CanvasText; }
+  }
 
-  /* ── db-fraction ── a count set as a display fraction; the part that's yours is italic */
-  .db-fraction { display: inline-flex; align-items: flex-start; font-size: var(--db-f); line-height: 0.9; color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums; }
-  .db-fraction > i { position: relative; align-self: stretch; width: var(--db-hairline); margin-inline: 0.2em 0.12em; background: var(--db-rule-strong); rotate: 22deg; }
-  .db-fraction > :last-child { margin-top: 0.42em; font-weight: 200; color: var(--db-graphite); }
+  /* ── db-fraction ── a count set as a display fraction. The part that's yours stands large in the italic, up on the left;
+     what it counts toward sits small and upright, a little wide, down on the right, on the same baseline, so the words after
+     it ("done") read on one line with both; the solidus between them is a pen stroke, a leaning hairline that thins out at
+     both ends and dips just under the line. Pointing inks the stroke and the total. Each figure turns on its own wheel. */
+  /* Figures read left to right in a right-to-left page too: the fraction is its own isolated left-to-right run. */
+  .db-fraction { display: inline-flex; align-items: baseline; direction: ltr; unicode-bidi: isolate; font-size: var(--db-f); line-height: 0.9; color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+  .db-fraction > i {
+    position: relative; align-self: stretch; width: var(--db-hairline); margin-inline: 0.14em 0.08em; rotate: 24deg;
+    color: var(--db-rule-strong); background: linear-gradient(transparent, currentColor 22%, currentColor 78%, transparent);
+    transition: color var(--db-allegro) var(--db-exhale);
+  }
+  /* The total. With none, the count stands alone and keeps its size. */
+  .db-fraction > :last-child:not(.db-yours) {
+    font-size: max(0.64em, var(--db-pp)); font-weight: 300; font-stretch: 112%; letter-spacing: 0.02em; color: var(--db-graphite);
+    transition: color var(--db-allegro) var(--db-exhale);
+  }
+  .db-fraction:is(:hover, [data-force~="hover"]) > :is(i, :last-child) { color: var(--db-ink); }
+  .db-fraction-figure { display: inline-block; }
+  /* vinculum: the built-up fraction. The count stands over a level bar and the total under it; the bar is a gauge, inked
+     from the start for the share done (--share, set by the component), the rest a rule. It eases along as the count moves. */
+  .db-fraction[data-variant="vinculum"] { display: inline-grid; justify-items: center; }
+  .db-fraction[data-variant="vinculum"] > i {
+    rotate: none; align-self: auto; width: 100%; height: var(--db-hairline); margin: 0.12em 0 0.16em;
+    background: linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 0 0 / calc(var(--share, 0) * 100%) 100% var(--db-rule-strong);
+    transition: background-size var(--db-andante) var(--db-breath);
+  }
+  .db-fraction[data-variant="vinculum"]:is([dir="rtl"] *) > i { background-position: 100% 0; }
+  .db-fraction[data-variant="vinculum"] > :last-child { font-size: max(0.5em, var(--db-pp)); }
+  /* readout: after Ikeda's 1/3 and 0.13. The share as a decimal, small, upright and pencil, hung at the top after the total. */
+  .db-fraction-readout {
+    order: 1; align-self: flex-start; margin-inline-start: 0.45em; font-family: var(--db-voice); font-style: normal; font-weight: 400;
+    font-size: var(--db-pp); line-height: 1; letter-spacing: 0.04em; color: var(--db-pencil); transition: color var(--db-allegro) var(--db-exhale);
+  }
+  .db-fraction:is(:hover, [data-force~="hover"]) > .db-fraction-readout { color: var(--db-graphite); }
+  @media (forced-colors: active) {
+    .db-fraction > i { forced-color-adjust: none; color: CanvasText; }
+    .db-fraction[data-variant="vinculum"] > i { background-image: linear-gradient(CanvasText, CanvasText); background-color: GrayText; }
+  }
 }

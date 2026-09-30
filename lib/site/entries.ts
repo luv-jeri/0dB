@@ -127,32 +127,84 @@ import skeletonMeta from "@/content/skeleton"
 import * as skeletonExample from "@/examples/skeleton"
 import datePickerMeta from "@/content/date-picker"
 import * as datePickerExample from "@/examples/date-picker"
+import activityFeedMeta from "@/content/activity-feed"
+import * as activityFeedExample from "@/examples/activity-feed"
+import agentChatMeta from "@/content/agent-chat"
+import * as agentChatExample from "@/examples/agent-chat"
+import agentStateMeta from "@/content/agent-state"
+import * as agentStateExample from "@/examples/agent-state"
+import appearanceMeta from "@/content/appearance"
+import * as appearanceExample from "@/examples/appearance"
+import areaChartMeta from "@/content/area-chart"
+import * as areaChartExample from "@/examples/area-chart"
 import calligramMeta from "@/content/calligram"
 import * as calligramExample from "@/examples/calligram"
 import commandLineMeta from "@/content/command-line"
 import * as commandLineExample from "@/examples/command-line"
 import contourMeta from "@/content/contour"
 import * as contourExample from "@/examples/contour"
+import dataTableMeta from "@/content/data-table"
+import * as dataTableExample from "@/examples/data-table"
+import dropzoneMeta from "@/content/dropzone"
+import * as dropzoneExample from "@/examples/dropzone"
+import figureMeta from "@/content/figure"
+import * as figureExample from "@/examples/figure"
 import formMeta from "@/content/form"
 import * as formExample from "@/examples/form"
 import gatherMeta from "@/content/gather"
 import * as gatherExample from "@/examples/gather"
+import gridMeta from "@/content/grid"
+import * as gridExample from "@/examples/grid"
+import lineChartMeta from "@/content/line-chart"
+import * as lineChartExample from "@/examples/line-chart"
+import marqueeMeta from "@/content/marquee"
+import * as marqueeExample from "@/examples/marquee"
 import measureMeta from "@/content/measure"
 import * as measureExample from "@/examples/measure"
 import melodyMeta from "@/content/melody"
 import * as melodyExample from "@/examples/melody"
 import modeToggleMeta from "@/content/mode-toggle"
 import * as modeToggleExample from "@/examples/mode-toggle"
+import numberInputMeta from "@/content/number-input"
+import * as numberInputExample from "@/examples/number-input"
+import pieChartMeta from "@/content/pie-chart"
+import * as pieChartExample from "@/examples/pie-chart"
+import radarChartMeta from "@/content/radar-chart"
+import * as radarChartExample from "@/examples/radar-chart"
+import radialChartMeta from "@/content/radial-chart"
+import * as radialChartExample from "@/examples/radial-chart"
+import readingTrailMeta from "@/content/reading-trail"
+import * as readingTrailExample from "@/examples/reading-trail"
 import reverbMeta from "@/content/reverb"
 import * as reverbExample from "@/examples/reverb"
+import scrollExpandMeta from "@/content/scroll-expand"
+import * as scrollExpandExample from "@/examples/scroll-expand"
+import segueMeta from "@/content/segue"
+import * as segueExample from "@/examples/segue"
 import sourceMeta from "@/content/source"
 import * as sourceExample from "@/examples/source"
+import statMeta from "@/content/stat"
+import * as statExample from "@/examples/stat"
 import stepsMeta from "@/content/steps"
 import * as stepsExample from "@/examples/steps"
+import swapyMeta from "@/content/swapy"
+import * as swapyExample from "@/examples/swapy"
+import textRibbonMeta from "@/content/text-ribbon"
+import * as textRibbonExample from "@/examples/text-ribbon"
+import tilingMeta from "@/content/tiling"
+import * as tilingExample from "@/examples/tiling"
+import timerMeta from "@/content/timer"
+import * as timerExample from "@/examples/timer"
+import tourMeta from "@/content/tour"
+import * as tourExample from "@/examples/tour"
+import treeMeta from "@/content/tree"
+import * as treeExample from "@/examples/tree"
 import wakeMeta from "@/content/wake"
 import * as wakeExample from "@/examples/wake"
 import waterfallMeta from "@/content/waterfall"
 import * as waterfallExample from "@/examples/waterfall"
+import wordRelayMeta from "@/content/word-relay"
+import * as wordRelayExample from "@/examples/word-relay"
 
 export const entries = [
   { meta: linkMeta, example: linkExample, siblings: [], npm: ["@radix-ui/react-slot"] },
@@ -161,7 +213,7 @@ export const entries = [
   { meta: cornersMeta, example: cornersExample, siblings: [], npm: ["@radix-ui/react-slot"] },
   { meta: buttonMeta, example: buttonExample, siblings: ["spinner"], npm: ["@radix-ui/react-slot"] },
   { meta: spinnerMeta, example: spinnerExample, siblings: [], npm: [] },
-  { meta: checkboxMeta, example: checkboxExample, siblings: [], npm: [] },
+  { meta: checkboxMeta, example: checkboxExample, siblings: ["fraction"], npm: [] },
   { meta: fractionMeta, example: fractionExample, siblings: [], npm: [] },
   { meta: radioGroupMeta, example: radioGroupExample, siblings: [], npm: [] },
   { meta: dialMeta, example: dialExample, siblings: [], npm: [] },
@@ -178,16 +230,16 @@ export const entries = [
   { meta: calendarMeta, example: calendarExample, siblings: [], npm: [] },
   { meta: badgeMeta, example: badgeExample, siblings: [], npm: [] },
   { meta: noteMeta, example: noteExample, siblings: [], npm: [] },
-  { meta: progressMeta, example: progressExample, siblings: [], npm: [] },
+  { meta: progressMeta, example: progressExample, siblings: ["fraction"], npm: [] },
   { meta: toastMeta, example: toastExample, siblings: ["button"], npm: [] },
   { meta: dialogMeta, example: dialogExample, siblings: ["scrollbar"], npm: ["@radix-ui/react-slot"] },
   { meta: emptyMeta, example: emptyExample, siblings: ["button"], npm: [] },
   { meta: toggleMeta, example: toggleExample, siblings: [], npm: ["@radix-ui/react-toggle"] },
-  { meta: toggleGroupMeta, example: toggleGroupExample, siblings: ["toggle"], npm: ["@radix-ui/react-toggle-group"] },
+  { meta: toggleGroupMeta, example: toggleGroupExample, siblings: [], npm: ["@radix-ui/react-toggle-group"] },
   { meta: buttonGroupMeta, example: buttonGroupExample, siblings: ["button"], npm: [] },
   { meta: inputGroupMeta, example: inputGroupExample, siblings: ["button","field"], npm: [] },
   { meta: inputOtpMeta, example: inputOtpExample, siblings: ["field"], npm: [] },
-  { meta: comboboxMeta, example: comboboxExample, siblings: ["command","field","popover"], npm: [] },
+  { meta: comboboxMeta, example: comboboxExample, siblings: ["badge","command","field","popover"], npm: [] },
   { meta: popoverMeta, example: popoverExample, siblings: [], npm: ["@radix-ui/react-popover"] },
   { meta: contextMenuMeta, example: contextMenuExample, siblings: ["dropdown-menu","popover"], npm: ["@radix-ui/react-context-menu"] },
   { meta: dropdownMenuMeta, example: dropdownMenuExample, siblings: ["kbd","popover"], npm: ["@radix-ui/react-dropdown-menu"] },
@@ -198,10 +250,10 @@ export const entries = [
   { meta: cardMeta, example: cardExample, siblings: ["meta"], npm: ["@radix-ui/react-slot"] },
   { meta: hoverCardMeta, example: hoverCardExample, siblings: [], npm: ["@radix-ui/react-hover-card"] },
   { meta: tooltipMeta, example: tooltipExample, siblings: [], npm: ["@radix-ui/react-tooltip"] },
-  { meta: sheetMeta, example: sheetExample, siblings: ["dialog"], npm: [] },
-  { meta: drawerMeta, example: drawerExample, siblings: ["dialog"], npm: [] },
+  { meta: sheetMeta, example: sheetExample, siblings: ["dialog"], npm: ["@radix-ui/react-slot"] },
+  { meta: drawerMeta, example: drawerExample, siblings: ["dialog","fraction"], npm: [] },
   { meta: collapsibleMeta, example: collapsibleExample, siblings: ["button"], npm: [] },
-  { meta: resizableMeta, example: resizableExample, siblings: [], npm: [] },
+  { meta: resizableMeta, example: resizableExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: scrollAreaMeta, example: scrollAreaExample, siblings: ["scrollbar"], npm: [] },
   { meta: scrollbarMeta, example: scrollbarExample, siblings: [], npm: [] },
   { meta: aspectRatioMeta, example: aspectRatioExample, siblings: [], npm: [] },
@@ -211,7 +263,7 @@ export const entries = [
   { meta: avatarMeta, example: avatarExample, siblings: [], npm: [] },
   { meta: itemMeta, example: itemExample, siblings: [], npm: [] },
   { meta: typographyMeta, example: typographyExample, siblings: [], npm: ["@radix-ui/react-slot"] },
-  { meta: messageMeta, example: messageExample, siblings: ["avatar","badge"], npm: [] },
+  { meta: messageMeta, example: messageExample, siblings: ["avatar","badge","spinner"], npm: [] },
   { meta: markerMeta, example: markerExample, siblings: [], npm: [] },
   { meta: attachmentMeta, example: attachmentExample, siblings: ["button"], npm: [] },
   { meta: threadMeta, example: threadExample, siblings: ["marker","scroll-area","scrollbar"], npm: [] },
@@ -219,17 +271,43 @@ export const entries = [
   { meta: alertMeta, example: alertExample, siblings: ["button"], npm: [] },
   { meta: skeletonMeta, example: skeletonExample, siblings: [], npm: [] },
   { meta: datePickerMeta, example: datePickerExample, siblings: ["calendar","field","popover"], npm: [] },
+  { meta: activityFeedMeta, example: activityFeedExample, siblings: ["avatar","collapsible","item","marker"], npm: [] },
+  { meta: agentChatMeta, example: agentChatExample, siblings: ["agent-state","attachment","button","dialog","field","kbd","marker","progress","radio-group","thread"], npm: [] },
+  { meta: agentStateMeta, example: agentStateExample, siblings: ["marker","spinner"], npm: [] },
+  { meta: appearanceMeta, example: appearanceExample, siblings: ["mode-toggle","picks"], npm: [] },
+  { meta: areaChartMeta, example: areaChartExample, siblings: ["line-chart"], npm: [] },
   { meta: calligramMeta, example: calligramExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: commandLineMeta, example: commandLineExample, siblings: ["radio-group","source"], npm: [] },
   { meta: contourMeta, example: contourExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: dataTableMeta, example: dataTableExample, siblings: ["button","pagination","select","table"], npm: [] },
+  { meta: dropzoneMeta, example: dropzoneExample, siblings: ["attachment"], npm: ["image"] },
+  { meta: figureMeta, example: figureExample, siblings: ["aspect-ratio","meta"], npm: [] },
   { meta: formMeta, example: formExample, siblings: ["button","field"], npm: [] },
   { meta: gatherMeta, example: gatherExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: gridMeta, example: gridExample, siblings: [], npm: [] },
+  { meta: lineChartMeta, example: lineChartExample, siblings: ["chart"], npm: [] },
+  { meta: marqueeMeta, example: marqueeExample, siblings: [], npm: [] },
   { meta: measureMeta, example: measureExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: melodyMeta, example: melodyExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: modeToggleMeta, example: modeToggleExample, siblings: [], npm: [] },
+  { meta: numberInputMeta, example: numberInputExample, siblings: ["button","field"], npm: [] },
+  { meta: pieChartMeta, example: pieChartExample, siblings: ["radial-chart"], npm: [] },
+  { meta: radarChartMeta, example: radarChartExample, siblings: ["grid"], npm: [] },
+  { meta: radialChartMeta, example: radialChartExample, siblings: [], npm: [] },
+  { meta: readingTrailMeta, example: readingTrailExample, siblings: ["item","scrollbar"], npm: [] },
   { meta: reverbMeta, example: reverbExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: scrollExpandMeta, example: scrollExpandExample, siblings: ["corners","meta"], npm: [] },
+  { meta: segueMeta, example: segueExample, siblings: [], npm: [] },
   { meta: sourceMeta, example: sourceExample, siblings: ["button"], npm: ["sugar-high"] },
-  { meta: stepsMeta, example: stepsExample, siblings: [], npm: [] },
+  { meta: statMeta, example: statExample, siblings: ["fraction"], npm: [] },
+  { meta: stepsMeta, example: stepsExample, siblings: ["fraction"], npm: [] },
+  { meta: swapyMeta, example: swapyExample, siblings: ["rows"], npm: [] },
+  { meta: textRibbonMeta, example: textRibbonExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: tilingMeta, example: tilingExample, siblings: [], npm: [] },
+  { meta: timerMeta, example: timerExample, siblings: ["button","radial-chart"], npm: [] },
+  { meta: tourMeta, example: tourExample, siblings: ["dialog"], npm: [] },
+  { meta: treeMeta, example: treeExample, siblings: ["collapsible","item"], npm: [] },
   { meta: wakeMeta, example: wakeExample, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: waterfallMeta, example: waterfallExample, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: wordRelayMeta, example: wordRelayExample, siblings: [], npm: [] },
 ]

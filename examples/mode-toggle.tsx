@@ -5,9 +5,9 @@ import * as React from "react"
 import { ModeToggle, type Mode } from "@/registry/0db/ui/mode-toggle"
 import { State } from "@/components/site/state"
 
-const variants = ["eclipse", "horizon", "words", "fermata", "sentence"] as const
+const variants = ["eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const
 
-// Held here, so the five agree; on your page, the same change goes to <html data-mode>.
+// Held here, so the seven agree; on your page, the same change goes to <html data-mode>.
 export default function Example() {
   const [mode, setMode] = React.useState<Mode>("day")
   return (
@@ -32,6 +32,8 @@ export function States() {
       <State label="Pointed at"><ModeToggle data-force="hover" mode="day" /></State>
       <State label="Focus"><ModeToggle data-force="focus" mode="day" /></State>
       <State label="Disabled"><ModeToggle disabled mode="day" /></State>
+      <State label="Knockout, pointed at"><ModeToggle variant="knockout" data-force="hover" mode="day" /></State>
+      <State label="Hour, disabled"><ModeToggle variant="hour" disabled mode="nocturne" /></State>
     </>
   )
 }

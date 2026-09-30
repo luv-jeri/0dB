@@ -2,12 +2,21 @@ import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
 
+type SkeletonProps = React.ComponentProps<"div"> & {
+  /**
+   * baseline: the line each row of words will stand on. metrics: the guides a letterer rules before any letter, the
+   * baseline and a dotted x-height, measured from the real face. words: each line broken at word spaces, as a layout
+   * dummy greeks its text, so the skeleton has the rhythm of a sentence.
+   */
+  variant?: "baseline" | "metrics" | "words"
+}
+
 /**
- * Baselines where the words will be. Still by default; a pencil stroke reads
- * along each line only while an ancestor has aria-busy="true" (and motion is welcome).
+ * Where the words will be. Still by default; it moves only while an ancestor has aria-busy="true"
+ * (and motion is welcome).
  */
-function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="skeleton" aria-hidden="true" className={cn("db-skeleton", className)} {...props} />
+function Skeleton({ variant = "baseline", className, ...props }: SkeletonProps) {
+  return <div data-slot="skeleton" data-variant={variant} aria-hidden="true" className={cn("db-skeleton", className)} {...props} />
 }
 
 type SkeletonLineProps = React.ComponentProps<"i"> & {
@@ -42,4 +51,4 @@ function SkeletonRing({ size, className, style, ...props }: React.ComponentProps
   )
 }
 
-export { Skeleton, SkeletonLine, SkeletonRing, type SkeletonLineProps }
+export { Skeleton, SkeletonLine, SkeletonRing, type SkeletonProps, type SkeletonLineProps }

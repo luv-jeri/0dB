@@ -5,18 +5,46 @@ import * as React from "react"
 import { cn } from "@/registry/0db/lib/utils"
 
 type BadgeProps = Omit<React.ComponentProps<"span">, "onClick"> & {
-  variant?: "default" | "ink" | "accent"
+  /**
+   * default, ink and accent are pills. series drops the pill: sibling tags are
+   * written as one list ("Identity, Web and Motion"), in the italic, and the
+   * commas and the "and" re-set as tags come and go. seal sets `legend` round
+   * a ring, like a coin, with the children in the middle.
+   */
+  variant?: "default" | "ink" | "accent" | "series" | "seal"
   /**
    * Makes the tag removable: the whole pill becomes a button with a cross, and
    * pointing at it strikes the word. It closes up, then this is called.
-   * Focus moves to the neighbouring tag.
+   * Focus moves to the neighbouring tag. Not for seal.
    */
   onRemove?: () => void
+  /** seal: the words set round the rim, about 12 to 24 characters. */
+  legend?: string
 }
 
 /** The one rounded shape: a hairline pill. */
-function Badge({ className, variant = "default", onRemove, children, ...props }: BadgeProps) {
+function Badge({ className, variant = "default", onRemove, legend, children, ...props }: BadgeProps) {
+  const id = React.useId()
   const dataVariant = variant === "default" ? undefined : variant
+
+  if (variant === "seal") {
+    const name = props["aria-label"] ?? [typeof children === "string" ? children : "", legend].filter(Boolean).join(", ")
+    return (
+      <span data-slot="badge" data-variant="seal" role="img" className={cn("db-tag", className)} {...props} aria-label={name}>
+        <svg viewBox="0 0 90 90" aria-hidden="true">
+          <circle className="db-tag-rim" cx="45" cy="45" r="44.5" />
+          <circle className="db-tag-rim" cx="45" cy="45" r="28.5" />
+          {/* From the foot, round by the left: the legend reads clockwise over the top, as on a coin. */}
+          <path id={id} d="M45 77a32 32 0 1 1 0-64a32 32 0 1 1 0 64" fill="none" />
+          <text className="db-tag-legend">
+            <textPath href={`#${id}`} textLength={2 * Math.PI * 32} lengthAdjust="spacing">{`${legend ?? ""} · `}</textPath>
+          </text>
+        </svg>
+        <span className="db-tag-face" aria-hidden="true">{children}</span>
+      </span>
+    )
+  }
+
   if (!onRemove) {
     return (
       <span data-slot="badge" data-variant={dataVariant} className={cn("db-tag", className)} {...props}>

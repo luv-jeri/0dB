@@ -34,4 +34,42 @@
   /* The tally: how many are done, as a fraction whose count rolls the way it moves. */
   .db-tally { display: flex; align-items: baseline; gap: var(--db-space-3); margin: var(--db-space-5) 0 0; font-size: var(--db-p); color: var(--db-pencil); }
   .db-tally > .db-fraction > .db-yours { display: inline-block; }
+
+  /* ── stet and circled ── for things kept or chosen rather than done, where a strike would read as "no".
+     Checked, the words are yours, so they turn italic; 1lh keeps the list's line so nothing below moves. */
+  .db-check:is([data-variant="stet"], [data-variant="circled"]) > span { background: none; }
+  .db-check:is([data-variant="stet"], [data-variant="circled"]) > input:checked + span {
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1lh; color: var(--db-ink);
+  }
+  /* Stet: the proofreader's "let it stand", a row of dots under the words. Pointing pencils the dots in; checking
+     sets them down in the accent, a touch lower, with spiccato. */
+  .db-check[data-variant="stet"] > span {
+    text-decoration: underline dotted transparent; text-decoration-thickness: max(2px, 0.09em); text-underline-offset: 0.2em; text-decoration-skip-ink: none;
+    transition: text-decoration-color var(--db-allegro) var(--db-exhale), text-underline-offset var(--db-moderato) var(--db-spiccato), color var(--db-moderato) var(--db-breath);
+  }
+  .db-check[data-variant="stet"]:is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) + span { text-decoration-color: var(--db-rule-strong); }
+  .db-check[data-variant="stet"] > input:checked + span { text-decoration-color: var(--db-accent); text-underline-offset: 0.3em; }
+  /* Circled: one pen loop round the words, the accent rings of the collage. It comes in at the upper left and runs on
+     past where it began, as a hand never quite closes a circle. Pointing draws it in pencil; checking inks it. A loop
+     has no heading to leave by, so it fades, then resets unseen. */
+  .db-check-loop {
+    position: absolute; left: calc(-7% - 0.4em); top: -0.44em; width: calc(114% + 0.8em); height: calc(100% + 0.84em); max-width: none; /* an ellipse must stand wider than the words to clear their corners */ overflow: visible; pointer-events: none;
+    fill: none; stroke: var(--db-rule-strong); stroke-width: var(--db-hairline); stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0;
+    transition: opacity var(--db-allegro) var(--db-breath), stroke-dashoffset 0s var(--db-allegro), stroke var(--db-allegro), stroke-width var(--db-allegro);
+  }
+  .db-check-loop > path { vector-effect: non-scaling-stroke; }
+  .db-check:is([dir="rtl"], [dir="rtl"] *) > .db-check-loop { scale: -1 1; }
+  .db-check:is(:hover, [data-force~="hover"]) > input:not(:checked, :disabled) ~ .db-check-loop,
+  .db-check > input:checked ~ .db-check-loop { opacity: 1; stroke-dashoffset: 0; transition: opacity 0s, stroke-dashoffset var(--db-andante) var(--db-exhale), stroke var(--db-allegro), stroke-width var(--db-allegro); }
+  .db-check > input:checked ~ .db-check-loop { stroke: var(--db-accent); stroke-width: var(--db-stroke); }
+  .db-check > input:disabled ~ .db-check-loop { opacity: 0.35; }
+  /* Forced colours drop background images, which draw the strike, and force the stet dots' transparent colour to
+     text: restate both as plain text decoration, so checked and unchecked still differ. */
+  @media (forced-colors: active) {
+    .db-check:not([data-variant="stet"], [data-variant="circled"]) > input:checked + span { text-decoration: line-through; }
+    .db-check[data-variant="stet"] > span { text-decoration-line: none; }
+    .db-check[data-variant="stet"] > input:checked + span { text-decoration-line: underline; }
+    .db-check-loop { stroke: CanvasText; }
+    .db-check > input:checked ~ .db-check-loop { stroke: Highlight; }
+  }
 }

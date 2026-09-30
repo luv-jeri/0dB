@@ -1,5 +1,5 @@
 @layer components {
-  /* ── db-btn ── one family (statement, bracket, quiet) and four heroes (overture, fermata, stave, ink).
+  /* ── db-btn ── one family (statement, bracket, quiet), four heroes (overture, crescendo, stave, ink) and two measures (space, repeat).
      Every variant shares one box: the same line-height and vertical padding, so they stand on one
      baseline at one height. Nothing ever changes the box: what swells or draws does so inside it. */
   .db-btn {
@@ -65,8 +65,8 @@
   }
 
   /* ── the heroes ── each its own personality, all type-led; each keeps the box it rests in */
-  .db-btn:is([data-variant="fermata"], [data-variant="stave"], [data-variant="ink"]) { font-size: var(--db-mp); }
-  .db-btn:is([data-variant="fermata"], [data-variant="stave"], [data-variant="ink"])[data-size="l"] { font-size: var(--db-mf); }
+  .db-btn:is([data-variant="crescendo"], [data-variant="stave"], [data-variant="ink"]) { font-size: var(--db-mp); }
+  .db-btn:is([data-variant="crescendo"], [data-variant="stave"], [data-variant="ink"])[data-size="l"] { font-size: var(--db-mf); }
 
   /* overture: light, and swelling to heavy as you come to it; a full stop lands after the word. */
   .db-btn[data-variant="overture"] {
@@ -83,23 +83,24 @@
   .db-btn[data-variant="overture"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) > .db-btn-label > span { font-weight: 560; transition-duration: var(--db-allegro); }
   .db-btn[data-variant="overture"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { scale: 0.7; transition-duration: var(--db-allegro); }
 
-  /* fermata: an arc over the word and a dot under the arc, the sign for a held note. Pointing draws the arc in from its middle; pressing holds it, and the arc settles lower. */
-  .db-btn[data-variant="fermata"] { --py: 0.6em; padding: 0.95em 0.9em 0.6em; }
-  .db-btn[data-variant="fermata"]::before {
-    content: ""; position: absolute; inset-inline: 0.5em; inset-block-start: 0.12em; block-size: 0.55em;
-    border: var(--db-hairline) solid currentColor; border-block-end: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    clip-path: inset(0 50% 0 50%);
-    transition: clip-path var(--db-andante) var(--db-exhale), translate var(--db-moderato) var(--db-spiccato), border-width var(--db-allegro);
+  /* crescendo: the hairpin that says "grow louder", two hairlines opening from a point. At rest it is barely open, a pencil sign
+     under the word (closed flat, it read as an empty field's line). Pointing opens them across the word and inks them, and the word swells a weight; pressing opens them wide in the accent.
+     The hairpin is drawn by an image mask, so its lines stay one hairline thick however far it opens. */
+  .db-btn[data-variant="crescendo"] {
+    --w: 450; --w-on: 600; --open: 0.16em; --line: var(--db-pencil);
+    --py: 0.6em; padding: 0.6em 0.2em 1.15em;
   }
-  .db-btn[data-variant="fermata"]::after {
-    content: ""; position: absolute; inset-inline-start: 50%; inset-block-start: 0.36em; inline-size: 0.18em; block-size: 0.18em; margin-inline-start: -0.09em; border-radius: 50%;
-    background: var(--db-pencil); transition: background-color var(--db-allegro), translate var(--db-moderato) var(--db-spiccato);
+  .db-btn[data-variant="crescendo"]::before {
+    content: ""; position: absolute; inset-inline: 0.2em; top: calc(100% - 0.62em); block-size: var(--open); translate: 0 -50%; scale: var(--dir) 1;
+    background: var(--line);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M100 0.5 L0 5 L100 9.5' fill='none' stroke='%23000' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M100 0.5 L0 5 L100 9.5' fill='none' stroke='%23000' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    transition: block-size var(--db-andante) var(--db-exhale), background-color var(--db-moderato) var(--db-breath);
   }
-  .db-btn[data-variant="fermata"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { clip-path: inset(0); }
-  .db-btn[data-variant="fermata"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { background: var(--db-accent); }
-  .db-btn[data-variant="fermata"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { clip-path: inset(0); translate: 0 0.2em; border-width: var(--db-stroke); transition-duration: var(--db-allegro); }
-  .db-btn[data-variant="fermata"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::after { translate: 0 0.2em; transition-duration: var(--db-allegro); }
-  .db-btn[data-variant="fermata"]:is(:disabled, [aria-disabled="true"])::after { background: var(--db-rule-strong); }
+  .db-btn[data-variant="crescendo"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --open: 0.42em; --line: var(--db-ink); }
+  .db-btn[data-variant="crescendo"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --open: 0.62em; --line: var(--db-accent); }
+  .db-btn[data-variant="crescendo"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { transition-duration: var(--db-allegro); }
+  .db-btn[data-variant="crescendo"]:is(:disabled, [aria-disabled="true"]) { --line: var(--db-rule-strong); }
 
   /* stave: the word in the expression italic, between two staves of five hairlines that never cross it.
      Pointing runs each stave out from the word to the button's edge. */
@@ -140,16 +141,71 @@
   .db-btn[data-variant="ink"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"])::before { scale: 1 0.92; transition-duration: var(--db-allegro); }
   .db-btn[data-variant="ink"]:is(:disabled, [aria-disabled="true"]) { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }
 
+  /* ── the measures ── */
+  /* space: after "Watch this space." The words spread across the whole line, as the Renaissance poster spreads its top row.
+     Pointing closes the spaces, the phrase gathers at the line's end, and the silence it leaves is drawn as the hairline arrow
+     that leads to it. The spaces are real, so the name reads as one phrase. */
+  .db-btn[data-variant="space"] {
+    --gap: 1; --lead: 0; --reach: 0; --nudge: 0em;
+    display: flex; inline-size: 100%; padding-inline: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .db-btn[data-variant="space"][data-size="l"] { font-size: var(--db-mp); letter-spacing: 0.06em; }
+  .db-btn[data-variant="space"] > .db-btn-label { display: flex; align-items: baseline; flex: 1; min-inline-size: 0; }
+  .db-btn-gap { flex: var(--gap) 0 auto; white-space: pre; transition: flex-grow var(--db-andante) var(--db-exhale); }
+  .db-btn-lead {
+    position: relative; flex: var(--lead) 0 0; align-self: stretch; margin-inline-end: calc(var(--reach) * 0.8em);
+    opacity: var(--reach); scale: var(--dir) 1;
+    transition: flex-grow var(--db-andante) var(--db-exhale), margin var(--db-andante) var(--db-exhale), opacity var(--db-moderato) var(--db-breath);
+  }
+  .db-btn-lead::before, .db-btn-lead::after { content: ""; position: absolute; top: 52%; }
+  .db-btn-lead::before { inset-inline: 0 0.05em; border-block-start: var(--db-hairline) solid currentColor; }
+  .db-btn-lead::after {
+    right: 0.03em; inline-size: 0.3em; block-size: 0.3em; margin-block-start: calc(var(--db-hairline) / 2);
+    border: solid currentColor; border-width: var(--db-hairline) var(--db-hairline) 0 0;
+    translate: var(--nudge) -50%; rotate: 45deg; transition: translate var(--db-allegro) var(--db-spiccato);
+  }
+  .db-btn[data-variant="space"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --gap: 0; --lead: 1; --reach: 1; }
+  .db-btn[data-variant="space"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --nudge: 0.18em; }
+
+  /* repeat: the word between repeat signs, a thick and a thin bar at each end. At rest only the closing sign has its dots, which in
+     a score already means "go back to the beginning"; pointing inks the bars and sets the opening dots, so the passage is framed to go round. */
+  .db-btn[data-variant="repeat"] { --line: var(--db-pencil); --dots: var(--db-graphite); --open: 0; padding-inline: 1.6em; }
+  .db-btn[data-variant="repeat"]::before, .db-btn[data-variant="repeat"]::after, .db-btn[data-variant="repeat"] > .db-btn-label::before { content: ""; position: absolute; pointer-events: none; }
+  .db-btn[data-variant="repeat"]::before {
+    inset-block: calc(var(--py) - 0.12em); inset-inline: 0.2em; color: var(--line);
+    background:
+      linear-gradient(currentColor, currentColor) 0 0 / 0.15em 100% no-repeat,
+      linear-gradient(currentColor, currentColor) 0.32em 0 / var(--db-hairline) 100% no-repeat,
+      linear-gradient(currentColor, currentColor) calc(100% - 0.32em) 0 / var(--db-hairline) 100% no-repeat,
+      linear-gradient(currentColor, currentColor) 100% 0 / 0.15em 100% no-repeat;
+    transition: color var(--db-allegro) var(--db-breath);
+  }
+  .db-btn[data-variant="repeat"]::after, .db-btn[data-variant="repeat"] > .db-btn-label::before {
+    top: 50%; inline-size: 0.17em; block-size: 0.6em; translate: 0 -50%; color: var(--dots);
+    background:
+      radial-gradient(circle closest-side, currentColor 88%, transparent) 50% 0 / 0.17em 0.17em no-repeat,
+      radial-gradient(circle closest-side, currentColor 88%, transparent) 50% 100% / 0.17em 0.17em no-repeat;
+    transition: color var(--db-allegro) var(--db-breath), scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-btn[data-variant="repeat"]::after { inset-inline-end: 0.82em; }
+  .db-btn[data-variant="repeat"] > .db-btn-label::before { inset-inline-start: 0.82em; scale: var(--open); }
+  .db-btn[data-variant="repeat"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --line: var(--db-ink); --dots: var(--db-ink); --open: 1; }
+  .db-btn[data-variant="repeat"]:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) { --open: 0.75; }
+  .db-btn[data-variant="repeat"][aria-busy="true"]::after { scale: 0; } /* busy, the breathing periods stand where the repeat's dots were */
+  .db-btn[data-variant="repeat"]:is(:disabled, [aria-disabled="true"]) { --line: var(--db-rule-strong); --dots: var(--db-rule-strong); }
+
   /* On a phone the large heroes step down one size, so the widest still fits. */
   @media (max-width: 40rem) {
-    .db-btn:is([data-variant="fermata"], [data-variant="ink"])[data-size="l"] { font-size: var(--db-mp); }
+    .db-btn:is([data-variant="crescendo"], [data-variant="ink"])[data-size="l"] { font-size: var(--db-mp); }
     .db-btn[data-variant="stave"][data-size="l"] { font-size: calc(var(--db-mp) * var(--db-expression-scale)); }
     .db-btn[data-variant="overture"][data-size="l"] { font-size: var(--db-mf); }
   }
 
   @media (forced-colors: active) {
     .db-btn:is([data-variant="statement"], [data-variant="ink"]) { border: 1px solid ButtonText; }
-    .db-btn[data-variant="ink"]::before, .db-btn[data-variant="overture"]::after, .db-btn[data-variant="fermata"]::after { forced-color-adjust: none; background: Highlight; }
+    .db-btn[data-variant="ink"]::before, .db-btn[data-variant="overture"]::after { forced-color-adjust: none; background: Highlight; }
+    .db-btn[data-variant="crescendo"]::before { forced-color-adjust: none; background: ButtonText; }
+    .db-btn[data-variant="repeat"]::before, .db-btn[data-variant="repeat"]::after, .db-btn[data-variant="repeat"] > .db-btn-label::before { forced-color-adjust: none; color: ButtonText; }
     .db-btn[data-variant="ink"]:is(:hover, :focus-visible, [data-force~="hover"]) { color: HighlightText; }
   }
 }

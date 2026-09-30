@@ -2,7 +2,8 @@
 
 import * as React from "react"
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TablePick } from "@/registry/0db/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TablePick, type TableProps } from "@/registry/0db/ui/table"
+import { State } from "@/components/site/state"
 
 const projects = [
   { name: "Northlight", kind: "Web", year: 2026, fee: 62000 },
@@ -22,15 +23,69 @@ const columns: { key: Key; label: string; numeric?: boolean }[] = [
 ]
 const pounds = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 })
 
+const cities = ["Oslo", "Basel", "Lisbon", "Lagos", "Kyoto"]
+// Kilometres as the crow flies, rounded; the chart is symmetric, so each pair is listed once.
+const km: Record<string, number> = {
+  "Oslo Basel": 1370, "Oslo Lisbon": 2740, "Oslo Lagos": 5980, "Oslo Kyoto": 8570, "Basel Lisbon": 1560,
+  "Basel Lagos": 4520, "Basel Kyoto": 9600, "Lisbon Lagos": 3800, "Lisbon Kyoto": 11000, "Lagos Kyoto": 13300,
+}
+const between = (a: string, b: string) => km[`${a} ${b}`] ?? km[`${b} ${a}`]
+const figures = new Intl.NumberFormat("en-GB")
+
+function Distances({ force }: { force?: [number, number] }) {
+  return (
+    <Table variant="cross">
+      <TableCaption>Distances between the studios, in kilometres</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead><span className="db-sr">From</span></TableHead>
+          {cities.map((c) => <TableHead key={c} numeric>{c}</TableHead>)}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {cities.map((from, r) => (
+          <TableRow key={from}>
+            <TableHead scope="row">{from}</TableHead>
+            {cities.map((to, c) => (
+              <TableCell key={to} numeric data-force={force?.[0] === r && force[1] === c ? "hover" : undefined}>
+                {from === to ? "" : figures.format(between(from, to))}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
 export default function Example() {
+  return (
+    <div className="grid w-full grid-cols-[minmax(0,1fr)] justify-items-start gap-12">
+      <div className="grid w-full justify-items-start gap-3">
+        <span className="db-label">Ink</span>
+        <Projects />
+      </div>
+      <div className="grid w-full justify-items-start gap-3">
+        <span className="db-label">Forte</span>
+        <Projects variant="forte" />
+      </div>
+      <div className="grid w-full justify-items-start gap-3">
+        <span className="db-label">Cross</span>
+        <Distances />
+      </div>
+    </div>
+  )
+}
+
+function Projects({ variant }: { variant?: TableProps["variant"] }) {
   const [sort, setSort] = React.useState<{ key: Key; dir: 1 | -1 }>({ key: "fee", dir: -1 })
   const [picked, setPicked] = React.useState<Set<string>>(new Set())
   const rows = [...projects].sort((a, b) => (a[sort.key] > b[sort.key] ? 1 : -1) * sort.dir)
   const all = picked.size === projects.length
 
   return (
-    <div className="grid gap-(--db-space-4)">
-      <Table>
+    <div className="grid w-full gap-(--db-space-4)">
+      <Table variant={variant}>
         <TableCaption>Fees by project</TableCaption>
         <TableHeader>
           <TableRow>
@@ -77,5 +132,23 @@ export default function Example() {
         <span className="db-yours">{picked.size}</span> of {projects.length} chosen
       </p>
     </div>
+  )
+}
+
+export function States() {
+  return (
+    <>
+      <State label="Forte, sorted by fee">
+        <Table variant="forte">
+          <TableHeader><TableRow><TableHead>Project</TableHead><TableHead numeric sort="descending">Fee</TableHead></TableRow></TableHeader>
+          <TableBody>
+            {projects.slice(0, 3).map((p) => (
+              <TableRow key={p.name}><TableCell primary>{p.name}</TableCell><TableCell numeric sorted>{pounds.format(p.fee)}</TableCell></TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </State>
+      <State label="Cross, pointed at Lisbon to Kyoto"><Distances force={[2, 4]} /></State>
+    </>
   )
 }

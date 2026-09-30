@@ -16,8 +16,7 @@ const contains = (value: string, search: string, keywords?: string[]) =>
   [value, ...(keywords ?? [])].join(" ").toLowerCase().includes(search.trim().toLowerCase()) ? 1 : 0
 
 /** The highlighter: wraps each place the query appears in <mark>. */
-function marked(text: string, query: string): React.ReactNode {
-  const q = query.trim().toLowerCase()
+function marks(text: string, q: string): React.ReactNode {
   if (!q) return text
   const lower = text.toLowerCase()
   const out: React.ReactNode[] = []
@@ -31,13 +30,32 @@ function marked(text: string, query: string): React.ReactNode {
   return out
 }
 
+/** The name split at its first match: what comes before, then the key (the match onward). The mesostic sets the key on its axis; elsewhere the two run on. */
+function marked(text: string, query: string): React.ReactNode {
+  const q = query.trim().toLowerCase()
+  const at = Math.max(q ? text.toLowerCase().indexOf(q) : 0, 0)
+  return (
+    <>
+      <span className="db-command-before">{text.slice(0, at)}</span>
+      <span className="db-command-key">{marks(text.slice(at), q)}</span>
+    </>
+  )
+}
+
+type CommandProps = React.ComponentProps<typeof CommandPrimitive> & {
+  /** headline: what you type set large, rows below. mesostic: every row set on one axis at its match. index: each group run on as a book's index. */
+  variant?: "headline" | "mesostic" | "index"
+  /** What the input holds when it opens, for a palette that starts from a query. */
+  defaultSearch?: string
+}
+
 /** A command palette. What you type is set large and italic; matches are marked; the chosen row steps forward. */
-function Command({ className, filter = contains, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
-  const [search, setSearch] = React.useState("")
+function Command({ className, filter = contains, variant = "headline", defaultSearch = "", ...props }: CommandProps) {
+  const [search, setSearch] = React.useState(defaultSearch)
   return (
     <SearchContext.Provider value={search}>
       <SearchSetter.Provider value={setSearch}>
-        <CommandPrimitive data-slot="command" filter={filter} className={cn("db-command", className)} {...props} />
+        <CommandPrimitive data-slot="command" data-variant={variant} filter={filter} className={cn("db-command", className)} {...props} />
       </SearchSetter.Provider>
     </SearchContext.Provider>
   )
@@ -101,7 +119,7 @@ function CommandItem({ className, children, ...props }: React.ComponentProps<typ
   )
 }
 
-/** A key that runs the row, drawn as a ring (base db-kbd). */
+/** A key that runs the row, drawn as a cap (base db-kbd). */
 function CommandShortcut({ className, ...props }: React.ComponentProps<"kbd">) {
   return <kbd data-slot="command-shortcut" className={cn("db-kbd", className)} {...props} />
 }
@@ -111,7 +129,7 @@ function CommandHint({ className, ...props }: React.ComponentProps<"span">) {
   return <span data-slot="command-hint" className={cn("db-command-hint", className)} {...props} />
 }
 
-type CommandDialogProps = React.ComponentProps<typeof Command> & {
+type CommandDialogProps = CommandProps & {
   open: boolean
   onOpenChange: (open: boolean) => void
   /** Read out by screen readers; not shown. */
@@ -144,5 +162,6 @@ export {
   CommandSeparator,
   CommandShortcut,
   CommandHint,
+  type CommandProps,
   type CommandDialogProps,
 }

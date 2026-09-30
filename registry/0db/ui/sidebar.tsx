@@ -6,7 +6,7 @@ import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "@/registry/0db/lib/utils"
 import { Button } from "@/registry/0db/ui/button"
-import { Scrollbar } from "@/registry/0db/ui/scrollbar"
+import { Scrollbar, type ScrollbarSection } from "@/registry/0db/ui/scrollbar"
 import { Sheet, SheetContent, SheetSpine, SheetTitle, SheetTrigger } from "@/registry/0db/ui/sheet"
 
 /** The width at which the words fit beside the work. It is also in sidebar.css: a media query can't read a variable. */
@@ -39,12 +39,24 @@ function fold(node: React.ReactNode): React.ReactNode {
   if (typeof node !== "string" || node.length < 2) return node
   const { mark, rest } = split(node)
   return (
-    <>
+    // bdi: the two halves are inline-blocks, which bidi treats as neutral, so in a right-to-left page "Start" read
+    // "tartS". Isolated, they take their order from the word's own letters.
+    <bdi>
       <span className="db-sidebar-i">{mark}</span>
       <span className="db-sidebar-rest">{rest}</span>
-    </>
+    </bdi>
   )
 }
+
+/** The groups in the list, as marks for the column's rail: a string, so React can tell when it changed. */
+const readGroups = (list: HTMLElement | null) =>
+  JSON.stringify(
+    [...(list?.querySelectorAll<HTMLElement>("[data-slot=sidebar-label]") ?? [])].map((l) => {
+      const { mark, rest, numeral } = split(l.dataset.name ?? "")
+      return { id: l.id, num: numeral ? mark : "", name: numeral ? rest : (l.dataset.name ?? "") }
+    }),
+  )
+const never = () => () => {}
 
 /** What is being pointed at while folded: it gets its name in the margin, on a leader line. */
 type Peek = { key: string; name: string; group: string; y: number; edge: number; rtl: boolean }
@@ -60,13 +72,19 @@ type SidebarProps = Omit<React.ComponentProps<"nav">, "aria-label"> & {
   folded?: boolean
   /** Smaller words, closer together: for a long index. */
   compact?: boolean
+  /**
+   * words: every group open. chapter: only the group you are in stands open; the others keep their names, and open
+   * for a still pointer or for focus. numerals: each group's place (01, 02) set large in the
+   * margin, its label and links small beside it. Unfolded only: folded, every variant is the ruler.
+   */
+  variant?: "words" | "chapter" | "numerals"
 }
 
 /**
  * A column of words beside the work. Wide, it stands inline; narrow, only a quiet trigger shows
  * and the same words open in a sheet. Choosing a link in the sheet puts it away.
  */
-function Sidebar({ label, sheetLabel = "Index", folded, compact, className, children, onScroll, ...props }: SidebarProps) {
+function Sidebar({ label, sheetLabel = "Index", folded, compact, variant = "words", className, children, onScroll, ...props }: SidebarProps) {
   const wide = useWide()
   const [open, setOpen] = React.useState(false)
   // Widening puts the sheet away, so it isn't waiting open when the window narrows again.
@@ -90,6 +108,9 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, className, chil
     setWasRuler(ruler)
     setPeek(null)
   }
+
+  // Each group is a mark on the column's rail, as a page's sections are on the page's. Folded, the ruler already numbers them.
+  const groups = React.useSyncExternalStore(never, () => (ruler ? "[]" : readGroups(list.current)), () => "[]") // read again after each commit
 
   const look = (from: EventTarget | null) => {
     const el = from instanceof Element ? from.closest<HTMLElement>("[data-slot=sidebar-link], [data-slot=sidebar-label]") : null
@@ -144,6 +165,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, className, chil
             data-slot="sidebar-list"
             data-folded={folded || undefined}
             data-compact={compact || undefined}
+            data-variant={variant}
             className="db-sidebar-list"
             onPointerOver={(e) => {
               if (e.pointerType === "touch") return
@@ -190,6 +212,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, className, chil
             <div
               data-slot="sidebar-list"
               data-compact={compact || undefined}
+              data-variant={variant}
               className="db-sidebar-list"
               onClick={(e) => {
                 if ((e.target as Element).closest("a[href]")) setOpen(false)
@@ -200,7 +223,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, className, chil
           </SheetContent>
         )}
       </Sheet>
-      <Scrollbar />
+      <Scrollbar sections={JSON.parse(groups) as ScrollbarSection[]} />
     </nav>
   )
 }
@@ -225,9 +248,11 @@ function SidebarGroup({ label, className, children, ...props }: SidebarGroupProp
   return (
     <div data-slot="sidebar-group" data-name={label} className={cn("db-sidebar-group", className)} {...props}>
       <p id={id} data-slot="sidebar-label" data-name={label} className="db-sidebar-label">
-        <span className="db-sidebar-i">{mark}</span>
-        {numeral ? " " : null}
-        <span className="db-sidebar-rest" data-numeral={numeral || undefined}>{rest}</span>
+        <bdi>
+          <span className="db-sidebar-i">{mark}</span>
+          {numeral ? " " : null}
+          <span className="db-sidebar-rest" data-numeral={numeral || undefined}>{rest}</span>
+        </bdi>
       </p>
       <ul aria-labelledby={id} className="db-sidebar-links">{children}</ul>
     </div>

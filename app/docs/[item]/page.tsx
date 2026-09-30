@@ -47,29 +47,33 @@ function payload(name: string) {
   }
 }
 
-function Rows({ title, table }: { title: string; table: { header: string[]; rows: string[][] } }) {
+// Two tables share the Craft section, so each carries its name where it can be seen, not only in its caption.
+function Rows({ id, title, table }: { id: string; title: string; table: { header: string[]; rows: string[][] } }) {
   return (
-    <div className="doc-table" role="region" aria-label={title} tabIndex={0}>
-      <Scrollbar axis="x" />
-      <Table>
-        <TableCaption>{title}</TableCaption>
-        <TableHeader>
-          <TableRow>
-            {table.header.map((h) => (
-              <TableHead key={h}>{h}</TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {table.rows.map((r, i) => (
-            <TableRow key={i}>
-              {r.map((c, j) => (
-                <TableCell key={j} primary={j === 0} dangerouslySetInnerHTML={{ __html: c }} />
+    <div className="doc-block">
+      <h3 id={id} className="doc-sub">{title}</h3>
+      <div className="doc-table" role="region" aria-labelledby={id} tabIndex={0}>
+        <Scrollbar axis="x" />
+        <Table>
+          <TableCaption>{title}</TableCaption>
+          <TableHeader>
+            <TableRow>
+              {table.header.map((h) => (
+                <TableHead key={h}>{h}</TableHead>
               ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {table.rows.map((r, i) => (
+              <TableRow key={i}>
+                {r.map((c, j) => (
+                  <TableCell key={j} primary={j === 0} dangerouslySetInnerHTML={{ __html: c }} />
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }
@@ -200,7 +204,7 @@ export default async function ItemPage({ params }: Params) {
       {meta.props.length ? (
         <section className="doc-section" id="props" data-rail="Props" aria-labelledby="props-h">
           <h2 id="props-h">Props</h2>
-          <div className="doc-table" role="region" aria-label={`Props of ${meta.title}`} tabIndex={0}>
+          <div className="doc-table doc-props" role="region" aria-label={`Props of ${meta.title}`} tabIndex={0}>
             <Scrollbar axis="x" />
             <Table>
               <TableCaption>Props of {meta.title}</TableCaption>
@@ -235,8 +239,8 @@ export default async function ItemPage({ params }: Params) {
         <section className="doc-section" id="craft" data-rail="Craft" aria-labelledby="craft-h">
           <h2 id="craft-h">Craft</h2>
           <div className="doc-steps">
-            {moves.rows.length ? <Rows title="Where its move comes from" table={moves} /> : null}
-            {motion.rows.length ? <Rows title="How it moves" table={motion} /> : null}
+            {moves.rows.length ? <Rows id="craft-move" title="Where its move comes from" table={moves} /> : null}
+            {motion.rows.length ? <Rows id="craft-motion" title="How it moves" table={motion} /> : null}
           </div>
         </section>
       ) : null}

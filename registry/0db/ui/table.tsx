@@ -1,18 +1,55 @@
+"use client"
+
 import * as React from "react"
 
 import { cn } from "@/registry/0db/lib/utils"
 
+type TableProps = React.ComponentProps<"table"> & {
+  /**
+   * ink: the column you sort by is set in ink. forte: it is also set loud, in large thin figures,
+   * against the small print of the rest. cross: as on a road atlas's distance chart, the row and
+   * column of the cell you point at cross in ink, the cell itself in the accent, the rest in pencil.
+   */
+  variant?: "ink" | "forte" | "cross"
+}
+
 /** Hairline rows in tabular figures. The column you sort by is set in ink. */
-function Table({ className, ...props }: React.ComponentProps<"table">) {
-  return <table data-slot="table" className={cn("db-table", className)} {...props} />
+function Table({ className, variant = "ink", ...props }: TableProps) {
+  return <table data-slot="table" data-variant={variant === "ink" ? undefined : variant} className={cn("db-table", className)} {...props} />
 }
 
 function TableHeader(props: React.ComponentProps<"thead">) {
   return <thead data-slot="table-header" {...props} />
 }
 
-function TableBody(props: React.ComponentProps<"tbody">) {
-  return <tbody data-slot="table-body" {...props} />
+/** Re-sorted, each row glides from where it was to where it is now (FLIP), andante. Still under reduced motion. */
+function TableBody({ ref, ...props }: React.ComponentProps<"tbody">) {
+  const own = React.useRef<HTMLTableSectionElement>(null)
+  const was = React.useRef(new WeakMap<Element, number>())
+  React.useLayoutEffect(() => {
+    const body = own.current
+    if (!body) return
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches
+    const cs = getComputedStyle(body)
+    const tempo = { duration: parseFloat(cs.getPropertyValue("--db-andante")) || 640, easing: cs.getPropertyValue("--db-breath").trim() || "ease" }
+    for (const row of body.rows) {
+      const from = was.current.get(row)
+      was.current.set(row, row.offsetTop) // offsetTop, not the viewport: scrolling between renders isn't a move
+      if (still || from === undefined || from === row.offsetTop) continue
+      row.animate([{ translate: `0 ${from - row.offsetTop}px` }, { translate: "0 0" }], tempo)
+    }
+  })
+  return (
+    <tbody
+      ref={(el) => {
+        own.current = el
+        if (typeof ref === "function") ref(el)
+        else if (ref) ref.current = el
+      }}
+      data-slot="table-body"
+      {...props}
+    />
+  )
 }
 
 function TableFooter(props: React.ComponentProps<"tfoot">) {
@@ -69,4 +106,4 @@ function TablePick({ className, ...props }: Omit<React.ComponentProps<"input">, 
   return <input type="checkbox" data-slot="table-pick" className={cn("db-table-pick", className)} {...props} />
 }
 
-export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TablePick }
+export { type TableProps, Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TablePick }

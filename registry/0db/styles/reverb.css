@@ -22,4 +22,19 @@
     transition-delay: calc(var(--k) * var(--db-arpeggio));
   }
   .db-reverb:is(:hover, [data-force~="hover"]) :is(.db-reverb-echo, .db-reverb-rest) { translate: calc(var(--x, 0px) * 1.2) 0; }
+
+  /* antiphon: the two choirs of San Marco, answering across the church. The echoes come back from
+     either wall in turn, the first from the far one, each a dynamic quieter; nothing drifts, the
+     measure is the room. Pointing opens the letters a little further, one arpeggio after the last. */
+  .db-reverb-echo[data-side="end"] { text-align: end; }
+  .db-reverb-rest[data-side="end"] { margin-inline-start: auto; }
+  .db-reverb[data-variant="antiphon"] .db-reverb-echo { transition: letter-spacing var(--db-andante) var(--db-exhale) calc(var(--k) * var(--db-arpeggio)); }
+  .db-reverb[data-variant="antiphon"]:is(:hover, [data-force~="hover"]) .db-reverb-echo { letter-spacing: calc(var(--tr) + var(--open) * 2em); }
+
+  /* vowels: every echo at the phrase's own size, letter for letter under it; a lost letter keeps its
+     place and goes silent, consonants first, so the vowels ring on in columns. Pointing sketches the
+     lost letters back in pencil, one echo after another. */
+  .db-reverb[data-variant="vowels"] .db-reverb-echo { white-space: normal; } /* it breaks where the phrase breaks, so the columns hold on every line */
+  .db-reverb-lost { opacity: 0; transition: opacity var(--db-moderato) var(--db-exhale) calc(var(--k) * var(--db-arpeggio)); }
+  .db-reverb:is(:hover, [data-force~="hover"]) .db-reverb-lost { opacity: 0.32; color: var(--db-pencil); }
 }

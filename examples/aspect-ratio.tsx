@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { AspectRatio } from "@/registry/0db/ui/aspect-ratio"
 import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
+import { State } from "@/components/site/state"
 
 const ratios = [
   ["16:9", 16 / 9],
@@ -25,9 +26,28 @@ export default function Example() {
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      <div className="max-w-md">
+      {/* One ratio, three frames: the crop, the diagonal and the square all follow the choice. */}
+      <div className="grid items-start gap-x-16 gap-y-14 sm:grid-cols-3">
         <AspectRatio ratio={value} label />
+        <AspectRatio ratio={value} label variant="diagonal" />
+        <AspectRatio ratio={value} label variant="square" />
       </div>
     </div>
+  )
+}
+
+export function States() {
+  return (
+    <>
+      {(["crop", "diagonal", "square"] as const).flatMap((variant) =>
+        ([["16 : 9", 16 / 9], ["4 : 5", 4 / 5]] as const).map(([name, r]) => (
+          <State key={`${variant}-${name}`} label={`${variant}, ${name}`}>
+            <div className="w-40">
+              <AspectRatio ratio={r} label variant={variant} />
+            </div>
+          </State>
+        )),
+      )}
+    </>
   )
 }

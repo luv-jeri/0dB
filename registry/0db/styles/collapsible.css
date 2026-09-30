@@ -2,12 +2,71 @@
   /* ── db-collapse ── a list that ends in the rest of itself */
   .db-collapse-list { list-style: none; margin: 0; padding: 0; }
   .db-collapse-list > li { padding-block: 0.45em; border-block-end: var(--db-hairline) solid var(--db-rule); }
-  .db-collapse > summary { list-style: none; margin-block-start: var(--db-space-4); }
-  .db-collapse[open] > summary { margin-block-end: var(--db-space-2); } /* the rows that arrive stand clear of the words that opened them */
+  .db-collapse > summary { list-style: none; }
   .db-collapse > summary::-webkit-details-marker { display: none; }
   .db-collapse > summary > :last-child, .db-collapse[open] > summary > :first-child { display: none; }
   .db-collapse[open] > summary > :last-child { display: inline; }
   .db-collapse::details-content { block-size: 0; overflow: clip; transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete; }
   .db-collapse[open]::details-content { block-size: auto; }
   .db-collapse[open] .db-collapse-list > li { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--db-arpeggio)); }
+
+  /* Tail (the default): the words are the list's last line, set as the poster's caption, straight under the last rule. */
+  .db-collapse:not([data-variant]) > summary { margin-block-start: var(--db-space-1); margin-inline-start: -0.1em; font-size: var(--db-pp); letter-spacing: var(--db-pp-tr); }
+  .db-collapse:not([data-variant])[open] > summary { margin-block-end: var(--db-space-2); } /* the rows that arrive stand clear of the words that opened them */
+
+  /* The cue: catchword and sotto set their own control, not a button. */
+  .db-collapse-cue {
+    --dir: 1;
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--db-space-5);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-pencil);
+  }
+  .db-collapse-cue:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
+  .db-collapse[open] > .db-collapse-cue > :last-child { display: inline; white-space: nowrap; }
+
+  /* Catchword (the printer's catchword): the first name of the rest waits at the foot, flush to the far edge,
+     as the next page's first word waits under the last line. Opening, it steps back to the start and grows
+     into the first row of the rest; the rest follow it. The summary is a container, so the word can travel
+     the measure: its start is 100cqi less its own width from the far edge. */
+  .db-collapse[data-variant="catchword"] > summary {
+    container-type: inline-size; padding-block: 0.45em;
+    border-block-end: var(--db-hairline) solid transparent;
+    transition: font-size var(--db-andante) var(--db-exhale), color var(--db-moderato), border-color var(--db-andante);
+  }
+  .db-collapse[data-variant="catchword"] > summary > :first-child {
+    display: inline-block; translate: calc((100cqi - 100%) * var(--dir)) 0;
+    text-decoration: underline var(--db-hairline) transparent; text-underline-offset: 0.3em;
+    transition: translate var(--db-andante) var(--db-exhale), text-decoration-color var(--db-allegro);
+  }
+  .db-collapse[data-variant="catchword"]:not([open]) > summary:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
+  .db-collapse[data-variant="catchword"]:not([open]) > summary:is(:hover, [data-force~="hover"]) > :first-child { text-decoration-color: var(--db-rule-strong); }
+  .db-collapse[data-variant="catchword"][open] > summary {
+    font-size: var(--db-p); line-height: 1.6; letter-spacing: 0; color: var(--db-graphite);
+    border-block-end-color: var(--db-rule);
+  }
+  .db-collapse[data-variant="catchword"][open] > summary > :first-child { display: inline-block; translate: 0 0; }
+  .db-collapse[data-variant="catchword"][open] > summary > :last-child:not([data-echo]) { font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-collapse[data-variant="catchword"][open] > summary > [data-echo] { display: none; }
+  .db-collapse[data-variant="catchword"][open] > summary:hover > :last-child { color: var(--db-ink); }
+  .db-collapse[data-variant="catchword"][open] .db-collapse-list > li { animation-delay: calc(var(--db-moderato) + sibling-index() * 2 * var(--db-arpeggio)); }
+
+  /* Sotto voce: the rest is never hidden, only said under the breath: one run of fine print in pencil,
+     and the whole run is the control. Opening says it in full: each name grows into its row, in turn.
+     The content stays visible while closed, so the summary lies over it in the same cell. */
+  .db-collapse[data-variant="sotto"] { display: grid; }
+  .db-collapse[data-variant="sotto"]::details-content { grid-area: 1 / 1; content-visibility: visible; block-size: auto; transition: none; }
+  .db-collapse[data-variant="sotto"] > summary { grid-area: 1 / 1; position: relative; z-index: 1; }
+  .db-collapse[data-variant="sotto"]:not([open]) > summary > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .db-collapse[data-variant="sotto"]:not([open]) .db-collapse-list { padding-block: 0.7em; font-size: var(--db-pp); line-height: var(--db-pp-lh); text-wrap: pretty; }
+  .db-collapse[data-variant="sotto"]:not([open]) .db-collapse-list > li {
+    display: inline; padding: 0; border: 0;
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-pencil);
+    transition: color var(--db-allegro);
+  }
+  .db-collapse[data-variant="sotto"]:not([open]) .db-collapse-list > li:not(:last-child)::after { content: ", "; }
+  .db-collapse[data-variant="sotto"]:not([open]):has(> summary:is(:hover, [data-force~="hover"])) .db-collapse-list > li { color: var(--db-ink); }
+  .db-collapse[data-variant="sotto"][open] > summary { grid-area: 2 / 1; margin-block-start: var(--db-space-1); padding-block: 0.7em; justify-content: flex-start; }
+  .db-collapse[data-variant="sotto"][open] > summary:hover { color: var(--db-ink); }
+  .db-collapse[data-variant="sotto"][open] .db-collapse-list > li { animation: db-sotto var(--db-andante) var(--db-exhale) backwards; animation-delay: calc((sibling-index() - 1) * 2 * var(--db-arpeggio)); }
+  @keyframes db-sotto { from { font-size: var(--db-pp); line-height: var(--db-pp-lh); padding-block: 0; color: var(--db-pencil); border-block-end-color: transparent; } }
 }

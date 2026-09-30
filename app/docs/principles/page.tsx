@@ -16,11 +16,11 @@ export default function Principles() {
         <h1 className="doc-title">Principles</h1>
         <p className="doc-summary">Five rules. When an item is in doubt, it asks these, in this order.</p>
       </header>
-      <section className="doc-section" aria-label="The rules">
+      <section className="doc-section" id="rules" data-rail="The rules" aria-label="The rules">
         <Prose dangerouslySetInnerHTML={{ __html: sectionHTML("Principles") }} />
       </section>
       <section className="doc-section" aria-labelledby="measure-h">
-        <h2 id="measure-h">The measure</h2>
+        <h2 id="measure-h" data-rail="The measure">The measure</h2>
         <p className="doc-lead">Silence starts at the line. Drag its edge, or focus it and use the arrow keys: body text reads best between forty-five and seventy-five characters.</p>
         <Measure>
           A line that runs too long loses the eye on its way back to the next one, and a line that runs too short breaks the sentence before it can breathe. Somewhere between them the
@@ -28,7 +28,7 @@ export default function Principles() {
         </Measure>
       </section>
       <section className="doc-section" aria-labelledby="conv-h">
-        <h2 id="conv-h">Conventions</h2>
+        <h2 id="conv-h" data-rail="Conventions">Conventions</h2>
         <Prose dangerouslySetInnerHTML={{ __html: sectionHTML("Conventions") }} />
       </section>
     </>

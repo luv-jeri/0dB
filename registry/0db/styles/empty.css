@@ -3,13 +3,41 @@
   .db-empty { display: grid; justify-items: start; gap: var(--db-space-4); }
   /* Nothing, as a number: a zero so large it's cropped to its top half, which is a fermata's arc. */
   .db-empty-figure {
-    block-size: 0.46em; margin-block-end: var(--db-space-2); overflow: clip;
+    block-size: 0.46em; margin-block-end: var(--db-space-2); clip-path: inset(-0.5em -0.2em 0); /* crops only the foot, so the arc can rise out of its box */
     font-size: clamp(7rem, 16vw, 13rem); font-weight: 100; font-stretch: 125%; line-height: 0.76;
     color: var(--db-ink); user-select: none;
   }
   .db-empty-figure > span { display: block; margin-inline-start: -0.06em; /* the zero's side-bearing, so its arc shares the title's left edge */ transition: translate var(--db-andante) var(--db-exhale); }
-  .db-empty:has(.db-btn:is(:hover, :focus-visible)) .db-empty-figure > span { translate: 0 -0.07em; }
+  .db-empty:has(.db-btn:is(:hover, :focus-visible, [data-force~="hover"])) .db-empty-figure > span { translate: 0 -0.07em; }
   .db-empty-title { margin: 0; font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); font-weight: 200; color: var(--db-ink); }
   .db-empty-description { max-inline-size: 44ch; }
   .db-empty-actions { display: flex; flex-wrap: wrap; gap: var(--db-space-5); }
+
+  /* Tacet. What a score prints on a part with nothing to play: "it is silent". The term (italic, as musical terms are)
+     is set large in the expression face; reaching for the action is your entry, so the word dies away (morendo): it
+     fades to the rule and its letters loosen, a little, as the silence ends. */
+  .db-empty[data-variant="tacet"] .db-empty-figure {
+    block-size: auto; margin-block-end: 0; clip-path: none;
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-stretch: normal;
+    font-size: calc(var(--db-expression-scale) * var(--db-fff)); line-height: 0.92; letter-spacing: -0.02em;
+  }
+  .db-empty[data-variant="tacet"] .db-empty-figure > span { margin-inline-start: -0.03em; transition: color var(--db-andante) var(--db-exhale), letter-spacing var(--db-andante) var(--db-exhale); }
+  .db-empty[data-variant="tacet"]:has(.db-btn:is(:hover, :focus-visible, [data-force~="hover"])) .db-empty-figure > span { translate: none; color: var(--db-rule-strong); letter-spacing: 0.01em; }
+
+  /* Blank. The printer's page left blank on purpose. The words spread to its corners, as the posters' labels do (what's
+     missing at the top start, what to do at the top end in a narrow ragged column, the action at the foot), and the middle
+     is silence with one small line in it. Reaching for the action, that line loosens and pales: it makes room. */
+  .db-empty[data-variant="blank"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto 1fr auto; justify-items: stretch;
+    column-gap: var(--db-gutter); row-gap: var(--db-space-6); min-block-size: min(34rem, 80vh);
+  }
+  .db-empty[data-variant="blank"] .db-empty-title { grid-area: 1 / 1; font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); font-weight: 400; text-wrap: balance; }
+  .db-empty[data-variant="blank"] .db-empty-description { grid-area: 1 / 2; justify-self: end; max-inline-size: 24ch; margin: 0; text-align: end; text-wrap: pretty; }
+  .db-empty[data-variant="blank"] .db-empty-figure {
+    grid-area: 2 / 1 / 3 / -1; place-self: center; block-size: auto; margin: 0; clip-path: none; max-inline-size: 30ch;
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); font-weight: 400; font-stretch: normal; text-align: center; color: var(--db-pencil);
+  }
+  .db-empty[data-variant="blank"] .db-empty-figure > span { margin: 0; transition: color var(--db-andante) var(--db-exhale), letter-spacing var(--db-andante) var(--db-exhale); }
+  .db-empty[data-variant="blank"]:has(.db-btn:is(:hover, :focus-visible, [data-force~="hover"])) .db-empty-figure > span { translate: none; color: var(--db-rule-strong); letter-spacing: 0.08em; }
+  .db-empty[data-variant="blank"] .db-empty-actions { grid-area: 3 / 2; justify-self: end; justify-content: end; }
 }

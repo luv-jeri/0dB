@@ -3,13 +3,35 @@ import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "@/registry/0db/lib/utils"
 
-/** Numbers with a dot beneath each; the current page's dot is the accent. */
+/** Numbers with a dot beneath each; the current page's dot is the accent. Pair it with paginationRange for long runs. */
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return <nav data-slot="pagination" aria-label="Pages" className={className} {...props} />
 }
 
-function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
-  return <ul data-slot="pagination-content" className={cn("db-pager", className)} {...props} />
+type PaginationContentProps = React.ComponentProps<"ul"> & {
+  /**
+   * numbers: every page shown, a dot under each. folio: the current page over the total, arrows only. neighbours: the pages either side, by name.
+   * barcode: every page a hairline, only yours numbered. thumb: an alphabet set as one word, the current letter reversed out.
+   */
+  variant?: "numbers" | "folio" | "neighbours" | "barcode" | "thumb"
+}
+
+function PaginationContent({ className, variant = "numbers", ...props }: PaginationContentProps) {
+  return <ul data-slot="pagination-content" data-variant={variant} className={cn("db-pager", className)} {...props} />
+}
+
+/**
+ * The pages to show for a long run: the ends, the current page and `siblings` either side, "gap" for the runs left out.
+ * Always the same number of slots (siblings * 2 + 5, or fewer pages), so nothing beside the pager moves as you page,
+ * and a gap never stands for a single page.
+ */
+function paginationRange(current: number, total: number, siblings = 1): (number | "gap")[] {
+  const slots = siblings * 2 + 5
+  const run = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i)
+  if (total <= slots) return run(1, total)
+  if (current <= siblings + 3) return [...run(1, slots - 2), "gap", total]
+  if (current >= total - siblings - 2) return [1, "gap", ...run(total - slots + 3, total)]
+  return [1, "gap", ...run(current - siblings, current + siblings), "gap", total]
 }
 
 function PaginationItem(props: React.ComponentProps<"li">) {
@@ -69,4 +91,15 @@ function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span"
   )
 }
 
-export { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis, type PaginationLinkProps }
+export {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+  paginationRange,
+  type PaginationContentProps,
+  type PaginationLinkProps,
+}

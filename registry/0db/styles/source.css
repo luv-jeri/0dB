@@ -14,6 +14,8 @@
   }
   .db-source-name { min-width: 0; overflow-wrap: anywhere; }
   .db-source-ext { color: var(--db-pencil); }
+  /* The language, marked like a score's key: small capitals in the pencil, under the name. */
+  .db-source-lang { font-variant-caps: all-small-caps; letter-spacing: 0.08em; color: var(--db-pencil); }
   .db-source-copy { margin-inline-start: auto; }
   .db-source-meta > .db-source-copy { font-size: inherit; }
   .db-source-copy > span { display: inline-block; }
@@ -69,5 +71,65 @@
     0%   { opacity: 1; clip-path: inset(0 0 100% 0); }
     55%  { opacity: 1; clip-path: inset(0 0 0 0); }
     100% { opacity: 0; clip-path: inset(0 0 0 0); }
+  }
+
+  /* gloss: the glossed manuscript, and Knuth's literate programming. A line that is only a comment is
+     what someone wrote about the code, so wide, it leaves the code for the outer margin and stands beside
+     the line it explains (an absolute block keeps its place in the flow, so it lands level with that line)
+     while the code closes up. Pointing at either inks the other. Narrow, the notes stay in the lines. */
+  .db-source-gloss { display: block; }
+  .db-source[data-variant="gloss"] .db-source-gloss > .sh__line { color: var(--db-graphite); transition: color var(--db-allegro); }
+  @container (min-width: 46rem) {
+    .db-source[data-variant="gloss"] .db-source-code { padding-inline-end: 15.5rem; padding-block-end: calc(0.25rem + var(--db-source-tail, 0px)); }
+    .db-source-gloss {
+      position: absolute; inset-inline-end: 0; inline-size: 14rem; padding-block-start: 0.3rem;
+      font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: 0;
+    }
+    .db-source-gloss > .sh__line { min-block-size: 0; padding-inline-start: 0; text-indent: 0; }
+    .db-source-gloss > .sh__line::before { visibility: hidden; } /* still counted, so the code keeps its true numbers */
+    .db-source-gloss .sh__token--comment { line-height: inherit; }
+    .db-source-slashes { display: none; }
+    .db-source[data-variant="gloss"] .db-source-gloss:is(:hover, :has(+ .sh__line:hover)) > .sh__line { color: var(--db-ink); }
+    .db-source[data-variant="gloss"] .db-source-gloss:hover + .sh__line { --sh-identifier: var(--db-ink); --sh-property: var(--db-ink); --sh-sign: var(--db-graphite); color: var(--db-ink); }
+    .db-source[data-variant="gloss"] .db-source-gloss:hover + .sh__line::before { opacity: 1; color: var(--db-ink); }
+  }
+
+  /* passage: the reader's pencil line down the margin beside the lines that matter. The bracket that
+     joined the whole system gathers to the passage and inks; every other line recedes to pencil.
+     Copying runs the accent down the passage, line by line. */
+  .db-source[data-variant="passage"] .db-source-code::before, .db-source[data-variant="passage"] .db-source-code::after { content: none; }
+  .db-source[data-variant="passage"] .sh__line:not([data-passage]) {
+    color: var(--db-pencil); --sh-keyword: var(--db-pencil); --sh-entity: var(--db-pencil); --sh-class: var(--db-pencil);
+    --sh-identifier: var(--db-pencil); --sh-property: var(--db-pencil); --sh-string: var(--db-pencil); --sh-jsxliterals: var(--db-pencil);
+  }
+  .db-source[data-variant="passage"] .sh__line:not([data-passage]) .sh__token--keyword { font-weight: 400; }
+  .db-source[data-variant="passage"] .sh__line[data-passage] { color: var(--db-ink); --sh-identifier: var(--db-ink); --sh-property: var(--db-ink); --sh-sign: var(--db-graphite); }
+  .db-source[data-variant="passage"] .sh__line[data-passage]::before { opacity: 1; color: var(--db-ink); }
+  .db-source[data-variant="passage"] .sh__line[data-passage]::after {
+    content: ""; position: absolute; inset-block: 0; inset-inline-start: -0.9rem; width: 0.3rem;
+    border-inline-start: var(--db-stroke) solid var(--db-ink); pointer-events: none;
+  }
+  .db-source[data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage])::after { inset-block-start: 0.3rem; border-block-start: var(--db-hairline) solid var(--db-ink); }
+  .db-source[data-variant="passage"] .sh__line[data-passage]:not(:has(+ [data-passage]))::after { inset-block-end: 0.3rem; border-block-end: var(--db-hairline) solid var(--db-ink); }
+  .db-source[data-variant="passage"][data-copied] .sh__line[data-passage]::after { animation: db-source-pass var(--db-andante) var(--db-breath) calc(var(--k, 0) * var(--db-arpeggio)) both; }
+  @keyframes db-source-pass { 0%, 40% { border-color: var(--db-accent); } 100% { border-color: var(--db-ink); } }
+
+  /* Unwrapped: each line is kept whole and runs on past the frame, cropped by its end as SPECTRA's rule crops its word;
+     the lines scroll sideways inside <code>. The lines stop being positioned, so the numbers (and the passage's line)
+     are placed from the <pre>, outside the scroller: they keep their place, at the height the line gives them. */
+  .db-source[data-wrap="off"] .db-source-code { white-space: pre; overflow-wrap: normal; }
+  .db-source[data-wrap="off"] .db-source-code > code {
+    overflow-x: auto; overscroll-behavior-x: contain; padding-block-end: var(--db-space-2);
+    scrollbar-width: thin; scrollbar-color: var(--db-rule-strong) transparent;
+  }
+  .db-source[data-wrap="off"] .db-source-code > code:focus-visible { outline-offset: 6px; }
+  .db-source[data-wrap="off"] .db-source-code .sh__line { position: static; inline-size: max-content; min-inline-size: 100%; }
+  .db-source[data-wrap="off"] .db-source-code .sh__line::before { inset-block-start: auto; inset-inline-start: 0; margin-block-start: 0.1em; }
+  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]::after { inset-block: auto; inset-inline-start: calc(var(--db-source-gutter) - 0.9rem); block-size: var(--db-source-lh); margin-block-start: 0; }
+  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage])::after { inset-block-start: auto; margin-block-start: 0.3rem; block-size: calc(var(--db-source-lh) - 0.3rem); }
+  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not(:has(+ [data-passage]))::after { inset-block-end: auto; block-size: calc(var(--db-source-lh) - 0.3rem); }
+  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage]):not(:has(+ [data-passage]))::after { block-size: calc(var(--db-source-lh) - 0.6rem); }
+  @media (forced-colors: active) {
+    .db-source-code::before, .db-source[data-variant="passage"] .sh__line[data-passage]::after { border-color: CanvasText; }
   }
 }

@@ -1,9 +1,91 @@
 @layer components {
-  /* ── db-dots ── loading: three periods breathing in turn */
-  .db-dots { display: inline-flex; align-items: center; gap: 0.3em; height: 1em; vertical-align: -0.1em; }
-  .db-dots > i { width: 0.22em; height: 0.22em; border-radius: 50%; background: currentColor; animation: db-breathe 1280ms var(--db-breath) infinite; }
-  .db-dots > i:nth-child(2) { animation-delay: 160ms; }
-  .db-dots > i:nth-child(3) { animation-delay: 320ms; }
-  @keyframes db-breathe { 0%, 100% { opacity: 0.18; translate: 0 0; } 40% { opacity: 1; translate: 0 -0.16em; } }
-  @media (prefers-reduced-motion: reduce) { .db-dots > i { animation: none; opacity: 0.6; } }
+  /* ── db-dots ── the wait, written the way a score or a page writes it: periods, a round, a pendulum,
+     a fermata, a breath, a rising chord or a word being inked. The one thing that moves by itself, and only
+     while something the person started is running, so every loop is slow and eased like breathing.
+     Everything is in em: it sits in a line of text at that text's size, and the art stands on the baseline
+     (a box as tall as a capital) so it reads as one more glyph. Strokes stay hairlines at any size; dots grow. */
+  @property --db-dots-d { syntax: "<length>"; inherits: false; initial-value: 0px; }
+  @property --db-dots-w { syntax: "<length>"; inherits: false; initial-value: 0px; }
+  @property --db-dots-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+  @property --db-dots-b { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+  .db-dots { position: relative; display: inline-block; white-space: nowrap; }
+  .db-dots[data-size="l"] { font-size: var(--db-f); line-height: var(--db-f-lh); }
+  .db-dots-art { position: relative; display: inline-block; vertical-align: baseline; inline-size: 1em; block-size: 0.7em; }
+  .db-dots-art > i { position: absolute; font-style: normal; }
+
+  /* Dots: three periods on the baseline, each lifting as it brightens, in turn. Still, they trail off. */
+  .db-dots[data-variant="dots"] .db-dots-art { inline-size: 0.94em; }
+  .db-dots[data-variant="dots"] i { inset-block-end: 0; inline-size: 0.18em; block-size: 0.18em; border-radius: 50%; background: currentColor; animation: db-dots-lift calc(var(--db-andante) * 2.5) var(--db-breath) infinite both; }
+  .db-dots[data-variant="dots"] i:nth-child(1) { inset-inline-start: 0.04em; }
+  .db-dots[data-variant="dots"] i:nth-child(2) { inset-inline-start: 0.38em; opacity: 0.55; animation-delay: var(--db-allegro); }
+  .db-dots[data-variant="dots"] i:nth-child(3) { inset-inline-start: 0.72em; opacity: 0.25; animation-delay: calc(var(--db-allegro) * 2); }
+  @keyframes db-dots-lift { 0%, 100% { opacity: 0.22; translate: 0 0; } 40% { opacity: 1; translate: 0 -0.2em; } }
+
+  /* Round: three voices on one hairline ring, each entering a beat after the last, as a round's voices do.
+     The easing slows them at the top and the foot, so they gather into one dot there and spread out between. */
+  .db-dots[data-variant="round"] .db-dots-art { inline-size: 0.7em; }
+  .db-dots[data-variant="round"] .db-dots-art::before { content: ""; position: absolute; inset: 0; border: var(--db-hairline) solid; border-radius: 50%; opacity: 0.28; }
+  .db-dots[data-variant="round"] i { inset: 0; rotate: 60deg; animation: db-dots-round calc(var(--db-adagio) * 2) var(--db-breath) infinite both; }
+  .db-dots[data-variant="round"] i::before { content: ""; position: absolute; inset-block-start: -0.08em; inset-inline-start: calc(50% - 0.08em); inline-size: 0.16em; block-size: 0.16em; border-radius: 50%; background: currentColor; }
+  .db-dots[data-variant="round"] i:nth-child(2) { rotate: 30deg; opacity: 0.6; animation-delay: var(--db-allegro); }
+  .db-dots[data-variant="round"] i:nth-child(3) { rotate: 0deg; opacity: 0.3; animation-delay: calc(var(--db-allegro) * 2); }
+  @keyframes db-dots-round { 0% { rotate: 0deg; } 50% { rotate: 180deg; } 100% { rotate: 360deg; } }
+
+  /* Metronome: a stroke rod standing on a hairline foot, a dot for its weight, swinging a slow beat. */
+  .db-dots[data-variant="metronome"] .db-dots-art { inline-size: 0.76em; }
+  .db-dots[data-variant="metronome"] .db-dots-art::before { content: ""; position: absolute; inset-inline: 0.1em; inset-block-end: 0; block-size: var(--db-hairline); background: currentColor; opacity: 0.4; }
+  .db-dots[data-variant="metronome"] i { inset-block-end: 0; inset-inline-start: calc(50% - var(--db-stroke) / 2); inline-size: var(--db-stroke); block-size: 0.72em; background: currentColor; transform-origin: 50% 100%; rotate: -22deg; animation: db-dots-swing calc(var(--db-moderato) * 3) var(--db-breath) infinite alternate both; }
+  .db-dots[data-variant="metronome"] i::before { content: ""; position: absolute; inset-block-start: 0.2em; inset-inline-start: 50%; inline-size: 0.2em; block-size: 0.2em; margin-inline-start: -0.1em; border-radius: 50%; background: currentColor; }
+  @keyframes db-dots-swing { from { rotate: -22deg; } to { rotate: 22deg; } }
+
+  /* Fermata: the hold. The arc (the top half of a stroke ellipse, shown through a conic mask whose edges are
+     registered angles) draws in the reading direction, the dot lands under it, the pause is held, then the arc
+     lifts away the way it was drawn and the dot fades. Still, it's simply the sign: wait. */
+  .db-dots[data-variant="fermata"] .db-dots-art { inline-size: 1em; }
+  .db-dots[data-variant="fermata"] .db-dots-art:is([dir="rtl"], [dir="rtl"] *) { scale: -1 1; }
+  .db-dots[data-variant="fermata"] .db-dots-art::before { content: ""; position: absolute; inset-inline: 0; inset-block-start: 0.02em; block-size: 1.2em; border: var(--db-stroke) solid; border-radius: 50%; mask: conic-gradient(from 270deg, transparent var(--db-dots-a), #000 0 var(--db-dots-b), transparent 0); --db-dots-a: 0deg; --db-dots-b: 180deg; animation: db-dots-arc calc(var(--db-andante) * 5) infinite both; }
+  .db-dots[data-variant="fermata"] i { inset-block-end: 0; inset-inline-start: calc(50% - 0.085em); inline-size: 0.17em; block-size: 0.17em; border-radius: 50%; background: currentColor; animation: db-dots-hold calc(var(--db-andante) * 5) infinite both; }
+  @keyframes db-dots-arc { 0% { --db-dots-a: 0deg; --db-dots-b: 0deg; animation-timing-function: var(--db-exhale); } 30% { --db-dots-a: 0deg; --db-dots-b: 180deg; } 78% { --db-dots-a: 0deg; --db-dots-b: 180deg; animation-timing-function: var(--db-breath); } 100% { --db-dots-a: 180deg; --db-dots-b: 180deg; } }
+  @keyframes db-dots-hold { 0%, 22% { scale: 0; opacity: 1; animation-timing-function: var(--db-spiccato); } 36% { scale: 1; } 80% { scale: 1; opacity: 1; animation-timing-function: var(--db-breath); } 100% { scale: 1; opacity: 0; } }
+
+  /* Breath: a dot breathes in and opens into a hairline ring, holds, and breathes out, closing into a dot again.
+     The size and the ink are two eased loops: the ink drains early and returns late, so it's a ring that breathes
+     and only a dot at the bottom of the breath, as the switch's full stop fills from its rim. Still, a small ring. */
+  .db-dots[data-variant="breath"] .db-dots-art { inline-size: 0.7em; }
+  .db-dots[data-variant="breath"] i { --db-dots-d: 0.44em; --db-dots-w: var(--db-hairline); inset: 0; margin: auto; inline-size: var(--db-dots-d); block-size: var(--db-dots-d); box-sizing: border-box; border: var(--db-dots-w) solid; border-radius: 50%; animation: db-dots-breath calc(var(--db-adagio) * 2) var(--db-breath) infinite both, db-dots-drain calc(var(--db-adagio) * 2) var(--db-breath) infinite both; }
+  @keyframes db-dots-breath { 0%, 100% { --db-dots-d: 0.22em; } 42%, 58% { --db-dots-d: 0.7em; } }
+  @keyframes db-dots-drain { 0%, 100% { --db-dots-w: 0.11em; } 20%, 80% { --db-dots-w: var(--db-hairline); } }
+
+  /* Arpeggio: four notes of a chord rising (a third, a third, a fourth), struck in turn, each landing with
+     a small rebound, and let ring; the first struck fades first. Still, the chord rises in strength. */
+  .db-dots[data-variant="arpeggio"] .db-dots-art { inline-size: 1em; }
+  .db-dots[data-variant="arpeggio"] i { inline-size: 0.16em; block-size: 0.16em; border-radius: 50%; background: currentColor; animation: db-dots-strike calc(var(--db-andante) * 4) infinite both; }
+  .db-dots[data-variant="arpeggio"] i:nth-child(1) { inset-inline-start: 0; inset-block-end: 0; opacity: 0.4; }
+  .db-dots[data-variant="arpeggio"] i:nth-child(2) { inset-inline-start: 0.28em; inset-block-end: 0.16em; opacity: 0.6; animation-delay: calc(var(--db-arpeggio) * 4); }
+  .db-dots[data-variant="arpeggio"] i:nth-child(3) { inset-inline-start: 0.56em; inset-block-end: 0.32em; opacity: 0.8; animation-delay: calc(var(--db-arpeggio) * 8); }
+  .db-dots[data-variant="arpeggio"] i:nth-child(4) { inset-inline-start: 0.84em; inset-block-end: 0.54em; animation-delay: calc(var(--db-arpeggio) * 12); }
+  @keyframes db-dots-strike { 0% { opacity: 0.2; scale: 0.6; animation-timing-function: var(--db-spiccato); } 12% { opacity: 1; scale: 1; } 50% { opacity: 1; scale: 1; animation-timing-function: var(--db-breath); } 85%, 100% { opacity: 0.2; scale: 0.6; } }
+
+  /* Word: the label itself, in the voice, pencilled; the ink runs through it letter by letter, stays a
+     moment, and leaves in the same order. Still, the first letters are inked: it's being written. */
+  .db-dots[data-variant="word"] .db-dots-art { inline-size: auto; block-size: auto; }
+  .db-dots[data-variant="word"] .db-dots-art > span { --rest: var(--db-pencil); --inked: var(--db-ink); color: var(--rest); animation: db-dots-ink calc(var(--n, 7) * var(--db-arpeggio) * 2.5 + var(--db-adagio)) var(--db-breath) calc(var(--i) * var(--db-arpeggio) * 2.5) infinite both; }
+  .db-dots[data-variant="word"] .db-dots-art > span:nth-child(-n + 3) { color: var(--inked); }
+  @keyframes db-dots-ink { 0% { color: var(--rest); } 14%, 55% { color: var(--inked); } 85%, 100% { color: var(--rest); } }
+
+  /* Reduced motion: nothing travels. Every loop stops on the frame above that still reads as unfinished, and
+     the whole mark breathes in ink instead, dimming and returning, so it still reads as busy. The tempo tokens
+     collapse to 1ms here, so this one breath is written out: two adagios. data-force="reduced" pins it for the docs. */
+  @media (prefers-reduced-motion: reduce) {
+    .db-dots[data-variant] .db-dots-art::before, .db-dots[data-variant] .db-dots-art :is(i, span), .db-dots[data-variant] .db-dots-art i::before { animation: none; }
+    .db-dots-art { animation: db-dots-dim 2800ms var(--db-breath) infinite alternate both; }
+  }
+  .db-dots[data-variant][data-force~="reduced"] .db-dots-art::before, .db-dots[data-variant][data-force~="reduced"] .db-dots-art :is(i, span), .db-dots[data-variant][data-force~="reduced"] .db-dots-art i::before { animation: none; }
+  .db-dots[data-force~="reduced"] .db-dots-art { animation: db-dots-dim 2800ms var(--db-breath) infinite alternate both; }
+  @keyframes db-dots-dim { from { opacity: 1; } to { opacity: 0.5; } }
+
+  @media (forced-colors: active) {
+    .db-dots-art { forced-color-adjust: none; } /* keeps the dots drawn, in the forced colour of the words around them */
+    .db-dots[data-variant="word"] .db-dots-art > span { --rest: GrayText; --inked: CanvasText; }
+  }
 }
