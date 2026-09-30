@@ -51,6 +51,16 @@ for (const f of scanned) {
   })
 }
 
+// Registry consumers receive the full project licence alongside the font notices.
+try {
+  const payload = JSON.parse(readFileSync("public/r/0db.json", "utf8"))
+  const licence = payload.files?.find((f) => f.target === "styles/0db/LICENCE-0db.md")
+  if (!licence || licence.type !== "registry:file" || licence.path !== "LICENCE" || licence.content !== readFileSync("LICENCE", "utf8"))
+    fail("base licence", "public/r/0db.json must ship LICENCE to styles/0db/LICENCE-0db.md")
+} catch (error) {
+  fail("base licence", error.message)
+}
+
 // The AI adapters, downloadable references and registry payload share the real sources.
 try {
   const kit = buildAiKit({ items, baseURL: process.env.DB_REGISTRY_URL ?? "https://0db.cojeev.com" })

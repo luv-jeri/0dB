@@ -38,6 +38,7 @@ const base = {
     { path: "FONT-NOTICES.md", type: "registry:file", target: "styles/0db/FONT-NOTICES.md" },
   ],
   cssVars: { theme: themeVars },
+    { path: "LICENCE", type: "registry:file", target: "styles/0db/LICENCE-0db.md" },
   css: {
     ...imports("tokens", "fonts", "base"),
     [`@custom-variant dark ${variant}`]: {},
