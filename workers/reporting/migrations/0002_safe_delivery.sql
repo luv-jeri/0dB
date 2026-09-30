@@ -1,0 +1,12 @@
+ALTER TABLE topics ADD COLUMN public_title TEXT;
+ALTER TABLE outbox ADD COLUMN payload_json TEXT;
+ALTER TABLE outbox ADD COLUMN first_attempt_at INTEGER;
+ALTER TABLE outbox ADD COLUMN reviewed_at INTEGER;
+ALTER TABLE outbox ADD COLUMN delivery_status TEXT NOT NULL DEFAULT 'queued';
+UPDATE outbox SET state='held',last_error='Historical delivery requires administrator review.' WHERE state='pending';
+UPDATE outbox SET state='needs_review',last_error='Historical processing outcome requires provider reconciliation.' WHERE state='processing';
+UPDATE outbox SET delivery_status='accepted' WHERE kind LIKE 'email_%' AND state='done';
+CREATE TABLE email_attempts (id TEXT PRIMARY KEY, job_id TEXT NOT NULL, attempted_at INTEGER NOT NULL);
+CREATE INDEX email_attempts_time ON email_attempts(attempted_at);
+CREATE TABLE email_events (id TEXT PRIMARY KEY, provider_id TEXT NOT NULL, status TEXT NOT NULL, event_at INTEGER NOT NULL, received_at INTEGER NOT NULL);
+CREATE INDEX email_events_provider ON email_events(provider_id,event_at);

@@ -19,8 +19,13 @@
     "check:drift": "node --import tsx scripts/check-drift.mjs",
     "check:examples": "node --import tsx scripts/check-examples.mjs",
     "check:pages": "node scripts/check-pages.mjs",
+    "check:headers": "node scripts/check-headers.mjs",
     "check:install": "node scripts/check-install.mjs",
-    "check": "npm run typecheck && npm run lint && npm test && npm run check:registry && npm run check:drift && npm run check:examples && npm run build && npm run check:pages"
+    "check": "npm run typecheck && npm run lint && npm test && npm run check:registry && npm run check:drift && npm run check:examples && npm run build && npm run check:pages && npm run check:headers",
+    "test:reporting": "node --import tsx --test workers/reporting/test/integration.test.mjs",
+    "test:reporting:browser": "node tests/reporting.browser.mjs",
+    "reporting:dev": "wrangler dev --config workers/reporting/wrangler.local.jsonc --local --port 8787",
+    "reporting:migrate:local": "wrangler d1 migrations apply 0db-reports-local --config workers/reporting/wrangler.local.jsonc --local"
   },
   "dependencies": {
     "@chenglou/pretext": "0.0.9",
@@ -47,6 +52,7 @@
     "tailwind-merge": "3.7.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "5.20260930.2",
     "@fontsource-variable/archivo": "5.3.0",
     "@fontsource-variable/bodoni-moda": "5.3.0",
     "@fontsource-variable/bricolage-grotesque": "5.3.0",
@@ -59,12 +65,23 @@
     "@types/node": "22.20.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "esbuild": "0.28.2",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.7",
+    "fake-indexeddb": "6.2.5",
+    "miniflare": "5.20260926.1-alpha",
+    "modern-screenshot": "4.7.0",
     "playwright": "1.63.0",
     "shadcn": "4.21.0",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",
-    "typescript": "5.9.3"
-  }
+    "typescript": "5.9.3",
+    "wrangler": "4.144.0"
+  },
+  "browserslist": [
+    "Chrome >= 111",
+    "Edge >= 111",
+    "Firefox >= 111",
+    "Safari >= 16.4"
+  ]
 }

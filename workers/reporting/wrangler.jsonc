@@ -1,0 +1,33 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "0db-reporting",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-30",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "routes": [{ "pattern": "feedback-0db.cojeev.com", "custom_domain": true }],
+  "vars": {
+    "ENVIRONMENT": "production",
+    "RELEASE": "unconfigured",
+    "ALLOWED_ORIGINS": "https://0db.cojeev.com",
+    "SITE_URL": "https://0db.cojeev.com",
+    "LOCAL_MODE": "false",
+    "TURNSTILE_SITE_KEY": "",
+    "EMAIL_ENABLED": "false",
+    "EMAIL_FROM": "hello@0db.cojeev.com",
+    "DELIVERY_ACTIVATED_AT": "",
+    "EMAIL_DAILY_LIMIT": "20",
+    "EMAIL_MONTHLY_LIMIT": "500",
+    "GITHUB_REPOSITORY": ""
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "0db-reports",
+    // Owner replaces this with the ID returned by d1 create. Never reuse another product's ID.
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations"
+  }],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "0db-report-media" }],
+  "triggers": { "crons": ["*/5 * * * *"] }
+}
