@@ -10,7 +10,7 @@ Extracted from DESIGN.md.
 - It writes only the four switches (`data-mode`, `data-scheme`, `data-key`, `data-pair`; cotton and parma are no attribute) and keeps them together as one JSON object under `0db-theme` in localStorage. `useAppearance()` reads `<html>` through a MutationObserver, so a head script, the page and every control agree. With `value` it holds nothing and writes nothing: `onValueChange(value, from)` reports.
 - Motion: the new appearance opens over the old as a circle from the control you touched (a view transition, andante, breath; `--db-appearance-x`, `--db-appearance-y` on `<html>`). Reduced motion, or no view transitions, changes it at once. The page restores the stored choice before first paint with a one-line script in `<head>` (the docs site's `theme-script.tsx`).
 - States: those of picks and the mode toggle. Keyboard: Tab through the toggle and the three groups; arrow keys move each choice.
-- The site's bar opens it from Tune, in a popover, beside the typeset toggle.
+- The site's bar opens it from Tune, in a popover, beside the dimmer toggle.
 
 ## Motion
 

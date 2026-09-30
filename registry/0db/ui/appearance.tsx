@@ -59,8 +59,13 @@ function applyAppearance(next: AppearanceValue, from?: Element | null) {
     }
   }
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches
-  if (!still && "startViewTransition" in document) document.startViewTransition(apply)
-  else apply()
+  // A control can ask for its own scene change (the mode toggle's data-scene): it becomes the transition's type.
+  const scene = at?.getAttribute("data-scene")
+  if (still || !("startViewTransition" in document)) apply()
+  else if (scene) {
+    try { document.startViewTransition({ update: apply, types: [scene] }) }
+    catch { document.startViewTransition(apply) } // ponytail: browsers without types get the house circle
+  } else document.startViewTransition(apply)
   try { localStorage.setItem(APPEARANCE_KEY, JSON.stringify(next)) } catch {} // private mode: the choice lasts the visit
 }
 

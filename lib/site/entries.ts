@@ -186,7 +186,7 @@ export const entries = [
   { meta: marqueeMeta, hasStates: true, siblings: [], npm: [] },
   { meta: measureMeta, hasStates: true, siblings: [], npm: ["@chenglou/pretext"] },
   { meta: melodyMeta, hasStates: true, siblings: [], npm: ["@chenglou/pretext"] },
-  { meta: modeToggleMeta, hasStates: true, siblings: [], npm: ["@chenglou/pretext"] },
+  { meta: modeToggleMeta, hasStates: true, siblings: [], npm: [] },
   { meta: numberInputMeta, hasStates: true, siblings: ["button","field"], npm: [] },
   { meta: pieChartMeta, hasStates: true, siblings: ["radial-chart"], npm: [] },
   { meta: radarChartMeta, hasStates: true, siblings: ["grid"], npm: [] },

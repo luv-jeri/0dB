@@ -23,8 +23,8 @@ export function ThemeControls() {
           <Appearance />
         </PopoverContent>
       </Popover>
-      {/* The toggle reports; the change opens the new page as a circle from the toggle itself. */}
-      <ModeToggle variant="typeset" aria-label="Night mode" mode={theme.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} className="bar-mode" />
+      {/* The toggle reports; its data-scene tells the appearance hook which scene change to draw. */}
+      <ModeToggle variant="dimmer" aria-label="Night mode" mode={theme.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} className="bar-mode" />
     </div>
   )
 }
