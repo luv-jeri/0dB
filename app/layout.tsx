@@ -13,6 +13,20 @@ export const metadata: Metadata = {
   title: { default: "0dB", template: "%s · 0dB" },
   description: "A component library for type and silence: two typefaces, one accent and a great deal of space. Installs with the shadcn CLI.",
   metadataBase: new URL("https://0db.cojeev.com"),
+  alternates: { canonical: "./" },
+  openGraph: {
+    type: "website",
+    siteName: "0dB",
+    locale: "en_US",
+    url: "./",
+    title: { default: "0dB", template: "%s · 0dB" },
+    description: "A component library for type and silence: two typefaces, one accent and a great deal of space. Installs with the shadcn CLI.",
+  },
+  twitter: {
+    card: "summary",
+    title: { default: "0dB", template: "%s · 0dB" },
+    description: "A component library for type and silence: two typefaces, one accent and a great deal of space. Installs with the shadcn CLI.",
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
