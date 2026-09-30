@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.tmp/
+next-env.d.ts
+*.tsbuildinfo
+public/specimen/
+.DS_Store
+.wrangler/

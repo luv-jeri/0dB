@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "fermata",
+      "name": "specimen",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4173", "--directory", "fermata"],
+      "runtimeArgs": ["-m", "http.server", "4173", "--directory", "specimen"],
       "port": 4173
     }
   ]

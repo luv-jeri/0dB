@@ -1,0 +1,130 @@
+/* 0dB · base: the reset, the shared articulations, the type roles and the base pieces
+   (link, meta, kbd, corners, fraction) that other items style through. Needs tokens.css first. */
+@layer base {
+  /* ── base ── */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--db-paper);
+    color: var(--db-graphite);
+    font-family: var(--db-voice);
+    font-size: var(--db-p);
+    line-height: var(--db-p-lh);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--db-andante) var(--db-breath), color var(--db-andante) var(--db-breath);
+  }
+  :where(h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote) { margin: 0; }
+  :where(h1, h2, h3, h4) { color: var(--db-ink); font-weight: 400; }
+  :where(input, textarea, select, button) { font: inherit; color: inherit; letter-spacing: inherit; }
+  :where(input, textarea) { caret-color: var(--db-accent); }
+  ::selection { background: var(--db-mark); color: var(--db-on-mark); }
+  :focus-visible, [data-force~="focus"] { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 4px; }
+  mark { background: var(--db-mark); color: var(--db-on-mark); padding: 0 0.08em; }
+  hr { border: 0; height: var(--db-hairline); background: var(--db-rule); margin: 0; }
+  [hidden] { display: none !important; } /* components set display; hidden still wins */
+  img, svg { display: block; max-width: 100%; }
+  /* Scrollbars: a thin stroke on nothing. Pointing at a scroller darkens it from rule to pencil. */
+  :root { scrollbar-color: var(--db-rule-strong) transparent; }
+  :where(html, body *) { scrollbar-width: thin; }
+  :where(.db-scroll, textarea, [role="listbox"]):hover { scrollbar-color: var(--db-pencil) transparent; }
+  @supports not (scrollbar-color: auto) {
+    /* Safari: the thumb is a hairline down the middle of its gutter, and thickens when pointed at. */
+    ::-webkit-scrollbar { width: 11px; height: 11px; background: transparent; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--db-rule-strong) 0 0) center / 2px 100% no-repeat; }
+    ::-webkit-scrollbar-thumb:horizontal { background-size: 100% 2px; }
+    ::-webkit-scrollbar-thumb:hover { background-image: linear-gradient(var(--db-pencil) 0 0); background-size: 5px 100%; }
+    ::-webkit-scrollbar-thumb:horizontal:hover { background-size: 100% 5px; }
+    ::-webkit-scrollbar-corner { background: transparent; }
+  }
+
+  /* ── motion ── the shared articulations. Pointing sketches (pencil, a hairline,
+     a ring); choosing inks (the accent, a fill), and inked things land with
+     one small rebound. Strokes leave the way they were heading. */
+  @keyframes db-arrive { from { opacity: 0; translate: 0 0.3em; } }
+  @keyframes db-land   { from { scale: 0.4; } }
+  @keyframes db-draw-x { from { scale: 0 1; } }
+  @keyframes db-draw-y { from { scale: 1 0; } }
+
+  /* Type roles. Ours are roman (the voice); yours are italic (the expression). */
+  .db-pp   { font-size: var(--db-pp);   line-height: var(--db-pp-lh);   letter-spacing: var(--db-pp-tr); }
+  .db-p    { font-size: var(--db-p);    line-height: var(--db-p-lh);    letter-spacing: var(--db-p-tr); }
+  .db-mp   { font-size: var(--db-mp);   line-height: var(--db-mp-lh);   letter-spacing: var(--db-mp-tr); }
+  .db-mf   { font-size: var(--db-mf);   line-height: var(--db-mf-lh);   letter-spacing: var(--db-mf-tr); }
+  .db-f    { font-size: var(--db-f);    line-height: var(--db-f-lh);    letter-spacing: var(--db-f-tr); }
+  .db-ff   { font-size: var(--db-ff);   line-height: var(--db-ff-lh);   letter-spacing: var(--db-ff-tr); }
+  .db-fff  { font-size: var(--db-fff);  line-height: var(--db-fff-lh);  letter-spacing: var(--db-fff-tr); }
+  .db-ffff { font-size: var(--db-ffff); line-height: var(--db-ffff-lh); letter-spacing: var(--db-ffff-tr); }
+  /* .db-term: foreign words and musical terms, italic by old book convention. */
+  .db-yours, .db-term {
+    font-family: var(--db-expression);
+    font-style: italic;
+    font-weight: 400;
+    font-size: calc(var(--db-expression-scale) * 1em);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .db-label { font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); font-weight: 500; color: var(--db-graphite); }
+  .db-figures { font-variant-numeric: tabular-nums lining-nums; }
+  .db-sr {
+    position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+
+  /* ── db-link ── underline at rest, a highlighter stroke on hover */
+  .db-link, .db-prose a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--db-hairline);
+    text-decoration-color: var(--db-rule-strong);
+    text-underline-offset: 0.22em;
+    background: linear-gradient(var(--db-mark), var(--db-mark)) no-repeat 100% 88% / 0% 72%;
+    transition: background-size var(--db-moderato) var(--db-exhale), background-position 0s, color var(--db-allegro), text-decoration-color var(--db-allegro);
+  }
+  /* The stroke goes on from the left and comes off to the right: a pen passing through. */
+  :is(.db-link, .db-prose a):is(:hover, [data-force~="hover"]) {
+    background-position: 0 88%; background-size: 100% 72%;
+    color: var(--db-on-mark);
+    text-decoration-color: transparent;
+  }
+
+  /* ── db-meta ── a frame row: words held apart by hairlines */
+  .db-meta { display: flex; align-items: center; gap: var(--db-space-4); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
+  .db-meta > hr { flex: 1; min-width: var(--db-space-5); }
+
+  /* ── db-kbd ── a key, drawn as a ring */
+  .db-kbd {
+    display: inline-grid; place-items: center; width: 1.7em; height: 1.7em; border-radius: 50%;
+    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
+    font: 500 0.8em/1 var(--db-voice); color: var(--db-ink); vertical-align: 0.1em;
+    transition: scale var(--db-moderato) var(--db-spiccato), box-shadow var(--db-allegro);
+  }
+  .db-kbd[data-pressed] { scale: 0.86; box-shadow: inset 0 0 0 var(--db-stroke) var(--db-ink); transition-duration: 60ms; }
+
+  /* ── db-corners ── four corner marks: a frame that doesn't close.
+     Any element with position can wear them; the statement button and the dialog do. */
+  :is(.db-corners, .db-btn[data-variant="statement"], .db-dialog)::after {
+    --l: var(--db-corner, 8px);
+    --c: var(--db-corner-colour, var(--db-ink));
+    content: ""; position: absolute; inset: var(--db-corner-inset, 0); pointer-events: none;
+    background:
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 0 0 / var(--db-hairline) var(--l),
+      linear-gradient(var(--c), var(--c)) 100% 0 / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 100% 0 / var(--db-hairline) var(--l),
+      linear-gradient(var(--c), var(--c)) 0 100% / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 0 100% / var(--db-hairline) var(--l),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--l) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) 100% 100% / var(--db-hairline) var(--l);
+    background-repeat: no-repeat;
+  }
+  .db-corners { position: relative; }
+
+  /* ── db-fraction ── a count set as a display fraction; the part that's yours is italic */
+  .db-fraction { display: inline-flex; align-items: flex-start; font-size: var(--db-f); line-height: 0.9; color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums; }
+  .db-fraction > i { position: relative; align-self: stretch; width: var(--db-hairline); margin-inline: 0.2em 0.12em; background: var(--db-rule-strong); rotate: 22deg; }
+  .db-fraction > :last-child { margin-top: 0.42em; font-weight: 200; color: var(--db-graphite); }
+}

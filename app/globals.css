@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "../registry/0db/styles/tokens.css";
+@import "../registry/0db/styles/fonts.css";
+@import "../registry/0db/styles/fonts-press.css";
+@import "../registry/0db/styles/fonts-paris.css";
+@import "../registry/0db/styles/fonts-salon.css";
+@import "../registry/0db/styles/theme.css";
+@import "../registry/0db/styles/base.css";
+@import "./registry.css";
