@@ -5,7 +5,7 @@
 import { usePathname } from "next/navigation"
 
 const sheets: Record<string, string> = {
-  "/": "/site-styles/bbaf047de1e1.css",
+  "/": "/site-styles/19b7a95e9c56.css",
   "/docs": "/site-styles/34abbefcc634.css",
   "/feedback": "/site-styles/3ddd7105b3b6.css",
   "/requests": "/site-styles/ab0093f122d9.css",
@@ -110,7 +110,7 @@ const sheets: Record<string, string> = {
   "/docs/steps": "/site-styles/239f1e53d50f.css",
   "/docs/swapy": "/site-styles/25be1f1b72ac.css",
   "/docs/text-ribbon": "/site-styles/0fa219df74a9.css",
-  "/docs/tiling": "/site-styles/8750a3f42563.css",
+  "/docs/tiling": "/site-styles/6027c5d7b573.css",
   "/docs/timer": "/site-styles/f1b28ca33617.css",
   "/docs/tour": "/site-styles/47d78f3723f4.css",
   "/docs/tree": "/site-styles/bab5f71c76a9.css",

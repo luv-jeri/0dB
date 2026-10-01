@@ -92,6 +92,7 @@ export default async function ItemPage({ params }: Params) {
   const motion = motionRows(meta.name)
   const { npm, files } = payload(meta.name)
   const siblings = entry.siblings as string[]
+  const exampleDependencies = entry.exampleDependencies.map((name) => entries.find((e) => e.meta.name === name)!.meta)
 
   return (
     <article>
@@ -182,6 +183,19 @@ export default async function ItemPage({ params }: Params) {
 
       <section className="doc-section" id="usage" data-rail="Usage" aria-labelledby="usage-h">
         <h2 id="usage-h">Usage</h2>
+        {exampleDependencies.length ? (
+          <div className="doc-example-dependencies">
+            <p>
+              This example also uses {exampleDependencies.map((dependency, i) => (
+                <span key={dependency.name}>
+                  {i ? i === exampleDependencies.length - 1 ? " and " : ", " : ""}
+                  <Link asChild><NextLink href={`/docs/${dependency.name}/`}>{dependency.title}</NextLink></Link>
+                </span>
+              ))}.
+            </p>
+            <CommandLine command={entry.exampleInstallCommand} />
+          </div>
+        ) : null}
         <Source title={`${meta.name}-example.tsx`} code={exampleSource(meta.name)} />
       </section>
 

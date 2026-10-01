@@ -4,6 +4,9 @@
      and the one line serves both sides. The edges that fall on the tiling's own border lie half a gap outside it and are clipped,
      so no frame is drawn round the whole; the lines that stay run a step past the edge, as a draughtsman's construction lines do. */
   .db-tiling { --gap: var(--db-space-6); --line: var(--db-ink); --over: var(--db-space-2); container-type: inline-size; min-width: 0; }
+  /* Keep the construction marks outside the sheet, but inside its container. */
+  .db-tiling:not(.db-tiling-editor) { padding-inline: calc(var(--gap) / 2); }
+  .db-tiling[data-variant="crosses"]:not(.db-tiling-editor) { padding-inline: calc(var(--gap) / 2 + (var(--db-space-3) + var(--db-hairline)) / 2); }
   .db-tiling-sheet {
     display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(var(--db-space-8), auto); gap: var(--gap);
     clip-path: inset(calc(-1 * var(--over)));
@@ -63,7 +66,7 @@
   .db-tiling-keys { visibility: hidden; margin-block-start: var(--db-space-1); }
   .db-tiling-editor:has(.db-tiling-viewport:focus-within) .db-tiling-keys { visibility: visible; }
   .db-tiling-status { min-block-size: 3em; margin-block-start: var(--db-space-3); }
-  .db-tiling-viewport { overflow: auto; overscroll-behavior-inline: contain; padding: var(--db-space-2); margin-inline: calc(-1 * var(--db-space-2)); }
+  .db-tiling-viewport { overflow: auto; overscroll-behavior-inline: contain; padding: var(--db-space-2); margin-inline: 0; }
   .db-tiling-viewport:focus-visible { outline-color: var(--db-pencil); outline-offset: 0; }
   .db-tiling-canvas { min-inline-size: 0; }
   .db-tiling-columns { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); margin-block-end: var(--db-space-3); color: var(--db-pencil); font-size: var(--db-pp); font-variant-numeric: tabular-nums; }

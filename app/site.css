@@ -135,6 +135,9 @@ body { overflow-x: clip; }
 .doc-section:has(> h2 + :is(.db-rows, .db-steps)) { padding-top: 0; border-top: 0; }
 .doc-section > h2:has(+ :is(.db-rows, .db-steps)) { margin-bottom: var(--db-space-3); }
 .doc-section > h2 { margin-bottom: var(--db-space-6); font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 400; color: var(--db-ink); }
+.doc-example-dependencies { margin-block-end: var(--db-space-6); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
+.doc-example-dependencies > p { margin-block-end: var(--db-space-3); }
+.doc-example-dependencies .db-command-line-text { font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); }
 .doc-lead { max-width: var(--db-measure); margin-bottom: var(--db-space-7); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
 .doc-example { padding: var(--db-space-8) var(--db-space-7); }
 /* Layered, so an example's own max-w-* still wins. */
