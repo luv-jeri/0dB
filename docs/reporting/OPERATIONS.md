@@ -2,6 +2,18 @@
 
 This runbook is for the owner to execute later. Nothing below was provisioned or deployed by this job. Production is `0db-reporting`, `feedback-0db.cojeev.com`, D1 `0db-reports` (`DB`), private R2 `0db-report-media` (`MEDIA`). Root `wrangler.jsonc` remains the assets-only site. No CI changes are required for this handoff.
 
+## Status (2026-10-01)
+
+Done by the coordinator on the owner's instruction:
+- D1 `0db-reports` created (`76b48a05-718c-406d-9284-6f170afdd38e`, APAC) and both migrations applied remotely.
+- Private R2 `0db-report-media` created (no public access).
+- Private repository `luv-jeri/0db-feedback` created; `GITHUB_REPOSITORY` set.
+- Worker `0db-reporting` deployed on `feedback-0db.cojeev.com` with the five-minute cron; `EMAIL_ENABLED=false`, `DELIVERY_ACTIVATED_AT=""`.
+- Generated secrets `ADMIN_TOKEN`, `HEALTH_TOKEN`, `IP_HASH_SECRET`, `GITHUB_WEBHOOK_SECRET` uploaded; the only copy is the owner's `~/.config/0db-reporting/secrets.env` (mode 600). Move them into a password manager.
+- GitHub issues webhook on `luv-jeri/0db-feedback` pointing at `/v1/github/webhook` (ping accepted, 202).
+
+Still the owner's (they need accounts or secrets only the owner may handle): the Turnstile widget and `TURNSTILE_SECRET` (step 2), `GITHUB_TOKEN` (step 3), Resend, `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET` and the `hello@0db.cojeev.com` mailbox (steps 3 and 6), and email activation (step 7).
+
 ## Local checks
 
 ```sh

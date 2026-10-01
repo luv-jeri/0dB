@@ -19,13 +19,13 @@
     "DELIVERY_ACTIVATED_AT": "",
     "EMAIL_DAILY_LIMIT": "20",
     "EMAIL_MONTHLY_LIMIT": "500",
-    "GITHUB_REPOSITORY": ""
+    "GITHUB_REPOSITORY": "luv-jeri/0db-feedback"
   },
   "d1_databases": [{
     "binding": "DB",
     "database_name": "0db-reports",
-    // Owner replaces this with the ID returned by d1 create. Never reuse another product's ID.
-    "database_id": "00000000-0000-0000-0000-000000000000",
+    // Created 2026-10-01 for 0dB only.
+    "database_id": "76b48a05-718c-406d-9284-6f170afdd38e",
     "migrations_dir": "migrations"
   }],
   "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "0db-report-media" }],
