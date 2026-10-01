@@ -15,7 +15,7 @@ const request = (path, method='GET', body, auth, headers={}) => mf.dispatchFetch
 const submit = p => request('/v1/reports','POST',{report:p,token,turnstileToken:''},null,{'CF-Connecting-IP':p.id})
 before(async()=>{
   const compiled=await build({entryPoints:['workers/reporting/src/index.ts'],bundle:true,write:false,format:'esm',platform:'browser',target:'es2022'})
-  mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:compiled.outputFiles[0].text,compatibilityDate:'2026-09-01',d1Databases:['DB'],r2Buckets:['MEDIA'],bindings:{ALLOWED_ORIGINS:origin,SITE_URL:'https://0db.cojeev.com',LOCAL_MODE:'true',ADMIN_TOKEN:admin,HEALTH_TOKEN:healthToken,IP_HASH_SECRET:ipSecret,GITHUB_REPOSITORY:'owner/library',GITHUB_WEBHOOK_SECRET:'webhook-test-secret',DELIVERY_ACTIVATED_AT:'2020-01-01T00:00:00Z',RESEND_WEBHOOK_SECRET:'whsec_'+Buffer.from('test-webhook-secret').toString('base64')}}))
+  mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:compiled.outputFiles[0].text,compatibilityDate:'2026-09-01',d1Databases:['DB'],r2Buckets:['MEDIA'],bindings:{ALLOWED_ORIGINS:origin,SITE_URL:'https://thedirectors.agency/ui',LOCAL_MODE:'true',ADMIN_TOKEN:admin,HEALTH_TOKEN:healthToken,IP_HASH_SECRET:ipSecret,GITHUB_REPOSITORY:'owner/library',GITHUB_WEBHOOK_SECRET:'webhook-test-secret',DELIVERY_ACTIVATED_AT:'2020-01-01T00:00:00Z',RESEND_WEBHOOK_SECRET:'whsec_'+Buffer.from('test-webhook-secret').toString('base64')}}))
   db=await mf.getD1Database('DB')
   for(const name of (await readdir('workers/reporting/migrations')).filter(n=>n.endsWith('.sql')).sort()) await db.exec((await readFile(`workers/reporting/migrations/${name}`,'utf8')).replace(/\n/g,' '))
   media=await mf.getR2Bucket('MEDIA')
@@ -24,16 +24,40 @@ before(async()=>{
 })
 after(async()=>{await mf?.dispose();})
 test("0dB origin policy cannot be widened by production configuration", async () => {
-  const { origins } = await import("../../../workers/reporting/src/security.ts")
-  const configured = "https://0db.cojeev.com,http://localhost:3000,https://unrelated.example"
-  assert.deepEqual(origins({ ALLOWED_ORIGINS: configured, LOCAL_MODE: "false" }), ["https://0db.cojeev.com"])
-  assert.deepEqual(origins({ ALLOWED_ORIGINS: configured, LOCAL_MODE: "true" }), ["https://0db.cojeev.com", "http://localhost:3000"])
+  const { origins, assertBrowserOrigin } = await import("../../../workers/reporting/src/security.ts")
+  const configured = "https://thedirectors.agency,https://other-product.example,http://localhost:3000,https://unrelated.example,https://thedirectors.agency/ui"
+  assert.deepEqual(origins({ ALLOWED_ORIGINS: configured, LOCAL_MODE: "false" }), ["https://thedirectors.agency"])
+  assert.deepEqual(origins({ ALLOWED_ORIGINS: configured, LOCAL_MODE: "true" }), ["https://thedirectors.agency", "http://localhost:3000"])
+  const env = { ALLOWED_ORIGINS: configured, LOCAL_MODE: "false" }
+  assert.doesNotThrow(() => assertBrowserOrigin(new Request("https://feedback.thedirectors.agency/v1/reports", { headers: { Origin: "https://thedirectors.agency" } }), env))
+  for (const origin of ["https://other-product.example", "http://localhost:3000", "https://thedirectors.agency/ui", "https://feedback.thedirectors.agency"]) {
+    assert.throws(() => assertBrowserOrigin(new Request("https://feedback.thedirectors.agency/v1/reports", { headers: { Origin: origin } }), env), error => error.status === 403)
+  }
+
+})
+
+test("committed reporting configs isolate the agency and keep email disabled", async () => {
+  for (const name of ["wrangler.jsonc", "wrangler.local.jsonc"]) {
+    const source = await readFile(`workers/reporting/${name}`, "utf8")
+    const config = JSON.parse(source.replace(/^\s*\/\/.*$/gm, ""))
+    assert.equal(config.vars.ALLOWED_ORIGINS, "https://thedirectors.agency")
+    assert.equal(config.vars.SITE_URL, "https://thedirectors.agency/ui")
+    assert.equal(config.vars.EMAIL_FROM, "hello@thedirectors.agency")
+    assert.equal(config.vars.EMAIL_ENABLED, "false")
+    if (name === "wrangler.jsonc") assert.deepEqual(config.routes, [{ pattern: "feedback.thedirectors.agency", custom_domain: true }])
+  }
 })
 
 test("component releases require a single static 0dB docs slug", () => {
-  for (const path of ["/docs/", "/docs/button/private/", "/docs/%73ecret/", "/docs/button/?token=x", "/docs/button/#private"]) {
-    assert.throws(() => backend.componentURL(`https://0db.cojeev.com${path}`, backendEnv()), error => error.status === 422)
+  assert.equal(backend.componentURL("https://thedirectors.agency/ui/docs/button/", backendEnv()), "https://thedirectors.agency/ui/docs/button/")
+  for (const url of ["https://thedirectors.agency/docs/button/", "https://thedirectors.agency/ui-other/docs/button/", "https://other-product.example/docs/button/", "https://unrelated.example/ui/docs/button/"]) {
+    assert.throws(() => backend.componentURL(url, backendEnv()), error => error.status === 422)
   }
+  for (const path of ["/docs/", "/docs/button/private/", "/docs/%73ecret/", "/docs/button/?token=x", "/docs/button/#private"]) {
+    assert.throws(() => backend.componentURL(`https://thedirectors.agency/ui${path}`, backendEnv()), error => error.status === 422)
+  }
+  assert.equal(backend.componentURL("http://localhost:3000/ui/docs/button/", backendEnv({ SITE_URL: "http://localhost:3000/ui" })), "http://localhost:3000/ui/docs/button/")
+  assert.throws(() => backend.componentURL("http://localhost:3000/docs/button/", backendEnv({ SITE_URL: "http://localhost:3000/ui" })), error => error.status === 422)
 })
 
 test("documented deletion removes private records and metadata while preserving another contributor", async () => {
@@ -135,7 +159,7 @@ test('completion updates all topic subscribers and queues one notification each'
   const b=payload({kind:'request',title:a.title,topicId:a.id,email:'second@example.com'});await submit(b)
   assert.equal((await request(`/v1/admin/reports/${a.id}`,'PATCH',{status:'resolved'},admin)).status,422)
   assert.equal((await request(`/v1/admin/reports/${a.id}`,'PATCH',{status:'resolved',componentUrl:'https://evil.test/docs/button/'},admin)).status,422)
-  const update={status:'resolved',componentUrl:'https://0db.cojeev.com/docs/button/'}
+  const update={status:'resolved',componentUrl:'https://thedirectors.agency/ui/docs/button/'}
   assert.equal((await request(`/v1/admin/reports/${a.id}`,'PATCH',update,admin)).status,200)
   assert.equal((await request(`/v1/admin/reports/${a.id}`,'PATCH',update,admin)).status,200)
   const jobs=await db.prepare("SELECT * FROM outbox WHERE kind='email_resolved' AND report_id IN (?,?)").bind(a.id,b.id).all();assert.equal(jobs.results.length,2)
@@ -149,10 +173,10 @@ test('production protection fails closed and GitHub signatures are mandatory',as
   assert.equal((await request('/v1/github/webhook','POST',body,null,{'X-Hub-Signature-256':sig,'X-GitHub-Event':'issues','X-GitHub-Delivery':randomUUID()})).status,202)
 })
 
-const backendEnv=more=>({DB:db,MEDIA:media,LOCAL_MODE:'true',SITE_URL:'https://0db.cojeev.com',IP_HASH_SECRET:ipSecret,DELIVERY_ACTIVATED_AT:'2020-01-01T00:00:00Z',...more})
+const backendEnv=more=>({DB:db,MEDIA:media,LOCAL_MODE:'true',SITE_URL:'https://thedirectors.agency/ui',IP_HASH_SECRET:ipSecret,DELIVERY_ACTIVATED_AT:'2020-01-01T00:00:00Z',...more})
 test('joining a resolved request returns its live URL and sends an already-available acknowledgment',async()=>{
   const first=payload({kind:'request',title:'Already available component'});await submit(first)
-  const componentUrl='https://0db.cojeev.com/docs/timeline/'
+  const componentUrl='https://thedirectors.agency/ui/docs/timeline/'
   assert.equal((await request(`/v1/admin/reports/${first.id}`,'PATCH',{status:'resolved',componentUrl},admin)).status,200)
   const joined=payload({kind:'request',title:first.title,topicId:first.id,email:'late-requester@example.com'})
   const response=await submit(joined);assert.equal(response.status,201);const receipt=await response.json()
@@ -181,7 +205,7 @@ test('local request resolution permits matching loopback HTTP while all other HT
     {site:'http://localhost:3100',url:'http://user@localhost:3100/docs/button/',local:'true'},
   ]
   for(const item of cases) assert.throws(()=>backend.componentURL(item.url,backendEnv({SITE_URL:item.site,LOCAL_MODE:item.local})),error=>error.status===422)
-  assert.equal(backend.componentURL('https://0db.cojeev.com/docs/button/',backendEnv({LOCAL_MODE:'false'})),'https://0db.cojeev.com/docs/button/')
+  assert.equal(backend.componentURL('https://thedirectors.agency/ui/docs/button/',backendEnv({LOCAL_MODE:'false'})),'https://thedirectors.agency/ui/docs/button/')
 })
 test('contact expiry preserves distinct demand across old and new contributions',async()=>{
   const a=payload({kind:'request',title:'Retention demand example',email:'retention-a@example.com'})
@@ -329,14 +353,14 @@ test('GitHub release automation requires release label and component URL and ded
   assert.equal((await db.prepare('SELECT status FROM reports WHERE id=?').bind(p.id).first()).status,'received')
   const released={...base,issue:{...base.issue,labels:[{name:'feedback:released'}]}}
   assert.equal((await send(released)).status,422)
-  released.issue.body='Component: https://0db.cojeev.com/docs/timeline/'
+  released.issue.body='Component: https://thedirectors.agency/ui/docs/timeline/'
   const eventId=randomUUID();assert.equal((await send(released,eventId)).status,202)
   const replay=await send(released,eventId);assert.equal((await replay.json()).duplicate,true)
   assert.equal((await db.prepare('SELECT status FROM reports WHERE id=?').bind(p.id).first()).status,'resolved')
   assert.equal((await db.prepare("SELECT count(*) AS n FROM outbox WHERE report_id=? AND kind='email_resolved'").bind(p.id).first()).n,1)
 })
 
-const resendEnv=more=>backendEnv({ENVIRONMENT:'production',DELIVERY_ACTIVATED_AT:'2020-01-01T00:00:00Z',EMAIL_ENABLED:'true',EMAIL_FROM:'updates@0db.cojeev.com',RESEND_API_KEY:'test-only-resend-key',...more})
+const resendEnv=more=>backendEnv({ENVIRONMENT:'production',DELIVERY_ACTIVATED_AT:'2020-01-01T00:00:00Z',EMAIL_ENABLED:'true',EMAIL_FROM:'hello@thedirectors.agency',RESEND_API_KEY:'test-only-resend-key',...more})
 test('health discloses only release identity publicly and requires admin for queue diagnostics',async()=>{
   const response=await request('/health');assert.equal(response.status,200)
   assert.deepEqual(Object.keys(await response.json()).sort(),['environment','release','status'])
@@ -398,9 +422,9 @@ test('Resend persists one payload and key, records acceptance, and rejects paylo
   const job=await db.prepare('SELECT * FROM outbox WHERE id=?').bind(`${p.id}:email_received`).first()
   const calls=[];const provider=async(url,init)=>{calls.push(init);assert.equal(url,'https://api.resend.com/emails');return Response.json({id:'resend-accepted'});}
   assert.equal(await backend.deliver(resendEnv(),job,row,provider),'resend-accepted')
-  const sent=JSON.parse(calls[0].body);assert.equal(sent.from,'0dB <updates@0db.cojeev.com>');assert.equal(sent.reply_to,'hello@0db.cojeev.com')
+  const sent=JSON.parse(calls[0].body);assert.equal(sent.from,'0dB <hello@thedirectors.agency>');assert.equal(sent.reply_to,'hello@thedirectors.agency')
   assert.equal(calls[0].headers['Idempotency-Key'],`0db/${job.id}`)
-  await assert.rejects(backend.deliver(resendEnv({EMAIL_FROM:'different@0db.cojeev.com'}),job,row,provider),/payload/i)
+  await assert.rejects(backend.deliver(resendEnv({EMAIL_FROM:'different@thedirectors.agency'}),job,row,provider),/payload/i)
   assert.equal(calls.length,1)
 })
 test('uncertain sends cannot be replayed after the 24 hour provider window',async()=>{

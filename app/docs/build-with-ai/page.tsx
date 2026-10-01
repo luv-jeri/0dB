@@ -1,3 +1,4 @@
+import { registryURL, sitePath } from "@/lib/site/config.mjs"
 import type { Metadata } from "next"
 
 import { CommandLine } from "@/registry/0db/ui/command-line"
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description: "Give your AI tool the 0dB rules, references and component contracts before it builds.",
 }
 
-const INSTALL = "npx shadcn@latest add https://0db.cojeev.com/r/ai.json"
+const INSTALL = `npx shadcn@latest add ${registryURL("ai")}`
 
 const FILES = [
   { paths: ["AGENTS.md"], reader: "Codex and compatible agents", purpose: "Short rules, reference pointers and a completion checklist." },
@@ -121,7 +122,7 @@ export default function BuildWithAI() {
           <p>For tools that read URLs or attachments, download the references or give the tool their links.</p>
           <ul>
             {DOWNLOADS.map((file) => (
-              <li key={file.href}><Link href={file.href} download><bdi dir="ltr">{file.title}</bdi></Link> — {file.note}</li>
+              <li key={file.href}><Link href={sitePath(file.href)} download><bdi dir="ltr">{file.title}</bdi></Link> — {file.note}</li>
             ))}
           </ul>
           <p>A file being available does not mean a tool has read it. Ask it to confirm the loaded paths before it starts.</p>

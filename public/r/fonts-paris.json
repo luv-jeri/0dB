@@ -4,7 +4,7 @@
   "title": "Pair: paris",
   "description": "Instrument Sans and EB Garamond, for <html data-pair=\"paris\">.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

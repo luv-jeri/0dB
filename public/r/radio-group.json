@@ -4,7 +4,7 @@
   "title": "Radio group",
   "description": "Words in a row. The one you choose turns italic, because it's yours now. One dot glides beneath it along a slur, or the italic itself slides through the words to it and sets a full stop after it. A ballot cross can be written after it, or, in a heavy column, its italic swells.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

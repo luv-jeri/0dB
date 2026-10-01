@@ -1,3 +1,4 @@
+import { siteURL } from "@/lib/site/config.mjs"
 import type { Metadata } from "next"
 import NextLink from "next/link"
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   description: "Add the 0dB base, then any item, with the shadcn CLI.",
 }
 
-const BASE = "https://0db.cojeev.com/r"
+const BASE = siteURL("/r")
 
 const HTML = `<html
   lang="en"

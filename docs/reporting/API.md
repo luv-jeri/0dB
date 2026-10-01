@@ -1,12 +1,12 @@
 # 0dB reporting API
 
-The reporting service is a separate Worker at `https://feedback-0db.cojeev.com`. The static site remains assets-only. These modules have no React imports or automatic browser hooks. Import from `@/lib/reporting/<module>`; nothing mounts or sends a report on import.
+The reporting service is a separate Worker at `https://feedback.thedirectors.agency`. The static site remains assets-only. These modules have no React imports or automatic browser hooks. Import from `@/lib/reporting/<module>`; nothing mounts or sends a report on import.
 
 ## Configuration
 
-Set `NEXT_PUBLIC_REPORTING_API_URL` at site build time to the service URL, or `http://localhost:8787` for local work. Missing configuration fails explicitly and preserves the local draft. `NEXT_PUBLIC_TURNSTILE_SITE_KEY` is an optional build-time public key; `GET /v1/config` supplies the configured key and whether email is connected. `NEXT_PUBLIC_RELEASE_SHA` accepts a 40-character lowercase Git SHA for diagnostics. No Worker secret belongs in a `NEXT_PUBLIC_*` variable.
+`NEXT_PUBLIC_REPORTING_API_URL` defaults at site build time to `https://feedback.thedirectors.agency`. Override it with `http://localhost:8787` for local work, or an empty string to disable the connection explicitly and preserve local drafts. `NEXT_PUBLIC_TURNSTILE_SITE_KEY` is an optional build-time public key; `GET /v1/config` supplies the configured key and whether email is connected. `NEXT_PUBLIC_RELEASE_SHA` accepts a 40-character lowercase Git SHA for diagnostics. No Worker secret belongs in a `NEXT_PUBLIC_*` variable.
 
-Production permits the exact origin `https://0db.cojeev.com`. Local config additionally permits `http://localhost:3000`; local mode refuses remote Worker hosts. No other origin, including the API's own origin, is permitted for browser mutations. Requests omit cookies. Private read credentials use `Authorization: Bearer <token>`, never URLs.
+Both committed configs permit only the exact origin `https://thedirectors.agency`. For loopback development, explicitly configure `ALLOWED_ORIGINS=http://localhost:3000` and `SITE_URL=http://localhost:3000/ui` in local vars; local mode refuses remote Worker hosts. No other origin, including the API's own origin, is permitted for browser mutations. Requests omit cookies. Private read credentials use `Authorization: Bearer <token>`, never URLs.
 
 ## Shared modules
 
@@ -42,7 +42,7 @@ for (const file of files) await uploadAttachment(receipt, file)
 // Refresh fetchReceipt(receipt.id, receipt.token) for upload/provider status.
 ```
 
-Store/download a receipt privately as JSON if the UI offers that feature; it is a bearer credential. Validate imported JSON and never auto-submit it. There is no receipt export/import helper in the port: the `Receipt` contract, `fetchReceipt` and label helpers are the shared primitives. A resolved component request includes `componentUrl`; all release URLs must be a single slug at `https://0db.cojeev.com/docs/<slug>/` (matching local-site URLs work only in local mode).
+Store/download a receipt privately as JSON if the UI offers that feature; it is a bearer credential. Validate imported JSON and never auto-submit it. There is no receipt export/import helper in the port: the `Receipt` contract, `fetchReceipt` and label helpers are the shared primitives. A resolved component request includes `componentUrl`; all release URLs must be a single slug at `https://thedirectors.agency/ui/docs/<slug>/` (matching local-site URLs work only in local mode).
 
 ## HTTP contract
 

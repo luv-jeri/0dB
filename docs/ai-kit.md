@@ -3,7 +3,7 @@
 Install the kit from the root of an initialized shadcn app:
 
 ```bash
-npx shadcn@latest add https://0db.cojeev.com/r/ai.json
+npx shadcn@latest add https://thedirectors.agency/ui/r/ai.json
 ```
 
 The kit gives your coding tool short instructions and complete references for creating components that follow 0dB. It installs guidance, rather than components or styles. Install the 0dB base and the components you want to use as precedents separately.
@@ -33,9 +33,9 @@ Tools can skip instructions or references. Start by asking the tool to confirm w
 
 ## Downloads and browsing tools
 
-Supply [llms.txt](https://0db.cojeev.com/llms.txt) to a browsing assistant for an index of docs and Markdown references. [llms-full.txt](https://0db.cojeev.com/llms-full.txt) includes intent, core design and every component contract. Neither URL guarantees automatic loading.
+Supply [llms.txt](https://thedirectors.agency/ui/llms.txt) to a browsing assistant for an index of docs and Markdown references. [llms-full.txt](https://thedirectors.agency/ui/llms-full.txt) includes intent, core design and every component contract. Neither URL guarantees automatic loading.
 
-Download [AGENTS.md](https://0db.cojeev.com/ai/AGENTS.md), [INTENT.md](https://0db.cojeev.com/ai/INTENT.md), [DESIGN-core.md](https://0db.cojeev.com/ai/DESIGN-core.md), [DESIGN.md](https://0db.cojeev.com/ai/DESIGN.md), or [SKILL.md](https://0db.cojeev.com/ai/SKILL.md). Contracts are at `https://0db.cojeev.com/ai/components/<item>.md`; the discovery index links every one. The [manifest](https://0db.cojeev.com/ai/manifest.json) identifies the source snapshot. Cursor, Copilot and Devin adapters are also available as Markdown downloads through the index.
+Download [AGENTS.md](https://thedirectors.agency/ui/ai/AGENTS.md), [INTENT.md](https://thedirectors.agency/ui/ai/INTENT.md), [DESIGN-core.md](https://thedirectors.agency/ui/ai/DESIGN-core.md), [DESIGN.md](https://thedirectors.agency/ui/ai/DESIGN.md), or [SKILL.md](https://thedirectors.agency/ui/ai/SKILL.md). Contracts are at `https://thedirectors.agency/ui/ai/components/<item>.md`; the discovery index links every one. The [manifest](https://thedirectors.agency/ui/ai/manifest.json) identifies the source snapshot. Cursor, Copilot and Devin adapters are also available as Markdown downloads through the index.
 
 For v0 or a tool without local-file discovery, provide the URLs or attach these references explicitly. A registry shortcut alone is not evidence that the tool imported 0dB's styles or read its rules.
 

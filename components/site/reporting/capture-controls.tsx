@@ -1,5 +1,6 @@
 "use client"
 
+import { siteRoute } from "@/lib/site/config.mjs"
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { cropImage, type Crop } from "@/lib/reporting/capture"
@@ -17,7 +18,7 @@ const excluded = "[data-reporting-chrome],[data-private],input,textarea,select,[
 export function componentTarget(node: Element | null, entries: ReportingItem[]): Target | null {
   if (!node || node.closest(excluded)) return null
   const marked = node.closest("[data-reporting-item],[data-component],.doc-example,.doc-state")
-  const docName = location.pathname.match(/^\/docs\/([^/]+)/)?.[1]
+  const docName = siteRoute(location.pathname).match(/^\/docs\/([^/]+)/)?.[1]
   const name = marked?.getAttribute("data-reporting-item") || marked?.getAttribute("data-component") || (marked ? docName : null)
   const named = entries.find((entry) => entry.name === name)
   if (marked && named) {

@@ -4,7 +4,7 @@
   "title": "Slider",
   "description": "A ruler with a hand. The value is drawn as a dimension from zero with your number in italic in the gap, or runs through the label's spread letters, or makes the label as loud as the value.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

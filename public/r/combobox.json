@@ -4,11 +4,11 @@
   "title": "Combobox",
   "description": "A field that suggests. Type and the letters you typed are marked in each match, the suggestions arrive in turn, and what you chose sits on the line in italic; with multiple, your choices are written there as one sentence.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/badge.json",
-    "https://0db.cojeev.com/r/command.json",
-    "https://0db.cojeev.com/r/field.json",
-    "https://0db.cojeev.com/r/popover.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/badge.json",
+    "https://thedirectors.agency/ui/r/command.json",
+    "https://thedirectors.agency/ui/r/field.json",
+    "https://thedirectors.agency/ui/r/popover.json"
   ],
   "files": [
     {

@@ -4,9 +4,9 @@
   "title": "Reading trail",
   "description": "Keep your place on a long page: its sections by number and name, set as a contents page, the one you are in carrying the accent while its dotted leader inks as you read. Or the page's own rail, with that section running down it like the title on a spine.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/item.json",
-    "https://0db.cojeev.com/r/scrollbar.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/item.json",
+    "https://thedirectors.agency/ui/r/scrollbar.json"
   ],
   "files": [
     {

@@ -4,7 +4,7 @@
   "title": "Item",
   "description": "A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across. Or every fifth line numbered in the margin; or the description running along the leader.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

@@ -1,3 +1,4 @@
+import { registryURL } from "@/lib/site/config.mjs"
 import { Source } from "@/registry/0db/ui/source"
 import { State } from "@/components/site/state"
 
@@ -24,7 +25,7 @@ const theme = `export function Theme({ children }) {
   return <Mode value={mode} onChange={setMode}>{children}</Mode>
 }`
 
-const install = `const items = await fetch("https://0db.cojeev.com/r/registry.json").then((r) => r.json()).then((r) => r.items)
+const install = `const items = await fetch("${registryURL("registry")}").then((r) => r.json()).then((r) => r.items)
 export const ui = items.filter((item) => item.type === "registry:ui").map((item) => item.name).sort()`
 
 export default function Example() {

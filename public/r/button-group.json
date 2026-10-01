@@ -4,8 +4,8 @@
   "title": "Button group",
   "description": "A set of actions, drawn three ways: one pair of parentheses with hairlines between, a narrow column with a dash hung in the margin, or a list written into the sentence around it.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json"
   ],
   "files": [
     {

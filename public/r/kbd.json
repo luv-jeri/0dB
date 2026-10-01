@@ -4,7 +4,7 @@
   "title": "Kbd",
   "description": "A key, drawn as the corners of its cap. Pressed, the corners close into the whole cap and it goes down a little.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

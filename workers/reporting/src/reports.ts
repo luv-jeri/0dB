@@ -1,3 +1,4 @@
+import { SITE_URL } from "../../../lib/site/config.mjs"
 import { isUUID, LIMITS, matchesMedia, redact, validateReport, type Receipt, type ReportStatus } from "../../../lib/reporting/contracts"
 import { boundedBody, checkAbuse, digest, equalSecret, HttpError, keyedDigest, readJSON } from "./security"
 import { emailEnabled, githubEnabled, now, type Env, type ReportRow, type AttachmentRow, type Delivery } from "./types"
@@ -99,8 +100,10 @@ export async function listRequests(env: Env, url: URL) {
 export function componentURL(value: unknown, env: Env): string {
   try {
     const url=new URL(String(value)),site=new URL(env.SITE_URL)
+    const docsPath=site.pathname.replace(/\/$/, "")+"/docs/"
+    const slug=url.pathname.startsWith(docsPath)?url.pathname.slice(docsPath.length):""
     const localHTTP=env.LOCAL_MODE==="true"&&url.origin==="http://localhost:3000"&&site.origin===url.origin
-    if((site.origin!=="https://0db.cojeev.com"&&!localHTTP) || url.origin!==site.origin || !/^\/docs\/[a-z][a-z0-9-]{0,60}\/?$/.test(url.pathname) || url.username || url.password || url.search || url.hash) throw new Error()
+    if((site.href.replace(/\/$/, "")!==SITE_URL&&!localHTTP) || url.origin!==site.origin || !/^[a-z][a-z0-9-]{0,60}\/?$/.test(slug) || url.username || url.password || url.search || url.hash) throw new Error()
     return url.href
   }
   catch { throw new HttpError(422,"Choose a live component URL under this library's /docs/ path."); }

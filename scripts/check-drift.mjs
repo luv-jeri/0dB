@@ -1,3 +1,4 @@
+import { registryBaseURL } from "../lib/site/config.mjs"
 // Holds DESIGN.md, the items and the tokens to each other.
 //   every item has ui, content, example and a DESIGN.md contract
 //   every --db- token used is defined
@@ -63,7 +64,7 @@ try {
 
 // The AI adapters, downloadable references and registry payload share the real sources.
 try {
-  const kit = buildAiKit({ items, baseURL: process.env.DB_REGISTRY_URL ?? "https://0db.cojeev.com" })
+  const kit = buildAiKit({ items, baseURL: registryBaseURL() })
   for (const message of [...checkAiKit(kit), ...validateAiKit(kit)]) fail("AI kit", message)
   const payload = JSON.parse(readFileSync("public/r/ai.json", "utf8"))
   if (payload.name !== "ai" || payload.type !== "registry:item") fail("AI kit", "invalid registry item")

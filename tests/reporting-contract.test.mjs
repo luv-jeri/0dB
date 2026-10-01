@@ -37,7 +37,9 @@ test("component matching uses names and titles without matching all stop words",
 })
 
 test("diagnostic routes never preserve dynamic feedback identifiers or legacy base paths", () => {
-  assert.equal(safeRoute("https://0db.cojeev.com/docs/button/?token=private"), "/docs/button/")
-  assert.equal(safeRoute("https://0db.cojeev.com/feedback-admin/?report=private"), "/:segment/")
+  assert.equal(safeRoute("https://site.test/docs/button/?token=private"), "/docs/button/")
+  assert.equal(safeRoute("https://thedirectors.agency/ui/docs/button/?token=private"), "/ui/docs/button/")
+  assert.equal(safeRoute("https://thedirectors.agency/ui/feedback-admin/?report=private"), "/:segment/:segment/")
+  assert.equal(safeRoute("https://site.test/feedback-admin/?report=private"), "/:segment/")
   assert.equal(safeRoute("https://other.test/old-library/docs/button/"), "/:segment/:segment/:segment/")
 })

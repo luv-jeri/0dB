@@ -1,3 +1,4 @@
+import { siteRoute } from "../site/config.mjs"
 export const LIMITS = { files: 6, fileBytes: 10 * 1024 * 1024, totalBytes: 30 * 1024 * 1024, pins: 8, events: 40 } as const
 export const MEDIA_TYPES = ["image/png", "image/jpeg", "image/webp", "video/mp4", "video/webm"] as const
 export type ReportKind = "bug" | "request"
@@ -76,7 +77,7 @@ export function safeRoute(value: string): string {
   try {
     const u = new URL(value, "https://local.invalid")
     // Only this library's static public routes are permitted verbatim.
-    if (/^\/(?:docs\/(?:[a-z][a-z0-9-]{0,60}\/?)?|requests\/?)$/.test(u.pathname) || u.pathname === "/") return u.pathname
+    if (/^\/(?:docs\/(?:[a-z][a-z0-9-]{0,60}\/?)?|requests\/?)$/.test(siteRoute(u.pathname)) || siteRoute(u.pathname) === "/") return u.pathname
     return u.pathname.split("/").map(p => p ? ":segment" : "").join("/").slice(0, 180)
   } catch { return "[route]"; }
 }

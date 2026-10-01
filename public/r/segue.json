@@ -4,7 +4,7 @@
   "title": "Segue",
   "description": "One scene at a time. When you change it, one hairline crosses the frame carrying the next scene's number and name, and the next scene is already behind it.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

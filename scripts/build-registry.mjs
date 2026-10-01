@@ -1,3 +1,5 @@
+import { registryBaseURL, sitePath } from "../lib/site/config.mjs"
+import { siteFonts } from "./lib/site-assets.mjs"
 // Builds registry.json from content/*.ts and registry/0db, runs `shadcn build`,
 // then rewrites imports in the payloads to the consumer's aliases.
 //   node --import tsx scripts/build-registry.mjs          build
@@ -12,7 +14,7 @@ import { readItems, deriveDeps, rewriteImports, SOURCE } from "./lib/items.mjs"
 import { buildAiKit, writeAiKit, checkAiKit } from "./lib/ai-kit.mjs"
 
 const check = process.argv.includes("--check")
-const baseURL = (process.env.DB_REGISTRY_URL ?? "https://0db.cojeev.com").replace(/\/$/, "")
+const baseURL = registryBaseURL()
 const url = (name) => `${baseURL}/r/${name}.json`
 const style = (name) => ({ path: `${SOURCE}/styles/${name}.css`, type: "registry:file", target: `styles/0db/${name}.css` })
 // Relative to app/globals.css: Tailwind inlines @import with its own resolver, which knows no tsconfig alias.
@@ -72,6 +74,7 @@ const items = metas.map((m) => ({
   meta: { movement: m.movement, underneath: m.underneath, contract: m.contract },
 }))
 
+const fonts = siteFonts()
 const kit = buildAiKit({ items: metas, baseURL })
 const registry = { $schema: "https://ui.shadcn.com/schema/registry.json", name: "0db", homepage: baseURL, items: [base, ...pairs, ...items, kit.item] }
 const out = check ? ".tmp/registry-check" : "."
@@ -146,7 +149,7 @@ function routeStyle(route, files) {
   const hash = createHash("sha256").update(minified).digest("hex").slice(0, 12)
   const file = `${hash}.css`
   routeSheets.set(file, minified)
-  routeHrefs[route] = `/site-styles/${file}`
+  routeHrefs[route] = sitePath(`/site-styles/${file}`)
 }
 const pages = readdirSync("app", { recursive: true }).filter((f) => /(?:^|\/)page\.tsx$/.test(f) && !f.includes("["))
 for (const page of pages) {
@@ -190,6 +193,8 @@ if (!check) { rmSync("public/r", { recursive: true, force: true }); renameSync(p
 
 if (check) {
   const stale = checkAiKit(kit)
+  if (readFileSync("app/fonts.css", "utf8") !== fonts.css) stale.push("app/fonts.css")
+  for (const [file, bytes] of fonts.files) if (!existsSync(`public/fonts/${file}`) || !readFileSync(`public/fonts/${file}`).equals(bytes)) stale.push(`public/fonts/${file}`)
   const same = (a, b) => { try { return readFileSync(a, "utf8") === readFileSync(b, "utf8") } catch { return false } }
   if (!same(`${out}/registry.json`, "registry.json")) stale.push("registry.json")
   if (readFileSync("app/registry.css", "utf8") !== registryCSS) stale.push("app/registry.css")
@@ -212,6 +217,9 @@ if (check) {
   }
   console.log(`Registry is current: ${registry.items.length} items.`)
 } else {
+  writeFileSync("app/fonts.css", fonts.css)
+  mkdirSync("public/fonts", { recursive: true })
+  for (const [file, bytes] of fonts.files) writeFileSync(`public/fonts/${file}`, bytes)
   writeFileSync("app/registry.css", registryCSS)
   mkdirSync("lib/site", { recursive: true })
   writeFileSync("lib/site/entries.ts", entriesTS)

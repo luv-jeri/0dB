@@ -5,7 +5,7 @@
 ## Who it's for
 
 - Its owner first: the agency landing page and the personal portfolio are built on it next.
-- Anyone who installs a component with `npx shadcn add https://0db.cojeev.com/r/<name>.json` and wants an interface where type carries the design.
+- Anyone who installs a component with `npx shadcn add https://thedirectors.agency/ui/r/<name>.json` and wants an interface where type carries the design.
 - Builders (people and agents) extending it. They read this page, then DESIGN.md, before writing anything.
 
 ## What success looks like

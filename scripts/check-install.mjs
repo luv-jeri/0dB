@@ -1,3 +1,4 @@
+import { siteRoute } from "../lib/site/config.mjs"
 // Isolated consumer installs from built public/r payloads. Repository sources,
 // examples and node_modules are never available to the consumer typechecker.
 //   npm run -s check:install -- --only button,dropzone,tiling
@@ -27,7 +28,7 @@ export function readRegistry(root) {
 // Resolve dependencies against the local snapshot, never the deployed registry.
 export function dependencyName(address, registry) {
   const name = /^https?:\/\//.test(address)
-    ? new URL(address).pathname.match(/^\/r\/([^/]+)\.json$/)?.[1]
+    ? siteRoute(new URL(address).pathname).match(/^\/r\/([^/]+)\.json$/)?.[1]
     : address.replace(/^@0db\//, "")
   if (!name || !registry.has(name)) throw new Error(`Missing local registry dependency: ${address}`)
   return name

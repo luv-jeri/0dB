@@ -7,9 +7,9 @@
     "@radix-ui/react-context-menu"
   ],
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/dropdown-menu.json",
-    "https://0db.cojeev.com/r/popover.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/dropdown-menu.json",
+    "https://thedirectors.agency/ui/r/popover.json"
   ],
   "files": [
     {

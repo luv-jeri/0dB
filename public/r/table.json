@@ -4,7 +4,7 @@
   "title": "Table",
   "description": "Hairline rows in tabular figures; the column you sort by is set in ink, or set loud; or the row and column you point at cross in ink.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

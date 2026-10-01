@@ -1,3 +1,4 @@
+import { siteURL } from "@/lib/site/config.mjs"
 import { readdirSync } from "node:fs"
 import path from "node:path"
 import type { MetadataRoute } from "next"
@@ -19,5 +20,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...entries.map((entry) => `/docs/${entry.meta.name}/`),
     "/specimen/",
   ])
-  return [...paths].map((pathname) => ({ url: `https://0db.cojeev.com${pathname}` }))
+  return [...paths].map((pathname) => ({ url: siteURL(pathname) }))
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "0db",
-  "homepage": "https://0db.cojeev.com",
+  "homepage": "https://thedirectors.agency/ui",
   "items": [
     {
       "name": "0db",
@@ -15,7 +15,7 @@
       ],
       "config": {
         "registries": {
-          "@0db": "https://0db.cojeev.com/r/{name}.json"
+          "@0db": "https://thedirectors.agency/ui/r/{name}.json"
         }
       },
       "files": [
@@ -137,7 +137,7 @@
       "title": "Pair: press",
       "description": "Schibsted Grotesk and Newsreader, for <html data-pair=\"press\">.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -156,7 +156,7 @@
       "title": "Pair: paris",
       "description": "Instrument Sans and EB Garamond, for <html data-pair=\"paris\">.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -175,7 +175,7 @@
       "title": "Pair: salon",
       "description": "Bricolage Grotesque and Cormorant, for <html data-pair=\"salon\">.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -194,7 +194,7 @@
       "title": "Link",
       "description": "One link: a hairline underline at rest, and pointing at it, focusing it or holding its card open draws a highlighter stroke through the whole word, on from the left and off to the right.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -217,7 +217,7 @@
       "title": "Meta",
       "description": "A frame row: small words held apart by hairlines that stretch to fill the row.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -237,7 +237,7 @@
       "title": "Kbd",
       "description": "A key, drawn as the corners of its cap. Pressed, the corners close into the whole cap and it goes down a little.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -257,7 +257,7 @@
       "title": "Corners",
       "description": "Four corner marks: a frame that doesn't close.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -280,8 +280,8 @@
       "title": "Button",
       "description": "One family of three (a statement in an ink block, a bracket that steps apart, a quiet line that redraws) four heroes for the big call to action (overture, crescendo, stave and ink) and two measures: space and repeat. Nothing moves its neighbours.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/spinner.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/spinner.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -312,7 +312,7 @@
       "title": "Spinner",
       "description": "The wait, written the way a score writes it: periods, a round, a metronome, a fermata, a breath, a rising chord, or the word itself being inked.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -340,8 +340,8 @@
       "title": "Checkbox",
       "description": "No box. The words are the control, and checking strikes them through in the accent.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/fraction.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
       ],
       "files": [
         {
@@ -369,7 +369,7 @@
       "title": "Fraction",
       "description": "A count set as a display fraction: yours large in italic, the total small beside it, a pen stroke between. A changed number turns over.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -389,7 +389,7 @@
       "title": "Radio group",
       "description": "Words in a row. The one you choose turns italic, because it's yours now. One dot glides beneath it along a slur, or the italic itself slides through the words to it and sets a full stop after it. A ballot cross can be written after it, or, in a heavy column, its italic swells.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -417,7 +417,7 @@
       "title": "Dial",
       "description": "A number you turn to. The arc sets a few on a half circle and rolls to your choice; the tuner is a long scale on the rim of a wheel you turn by hand, by scroll or by key, and your number reads above it in italic. Dynamics sets the number at the size of its loudness, from niente to fff; the tumbler sets a whole number figure by figure, like the wheels of a lock.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -445,7 +445,7 @@
       "title": "Picks",
       "description": "A list of choices that carry their own content. The one you took turns italic, and either a dot slides to it along a plucked string its initial hangs in the margin like a rubricated capital, its name lies faint behind the list, or two registration crosses mark its corners.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -473,7 +473,7 @@
       "title": "Switch",
       "description": "A sentence whose last word you can change. The state rolls between on and off in italic, and the full stop answers: a dot when on, a ring when off.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -501,7 +501,7 @@
       "title": "Slider",
       "description": "A ruler with a hand. The value is drawn as a dimension from zero with your number in italic in the gap, or runs through the label's spread letters, or makes the label as loud as the value.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -529,7 +529,7 @@
       "title": "Field",
       "description": "No box, only a baseline. Your words arrive in italic, focus draws the accent from where you touched, and an error hangs from the line as a callout. Or your words are overprinted on a heavy label, or signed on a form's line.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -557,7 +557,7 @@
       "title": "Select",
       "description": "A choice set inside a sentence: the chosen word is yours, italic over a hairline. It can be reset from the last word's letters, or wear the other choices above it as ruby.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -585,7 +585,7 @@
       "title": "Tabs",
       "description": "Words with their counts raised. A line inches to the one in view and the count of what's showing sinks into the rule; or the chosen word takes its width from the others; or the rule beside a stack of words opens onto the panel.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-tabs"
@@ -616,7 +616,7 @@
       "title": "Pagination",
       "description": "Numbers with a dot beneath each, weight falling away from the current page and its accent dot; or a folio, the page over its total; the neighbours, by name; every page as a barcode's line; or an alphabet set as one word.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -647,7 +647,7 @@
       "title": "Breadcrumb",
       "description": "The path, divided by drawn hairlines leaning like slashes; or a stair that ends in the large italic of where you are; or a long path with a full stop for each step left out.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -678,7 +678,7 @@
       "title": "Accordion",
       "description": "Questions you open. Ruled off, with a plus that winds into a cross as the question swells into a heading; or run in with their answers like a book's paragraphs; glossed in the outer column; or stood side by side as columns that widen.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -706,7 +706,7 @@
       "title": "Rows",
       "description": "An index of hairline-separated rows. The one you point at reverses out of ink and steps forward with an arrow; or repeats are set as ditto marks; or a ring before each row fills once you have been there.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -737,7 +737,7 @@
       "title": "Calendar",
       "description": "A month drawn as time, after the \"28 December\" poster: a huge numeral, then a large disc for every day, ink for the days gone, the accent for today, rings for the days to come, and half-moons for the wait. The ruler draws the same month as one measured line; the ghost sets the days against the date huge and faint behind them; the parenthesis runs the month as a line of figures with the wait in parentheses.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -765,7 +765,7 @@
       "title": "Badge",
       "description": "The one rounded shape: a hairline pill for a tag or a status; or tags written as one list in the italic; or a seal with its legend set round a ring.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -793,7 +793,7 @@
       "title": "Note",
       "description": "Marginalia: a dotted term, and a leader line that draws out to its note; or a gloss set over the word; an abbreviation that opens into its words; or a word struck through and rewritten.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -821,8 +821,8 @@
       "title": "Progress",
       "description": "How far something you started has got: a hairline and an italic percentage, the words themselves inking in, one ring per item, a pair of parentheses closing on the words, or a tally. Done, a full stop lands.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/fraction.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
       ],
       "files": [
         {
@@ -850,8 +850,8 @@
       "title": "Toast",
       "description": "One line rises from the bottom-left; a fermata held over its last word empties while it stays.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "files": [
         {
@@ -879,8 +879,8 @@
       "title": "Dialog",
       "description": "The question, set large, with two plain answers. The page holds still behind it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/scrollbar.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -911,8 +911,8 @@
       "title": "Empty",
       "description": "An invitation to act, not an apology: what is missing, and the one thing to do about it. Under half a zero, under the score's tacet, or on a page left blank on purpose.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "files": [
         {
@@ -940,7 +940,7 @@
       "title": "Toggle",
       "description": "A word you can hold down. Held, it's yours and turns italic: under a fermata's arc and dot, behind a pen that inks the tenuto's line, with a small note hung beside it, or set on its drawn guides.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-toggle"
@@ -971,7 +971,7 @@
       "title": "Toggle group",
       "description": "Words in a row you can hold down, one or many; held neighbours are tied under one slur or share one pair of parentheses, held words are numbered in the order you held them, or cross into the margin.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-toggle-group"
@@ -1002,8 +1002,8 @@
       "title": "Button group",
       "description": "A set of actions, drawn three ways: one pair of parentheses with hairlines between, a narrow column with a dash hung in the margin, or a list written into the sentence around it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "files": [
         {
@@ -1031,9 +1031,9 @@
       "title": "Input group",
       "description": "Ours in roman, yours in italic, on one line. The accent draws only under the part you type. Or your figure stands large with our words stacked beside it, or an arrow leads from your words to the action.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/field.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json"
       ],
       "files": [
         {
@@ -1061,8 +1061,8 @@
       "title": "Input OTP",
       "description": "A one-time code on short baselines, three and three. Digits drop in as you type; whole, the lines ink in turn. Or the code closes up into one figure, or is read back in words under its digits.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/field.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/field.json"
       ],
       "files": [
         {
@@ -1090,11 +1090,11 @@
       "title": "Combobox",
       "description": "A field that suggests. Type and the letters you typed are marked in each match, the suggestions arrive in turn, and what you chose sits on the line in italic; with multiple, your choices are written there as one sentence.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/badge.json",
-        "https://0db.cojeev.com/r/command.json",
-        "https://0db.cojeev.com/r/field.json",
-        "https://0db.cojeev.com/r/popover.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/badge.json",
+        "https://thedirectors.agency/ui/r/command.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/popover.json"
       ],
       "files": [
         {
@@ -1122,7 +1122,7 @@
       "title": "Popover",
       "description": "A panel hung from what opened it, on a leader line. Escape or a click elsewhere puts it away.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-popover"
@@ -1153,9 +1153,9 @@
       "title": "Context menu",
       "description": "The same list of words, opened where you pressed and spreading from that point like ink.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/dropdown-menu.json",
-        "https://0db.cojeev.com/r/popover.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dropdown-menu.json",
+        "https://thedirectors.agency/ui/r/popover.json"
       ],
       "dependencies": [
         "@radix-ui/react-context-menu"
@@ -1186,9 +1186,9 @@
       "title": "Dropdown menu",
       "description": "A list of words on the popover panel; the one you point at is marked with the highlighter.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/kbd.json",
-        "https://0db.cojeev.com/r/popover.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/kbd.json",
+        "https://thedirectors.agency/ui/r/popover.json"
       ],
       "dependencies": [
         "@radix-ui/react-dropdown-menu"
@@ -1219,9 +1219,9 @@
       "title": "Menubar",
       "description": "A frame row of words on a hairline; opening a word folds the line down into a pocket that holds its menu.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/dropdown-menu.json",
-        "https://0db.cojeev.com/r/popover.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dropdown-menu.json",
+        "https://thedirectors.agency/ui/r/popover.json"
       ],
       "dependencies": [
         "@radix-ui/react-menubar"
@@ -1252,7 +1252,7 @@
       "title": "Navigation menu",
       "description": "Small words open a panel of large names, the scale contrast of a poster; or a contents page with one name set as the headline; or the names opened into the line itself.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-navigation-menu"
@@ -1283,8 +1283,8 @@
       "title": "Command",
       "description": "What you type is set as large as a headline, in italic. Matches are marked; the chosen row steps forward. Or every row set on one axis at its match, as a mesostic; or the groups run on, as a book's index.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/scrollbar.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
       ],
       "dependencies": [
         "@radix-ui/react-dialog",
@@ -1316,10 +1316,10 @@
       "title": "Sidebar",
       "description": "A column of words beside the work. Folded, it becomes a ruler: a numeral for each group, a tick for each link, and the name comes out into the margin when you point at it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/scrollbar.json",
-        "https://0db.cojeev.com/r/sheet.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json",
+        "https://thedirectors.agency/ui/r/sheet.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -1350,8 +1350,8 @@
       "title": "Card",
       "description": "A column under a rule, not a box. Point at it and an ink stroke passes along the rule.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/meta.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/meta.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -1382,7 +1382,7 @@
       "title": "Hover card",
       "description": "Point at a name and wait a moment: a card opens with the name set large and cropped by its edge.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-hover-card"
@@ -1413,7 +1413,7 @@
       "title": "Tooltip",
       "description": "A whisper in parentheses above the thing it names.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-tooltip"
@@ -1444,8 +1444,8 @@
       "title": "Sheet",
       "description": "A page slid in from the edge, its title running up the spine like a book's; or a row that unfolds into its page.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/dialog.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -1476,9 +1476,9 @@
       "title": "Drawer",
       "description": "A sheet from below, lifted by the fermata's arc. Drag the arc down to put it away.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/dialog.json",
-        "https://0db.cojeev.com/r/fraction.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
       ],
       "files": [
         {
@@ -1506,8 +1506,8 @@
       "title": "Collapsible",
       "description": "A list that ends in the rest of itself: the words \"and 4 more\" are the control.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "files": [
         {
@@ -1535,7 +1535,7 @@
       "title": "Resizable",
       "description": "Panes and the rule between them. Take the rule and it inks; while you hold it, each pane's share is drawn as a dimension.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -1566,8 +1566,8 @@
       "title": "Scroll area",
       "description": "A rule appears at an edge only while there's more beyond it, and leaves when you reach the end.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/scrollbar.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
       ],
       "files": [
         {
@@ -1595,7 +1595,7 @@
       "title": "Scrollbar",
       "description": "A scrollbar as a ruler: a hairline, a mark where each section begins, and an ink thumb as long as the view.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1623,7 +1623,7 @@
       "title": "Aspect ratio",
       "description": "A frame kept to a ratio and marked the way a printer marks a crop: short lines outside each corner, never a border.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1651,7 +1651,7 @@
       "title": "Carousel",
       "description": "One poster at a time, each name set so large the frame crops it. The count between the arrows rolls the way you travel.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1679,7 +1679,7 @@
       "title": "Table",
       "description": "Hairline rows in tabular figures; the column you sort by is set in ink, or set loud; or the row and column you point at cross in ink.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1707,7 +1707,7 @@
       "title": "Chart",
       "description": "Hairlines and dots against one very large number that rolls to the bar you point at.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1735,7 +1735,7 @@
       "title": "Avatar",
       "description": "A person is a ring and their initial, in italic, since a name is theirs; or a monogram of both initials; or the given name set to fill one width.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1763,7 +1763,7 @@
       "title": "Item",
       "description": "A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across. Or every fifth line numbered in the margin; or the description running along the leader.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1791,7 +1791,7 @@
       "title": "Typography",
       "description": "Long text, set to be read: it styles plain HTML by element, and punctuation hangs in the margin.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@radix-ui/react-slot"
@@ -1822,10 +1822,10 @@
       "title": "Message",
       "description": "No balloons. Of the speech bubble only its tail is left, a leaning hairline. What they wrote is roman; what you wrote sits on the other side, in italic.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/avatar.json",
-        "https://0db.cojeev.com/r/badge.json",
-        "https://0db.cojeev.com/r/spinner.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/avatar.json",
+        "https://thedirectors.agency/ui/r/badge.json",
+        "https://thedirectors.agency/ui/r/spinner.json"
       ],
       "files": [
         {
@@ -1853,7 +1853,7 @@
       "title": "Marker",
       "description": "A quiet line in a conversation: a status, where a day begins, where you left off, or how long it went quiet.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -1881,8 +1881,8 @@
       "title": "Attachment",
       "description": "A file's extension is its picture; a ring counts it in and fills to a dot when it's safe.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "files": [
         {
@@ -1910,10 +1910,10 @@
       "title": "Thread",
       "description": "A message scroller that keeps to the latest while you are at the end. Scrolled back, it stays put and counts what is new in an ink pill.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/marker.json",
-        "https://0db.cojeev.com/r/scroll-area.json",
-        "https://0db.cojeev.com/r/scrollbar.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/marker.json",
+        "https://thedirectors.agency/ui/r/scroll-area.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
       ],
       "files": [
         {
@@ -1941,11 +1941,11 @@
       "title": "Questionnaire",
       "description": "Questions one at a time, set large. The count rolls and a hairline fills; each question turns in from the side you're heading. At the end your answers are written into one sentence, in italic, arriving word by word.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/field.json",
-        "https://0db.cojeev.com/r/fraction.json",
-        "https://0db.cojeev.com/r/radio-group.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/fraction.json",
+        "https://thedirectors.agency/ui/r/radio-group.json"
       ],
       "files": [
         {
@@ -1973,8 +1973,8 @@
       "title": "Alert",
       "description": "A double bar: in a score, the sign that something changes here.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "files": [
         {
@@ -2002,7 +2002,7 @@
       "title": "Skeleton",
       "description": "Where the words will be: their baselines, the guides a letterer rules for them, or their rhythm. Still until something is loading, and still when motion is off.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -2030,10 +2030,10 @@
       "title": "Date picker",
       "description": "A date inside a sentence, like the select. It opens the month on a leader line; choose a day and it is written into the sentence in italic.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/calendar.json",
-        "https://0db.cojeev.com/r/field.json",
-        "https://0db.cojeev.com/r/popover.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/calendar.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/popover.json"
       ],
       "files": [
         {
@@ -2061,11 +2061,11 @@
       "title": "Activity feed",
       "description": "A history of what happened, grouped by day: who, what, and a dotted leader to when, on one hairline down the margin. The newest carries the accent; the rest waits behind \"and 4 more\".",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/avatar.json",
-        "https://0db.cojeev.com/r/collapsible.json",
-        "https://0db.cojeev.com/r/item.json",
-        "https://0db.cojeev.com/r/marker.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/avatar.json",
+        "https://thedirectors.agency/ui/r/collapsible.json",
+        "https://thedirectors.agency/ui/r/item.json",
+        "https://thedirectors.agency/ui/r/marker.json"
       ],
       "files": [
         {
@@ -2093,17 +2093,17 @@
       "title": "Agent chat",
       "description": "Talk to an agent. Its words are roman and yours arrive in italic; it asks before it acts, in a question you must answer, and it tells you what it is doing as a sentence that inks in.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/agent-state.json",
-        "https://0db.cojeev.com/r/attachment.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/dialog.json",
-        "https://0db.cojeev.com/r/field.json",
-        "https://0db.cojeev.com/r/kbd.json",
-        "https://0db.cojeev.com/r/marker.json",
-        "https://0db.cojeev.com/r/progress.json",
-        "https://0db.cojeev.com/r/radio-group.json",
-        "https://0db.cojeev.com/r/thread.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/agent-state.json",
+        "https://thedirectors.agency/ui/r/attachment.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/dialog.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/kbd.json",
+        "https://thedirectors.agency/ui/r/marker.json",
+        "https://thedirectors.agency/ui/r/progress.json",
+        "https://thedirectors.agency/ui/r/radio-group.json",
+        "https://thedirectors.agency/ui/r/thread.json"
       ],
       "files": [
         {
@@ -2131,9 +2131,9 @@
       "title": "Agent state",
       "description": "Where an agent is, in one quiet line: a ring, a breath, a round, the accent disc or an ink disc, and the word for it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/marker.json",
-        "https://0db.cojeev.com/r/spinner.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/marker.json",
+        "https://thedirectors.agency/ui/r/spinner.json"
       ],
       "files": [
         {
@@ -2161,9 +2161,9 @@
       "title": "Appearance",
       "description": "Choose the look: scheme, key and type pair as three lists of picks, and the answer written back as one sentence, “Cotton, in ultramarine, set in Archivo and Bodoni.”, which the night toggle finishes. The new page opens as a circle from whatever you touched.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/mode-toggle.json",
-        "https://0db.cojeev.com/r/picks.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/mode-toggle.json",
+        "https://thedirectors.agency/ui/r/picks.json"
       ],
       "files": [
         {
@@ -2191,8 +2191,8 @@
       "title": "Area chart",
       "description": "Volume as a barcode: no fill, only hairlines dropped from the line to the baseline at a close, even rhythm.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/line-chart.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/line-chart.json"
       ],
       "files": [
         {
@@ -2220,7 +2220,7 @@
       "title": "Calligram",
       "description": "A paragraph that fills a shape, as Apollinaire's calligrams did: each line is as wide as the shape is at that height, so the outline is only implied. Or it falls as rain, or runs round a frame about one word.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -2251,9 +2251,9 @@
       "title": "Command line",
       "description": "One line to type, on a baseline like a field already filled in. The address recedes, the part that's yours is italic, and copying draws the line in the accent.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/radio-group.json",
-        "https://0db.cojeev.com/r/source.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/radio-group.json",
+        "https://thedirectors.agency/ui/r/source.json"
       ],
       "files": [
         {
@@ -2281,7 +2281,7 @@
       "title": "Contour",
       "description": "A paragraph set to a contour, the way a score draws a swell: each line laid to its own width, so the words taper, open or swell and close.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -2312,11 +2312,11 @@
       "title": "Data table",
       "description": "Records you narrow with a sentence, sort by pressing a heading (the column turns ink and the rows glide), and page at a folio, or read on as the table ends in the rest of itself.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/pagination.json",
-        "https://0db.cojeev.com/r/select.json",
-        "https://0db.cojeev.com/r/table.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/pagination.json",
+        "https://thedirectors.agency/ui/r/select.json",
+        "https://thedirectors.agency/ui/r/table.json"
       ],
       "files": [
         {
@@ -2344,8 +2344,8 @@
       "title": "Dropzone",
       "description": "Files, dropped or chosen. The area is only its corner marks, and files carried over it close them in; the sentence is a real file input, and what you hold is listed as attachments.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/attachment.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/attachment.json"
       ],
       "files": [
         {
@@ -2373,9 +2373,9 @@
       "title": "Figure",
       "description": "A picture cropped to a ratio and marked like a printer's proof, its number, caption and credit set in type underneath or in the margin beside it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/aspect-ratio.json",
-        "https://0db.cojeev.com/r/meta.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/aspect-ratio.json",
+        "https://thedirectors.agency/ui/r/meta.json"
       ],
       "files": [
         {
@@ -2403,9 +2403,9 @@
       "title": "Form",
       "description": "Fields on the grid and one statement button. A failed send gives each field its callout and focuses the first; while sending, the button says so. Or write it as a letter with a postscript, or have it postmarked when it's sent.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/field.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json"
       ],
       "files": [
         {
@@ -2433,7 +2433,7 @@
       "title": "Gather",
       "description": "A line whose letters, words or rows start as dust, as the mirrored forme or wound in a coil, and settle into place as it scrolls into view, or step by step with the scroll, then give way to the real text.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -2464,7 +2464,7 @@
       "title": "Grid",
       "description": "A quiet structure behind a section: a faint square grid, or a fine point at each crossing, with a registration cross on each corner and the columns numbered and the rows lettered along the border, like a drafting sheet. It never moves.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -2492,8 +2492,8 @@
       "title": "Line chart",
       "description": "One hairline through the points, a ring on each, against one very large number that rolls to the point you're on.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/chart.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/chart.json"
       ],
       "files": [
         {
@@ -2521,7 +2521,7 @@
       "title": "Marquee",
       "description": "A band of words that drifts through a clipped frame. Scroll takes over; a small pause word lets it rest.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -2549,7 +2549,7 @@
       "title": "Measure",
       "description": "A paragraph whose measure you set by dragging its right edge, with the number of characters a line and a verdict on it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -2580,7 +2580,7 @@
       "title": "Melody",
       "description": "A sentence set on a stave, each word a note. Point at one and the phrase plays from it; or sing along discs on the staff; or draw the staff only where there are words.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -2611,7 +2611,7 @@
       "title": "Mode toggle",
       "description": "The way from day to night, drawn ten ways. Three are switches with a scene change of their own: Day over Night with the full stop setting from one to the other while the page dissolves; Night taking the ink letter by letter while the page's light is lowered; Noon turning to Moon while night falls from the top. The other seven are buttons: a disc sliding over a ring, a dot setting below a hairline, a word on a hairline that rolls, the fermata as an eye, a sentence whose last word rolls, midday whose second half the ink falls over, and a clock turning from noon to midnight.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -2639,9 +2639,9 @@
       "title": "Number input",
       "description": "A number on a baseline, yours in italic and formatted; less and more step it, and each step turns the changed figures over like a counter. Or it stands over a small ruler you can drag.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/field.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json"
       ],
       "files": [
         {
@@ -2669,8 +2669,8 @@
       "title": "Pie chart",
       "description": "Shares of a whole: one hairline ring cut into arcs with paper between them, numbered round the rim, and the total as one very large number inside that rolls to the share of the arc you point at.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/radial-chart.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/radial-chart.json"
       ],
       "files": [
         {
@@ -2698,8 +2698,8 @@
       "title": "Radar chart",
       "description": "Several measures on one shape: a hairline polygon on a dotted construction sheet, each axis named in small caps at its end, and the axis you point at measured off as a dimension line with its figure on it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/grid.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/grid.json"
       ],
       "files": [
         {
@@ -2727,7 +2727,7 @@
       "title": "Radial chart",
       "description": "Progress against one maximum: a hairline ring per series with its arc inked as far as it has got, and one very large number inside that rolls to the ring you point at.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -2755,9 +2755,9 @@
       "title": "Reading trail",
       "description": "Keep your place on a long page: its sections by number and name, set as a contents page, the one you are in carrying the accent while its dotted leader inks as you read. Or the page's own rail, with that section running down it like the title on a spine.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/item.json",
-        "https://0db.cojeev.com/r/scrollbar.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/item.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
       ],
       "files": [
         {
@@ -2785,7 +2785,7 @@
       "title": "Reverb",
       "description": "A phrase that echoes into silence: each line quieter, more open and a dynamic smaller, drifting right like a canon, answering from either wall, or losing its consonants first; it ends on a rest.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -2816,9 +2816,9 @@
       "title": "Scroll expand",
       "description": "A plate cropped by four corner marks that open with the scroll, from a small mark to the full measure, and stop when you stop.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/corners.json",
-        "https://0db.cojeev.com/r/meta.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/corners.json",
+        "https://thedirectors.agency/ui/r/meta.json"
       ],
       "files": [
         {
@@ -2846,7 +2846,7 @@
       "title": "Segue",
       "description": "One scene at a time. When you change it, one hairline crosses the frame carrying the next scene's number and name, and the next scene is already behind it.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -2874,8 +2874,8 @@
       "title": "Source",
       "description": "Code, set as type. Weight is the only highlighting, what someone wrote is italic, and a bracket joins the lines like a system in a score.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
       ],
       "dependencies": [
         "sugar-high"
@@ -2906,8 +2906,8 @@
       "title": "Stat",
       "description": "A named value: a giant thin figure whose feet sink under one hairline, the name small beneath; a changed figure turns over like a counter's wheels.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/fraction.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
       ],
       "files": [
         {
@@ -2935,8 +2935,8 @@
       "title": "Steps",
       "description": "A real sequence. Numbered in large thin figures in the margin; or the figures stand on one line and rise out of it as you reach them; or the titles step across the page like a broken headline; or, compact, the whole sequence folded into one fraction beside the step you're on.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/fraction.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
       ],
       "files": [
         {
@@ -2964,8 +2964,8 @@
       "title": "Swapy",
       "description": "Rows you put in order by hand. A move word is the handle; the row you hold reverses out of ink and travels with you, or a proofreader's loop marks where it went.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/rows.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/rows.json"
       ],
       "files": [
         {
@@ -2993,7 +2993,7 @@
       "title": "Text ribbon",
       "description": "A phrase travelling along an arch or a wave, measured by pretext. Drag, keys and scroll take over; pause holds it in place.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -3024,7 +3024,7 @@
       "title": "Tiling",
       "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or drag a tile and pull its corner: the grid makes room for your arrangement.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {
@@ -3052,9 +3052,9 @@
       "title": "Timer",
       "description": "A countdown the person starts: the time set large inside a hairline ring that empties clockwise behind the accent dot, the figures turning over like a counter's wheels. Done, a full stop lands.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/button.json",
-        "https://0db.cojeev.com/r/radial-chart.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/radial-chart.json"
       ],
       "files": [
         {
@@ -3082,8 +3082,8 @@
       "title": "Tour",
       "description": "A tour of callouts: each step an ink callout hung on a leader line that ends in a dot on the thing it is about, one step at a time, only when you press on.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/dialog.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json"
       ],
       "files": [
         {
@@ -3111,9 +3111,9 @@
       "title": "Tree",
       "description": "A hierarchy set as a contents page: names on hairline branches, each hanging from under its folder's first letter, a folder opened at a time.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json",
-        "https://0db.cojeev.com/r/collapsible.json",
-        "https://0db.cojeev.com/r/item.json"
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/collapsible.json",
+        "https://thedirectors.agency/ui/r/item.json"
       ],
       "files": [
         {
@@ -3141,7 +3141,7 @@
       "title": "Wake",
       "description": "A paragraph that parts around your pointer like water around a hand: the lines it crosses split in two and the words move on.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -3172,7 +3172,7 @@
       "title": "Waterfall",
       "description": "A type specimen waterfall: one sentence at every dynamic, loudest first, each line filled to the measure with as many whole words as the size holds.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "dependencies": [
         "@chenglou/pretext"
@@ -3203,7 +3203,7 @@
       "title": "Word relay",
       "description": "A sentence whose last word rolls on every 2.4 seconds, in the italic. Press or use the keys to take over, or pause to hold a word.",
       "registryDependencies": [
-        "https://0db.cojeev.com/r/0db.json"
+        "https://thedirectors.agency/ui/r/0db.json"
       ],
       "files": [
         {

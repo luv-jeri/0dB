@@ -4,7 +4,7 @@
   "title": "Calendar",
   "description": "A month drawn as time, after the \"28 December\" poster: a huge numeral, then a large disc for every day, ink for the days gone, the accent for today, rings for the days to come, and half-moons for the wait. The ruler draws the same month as one measured line; the ghost sets the days against the date huge and faint behind them; the parenthesis runs the month as a line of figures with the wait in parentheses.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

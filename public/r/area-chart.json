@@ -4,8 +4,8 @@
   "title": "Area chart",
   "description": "Volume as a barcode: no fill, only hairlines dropped from the line to the baseline at a close, even rhythm.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/line-chart.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/line-chart.json"
   ],
   "files": [
     {

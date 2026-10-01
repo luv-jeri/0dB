@@ -4,8 +4,8 @@
   "title": "Empty",
   "description": "An invitation to act, not an apology: what is missing, and the one thing to do about it. Under half a zero, under the score's tacet, or on a page left blank on purpose.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json"
   ],
   "files": [
     {

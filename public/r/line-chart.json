@@ -4,8 +4,8 @@
   "title": "Line chart",
   "description": "One hairline through the points, a ring on each, against one very large number that rolls to the point you're on.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/chart.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/chart.json"
   ],
   "files": [
     {

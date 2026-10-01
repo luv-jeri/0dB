@@ -4,8 +4,8 @@
   "title": "Collapsible",
   "description": "A list that ends in the rest of itself: the words \"and 4 more\" are the control.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json"
   ],
   "files": [
     {

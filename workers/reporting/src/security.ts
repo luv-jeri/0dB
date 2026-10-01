@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from "../../../lib/site/config.mjs"
 import type { Env } from "./types"
 export class HttpError extends Error { constructor(public status: number, message: string, public retryAfter?: number) { super(message); } }
 export async function digest(value: string | ArrayBuffer): Promise<string> {
@@ -29,7 +30,7 @@ export async function readJSON(request: Request, max = 196608): Promise<unknown>
 }
 /** Configuration may restrict this list, but cannot add another product or local production origin. */
 export function origins(env: Env) {
-  const allowed = ["https://0db.cojeev.com", ...(env.LOCAL_MODE === "true" ? ["http://localhost:3000"] : [])]
+  const allowed = [SITE_ORIGIN, ...(env.LOCAL_MODE === "true" ? ["http://localhost:3000"] : [])]
   return [...new Set(env.ALLOWED_ORIGINS.split(",").map(v => v.trim()).filter(v => allowed.includes(v)))]
 }
 export function assertBrowserOrigin(request: Request, env: Env) {

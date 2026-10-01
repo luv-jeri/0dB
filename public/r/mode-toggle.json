@@ -4,7 +4,7 @@
   "title": "Mode toggle",
   "description": "The way from day to night, drawn ten ways. Three are switches with a scene change of their own: Day over Night with the full stop setting from one to the other while the page dissolves; Night taking the ink letter by letter while the page's light is lowered; Noon turning to Moon while night falls from the top. The other seven are buttons: a disc sliding over a ring, a dot setting below a hairline, a word on a hairline that rolls, the fermata as an eye, a sentence whose last word rolls, midday whose second half the ink falls over, and a clock turning from noon to midnight.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

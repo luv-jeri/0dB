@@ -4,8 +4,8 @@
   "title": "Checkbox",
   "description": "No box. The words are the control, and checking strikes them through in the accent.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/fraction.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/fraction.json"
   ],
   "files": [
     {

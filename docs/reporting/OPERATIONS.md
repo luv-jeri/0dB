@@ -1,6 +1,8 @@
 # 0dB reporting operations
 
-This runbook is for the owner to execute later. Nothing below was provisioned or deployed by this job. Production is `0db-reporting`, `feedback-0db.cojeev.com`, D1 `0db-reports` (`DB`), private R2 `0db-report-media` (`MEDIA`). Root `wrangler.jsonc` remains the assets-only site. No CI changes are required for this handoff.
+This runbook is for the owner to execute later. Nothing below was provisioned or deployed by this job. Production is `0db-reporting`, `feedback.thedirectors.agency`, D1 `0db-reports` (`DB`), private R2 `0db-report-media` (`MEDIA`). Root `wrangler.jsonc` remains the assets-only site. No CI changes are required for this handoff.
+
+Retirement note (2026-10-01): `feedback-0db.cojeev.com` is retired by owner decision. 0dB belongs only to thedirectors.agency; there is no old-host redirect or compatibility Worker. The new route, allowed origin and sender are configured locally, with email disabled; remote cutover remains a separate owner release action.
 
 ## Status (2026-10-01)
 
@@ -8,11 +10,11 @@ Done by the coordinator on the owner's instruction:
 - D1 `0db-reports` created (`76b48a05-718c-406d-9284-6f170afdd38e`, APAC) and both migrations applied remotely.
 - Private R2 `0db-report-media` created (no public access).
 - Private repository `luv-jeri/0db-feedback` created; `GITHUB_REPOSITORY` set.
-- Worker `0db-reporting` deployed on `feedback-0db.cojeev.com` with the five-minute cron; `EMAIL_ENABLED=false`, `DELIVERY_ACTIVATED_AT=""`.
+- Worker `0db-reporting` was previously deployed with the five-minute cron; `EMAIL_ENABLED=false`, `DELIVERY_ACTIVATED_AT=""`. Its config now targets `feedback.thedirectors.agency`; that domain change has not been deployed by this job.
 - Generated secrets `ADMIN_TOKEN`, `HEALTH_TOKEN`, `IP_HASH_SECRET`, `GITHUB_WEBHOOK_SECRET` uploaded; the only copy is the owner's `~/.config/0db-reporting/secrets.env` (mode 600). Move them into a password manager.
 - GitHub issues webhook on `luv-jeri/0db-feedback` pointing at `/v1/github/webhook` (ping accepted, 202).
 
-Still the owner's (they need accounts or secrets only the owner may handle): the Turnstile widget and `TURNSTILE_SECRET` (step 2), `GITHUB_TOKEN` (step 3), Resend, `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET` and the `hello@0db.cojeev.com` mailbox (steps 3 and 6), and email activation (step 7).
+Still the owner's (they need accounts or secrets only the owner may handle): the Turnstile widget and `TURNSTILE_SECRET` (step 2), `GITHUB_TOKEN` (step 3), Resend, `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET` and the `hello@thedirectors.agency` mailbox (steps 3 and 6), and email activation (step 7).
 
 ## Local checks
 
@@ -31,13 +33,15 @@ rtk npm run reporting:migrate:local
 rtk npm run reporting:dev
 ```
 
+Both committed configs keep `ALLOWED_ORIGINS=https://thedirectors.agency` and `SITE_URL=https://thedirectors.agency/ui`. For loopback UI checks, explicitly set `ALLOWED_ORIGINS=http://localhost:3000` and `SITE_URL=http://localhost:3000/ui` in local vars and build the site with `NEXT_PUBLIC_REPORTING_API_URL=http://localhost:8787`.
+
 Local mode disables Turnstile only on loopback Worker hosts; providers are disabled, no secret is needed for the public local report flow. Private local admin checks need a locally supplied `ADMIN_TOKEN` of at least 32 characters. Put local secrets in the ignored `workers/reporting/.dev.vars` file and never put them in the site build. These commands are documentation, not a request to restart the existing site server.
 
 ## Owner provisioning and activation
 
 Use separate 0dB credentials and resources. Replace angle-bracket placeholders yourself. [Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/) and [D1 commands](https://developers.cloudflare.com/d1/wrangler-commands/) are the reference for these steps.
 
-1. Authenticate the intended Cloudflare account; create only the new D1 and R2 resources. Record the returned database UUID and set `d1_databases[0].database_id` in `workers/reporting/wrangler.jsonc`. The committed all-zero value is deliberately unprovisioned. Keep R2 private: no public access, custom domain or bucket website.
+1. Authenticate the intended Cloudflare account. The current database, bucket and feedback repository were already provisioned as recorded above; preserve them and the configured database UUID. The create commands below apply only when provisioning an explicitly approved replacement, whose returned UUID must be recorded in `d1_databases[0].database_id`. Keep R2 private: no public access, custom domain or bucket website.
 
    ```sh
    rtk npx wrangler login
@@ -45,9 +49,9 @@ Use separate 0dB credentials and resources. Replace angle-bracket placeholders y
    rtk npx wrangler r2 bucket create 0db-report-media --config workers/reporting/wrangler.jsonc
    ```
 
-2. Create a managed Turnstile widget for the **single hostname** `0db.cojeev.com` in the Cloudflare dashboard (not the old product/API hostname). Set its public key as `TURNSTILE_SITE_KEY` in Worker vars and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in the site's build environment. The UI must request action `reporting`. Set `NEXT_PUBLIC_REPORTING_API_URL=https://feedback-0db.cojeev.com` and `NEXT_PUBLIC_RELEASE_SHA=<40-character-git-sha>` at site build time. `.env.example` lists names only; it is not a dotenv file to copy unchanged.
+2. Create a managed Turnstile widget for the hostname `thedirectors.agency` in the Cloudflare dashboard (not the old product/API hostname). Set its public key as `TURNSTILE_SITE_KEY` in Worker vars and `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in the site's build environment. The UI must request action `reporting`. Set `NEXT_PUBLIC_REPORTING_API_URL=https://feedback.thedirectors.agency` and `NEXT_PUBLIC_RELEASE_SHA=<40-character-git-sha>` at site build time. `.env.example` lists names only; it is not a dotenv file to copy unchanged.
 
-3. Establish `hello@0db.cojeev.com` as a real reply/deletion mailbox. Verify `0db.cojeev.com` as a sending domain in Resend with the DNS records Resend supplies; create a restricted sending API key. Set `EMAIL_FROM` to the verified 0dB sender. Create a **private** GitHub feedback repository and a fine-grained token with issue read/write access to it; set `GITHUB_REPOSITORY=<owner>/<0db-feedback-repository>` in Worker vars. Project integration is optional: `GITHUB_PROJECT_ID` is a non-secret var, with additional GitHub project permissions if used.
+3. Establish `hello@thedirectors.agency` as a real reply/deletion mailbox. Verify `thedirectors.agency` as a sending domain in Resend with the DNS records Resend supplies; create a restricted sending API key. Set `EMAIL_FROM` to the verified 0dB sender. Create a **private** GitHub feedback repository and a fine-grained token with issue read/write access to it; set `GITHUB_REPOSITORY=<owner>/<0db-feedback-repository>` in Worker vars. Project integration is optional: `GITHUB_PROJECT_ID` is a non-secret var, with additional GitHub project permissions if used.
 
    ```sh
    rtk gh repo create <owner>/<0db-feedback-repository> --private
@@ -76,18 +80,18 @@ Use separate 0dB credentials and resources. Replace angle-bracket placeholders y
 
    Secret creation may offer to create the missing Worker: accept only for `0db-reporting` after checking account selection. No `CLOUDFLARE_API_TOKEN`, `REPORTING_SECRETS_JSON` or old-product secret bundle is needed for this manual handoff. `TURNSTILE_SITE_KEY`, `EMAIL_FROM`, quotas, repository and release identifiers are vars, not secrets.
 
-5. Apply both migrations to the new empty D1. For any later existing-database migration, first make a private backup, verify recovery and record its separate retention. Set `RELEASE` to the reviewed Git SHA. Keep `EMAIL_ENABLED=false`, `DELIVERY_ACTIVATED_AT=""`, `LOCAL_MODE=false` until controlled delivery checks. The deployment binds the custom domain and five-minute cron from this Worker config; the account must own the active `cojeev.com` zone. Do not edit the assets-only root config to add this backend.
+5. Both migrations are already applied to the configured D1. The migration command below is for a new approved empty replacement or a reviewed pending migration; before changing an existing database, first make a private backup, verify recovery and record its separate retention. Set `RELEASE` to the reviewed Git SHA. Keep `EMAIL_ENABLED=false`, `DELIVERY_ACTIVATED_AT=""`, `LOCAL_MODE=false` until controlled delivery checks. The deployment binds the custom domain and five-minute cron from this Worker config; the account must own the active `thedirectors.agency` zone. Do not edit the assets-only root config to add this backend.
 
    ```sh
    rtk npx wrangler d1 migrations apply 0db-reports --remote --config workers/reporting/wrangler.jsonc
    rtk npx wrangler deploy --config workers/reporting/wrangler.jsonc
-   rtk curl --fail https://feedback-0db.cojeev.com/health
-   rtk curl --fail https://feedback-0db.cojeev.com/v1/config
+   rtk curl --fail https://feedback.thedirectors.agency/health
+   rtk curl --fail https://feedback.thedirectors.agency/v1/config
    ```
 
-6. Configure GitHub's repository webhook: URL `https://feedback-0db.cojeev.com/v1/github/webhook`, content type JSON, issues events, the same `GITHUB_WEBHOOK_SECRET`. Configure Resend's webhook: `https://feedback-0db.cojeev.com/v1/resend/webhook`, events `email.sent`, `email.delivered`, `email.bounced`, `email.failed`, `email.complained`, `email.suppressed`; paste its signing secret in step 4. Confirm signed test events are accepted. Generic GitHub references link to the future 0dB `/feedback-admin/` page; no private prose goes to GitHub. Releasing a request requires close-as-completed, label `feedback:released`, and `Component: https://0db.cojeev.com/docs/<slug>/` in the issue body. Closing alone sends no release message.
+6. Configure GitHub's repository webhook: URL `https://feedback.thedirectors.agency/v1/github/webhook`, content type JSON, issues events, the same `GITHUB_WEBHOOK_SECRET`. Configure Resend's webhook: `https://feedback.thedirectors.agency/v1/resend/webhook`, events `email.sent`, `email.delivered`, `email.bounced`, `email.failed`, `email.complained`, `email.suppressed`; paste its signing secret in step 4. Confirm signed test events are accepted. Generic GitHub references link to the future 0dB `/feedback-admin/` page; no private prose goes to GitHub. Releasing a request requires close-as-completed, label `feedback:released`, and `Component: https://thedirectors.agency/ui/docs/<slug>/` in the issue body. Closing alone sends no release message.
 
-7. Coordinate with the UI job before public activation. The site CSP in `public/_headers` needs `connect-src https://feedback-0db.cojeev.com` and the official Turnstile script/frame origins; this job intentionally does not edit it. Finish UI review, capture consent, private admin access and deletion contact. Set `DELIVERY_ACTIVATED_AT=<current-UTC-ISO-timestamp>` and `EMAIL_ENABLED=true`; redeploy the Worker. Jobs from before that cutoff remain held until individually reviewed. Test a controlled private issue/request, identical retry, upload, receipt and actual signed email-delivered event; inspect the separate provider states before public launch. Production receipt URLs never contain tokens.
+7. Coordinate with the UI job before public activation. The site CSP in `public/_headers` needs `connect-src https://feedback.thedirectors.agency` and the official Turnstile script/frame origins; the packaged `dist/_headers` must match that origin too. Finish UI review, capture consent, private admin access and deletion contact. Set `DELIVERY_ACTIVATED_AT=<current-UTC-ISO-timestamp>` and `EMAIL_ENABLED=true`; redeploy the Worker. Jobs from before that cutoff remain held until individually reviewed. Test a controlled private issue/request, identical retry, upload, receipt and actual signed email-delivered event; inspect the separate provider states before public launch. Production receipt URLs never contain tokens.
 
 ## Delivery, quotas and health
 
@@ -99,13 +103,13 @@ Normal cron removes media/filenames/manifests/pins/diagnostics at 30 days, and p
 
 ## Deletion procedure
 
-There is no public deletion endpoint. This is a maintainer-assisted complete deletion procedure, not the 30/180-day field scrub. Before launch, publish the working `hello@0db.cojeev.com` contact via the UI/privacy job. Do not request a receipt token over public channels. Verify the request through the original email or private possession of a receipt. Scope all matching report UUIDs, including other kinds/joins from that contact, and whether public content must be removed. UUID placeholders below must be validated UUIDs, not arbitrary SQL text.
+There is no public deletion endpoint. This is a maintainer-assisted complete deletion procedure, not the 30/180-day field scrub. Before launch, publish the working `hello@thedirectors.agency` contact via the UI/privacy job. Do not request a receipt token over public channels. Verify the request through the original email or private possession of a receipt. Scope all matching report UUIDs, including other kinds/joins from that contact, and whether public content must be removed. UUID placeholders below must be validated UUIDs, not arbitrary SQL text.
 
 1. Temporarily quiesce this Worker only. Save a private copy of `workers/reporting/wrangler.jsonc`, then temporarily set `routes: []` and `triggers: { "crons": [] }`, keeping `workers_dev: false` and `preview_urls: false`. Deploy that configuration; it removes this Worker's public custom-domain ingress and cron. Verify the domain no longer serves `/health` and verify the dashboard shows no cron or alternative route/service binding into this Worker. Merely blanking credentials does not cancel a provider request already in flight. Allow at least five minutes after ingress/cron removal, and verify no processing leases remain; reconcile any outstanding provider operation before deletion. This wait is an operational bound, not cancellation of an in-flight request: inspect Worker invocation metrics and continue waiting if activity remains. Do not pause another product's service. Record only affected UUIDs and provider IDs in a restricted deletion ledger, never report prose or receipt tokens. Inspect the target's attachment object keys, topic ID, GitHub issue ID and outbox provider IDs before deleting rows:
 
    ```sh
    rtk npx wrangler deploy --config workers/reporting/wrangler.jsonc
-   rtk curl --fail https://feedback-0db.cojeev.com/health
+   rtk curl --fail https://feedback.thedirectors.agency/health
    # The health request must no longer return this Worker's successful response.
    rtk npx wrangler d1 execute 0db-reports --remote --config workers/reporting/wrangler.jsonc --command "SELECT id,lease_until FROM outbox WHERE state='processing';"
    rtk npx wrangler d1 execute 0db-reports --remote --config workers/reporting/wrangler.jsonc --command "SELECT id,topic_id,issue_number FROM reports WHERE id='<REPORT_UUID>'; SELECT object_key FROM attachments WHERE report_id='<REPORT_UUID>'; SELECT id,provider_id,state FROM outbox WHERE report_id='<REPORT_UUID>';"
@@ -144,7 +148,7 @@ There is no public deletion endpoint. This is a maintainer-assisted complete del
 
    ```sh
    rtk npx wrangler deploy --config workers/reporting/wrangler.jsonc
-   rtk curl --fail https://feedback-0db.cojeev.com/health
+   rtk curl --fail https://feedback.thedirectors.agency/health
    ```
 
 ## Changes and rollback

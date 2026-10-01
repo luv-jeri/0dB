@@ -4,9 +4,9 @@
   "title": "Input group",
   "description": "Ours in roman, yours in italic, on one line. The accent draws only under the part you type. Or your figure stands large with our words stacked beside it, or an arrow leads from your words to the action.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json",
-    "https://0db.cojeev.com/r/field.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json",
+    "https://thedirectors.agency/ui/r/field.json"
   ],
   "files": [
     {

@@ -4,17 +4,17 @@
   "title": "Agent chat",
   "description": "Talk to an agent. Its words are roman and yours arrive in italic; it asks before it acts, in a question you must answer, and it tells you what it is doing as a sentence that inks in.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/agent-state.json",
-    "https://0db.cojeev.com/r/attachment.json",
-    "https://0db.cojeev.com/r/button.json",
-    "https://0db.cojeev.com/r/dialog.json",
-    "https://0db.cojeev.com/r/field.json",
-    "https://0db.cojeev.com/r/kbd.json",
-    "https://0db.cojeev.com/r/marker.json",
-    "https://0db.cojeev.com/r/progress.json",
-    "https://0db.cojeev.com/r/radio-group.json",
-    "https://0db.cojeev.com/r/thread.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/agent-state.json",
+    "https://thedirectors.agency/ui/r/attachment.json",
+    "https://thedirectors.agency/ui/r/button.json",
+    "https://thedirectors.agency/ui/r/dialog.json",
+    "https://thedirectors.agency/ui/r/field.json",
+    "https://thedirectors.agency/ui/r/kbd.json",
+    "https://thedirectors.agency/ui/r/marker.json",
+    "https://thedirectors.agency/ui/r/progress.json",
+    "https://thedirectors.agency/ui/r/radio-group.json",
+    "https://thedirectors.agency/ui/r/thread.json"
   ],
   "files": [
     {

@@ -1,14 +1,14 @@
 {
   "version": "0.1.0",
   "sources": {
-    "INTENT.md": "b7d68d0f6e0b45ca0aa78b99224a99a2fabe90c2b02e6943759e0a1a6ece68e9",
-    "DESIGN.md": "4e8cdc013d6c1420424a331be631285a46175125380f62e5f62f68d82e1cbb78"
+    "INTENT.md": "a384139ff0df687e654db72de7abfee21efb50ffdb8394b72337f409b5d2fc31",
+    "DESIGN.md": "1b3df51fb9b8cce72d418b914361d9d3f98d9279adfb21efe0dc73b48d252fc8"
   },
   "files": {
     "AGENTS.md": "8c9e33f9195c87d0b8a84c7bbfdc5df57e4c2fe1789207a05787d09d0fe3dd52",
     "docs/AGENTS.md": "d7895d03fea95bd513a66e14d16c8d1936c91e261697d7fa5012081cf7118352",
-    "INTENT.md": "b7d68d0f6e0b45ca0aa78b99224a99a2fabe90c2b02e6943759e0a1a6ece68e9",
-    "DESIGN.md": "4e8cdc013d6c1420424a331be631285a46175125380f62e5f62f68d82e1cbb78",
+    "INTENT.md": "a384139ff0df687e654db72de7abfee21efb50ffdb8394b72337f409b5d2fc31",
+    "DESIGN.md": "1b3df51fb9b8cce72d418b914361d9d3f98d9279adfb21efe0dc73b48d252fc8",
     "DESIGN-core.md": "433fa8031316704413b2002bd603bc7aa77a15a652374b1a3a8fa31b67851c7f",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",

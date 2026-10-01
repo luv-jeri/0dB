@@ -1,3 +1,4 @@
+import { registryURL } from "@/lib/site/config.mjs"
 import NextLink from "next/link"
 
 import { CopyCommand } from "@/components/site/landing"
@@ -81,7 +82,7 @@ export function Hero({ count }: { count: number }) {
           </Cta>
         </span>
         <span data-hush className="hero-install">
-          <CopyCommand command="npx shadcn@latest add https://0db.cojeev.com/r/button.json" emphasis="button" />
+          <CopyCommand command={`npx shadcn@latest add ${registryURL("button")}`} emphasis="button" />
         </span>
       </div>
     </section>

@@ -1,3 +1,4 @@
+import { siteURL } from "@/lib/site/config.mjs"
 import type { ReportKind, ReportStatus, RequestTopic } from "@/lib/reporting/contracts"
 import { Link } from "@/registry/0db/ui/link"
 
@@ -21,7 +22,7 @@ export function requestHref(topic?: RequestTopic, title = "") {
 export function publicLink(value?: string | null) {
   if (!value) return undefined
   try {
-    const url = new URL(value, "https://0db.cojeev.com")
+    const url = new URL(value.startsWith("/") ? siteURL(value) : value, siteURL("/"))
     return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password ? url.href : undefined
   } catch { return undefined }
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 
 import { Link } from "@/registry/0db/ui/link"
@@ -50,7 +51,7 @@ export function useShare(url: string) {
   const [panel, attach] = React.useState<HTMLDivElement | null>(null)
   const back = React.useRef<HTMLElement | null>(null)
   const owner = React.useRef<Element | null>(null) // the control that toggles it: a click there is its own
-  const href = () => new URL(url, location.href).href
+  const href = () => siteURL(url)
 
   const close = React.useCallback((restore = true) => {
     setOpen(false)
@@ -65,7 +66,7 @@ export function useShare(url: string) {
       back.current = (from ?? document.activeElement) as HTMLElement | null
       setCopied(false)
       setOpen(true)
-      setCopied(await copy(new URL(url, location.href).href))
+      setCopied(await copy(siteURL(url)))
       if (focus) panel?.querySelector<HTMLElement>("a, button")?.focus({ preventScroll: true })
     },
     [url, panel],

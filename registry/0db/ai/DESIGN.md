@@ -2,7 +2,7 @@
 
 A design system for type and silence. Two typefaces, one accent, and a great deal of space. Read INTENT.md first; this file is the how.
 
-- Library: a shadcn registry. `npx shadcn@latest add https://0db.cojeev.com/r/<item>.json`
+- Library: a shadcn registry. `npx shadcn@latest add https://thedirectors.agency/ui/r/<item>.json`
 - Items: `registry/0db/ui/<item>.tsx`, each with a sidecar `registry/0db/styles/<item>.css`
 - Base: `registry/0db/styles/{tokens,base,fonts}.css` (the `0db` base item)
 - Specimen: `specimen/index.html`, the original static page, served at `/specimen/`. It still uses the old `f-` names; everything else uses `db-`.

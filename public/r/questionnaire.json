@@ -4,11 +4,11 @@
   "title": "Questionnaire",
   "description": "Questions one at a time, set large. The count rolls and a hairline fills; each question turns in from the side you're heading. At the end your answers are written into one sentence, in italic, arriving word by word.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json",
-    "https://0db.cojeev.com/r/field.json",
-    "https://0db.cojeev.com/r/fraction.json",
-    "https://0db.cojeev.com/r/radio-group.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json",
+    "https://thedirectors.agency/ui/r/field.json",
+    "https://thedirectors.agency/ui/r/fraction.json",
+    "https://thedirectors.agency/ui/r/radio-group.json"
   ],
   "files": [
     {

@@ -4,8 +4,8 @@
   "title": "Tour",
   "description": "A tour of callouts: each step an ink callout hung on a leader line that ends in a dot on the thing it is about, one step at a time, only when you press on.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/dialog.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/dialog.json"
   ],
   "files": [
     {

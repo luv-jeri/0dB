@@ -4,8 +4,8 @@
   "title": "Steps",
   "description": "A real sequence. Numbered in large thin figures in the margin; or the figures stand on one line and rise out of it as you reach them; or the titles step across the page like a broken headline; or, compact, the whole sequence folded into one fraction beside the step you're on.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/fraction.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/fraction.json"
   ],
   "files": [
     {

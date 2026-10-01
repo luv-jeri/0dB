@@ -5,11 +5,11 @@
   "compatibility_date": "2026-09-30",
   "vars": {
     "ENVIRONMENT": "local",
-    "ALLOWED_ORIGINS": "https://0db.cojeev.com,http://localhost:3000",
-    "SITE_URL": "http://localhost:3000",
+    "ALLOWED_ORIGINS": "https://thedirectors.agency",
+    "SITE_URL": "https://thedirectors.agency/ui",
     "LOCAL_MODE": "true",
     "EMAIL_ENABLED": "false",
-    "EMAIL_FROM": "hello@0db.invalid",
+    "EMAIL_FROM": "hello@thedirectors.agency",
     "DELIVERY_ACTIVATED_AT": "",
     "GITHUB_REPOSITORY": ""
   },

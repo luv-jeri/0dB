@@ -4,9 +4,9 @@
   "title": "Appearance",
   "description": "Choose the look: scheme, key and type pair as three lists of picks, and the answer written back as one sentence, “Cotton, in ultramarine, set in Archivo and Bodoni.”, which the night toggle finishes. The new page opens as a circle from whatever you touched.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/mode-toggle.json",
-    "https://0db.cojeev.com/r/picks.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/mode-toggle.json",
+    "https://thedirectors.agency/ui/r/picks.json"
   ],
   "files": [
     {

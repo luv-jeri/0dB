@@ -1,3 +1,4 @@
+import { siteURL } from "@/lib/site/config.mjs"
 import type { MetadataRoute } from "next"
 
 export const dynamic = "force-static"
@@ -5,6 +6,6 @@ export const dynamic = "force-static"
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://0db.cojeev.com/sitemap.xml",
+    sitemap: siteURL("/sitemap.xml"),
   }
 }

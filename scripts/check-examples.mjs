@@ -4,7 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, cpSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import path from "node:path"
-import { rewriteImports } from "./lib/items.mjs"
+import { consumerExampleSource } from "../lib/site/example-source.ts"
 
 const dir = ".tmp/examples-check"
 rmSync(dir, { recursive: true, force: true })
@@ -17,7 +17,7 @@ for (const payload of readdirSync("public/r").filter((f) => f.endsWith(".json") 
   }
 }
 for (const f of readdirSync("examples").filter((f) => f.endsWith(".tsx")))
-  put(`examples/${f}`, rewriteImports(readFileSync(`examples/${f}`, "utf8")))
+  put(`examples/${f}`, consumerExampleSource(readFileSync(`examples/${f}`, "utf8")))
 cpSync("components/site/state.tsx", path.join(dir, "components/site/state.tsx")) // the docs-only <State> wrapper, all examples import from the site
 
 put("tsconfig.json", JSON.stringify({

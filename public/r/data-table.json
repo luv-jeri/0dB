@@ -4,11 +4,11 @@
   "title": "Data table",
   "description": "Records you narrow with a sentence, sort by pressing a heading (the column turns ink and the rows glide), and page at a folio, or read on as the table ends in the rest of itself.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json",
-    "https://0db.cojeev.com/r/pagination.json",
-    "https://0db.cojeev.com/r/select.json",
-    "https://0db.cojeev.com/r/table.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json",
+    "https://thedirectors.agency/ui/r/pagination.json",
+    "https://thedirectors.agency/ui/r/select.json",
+    "https://thedirectors.agency/ui/r/table.json"
   ],
   "files": [
     {

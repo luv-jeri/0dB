@@ -1,3 +1,4 @@
+import { registryURL, sitePath } from "@/lib/site/config.mjs"
 import NextLink from "next/link"
 
 import "./landing.css"
@@ -105,7 +106,7 @@ export default function Home() {
         title="One line."
         note="0dB is a shadcn registry. Each piece arrives as source in your project, with its styles and the tokens it stands on."
       >
-        <CommandLine runner command="shadcn@latest add https://0db.cojeev.com/r/button.json" emphasis="button" className="install-line" />
+        <CommandLine runner command={`shadcn@latest add ${registryURL("button")}`} emphasis="button" className="install-line" />
         <p className="install-then">Nothing to update. Nothing to wrap. It&rsquo;s yours now.</p>
         <p className="install-links">
           <Link asChild>
@@ -118,7 +119,7 @@ export default function Home() {
         <ol className="ask-steps">
           <li>
             <p className="ask-step">Add the kit.</p>
-            <CommandLine runner command="shadcn@latest add https://0db.cojeev.com/r/ai.json" emphasis="ai" className="install-line" />
+            <CommandLine runner command={`shadcn@latest add ${registryURL("ai")}`} emphasis="ai" className="install-line" />
           </li>
           <li>
             <p className="ask-step">Say what you want.</p>
@@ -179,13 +180,13 @@ export default function Home() {
       <footer className="landing-foot">
         <p>0dB is MIT licensed. Its typefaces are under the SIL Open Font Licence.</p>
         <p>
-          <Link href="/requests/">Request a component</Link>. <Link href="/feedback/?kind=bug">Report a bug</Link>.{" "}
+          <Link href={sitePath("/requests/")}>Request a component</Link>. <Link href={sitePath("/feedback/?kind=bug")}>Report a bug</Link>.{" "}
           <Link href={REPO} external>
             Star it on GitHub
           </Link>
         </p>
         <p>
-          Made by Cojeev. <Link href="/specimen/">The specimen</Link>.
+          <Link href={sitePath("/specimen/")}>The specimen</Link>.
         </p>
       </footer>
     </main>

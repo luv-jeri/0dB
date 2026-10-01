@@ -4,11 +4,11 @@
   "title": "Activity feed",
   "description": "A history of what happened, grouped by day: who, what, and a dotted leader to when, on one hairline down the margin. The newest carries the accent; the rest waits behind \"and 4 more\".",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/avatar.json",
-    "https://0db.cojeev.com/r/collapsible.json",
-    "https://0db.cojeev.com/r/item.json",
-    "https://0db.cojeev.com/r/marker.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/avatar.json",
+    "https://thedirectors.agency/ui/r/collapsible.json",
+    "https://thedirectors.agency/ui/r/item.json",
+    "https://thedirectors.agency/ui/r/marker.json"
   ],
   "files": [
     {

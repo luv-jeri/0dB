@@ -4,8 +4,8 @@
   "title": "Swapy",
   "description": "Rows you put in order by hand. A move word is the handle; the row you hold reverses out of ink and travels with you, or a proofreader's loop marks where it went.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/rows.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/rows.json"
   ],
   "files": [
     {

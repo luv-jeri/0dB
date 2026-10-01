@@ -1,6 +1,6 @@
 {
   "name": "@0db",
-  "homepage": "https://0db.cojeev.com",
-  "url": "https://0db.cojeev.com/r/{name}.json",
+  "homepage": "https://thedirectors.agency/ui",
+  "url": "https://thedirectors.agency/ui/r/{name}.json",
   "description": "A component library for type and silence: two typefaces, one accent and a great deal of space. Native elements and Radix underneath."
 }

@@ -4,8 +4,8 @@
   "title": "Radar chart",
   "description": "Several measures on one shape: a hairline polygon on a dotted construction sheet, each axis named in small caps at its end, and the axis you point at measured off as a dimension line with its figure on it.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/grid.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/grid.json"
   ],
   "files": [
     {

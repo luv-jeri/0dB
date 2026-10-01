@@ -137,7 +137,7 @@
   "type": "registry:base",
   "config": {
     "registries": {
-      "@0db": "https://0db.cojeev.com/r/{name}.json"
+      "@0db": "https://thedirectors.agency/ui/r/{name}.json"
     }
   }
 }

@@ -4,7 +4,7 @@
   "title": "Tiling",
   "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or drag a tile and pull its corner: the grid makes room for your arrangement.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

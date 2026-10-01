@@ -4,10 +4,10 @@
   "title": "Date picker",
   "description": "A date inside a sentence, like the select. It opens the month on a leader line; choose a day and it is written into the sentence in italic.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/calendar.json",
-    "https://0db.cojeev.com/r/field.json",
-    "https://0db.cojeev.com/r/popover.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/calendar.json",
+    "https://thedirectors.agency/ui/r/field.json",
+    "https://thedirectors.agency/ui/r/popover.json"
   ],
   "files": [
     {

@@ -69,7 +69,7 @@ export async function deliver(env:Env,job:Delivery,row:ReportRow,send=fetch):Pro
   if(!emailEnabled(env)) throw new DeliveryFailure("Email domain setup required.",false,true)
   if(job.kind==="email_resolved" && row.status!=="resolved") throw new DeliveryFailure("Report was reopened before its release email sent. Review before retrying.",false,true)
   if(!testerAllowed(env,row.email)) throw new DeliveryFailure('Beta recipient requires allowlist review.',false,true)
-  return sendResend(env,job,JSON.stringify({to:[row.email],from:`0dB <${env.EMAIL_FROM}>`,reply_to:'hello@0db.cojeev.com',...emailMessage(row,job.kind,env.SITE_URL)}),send)
+  return sendResend(env,job,JSON.stringify({to:[row.email],from:`0dB <${env.EMAIL_FROM}>`,reply_to:'hello@thedirectors.agency',...emailMessage(row,job.kind,env.SITE_URL)}),send)
 }
 export async function drain(env:Env,reportId?:string,send=fetch) {
   // A crashed send has an unknown remote outcome. Never blindly resend it.

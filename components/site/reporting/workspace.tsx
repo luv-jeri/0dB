@@ -1,5 +1,6 @@
 "use client"
 
+import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 import { emptyDraft, loadDraftWorkspace, saveDraftWorkspace, type ReportingDraft, type ReportingDraftWorkspace } from "@/lib/reporting/draft"
 import { isUUID, type ComponentMatch, type ReportKind } from "@/lib/reporting/contracts"
@@ -53,7 +54,7 @@ export function useReportingWorkspace(entries: ComponentMatch[], href?: string) 
       const topic = params.get("topic")
       const title = params.get("title")?.slice(0, 120)
       const values: Partial<ReportingDraft> = item
-        ? { title: `Issue with ${item.title}`.slice(0, 120), description: `Component: https://0db.cojeev.com/docs/${item.name}/\n\n` }
+        ? { title: `Issue with ${item.title}`.slice(0, 120), description: `Component: ${siteURL(`/docs/${item.name}/`)}\n\n` }
         : kind === "request" && title ? { title, ...(isUUID(topic) ? { topicId: topic } : {}) } : {}
       prefill.current = Object.keys(values).length ? { ...values, kind } : null
       let value = saved?.drafts[kind] ?? fresh(kind)

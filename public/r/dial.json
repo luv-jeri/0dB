@@ -4,7 +4,7 @@
   "title": "Dial",
   "description": "A number you turn to. The arc sets a few on a half circle and rolls to your choice; the tuner is a long scale on the rim of a wheel you turn by hand, by scroll or by key, and your number reads above it in italic. Dynamics sets the number at the size of its loudness, from niente to fff; the tumbler sets a whole number figure by figure, like the wheels of a lock.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

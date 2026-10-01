@@ -1,14 +1,14 @@
 {
-  // Static assets only: the Next export in out/ is the whole site, including /r/*.json.
+  // Static assets only: the Next export packaged in dist/ui/ is the whole site, including /r/*.json.
   "$schema": "https://unpkg.com/wrangler@4.144.0/config-schema.json",
   "name": "0db",
   "compatibility_date": "2026-09-30",
   "account_id": "25369d7051a3d996a1bca81f462a1fbc",
   "workers_dev": false,
   "preview_urls": false,
-  "routes": [{ "pattern": "0db.cojeev.com", "custom_domain": true }],
+  "routes": [{ "pattern": "thedirectors.agency", "custom_domain": true }],
   "assets": {
-    "directory": "./out",
+    "directory": "./dist",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   }

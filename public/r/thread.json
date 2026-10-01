@@ -4,10 +4,10 @@
   "title": "Thread",
   "description": "A message scroller that keeps to the latest while you are at the end. Scrolled back, it stays put and counts what is new in an ink pill.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/marker.json",
-    "https://0db.cojeev.com/r/scroll-area.json",
-    "https://0db.cojeev.com/r/scrollbar.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/marker.json",
+    "https://thedirectors.agency/ui/r/scroll-area.json",
+    "https://thedirectors.agency/ui/r/scrollbar.json"
   ],
   "files": [
     {

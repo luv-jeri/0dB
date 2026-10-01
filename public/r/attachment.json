@@ -4,8 +4,8 @@
   "title": "Attachment",
   "description": "A file's extension is its picture; a ring counts it in and fills to a dot when it's safe.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json"
   ],
   "files": [
     {

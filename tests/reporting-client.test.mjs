@@ -67,9 +67,25 @@ test("clearing a workspace removes every private local draft", async () => {
   assert.equal(await loadDraftWorkspace(), null)
 })
 
+test("client defaults to the agency feedback API and can explicitly disable the connection", async () => {
+  const priorAPI = process.env.NEXT_PUBLIC_REPORTING_API_URL
+  try {
+    delete process.env.NEXT_PUBLIC_REPORTING_API_URL
+    const defaults = await import("../lib/reporting/client.ts?agency-default")
+    assert.equal(defaults.REPORTING_API, "https://feedback.thedirectors.agency")
+    process.env.NEXT_PUBLIC_REPORTING_API_URL = ""
+    const disabled = await import("../lib/reporting/client.ts?disabled")
+    assert.equal(disabled.REPORTING_API, "")
+    await assert.rejects(disabled.reportingFetch("/v1/config"), /not connected/)
+  } finally {
+    if (priorAPI === undefined) delete process.env.NEXT_PUBLIC_REPORTING_API_URL
+    else process.env.NEXT_PUBLIC_REPORTING_API_URL = priorAPI
+  }
+})
+
 test("client submits the frozen identity and uses bearer tokens only on private routes", async () => {
   const priorAPI = process.env.NEXT_PUBLIC_REPORTING_API_URL
-  process.env.NEXT_PUBLIC_REPORTING_API_URL = "https://feedback-0db.cojeev.com/"
+  process.env.NEXT_PUBLIC_REPORTING_API_URL = "https://feedback.thedirectors.agency/"
   const client = await import("../lib/reporting/client.ts?configured")
   const originalFetch = globalThis.fetch
   const calls = []
@@ -86,7 +102,7 @@ test("client submits the frozen identity and uses bearer tokens only on private 
     assert.equal(JSON.parse(calls[1].init.body).token, receipt.token)
     await client.fetchReceipt(receipt.id, receipt.token)
     await client.uploadAttachment(receipt, { id: "file-id", file: new File([png], "capture.png", { type: "image/png" }) })
-    assert.equal(calls[0].url, "https://feedback-0db.cojeev.com/v1/reports")
+    assert.equal(calls[0].url, "https://feedback.thedirectors.agency/v1/reports")
     assert.equal(calls[2].init.headers.Authorization, `Bearer ${receipt.token}`)
     assert.equal(calls[3].init.body.type, "image/png")
     for (const call of calls) {

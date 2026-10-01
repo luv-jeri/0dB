@@ -4,7 +4,7 @@
   "title": "Carousel",
   "description": "One poster at a time, each name set so large the frame crops it. The count between the arrows rolls the way you travel.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

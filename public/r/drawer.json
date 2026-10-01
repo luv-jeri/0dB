@@ -4,9 +4,9 @@
   "title": "Drawer",
   "description": "A sheet from below, lifted by the fermata's arc. Drag the arc down to put it away.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/dialog.json",
-    "https://0db.cojeev.com/r/fraction.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/dialog.json",
+    "https://thedirectors.agency/ui/r/fraction.json"
   ],
   "files": [
     {

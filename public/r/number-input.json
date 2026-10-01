@@ -4,9 +4,9 @@
   "title": "Number input",
   "description": "A number on a baseline, yours in italic and formatted; less and more step it, and each step turns the changed figures over like a counter. Or it stands over a small ruler you can drag.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/button.json",
-    "https://0db.cojeev.com/r/field.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/button.json",
+    "https://thedirectors.agency/ui/r/field.json"
   ],
   "files": [
     {

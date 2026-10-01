@@ -4,7 +4,7 @@
   "title": "Select",
   "description": "A choice set inside a sentence: the chosen word is yours, italic over a hairline. It can be reset from the last word's letters, or wear the other choices above it as ruby.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

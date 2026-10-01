@@ -7,8 +7,8 @@
     "@radix-ui/react-slot"
   ],
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/spinner.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/spinner.json"
   ],
   "files": [
     {

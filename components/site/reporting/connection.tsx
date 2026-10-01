@@ -1,3 +1,3 @@
-// ponytail: the Worker isn't provisioned yet. Set NEXT_PUBLIC_REPORTING_API_URL=https://feedback-0db.cojeev.com
-// at build time once it is (docs/reporting/OPERATIONS.md); until then the client says so and nothing is fetched.
+// The client defaults to https://feedback.thedirectors.agency. Override the build-time URL
+// for local checks as documented in docs/reporting/OPERATIONS.md.
 export { reportingFetch, submitReport, fetchReceipt, uploadAttachment } from "@/lib/reporting/client"

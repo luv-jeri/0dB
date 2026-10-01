@@ -1,3 +1,6 @@
+import { fixtureReportingReads } from "./lib/reporting-fixture.mjs"
+import { SITE_URL, SITE_BASE_PATH, sitePath } from "../lib/site/config.mjs"
+import { packageHeaders } from "./lib/site-assets.mjs"
 // Checks the local static export with Workers header rules, not next dev.
 // This is not a live Cloudflare routing or deployment check. Workers append headers;
 // a matching `! Header` removes the earlier value before the next value is added.
@@ -9,10 +12,10 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs"
 import path from "node:path"
 import { chromium } from "playwright"
 
-const root = path.resolve("out")
+const root = path.resolve("dist")
 const read = (file) => readFileSync(path.join(root, file), "utf8")
-assert(existsSync(path.join(root, "_headers")), "No out/_headers. Run npm run build first.")
-assert.equal(read("_headers"), readFileSync("public/_headers", "utf8"), "Exported headers are stale. Rebuild.")
+assert(existsSync(path.join(root, "_headers")), "No dist/_headers. Run npm run build first.")
+assert.equal(read("_headers"), packageHeaders(readFileSync("public/_headers", "utf8")), "Packaged headers are stale. Rebuild.")
 assert(existsSync(path.join(root, "404.html")), "The static export needs 404.html.")
 const config = JSON.parse(readFileSync("wrangler.jsonc", "utf8").replace(/^\s*\/\/.*$/gm, ""))
 assert.equal(path.resolve(config.assets.directory), root)
@@ -87,19 +90,20 @@ function walk(dir) {
     if (entry.isDirectory()) {
       if (!entry.name.startsWith("_") && entry.name !== "r" && entry.name !== "404") walk(file)
     } else if (entry.name === "index.html") {
-      pages.push("/" + path.relative(root, dir).split(path.sep).join("/") + (dir === root ? "" : "/"))
+      pages.push("/" + path.relative(uiRoot, dir).split(path.sep).join("/") + (dir === uiRoot ? "" : "/"))
     }
   }
 }
-walk(root)
-const origin = "https://0db.cojeev.com"
+const uiRoot = path.join(root, SITE_BASE_PATH)
+walk(uiRoot)
+const origin = SITE_URL
 const failures = []
 let browser
 try {
   server.listen(0, "127.0.0.1")
   await once(server, "listening")
   const base = `http://127.0.0.1:${server.address().port}`
-  const fetchPage = (url, options) => fetch(base + url, options)
+  const fetchPage = (url, options) => fetch(base + (url === "/robots.txt" || url.startsWith(`${SITE_BASE_PATH}/`) ? url : sitePath(url)), options)
   const checkSecurity = (response) => {
     assert.equal(response.headers.get("x-content-type-options"), "nosniff")
     assert.equal(response.headers.get("x-frame-options"), "DENY")
@@ -110,10 +114,10 @@ try {
     const policy = Object.fromEntries(csp.split(";").map((part) => part.trim().split(/\s+/)).filter(([name]) => name).map(([name, ...values]) => [name, values]))
     for (const directive of ["default-src 'self'", "frame-ancestors 'none'", "object-src 'none'", "base-uri 'self'", "form-action 'self'"]) assert(csp.includes(directive), `Missing ${directive}`)
     assert(!csp.includes("'unsafe-eval'"), "Production CSP must block eval.")
-    const specimen = new URL(response.url).pathname.startsWith("/specimen/")
+    const specimen = new URL(response.url).pathname.startsWith(sitePath("/specimen/"))
     const required = specimen
       ? { "script-src": ["https://esm.sh"], "style-src": ["https://fonts.googleapis.com"], "font-src": ["https://fonts.gstatic.com"], "connect-src": ["https://esm.sh"], "frame-src": ["'none'"] }
-      : { "script-src": ["https://challenges.cloudflare.com", "https://static.cloudflareinsights.com"], "connect-src": ["https://feedback-0db.cojeev.com", "https://challenges.cloudflare.com"], "frame-src": ["https://challenges.cloudflare.com"] }
+      : { "script-src": ["https://challenges.cloudflare.com", "https://static.cloudflareinsights.com"], "connect-src": ["https://feedback.thedirectors.agency", "https://challenges.cloudflare.com"], "frame-src": ["https://challenges.cloudflare.com"] }
     for (const [directive, sources] of Object.entries(required)) {
       for (const source of sources) assert(policy[directive]?.includes(source), `${directive} must permit ${source}`)
     }
@@ -160,7 +164,7 @@ try {
   assert.equal(missing.status, 404)
   checkSecurity(missing)
   assert.equal(await missing.text(), read("404.html"), "Missing routes must serve the exported 404.")
-  const assetPath = read("index.html").match(/src="(\/_next\/static\/[^\"]+\.js)"/)?.[1]
+  const assetPath = read(`${SITE_BASE_PATH.slice(1)}/index.html`).match(/src="([^" ]+\/_next\/static\/[^\"]+\.js)"/)?.[1]
   assert(assetPath, "Home page has no hashed Next script")
   const asset = await fetchPage(assetPath)
   assert.equal(asset.status, 200)
@@ -171,9 +175,10 @@ try {
   for (const width of [375, 1440]) {
     for (const mode of ["day", "nocturne"]) {
       const context = await browser.newContext({ viewport: { width, height: 900 } })
+      await fixtureReportingReads(context)
       // Synthetic responses exercise the reporting origins under Chromium's CSP
       // even in an unconfigured build. These probes never reach a real service.
-      await context.route("https://feedback-0db.cojeev.com/sol-prod-csp-probe", (route) => route.fulfill({ contentType: "text/plain", headers: { "access-control-allow-origin": "*" }, body: "allowed" }))
+      await context.route("https://feedback.thedirectors.agency/sol-prod-csp-probe", (route) => route.fulfill({ contentType: "text/plain", headers: { "access-control-allow-origin": "*" }, body: "allowed" }))
       await context.route("https://challenges.cloudflare.com/sol-prod-csp-probe.js", (route) => route.fulfill({ contentType: "text/javascript", body: "window.__cspScriptProbe = true" }))
       await context.route("https://challenges.cloudflare.com/sol-prod-csp-probe.html", (route) => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>CSP frame probe</title>" }))
       await context.addInitScript((mode) => {
@@ -193,11 +198,11 @@ try {
       for (const url of sample) {
         errors = []
         try {
-          const response = await page.goto(base + url, { waitUntil: "networkidle" })
+          const response = await page.goto(base + sitePath(url), { waitUntil: "networkidle" })
           assert.equal(response.status(), 200)
           if (url === "/") {
             await page.evaluate(async () => {
-              const response = await fetch("https://feedback-0db.cojeev.com/sol-prod-csp-probe")
+              const response = await fetch("https://feedback.thedirectors.agency/sol-prod-csp-probe")
               if (await response.text() !== "allowed") throw new Error("Reporting connect-src probe failed")
               const script = document.createElement("script")
               const frame = document.createElement("iframe")

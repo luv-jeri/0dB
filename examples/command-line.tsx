@@ -1,7 +1,8 @@
+import { registryURL } from "@/lib/site/config.mjs"
 import { CommandLine } from "@/registry/0db/ui/command-line"
 import { State } from "@/components/site/state"
 
-const ADD = "shadcn@latest add https://0db.cojeev.com/r/button.json"
+const ADD = `shadcn@latest add ${registryURL("button")}`
 
 export default function Example() {
   return (

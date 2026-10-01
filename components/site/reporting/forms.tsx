@@ -1,5 +1,6 @@
 "use client"
 
+import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 import NextLink from "next/link"
 import {
@@ -211,7 +212,7 @@ export function FeedbackForms({ entries, presentation = "page", href, onPickingC
     requestAnimationFrame(() => requestAnimationFrame(() => pickButton.current?.focus({ preventScroll: true })))
   }
   const selectItem = (item: ComponentMatch, pin?: ReportingDraft["pins"][number]) => {
-    const reference = `Component: https://0db.cojeev.com/docs/${item.name}/`
+    const reference = `Component: ${siteURL(`/docs/${item.name}/`)}`
     update({
       title: draft.title || `Issue with ${item.title}`.slice(0, 120),
       description: draft.description.includes(reference) ? draft.description : `${reference}\n\n${draft.description}`.slice(0, 6000),

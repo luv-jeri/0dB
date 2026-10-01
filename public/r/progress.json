@@ -4,8 +4,8 @@
   "title": "Progress",
   "description": "How far something you started has got: a hairline and an italic percentage, the words themselves inking in, one ring per item, a pair of parentheses closing on the words, or a tally. Done, a full stop lands.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/fraction.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/fraction.json"
   ],
   "files": [
     {

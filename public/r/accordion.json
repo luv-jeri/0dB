@@ -4,7 +4,7 @@
   "title": "Accordion",
   "description": "Questions you open. Ruled off, with a plus that winds into a cross as the question swells into a heading; or run in with their answers like a book's paragraphs; glossed in the outer column; or stood side by side as columns that widen.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

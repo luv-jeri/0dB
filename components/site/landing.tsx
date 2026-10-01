@@ -1,5 +1,6 @@
 "use client"
 
+import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 
 import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls"
@@ -169,7 +170,7 @@ export function Share({ url, title, children }: { url: string; title: string; ch
   const t = React.useRef(0)
   React.useEffect(() => () => clearTimeout(t.current), [])
   async function share() {
-    const href = new URL(url, location.href).href
+    const href = siteURL(url)
     if (navigator.share) {
       try {
         await navigator.share({ title, url: href })

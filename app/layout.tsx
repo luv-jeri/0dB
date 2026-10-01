@@ -1,3 +1,4 @@
+import { SITE_URL, sitePath } from "@/lib/site/config.mjs"
 import type { Metadata } from "next"
 
 import { ThemeScript } from "@/components/site/theme-script"
@@ -13,7 +14,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: { default: "0dB", template: "%s · 0dB" },
   description: "A component library for type and silence: two typefaces, one accent and a great deal of space. Installs with the shadcn CLI.",
-  metadataBase: new URL("https://0db.cojeev.com"),
+  metadataBase: new URL(SITE_URL),
   alternates: { canonical: "./" },
   openGraph: {
     type: "website",
@@ -35,8 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
-        <link rel="preload" href="/fonts/archivo-normal-e3a28eade2.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/bodoni-moda-italic-b737328c13.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href={sitePath("/fonts/archivo-normal-e3a28eade2.woff2")} as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href={sitePath("/fonts/bodoni-moda-italic-b737328c13.woff2")} as="font" type="font/woff2" crossOrigin="anonymous" />
         <RegistryStyles />
       </head>
       <body>

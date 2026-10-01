@@ -1,3 +1,4 @@
+import { registryBaseURL } from "../../lib/site/config.mjs"
 // Consumer instructions and static references have one authority: INTENT.md and DESIGN.md.
 import { createHash } from "node:crypto"
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync, existsSync } from "node:fs"
@@ -62,7 +63,7 @@ const referenceTargets = [
 const references = (target) => referenceTargets.map(([title, dest]) =>
   `- [${title}](${path.posix.relative(path.posix.dirname(target), dest)})`).join("\n")
 
-export function buildAiKit({ root = ".", items, baseURL = "https://0db.cojeev.com", intent = read(root, "INTENT.md"), design = read(root, "DESIGN.md") }) {
+export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), intent = read(root, "INTENT.md"), design = read(root, "DESIGN.md") }) {
   baseURL = baseURL.replace(/\/$/, "")
   const i = headings(intent, "INTENT.md")
   const d = headings(design, "DESIGN.md")
@@ -258,10 +259,13 @@ export function validateAiKit(kit, root = ".") {
       if (/^https?:/.test(href)) {
         const url = new URL(href)
         if (url.origin !== new URL(kit.baseURL).origin) continue
-        const doc = url.pathname.match(/^\/docs\/([^/]+)\/$/)
+        const basePath = new URL(kit.baseURL).pathname.replace(/\/$/, "")
+        if (!url.pathname.startsWith(`${basePath}/`)) { failures.push(`${file}: link outside site ${href}`); continue }
+        const pathname = url.pathname.slice(basePath.length)
+        const doc = pathname.match(/^\/docs\/([^/]+)\/$/)
         if (doc && docs.has(doc[1])) continue
-        if (url.pathname === "/r/ai.json") continue // built after the kit
-        destination = `public${url.pathname}`
+        if (pathname === "/r/ai.json") continue // built after the kit
+        destination = `public${pathname}`
       } else if (entry) {
         const target = path.posix.normalize(path.posix.join(path.posix.dirname(entry.target.slice(2)), href))
         destination = targetToFile.get(target)

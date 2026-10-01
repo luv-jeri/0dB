@@ -4,8 +4,8 @@
   "title": "Input OTP",
   "description": "A one-time code on short baselines, three and three. Digits drop in as you type; whole, the lines ink in turn. Or the code closes up into one figure, or is read back in words under its digits.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json",
-    "https://0db.cojeev.com/r/field.json"
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/field.json"
   ],
   "files": [
     {

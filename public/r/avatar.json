@@ -4,7 +4,7 @@
   "title": "Avatar",
   "description": "A person is a ring and their initial, in italic, since a name is theirs; or a monogram of both initials; or the given name set to fill one width.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {

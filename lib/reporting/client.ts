@@ -1,6 +1,6 @@
 import { LIMITS, MEDIA_TYPES, matchesMedia, type AttachmentManifest, type Receipt, type ReportPayload } from "./contracts"
 
-export const REPORTING_API = (process.env.NEXT_PUBLIC_REPORTING_API_URL ?? "").replace(/\/$/, "")
+export const REPORTING_API = (process.env.NEXT_PUBLIC_REPORTING_API_URL ?? "https://feedback.thedirectors.agency").replace(/\/$/, "")
 export const REPORTING_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""
 export type ReportingConfig = { emailEnabled: boolean; turnstileSiteKey: string; local: boolean }
 export type ReportFile = { id: string; file: File }

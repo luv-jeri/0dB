@@ -1,5 +1,6 @@
 "use client"
 
+import { siteRoute } from "@/lib/site/config.mjs"
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -23,7 +24,7 @@ export function FeedbackLink() {
       const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[href]") : null
       if (!link || link.target || link.hasAttribute("download")) return
       const url = new URL(link.href)
-      if (url.origin !== location.origin || url.pathname.replace(/\/$/, "") !== "/feedback") return
+      if (url.origin !== location.origin || siteRoute(url.pathname).replace(/\/$/, "") !== "/feedback") return
       event.preventDefault()
       event.stopPropagation()
       if (pending) return

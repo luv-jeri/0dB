@@ -4,7 +4,7 @@
   "title": "Pair: press",
   "description": "Schibsted Grotesk and Newsreader, for <html data-pair=\"press\">.",
   "registryDependencies": [
-    "https://0db.cojeev.com/r/0db.json"
+    "https://thedirectors.agency/ui/r/0db.json"
   ],
   "files": [
     {
