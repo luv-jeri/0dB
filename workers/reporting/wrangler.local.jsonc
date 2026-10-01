@@ -1,0 +1,18 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "0db-reporting-local",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-30",
+  "vars": {
+    "ENVIRONMENT": "local",
+    "ALLOWED_ORIGINS": "https://thedirectors.agency",
+    "SITE_URL": "https://thedirectors.agency/ui",
+    "LOCAL_MODE": "true",
+    "EMAIL_ENABLED": "false",
+    "EMAIL_FROM": "hello@thedirectors.agency",
+    "DELIVERY_ACTIVATED_AT": "",
+    "GITHUB_REPOSITORY": ""
+  },
+  "d1_databases": [{ "binding": "DB", "database_name": "0db-reports-local", "database_id": "00000000-0000-0000-0000-000000000001", "migrations_dir": "migrations" }],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "0db-report-media-local" }]
+}

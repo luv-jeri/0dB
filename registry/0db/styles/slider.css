@@ -1,0 +1,123 @@
+@layer components {
+  /* ── db-ruler ── slider: a ruler with a hand; the value is yours */
+  .db-ruler {
+    --p: 0.5;
+    --thumb: 20px;
+    --h: 40px; /* the hand's height; the track is as tall */
+    --db-ruler-bg:
+      linear-gradient(var(--db-ink), var(--db-ink)) calc(var(--thumb) / 2) 100% / calc((100% - var(--thumb)) * var(--p)) var(--db-stroke) no-repeat,
+      linear-gradient(var(--db-pencil), var(--db-pencil)) calc(100% - var(--thumb) / 2) 100% / 1px 16px no-repeat,
+      repeating-linear-gradient(90deg, var(--db-pencil) 0 1px, transparent 1px 25%) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 16px no-repeat,
+      repeating-linear-gradient(90deg, var(--db-rule-strong) 0 1px, transparent 1px 5%) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 8px no-repeat,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 1px no-repeat;
+    position: relative; display: block;
+  }
+  /* The value is a dimension, as Paul Rand drew them: a measured line from zero
+     to the hand, ticked at both ends, with your number in the gap. */
+  .db-ruler-value {
+    display: flex; align-items: center; gap: 0.3em; position: relative;
+    left: calc(var(--thumb) / 2); width: calc((100% - var(--thumb)) * var(--p));
+    margin-top: var(--db-space-3);
+    font-family: var(--db-expression); font-style: italic; font-size: var(--db-f); line-height: 1.05;
+    color: var(--db-ink); font-variant-numeric: lining-nums;
+    background:
+      linear-gradient(var(--db-ink), var(--db-ink)) 0 55% / var(--db-hairline) 12px no-repeat,
+      linear-gradient(var(--db-ink), var(--db-ink)) 100% 55% / var(--db-hairline) 12px no-repeat;
+    transition: translate var(--db-andante) var(--db-spiccato);
+  }
+  .db-ruler-value > span { white-space: nowrap; direction: ltr; unicode-bidi: isolate; }
+  /* Too short a gap for the figure: the draughtsman's rule. The line stays true between its ticks and the figure
+     stands outside, past the far one. */
+  .db-ruler-value[data-outside] { gap: 0; }
+  .db-ruler-value[data-outside] > span { position: absolute; inset-inline-start: calc(100% + 0.28em); }
+  .db-ruler-value[data-outside]::after { display: none; }
+  .db-ruler:has(input:active:not(:disabled)) :is(.db-ruler-value, .db-ruler-corner, .db-ruler-loud > .db-ruler-yours) { translate: 0 -5px; transition-duration: var(--db-moderato); }
+  .db-ruler-value::before, .db-ruler-value::after { content: ""; flex: 1; height: var(--db-hairline); margin-top: 0.1em; background: var(--db-ink); }
+  .db-ruler-hand { position: relative; }
+  .db-ruler input[type="range"] {
+    -webkit-appearance: none; appearance: none; display: block; position: relative;
+    width: 100%; height: var(--h); margin: 0; background: transparent; cursor: pointer;
+  }
+  .db-ruler input[type="range"]::-webkit-slider-runnable-track { height: var(--h); background: var(--db-ruler-bg); }
+  .db-ruler input[type="range"]::-moz-range-track { height: var(--h); background: var(--db-ruler-bg); }
+  .db-ruler input[type="range"]::-moz-range-progress { background: transparent; }
+  .db-ruler input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: var(--thumb); height: var(--h); border: 0; border-radius: 0;
+    background:
+      radial-gradient(circle at 50% 5px, var(--db-accent) 3.6px, transparent 4.2px),
+      linear-gradient(var(--db-ink), var(--db-ink)) 50% 100% / var(--db-stroke) calc(var(--h) - 10px) no-repeat;
+  }
+  .db-ruler input[type="range"]::-moz-range-thumb {
+    width: var(--thumb); height: var(--h); border: 0; border-radius: 0;
+    background:
+      radial-gradient(circle at 50% 5px, var(--db-accent) 3.6px, transparent 4.2px),
+      linear-gradient(var(--db-ink), var(--db-ink)) 50% 100% / var(--db-stroke) calc(var(--h) - 10px) no-repeat;
+  }
+  .db-ruler input[type="range"]:focus-visible { outline-offset: 8px; }
+  .db-ruler[data-force~="focus"] { outline: 0; }
+  .db-ruler[data-force~="focus"] input { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 8px; }
+  .db-ruler-scale { position: relative; height: 1.6em; margin-top: var(--db-space-2); font-size: var(--db-pp); color: var(--db-pencil); font-variant-numeric: tabular-nums; }
+  .db-ruler-scale > span { position: absolute; top: 0; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--n)); translate: -50% 0; }
+  .db-ruler:has(input:disabled) { opacity: 0.45; }
+  .db-ruler:has(input:disabled) input { cursor: not-allowed; }
+  .db-ruler-yours { direction: ltr; unicode-bidi: isolate; font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-mf)); line-height: 1; color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums; transition: translate var(--db-andante) var(--db-spiccato); }
+
+  /* ── spread ── after "Renaissance.", whose words are spread to the edges: the label's letters are the ruler's marks,
+     set out across its whole length. The hand stands through them and inks every letter it has passed, splitting the
+     one it stands in, as "the uncreative" splits its word. Your number waits in the far corner. */
+  .db-ruler[data-variant="spread"] {
+    --h: 64px;
+    --db-ruler-bg:
+      linear-gradient(var(--db-ink), var(--db-ink)) calc(var(--thumb) / 2) 100% / calc((100% - var(--thumb)) * var(--p)) var(--db-stroke) no-repeat,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) calc(var(--thumb) / 2) 100% / calc(100% - var(--thumb)) 1px no-repeat;
+  }
+  .db-ruler-corner { display: block; text-align: end; }
+  .db-ruler-letters {
+    position: absolute; inset-inline: calc(var(--thumb) / 2); bottom: 8px; display: flex; justify-content: space-between;
+    font-size: var(--db-mf); line-height: 1; font-weight: 500; text-transform: uppercase; letter-spacing: 0;
+    color: transparent; -webkit-background-clip: text; background-clip: text;
+    background-image: linear-gradient(90deg, var(--db-ink) calc(var(--p) * 100%), var(--db-pencil) 0);
+    pointer-events: none;
+  }
+  .db-ruler[data-variant="spread"] .db-ruler-scale > span:not(:first-child, :last-child) { display: none; }
+
+  /* ── dynamics ── the score marks loudness pp to ff in italic under the notes. Here the label is as loud as the value:
+     its weight and width follow the hand, from a whisper at zero to its heaviest at the top, and the nearest marking inks. */
+  .db-ruler[data-variant="dynamics"] { container-type: inline-size; }
+  .db-ruler-loud { display: flex; align-items: baseline; gap: var(--db-space-3); margin-bottom: var(--db-space-2); white-space: nowrap; }
+  /* Sized from its letter count (--chars) so that at its heaviest it still fits one line: nothing reflows while you drag. */
+  .db-ruler-loud > :first-child {
+    font-size: max(var(--db-p), min(var(--db-f), calc((100cqi - 72px) / (var(--chars) * 0.76)))); line-height: 1.05; letter-spacing: var(--db-f-tr); color: var(--db-ink);
+    font-weight: calc(100 + 800 * var(--p)); font-stretch: calc(62% + 63% * var(--p));
+    transition: font-weight var(--db-allegro) var(--db-breath), font-stretch var(--db-allegro) var(--db-breath);
+  }
+  .db-ruler-loud > .db-ruler-yours { color: var(--db-graphite); }
+  .db-ruler[data-variant="dynamics"] .db-ruler-scale { font-size: var(--db-p); height: 1.4em; }
+  .db-ruler[data-variant="dynamics"] .db-ruler-scale > span { font-variant-numeric: normal; transition: color var(--db-allegro); }
+  .db-ruler[data-variant="dynamics"] .db-ruler-scale > [data-on] { color: var(--db-ink); }
+
+  /* Right to left the ruler turns with the text: zero is on the right and the hand fills leftward. */
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) {
+    --db-ruler-bg:
+      linear-gradient(var(--db-ink), var(--db-ink)) right calc(var(--thumb) / 2) bottom 0 / calc((100% - var(--thumb)) * var(--p)) var(--db-stroke) no-repeat,
+      linear-gradient(var(--db-pencil), var(--db-pencil)) left calc(var(--thumb) / 2) bottom 0 / 1px 16px no-repeat,
+      repeating-linear-gradient(270deg, var(--db-pencil) 0 1px, transparent 1px 25%) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 16px no-repeat,
+      repeating-linear-gradient(270deg, var(--db-rule-strong) 0 1px, transparent 1px 5%) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 8px no-repeat,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 1px no-repeat;
+  }
+  .db-ruler[data-variant="spread"]:is([dir="rtl"], [dir="rtl"] *) {
+    --db-ruler-bg:
+      linear-gradient(var(--db-ink), var(--db-ink)) right calc(var(--thumb) / 2) bottom 0 / calc((100% - var(--thumb)) * var(--p)) var(--db-stroke) no-repeat,
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) right calc(var(--thumb) / 2) bottom 0 / calc(100% - var(--thumb)) 1px no-repeat;
+  }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-letters { background-image: linear-gradient(270deg, var(--db-ink) calc(var(--p) * 100%), var(--db-pencil) 0); }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-value { left: auto; right: calc(var(--thumb) / 2); }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-value[data-outside] > span { inset-inline-start: auto; inset-inline-end: calc(100% + 0.28em); }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-corner { text-align: start; }
+  .db-ruler:is([dir="rtl"], [dir="rtl"] *) .db-ruler-scale > span { left: auto; right: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--n)); translate: 50% 0; }
+
+  /* Forced colours: the ruler restates its tokens in system colours, so every drawn tick and the hand survive. */
+  @media (forced-colors: active) {
+    .db-ruler { forced-color-adjust: none; color: CanvasText; --db-ink: CanvasText; --db-graphite: CanvasText; --db-pencil: GrayText; --db-rule-strong: GrayText; --db-accent: Highlight; }
+  }
+}

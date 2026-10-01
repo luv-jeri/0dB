@@ -1,0 +1,140 @@
+@layer components {
+  /* ── db-combo ── a field that suggests. The closed line is a baseline like the input's;
+     what you chose is yours, in italic. The open list is a db-pop hung from it, holding
+     a cmdk Command, so the letters you typed are marked in each match and the rows arrive in turn. */
+  .db-field > .db-combo { grid-column: 1 / -1; }
+  .db-combo {
+    appearance: none; position: relative; display: block; width: 100%; margin: 0; border: 0; border-radius: 0; outline: 0;
+    padding: 0.3em 1.4em 0.42em 0; text-align: start; cursor: pointer;
+    background:
+      linear-gradient(var(--db-accent), var(--db-accent)) no-repeat var(--o, 0%) 100% / 0% var(--db-stroke),
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+    color: var(--db-ink);
+    font-family: var(--db-expression); font-style: italic; font-weight: 400;
+    font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.3;
+    transition: background-size var(--db-moderato) var(--db-exhale);
+  }
+  .db-combo[data-placeholder] { font-family: var(--db-voice); font-style: normal; font-size: var(--db-mp); color: var(--db-pencil); }
+  .db-combo-value { display: block; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .db-combo::after {
+    content: "↓" / ""; position: absolute; inset-inline-end: 0; bottom: 0.5em;
+    font-family: var(--db-voice); font-style: normal; font-size: var(--db-pp); line-height: 1; color: var(--db-pencil);
+    transition: translate var(--db-moderato) var(--db-exhale), color var(--db-allegro);
+  }
+  .db-combo:is(:hover, [data-force~="hover"])::after { translate: 0 2px; color: var(--db-ink); }
+  .db-combo[data-state="open"]::after { color: var(--db-ink); }
+  .db-combo:is(:focus-visible, [data-state="open"], [data-force~="focus"]) { background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
+  .db-combo[aria-invalid="true"] { background-image: linear-gradient(var(--db-signal), var(--db-signal)), linear-gradient(var(--db-signal), var(--db-signal)); }
+  .db-combo:disabled {
+    color: var(--db-pencil); cursor: not-allowed;
+    background-image: none, repeating-linear-gradient(90deg, var(--db-rule-strong) 0 2px, transparent 2px 6px);
+  }
+  .db-combo:disabled::after { content: none; }
+
+  /* ── multiple ── what you chose is written on the line as one sentence in your italic: the badge's series tags,
+     "Didot, Futura and Univers", ours the commas and the "and". The baseline runs under the whole line; the rest of it,
+     after the last word, is the trigger that opens the list again. Pressing a word strikes it and the sentence closes up
+     round the gap. It wraps like prose and the line stays under its last row. */
+  .db-field > .db-combo-many { grid-column: 1 / -1; }
+  .db-combo-many {
+    display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.12em; padding: 0.3em 0 0.42em;
+    font-size: var(--db-mp); line-height: 1.3;
+    background:
+      linear-gradient(var(--db-accent), var(--db-accent)) no-repeat 0 100% / 0% var(--db-stroke),
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+    transition: background-size var(--db-moderato) var(--db-exhale);
+  }
+  .db-combo-many > .db-tag { line-height: 1.3; }
+  .db-combo-many > .db-combo { flex: 1 0 1.8em; align-self: stretch; width: auto; padding-block: 0; background: none; }
+  .db-combo-many > .db-combo:not([data-placeholder]) { padding-inline-start: 0.4em; }
+  .db-combo-many > .db-combo::after { bottom: 0.2em; }
+  .db-combo-many:has(> .db-combo:is(:focus-visible, [data-state="open"], [data-force~="focus"])) { background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
+  .db-combo-many:has(> .db-combo[aria-invalid="true"]) { background-image: linear-gradient(var(--db-signal), var(--db-signal)), linear-gradient(var(--db-signal), var(--db-signal)); }
+  .db-combo-many[data-disabled] { background-image: none, repeating-linear-gradient(90deg, var(--db-rule-strong) 0 2px, transparent 2px 6px); }
+  .db-combo-many[data-disabled] > .db-tag { color: var(--db-pencil); }
+  :is([dir="rtl"], [dir="rtl"] *).db-combo-many { background-position: 100% 100%, 0 100%; }
+
+  /* The panel: as wide as the line, the search inside it set a size down from the palette's. */
+  .db-pop.db-combo-pop { width: max(var(--radix-popover-trigger-width), 16rem); max-width: calc(100vw - 2 * var(--db-margin)); padding: var(--db-space-4) 0 var(--db-space-2); } /* as wide as its line, past the popover's own cap */
+  .db-combo-pop .db-command { gap: var(--db-space-3); }
+  .db-combo-pop .db-command-input { width: calc(100% - 2 * var(--db-space-5)); margin-inline: var(--db-space-5); font-size: calc(var(--db-mp) * var(--db-expression-scale)); }
+  .db-combo-pop .db-command-input::placeholder { font-size: var(--db-mp); }
+  .db-combo-pop .db-command-list { max-height: 17rem; overscroll-behavior: contain; }
+
+  /* A row: a dot marks the one you point at (ink) and the one you chose (accent); the arrow the palette
+     draws is put away. */
+  .db-pop.db-combo-pop .db-command-option {
+    position: relative; padding: 0.32em var(--db-space-5) 0.32em calc(var(--db-space-5) + 0.7em); border-bottom: 0;
+  }
+  .db-pop.db-combo-pop .db-command-option::after { content: none; }
+  .db-pop.db-combo-pop .db-command-option::before {
+    content: ""; position: absolute; inset-inline-start: var(--db-space-5); top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%;
+    background: var(--db-ink); scale: 0; transition: scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-pop.db-combo-pop .db-command-option[aria-selected="true"] .db-command-name { translate: 0 0; }
+  .db-pop.db-combo-pop .db-command-option[aria-selected="true"]::before { scale: 1; }
+  .db-pop.db-combo-pop .db-command-option[data-chosen] { color: var(--db-ink); }
+  .db-pop.db-combo-pop .db-command-option[data-chosen]::before { background: var(--db-accent); scale: 1; }
+  .db-combo-pop .db-command-empty { padding-inline: var(--db-space-5); color: var(--db-pencil); }
+
+  /* multiple: no accent in the list, since there are many choices and one accent. A chosen row is written in your italic,
+     as it is on the line; the ink dot is only the one you point at. The leading is held so a row doesn't grow as it turns. */
+  .db-pop.db-combo-pop[data-multiple] .db-command-option[data-chosen]::before { background: var(--db-ink); scale: 0; }
+  .db-pop.db-combo-pop[data-multiple] .db-command-option[data-chosen][aria-selected="true"]::before { scale: 1; }
+  .db-combo-pop[data-multiple] .db-command-option[data-chosen] :is(.db-command-name, .db-combo-pre, .db-combo-hit, .db-combo-post) {
+    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: calc(var(--db-mp) * var(--db-mp-lh));
+  }
+  .db-combo-pop[data-multiple] .db-command-option[data-chosen] .db-command-hint { font-family: var(--db-voice); font-style: normal; }
+
+  /* ── concordance ── as a concordance sets a word in the middle of every line that holds it:
+     each match is split round what you typed, and the typed letters stand in one column. The
+     axis sits just after the longest start, so no row travels further than it must; typing
+     moves it, and the rows glide to it (script, on the row). */
+  .db-combo-pop[data-variant="concordance"] [cmdk-list-sizer] { display: grid; grid-template-columns: auto auto minmax(0, 1fr); }
+  .db-combo-pop[data-variant="concordance"] [cmdk-list-sizer] > * { grid-column: 1 / -1; }
+  .db-pop.db-combo-pop[data-variant="concordance"] .db-command-option { grid-template-columns: subgrid; grid-auto-flow: row; column-gap: 0; font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  .db-combo-pre { text-align: end; white-space: pre; color: var(--db-pencil); transition: color var(--db-allegro); }
+  .db-combo-hit { white-space: pre; color: var(--db-ink); }
+  .db-combo-hit > mark { padding: 0; margin: 0; }
+  .db-combo-post { min-width: 0; overflow: hidden; white-space: pre; text-overflow: ellipsis; }
+  .db-combo-post > .db-command-hint { margin-inline-start: var(--db-space-3); }
+  .db-command-option:is(:hover, [aria-selected="true"]) .db-combo-pre { color: inherit; }
+
+  /* ── pencil ── you type on the line itself. The best match's remaining letters are pencilled in
+     after the caret, in our roman, over a copy of what you typed that can't be seen; taking them
+     inks the word into your italic. The few matches sit under the line, in the page, not over it. */
+  .db-field > .db-combo-pencil { grid-column: 1 / -1; }
+  .db-combo-pencil { display: grid; row-gap: var(--db-space-2); }
+  .db-combo-line { position: relative; display: block; }
+  .db-combo-line > .db-input { position: relative; background-color: transparent; }
+  .db-combo-ghost {
+    position: absolute; inset: 0; overflow: hidden; padding: 0.3em 0 0.42em; white-space: pre; pointer-events: none; color: transparent;
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.3;
+  }
+  .db-combo-ghost > span { font-family: var(--db-voice); font-style: normal; font-size: var(--db-mp); color: var(--db-pencil); }
+  .db-combo-pencil[data-force~="focus"] { outline: 0; }
+  .db-combo-pencil[data-force~="focus"] .db-input { background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
+  .db-combo-pencil .db-combo-list { display: grid; margin: 0; padding: 0; list-style: none; }
+  .db-combo-pencil .db-combo-list[hidden] { display: none; }
+  .db-combo-pencil [role="option"] {
+    position: relative; display: flex; align-items: baseline; gap: var(--db-space-3); padding-block: 0.15em; padding-inline-start: 0.9em; cursor: pointer;
+    font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-pencil); transition: color var(--db-allegro);
+    animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(min(sibling-index(), 6) * var(--db-arpeggio));
+  }
+  .db-combo-pencil [role="option"]::before {
+    content: ""; position: absolute; inset-inline-start: 0; top: calc(50% - 2.5px); width: 5px; height: 5px; border-radius: 50%;
+    background: var(--db-ink); scale: 0; transition: scale var(--db-moderato) var(--db-spiccato);
+  }
+  .db-combo-pencil [role="option"][aria-selected="true"] { color: var(--db-ink); }
+  .db-combo-pencil [role="option"][aria-selected="true"]::before { scale: 1; }
+  .db-combo-pencil [role="option"][data-chosen]::before { background: var(--db-accent); scale: 1; }
+  .db-combo-pencil [role="option"] mark { padding: 0; margin: 0; }
+  .db-combo-pencil .db-combo-empty { margin: 0; font-size: var(--db-p); color: var(--db-pencil); }
+
+  @media (forced-colors: active) {
+    .db-combo-ghost { forced-color-adjust: none; }
+    .db-combo-ghost > span { color: GrayText; }
+    .db-combo-pencil [role="option"][aria-selected="true"] { color: Highlight; }
+    .db-combo-pencil [role="option"]::before { forced-color-adjust: none; background: CanvasText; }
+  }
+}

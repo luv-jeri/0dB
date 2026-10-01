@@ -1,0 +1,147 @@
+/* 0dB · tokens
+   The registry:base item. Every component reads only these variables.
+   Modes:   <html data-mode="day | nocturne">
+   Schemes: <html data-scheme="cotton | blueprint | statue | silence | riso">
+   Keys:    <html data-key="ultramarine | viridian | ember | violet">  (overrides the scheme's accent)
+   Pairs:   <html data-pair="parma | press | paris | salon"> */
+
+:root {
+  color-scheme: light;
+  interpolate-size: allow-keywords;
+
+  /* Colour: one note. Ink on paper, one accent for "where you are". */
+  --db-paper: #f2f3f0;
+  --db-ink: #000;
+  --db-graphite: #4a4b50;
+  --db-pencil: #6b6c71;
+  --db-rule: color-mix(in srgb, var(--db-ink) 14%, transparent);
+  --db-rule-strong: color-mix(in srgb, var(--db-ink) 42%, transparent);
+  --db-accent: #2b2bee;
+  --db-signal: #c8102e;
+  --db-mark: #ffe45a;
+  --db-on-mark: #000;
+
+  /* Type: the voice (ours) and the expression (yours). */
+  --db-voice: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --db-expression: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+  --db-expression-scale: 1.15; /* matches Bodoni's x-height to Archivo's */
+  /* Reading grade: the same italic, cut for a line of text. Display keeps its own scale and optical sizing. */
+  --db-expression-text-opsz: 6;
+  --db-expression-text-variation: "opsz" var(--db-expression-text-opsz);
+  --db-expression-text-weight: 500;
+  --db-expression-text-tracking: 0.012em;
+  --db-expression-text-scale: 1.18;
+
+  /* Dynamics: text steps by a fourth, headings by a fifth. */
+  --db-pp: 0.8125rem;   --db-pp-lh: 1.45;  --db-pp-tr: 0.01em;
+  --db-p: 1.0625rem;    --db-p-lh: 1.6;    --db-p-tr: 0em;
+  --db-mp: 1.375rem;    --db-mp-lh: 1.45;  --db-mp-tr: -0.005em;
+  --db-mf: 2rem;        --db-mf-lh: 1.15;  --db-mf-tr: -0.015em;
+  --db-f: 3rem;         --db-f-lh: 1.05;   --db-f-tr: -0.025em;
+  --db-ff: 4.5rem;      --db-ff-lh: 0.95;  --db-ff-tr: -0.035em;
+  --db-fff: clamp(4rem, 11vw, 10rem);       --db-fff-lh: 0.9;  --db-fff-tr: -0.045em;
+  --db-ffff: clamp(4rem, 17.5vw, 17rem);  --db-ffff-lh: 0.82; --db-ffff-tr: -0.055em;
+  --db-measure: 62ch;
+
+  /* Space: perfect fifths from 8. */
+  --db-space-1: 0.25rem;   /*   4 */
+  --db-space-2: 0.5rem;    /*   8 */
+  --db-space-3: 0.75rem;   /*  12 */
+  --db-space-4: 1.125rem;  /*  18 */
+  --db-space-5: 1.6875rem; /*  27 */
+  --db-space-6: 2.5rem;    /*  40 */
+  --db-space-7: 3.75rem;   /*  60 */
+  --db-space-8: 5.625rem;  /*  90 */
+  --db-space-9: 8.4375rem; /* 135 */
+  --db-space-10: 12.5rem;  /* 200 */
+
+  /* Line and shape. */
+  --db-hairline: 1px;
+  --db-stroke: 1.5px;
+  --db-dot: 7px;
+  --db-gutter: 24px;
+  --db-margin: clamp(20px, 5vw, 80px);
+
+  /* Tempo. */
+  --db-allegro: 160ms;   /* hover, press */
+  --db-moderato: 320ms;  /* a state changes */
+  --db-andante: 640ms;   /* panels, toast, dialog */
+  --db-adagio: 1400ms;   /* the overture, once */
+  --db-exhale: cubic-bezier(0.16, 1, 0.3, 1);   /* arriving */
+  --db-breath: cubic-bezier(0.65, 0, 0.35, 1);  /* moving between states */
+  --db-spiccato: cubic-bezier(0.34, 1.5, 0.5, 1); /* landing: a bounced bow, one small rebound */
+  --db-arpeggio: 36ms;                           /* the step between things arriving in turn */
+}
+
+/* Pairs: a voice (grotesque) and an expression (italic serif). The scale
+   lifts each italic until its x-height meets the voice's on the line. */
+:root[data-pair="press"] {
+  --db-voice: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --db-expression: "Newsreader", Georgia, serif;
+  --db-expression-scale: 1.1;
+  --db-expression-text-opsz: 6;
+  --db-expression-text-variation: "opsz" var(--db-expression-text-opsz);
+  --db-expression-text-weight: 500;
+  --db-expression-text-tracking: 0.01em;
+  --db-expression-text-scale: 1.12;
+}
+:root[data-pair="paris"] {
+  --db-voice: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --db-expression: "EB Garamond", Garamond, Georgia, serif;
+  --db-expression-scale: 1.24;
+  --db-expression-text-variation: normal; /* Garamond has a weight axis, no optical-size axis. */
+  --db-expression-text-weight: 500;
+  --db-expression-text-tracking: 0.015em;
+  --db-expression-text-scale: 1.3;
+}
+:root[data-pair="salon"] {
+  --db-voice: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --db-expression: "Cormorant", Garamond, Georgia, serif;
+  --db-expression-scale: 1.26;
+  --db-expression-text-variation: normal; /* Cormorant needs ink and x-height, not an invented axis. */
+  --db-expression-text-weight: 600;
+  --db-expression-text-tracking: 0.015em;
+  --db-expression-text-scale: 1.38;
+}
+
+/* Schemes: paper, ink and accent move together; the rules follow the ink. */
+:root[data-scheme="blueprint"] { --db-paper: #edf0f7; --db-ink: #0c1b8f; --db-graphite: #2f3b7c; --db-pencil: #58608f; --db-accent: #c23d00; --db-signal: #a3001e; }
+:root[data-scheme="statue"]    { --db-paper: #ebeae5; --db-ink: #14213d; --db-graphite: #39445f; --db-pencil: #5f687e; --db-accent: #875600; --db-signal: #b3122e; }
+:root[data-scheme="silence"]   { --db-paper: #e2e8e3; --db-ink: #0e2a23; --db-graphite: #32504a; --db-pencil: #4f6962; --db-accent: #1b3de0; --db-signal: #b3122e; }
+:root[data-scheme="riso"]      { --db-paper: #f6f5f2; --db-ink: #25286b; --db-graphite: #3f4278; --db-pencil: #636591; --db-accent: #b8005f; --db-signal: #c23c00; }
+
+/* Nocturne: the dark mode, for the long sessions. */
+:root[data-mode="nocturne"] {
+  color-scheme: dark;
+  --db-paper: #10111c;
+  --db-ink: #e9eaec;
+  --db-graphite: #b4b5bc;
+  --db-pencil: #83848c;
+  --db-accent: #8c8cff;
+  --db-signal: #ff6b7f;
+}
+:root[data-mode="nocturne"][data-scheme="blueprint"] { --db-paper: #0a1766; --db-ink: #f0f2ff; --db-graphite: #c4caf2; --db-pencil: #929ad0; --db-accent: #ff9557; --db-signal: #ff8a9a; }
+:root[data-mode="nocturne"][data-scheme="statue"]    { --db-paper: #0d1528; --db-ink: #eee7d7; --db-graphite: #c7c0b0; --db-pencil: #938d80; --db-accent: #e3b04f; --db-signal: #ff7b86; }
+:root[data-mode="nocturne"][data-scheme="silence"]   { --db-paper: #0c1c18; --db-ink: #e1ebe6; --db-graphite: #adc0b9; --db-pencil: #7a918a; --db-accent: #93a6ff; --db-signal: #ff7b86; }
+:root[data-mode="nocturne"][data-scheme="riso"]      { --db-paper: #1a1537; --db-ink: #f8eef5; --db-graphite: #d2c6d8; --db-pencil: #9d92ab; --db-accent: #ff62b0; --db-signal: #ffa066; }
+
+/* Keys: the accent can change, the rule doesn't. Declared last so a key wins
+   over any scheme. All ≥ 4.5:1 on every paper, by day and in Nocturne. */
+:root[data-key="ultramarine"] { --db-accent: #2b2bee; }
+:root[data-key="viridian"]    { --db-accent: #0b6e4f; }
+:root[data-key="ember"]       { --db-accent: #b83d00; }
+:root[data-key="violet"]      { --db-accent: #6a1b9a; }
+:root[data-mode="nocturne"][data-key="ultramarine"] { --db-accent: #8c8cff; }
+:root[data-mode="nocturne"][data-key="viridian"]    { --db-accent: #4fd1a5; }
+:root[data-mode="nocturne"][data-key="ember"]       { --db-accent: #ff8a4c; }
+:root[data-mode="nocturne"][data-key="violet"]      { --db-accent: #c58cf2; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --db-allegro: 1ms;
+    --db-moderato: 1ms;
+    --db-andante: 1ms;
+    --db-adagio: 1ms;
+    --db-arpeggio: 0ms;
+  }
+}

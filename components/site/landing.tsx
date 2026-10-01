@@ -1,0 +1,199 @@
+"use client"
+
+import { siteURL } from "@/lib/site/config.mjs"
+import * as React from "react"
+
+import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls"
+import { Button } from "@/registry/0db/ui/button"
+import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
+import { Input } from "@/registry/0db/ui/field"
+import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
+import { Select } from "@/registry/0db/ui/select"
+
+// The home page's small instruments: the ones that answer a hand. Everything else on the page is a server component.
+
+const LEFT_OUT = ["Icons", "Boxes", "Shadows", "Gradients", "Monospace", "A second colour"]
+
+/** Silence is structure: what 0dB leaves out, already struck through. Unstrike one to see it matters. */
+export function LeftOut() {
+  return (
+    <CheckboxGroup
+      tally
+      className="left-out"
+      legend={<span className="db-sr">What 0dB leaves out</span>}
+      done={(count, total) => (count === total ? "left out, and not missed." : "left out.")}
+    >
+      {LEFT_OUT.map((word) => (
+        <Checkbox key={word} defaultChecked>
+          {word}
+        </Checkbox>
+      ))}
+    </CheckboxGroup>
+  )
+}
+
+/** One note of colour: the whole page, retuned from one sentence. */
+export function TuneSentence() {
+  const [theme, set] = useTheme()
+  return (
+    <p className="tune-sentence">
+      Print it in{" "}
+      <span className="tune-bind">
+        <Select aria-label="Scheme" value={theme.scheme ?? "cotton"} onChange={(e) => set({ scheme: e.target.value }, e.currentTarget)}>
+          {SCHEMES.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </Select>
+        ,
+      </span>{" "}
+      set it in{" "}
+      <span className="tune-bind">
+        <Select aria-label="Typefaces" value={theme.pair ?? "parma"} onChange={(e) => set({ pair: e.target.value }, e.currentTarget)}>
+          {PAIRS.map((p) => (
+            <option key={p.value} value={p.value}>
+              {p.words}
+            </option>
+          ))}
+        </Select>
+        ,
+      </span>{" "}
+      key it to{" "}
+      <span className="tune-bind">
+        <Select aria-label="Accent" rootClassName="tune-key" value={theme.key ?? ""} onChange={(e) => set({ key: e.target.value || undefined }, e.currentTarget)}>
+          <option value="">its own colour</option>
+          {KEYS.map((k) => (
+            <option key={k} value={k}>
+              {k}
+            </option>
+          ))}
+        </Select>
+        ,
+      </span>{" "}
+      and read it by{" "}
+      <span className="tune-bind">
+        <ModeToggle variant="words" aria-label="Read it by night" mode={theme.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(m, e) => set({ mode: m }, e.currentTarget)} />.
+      </span>
+    </p>
+  )
+}
+
+/** The install line as one press: the whole command, the reader's part in italic; pressing copies it. */
+export function CopyCommand({ command, emphasis }: { command: string; emphasis?: string }) {
+  const [copied, setCopied] = React.useState(false)
+  const timer = React.useRef(0)
+  React.useEffect(() => () => clearTimeout(timer.current), [])
+  const at = emphasis ? command.lastIndexOf(emphasis) : -1
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(command)
+    } catch {
+      return
+    }
+    setCopied(true)
+    clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <>
+      <button type="button" className="copy-cmd" data-copied={copied || undefined} onClick={copy}>
+        <code className="copy-cmd-text" dir="ltr">
+          {at < 0 || !emphasis ? (
+            command
+          ) : (
+            <>
+              {command.slice(0, at)}
+              <i>{emphasis}</i>
+              {command.slice(at + emphasis.length)}
+            </>
+          )}
+        </code>
+        <span className="copy-cmd-word" data-text="Copied">
+          <span>{copied ? "Copied" : "Copy"}</span>
+        </span>
+      </button>
+      <span className="db-sr" aria-live="polite">
+        {copied ? "Copied to the clipboard." : ""}
+      </span>
+    </>
+  )
+}
+
+const PROMPT = (thing: string) =>
+  `Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0dB. Use an installed 0dB component as precedent. Run the completion checklist and report evidence.`
+
+/** Ask for it: you write what you want in the blank, in your italic, and copy a prompt that already knows the rules. */
+export function AskFor() {
+  const [what, setWhat] = React.useState("")
+  const [copied, setCopied] = React.useState(false)
+  const timer = React.useRef(0)
+  React.useEffect(() => () => clearTimeout(timer.current), [])
+  const thing = what.trim() || "a pricing page"
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(PROMPT(thing))
+    } catch {
+      return
+    }
+    setCopied(true)
+    clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setCopied(false), 2000)
+  }
+  return (
+    <div className="ask">
+      <label className="ask-line">
+        Build me{" "}
+        <span className="ask-fill">
+          <Input className="ask-what" value={what} placeholder="a pricing page" autoComplete="off" spellCheck={false} maxLength={48} onChange={(e) => setWhat(e.target.value)} />
+        </span>{" "}
+        in 0dB.
+      </label>
+      <div className="ask-foot">
+        <Button variant="bracket" onClick={copy}>
+          {copied ? "Copied" : "Copy the prompt"}
+        </Button>
+        <span className="db-sr" aria-live="polite">
+          {copied ? "The prompt is on the clipboard." : ""}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Share: the system's own sheet where there is one, else the link is copied. Plain words, no glyph.
+ * The label says what happened after: "Link copied", read out once.
+ */
+export function Share({ url, title, children }: { url: string; title: string; children: string }) {
+  const [copied, setCopied] = React.useState(false)
+  const t = React.useRef(0)
+  React.useEffect(() => () => clearTimeout(t.current), [])
+  async function share() {
+    const href = siteURL(url)
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, url: href })
+        return
+      } catch (e) {
+        if ((e as DOMException).name === "AbortError") return
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(href)
+      setCopied(true)
+      clearTimeout(t.current)
+      t.current = window.setTimeout(() => setCopied(false), 2400)
+    } catch {}
+  }
+  return (
+    <>
+      <button type="button" className="share" data-copied={copied || undefined} onClick={share}>
+        {copied ? "Link copied" : children}
+      </button>
+      <span className="db-sr" aria-live="polite">
+        {copied ? "Link copied" : ""}
+      </span>
+    </>
+  )
+}

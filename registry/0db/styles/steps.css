@@ -1,0 +1,100 @@
+@layer components {
+  /* ── db-steps ── a real sequence: large thin numerals in pencil, two figures as the posters number
+     ("Less is more." 01), a hairline between steps; the current numeral is the one accent and lands with a
+     small rebound when the sequence moves on. */
+  .db-steps { list-style: none; margin: 0; padding: 0; counter-reset: db-step; display: grid; gap: var(--db-space-6); }
+  .db-step {
+    counter-increment: db-step;
+    display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--db-space-5);
+    padding-block-start: var(--db-space-4); border-block-start: var(--db-hairline) solid var(--db-rule);
+  }
+  .db-step::before {
+    content: counter(db-step, decimal-leading-zero); grid-row: 1 / span 3; align-self: start;
+    font-size: var(--db-f); line-height: 0.9; font-weight: 200; font-stretch: 88%; letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums tabular-nums; color: var(--db-pencil);
+  }
+  .db-step > * { grid-column: 2; min-inline-size: 0; }
+  .db-step > * + * { margin-block-start: var(--db-space-3); } /* not row-gap: the numeral's spanned rows would each add one */
+  .db-step[data-done]::before { color: var(--db-ink); }
+  .db-step[data-current]::before { color: var(--db-accent); font-weight: 300; animation: db-land var(--db-moderato) var(--db-spiccato); }
+  .db-step-title { margin: 0; font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); font-weight: 400; color: var(--db-ink); }
+
+  /* rise: the numerals stand on one hairline across the page, huge and thin, like letters cut by a line in
+     SPECTRA and Paul Rand's grid. A step to come is sunk into the line, only its top showing; reached, its
+     numeral rises out whole (the accent), and it stays standing, in ink, once done. */
+  .db-steps[data-variant="rise"] { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0; }
+  .db-steps[data-variant="rise"] > .db-step { grid-template-columns: minmax(0, 1fr); align-content: start; padding: 0; border: 0; }
+  .db-steps[data-variant="rise"] > .db-step > * { grid-column: 1; padding-inline-end: var(--db-space-5); }
+  .db-steps[data-variant="rise"] > .db-step::before {
+    grid-row: auto; box-sizing: border-box; block-size: calc(0.74em + var(--db-hairline)); overflow: clip;
+    padding-block-start: var(--db-step-sink, 0.46em); margin-block-end: var(--db-space-4);
+    font-size: var(--db-ff); line-height: 0.74; font-weight: 100; font-stretch: 100%; letter-spacing: -0.04em;
+    border-block-end: var(--db-hairline) solid var(--db-rule-strong); animation: none;
+    transition: padding-block-start var(--db-andante) var(--db-exhale), color var(--db-moderato);
+  }
+  .db-steps[data-variant="rise"] > .db-step:is([data-done], [data-current]) { --db-step-sink: 0em; }
+  .db-steps[data-variant="rise"] > .db-step[data-current]::before { font-weight: 200; }
+  @media (max-width: 40rem) {
+    .db-steps[data-variant="rise"] { grid-auto-flow: row; row-gap: var(--db-space-6); }
+    .db-steps[data-variant="rise"] > .db-step::before { font-size: var(--db-f); }
+  }
+
+  /* cascade: no numerals. The titles are set as one broken headline that steps across the page, the way
+     "Healthy habits → for creatives" breaks its line, so the order is read in the space itself. Behind you in
+     pencil, ahead in graphite; where you are in ink, with the accent arrow pointing on to the next. The last
+     step, reached, closes the headline with an accent full stop instead. */
+  .db-steps[data-variant="cascade"] { gap: var(--db-space-5); }
+  .db-steps[data-variant="cascade"] > .db-step { display: block; padding: 0; border: 0; margin-inline-start: calc(var(--db-step-i, 0) * var(--db-space-8)); }
+  .db-steps[data-variant="cascade"] > .db-step:nth-child(2) { --db-step-i: 1; }
+  .db-steps[data-variant="cascade"] > .db-step:nth-child(3) { --db-step-i: 2; }
+  .db-steps[data-variant="cascade"] > .db-step:nth-child(4) { --db-step-i: 3; }
+  .db-steps[data-variant="cascade"] > .db-step:nth-child(n + 5) { --db-step-i: 4; } /* ponytail: the stair stops at the fifth step so a long list keeps its measure */
+  .db-steps[data-variant="cascade"] > .db-step::before { content: none; }
+  .db-steps[data-variant="cascade"] > .db-step > * + * { margin-block-start: var(--db-space-2); }
+  .db-steps[data-variant="cascade"] > .db-step > :not(.db-step-title) { color: var(--db-pencil); }
+  .db-steps[data-variant="cascade"] .db-step-title {
+    font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-graphite);
+    transition: color var(--db-moderato);
+  }
+  .db-steps[data-variant="cascade"] > .db-step[data-done] .db-step-title { color: var(--db-pencil); }
+  .db-steps[data-variant="cascade"] > .db-step[data-current] .db-step-title { color: var(--db-ink); font-weight: 400; }
+  .db-steps[data-variant="cascade"] > .db-step[data-current] > :not(.db-step-title) { color: var(--db-graphite); }
+  .db-steps[data-variant="cascade"] > .db-step[data-current] .db-step-title::after {
+    content: "\2009\2192" / ""; display: inline-block; color: var(--db-accent); font-weight: 300;
+    animation: db-step-onward var(--db-moderato) var(--db-spiccato) backwards;
+  }
+  .db-steps[data-variant="cascade"] > .db-step[data-current]:last-child .db-step-title::after { content: "." / ""; }
+  .db-steps[data-variant="cascade"]:is([dir="rtl"], [dir="rtl"] *) > .db-step[data-current]:not(:last-child) .db-step-title::after { content: "\2009\2190" / ""; --db-step-lr: -1; }
+  @keyframes db-step-onward { from { opacity: 0; translate: calc(-0.4em * var(--db-step-lr, 1)) 0; } }
+  @media (max-width: 40rem) {
+    .db-steps[data-variant="cascade"] > .db-step { margin-inline-start: calc(var(--db-step-i, 0) * var(--db-space-5)); }
+  }
+
+  /* folio: the compact one. The whole sequence folds into one fraction, as SPECTRA prints 1/3 large beside its small
+     notes and "Less is more." sets its 01: where you are in the accent italic, of how many small and upright after the
+     pen stroke. The step you're on hangs beside it, its title on the figure's baseline. The other steps stay in the list,
+     unseen, so a screen reader still hears the whole order. Moving on, the figure turns over (the fraction's roll). */
+  .db-steps-folio { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--db-space-5); align-items: first baseline; }
+  .db-steps-folio > .db-fraction { font-size: var(--db-ff); }
+  .db-steps-folio > .db-fraction > .db-yours { color: var(--db-accent); }
+  .db-steps-folio:not(:has([data-current])) > .db-fraction > .db-yours { color: var(--db-ink); } /* all done: nowhere left to be */
+  .db-steps[data-variant="folio"] { display: block; }
+  .db-steps[data-variant="folio"] > .db-step { display: block; padding: 0; border: 0; }
+  .db-steps[data-variant="folio"] > .db-step::before { content: none; }
+  .db-steps[data-variant="folio"] > .db-step > :not(.db-step-title) { color: var(--db-graphite); }
+  .db-steps[data-variant="folio"] > .db-step:not([data-shown]) {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  @media (max-width: 40rem) { .db-steps-folio > .db-fraction { font-size: var(--db-f); } }
+
+  /* A way back: with onValueChange, a done step's title is a button. Pointing draws a hairline under it. */
+  .db-step-back {
+    appearance: none; margin: 0; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; color: inherit; text-align: inherit; cursor: pointer;
+    text-decoration: underline var(--db-hairline) transparent; text-underline-offset: 0.2em; transition: text-decoration-color var(--db-allegro);
+  }
+  .db-step-back:is(:hover, :focus-visible, [data-force~="hover"]) { text-decoration-color: currentColor; }
+
+  @media (forced-colors: active) {
+    .db-step[data-current]::before, .db-steps[data-variant="cascade"] > .db-step[data-current] .db-step-title::after, .db-steps-folio > .db-fraction > .db-yours { color: Highlight; }
+  }
+}

@@ -1,0 +1,62 @@
+@layer components {
+  /* ── db-ribbon ── a phrase laid along a curve by pretext, repeated round with a dot between each time. Each letter is placed
+     by the hook (translate, rotate, scale) and carries --d, its distance from the middle of the curve, 0 to 1; the colour and
+     the fade follow it here. The idle drift yields to the hand; pause, hover and focus hold the phrase in place. */
+  .db-ribbon { container-type: inline-size; min-width: 0; }
+  .db-ribbon-stage {
+    position: relative; overflow: clip; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab;
+    /* The arch's height, reserved before it's laid, so nothing moves: its rise over the chord, plus a line above and below. */
+    block-size: calc(0.2331 * (100cqi - 1.5em) + 2.4em);
+    color: var(--db-ink); line-height: 1; white-space: nowrap;
+  }
+  .db-ribbon[data-held] .db-ribbon-stage { cursor: grabbing; }
+  .db-ribbon-stage:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-2); }
+  .db-ribbon-plain { position: absolute; inset-inline: 0; top: 0.4em; text-align: center; }
+  .db-ribbon[data-laid] .db-ribbon-plain { visibility: hidden; }
+  .db-ribbon-guide { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
+  .db-ribbon-guide path { fill: none; stroke: var(--db-rule); stroke-width: var(--db-hairline); vector-effect: non-scaling-stroke; }
+  .db-ribbon-letters > span {
+    position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform;
+    /* WOVE: ink at the crest, falling to pencil by distance, and gone at the very ends. */
+    color: color-mix(in oklab, var(--db-ink) calc((1 - var(--d, 0)) * 100%), var(--db-pencil));
+    opacity: calc(1 - max(0, var(--d, 0) - 0.72) / 0.28);
+  }
+  /* The dots between the phrases ride on the guide, in pencil, as WOVE's dots stand on its arc. */
+  .db-ribbon-letters > .db-ribbon-dot { inline-size: 0.16em; block-size: 0.16em; border-radius: 50%; background: var(--db-pencil); }
+  /* The crest: one ink dot on the guide where the phrase stands tallest, the "here" of WOVE's dial. Focus inks it in the accent. */
+  .db-ribbon[data-laid]:not([data-variant]) .db-ribbon-stage::after {
+    content: ""; position: absolute; left: calc(50% - 0.11em); top: calc(1.75em - 0.11em); inline-size: 0.22em; block-size: 0.22em; border-radius: 50%;
+    background: var(--db-ink); pointer-events: none;
+  }
+  .db-ribbon-stage:focus-visible::after { background: var(--db-accent); }
+
+  /* wave: the phrase rides a slow wave across the measure, like the script that sweeps through the capitals of
+     "Less stress. More creativity."; every letter the same size, fading in and out at the edges only. */
+  .db-ribbon[data-variant="wave"] .db-ribbon-stage { block-size: 3.4em; }
+  .db-ribbon[data-variant="wave"] .db-ribbon-letters > span { color: var(--db-ink); opacity: calc(1 - max(0, var(--d, 0) - 0.8) / 0.2); }
+  .db-ribbon[data-variant="wave"] .db-ribbon-letters > .db-ribbon-dot { background: var(--db-pencil); }
+  @media (forced-colors: active) {
+    .db-ribbon-letters > span { color: CanvasText; }
+    .db-ribbon-letters > .db-ribbon-dot, .db-ribbon-stage::after { background: CanvasText; forced-color-adjust: none; }
+    .db-ribbon-guide path { stroke: GrayText; }
+  }
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .db-ribbon-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--db-space-3); padding: var(--db-space-1) 0;
+    min-block-size: var(--db-space-5); color: var(--db-pencil); font: 400 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .db-ribbon-pause::before { content: "( "; }
+  .db-ribbon-pause::after { content: " )"; }
+  .db-ribbon-pause:hover { color: var(--db-ink); }
+  .db-ribbon-pause:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-ribbon-pause:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .db-ribbon[data-force~="reduced"] .db-ribbon-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .db-ribbon-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .db-ribbon-pause { color: ButtonText; }
+    .db-ribbon-pause:focus-visible { outline-color: Highlight; }
+  }
+
+}

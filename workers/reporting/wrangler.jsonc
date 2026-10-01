@@ -1,0 +1,33 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "0db-reporting",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-30",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "routes": [{ "pattern": "feedback.thedirectors.agency", "custom_domain": true }],
+  "vars": {
+    "ENVIRONMENT": "production",
+    "RELEASE": "unconfigured",
+    "ALLOWED_ORIGINS": "https://thedirectors.agency",
+    "SITE_URL": "https://thedirectors.agency/ui",
+    "LOCAL_MODE": "false",
+    "TURNSTILE_SITE_KEY": "",
+    "EMAIL_ENABLED": "false",
+    "EMAIL_FROM": "hello@thedirectors.agency",
+    "DELIVERY_ACTIVATED_AT": "",
+    "EMAIL_DAILY_LIMIT": "20",
+    "EMAIL_MONTHLY_LIMIT": "500",
+    "GITHUB_REPOSITORY": "luv-jeri/0db-feedback"
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "0db-reports",
+    // Created 2026-10-01 for 0dB only.
+    "database_id": "76b48a05-718c-406d-9284-6f170afdd38e",
+    "migrations_dir": "migrations"
+  }],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "0db-report-media" }],
+  "triggers": { "crons": ["*/5 * * * *"] }
+}

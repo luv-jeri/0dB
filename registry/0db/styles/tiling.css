@@ -1,0 +1,155 @@
+@layer components {
+  /* ── db-tiling ── tiles on the 12-column grid, held apart by space and one hairline, never boxed, after "Less is more.".
+     A tiling has no gaps and no overlaps, so neighbours share an edge: each tile draws its start and top edge halfway into the gap,
+     and the one line serves both sides. The edges that fall on the tiling's own border lie half a gap outside it and are clipped,
+     so no frame is drawn round the whole; the lines that stay run a step past the edge, as a draughtsman's construction lines do. */
+  .db-tiling { --gap: var(--db-space-6); --line: var(--db-ink); --over: var(--db-space-2); container-type: inline-size; min-width: 0; }
+  /* Keep the construction marks outside the sheet, but inside its container. */
+  .db-tiling:not(.db-tiling-editor) { padding-inline: calc(var(--gap) / 2); }
+  .db-tiling[data-variant="crosses"]:not(.db-tiling-editor) { padding-inline: calc(var(--gap) / 2 + (var(--db-space-3) + var(--db-hairline)) / 2); }
+  .db-tiling-sheet {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(var(--db-space-8), auto); gap: var(--gap);
+    clip-path: inset(calc(-1 * var(--over)));
+  }
+  .db-tile { position: relative; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; grid-column: span min(var(--span, 4), 12); grid-row: span var(--rows, 1); }
+  /* The top edge whole, the start edge under it, so no two lines ever cover one pixel twice. */
+  .db-tile::before {
+    content: ""; position: absolute; inset: calc(var(--gap) / -2); pointer-events: none;
+    background:
+      linear-gradient(var(--line), var(--line)) 0 0 / 100% var(--db-hairline) no-repeat,
+      linear-gradient(var(--line), var(--line)) 0 var(--db-hairline) / var(--db-hairline) calc(100% - var(--db-hairline)) no-repeat;
+  }
+  .db-tile:is([dir="rtl"], [dir="rtl"] *)::before { background-position: 0 0, 100% var(--db-hairline); }
+  /* The corner the content keeps to. */
+  .db-tile[data-place^="end"] { align-items: flex-end; text-align: end; }
+  .db-tile[data-place$="foot"] { justify-content: flex-end; }
+  /* Narrow: twelve columns' gaps alone would outgrow the sheet, so it falls to two: a tile of up to half the grid takes one, a
+     wider one both; narrower still, one column, every tile the whole width and one row high. */
+  @container (width < 40rem) { .db-tiling-sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); } .db-tile { grid-column: span clamp(1, (var(--span, 4) - 6) * 2, 2); } }
+  @container (width < 24rem) { .db-tiling-sheet { grid-template-columns: minmax(0, 1fr); } .db-tile { grid-column: auto; grid-row: auto; } }
+
+  /* crosses: after "the uncreative", which marks the corners of its block with + signs. No lines: the space alone holds the tiles
+     apart, and a registration cross stands at every corner of every tile, in the pencil, the outer ones a half gap outside the block. */
+  .db-tiling[data-variant="crosses"] > .db-tiling-sheet { clip-path: none; }
+  .db-tiling[data-variant="crosses"] .db-tile::before {
+    --x: calc(var(--db-space-3) + var(--db-hairline)); --h: calc(var(--x) / 2 - var(--db-hairline) / 2); --c: var(--db-pencil);
+    inset: calc(var(--gap) / -2 - var(--x) / 2);
+    background:
+      linear-gradient(var(--c), var(--c)) left 0 top var(--h) / var(--x) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) left var(--h) top 0 / var(--db-hairline) var(--x),
+      linear-gradient(var(--c), var(--c)) right 0 top var(--h) / var(--x) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) right var(--h) top 0 / var(--db-hairline) var(--x),
+      linear-gradient(var(--c), var(--c)) left 0 bottom var(--h) / var(--x) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) left var(--h) bottom 0 / var(--db-hairline) var(--x),
+      linear-gradient(var(--c), var(--c)) right 0 bottom var(--h) / var(--x) var(--db-hairline),
+      linear-gradient(var(--c), var(--c)) right var(--h) bottom 0 / var(--db-hairline) var(--x);
+    background-repeat: no-repeat;
+  }
+
+  /* Forced colours would drop the lines and crosses, which are background images: keep them, in CanvasText. */
+  @media (forced-colors: active) { .db-tiling { --line: CanvasText; } .db-tiling[data-variant="crosses"] .db-tile::before { --c: CanvasText; } .db-tile::before { forced-color-adjust: none; } }
+
+  /* Editing gives each rectangle its own boundary. The static tiling above still shares rules.
+     All twelve columns fit the sheet, so touch can reach the corner without panning a tile. */
+  .db-tiling-editor { --gap: clamp(var(--db-space-1), 1cqi, var(--db-space-3)); --db-tiling-row: clamp(var(--db-space-8), 16cqi, var(--db-space-9)); inline-size: 100%; }
+  .db-tiling-toolbar, .db-tiling-actions { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--db-space-2) var(--db-space-5); }
+  .db-tiling-toolbar { justify-content: space-between; }
+  .db-tiling-caption { font-size: var(--db-p); color: var(--db-ink); }
+  .db-tiling-editor button {
+    appearance: none; border: 0; background: none; color: var(--db-graphite); padding: var(--db-space-3) 0;
+    font: inherit; font-size: var(--db-pp); line-height: var(--db-pp-lh); min-block-size: var(--db-space-6); cursor: pointer;
+  }
+  .db-tiling-editor button:hover { color: var(--db-ink); text-decoration: underline; text-underline-offset: var(--db-space-1); }
+  .db-tiling-editor button:disabled { color: var(--db-pencil); cursor: default; text-decoration: none; }
+  .db-tiling-hint, .db-tiling-keys, .db-tiling-status { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); direction: ltr; unicode-bidi: isolate; }
+  .db-tiling-instructions { margin-block: var(--db-space-2) var(--db-space-4); }
+  .db-tiling-keys { visibility: hidden; margin-block-start: var(--db-space-1); }
+  .db-tiling-editor:has(.db-tiling-viewport:focus-within) .db-tiling-keys { visibility: visible; }
+  .db-tiling-status { min-block-size: 3em; margin-block-start: var(--db-space-3); }
+  .db-tiling-viewport { overflow: auto; overscroll-behavior-inline: contain; padding: var(--db-space-2); margin-inline: 0; }
+  .db-tiling-viewport:focus-visible { outline-color: var(--db-pencil); outline-offset: 0; }
+  .db-tiling-canvas { min-inline-size: 0; }
+  .db-tiling-columns { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); margin-block-end: var(--db-space-3); color: var(--db-pencil); font-size: var(--db-pp); font-variant-numeric: tabular-nums; }
+  .db-tiling-columns bdi { direction: ltr; unicode-bidi: isolate; }
+  .db-tiling-editor .db-tiling-sheet {
+    position: relative; isolation: isolate; grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: repeat(var(--db-tiling-rows, 2), var(--db-tiling-row)); grid-auto-rows: var(--db-tiling-row); clip-path: none;
+  }
+  .db-tiling-editor .db-tiling-sheet::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.45;
+    background-image: linear-gradient(to right, var(--db-rule) var(--db-hairline), transparent var(--db-hairline)), linear-gradient(to bottom, var(--db-rule) var(--db-hairline), transparent var(--db-hairline));
+    background-size: calc((100% + var(--gap)) / 12) calc(var(--db-tiling-row) + var(--gap));
+  }
+  .db-tiling-editor[data-variant="crosses"] .db-tiling-sheet::before {
+    background-image: radial-gradient(circle at var(--db-hairline) var(--db-hairline), var(--db-rule-strong) 0 var(--db-hairline), transparent calc(var(--db-hairline) + 0.5px));
+  }
+  .db-tiling-editor .db-tile {
+    container-type: inline-size; min-block-size: 0; padding: var(--db-space-4); cursor: grab; touch-action: none;
+    user-select: none; -webkit-user-select: none;
+  }
+  .db-tiling-editor[data-variant] .db-tile::before { inset: 0; background: none; border: var(--db-hairline) solid var(--db-rule-strong); }
+  .db-tiling-editor .db-tile:is(:hover, [data-selected], [data-held])::before { border-color: var(--db-ink); }
+  .db-tiling-editor .db-tile[data-held] { z-index: 2; cursor: grabbing; }
+  .db-tiling-editor .db-tile:focus-visible { outline: none; }
+  .db-tiling-editor .db-tile:focus-visible::before { border-color: var(--db-accent); }
+  .db-tiling-editor .db-tile[data-held]:focus-visible::before { border-color: var(--db-ink); }
+  .db-tiling-editor .db-tiling-move { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; padding: 0; cursor: inherit; touch-action: none; }
+  .db-tiling-editor .db-tiling-move:focus-visible { outline-offset: calc(-1 * var(--db-space-1)); }
+  .db-tiling-landing { position: relative; pointer-events: none; outline: var(--db-hairline) dotted var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-tiling-editor .db-tiling-size {
+    position: absolute; z-index: 3; padding: 0; inline-size: var(--db-space-6); block-size: var(--db-space-6); min-block-size: 0;
+    touch-action: none; user-select: none; -webkit-user-select: none; text-decoration: none;
+  }
+  .db-tiling-size::after { content: ""; position: absolute; pointer-events: none; border-color: var(--db-pencil); border-style: solid; border-width: 0; transition: inline-size var(--db-allegro) var(--db-exhale), block-size var(--db-allegro) var(--db-exhale); }
+  .db-tiling-size[data-side="corner"] { inset-block-end: 0; inset-inline-end: 0; cursor: nwse-resize; }
+  .db-tiling-size[data-side="corner"]:is([dir="rtl"], [dir="rtl"] *) { cursor: nesw-resize; }
+  .db-tiling-size[data-side="corner"]::after {
+    inset-block-end: var(--db-space-2); inset-inline-end: var(--db-space-2); inline-size: var(--db-space-3); block-size: var(--db-space-3);
+    border-inline-end-width: var(--db-hairline); border-block-end-width: var(--db-hairline);
+  }
+  .db-tiling-size[data-side="corner"]:is(:hover, :focus-visible)::after { inline-size: var(--db-space-4); block-size: var(--db-space-4); border-color: var(--db-ink); }
+  .db-tiling-size:not([data-side="corner"]) { opacity: 0; }
+  .db-tile:is(:hover, :focus-within, [data-selected]) .db-tiling-size:not([data-side="corner"]) { opacity: 1; }
+  .db-tiling-size:is([data-side="start"], [data-side="end"]) { inset-block-start: calc(50% - var(--db-space-6) / 2); cursor: ew-resize; }
+  .db-tiling-size[data-side="start"] { inset-inline-start: calc(-1 * var(--db-space-2)); }
+  .db-tiling-size[data-side="end"] { inset-inline-end: calc(-1 * var(--db-space-2)); }
+  .db-tiling-size:is([data-side="start"], [data-side="end"])::after { inset-block-start: calc(50% - var(--db-space-2)); block-size: var(--db-space-4); border-inline-start-width: var(--db-hairline); }
+  .db-tiling-size[data-side="start"]::after { inset-inline-start: var(--db-space-2); }
+  .db-tiling-size[data-side="end"]::after { inset-inline-end: var(--db-space-2); }
+  .db-tiling-size:is([data-side="top"], [data-side="bottom"]) { inset-inline-start: calc(50% - var(--db-space-6) / 2); cursor: ns-resize; }
+  .db-tiling-size[data-side="top"] { inset-block-start: calc(-1 * var(--db-space-2)); }
+  .db-tiling-size[data-side="bottom"] { inset-block-end: calc(-1 * var(--db-space-2)); }
+  .db-tiling-size:is([data-side="top"], [data-side="bottom"])::after { inset-inline-start: calc(50% - var(--db-space-2)); inline-size: var(--db-space-4); border-block-start-width: var(--db-hairline); }
+  .db-tiling-size[data-side="top"]::after { inset-block-start: var(--db-space-2); }
+  .db-tiling-size[data-side="bottom"]::after { inset-block-end: var(--db-space-2); }
+  /* A native hit surface makes the body a touch target too: Chromium must not
+     adjust a press in a short tile toward the nearby corner button. */
+  .db-tiling-content { position: relative; inline-size: 100%; min-block-size: 0; overflow: auto; margin-block: auto; touch-action: none; pointer-events: none; }
+  .db-tiling-content :is(a, button, input, textarea, select, [contenteditable], [data-tiling-no-drag]) { pointer-events: auto; }
+  .db-tiling-content :is(input, textarea, select, [contenteditable], [data-tiling-no-drag]) { touch-action: auto; user-select: text; -webkit-user-select: text; }
+  .db-tiling-name {
+    --db-tiling-type-room: calc((var(--db-tiling-row) * var(--rows) + var(--gap) * (var(--rows) - 1) - var(--db-space-4) * 2) / var(--db-mf-lh));
+    display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font: italic 400 min(calc(clamp(var(--db-mp), 16cqi, var(--db-ff)) * var(--db-expression-scale)), var(--db-tiling-type-room)) / var(--db-mf-lh) var(--db-expression); color: var(--db-ink);
+  }
+  .db-tiling-dimensions {
+    position: absolute; inset-block-start: var(--db-space-2); inset-inline-start: var(--db-space-3); display: flex; gap: var(--db-space-1); align-items: center;
+    direction: ltr; unicode-bidi: isolate; font-size: var(--db-pp); font-variant-numeric: tabular-nums; color: var(--db-ink); pointer-events: none;
+  }
+  .db-tiling-dimensions span:first-child { align-self: flex-start; font: italic 400 var(--db-mp) / 1 var(--db-expression); }
+  .db-tiling-dimensions span:last-child { align-self: flex-end; }
+  .db-tiling-empty { grid-column: 1 / 13; grid-row: 1 / 3; align-self: center; font-size: var(--db-mf); line-height: var(--db-mf-lh); color: var(--db-ink); }
+  .db-tiling-empty span { font-size: var(--db-p); color: var(--db-pencil); }
+  .db-tiling-output { font-size: var(--db-pp); color: var(--db-graphite); }
+  .db-tiling-output summary { cursor: pointer; padding-block: var(--db-space-3); }
+  .db-tiling-output textarea { display: block; inline-size: 100%; block-size: var(--db-space-10); margin-block-start: var(--db-space-3); padding: var(--db-space-3); border: 0; border-block: var(--db-hairline) solid var(--db-rule); background: none; color: var(--db-ink); font: inherit; resize: vertical; direction: ltr; unicode-bidi: isolate; }
+  @container (width < 24rem) { .db-tiling-editor .db-tile { padding-inline: var(--db-space-2); } }
+  @media (forced-colors: active) {
+    .db-tiling-editor { --db-ink: CanvasText; --db-rule-strong: CanvasText; --db-accent: Highlight; }
+    .db-tiling-editor .db-tiling-sheet::before { forced-color-adjust: none; --db-rule: GrayText; --db-rule-strong: GrayText; }
+    .db-tiling-editor .db-tile::before { border-color: CanvasText; }
+    .db-tiling-landing { outline-color: Highlight; }
+    .db-tiling-size::after { border-color: ButtonText; }
+    .db-tiling-editor .db-tile:focus-visible::before { border-color: Highlight; }
+  }
+}

@@ -1,0 +1,98 @@
+@layer components {
+  /* Feedback uses the site's twelve-column stave: a small invitation in the margin, your words on the line. */
+  .db-report-page { padding: calc(var(--bar) + var(--db-space-8)) var(--db-margin) var(--db-space-9); color: var(--db-graphite); }
+  .db-report-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--db-gutter); row-gap: var(--db-space-6); margin-block-end: var(--db-space-8); }
+  .db-report-caption { grid-column: 1 / -1; font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-report-head h1 { grid-column: 1 / 8; font-size: var(--db-fff); line-height: var(--db-fff-lh); letter-spacing: var(--db-fff-tr); font-weight: 600; font-stretch: 85%; color: var(--db-ink); }
+  .db-report-intro { grid-column: 9 / -1; align-self: end; display: grid; justify-items: start; gap: var(--db-space-5); max-inline-size: 32ch; }
+  .db-report-layout { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--db-space-7) var(--db-gutter); align-items: start; }
+  .db-report-aside { grid-column: 1 / 4; display: grid; gap: var(--db-space-7); min-inline-size: 0; }
+  .db-report-aside .db-picks > label { font-size: var(--db-p); }
+  .db-report-aside .db-pick-description { font-size: var(--db-pp); margin-block-start: var(--db-space-2); }
+  .db-report-aside-note { display: grid; gap: var(--db-space-4); max-inline-size: 28ch; font-size: var(--db-pp); }
+  .db-report-body { grid-column: 5 / 12; min-inline-size: 0; display: grid; gap: var(--db-space-5); }
+  .db-report-body h2, .db-report-board h2 { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 400; color: var(--db-ink); }
+  .db-report-body h3 { font-size: var(--db-p); line-height: var(--db-p-lh); font-weight: 500; color: var(--db-ink); }
+  .db-report-edit, .db-report-review, .db-report-receipt { display: grid; gap: var(--db-space-6); min-inline-size: 0; }
+  .db-report-form, .db-report-form > div { inline-size: 100%; min-inline-size: 0; }
+  .db-report-form { gap: var(--db-space-6); }
+  .db-report-form .db-input-group { column-gap: var(--db-space-3); }
+  .db-report-note { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
+  .db-report-actions { display: flex; flex-wrap: wrap; gap: var(--db-space-3) var(--db-space-5); align-items: baseline; }
+  .db-report-page .db-btn { white-space: normal; text-align: start; }
+  .db-report-attachments, .db-report-diagnostics { display: grid; justify-items: start; gap: var(--db-space-3); }
+  .db-report-attachments > .db-drop { inline-size: 100%; }
+  .db-report-disclosure { min-inline-size: 0; }
+  .db-report-disclosure > summary { cursor: pointer; color: var(--db-ink); padding-block: var(--db-space-3); text-decoration: underline var(--db-hairline) var(--db-rule-strong); text-underline-offset: 0.25em; }
+  .db-report-disclosure[open] > summary { margin-block-end: var(--db-space-4); }
+  .db-report-disclosure > .db-quest { margin-block: var(--db-space-5); }
+  .db-report-page .db-quest-q { font-size: var(--db-mf); }
+  /* The questionnaire is a sibling form. Its action stays a word between parentheses, with no filled button. */
+  .db-report-page .db-quest-actions > .db-btn[data-variant="statement"] { background: none; color: var(--db-ink); padding-inline: var(--db-space-4); }
+  .db-report-page .db-quest-actions > .db-btn[data-variant="statement"]::before { content: "(" / ""; position: absolute; inset-inline-start: 0; }
+  .db-report-page .db-quest-actions > .db-btn[data-variant="statement"]::after { content: ")" / ""; position: absolute; inset-block: auto; inset-inline-start: auto; inset-inline-end: 0; opacity: 1; scale: 1; background: none; }
+  .db-report-suggestions { display: grid; gap: var(--db-space-3); }
+  .db-report-suggestions ul { list-style: none; padding: 0; display: grid; gap: var(--db-space-4); }
+  .db-report-payload { white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--db-voice); font-size: var(--db-pp); line-height: var(--db-pp-lh); max-block-size: 24rem; overflow: auto; padding-block: var(--db-space-3); direction: ltr; unicode-bidi: isolate; }
+  .db-report-ledger { display: grid; margin: 0; border-block-start: var(--db-hairline) solid var(--db-rule); }
+  .db-report-ledger > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--db-space-4); padding-block: var(--db-space-4); border-block-end: var(--db-hairline) solid var(--db-rule); }
+  .db-report-ledger dt { font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-report-ledger dd { margin: 0; overflow-wrap: anywhere; color: var(--db-ink); }
+  .db-report-lines { white-space: pre-wrap; }
+  .db-report-id, .db-report-number { direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; }
+  .db-report-page :is(.db-field-count, .db-fraction) { direction: ltr; unicode-bidi: isolate; }
+  .db-report-id { font-size: var(--db-pp); }
+  .db-report-receipt-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); color: var(--db-ink); overflow-wrap: anywhere; }
+  .db-report-media { display: grid; gap: var(--db-space-5); min-inline-size: 0; }
+  .db-report-media figure { margin: 0; display: grid; gap: var(--db-space-3); }
+  .db-report-media :is(img, video) { max-inline-size: 100%; max-block-size: 24rem; object-fit: contain; }
+  .db-report-media figcaption { font-size: var(--db-pp); overflow-wrap: anywhere; }
+  .db-report-error { color: var(--db-signal); overflow-wrap: anywhere; }
+  .db-report-connection, .db-report-fallback { display: grid; justify-items: start; gap: var(--db-space-3); }
+  .db-report-fallback { margin-block-start: var(--db-space-5); }
+  .db-report-save { overflow-wrap: anywhere; }
+  .db-report-verification { display: grid; justify-items: start; gap: var(--db-space-3); min-inline-size: 0; }
+  .db-report-verification > div { inline-size: 100%; }
+  .db-report-board { display: grid; gap: var(--db-space-5); }
+  .db-report-board-head { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: var(--db-space-6); margin-block-end: var(--db-space-3); }
+  .db-report-board .db-rows-title { overflow-wrap: anywhere; }
+  .db-report-row-action { font-size: var(--db-pp); text-decoration: underline var(--db-hairline) var(--db-rule-strong); text-underline-offset: 0.25em; }
+  .db-report-empty { display: grid; justify-items: start; gap: var(--db-space-4); padding-block: var(--db-space-6); max-inline-size: var(--db-measure); }
+  .db-report-empty h3 { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
+  .db-report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--db-space-5); margin-block-start: var(--db-space-8); font-size: var(--db-pp); }
+  .db-report-foot p { max-inline-size: var(--db-measure); }
+  .db-report-entry { font-size: var(--db-pp); white-space: nowrap; }
+  .db-report-item-link { display: inline-block; margin-block-start: var(--db-space-5); font-size: var(--db-pp); }
+  /* The chosen kind yields the accent while your field has focus. The site's mark stays in ink on these pages. */
+  html:has(.db-report-page) .bar-mark { --db-accent: var(--db-ink); }
+  .db-report-layout:has(.db-report-body :focus) .db-picks { --db-accent: var(--db-ink); }
+  .db-report-toaster[data-variant="footnote"]:has(> .db-toast) { box-shadow: none; padding: var(--db-space-4) var(--db-space-5) var(--db-space-4) var(--db-space-6); }
+  .db-report-toaster .db-toast:last-child .db-toast-n { color: var(--db-ink); }
+  @media (max-width: 860px) {
+    .db-report-page { padding-block-start: calc(var(--bar) + var(--db-space-7)); }
+    .db-report-head { row-gap: var(--db-space-5); margin-block-end: var(--db-space-7); }
+    .db-report-head h1 { grid-column: 1 / -1; }
+    .db-report-intro { grid-column: 1 / -1; max-inline-size: var(--db-measure); }
+    .db-report-aside { grid-column: 1 / -1; }
+    .db-report-aside-note { display: none; }
+    .db-report-body { grid-column: 1 / -1; }
+    .db-report-board-head { grid-template-columns: minmax(0, 1fr); }
+    .db-report-board .db-rows-link { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--db-space-2); }
+    .db-report-board .db-rows-title { grid-column: 1 / -1; }
+    .db-report-board .db-rows-link::after { display: none; }
+    .db-report-board .db-report-row-action { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .db-report-ledger > div { grid-template-columns: minmax(0, 1fr); gap: var(--db-space-2); }
+    .db-report-page .db-input-group-text { font-size: var(--db-pp); }
+    .db-report-entry { font-size: var(--db-pp); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .db-report-page .db-quest-log > li, .db-report-page .db-quest-step, .db-report-page .db-quest-sentence > .db-yours { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .db-report-ledger, .db-report-ledger > div { border-color: CanvasText; }
+    .db-report-error { color: CanvasText; }
+    .db-report-disclosure > summary, .db-report-row-action { text-decoration-color: LinkText; }
+  }
+}

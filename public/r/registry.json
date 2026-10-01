@@ -1,0 +1,3812 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "0db",
+  "homepage": "https://thedirectors.agency/ui",
+  "items": [
+    {
+      "name": "0db",
+      "type": "registry:base",
+      "extends": "none",
+      "title": "0dB",
+      "description": "0dB tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "config": {
+        "registries": {
+          "@0db": "https://thedirectors.agency/ui/r/{name}.json"
+        }
+      },
+      "files": [
+        {
+          "path": "registry/0db/lib/utils.ts",
+          "type": "registry:lib",
+          "target": "lib/utils.ts"
+        },
+        {
+          "path": "registry/0db/lib/chart-index.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/chart-index.ts"
+        },
+        {
+          "path": "registry/0db/lib/menu-room.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/menu-room.ts"
+        },
+        {
+          "path": "registry/0db/lib/number.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/number.ts"
+        },
+        {
+          "path": "registry/0db/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/refs.ts"
+        },
+        {
+          "path": "registry/0db/lib/roll.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/roll.ts"
+        },
+        {
+          "path": "registry/0db/lib/rove.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/rove.ts"
+        },
+        {
+          "path": "registry/0db/lib/use-digit-roll.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-digit-roll.ts"
+        },
+        {
+          "path": "registry/0db/lib/use-form-presentation.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-form-presentation.ts"
+        },
+        {
+          "path": "registry/0db/styles/tokens.css",
+          "type": "registry:file",
+          "target": "styles/0db/tokens.css"
+        },
+        {
+          "path": "registry/0db/styles/fonts.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts.css"
+        },
+        {
+          "path": "registry/0db/styles/base.css",
+          "type": "registry:file",
+          "target": "styles/0db/base.css"
+        },
+        {
+          "path": "FONT-NOTICES.md",
+          "type": "registry:file",
+          "target": "styles/0db/FONT-NOTICES.md"
+        },
+        {
+          "path": "LICENCE",
+          "type": "registry:file",
+          "target": "styles/0db/LICENCE-0db.md"
+        }
+      ],
+      "cssVars": {
+        "theme": {
+          "color-paper": "var(--db-paper)",
+          "color-ink": "var(--db-ink)",
+          "color-graphite": "var(--db-graphite)",
+          "color-pencil": "var(--db-pencil)",
+          "color-rule": "var(--db-rule)",
+          "color-rule-strong": "var(--db-rule-strong)",
+          "color-accent": "var(--db-accent)",
+          "color-signal": "var(--db-signal)",
+          "color-mark": "var(--db-mark)",
+          "font-voice": "var(--db-voice)",
+          "font-expression": "var(--db-expression)"
+        }
+      },
+      "css": {
+        "@import \"../styles/0db/tokens.css\"": {},
+        "@import \"../styles/0db/fonts.css\"": {},
+        "@import \"../styles/0db/base.css\"": {},
+        "@custom-variant dark (&:where([data-mode=\"nocturne\"], [data-mode=\"nocturne\"] *))": {},
+        ":root, :root[data-mode]": {
+          "--background": "var(--db-paper)",
+          "--foreground": "var(--db-graphite)",
+          "--card": "var(--db-paper)",
+          "--card-foreground": "var(--db-graphite)",
+          "--popover": "var(--db-paper)",
+          "--popover-foreground": "var(--db-graphite)",
+          "--primary": "var(--db-ink)",
+          "--primary-foreground": "var(--db-paper)",
+          "--secondary": "var(--db-paper)",
+          "--secondary-foreground": "var(--db-ink)",
+          "--muted": "var(--db-paper)",
+          "--muted-foreground": "var(--db-pencil)",
+          "--destructive": "var(--db-signal)",
+          "--border": "var(--db-rule)",
+          "--input": "var(--db-rule-strong)",
+          "--ring": "var(--db-accent)",
+          "--radius": "0rem"
+        }
+      }
+    },
+    {
+      "name": "fonts-press",
+      "type": "registry:item",
+      "title": "Pair: press",
+      "description": "Schibsted Grotesk and Newsreader, for <html data-pair=\"press\">.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/styles/fonts-press.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts-press.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/fonts-press.css\"": {}
+      }
+    },
+    {
+      "name": "fonts-paris",
+      "type": "registry:item",
+      "title": "Pair: paris",
+      "description": "Instrument Sans and EB Garamond, for <html data-pair=\"paris\">.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/styles/fonts-paris.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts-paris.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/fonts-paris.css\"": {}
+      }
+    },
+    {
+      "name": "fonts-salon",
+      "type": "registry:item",
+      "title": "Pair: salon",
+      "description": "Bricolage Grotesque and Cormorant, for <html data-pair=\"salon\">.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/styles/fonts-salon.css",
+          "type": "registry:file",
+          "target": "styles/0db/fonts-salon.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/fonts-salon.css\"": {}
+      }
+    },
+    {
+      "name": "link",
+      "type": "registry:ui",
+      "title": "Link",
+      "description": "One link: a hairline underline at rest, and pointing at it, focusing it or holding its card open draws a highlighter stroke through the whole word, on from the left and off to the right.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/link.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "II",
+        "underneath": "native",
+        "contract": "db-link"
+      }
+    },
+    {
+      "name": "meta",
+      "type": "registry:ui",
+      "title": "Meta",
+      "description": "A frame row: small words held apart by hairlines that stretch to fill the row.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/meta.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "IV",
+        "underneath": "native",
+        "contract": "db-meta"
+      }
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A key, drawn as the corners of its cap. Pressed, the corners close into the whole cap and it goes down a little.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "II",
+        "underneath": "native",
+        "contract": "db-kbd"
+      }
+    },
+    {
+      "name": "corners",
+      "type": "registry:ui",
+      "title": "Corners",
+      "description": "Four corner marks: a frame that doesn't close.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/corners.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "IV",
+        "underneath": "native",
+        "contract": "db-corners"
+      }
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "One family of three (a statement in an ink block, a bracket that steps apart, a quiet line that redraws) four heroes for the big call to action (overture, crescendo, stave and ink) and two measures: space and repeat. Nothing moves its neighbours.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/spinner.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/button.css",
+          "type": "registry:file",
+          "target": "styles/0db/button.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/button.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-btn"
+      }
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "The wait, written the way a score writes it: periods, a round, a metronome, a fermata, a breath, a rising chord, or the word itself being inked.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/spinner.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/spinner.css",
+          "type": "registry:file",
+          "target": "styles/0db/spinner.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/spinner.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-dots"
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "No box. The words are the control, and checking strikes them through in the accent.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/checkbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/checkbox.css",
+          "type": "registry:file",
+          "target": "styles/0db/checkbox.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/checkbox.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-check"
+      }
+    },
+    {
+      "name": "fraction",
+      "type": "registry:ui",
+      "title": "Fraction",
+      "description": "A count set as a display fraction: yours large in italic, the total small beside it, a pen stroke between. A changed number turns over.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/fraction.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "meta": {
+        "movement": "II",
+        "underneath": "native",
+        "contract": "db-fraction"
+      }
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio group",
+      "description": "Words in a row. The one you choose turns italic, because it's yours now. One dot glides beneath it along a slur, or the italic itself slides through the words to it and sets a full stop after it. A ballot cross can be written after it, or, in a heavy column, its italic swells.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/radio-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/radio-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/radio-group.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/radio-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-choice"
+      }
+    },
+    {
+      "name": "dial",
+      "type": "registry:ui",
+      "title": "Dial",
+      "description": "A number you turn to. The arc sets a few on a half circle and rolls to your choice; the tuner is a long scale on the rim of a wheel you turn by hand, by scroll or by key, and your number reads above it in italic. Dynamics sets the number at the size of its loudness, from niente to fff; the tumbler sets a whole number figure by figure, like the wheels of a lock.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dial.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dial.css",
+          "type": "registry:file",
+          "target": "styles/0db/dial.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/dial.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-dial"
+      }
+    },
+    {
+      "name": "picks",
+      "type": "registry:ui",
+      "title": "Picks",
+      "description": "A list of choices that carry their own content. The one you took turns italic, and either a dot slides to it along a plucked string its initial hangs in the margin like a rubricated capital, its name lies faint behind the list, or two registration crosses mark its corners.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/picks.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/picks.css",
+          "type": "registry:file",
+          "target": "styles/0db/picks.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/picks.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-picks"
+      }
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A sentence whose last word you can change. The state rolls between on and off in italic, and the full stop answers: a dot when on, a ring when off.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/switch.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/switch.css",
+          "type": "registry:file",
+          "target": "styles/0db/switch.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/switch.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-switch"
+      }
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "A ruler with a hand. The value is drawn as a dimension from zero with your number in italic in the gap, or runs through the label's spread letters, or makes the label as loud as the value.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/slider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/slider.css",
+          "type": "registry:file",
+          "target": "styles/0db/slider.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/slider.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-ruler"
+      }
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "No box, only a baseline. Your words arrive in italic, focus draws the accent from where you touched, and an error hangs from the line as a callout. Or your words are overprinted on a heavy label, or signed on a form's line.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/field.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/field.css",
+          "type": "registry:file",
+          "target": "styles/0db/field.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/field.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-field"
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A choice set inside a sentence: the chosen word is yours, italic over a hairline. It can be reset from the last word's letters, or wear the other choices above it as ruby.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/select.css",
+          "type": "registry:file",
+          "target": "styles/0db/select.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/select.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-select"
+      }
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Words with their counts raised. A line inches to the one in view and the count of what's showing sinks into the rule; or the chosen word takes its width from the others; or the rule beside a stack of words opens onto the panel.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tabs"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tabs.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tabs.css",
+          "type": "registry:file",
+          "target": "styles/0db/tabs.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/tabs.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "radix",
+        "contract": "db-tabs"
+      }
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Numbers with a dot beneath each, weight falling away from the current page and its accent dot; or a folio, the page over its total; the neighbours, by name; every page as a barcode's line; or an alphabet set as one word.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/pagination.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/pagination.css",
+          "type": "registry:file",
+          "target": "styles/0db/pagination.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/pagination.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-pager"
+      }
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "The path, divided by drawn hairlines leaning like slashes; or a stair that ends in the large italic of where you are; or a long path with a full stop for each step left out.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/breadcrumb.css",
+          "type": "registry:file",
+          "target": "styles/0db/breadcrumb.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/breadcrumb.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-crumbs"
+      }
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Questions you open. Ruled off, with a plus that winds into a cross as the question swells into a heading; or run in with their answers like a book's paragraphs; glossed in the outer column; or stood side by side as columns that widen.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/accordion.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/accordion.css",
+          "type": "registry:file",
+          "target": "styles/0db/accordion.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/accordion.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-disclose"
+      }
+    },
+    {
+      "name": "rows",
+      "type": "registry:ui",
+      "title": "Rows",
+      "description": "An index of hairline-separated rows. The one you point at reverses out of ink and steps forward with an arrow; or repeats are set as ditto marks; or a ring before each row fills once you have been there.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/rows.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/rows.css",
+          "type": "registry:file",
+          "target": "styles/0db/rows.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/rows.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-rows"
+      }
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A month drawn as time, after the \"28 December\" poster: a huge numeral, then a large disc for every day, ink for the days gone, the accent for today, rings for the days to come, and half-moons for the wait. The ruler draws the same month as one measured line; the ghost sets the days against the date huge and faint behind them; the parenthesis runs the month as a line of figures with the wait in parentheses.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/calendar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/calendar.css",
+          "type": "registry:file",
+          "target": "styles/0db/calendar.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/calendar.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "hook",
+        "contract": "db-month"
+      }
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "The one rounded shape: a hairline pill for a tag or a status; or tags written as one list in the italic; or a seal with its legend set round a ring.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/badge.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/badge.css",
+          "type": "registry:file",
+          "target": "styles/0db/badge.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/badge.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-tag"
+      }
+    },
+    {
+      "name": "note",
+      "type": "registry:ui",
+      "title": "Note",
+      "description": "Marginalia: a dotted term, and a leader line that draws out to its note; or a gloss set over the word; an abbreviation that opens into its words; or a word struck through and rewritten.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/note.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/note.css",
+          "type": "registry:file",
+          "target": "styles/0db/note.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/note.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-note"
+      }
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "How far something you started has got: a hairline and an italic percentage, the words themselves inking in, one ring per item, a pair of parentheses closing on the words, or a tally. Done, a full stop lands.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/progress.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/progress.css",
+          "type": "registry:file",
+          "target": "styles/0db/progress.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/progress.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-progress"
+      }
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "One line rises from the bottom-left; a fermata held over its last word empties while it stays.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/toast.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/toast.css",
+          "type": "registry:file",
+          "target": "styles/0db/toast.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/toast.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "hook",
+        "contract": "db-toast"
+      }
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "The question, set large, with two plain answers. The page holds still behind it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dialog.css",
+          "type": "registry:file",
+          "target": "styles/0db/dialog.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/dialog.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "hook",
+        "contract": "db-dialog"
+      }
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "An invitation to act, not an apology: what is missing, and the one thing to do about it. Under half a zero, under the score's tacet, or on a page left blank on purpose.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/empty.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/empty.css",
+          "type": "registry:file",
+          "target": "styles/0db/empty.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/empty.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-empty"
+      }
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A word you can hold down. Held, it's yours and turns italic: under a fermata's arc and dot, behind a pen that inks the tenuto's line, with a small note hung beside it, or set on its drawn guides.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-toggle"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/toggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/toggle.css",
+          "type": "registry:file",
+          "target": "styles/0db/toggle.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/toggle.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "radix",
+        "contract": "db-toggle"
+      }
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle group",
+      "description": "Words in a row you can hold down, one or many; held neighbours are tied under one slur or share one pair of parentheses, held words are numbered in the order you held them, or cross into the margin.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-toggle-group"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/toggle-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/toggle-group.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/toggle-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "radix",
+        "contract": "db-toggles"
+      }
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button group",
+      "description": "A set of actions, drawn three ways: one pair of parentheses with hairlines between, a narrow column with a dash hung in the margin, or a list written into the sentence around it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/button-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/button-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/button-group.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/button-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-btn-group"
+      }
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input group",
+      "description": "Ours in roman, yours in italic, on one line. The accent draws only under the part you type. Or your figure stands large with our words stacked beside it, or an arrow leads from your words to the action.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/input-group.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/input-group.css",
+          "type": "registry:file",
+          "target": "styles/0db/input-group.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/input-group.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-input-group"
+      }
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "A one-time code on short baselines, three and three. Digits drop in as you type; whole, the lines ink in turn. Or the code closes up into one figure, or is read back in words under its digits.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/input-otp.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/input-otp.css",
+          "type": "registry:file",
+          "target": "styles/0db/input-otp.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/input-otp.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-code"
+      }
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "A field that suggests. Type and the letters you typed are marked in each match, the suggestions arrive in turn, and what you chose sits on the line in italic; with multiple, your choices are written there as one sentence.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/badge.json",
+        "https://thedirectors.agency/ui/r/command.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/combobox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/combobox.css",
+          "type": "registry:file",
+          "target": "styles/0db/combobox.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/combobox.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "cmdk",
+        "contract": "db-combo"
+      }
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A panel hung from what opened it, on a leader line. Escape or a click elsewhere puts it away.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-popover"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/popover.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/popover.css",
+          "type": "registry:file",
+          "target": "styles/0db/popover.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/popover.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-pop"
+      }
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context menu",
+      "description": "The same list of words, opened where you pressed and spreading from that point like ink.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dropdown-menu.json",
+        "https://thedirectors.agency/ui/r/popover.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-context-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/context-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/context-menu.css",
+          "type": "registry:file",
+          "target": "styles/0db/context-menu.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/context-menu.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-menu"
+      }
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown menu",
+      "description": "A list of words on the popover panel; the one you point at is marked with the highlighter.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/kbd.json",
+        "https://thedirectors.agency/ui/r/popover.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dropdown-menu.css",
+          "type": "registry:file",
+          "target": "styles/0db/dropdown-menu.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/dropdown-menu.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-menu"
+      }
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A frame row of words on a hairline; opening a word folds the line down into a pocket that holds its menu.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dropdown-menu.json",
+        "https://thedirectors.agency/ui/r/popover.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-menubar"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/menubar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/menubar.css",
+          "type": "registry:file",
+          "target": "styles/0db/menubar.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/menubar.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-menubar"
+      }
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation menu",
+      "description": "Small words open a panel of large names, the scale contrast of a poster; or a contents page with one name set as the headline; or the names opened into the line itself.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-navigation-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/navigation-menu.css",
+          "type": "registry:file",
+          "target": "styles/0db/navigation-menu.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/navigation-menu.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "radix",
+        "contract": "db-navmenu"
+      }
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "What you type is set as large as a headline, in italic. Matches are marked; the chosen row steps forward. Or every row set on one axis at its match, as a mesostic; or the groups run on, as a book's index.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "cmdk"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/command.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/command.css",
+          "type": "registry:file",
+          "target": "styles/0db/command.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/command.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "cmdk",
+        "contract": "db-command"
+      }
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A column of words beside the work. Folded, it becomes a ruler: a numeral for each group, a tick for each link, and the name comes out into the margin when you point at it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json",
+        "https://thedirectors.agency/ui/r/sheet.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/sidebar.css",
+          "type": "registry:file",
+          "target": "styles/0db/sidebar.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/sidebar.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "hook",
+        "contract": "db-sidebar"
+      }
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A column under a rule, not a box. Point at it and an ink stroke passes along the rule.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/meta.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/card.css",
+          "type": "registry:file",
+          "target": "styles/0db/card.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/card.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-card"
+      }
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover card",
+      "description": "Point at a name and wait a moment: a card opens with the name set large and cropped by its edge.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-hover-card"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/hover-card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/hover-card.css",
+          "type": "registry:file",
+          "target": "styles/0db/hover-card.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/hover-card.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-peek"
+      }
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A whisper in parentheses above the thing it names.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tooltip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tooltip.css",
+          "type": "registry:file",
+          "target": "styles/0db/tooltip.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/tooltip.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "radix",
+        "contract": "db-tip"
+      }
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "A page slid in from the edge, its title running up the spine like a book's; or a row that unfolds into its page.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/sheet.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/sheet.css",
+          "type": "registry:file",
+          "target": "styles/0db/sheet.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/sheet.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-sheet"
+      }
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A sheet from below, lifted by the fermata's arc. Drag the arc down to put it away.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/drawer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/drawer.css",
+          "type": "registry:file",
+          "target": "styles/0db/drawer.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/drawer.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-drawer"
+      }
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "A list that ends in the rest of itself: the words \"and 4 more\" are the control.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/collapsible.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/collapsible.css",
+          "type": "registry:file",
+          "target": "styles/0db/collapsible.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/collapsible.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-collapse"
+      }
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Panes and the rule between them. Take the rule and it inks; while you hold it, each pane's share is drawn as a dimension.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/resizable.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/resizable.css",
+          "type": "registry:file",
+          "target": "styles/0db/resizable.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/resizable.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-resize"
+      }
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll area",
+      "description": "A rule appears at an edge only while there's more beyond it, and leaves when you reach the end.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/scroll-area.css",
+          "type": "registry:file",
+          "target": "styles/0db/scroll-area.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/scroll-area.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-scroll"
+      }
+    },
+    {
+      "name": "scrollbar",
+      "type": "registry:ui",
+      "title": "Scrollbar",
+      "description": "A scrollbar as a ruler: a hairline, a mark where each section begins, and an ink thumb as long as the view.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/scrollbar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/scrollbar.css",
+          "type": "registry:file",
+          "target": "styles/0db/scrollbar.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/scrollbar.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-scrollbar"
+      }
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect ratio",
+      "description": "A frame kept to a ratio and marked the way a printer marks a crop: short lines outside each corner, never a border.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/aspect-ratio.css",
+          "type": "registry:file",
+          "target": "styles/0db/aspect-ratio.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/aspect-ratio.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-ratio"
+      }
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "One poster at a time, each name set so large the frame crops it. The count between the arrows rolls the way you travel.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/carousel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/carousel.css",
+          "type": "registry:file",
+          "target": "styles/0db/carousel.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/carousel.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-carousel"
+      }
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Hairline rows in tabular figures; the column you sort by is set in ink, or set loud; or the row and column you point at cross in ink.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/table.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/table.css",
+          "type": "registry:file",
+          "target": "styles/0db/table.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/table.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-table"
+      }
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Hairlines and dots against one very large number that rolls to the bar you point at.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/chart.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-chart"
+      }
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "A person is a ring and their initial, in italic, since a name is theirs; or a monogram of both initials; or the given name set to fill one width.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/avatar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/avatar.css",
+          "type": "registry:file",
+          "target": "styles/0db/avatar.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/avatar.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-avatar"
+      }
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across. Or every fifth line numbered in the margin; or the description running along the leader.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/item.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/item.css",
+          "type": "registry:file",
+          "target": "styles/0db/item.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/item.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-item"
+      }
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Long text, set to be read: it styles plain HTML by element, and punctuation hangs in the margin.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/typography.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/typography.css",
+          "type": "registry:file",
+          "target": "styles/0db/typography.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/typography.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-prose"
+      }
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "No balloons. Of the speech bubble only its tail is left, a leaning hairline. What they wrote is roman; what you wrote sits on the other side, in italic.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/avatar.json",
+        "https://thedirectors.agency/ui/r/badge.json",
+        "https://thedirectors.agency/ui/r/spinner.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/message.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/message.css",
+          "type": "registry:file",
+          "target": "styles/0db/message.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/message.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-msg"
+      }
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "A quiet line in a conversation: a status, where a day begins, where you left off, or how long it went quiet.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/marker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/marker.css",
+          "type": "registry:file",
+          "target": "styles/0db/marker.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/marker.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-marker"
+      }
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "A file's extension is its picture; a ring counts it in and fills to a dot when it's safe.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/attachment.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/attachment.css",
+          "type": "registry:file",
+          "target": "styles/0db/attachment.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/attachment.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-attach"
+      }
+    },
+    {
+      "name": "thread",
+      "type": "registry:ui",
+      "title": "Thread",
+      "description": "A message scroller that keeps to the latest while you are at the end. Scrolled back, it stays put and counts what is new in an ink pill.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/marker.json",
+        "https://thedirectors.agency/ui/r/scroll-area.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/thread.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/thread.css",
+          "type": "registry:file",
+          "target": "styles/0db/thread.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/thread.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-thread"
+      }
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "Questions one at a time, set large. The count rolls and a hairline fills; each question turns in from the side you're heading. At the end your answers are written into one sentence, in italic, arriving word by word.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/fraction.json",
+        "https://thedirectors.agency/ui/r/radio-group.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/questionnaire.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/questionnaire.css",
+          "type": "registry:file",
+          "target": "styles/0db/questionnaire.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/questionnaire.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-quest"
+      }
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "A double bar: in a score, the sign that something changes here.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/alert.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/alert.css",
+          "type": "registry:file",
+          "target": "styles/0db/alert.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/alert.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-alert"
+      }
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Where the words will be: their baselines, the guides a letterer rules for them, or their rhythm. Still until something is loading, and still when motion is off.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/skeleton.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/skeleton.css",
+          "type": "registry:file",
+          "target": "styles/0db/skeleton.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/skeleton.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "native",
+        "contract": "db-skeleton"
+      }
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date picker",
+      "description": "A date inside a sentence, like the select. It opens the month on a leader line; choose a day and it is written into the sentence in italic.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/calendar.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/popover.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/date-picker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/date-picker.css",
+          "type": "registry:file",
+          "target": "styles/0db/date-picker.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/date-picker.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "radix",
+        "contract": "db-date"
+      }
+    },
+    {
+      "name": "activity-feed",
+      "type": "registry:ui",
+      "title": "Activity feed",
+      "description": "A history of what happened, grouped by day: who, what, and a dotted leader to when, on one hairline down the margin. The newest carries the accent; the rest waits behind \"and 4 more\".",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/avatar.json",
+        "https://thedirectors.agency/ui/r/collapsible.json",
+        "https://thedirectors.agency/ui/r/item.json",
+        "https://thedirectors.agency/ui/r/marker.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/activity-feed.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/activity-feed.css",
+          "type": "registry:file",
+          "target": "styles/0db/activity-feed.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/activity-feed.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-feed"
+      }
+    },
+    {
+      "name": "agent-chat",
+      "type": "registry:ui",
+      "title": "Agent chat",
+      "description": "Talk to an agent. Its words are roman and yours arrive in italic; it asks before it acts, in a question you must answer, and it tells you what it is doing as a sentence that inks in.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/agent-state.json",
+        "https://thedirectors.agency/ui/r/attachment.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/dialog.json",
+        "https://thedirectors.agency/ui/r/field.json",
+        "https://thedirectors.agency/ui/r/kbd.json",
+        "https://thedirectors.agency/ui/r/marker.json",
+        "https://thedirectors.agency/ui/r/progress.json",
+        "https://thedirectors.agency/ui/r/radio-group.json",
+        "https://thedirectors.agency/ui/r/thread.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/agent-chat.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/agent-chat.css",
+          "type": "registry:file",
+          "target": "styles/0db/agent-chat.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/agent-chat.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-agent-chat"
+      }
+    },
+    {
+      "name": "agent-state",
+      "type": "registry:ui",
+      "title": "Agent state",
+      "description": "Where an agent is, in one quiet line: a ring, a breath, a round, the accent disc or an ink disc, and the word for it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/marker.json",
+        "https://thedirectors.agency/ui/r/spinner.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/agent-state.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/agent-state.css",
+          "type": "registry:file",
+          "target": "styles/0db/agent-state.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/agent-state.css\"": {}
+      },
+      "meta": {
+        "movement": "XI",
+        "underneath": "native",
+        "contract": "db-agent"
+      }
+    },
+    {
+      "name": "appearance",
+      "type": "registry:ui",
+      "title": "Appearance",
+      "description": "Choose the look: scheme, key and type pair as three lists of picks, and the answer written back as one sentence, “Cotton, in ultramarine, set in Archivo and Bodoni.”, which the night toggle finishes. The new page opens as a circle from whatever you touched.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/mode-toggle.json",
+        "https://thedirectors.agency/ui/r/picks.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/appearance.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/appearance.css",
+          "type": "registry:file",
+          "target": "styles/0db/appearance.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/appearance.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-appearance"
+      }
+    },
+    {
+      "name": "area-chart",
+      "type": "registry:ui",
+      "title": "Area chart",
+      "description": "Volume as a barcode: no fill, only hairlines dropped from the line to the baseline at a close, even rhythm.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/line-chart.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/area-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/area-chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/area-chart.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/area-chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-area-chart"
+      }
+    },
+    {
+      "name": "calligram",
+      "type": "registry:ui",
+      "title": "Calligram",
+      "description": "A paragraph that fills a shape, as Apollinaire's calligrams did: each line is as wide as the shape is at that height, so the outline is only implied. Or it falls as rain, or runs round a frame about one word.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/calligram.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/calligram.css",
+          "type": "registry:file",
+          "target": "styles/0db/calligram.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/calligram.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-calligram"
+      }
+    },
+    {
+      "name": "command-line",
+      "type": "registry:ui",
+      "title": "Command line",
+      "description": "One line to type, on a baseline like a field already filled in. The address recedes, the part that's yours is italic, and copying draws the line in the accent.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/radio-group.json",
+        "https://thedirectors.agency/ui/r/source.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/command-line.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/command-line.css",
+          "type": "registry:file",
+          "target": "styles/0db/command-line.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/command-line.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-command-line"
+      }
+    },
+    {
+      "name": "contour",
+      "type": "registry:ui",
+      "title": "Contour",
+      "description": "A paragraph set to a contour, the way a score draws a swell: each line laid to its own width, so the words taper, open or swell and close.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/contour.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/contour.css",
+          "type": "registry:file",
+          "target": "styles/0db/contour.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/contour.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-contour"
+      }
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data table",
+      "description": "Records you narrow with a sentence, sort by pressing a heading (the column turns ink and the rows glide), and page at a folio, or read on as the table ends in the rest of itself.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/pagination.json",
+        "https://thedirectors.agency/ui/r/select.json",
+        "https://thedirectors.agency/ui/r/table.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/data-table.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/data-table.css",
+          "type": "registry:file",
+          "target": "styles/0db/data-table.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/data-table.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-data-table"
+      }
+    },
+    {
+      "name": "dropzone",
+      "type": "registry:ui",
+      "title": "Dropzone",
+      "description": "Files, dropped or chosen. The area is only its corner marks, and files carried over it close them in; the sentence is a real file input, and what you hold is listed as attachments.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/attachment.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/dropzone.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/dropzone.css",
+          "type": "registry:file",
+          "target": "styles/0db/dropzone.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/dropzone.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-drop"
+      }
+    },
+    {
+      "name": "figure",
+      "type": "registry:ui",
+      "title": "Figure",
+      "description": "A picture cropped to a ratio and marked like a printer's proof, its number, caption and credit set in type underneath or in the margin beside it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/aspect-ratio.json",
+        "https://thedirectors.agency/ui/r/meta.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/figure.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/figure.css",
+          "type": "registry:file",
+          "target": "styles/0db/figure.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/figure.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-figure"
+      }
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Fields on the grid and one statement button. A failed send gives each field its callout and focuses the first; while sending, the button says so. Or write it as a letter with a postscript, or have it postmarked when it's sent.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/form.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/form.css",
+          "type": "registry:file",
+          "target": "styles/0db/form.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/form.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-form"
+      }
+    },
+    {
+      "name": "gather",
+      "type": "registry:ui",
+      "title": "Gather",
+      "description": "A line whose letters, words or rows start as dust, as the mirrored forme or wound in a coil, and settle into place as it scrolls into view, or step by step with the scroll, then give way to the real text.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/gather.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/gather.css",
+          "type": "registry:file",
+          "target": "styles/0db/gather.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/gather.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-gather"
+      }
+    },
+    {
+      "name": "grid",
+      "type": "registry:ui",
+      "title": "Grid",
+      "description": "A quiet structure behind a section: a faint square grid, or a fine point at each crossing, with a registration cross on each corner and the columns numbered and the rows lettered along the border, like a drafting sheet. It never moves.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/grid.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/grid.css",
+          "type": "registry:file",
+          "target": "styles/0db/grid.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/grid.css\"": {}
+      },
+      "meta": {
+        "movement": "IV",
+        "underneath": "native",
+        "contract": "db-grid"
+      }
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:ui",
+      "title": "Line chart",
+      "description": "One hairline through the points, a ring on each, against one very large number that rolls to the point you're on.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/chart.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/line-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/line-chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/line-chart.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/line-chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-line-chart"
+      }
+    },
+    {
+      "name": "marquee",
+      "type": "registry:ui",
+      "title": "Marquee",
+      "description": "A band of words that drifts through a clipped frame. Scroll takes over; a small pause word lets it rest.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/marquee.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/marquee.css",
+          "type": "registry:file",
+          "target": "styles/0db/marquee.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/marquee.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-marquee"
+      }
+    },
+    {
+      "name": "measure",
+      "type": "registry:ui",
+      "title": "Measure",
+      "description": "A paragraph whose measure you set by dragging its right edge, with the number of characters a line and a verdict on it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/measure.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/measure.css",
+          "type": "registry:file",
+          "target": "styles/0db/measure.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/measure.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-measure"
+      }
+    },
+    {
+      "name": "melody",
+      "type": "registry:ui",
+      "title": "Melody",
+      "description": "A sentence set on a stave, each word a note. Point at one and the phrase plays from it; or sing along discs on the staff; or draw the staff only where there are words.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/melody.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/melody.css",
+          "type": "registry:file",
+          "target": "styles/0db/melody.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/melody.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-melody"
+      }
+    },
+    {
+      "name": "mode-toggle",
+      "type": "registry:ui",
+      "title": "Mode toggle",
+      "description": "The way from day to night, drawn ten ways. Three are switches with a scene change of their own: Day over Night with the full stop setting from one to the other while the page dissolves; Night taking the ink letter by letter while the page's light is lowered; Noon turning to Moon while night falls from the top. The other seven are buttons: a disc sliding over a ring, a dot setting below a hairline, a word on a hairline that rolls, the fermata as an eye, a sentence whose last word rolls, midday whose second half the ink falls over, and a clock turning from noon to midnight.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/mode-toggle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/mode-toggle.css",
+          "type": "registry:file",
+          "target": "styles/0db/mode-toggle.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/mode-toggle.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-mode-toggle"
+      }
+    },
+    {
+      "name": "number-input",
+      "type": "registry:ui",
+      "title": "Number input",
+      "description": "A number on a baseline, yours in italic and formatted; less and more step it, and each step turns the changed figures over like a counter. Or it stands over a small ruler you can drag.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/number-input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/number-input.css",
+          "type": "registry:file",
+          "target": "styles/0db/number-input.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/number-input.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "hook",
+        "contract": "db-number"
+      }
+    },
+    {
+      "name": "pie-chart",
+      "type": "registry:ui",
+      "title": "Pie chart",
+      "description": "Shares of a whole: one hairline ring cut into arcs with paper between them, numbered round the rim, and the total as one very large number inside that rolls to the share of the arc you point at.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/radial-chart.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/pie-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/pie-chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/pie-chart.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/pie-chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-pie"
+      }
+    },
+    {
+      "name": "radar-chart",
+      "type": "registry:ui",
+      "title": "Radar chart",
+      "description": "Several measures on one shape: a hairline polygon on a dotted construction sheet, each axis named in small caps at its end, and the axis you point at measured off as a dimension line with its figure on it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/grid.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/radar-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/radar-chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/radar-chart.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/radar-chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-radar"
+      }
+    },
+    {
+      "name": "radial-chart",
+      "type": "registry:ui",
+      "title": "Radial chart",
+      "description": "Progress against one maximum: a hairline ring per series with its arc inked as far as it has got, and one very large number inside that rolls to the ring you point at.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/radial-chart.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/radial-chart.css",
+          "type": "registry:file",
+          "target": "styles/0db/radial-chart.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/radial-chart.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-radial"
+      }
+    },
+    {
+      "name": "reading-trail",
+      "type": "registry:ui",
+      "title": "Reading trail",
+      "description": "Keep your place on a long page: its sections by number and name, set as a contents page, the one you are in carrying the accent while its dotted leader inks as you read. Or the page's own rail, with that section running down it like the title on a spine.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/item.json",
+        "https://thedirectors.agency/ui/r/scrollbar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/reading-trail.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/reading-trail.css",
+          "type": "registry:file",
+          "target": "styles/0db/reading-trail.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/reading-trail.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "hook",
+        "contract": "db-trail"
+      }
+    },
+    {
+      "name": "reverb",
+      "type": "registry:ui",
+      "title": "Reverb",
+      "description": "A phrase that echoes into silence: each line quieter, more open and a dynamic smaller, drifting right like a canon, answering from either wall, or losing its consonants first; it ends on a rest.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/reverb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/reverb.css",
+          "type": "registry:file",
+          "target": "styles/0db/reverb.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/reverb.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-reverb"
+      }
+    },
+    {
+      "name": "scroll-expand",
+      "type": "registry:ui",
+      "title": "Scroll expand",
+      "description": "A plate cropped by four corner marks that open with the scroll, from a small mark to the full measure, and stop when you stop.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/corners.json",
+        "https://thedirectors.agency/ui/r/meta.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/scroll-expand.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/scroll-expand.css",
+          "type": "registry:file",
+          "target": "styles/0db/scroll-expand.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/scroll-expand.css\"": {}
+      },
+      "meta": {
+        "movement": "IV",
+        "underneath": "hook",
+        "contract": "db-expand"
+      }
+    },
+    {
+      "name": "segue",
+      "type": "registry:ui",
+      "title": "Segue",
+      "description": "One scene at a time. When you change it, one hairline crosses the frame carrying the next scene's number and name, and the next scene is already behind it.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/segue.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/segue.css",
+          "type": "registry:file",
+          "target": "styles/0db/segue.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/segue.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "hook",
+        "contract": "db-segue"
+      }
+    },
+    {
+      "name": "source",
+      "type": "registry:ui",
+      "title": "Source",
+      "description": "Code, set as type. Weight is the only highlighting, what someone wrote is italic, and a bracket joins the lines like a system in a score.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json"
+      ],
+      "dependencies": [
+        "sugar-high"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/source.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/source.css",
+          "type": "registry:file",
+          "target": "styles/0db/source.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/source.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "hook",
+        "contract": "db-source"
+      }
+    },
+    {
+      "name": "stat",
+      "type": "registry:ui",
+      "title": "Stat",
+      "description": "A named value: a giant thin figure whose feet sink under one hairline, the name small beneath; a changed figure turns over like a counter's wheels.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/stat.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/stat.css",
+          "type": "registry:file",
+          "target": "styles/0db/stat.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/stat.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-stat"
+      }
+    },
+    {
+      "name": "steps",
+      "type": "registry:ui",
+      "title": "Steps",
+      "description": "A real sequence. Numbered in large thin figures in the margin; or the figures stand on one line and rise out of it as you reach them; or the titles step across the page like a broken headline; or, compact, the whole sequence folded into one fraction beside the step you're on.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/fraction.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/steps.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/steps.css",
+          "type": "registry:file",
+          "target": "styles/0db/steps.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/steps.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-steps"
+      }
+    },
+    {
+      "name": "swapy",
+      "type": "registry:ui",
+      "title": "Swapy",
+      "description": "Rows you put in order by hand. A move word is the handle; the row you hold reverses out of ink and travels with you, or a proofreader's loop marks where it went.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/rows.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/swapy.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/swapy.css",
+          "type": "registry:file",
+          "target": "styles/0db/swapy.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/swapy.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-swap"
+      }
+    },
+    {
+      "name": "text-ribbon",
+      "type": "registry:ui",
+      "title": "Text ribbon",
+      "description": "A phrase travelling along an arch or a wave, measured by pretext. Drag, keys and scroll take over; pause holds it in place.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/text-ribbon.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/text-ribbon.css",
+          "type": "registry:file",
+          "target": "styles/0db/text-ribbon.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/text-ribbon.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-ribbon"
+      }
+    },
+    {
+      "name": "tiling",
+      "type": "registry:ui",
+      "title": "Tiling",
+      "description": "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or drag a tile and pull its corner: the grid makes room for your arrangement.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tiling.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tiling.css",
+          "type": "registry:file",
+          "target": "styles/0db/tiling.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/tiling.css\"": {}
+      },
+      "meta": {
+        "movement": "IV",
+        "underneath": "native",
+        "contract": "db-tiling"
+      }
+    },
+    {
+      "name": "timer",
+      "type": "registry:ui",
+      "title": "Timer",
+      "description": "A countdown the person starts: the time set large inside a hairline ring that empties clockwise behind the accent dot, the figures turning over like a counter's wheels. Done, a full stop lands.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/button.json",
+        "https://thedirectors.agency/ui/r/radial-chart.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/timer.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/timer.css",
+          "type": "registry:file",
+          "target": "styles/0db/timer.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/timer.css\"": {}
+      },
+      "meta": {
+        "movement": "VII",
+        "underneath": "hook",
+        "contract": "db-timer"
+      }
+    },
+    {
+      "name": "tour",
+      "type": "registry:ui",
+      "title": "Tour",
+      "description": "A tour of callouts: each step an ink callout hung on a leader line that ends in a dot on the thing it is about, one step at a time, only when you press on.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tour.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tour.css",
+          "type": "registry:file",
+          "target": "styles/0db/tour.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/tour.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "native",
+        "contract": "db-tour"
+      }
+    },
+    {
+      "name": "tree",
+      "type": "registry:ui",
+      "title": "Tree",
+      "description": "A hierarchy set as a contents page: names on hairline branches, each hanging from under its folder's first letter, a folder opened at a time.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/collapsible.json",
+        "https://thedirectors.agency/ui/r/item.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/tree.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/tree.css",
+          "type": "registry:file",
+          "target": "styles/0db/tree.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/tree.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-tree"
+      }
+    },
+    {
+      "name": "wake",
+      "type": "registry:ui",
+      "title": "Wake",
+      "description": "A paragraph that parts around your pointer like water around a hand: the lines it crosses split in two and the words move on.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/wake.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/wake.css",
+          "type": "registry:file",
+          "target": "styles/0db/wake.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/wake.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-wake"
+      }
+    },
+    {
+      "name": "waterfall",
+      "type": "registry:ui",
+      "title": "Waterfall",
+      "description": "A type specimen waterfall: one sentence at every dynamic, loudest first, each line filled to the measure with as many whole words as the size holds.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/waterfall.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/waterfall.css",
+          "type": "registry:file",
+          "target": "styles/0db/waterfall.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/waterfall.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-waterfall"
+      }
+    },
+    {
+      "name": "word-relay",
+      "type": "registry:ui",
+      "title": "Word relay",
+      "description": "A sentence whose last word rolls on every 2.4 seconds, in the italic. Press or use the keys to take over, or pause to hold a word.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/word-relay.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/word-relay.css",
+          "type": "registry:file",
+          "target": "styles/0db/word-relay.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/word-relay.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-relay"
+      }
+    },
+    {
+      "name": "ai",
+      "type": "registry:item",
+      "title": "0dB AI kit",
+      "description": "Source-generated instructions and component contracts for building with 0dB.",
+      "files": [
+        {
+          "path": "registry/0db/ai/AGENTS.md",
+          "type": "registry:file",
+          "target": "~/AGENTS.md"
+        },
+        {
+          "path": "registry/0db/ai/docs/AGENTS.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/AGENTS.md"
+        },
+        {
+          "path": "registry/0db/ai/INTENT.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/INTENT.md"
+        },
+        {
+          "path": "registry/0db/ai/DESIGN.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/DESIGN.md"
+        },
+        {
+          "path": "registry/0db/ai/DESIGN-core.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/DESIGN-core.md"
+        },
+        {
+          "path": "registry/0db/ai/components/link.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/link.md"
+        },
+        {
+          "path": "registry/0db/ai/components/meta.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/meta.md"
+        },
+        {
+          "path": "registry/0db/ai/components/kbd.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/kbd.md"
+        },
+        {
+          "path": "registry/0db/ai/components/corners.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/corners.md"
+        },
+        {
+          "path": "registry/0db/ai/components/button.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/button.md"
+        },
+        {
+          "path": "registry/0db/ai/components/spinner.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/spinner.md"
+        },
+        {
+          "path": "registry/0db/ai/components/checkbox.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/checkbox.md"
+        },
+        {
+          "path": "registry/0db/ai/components/fraction.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/fraction.md"
+        },
+        {
+          "path": "registry/0db/ai/components/radio-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/radio-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dial.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dial.md"
+        },
+        {
+          "path": "registry/0db/ai/components/picks.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/picks.md"
+        },
+        {
+          "path": "registry/0db/ai/components/switch.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/switch.md"
+        },
+        {
+          "path": "registry/0db/ai/components/slider.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/slider.md"
+        },
+        {
+          "path": "registry/0db/ai/components/field.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/field.md"
+        },
+        {
+          "path": "registry/0db/ai/components/select.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/select.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tabs.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tabs.md"
+        },
+        {
+          "path": "registry/0db/ai/components/pagination.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/pagination.md"
+        },
+        {
+          "path": "registry/0db/ai/components/breadcrumb.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/breadcrumb.md"
+        },
+        {
+          "path": "registry/0db/ai/components/accordion.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/accordion.md"
+        },
+        {
+          "path": "registry/0db/ai/components/rows.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/rows.md"
+        },
+        {
+          "path": "registry/0db/ai/components/calendar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/calendar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/badge.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/badge.md"
+        },
+        {
+          "path": "registry/0db/ai/components/note.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/note.md"
+        },
+        {
+          "path": "registry/0db/ai/components/progress.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/progress.md"
+        },
+        {
+          "path": "registry/0db/ai/components/toast.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/toast.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dialog.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dialog.md"
+        },
+        {
+          "path": "registry/0db/ai/components/empty.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/empty.md"
+        },
+        {
+          "path": "registry/0db/ai/components/toggle.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/toggle.md"
+        },
+        {
+          "path": "registry/0db/ai/components/toggle-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/toggle-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/button-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/button-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/input-group.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/input-group.md"
+        },
+        {
+          "path": "registry/0db/ai/components/input-otp.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/input-otp.md"
+        },
+        {
+          "path": "registry/0db/ai/components/combobox.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/combobox.md"
+        },
+        {
+          "path": "registry/0db/ai/components/popover.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/popover.md"
+        },
+        {
+          "path": "registry/0db/ai/components/context-menu.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/context-menu.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dropdown-menu.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dropdown-menu.md"
+        },
+        {
+          "path": "registry/0db/ai/components/menubar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/menubar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/navigation-menu.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/navigation-menu.md"
+        },
+        {
+          "path": "registry/0db/ai/components/command.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/command.md"
+        },
+        {
+          "path": "registry/0db/ai/components/sidebar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/sidebar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/card.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/card.md"
+        },
+        {
+          "path": "registry/0db/ai/components/hover-card.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/hover-card.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tooltip.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tooltip.md"
+        },
+        {
+          "path": "registry/0db/ai/components/sheet.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/sheet.md"
+        },
+        {
+          "path": "registry/0db/ai/components/drawer.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/drawer.md"
+        },
+        {
+          "path": "registry/0db/ai/components/collapsible.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/collapsible.md"
+        },
+        {
+          "path": "registry/0db/ai/components/resizable.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/resizable.md"
+        },
+        {
+          "path": "registry/0db/ai/components/scroll-area.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/scroll-area.md"
+        },
+        {
+          "path": "registry/0db/ai/components/scrollbar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/scrollbar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/aspect-ratio.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/aspect-ratio.md"
+        },
+        {
+          "path": "registry/0db/ai/components/carousel.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/carousel.md"
+        },
+        {
+          "path": "registry/0db/ai/components/table.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/table.md"
+        },
+        {
+          "path": "registry/0db/ai/components/chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/avatar.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/avatar.md"
+        },
+        {
+          "path": "registry/0db/ai/components/item.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/item.md"
+        },
+        {
+          "path": "registry/0db/ai/components/typography.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/typography.md"
+        },
+        {
+          "path": "registry/0db/ai/components/message.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/message.md"
+        },
+        {
+          "path": "registry/0db/ai/components/marker.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/marker.md"
+        },
+        {
+          "path": "registry/0db/ai/components/attachment.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/attachment.md"
+        },
+        {
+          "path": "registry/0db/ai/components/thread.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/thread.md"
+        },
+        {
+          "path": "registry/0db/ai/components/questionnaire.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/questionnaire.md"
+        },
+        {
+          "path": "registry/0db/ai/components/alert.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/alert.md"
+        },
+        {
+          "path": "registry/0db/ai/components/skeleton.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/skeleton.md"
+        },
+        {
+          "path": "registry/0db/ai/components/date-picker.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/date-picker.md"
+        },
+        {
+          "path": "registry/0db/ai/components/activity-feed.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/activity-feed.md"
+        },
+        {
+          "path": "registry/0db/ai/components/agent-chat.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/agent-chat.md"
+        },
+        {
+          "path": "registry/0db/ai/components/agent-state.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/agent-state.md"
+        },
+        {
+          "path": "registry/0db/ai/components/appearance.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/appearance.md"
+        },
+        {
+          "path": "registry/0db/ai/components/area-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/area-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/calligram.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/calligram.md"
+        },
+        {
+          "path": "registry/0db/ai/components/command-line.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/command-line.md"
+        },
+        {
+          "path": "registry/0db/ai/components/contour.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/contour.md"
+        },
+        {
+          "path": "registry/0db/ai/components/data-table.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/data-table.md"
+        },
+        {
+          "path": "registry/0db/ai/components/dropzone.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/dropzone.md"
+        },
+        {
+          "path": "registry/0db/ai/components/figure.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/figure.md"
+        },
+        {
+          "path": "registry/0db/ai/components/form.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/form.md"
+        },
+        {
+          "path": "registry/0db/ai/components/gather.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/gather.md"
+        },
+        {
+          "path": "registry/0db/ai/components/grid.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/grid.md"
+        },
+        {
+          "path": "registry/0db/ai/components/line-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/line-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/marquee.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/marquee.md"
+        },
+        {
+          "path": "registry/0db/ai/components/measure.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/measure.md"
+        },
+        {
+          "path": "registry/0db/ai/components/melody.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/melody.md"
+        },
+        {
+          "path": "registry/0db/ai/components/mode-toggle.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/mode-toggle.md"
+        },
+        {
+          "path": "registry/0db/ai/components/number-input.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/number-input.md"
+        },
+        {
+          "path": "registry/0db/ai/components/pie-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/pie-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/radar-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/radar-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/radial-chart.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/radial-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/reading-trail.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/reading-trail.md"
+        },
+        {
+          "path": "registry/0db/ai/components/reverb.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/reverb.md"
+        },
+        {
+          "path": "registry/0db/ai/components/scroll-expand.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/scroll-expand.md"
+        },
+        {
+          "path": "registry/0db/ai/components/segue.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/segue.md"
+        },
+        {
+          "path": "registry/0db/ai/components/source.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/source.md"
+        },
+        {
+          "path": "registry/0db/ai/components/stat.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/stat.md"
+        },
+        {
+          "path": "registry/0db/ai/components/steps.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/steps.md"
+        },
+        {
+          "path": "registry/0db/ai/components/swapy.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/swapy.md"
+        },
+        {
+          "path": "registry/0db/ai/components/text-ribbon.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/text-ribbon.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tiling.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tiling.md"
+        },
+        {
+          "path": "registry/0db/ai/components/timer.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/timer.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tour.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tour.md"
+        },
+        {
+          "path": "registry/0db/ai/components/tree.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/tree.md"
+        },
+        {
+          "path": "registry/0db/ai/components/wake.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/wake.md"
+        },
+        {
+          "path": "registry/0db/ai/components/waterfall.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/waterfall.md"
+        },
+        {
+          "path": "registry/0db/ai/components/word-relay.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/word-relay.md"
+        },
+        {
+          "path": "registry/0db/ai/claude/0db.md",
+          "type": "registry:file",
+          "target": "~/.claude/rules/0db.md"
+        },
+        {
+          "path": "registry/0db/ai/cursor.mdc",
+          "type": "registry:file",
+          "target": "~/.cursor/rules/0db.mdc"
+        },
+        {
+          "path": "registry/0db/ai/copilot.instructions.md",
+          "type": "registry:file",
+          "target": "~/.github/instructions/0db.instructions.md"
+        },
+        {
+          "path": "registry/0db/ai/devin.md",
+          "type": "registry:file",
+          "target": "~/.devin/rules/0db.md"
+        },
+        {
+          "path": "registry/0db/ai/claude/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.claude/skills/0db-component/SKILL.md"
+        },
+        {
+          "path": "registry/0db/ai/agents/SKILL.md",
+          "type": "registry:file",
+          "target": "~/.agents/skills/0db-component/SKILL.md"
+        },
+        {
+          "path": "registry/0db/ai/manifest.json",
+          "type": "registry:file",
+          "target": "~/docs/0db/manifest.json"
+        }
+      ]
+    }
+  ]
+}

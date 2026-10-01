@@ -1,0 +1,35 @@
+# 0dB: dial
+
+Extracted from DESIGN.md.
+
+### db-dial (dial)
+- Underneath: the arc is native radios with no script; the tuner and dynamics are a native range plus a hook; the tumbler is a native number input (`role="spinbutton"`) plus a hook.
+- Arc anatomy: `<fieldset class="db-dial" data-variant="arc" style="--n: 7">`, a legend, then `.db-dial-face` holding one `<label style="--i: 0…n-1" data-text="N"><input type="radio"><span>N</span></label>` per option, then `.db-dial-arc`, `.db-dial-dot`, and an optional `.db-dial-unit`.
+- Arc: options sit on an arc from 170° to 10°. `--sel` is a registered number, set by `:has()` rules (up to 9 options) and transitioned over `--db-andante` with `--db-spiccato`, so the dial swings a touch past and settles. Every option derives its distance from it, so the whole dial rolls: the chosen number swells to 2.4× and cross-fades to italic, the others fade from ink toward pencil by distance, and the accent dot travels the inner arc. It works without script. Keyboard: native radio group.
+- Tuner anatomy: `<fieldset class="db-dial" data-variant="tuner">`, a legend, then `.db-dial-face` (`aria-hidden`) holding `.db-dial-read` (a `.db-dial-drum` and an optional `.db-dial-unit`) and `.db-dial-scale` (a `.db-dial-tick` per step, `style="--v: i"` and `data-kind="minor | half | major"`, a major one holding its numeral, then `.db-dial-index`), then `<input type="range" class="db-sr">`. The range is the control: it takes focus and keys, carries the value to screen readers (`aria-valuetext` with the unit) and submits the form.
+- Tuner: for more numbers than fit in view, a long scale on the rim of a wheel seen edge on. The script keeps one position, `--pos` in steps, and writes it to the face each frame; CSS sets every tick at the angle (v − pos) / `--k` on a radius of `--k` × `--db-dial-pitch` (15 × 13px, 10px under 520px), so ticks spread under the index and crowd, narrow and fade as the rim turns away. Only the ticks within 34 steps of the index exist; the rest are made as the wheel brings them round. The index is an ink stroke standing through the rim with the accent dot on top, the slider's hand. A numeral inks as it passes the index.
+- Yours: the tuner's reading above the scale, a large italic numeral on a drum that turns with the wheel like a counter (`data-a` and `data-b` are the two numbers in view, `--f` how far it has turned between them), with the unit after it in roman.
+- Turning the tuner: drag it sideways and the value follows the wheel step by step; a flick coasts and lands on a step with one small swing past; past either end the rim gives a little under the hand and springs back. A tap turns it to the mark under the finger; a tap on a coasting wheel stops it. A sideways swipe always turns it; the plain scroll wheel only once it has focus, and at either end it hands the scroll back to the page (it marks the face `data-lenis-prevent-wheel` while it claims a scroll, so a smooth scroller leaves it alone). While it's held (`data-held` on the root) the reading lifts 5px and settles back with spiccato. Under reduced motion there is no coast, spring or roll: the wheel and the reading step straight to the value.
+- States: rest, hover (the arc's number inks), focus (the arc's number, or the tuner's face, in the accent outline), chosen, held (tuner), disabled (45% opacity; `disabled` goes on the fieldset). Tuner keyboard: arrows step, Page Up / Page Down jump a major mark, Home / End go to the ends.
+- Dynamics anatomy: `<fieldset class="db-dial" data-variant="dynamics" style="--u; --chars">`, a legend, then `.db-dial-face` (`aria-hidden`) holding `.db-dial-loud` (the numeral and an optional unit) and `.db-dial-marking` with `data-mark`, then `<input type="range" class="db-sr">` with `aria-valuetext` such as "60, mezzo forte".
+- Dynamics: the score's dynamics as a control. The type scale is already named for them; here the number is set at the size of its loudness. `--u` is how far along the range it is, and `--e = (9^u − 1) / 8` bends it the way loudness is heard, so the numeral grows from `--db-p` to `--db-fff` slowly at first and then fast. Under it, in the expression italic and the accent, its marking: niente at nothing (in pencil), then ppp to fff. The face keeps the room of the loudest numeral, so the page never reflows as it swells. Drag up or right to get louder (260px spans the range), scroll once focused, or use the range's keys; the numeral follows the hand while held (`data-held`) and settles with spiccato after a key or a scroll.
+- Tumbler anatomy: `<fieldset class="db-dial" data-variant="tumbler">`, a legend, then `.db-dial-face` (`dir="ltr"`, `aria-hidden`) holding `.db-dial-figures` (`style="--at"`, one `.db-dial-figure` per place with `data-k`, and `data-lead` on a leading zero, then `.db-dial-cursor`) and an optional unit, then `<input type="number" role="spinbutton" inputmode="none" class="db-sr">`, described by a hint.
+- Tumbler: a whole number set one figure at a time, like the wheels of a combination lock, with the figure you turn held in accent parentheses, as the poster writes 20(25). Whole numbers run from min (at least 0) to max; max decides how many figures there are, and leading zeros stand in pencil. The parentheses slide between figures (`--at`, moderato, spiccato) and open a little while held. A figure that changes rolls in from below or above, the way it turned, units first and each place one arpeggio later. Keyboard: up and down turn the held figure by its place (so up on the tens adds ten, and it carries), left and right move the parentheses, a typed digit sets the figure and steps right, Home and End go to min and max. Pointer: tap a figure to hold it, drag up or down to turn it (a step every 24px); scroll once focused. Figures always read left to right; right to left, only the legend moves.
+- Forced colours: the parentheses and the marking use `Highlight`. Reduced motion: the swell, the roll and the parentheses change without travel.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Dial (`dial`) | Spiccato | The dial swings a touch past its stop |
+| Tuner dial (`dial`) | Coast | The wheel follows the hand, coasts after a flick and lands on a step with one swing past; the reading turns like a counter |
+| Dial, dynamics (`dial`) | Crescendo | The numeral grows with the hand, slowly then fast, and its marking changes under it |
+| Dial, tumbler (`dial`) | Tumbler | A changed figure rolls in the way it turned, units first; the parentheses slide to the next figure |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Dial (`dial`) | WOVE; Paul Rand dimension lines | Numbers on an arc; the dial rolls. Or a scale on the rim of a wheel you turn, your number read above it |
+| Dial, dynamics (`dial`) | The score's dynamics, which name the type scale | The number is set at the size of its loudness, its marking under it |
+| Dial, tumbler (`dial`) | The poster's 20(25); a combination lock's wheels | Figure by figure, the one you turn held in parentheses |

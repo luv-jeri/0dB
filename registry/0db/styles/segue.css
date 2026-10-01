@@ -1,0 +1,58 @@
+@layer components {
+  /* ── db-segue ── one scene at a time. A change sends one hairline across the frame, carrying the next scene's number
+     and name; behind it the next scene drifts the last few pixels into place, ahead of it the last is pushed on. Every
+     scene stands in one cell, so the frame is as tall as its tallest scene and nothing below it moves. */
+  @property --db-segue-p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  .db-segue { --db-segue-p: 0; --db-segue-drift: var(--db-space-5); position: relative; display: grid; overflow: clip; }
+  .db-segue > .db-segue-scene { grid-area: 1 / 1; min-width: 0; }
+  .db-segue > .db-segue-scene:not([data-current], [data-part]) { visibility: hidden; }
+  .db-segue[data-scrub] > .db-segue-scene:not([data-current], [data-part]) { visibility: visible; opacity: 0; } /* still read, in order */
+  .db-segue > .db-segue-scene:not([data-current]) { pointer-events: none; }
+  .db-segue[data-phase="cross"] { transition: --db-segue-p var(--db-andante) var(--db-breath); }
+
+  /* The line: a frame-sized layer whose one edge is the hairline, translated across. Drawn only while crossing. */
+  .db-segue-line { position: absolute; inset: 0; z-index: 1; pointer-events: none; border: 0 solid var(--db-ink); visibility: hidden; }
+  .db-segue:is([data-phase="cross"], [data-phase="scrub"]) > .db-segue-line { visibility: visible; }
+  .db-segue-caption {
+    position: absolute; display: flex; gap: var(--db-space-2); white-space: nowrap;
+    font: 400 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0.04em; font-variant-numeric: tabular-nums; color: var(--db-graphite);
+    paint-order: stroke fill; -webkit-text-stroke: 0.3em var(--db-segue-ground, var(--db-paper)); /* a halo of the paper, so it reads over the scene */
+  }
+  .db-segue-caption > :first-child { color: var(--db-ink); font-weight: 600; }
+
+  /* Where the line comes in from. The scene behind it (to) shows between that edge and the line; the one ahead (from)
+     shows past it. p runs 0 to 1. */
+  .db-segue[data-edge="left"] > .db-segue-line { border-left-width: var(--db-hairline); translate: calc(var(--db-segue-p) * 100%) 0; }
+  .db-segue[data-edge="left"] > [data-part="to"] { clip-path: inset(0 calc(100% - var(--db-segue-p) * 100%) 0 0); }
+  .db-segue[data-edge="left"] > [data-part="from"] { clip-path: inset(0 0 0 calc(var(--db-segue-p) * 100%)); }
+  .db-segue[data-edge="left"] > [data-part="to"] > * { translate: calc((var(--db-segue-p) - 1) * var(--db-segue-drift)) 0; }
+  .db-segue[data-edge="left"] > [data-part="from"] > * { translate: calc(var(--db-segue-p) * var(--db-segue-drift)) 0; }
+  .db-segue[data-edge="left"] .db-segue-caption { top: var(--db-space-2); right: 100%; padding-inline: var(--db-space-2); }
+
+  .db-segue[data-edge="right"] > .db-segue-line { border-right-width: var(--db-hairline); translate: calc(var(--db-segue-p) * -100%) 0; }
+  .db-segue[data-edge="right"] > [data-part="to"] { clip-path: inset(0 0 0 calc(100% - var(--db-segue-p) * 100%)); }
+  .db-segue[data-edge="right"] > [data-part="from"] { clip-path: inset(0 calc(var(--db-segue-p) * 100%) 0 0); }
+  .db-segue[data-edge="right"] > [data-part="to"] > * { translate: calc((1 - var(--db-segue-p)) * var(--db-segue-drift)) 0; }
+  .db-segue[data-edge="right"] > [data-part="from"] > * { translate: calc(var(--db-segue-p) * -1 * var(--db-segue-drift)) 0; }
+  .db-segue[data-edge="right"] .db-segue-caption { top: var(--db-space-2); left: 100%; padding-inline: var(--db-space-2); }
+
+  /* horizon: after Eclipse, a level line with the light on one side of it. It rises from the foot; back, it sets. */
+  .db-segue[data-edge="bottom"] > .db-segue-line { border-top-width: var(--db-hairline); translate: 0 calc((1 - var(--db-segue-p)) * 100%); }
+  .db-segue[data-edge="bottom"] > [data-part="to"] { clip-path: inset(calc(100% - var(--db-segue-p) * 100%) 0 0 0); }
+  .db-segue[data-edge="bottom"] > [data-part="from"] { clip-path: inset(0 0 calc(var(--db-segue-p) * 100%) 0); }
+  .db-segue[data-edge="bottom"] > [data-part="to"] > * { translate: 0 calc((1 - var(--db-segue-p)) * var(--db-segue-drift)); }
+  .db-segue[data-edge="bottom"] > [data-part="from"] > * { translate: 0 calc(var(--db-segue-p) * -1 * var(--db-segue-drift)); }
+  .db-segue[data-edge="bottom"] .db-segue-caption { top: var(--db-space-2); inset-inline-start: 0; }
+
+  .db-segue[data-edge="top"] > .db-segue-line { border-bottom-width: var(--db-hairline); translate: 0 calc((var(--db-segue-p) - 1) * 100%); }
+  .db-segue[data-edge="top"] > [data-part="to"] { clip-path: inset(0 0 calc(100% - var(--db-segue-p) * 100%) 0); }
+  .db-segue[data-edge="top"] > [data-part="from"] { clip-path: inset(calc(var(--db-segue-p) * 100%) 0 0 0); }
+  .db-segue[data-edge="top"] > [data-part="to"] > * { translate: 0 calc((var(--db-segue-p) - 1) * var(--db-segue-drift)); }
+  .db-segue[data-edge="top"] > [data-part="from"] > * { translate: 0 calc(var(--db-segue-p) * var(--db-segue-drift)); }
+  .db-segue[data-edge="top"] .db-segue-caption { bottom: var(--db-space-2); inset-inline-start: 0; }
+
+  @media (forced-colors: active) {
+    .db-segue-line { border-color: CanvasText; }
+    .db-segue-caption { -webkit-text-stroke: 0; }
+  }
+}

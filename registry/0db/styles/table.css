@@ -1,0 +1,57 @@
+@layer components {
+  /* ── db-table ── hairline rows; the column you sort by is set in ink */
+  .db-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+  .db-table :is(th, td) { padding: var(--db-space-3) var(--db-space-4) var(--db-space-3) 0; text-align: start; vertical-align: baseline; border-bottom: var(--db-hairline) solid var(--db-rule); }
+  .db-table :is(th, td):last-child { padding-inline-end: 0; } /* figures end flush with the rule */
+  .db-table thead th { padding-top: 0; font-size: var(--db-pp); font-weight: 400; color: var(--db-pencil); border-bottom-color: var(--db-ink); white-space: nowrap; }
+  .db-table :is(tbody, tfoot) th { font-weight: 400; color: var(--db-graphite); }
+  .db-table tfoot :is(th, td) { color: var(--db-ink); border-bottom: 0; }
+  .db-table td { color: var(--db-graphite); transition: color var(--db-moderato); }
+  .db-table :is(th, td)[data-num] { text-align: end; }
+  .db-table :is(th, td):first-child:has(.db-table-pick) { width: 1.6em; }
+  .db-table th button { appearance: none; border: 0; background: none; margin: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; position: relative; }
+  /* The arrow hangs outside the word (after it; before it in a figures column), so headings keep their column's edge. */
+  .db-table th button::after { content: "↓" / ""; position: absolute; inset-inline-start: calc(100% + 0.25em); opacity: 0; transition: rotate var(--db-moderato) var(--db-spiccato), opacity var(--db-allegro); }
+  .db-table th[data-num] button::after { inset-inline: auto calc(100% + 0.25em); }
+  .db-table th button:hover::after { opacity: 0.5; }
+  .db-table th[aria-sort] { color: var(--db-ink); }
+  .db-table th[aria-sort] button::after { opacity: 1; }
+  .db-table th[aria-sort="ascending"] button::after { rotate: 180deg; }
+  .db-table td[data-sorted] { color: var(--db-ink); }
+  .db-table tr[data-picked] .db-table-name { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink); }
+  /* Choosing is a ring that fills; some chosen is half a moon. */
+  @media (max-width: 30rem) { .db-table :is(th, td) { padding-inline-end: var(--db-space-3); } }
+  .db-table-pick {
+    appearance: none; margin: 0; width: 10px; height: 10px; border-radius: 50%; vertical-align: 0.05em; cursor: pointer;
+    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
+    transition: background-color var(--db-allegro), box-shadow var(--db-allegro);
+  }
+  .db-table-pick:hover { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
+  .db-table-pick:checked { background: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); animation: db-land var(--db-moderato) var(--db-spiccato); }
+  .db-table-pick:indeterminate { background: linear-gradient(90deg, var(--db-ink) 50%, transparent 50%); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
+
+  /* ── forte ── SPECTRA's giant type against tiny data: the column you sort by is also set loud, in large thin figures, and the
+     rest stays small print on the same baselines. Re-sorted, the loudness passes to the new column as the rows glide. */
+  .db-table[data-variant="forte"] td { transition: color var(--db-moderato), font-size var(--db-moderato) var(--db-breath); }
+  .db-table[data-variant="forte"] td[data-sorted] { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 250; }
+  .db-table[data-variant="forte"] tr[data-picked] td[data-sorted].db-table-name { font-size: calc(var(--db-expression-scale) * var(--db-mf)); }
+  @media (max-width: 40rem) { .db-table[data-variant="forte"] td[data-sorted] { font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); } }
+
+  /* ── cross ── the road atlas's distance chart: point at a cell (or focus inside it) and its row and its column cross in ink,
+     their headings too; the cell where they meet is the accent; everything else steps back to pencil. A reading aid only: every
+     figure reads in full without it. ponytail: one rule per column, to eight columns; add rules if a chart grows wider. */
+  .db-table[data-variant="cross"] :is(th, td) { transition: color var(--db-allegro); }
+  @media (max-width: 30rem) { .db-table[data-variant="cross"] { font-size: var(--db-pp); line-height: var(--db-pp-lh); } } /* a distance chart is small print; on a phone it keeps its columns */
+  .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) :is(th, td) { color: var(--db-pencil); }
+  .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) tbody tr:has(> td:is(:hover, :focus-within, [data-force~="hover"])) > *,
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(1):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(1),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(2):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(2),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(3):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(3),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(4):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(4),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(5):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(5),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(6):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(6),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(7):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(7),
+  .db-table[data-variant="cross"]:has(tbody td:nth-child(8):is(:hover, :focus-within, [data-force~="hover"])) :is(th, td):nth-child(8) { color: var(--db-ink); }
+  .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) tbody td:is(:hover, :focus-within, [data-force~="hover"]):is(:hover, :focus-within, [data-force~="hover"]) { color: var(--db-accent); }
+  @media (forced-colors: active) { .db-table[data-variant="cross"]:has(tbody td:is(:hover, :focus-within, [data-force~="hover"])) tbody td:is(:hover, :focus-within, [data-force~="hover"]):is(:hover, :focus-within, [data-force~="hover"]) { color: Highlight; } }
+}

@@ -1,0 +1,59 @@
+@layer components {
+  /* ── db-tag ── the one rounded shape. The word is set as Weingart set his callouts: small, a little heavy and narrow, so it holds as type. */
+  .db-tag {
+    display: inline-flex; align-items: baseline; gap: 0.45em;
+    margin: 0; border: 0; padding: 0.22em 0.8em 0.26em; border-radius: 999px;
+    background: none; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
+    font-family: var(--db-voice); font-size: var(--db-pp); line-height: 1.3; font-weight: 500; font-stretch: 92%; letter-spacing: 0.01em;
+    color: var(--db-ink); white-space: nowrap;
+  }
+  .db-tag[data-variant="ink"] { background: var(--db-ink); color: var(--db-paper); box-shadow: none; font-weight: 650; font-stretch: 88%; }
+  .db-tag[data-variant="accent"] { color: var(--db-accent); box-shadow: inset 0 0 0 var(--db-hairline) currentColor; }
+  button.db-tag { cursor: pointer; transition: box-shadow var(--db-allegro), color var(--db-allegro); }
+  button.db-tag[data-removable]::after { content: "×" / ""; opacity: 0.5; transition: opacity var(--db-allegro); }
+  button.db-tag:is(:hover, [data-force~="hover"]) { color: var(--db-ink); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
+  button.db-tag:is(:hover, [data-force~="hover"])::after { opacity: 1; }
+  button.db-tag[data-removable] > span {
+    background: linear-gradient(currentColor, currentColor) no-repeat 100% 58% / 0% var(--db-hairline);
+    transition: background-size var(--db-moderato) var(--db-breath), background-position 0s;
+  }
+  button.db-tag[data-removable]:is(:hover, :focus-visible, [data-force~="hover"]) > span { background-position: 0 58%; background-size: 100% var(--db-hairline); }
+
+  /* series: no pill. Sibling tags are one written list, yours in the italic; ours are the commas and the "and", which re-set
+     themselves as a tag leaves (a leaving tag no longer counts). --and localises the conjunction. */
+  .db-tag[data-variant="series"] {
+    --and: "and";
+    display: inline-block; padding: 0; border-radius: 0; box-shadow: none; background: none; color: var(--db-ink);
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-stretch: 100%; letter-spacing: 0;
+    font-size: calc(var(--db-expression-scale) * 1em); line-height: inherit; vertical-align: baseline;
+  }
+  button.db-tag[data-variant="series"], button.db-tag[data-variant="series"]:is(:hover, [data-force~="hover"]) { box-shadow: none; color: var(--db-ink); }
+  button.db-tag[data-variant="series"] > span { background-position: 100% 62%; }
+  button.db-tag[data-variant="series"]:is(:hover, :focus-visible, [data-force~="hover"]) > span { background-position: 0 62%; }
+  button.db-tag[data-variant="series"]::after { content: none; }
+  :is(span, button).db-tag[data-variant="series"]::after {
+    font-family: var(--db-voice); font-style: normal; font-size: calc(1em / var(--db-expression-scale)); color: var(--db-graphite); opacity: 1;
+  }
+  .db-tag[data-variant="series"]:not(:nth-last-child(1 of .db-tag[data-variant="series"]:not([data-leaving]))) { margin-inline-end: 0.28em; }
+  .db-tag[data-variant="series"]:nth-last-child(n + 3 of .db-tag[data-variant="series"]:not([data-leaving]))::after { content: ","; }
+  .db-tag[data-variant="series"]:nth-last-child(2 of .db-tag[data-variant="series"]:not([data-leaving]))::after { content: "\a0" var(--and); }
+
+  /* seal: a coin. The legend set round the rim between two hairline rings, the face in the middle; pointing turns the legend a little. */
+  .db-tag[data-variant="seal"] {
+    position: relative; display: inline-grid; place-items: center; inline-size: var(--db-space-8); block-size: var(--db-space-8); padding: 0;
+    box-shadow: none; color: var(--db-ink); vertical-align: middle;
+  }
+  .db-tag[data-variant="seal"] > svg { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; }
+  .db-tag-rim { fill: none; stroke: var(--db-rule-strong); stroke-width: var(--db-hairline); }
+  .db-tag-legend {
+    fill: currentColor; font-family: var(--db-voice); font-size: var(--db-pp); font-weight: 550; font-stretch: 100%; text-transform: uppercase;
+    transform-origin: 45px 45px; transition: rotate var(--db-andante) var(--db-breath);
+  }
+  .db-tag[data-variant="seal"]:is(:hover, [data-force~="hover"]) .db-tag-legend { rotate: 30deg; }
+  .db-tag-face { font-size: var(--db-mf); line-height: 1; letter-spacing: var(--db-mf-tr); font-weight: 250; font-stretch: 100%; font-variant-numeric: lining-nums; }
+  @media (forced-colors: active) {
+    .db-tag:not([data-variant="series"], [data-variant="seal"]) { outline: var(--db-hairline) solid CanvasText; outline-offset: calc(-1 * var(--db-hairline)); }
+    button.db-tag[data-removable]:is(:hover, :focus-visible, [data-force~="hover"]) > span { text-decoration: line-through; }
+  }
+  @media (forced-colors: active) { .db-tag-rim { stroke: CanvasText; } .db-tag-legend { fill: CanvasText; } }
+}

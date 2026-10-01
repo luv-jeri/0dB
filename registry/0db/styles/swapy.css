@@ -1,0 +1,81 @@
+@layer components {
+  /* ── db-swap ── rows you put in order by hand, after "the uncreative": the row you hold reverses out of an ink block and
+     travels with your hand. A "move" word is the handle. Borrows db-rows for the hairlines, the title and the columns. */
+  .db-swap { position: relative; container-type: inline-size; }
+  .db-swap .db-rows { position: relative; }
+  .db-swap .db-rows > li { position: relative; }
+  .db-swap .db-rows .db-rows-link { grid-template-columns: auto minmax(0, 1fr); }
+  .db-swap .db-rows .db-rows-link::after { content: none; } /* nothing opens, so no arrow and no room kept for one */
+  .db-swap .db-rows-link > * { transition: color var(--db-allegro), translate var(--db-moderato) var(--db-exhale); }
+  .db-swap .db-rows-title { line-height: calc(var(--db-mf) * var(--db-mf-lh)); transition: color var(--db-allegro), translate var(--db-moderato) var(--db-exhale), font-weight var(--db-moderato) var(--db-breath), letter-spacing var(--db-moderato) var(--db-breath); }
+  /* The place, a number used as data: it turns over as the row moves. Figures always read left to right. */
+  .db-swap-n { min-inline-size: 2ch; font-size: var(--db-pp); color: var(--db-pencil); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+
+  /* The handle is a word, and the arrow says which way it goes. Both words share one cell, so the row never reflows. */
+  .db-swap-move {
+    display: inline-grid; grid-template-columns: auto auto; column-gap: 0.3em; align-items: baseline;
+    appearance: none; border: 0; background: none; margin: calc(-1 * var(--db-space-3)) calc(-1 * var(--db-space-2)); padding: var(--db-space-3) var(--db-space-2);
+    font: inherit; color: var(--db-graphite); cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    transition: color var(--db-allegro);
+  }
+  .db-swap-move > [data-word] { grid-area: 1 / 1; }
+  .db-swap-move > [data-word="moving"], .db-swap-move[aria-pressed="true"] > [data-word="move"] { visibility: hidden; }
+  .db-swap-move[aria-pressed="true"] > [data-word="moving"] { visibility: visible; }
+  .db-swap-arrow { grid-area: 1 / 2; color: var(--db-pencil); display: inline-block; transition: color var(--db-allegro), translate var(--db-moderato) var(--db-spiccato); }
+  .db-swap-move:is(:hover, :focus-visible), .db-swap[data-force~="hover"] > .db-rows > li:first-child .db-swap-move { color: var(--db-ink); }
+  .db-swap-move:is(:hover, :focus-visible) .db-swap-arrow, .db-swap[data-force~="hover"] > .db-rows > li:first-child .db-swap-arrow { color: var(--db-ink); translate: 0 -0.08em; }
+  .db-swap[data-dragging], .db-swap[data-dragging] .db-swap-move { cursor: grabbing; }
+
+  /* Held: an ink block prints across the row from the inline start and the words reverse to paper; the name steps
+     forward and sets heavier and tighter, as the poster's reversed word does. */
+  .db-swap:not([data-variant]) .db-rows-link::before {
+    content: ""; position: absolute; inset: 0 calc(-1 * var(--db-space-3)); z-index: -1;
+    background: var(--db-ink); scale: 0 1; transform-origin: 0 50%;
+    transition: scale var(--db-moderato) var(--db-exhale);
+  }
+  :is([dir="rtl"], [dir="rtl"] *) .db-swap:not([data-variant]) .db-rows-link::before { transform-origin: 100% 50%; }
+  .db-swap .db-rows > li[data-held] { z-index: 1; }
+  .db-swap:not([data-variant]) li[data-held] .db-rows-link::before { scale: 1 1; }
+  .db-swap:not([data-variant]) li[data-held] .db-rows-link > *, .db-swap:not([data-variant]) li[data-held] .db-swap-arrow { color: var(--db-paper); }
+  .db-swap li[data-held] .db-rows-title { translate: var(--step) 0; }
+  .db-swap:not([data-variant]) li[data-held] .db-rows-title { font-weight: 560; letter-spacing: -0.035em; }
+  .db-swap:not([data-variant]) li[data-held] .db-swap-move:focus-visible { outline-color: var(--db-paper); }
+
+  /* Narrow: the names step down a size and the kind gives way, so a name never runs into its neighbours. */
+  @container (max-width: 30rem) {
+    .db-swap .db-rows .db-rows-link { column-gap: var(--db-space-4); }
+    .db-swap .db-rows-title { font-size: var(--db-mp); line-height: calc(var(--db-mp) * var(--db-mp-lh)); letter-spacing: var(--db-mp-tr); overflow-wrap: break-word; }
+    .db-swap[data-variant="transpose"] .db-rows li[data-held] .db-rows-title { font-size: var(--db-mp); } /* no lift here, so the name keeps its one line */
+    .db-swap .db-rows-kind { display: none; }
+  }
+
+  .db-swap[data-disabled] :is(.db-rows-title, .db-rows-kind, .db-swap-move, .db-swap-arrow) { color: var(--db-pencil); }
+  .db-swap-move:disabled { cursor: default; }
+
+  /* ── transpose ── the proofreader's transposition mark. No ink: the held name turns italic (yours now) and the rest step
+     back to pencil; a hairline loop in the margin runs from the place it was picked up to the place it is, ending in a dot,
+     with "tr" written by it. Set down, the mark fades: the correction is made. */
+  .db-swap[data-variant="transpose"] { --db-swap-margin: var(--db-space-7); padding-inline-start: var(--db-swap-margin); }
+  .db-swap[data-variant="transpose"][data-holding] li:not([data-held]) .db-rows-link > :is(.db-rows-title, .db-rows-kind) { color: var(--db-pencil); }
+  .db-swap[data-variant="transpose"] li[data-held] .db-rows-title { font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-mf)); letter-spacing: 0; }
+  .db-swap-arc {
+    position: absolute; inset-block-start: 0; inset-inline-start: calc(var(--db-swap-margin) - var(--db-space-5)); inline-size: var(--db-space-5); block-size: 100%;
+    overflow: visible; pointer-events: none; opacity: 0; transition: opacity var(--db-moderato) var(--db-breath);
+  }
+  .db-swap-arc path { fill: none; stroke: var(--db-ink); stroke-width: var(--db-hairline); }
+  .db-swap-arc circle { fill: var(--db-ink); }
+  :is([dir="rtl"], [dir="rtl"] *) .db-swap-arc { scale: -1 1; }
+  .db-swap-tr {
+    position: absolute; inset-inline-end: calc(100% - var(--db-swap-margin) + var(--db-space-5) + var(--db-space-2)); inset-block-start: var(--db-swap-mid, 0); translate: 0 -50%; pointer-events: none;
+    font: italic 400 calc(var(--db-expression-scale) * var(--db-p)) / 1 var(--db-expression); color: var(--db-pencil);
+    opacity: 0; transition: opacity var(--db-moderato) var(--db-breath);
+  }
+  .db-swap :is(.db-swap-arc, .db-swap-tr)[data-shown] { opacity: 1; }
+  @media (max-width: 40rem) { .db-swap[data-variant="transpose"] { --db-swap-margin: var(--db-space-6); } .db-swap-tr { font-size: var(--db-pp); } }
+
+  @media (forced-colors: active) {
+    .db-swap:not([data-variant]) li[data-held] .db-rows-link::before { background: Highlight; forced-color-adjust: none; }
+    .db-swap:not([data-variant]) li[data-held] .db-rows-link > *, .db-swap:not([data-variant]) li[data-held] .db-swap-arrow { color: HighlightText; forced-color-adjust: none; }
+    .db-swap-arc path { stroke: CanvasText; } .db-swap-arc circle { fill: CanvasText; }
+  }
+}

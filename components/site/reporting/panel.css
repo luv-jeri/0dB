@@ -1,0 +1,40 @@
+@layer components {
+  /* A page at the edge: the spine belongs to the sheet, the voice to the reader. */
+  .db-sheet.db-report-sheet { width: min(42rem, 100vw); padding-block: var(--db-space-5) var(--db-space-7); padding-inline: var(--db-space-7) var(--db-space-6); overscroll-behavior: contain; }
+  .db-sheet.db-report-sheet::backdrop { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .db-sheet.db-report-sheet[data-picking] { display: none; transition: none; }
+  .db-sheet.db-report-sheet[data-picking]::backdrop { display: none; transition: none; }
+  .db-report-sheet > .db-sheet-spine { position: fixed; font-size: var(--db-mp); }
+  .db-report-sheet-head { margin-block-end: var(--db-space-6); }
+  .db-report-sheet-caption { display: flex; justify-content: space-between; align-items: baseline; gap: var(--db-space-4); font-size: var(--db-pp); color: var(--db-pencil); margin-block-end: var(--db-space-5); }
+  .db-report-sheet .db-sheet-title { font-size: var(--db-ff); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 600; font-stretch: 85%; }
+  .db-report-sheet .db-sheet-body { margin-block-start: var(--db-space-4); }
+  .db-report-page[data-presentation="panel"] { padding: 0; }
+  .db-report-sheet .db-report-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-6); }
+  .db-report-sheet :is(.db-report-aside, .db-report-body) { grid-column: 1; }
+  .db-report-sheet .db-report-aside-note, .db-report-sheet .db-pick-description { display: none; }
+  .db-report-sheet .db-report-aside .db-picks > label { font-size: var(--db-mp); }
+  .db-report-sheet .db-report-body h2 { font-size: var(--db-mf); }
+  .db-report-sheet .db-report-edit { gap: var(--db-space-5); }
+  .db-report-sheet .db-report-tools { margin-block-end: var(--db-space-3); }
+  .db-report-sheet .db-report-tools .db-btn { font-size: var(--db-p); }
+  .db-report-sheet .db-report-actions { gap: var(--db-space-3) var(--db-space-4); }
+  .db-report-sheet .db-report-ledger > div { grid-template-columns: minmax(0, 1fr); gap: var(--db-space-2); }
+  .db-report-sheet .db-report-form { gap: var(--db-space-5); }
+  .db-report-sheet .db-report-toaster { display: none; }
+  html:has(.db-report-sheet[open]) { overflow: hidden; }
+  @media (max-width: 520px) {
+    .db-sheet.db-report-sheet { padding-inline: var(--db-space-5); }
+    .db-report-sheet > .db-sheet-spine { display: none; }
+    .db-report-sheet .db-sheet-title { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); }
+    .db-report-sheet .db-report-sheet-head { margin-block-end: var(--db-space-5); }
+    .db-report-sheet .db-report-layout { gap: var(--db-space-5); }
+    .db-report-sheet .db-report-body h2 { font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .db-sheet.db-report-sheet, .db-sheet.db-report-sheet::backdrop { transition: none; }
+  }
+  @media (forced-colors: active) {
+    .db-sheet.db-report-sheet { background: Canvas; color: CanvasText; border-color: CanvasText; }
+  }
+}

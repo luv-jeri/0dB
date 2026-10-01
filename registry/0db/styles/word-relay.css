@@ -1,0 +1,60 @@
+@layer components {
+  /* ── db-relay ── a sentence whose last word is yours to change: mode-toggle's sentence, for any set of words.
+     The lead is ours, in the roman; the word is the one you chose, in the italic, on a hairline that hugs it.
+     The word rolls on and its box eases to the new width; the autoplay clock yields to the person. */
+  .db-relay {
+    appearance: none; border: 0; background: none; padding: 0; margin: 0; font: inherit; letter-spacing: inherit;
+    color: var(--db-graphite); text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: color var(--db-allegro) var(--db-breath);
+  }
+  .db-relay:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
+  .db-relay:focus-visible, .db-relay[data-force~="focus"] { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 0.12em; }
+  .db-relay:disabled { opacity: 0.55; cursor: not-allowed; }
+  .db-relay-word {
+    display: inline-block; box-sizing: border-box; vertical-align: baseline; overflow: clip; white-space: nowrap;
+    padding: 0.12em 0.14em 0.24em; margin-block: -0.12em -0.24em; margin-inline: -0.08em -0.14em;
+    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink);
+    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0.14em calc(100% - 0.1em) / calc(100% - 0.28em) var(--db-hairline);
+  }
+  .db-relay-word > span { display: inline-block; }
+  .db-relay:is(:hover, [data-force~="hover"]) .db-relay-word { background-image: linear-gradient(var(--db-ink), var(--db-ink)); }
+
+  /* statement: after "It has to be design.", where heavy narrow roman is answered by a large italic that overlaps it, the one
+     accent on the italic word and its full stop. The sentence stands in ink; the word drops under it, half again as large,
+     rising into the line above with a halo of the paper round its letters, so it cuts the roman where they cross. */
+  .db-relay[data-variant="statement"] { display: inline-grid; justify-items: start; color: var(--db-ink); }
+  .db-relay[data-variant="statement"] .db-relay-lead { font-weight: 800; font-stretch: 75%; letter-spacing: -0.035em; line-height: 0.92; }
+  .db-relay[data-variant="statement"] .db-relay-word {
+    font-size: calc(1.5 * var(--db-expression-scale) * 1em); line-height: 0.9; margin-block: -0.42em -0.24em; margin-inline-start: 0.3em;
+    color: var(--db-accent); background-size: 0 var(--db-hairline);
+    paint-order: stroke fill; -webkit-text-stroke: 0.06em var(--db-relay-ground, var(--db-paper));
+    transition: background-size var(--db-moderato) var(--db-exhale);
+  }
+  /* Pointing sketches the hairline under the word in pencil: it can be changed. */
+  .db-relay[data-variant="statement"]:is(:hover, [data-force~="hover"]) .db-relay-word { background-image: linear-gradient(var(--db-pencil), var(--db-pencil)); background-size: calc(100% - 0.28em) var(--db-hairline); }
+  @media (forced-colors: active) {
+    .db-relay-word { background-image: linear-gradient(CanvasText, CanvasText); }
+    .db-relay[data-variant="statement"] .db-relay-word { color: CanvasText; -webkit-text-stroke: 0; margin-block-start: 0; margin-inline-start: 0; }
+  }
+  .db-relay-frame { display: inline-grid; justify-items: start; max-inline-size: 100%; vertical-align: baseline; }
+
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .db-relay-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--db-space-3); padding: var(--db-space-1) 0;
+    min-block-size: var(--db-space-5); color: var(--db-pencil); font: 400 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .db-relay-pause::before { content: "( "; }
+  .db-relay-pause::after { content: " )"; }
+  .db-relay-pause:hover { color: var(--db-ink); }
+  .db-relay-pause:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-relay-pause:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .db-relay-frame[data-force~="reduced"] .db-relay-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .db-relay-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .db-relay-pause { color: ButtonText; }
+    .db-relay-pause:focus-visible { outline-color: Highlight; }
+  }
+
+}

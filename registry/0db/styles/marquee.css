@@ -1,0 +1,72 @@
+@layer components {
+  /* ── db-marquee ── --o wraps the drift and the scroll to one run (--period). The frame clips every copy;
+     its minimum width is zero, so a max-content track can never widen its containing grid or the page. */
+  .db-marquee { --db-marquee-dir: 1; --db-marquee-gap: 0.32em; --o: 0px; --period: 0px; display: grid; grid-template-columns: minmax(0, 1fr); min-inline-size: 0; max-inline-size: 100%; font-weight: 300; color: var(--db-ink); }
+  .db-marquee-frame { min-inline-size: 0; overflow: clip; }
+  .db-marquee:is([dir="rtl"], [dir="rtl"] *) { --db-marquee-dir: -1; } /* reading along runs the other way */
+  .db-marquee-row { overflow: clip; }
+  .db-marquee-track { display: flex; inline-size: max-content; translate: calc(var(--o) * -1 * var(--db-marquee-dir)) 0; }
+  .db-marquee-row[data-back] .db-marquee-track { translate: calc((var(--o) - var(--period)) * var(--db-marquee-dir)) 0; }
+  .db-marquee-words { display: flex; gap: var(--db-marquee-gap); margin: 0; padding: 0 var(--db-marquee-gap) 0 0; list-style: none; white-space: nowrap; }
+  .db-marquee-words:is([dir="rtl"] *) { padding: 0 0 0 var(--db-marquee-gap); }
+  .db-marquee-words > li { margin: 0; }
+  /* band: after "Renaissance." and "Less is more.", every word a statement closed by its full stop. */
+  .db-marquee:not([data-variant="ticker"]) .db-marquee-words > li::after { content: "."; }
+
+  /* ticker: small capitals running between two hairlines, after the Renaissance poster's top row and the frame row of
+     SHAPES / GRADIENTS. */
+  .db-marquee[data-variant="ticker"] {
+    --db-marquee-gap: var(--db-space-7);
+    font: 500 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0.08em; text-transform: uppercase; color: var(--db-graphite);
+  }
+  .db-marquee[data-variant="ticker"] .db-marquee-frame { border-block: var(--db-hairline) solid var(--db-rule); padding-block: var(--db-space-3); }
+
+  /* counter: SPECTRA's two rows, the upper cut at its head and the lower at its feet, facing each other across one
+     hairline and running opposite ways. Each word's box is trimmed to its cap height and baseline, so the cuts fall
+     on the letters themselves in every face: into the capitals above, along the baseline below (the full stops stay). */
+  .db-marquee[data-variant="counter"] .db-marquee-row { overflow: visible; }
+  .db-marquee[data-variant="counter"] .db-marquee-words > li { text-box: trim-both cap alphabetic; }
+  .db-marquee[data-variant="counter"] .db-marquee-row:first-child { clip-path: inset(0 0 -1em 0); padding-block-end: 0.28em; }
+  .db-marquee[data-variant="counter"] .db-marquee-row:first-child .db-marquee-track { margin-block-start: -0.16em; }
+  .db-marquee[data-variant="counter"] .db-marquee-row + .db-marquee-row { clip-path: inset(-1em 0 0 0); padding-block-start: 0.14em; border-block-start: var(--db-hairline) solid var(--db-rule-strong); }
+
+  /* Reduced motion: the words stand still and wrap, whole, as one list. */
+  @media (prefers-reduced-motion: reduce) {
+    .db-marquee-track { inline-size: auto; translate: none; }
+    .db-marquee-row[data-back] .db-marquee-track { translate: none; }
+    .db-marquee-words { flex-wrap: wrap; white-space: normal; padding: 0; }
+    .db-marquee-words + .db-marquee-words, .db-marquee-row + .db-marquee-row { display: none; }
+    .db-marquee-words { row-gap: 0; }
+    .db-marquee[data-variant="counter"] .db-marquee-row:first-child { clip-path: none; padding: 0; }
+    .db-marquee[data-variant="counter"] .db-marquee-row:first-child .db-marquee-track { margin-block: 0; }
+    .db-marquee[data-variant="counter"] .db-marquee-words > li { text-box: normal; }
+  }
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .db-marquee-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--db-space-3); padding: var(--db-space-1) 0;
+    min-block-size: var(--db-space-5); color: var(--db-pencil); font: 400 var(--db-pp) / var(--db-pp-lh) var(--db-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .db-marquee-pause::before { content: "( "; }
+  .db-marquee-pause::after { content: " )"; }
+  .db-marquee-pause:hover { color: var(--db-ink); }
+  .db-marquee-pause:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-marquee-pause:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .db-marquee[data-force~="reduced"] .db-marquee-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .db-marquee-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .db-marquee-pause { color: ButtonText; }
+    .db-marquee-pause:focus-visible { outline-color: Highlight; }
+  }
+
+  .db-marquee[data-force~="reduced"] .db-marquee-track { inline-size: auto; translate: none; }
+  .db-marquee[data-force~="reduced"] .db-marquee-row[data-back] .db-marquee-track { translate: none; }
+  .db-marquee[data-force~="reduced"] .db-marquee-words { flex-wrap: wrap; white-space: normal; padding: 0; }
+  .db-marquee[data-force~="reduced"] .db-marquee-words + .db-marquee-words, .db-marquee[data-force~="reduced"] .db-marquee-row + .db-marquee-row { display: none; }
+  .db-marquee[data-force~="reduced"] .db-marquee-words { row-gap: 0; }
+  .db-marquee[data-force~="reduced"][data-variant="counter"] .db-marquee-row:first-child { clip-path: none; padding: 0; }
+  .db-marquee[data-force~="reduced"][data-variant="counter"] .db-marquee-row:first-child .db-marquee-track { margin-block: 0; }
+  .db-marquee[data-force~="reduced"][data-variant="counter"] .db-marquee-words > li { text-box: normal; }
+
+}

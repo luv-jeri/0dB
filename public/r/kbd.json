@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "title": "Kbd",
+  "description": "A key, drawn as the corners of its cap. Pressed, the corners close into the whole cap and it goes down a little.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/kbd.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype KbdProps = React.ComponentProps<\"kbd\"> & {\n  /** Draws the key pressed: the corners close into the whole cap, in ink, and it goes down a little. */\n  pressed?: boolean\n  /** typewriter draws the key as a ring that inks into a disc; chord stacks a combination's modifiers small before its key. */\n  variant?: \"typewriter\" | \"chord\"\n}\n\nconst MODIFIERS = \"⌘⇧⌥⌃\"\n\n/** \"⌘⇧K\" or \"Ctrl+Shift+K\" into its modifiers and its key. */\nfunction chord(keys: string): [string[], string] {\n  if (keys.length > 1 && keys.includes(\"+\")) {\n    const parts = keys.split(\"+\").map((k) => k.trim()).filter(Boolean)\n    return [parts.slice(0, -1), parts.at(-1) ?? keys]\n  }\n  let i = 0\n  while (i < keys.length - 1 && MODIFIERS.includes(keys[i])) i++\n  return [[...keys.slice(0, i)], keys.slice(i)]\n}\n\n/** A key, drawn as the corners of its cap. */\nfunction Kbd({ className, pressed, variant, children, ...props }: KbdProps) {\n  let body = children\n  if (variant === \"chord\" && typeof children === \"string\") {\n    const [mods, key] = chord(children)\n    body = mods.length ? (\n      <>\n        <span className=\"db-kbd-mods\">\n          {mods.map((m, i) => (\n            <span key={i}>{m}</span>\n          ))}\n        </span>\n        <span className=\"db-kbd-key\">{key}</span>\n      </>\n    ) : (\n      <span className=\"db-kbd-key\">{key}</span>\n    )\n  }\n  return (\n    <kbd data-slot=\"kbd\" data-variant={variant} data-pressed={pressed || undefined} className={cn(\"db-kbd\", className)} {...props}>\n      {body}\n    </kbd>\n  )\n}\n\nexport { Kbd, type KbdProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "meta": {
+    "movement": "II",
+    "underneath": "native",
+    "contract": "db-kbd"
+  },
+  "type": "registry:ui"
+}

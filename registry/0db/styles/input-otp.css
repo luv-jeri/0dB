@@ -1,0 +1,62 @@
+@layer components {
+  /* ── db-code ── a one-time code: digits drop onto short baselines, three and three */
+  .db-code { position: relative; display: inline-flex; align-items: flex-end; gap: 0.18em; font-size: min(calc(var(--db-f) * var(--db-expression-scale)), 12.5vw); }
+  .db-field > .db-code { grid-column: 1 / -1; justify-self: start; margin-top: var(--db-space-2); }
+  .db-code > input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; opacity: 0; font-size: 16px; cursor: text; }
+  .db-code[data-force~="focus"], .db-code > input:focus-visible { outline: 0; } /* the waiting line is the focus mark */
+  .db-code-slot {
+    --c: var(--db-accent);
+    display: grid; place-items: end center; width: 0.78em; height: 1.2em; padding-bottom: 0.1em;
+    font-family: var(--db-expression); font-style: italic; line-height: 1; color: var(--db-ink); font-variant-numeric: lining-nums;
+    background:
+      linear-gradient(var(--c), var(--c)) no-repeat 50% 100% / 0% var(--db-stroke),
+      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+    transition: background-size var(--db-moderato) var(--db-exhale);
+  }
+  .db-code-slot > span { animation: db-drop-in var(--db-moderato) var(--db-spiccato) backwards; }
+  @keyframes db-drop-in { from { opacity: 0; translate: 0 -0.3em; } }
+  .db-code-slot[data-here] { background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
+  .db-code-sep { align-self: center; width: var(--db-hairline); height: 0.7em; margin-inline: 0.12em; background: var(--db-rule-strong); rotate: 22deg; }
+  .db-code-sep:is([dir="rtl"], [dir="rtl"] *) { rotate: -22deg; }
+  /* Whole: the lines ink in turn. Wrong: they turn crimson together. */
+  .db-code[data-state] .db-code-slot { background-size: 100% var(--db-stroke), 100% var(--db-hairline); transition-delay: calc(var(--i, 0) * 2 * var(--db-arpeggio)); }
+  .db-code[data-state="done"] .db-code-slot { --c: var(--db-ink); }
+  .db-code[data-state="wrong"] .db-code-slot { --c: var(--db-signal); color: var(--db-signal); transition-delay: 0s; }
+  /* ── close-up ── the proofreader's close-up mark: a dot waits for each digit (the next one in the accent); whole,
+     the spaces close, the halves meet in one tight figure, and the mark's two arcs land over and under the join. */
+  .db-code[data-variant="close-up"] { gap: 0.1em; transition: gap var(--db-moderato) var(--db-breath); }
+  .db-code[data-variant="close-up"] .db-code-slot {
+    --c: var(--db-rule-strong);
+    width: 0.62em; background: radial-gradient(circle closest-side, var(--c) 92%, transparent) no-repeat 50% calc(100% - 0.24em) / var(--db-dot) var(--db-dot);
+    transition: width var(--db-moderato) var(--db-breath);
+  }
+  .db-code[data-variant="close-up"] .db-code-slot[data-here] { --c: var(--db-accent); }
+  .db-code[data-variant="close-up"] .db-code-slot:not(:empty) { background: none; }
+  .db-code[data-variant="close-up"] .db-code-sep { position: relative; align-self: stretch; width: 0.3em; height: auto; margin: 0; background: none; rotate: none; transition: width var(--db-moderato) var(--db-breath); }
+  .db-code[data-variant="close-up"] .db-code-sep::before, .db-code[data-variant="close-up"] .db-code-sep::after {
+    content: ""; position: absolute; inset-inline-start: 50%; width: 0.36em; height: 0.1em; margin-inline-start: -0.18em;
+    border: var(--db-stroke) solid var(--db-ink); scale: 0; opacity: 0;
+    transition: scale var(--db-moderato) var(--db-spiccato) var(--db-moderato), opacity var(--db-allegro) var(--db-moderato);
+  }
+  .db-code[data-variant="close-up"] .db-code-sep::before { top: 0; translate: 0.1em 0; border-bottom: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0; } /* the join leans with the italic, so the upper arc sits a little ahead */
+  .db-code[data-variant="close-up"] .db-code-sep::after { bottom: 0; border-top: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+  .db-code[data-variant="close-up"][data-state="done"] { gap: 0; }
+  .db-code[data-variant="close-up"][data-state="done"] .db-code-slot { width: auto; padding-inline: 0.01em 0.05em; } /* the italic leans right, so it keeps a hair on that side */
+  .db-code[data-variant="close-up"][data-state="done"] .db-code-sep { width: 0; }
+  .db-code[data-variant="close-up"][data-state="done"] .db-code-sep::before, .db-code[data-variant="close-up"][data-state="done"] .db-code-sep::after { scale: 1; opacity: 1; }
+
+  /* ── lyric ── each digit read back in words under its line, as lyrics sit under their notes; a comma at the
+     halfway breath and a full stop at the end. The words are ours, upright; the figures yours. */
+  .db-code[data-variant="lyric"] { margin-bottom: calc(var(--db-pp) * var(--db-pp-lh) + var(--db-space-2)); }
+  .db-code[data-variant="lyric"] .db-code-slot { position: relative; }
+  .db-code[data-variant="lyric"] .db-code-slot > .db-code-word {
+    position: absolute; top: calc(100% + var(--db-space-2)); inset-inline: -1em; text-align: center;
+    font-family: var(--db-voice); font-style: normal; font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-graphite);
+    animation: db-read-back var(--db-moderato) var(--db-exhale) backwards;
+  }
+  @keyframes db-read-back { from { opacity: 0; clip-path: inset(0 50%); } }
+  .db-code[data-variant="lyric"][data-state="done"] .db-code-word { color: var(--db-ink); }
+  @media (forced-colors: active) {
+    .db-code { forced-color-adjust: none; color: CanvasText; --db-ink: CanvasText; --db-graphite: CanvasText; --db-pencil: GrayText; --db-rule-strong: GrayText; --db-accent: Highlight; --db-signal: CanvasText; }
+  }
+}

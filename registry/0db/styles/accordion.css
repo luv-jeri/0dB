@@ -1,0 +1,107 @@
+@layer components {
+  /* ── db-disclose ── a plus that turns into a cross; the open question becomes the heading of its answer */
+  .db-disclose { border-block-start: var(--db-hairline) solid var(--db-rule); }
+  .db-disclose:not(:has(+ .db-disclose)) { border-block-end: var(--db-hairline) solid var(--db-rule); }
+  .db-disclose > summary {
+    list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--db-space-5);
+    padding-block: var(--db-space-4); cursor: pointer;
+    font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); color: var(--db-ink);
+    transition: font-size var(--db-andante) var(--db-exhale), line-height var(--db-andante) var(--db-exhale), letter-spacing var(--db-andante) var(--db-exhale),
+      font-stretch var(--db-andante) var(--db-exhale), font-weight var(--db-andante) var(--db-exhale);
+  }
+  /* The question breathes out as it opens and swells a fifth, into the heading of its answer ("Less is more."). */
+  .db-disclose[open] > summary { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-stretch: 112%; font-weight: 300; }
+  .db-disclose > summary::-webkit-details-marker { display: none; }
+  .db-disclose > summary::after {
+    content: "+" / ""; font-weight: 200; font-stretch: 100%; /* the mark keeps its size and width while the question grows */
+    font-size: calc(var(--db-mp) * 1.5); line-height: 0.6; letter-spacing: 0; color: var(--db-graphite);
+    transition: rotate var(--db-andante) var(--db-spiccato);
+  }
+  .db-disclose[open] > summary::after { rotate: 45deg; }
+  .db-disclose[open] .db-disclose-body { animation: db-arrive var(--db-andante) var(--db-exhale) 90ms backwards; }
+  .db-disclose::details-content {
+    block-size: 0; overflow: clip;
+    transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete;
+  }
+  .db-disclose[open]::details-content { block-size: auto; }
+  .db-disclose-body { max-inline-size: var(--db-measure); padding-block-end: var(--db-space-5); color: var(--db-graphite); }
+  .db-disclose-body > :first-child { margin-block-start: 0; }
+  .db-disclose-body > :last-child { margin-block-end: 0; }
+
+  /* run-in: the book's run-in head. No rules, only space, as between paragraphs. The question is set heavy and
+     floats at the start of its own line; closed, an ellipsis trails after it; open, the answer runs on from it,
+     written along the line from the question outward. */
+  .db-accordion[data-variant="run-in"] > .db-disclose { display: flow-root; max-inline-size: var(--db-measure); border: 0; padding-block: var(--db-space-2); font-size: var(--db-mp); line-height: var(--db-mp-lh); }
+  .db-accordion[data-variant="run-in"] > .db-disclose > summary {
+    float: inline-start; display: block; padding: 0; margin-inline-end: 0.3em;
+    font-size: inherit; line-height: inherit; letter-spacing: var(--db-mp-tr); font-weight: 600; font-stretch: 100%;
+  }
+  .db-accordion[data-variant="run-in"] > .db-disclose > summary::after {
+    content: "\2009\2026" / ""; font-size: 1em; line-height: inherit; font-weight: 300; color: var(--db-pencil); rotate: none;
+    transition: color var(--db-allegro);
+  }
+  .db-accordion[data-variant="run-in"] > .db-disclose > summary:is(:hover, [data-force~="hover"])::after { color: var(--db-ink); }
+  .db-accordion[data-variant="run-in"] > .db-disclose[open] > summary::after { content: none; }
+  .db-accordion[data-variant="run-in"] .db-disclose-body { max-inline-size: none; padding: 0; font-weight: 300; }
+  /* The wipe is steep: it steps down a line while it crosses one, so each line writes from its start in turn. */
+  .db-accordion[data-variant="run-in"] > .db-disclose[open] .db-disclose-body {
+    mask-image: linear-gradient(var(--db-disclose-pen, 177.5deg), #000 40%, transparent 60%); mask-size: 100% 300%; mask-repeat: no-repeat; mask-position: 0 0;
+    animation: db-disclose-write var(--db-andante) linear backwards;
+  }
+  .db-accordion[data-variant="run-in"]:is([dir="rtl"], [dir="rtl"] *) { --db-disclose-pen: 182.5deg; }
+  @keyframes db-disclose-write { from { mask-position: 0 100%; } }
+
+  /* gloss: the answer is hung beside its question in the outer column, flush to the outer edge and ragged
+     toward the question, as a sidenote glosses the line it stands by ("Less is more.", "the silence that heals").
+     Space holds the two columns apart; no rule stands between them. */
+  .db-accordion[data-variant="gloss"] > .db-disclose { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--db-space-7); align-items: baseline; }
+  .db-accordion[data-variant="gloss"] > .db-disclose > summary { grid-column: 1; }
+  .db-accordion[data-variant="gloss"] > .db-disclose[open] > summary { font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); }
+  .db-accordion[data-variant="gloss"] > .db-disclose::details-content { grid-column: 2; grid-row: 1; }
+  .db-accordion[data-variant="gloss"] .db-disclose-body { max-inline-size: none; padding-block: var(--db-space-4); text-align: end; text-wrap: pretty; }
+  .db-accordion[data-variant="gloss"] > .db-disclose[open] .db-disclose-body { animation: db-disclose-gloss var(--db-andante) var(--db-exhale) 90ms backwards; }
+  @keyframes db-disclose-gloss { from { opacity: 0; translate: calc(-0.8em * var(--db-disclose-lr, 1)) 0; } }
+  .db-accordion[data-variant="gloss"]:is([dir="rtl"], [dir="rtl"] *) { --db-disclose-lr: -1; }
+  @media (max-width: 40rem) {
+    .db-accordion[data-variant="gloss"] > .db-disclose { grid-template-columns: minmax(0, 1fr); }
+    .db-accordion[data-variant="gloss"] > .db-disclose::details-content { grid-column: 1; grid-row: 2; }
+    .db-accordion[data-variant="gloss"] .db-disclose-body { padding-block-start: 0; padding-inline-start: 25%; }
+  }
+  @media (max-width: 40rem) {
+    .db-accordion[data-variant="run-in"] > .db-disclose { font-size: var(--db-p); line-height: var(--db-p-lh); }
+  }
+  /* horizontal: the questions stand side by side as narrow columns between hairlines, the way "Healthy habits"
+     stacks its notes a word to a line and "Less is more." rules its grid. Opened, a column widens and its name
+     steps up from the stack onto one line, exhaling into the heading of its answer, which arrives once the
+     column has made room. Closed columns keep their width, so the row ends in silence, not in stretched boxes. */
+  .db-accordion[data-orientation="horizontal"] { display: flex; align-items: stretch; min-block-size: var(--db-space-10); }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose {
+    flex: 0 0 var(--db-space-9); min-inline-size: 0; padding-inline: var(--db-space-4) var(--db-space-5);
+    border-block: var(--db-hairline) solid var(--db-rule);
+    transition: flex-grow var(--db-andante) var(--db-exhale);
+  }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose:first-child { padding-inline-start: 0; }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose + .db-disclose { border-inline-start: var(--db-hairline) solid var(--db-rule); }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose[open] { flex-grow: 1; }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose > summary { display: block; font-weight: 500; color: var(--db-graphite); overflow-wrap: break-word; hyphens: manual; 
+    transition: font-size var(--db-andante) var(--db-exhale), line-height var(--db-andante) var(--db-exhale), letter-spacing var(--db-andante) var(--db-exhale),
+      font-stretch var(--db-andante) var(--db-exhale), font-weight var(--db-andante) var(--db-exhale), color var(--db-allegro);
+  }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose > summary:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose[open] > summary { color: var(--db-ink); }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose > summary::after { content: none; } /* the column itself says it opens */
+  .db-accordion[data-orientation="horizontal"] .db-disclose-body { max-inline-size: 40ch; }
+  .db-accordion[data-orientation="horizontal"] > .db-disclose[open] .db-disclose-body { animation-delay: var(--db-moderato); }
+  @media (max-width: 40rem) {
+    .db-accordion[data-orientation="horizontal"] { flex-direction: column; min-block-size: 0; }
+    .db-accordion[data-orientation="horizontal"] > .db-disclose { flex: none; padding-inline: 0; border-block-end: 0; }
+    .db-accordion[data-orientation="horizontal"] > .db-disclose:last-child { border-block-end: var(--db-hairline) solid var(--db-rule); }
+    .db-accordion[data-orientation="horizontal"] > .db-disclose + .db-disclose { border-inline-start: 0; }
+    /* Stacked again, a row no longer looks like it opens: the cross comes back. */
+    .db-accordion[data-orientation="horizontal"] > .db-disclose > summary { display: flex; }
+    .db-accordion[data-orientation="horizontal"] > .db-disclose > summary::after { content: "+" / ""; }
+  }
+  @media (forced-colors: active) {
+    .db-accordion[data-variant="run-in"] > .db-disclose[open] .db-disclose-body { mask-image: none; }
+  }
+}

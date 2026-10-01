@@ -1,0 +1,87 @@
+@layer components {
+  /* ── db-ring ── one hairline ring with an arc inked on it and a dot at one end. The calendar's vocabulary: a pencil
+     ring for what's to come, ink for what was had. Both strokes are inset box-shadows cut by a conic mask (as the dot
+     calendar sweeps its days), so they stay one hairline and one stroke at any size. The parent sets the span of a turn
+     (--db-ring-sweep, 1) and where it starts (--db-ring-start, 0deg is the top, clockwise); --db-ring-inset steps a
+     ring in, --db-ring-ink, --db-ring-track and --db-ring-head colour it. The timer and the pie chart stand on it. */
+  @property --db-ring-p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  @property --db-ring-from { syntax: "<number>"; inherits: true; initial-value: 0; }
+  .db-ring {
+    --db-ring-p: 0; --db-ring-from: 0;
+    position: absolute; inset: var(--db-ring-inset, 0); border-radius: 50%; pointer-events: none;
+    transition: --db-ring-p var(--db-andante) var(--db-exhale), --db-ring-from var(--db-andante) var(--db-exhale);
+  }
+  .db-ring::before, .db-ring::after { content: ""; position: absolute; inset: 0; border-radius: 50%; }
+  .db-ring::before {
+    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ring-track, var(--db-rule-strong));
+    mask: conic-gradient(from var(--db-ring-start, 0deg), #000 calc(var(--db-ring-sweep, 1) * 1turn), #0000 0);
+  }
+  .db-ring::after {
+    box-shadow: inset 0 0 0 var(--db-stroke) var(--db-ring-ink, var(--db-ink));
+    mask: conic-gradient(from calc(var(--db-ring-start, 0deg) + var(--db-ring-from) * var(--db-ring-sweep, 1) * 1turn), #000 calc(var(--db-ring-p) * var(--db-ring-sweep, 1) * 1turn), #0000 0);
+    transition: box-shadow var(--db-allegro) var(--db-exhale);
+  }
+  /* The dot rides the arc's end, its centre on the stroke's centre line. */
+  .db-ring-head { position: absolute; top: 0; left: 50%; inline-size: 0; block-size: 50%; transform-origin: 50% 100%; rotate: calc(var(--db-ring-start, 0deg) + (var(--db-ring-from) + var(--db-ring-p)) * var(--db-ring-sweep, 1) * 1turn); }
+  .db-ring[data-head="start"] > .db-ring-head { rotate: calc(var(--db-ring-start, 0deg) + var(--db-ring-from) * var(--db-ring-sweep, 1) * 1turn); }
+  .db-ring-head::after {
+    content: ""; position: absolute; top: calc(var(--db-stroke) / 2); left: 50%; inline-size: var(--db-dot); block-size: var(--db-dot); border-radius: 50%; translate: -50% -50%;
+    background: var(--db-ring-head, var(--db-ink));
+    transition: background-color var(--db-allegro) var(--db-exhale), scale var(--db-moderato) var(--db-spiccato);
+  }
+  @media (forced-colors: active) {
+    .db-ring::before { box-shadow: inset 0 0 0 var(--db-hairline) GrayText; }
+    .db-ring::after { box-shadow: inset 0 0 0 var(--db-stroke) CanvasText; }
+    .db-ring-head::after { background: Highlight; }
+  }
+
+  /* ── db-radial ── progress against one maximum, from the dot calendar: a hairline ring per series, the arc inked as
+     far as it has got, and one very large number inside it. Pointing at a ring, or its name, inks it and steps the
+     others back to pencil; the number rolls to it and the accent dot moves to its ring. */
+  .db-radial {
+    --db-radial-gap: var(--db-space-4);
+    margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); inline-size: min(100%, var(--db-radial-size, 20rem)); row-gap: var(--db-space-5); container-type: inline-size;
+  }
+  .db-radial-face { grid-area: 1 / 1; position: relative; aspect-ratio: 1; }
+  .db-radial .db-ring { --db-ring-inset: calc(var(--i, 0) * var(--db-radial-gap)); }
+  .db-radial .db-ring[data-shown] { --db-ring-head: var(--db-accent); }
+  .db-radial:is([data-pointed], [data-force~="hover"]) .db-ring:not([data-shown]) { --db-ring-ink: var(--db-rule-strong); --db-ring-head: var(--db-rule-strong); --db-ring-track: var(--db-rule); }
+  .db-radial-face { cursor: crosshair; }
+
+  /* The number stands in the middle, as large as the innermost ring allows: SPECTRA's scale against the small print. */
+  .db-radial-read {
+    grid-area: 1 / 1; place-self: center; display: grid; justify-items: center; row-gap: var(--db-space-2); max-inline-size: calc(100% - 2 * var(--n, 1) * var(--db-radial-gap) - var(--db-space-5));
+    text-align: center; pointer-events: none;
+  }
+  .db-radial-value {
+    display: inline-block; font-size: clamp(var(--db-f), calc(34cqi - var(--n, 1) * 3cqi), var(--db-fff)); line-height: 0.9; letter-spacing: var(--db-ff-tr); font-weight: 200;
+    color: var(--db-ink); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap;
+  }
+  .db-radial-words { display: grid; justify-items: center; font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); }
+  .db-radial-name { font-weight: 500; color: var(--db-ink); }
+  .db-radial-of { color: var(--db-pencil); }
+
+  /* The key names each ring, outermost first. Pointing at a name, or focusing it, inks its ring. */
+  .db-radial-key { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--db-space-2) var(--db-space-5); margin: 0; padding: 0; list-style: none; }
+  .db-radial-key button {
+    appearance: none; border: 0; margin: 0; padding: var(--db-space-1) 0; background: none; font: inherit; cursor: crosshair;
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-pencil);
+    transition: color var(--db-allegro) var(--db-exhale);
+  }
+  .db-radial-key-value { color: var(--db-graphite); font-variant-numeric: tabular-nums; transition: color var(--db-allegro) var(--db-exhale); }
+  .db-radial-key button:is(:hover, :focus-visible, [data-shown]) { color: var(--db-ink); }
+  .db-radial-key button:is(:hover, :focus-visible, [data-shown]) .db-radial-key-value { color: var(--db-ink); }
+
+  /* horizon: the Eclipse. Half rings stand on a horizon that runs past them, and everything else is said below it:
+     the number sits on the line, its words under the line. Right to left, the arcs rise from the right. */
+  .db-radial[data-variant="horizon"] { --db-ring-sweep: 0.5; --db-ring-start: -90deg; grid-template-rows: auto auto auto; row-gap: 0; padding-inline: var(--db-space-5); inline-size: min(100%, calc(var(--db-radial-size, 20rem) + 2 * var(--db-space-5))); }
+  .db-radial[data-variant="horizon"] > .db-radial-face { aspect-ratio: 2; }
+  .db-radial[data-variant="horizon"] .db-ring { inset-block-end: auto; aspect-ratio: 1; }
+  .db-radial[data-variant="horizon"] > .db-radial-face::after { content: ""; position: absolute; inset-inline: calc(-1 * var(--db-space-5)); inset-block-end: 0; block-size: var(--db-hairline); background: var(--db-rule-strong); }
+  .db-radial[data-variant="horizon"]:is([dir="rtl"], [dir="rtl"] *) > .db-radial-face { scale: -1 1; }
+  .db-radial[data-variant="horizon"] > .db-radial-read { grid-row: 1 / span 2; place-self: stretch; grid-template-rows: subgrid; max-inline-size: none; row-gap: 0; }
+  .db-radial[data-variant="horizon"] .db-radial-value { align-self: end; justify-self: center; font-size: clamp(var(--db-mf), calc(26cqi - var(--n, 1) * 3cqi), var(--db-fff)); line-height: 1; text-box: trim-end cap alphabetic; }
+  .db-radial[data-variant="horizon"] .db-radial-words { padding-block-start: var(--db-space-3); }
+  /* No row gap on the horizon: the subgrid would push the number half a gap below the line. The key keeps its distance. */
+  .db-radial[data-variant="horizon"] > .db-radial-key { margin-block-start: var(--db-space-5); }
+}

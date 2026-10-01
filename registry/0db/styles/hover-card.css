@@ -1,0 +1,69 @@
+@layer components {
+  /* ── db-peek ── hover card: the name, set large and cut by the card's top edge and its end,
+     the way POINT and SPECTRA crop their titles. Radix places it and waits for the pointer;
+     focus opens it at once. */
+  .db-peek {
+    z-index: 50; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-2); width: min(21rem, 80vw); padding: var(--db-space-5) var(--db-space-5) var(--db-space-4); overflow: clip;
+    background: var(--db-paper); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
+    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-graphite);
+    animation: db-peek-in var(--db-moderato) var(--db-exhale);
+  }
+  .db-peek[data-state="closed"] { animation: db-peek-out var(--db-allegro) var(--db-breath) forwards; }
+  @keyframes db-peek-in { from { opacity: 0; } }
+  @keyframes db-peek-out { to { opacity: 0; } }
+  /* The top edge falls through the ascenders, so the word reads from its x-height down; a long name
+     also runs off the end. The card's paper covers what the crop takes. */
+  .db-peek-name {
+    margin-block-start: calc(-1 * var(--db-space-5) - 0.3em); margin-inline-end: -30%; white-space: nowrap; user-select: none; /* decorative and cropped: a selection would only paint a slab of yellow */
+    font-size: calc(var(--db-ff) * 1.25); line-height: 0.85; letter-spacing: var(--db-ff-tr); font-weight: 200; color: var(--db-ink);
+  }
+  .db-peek[data-state="open"] .db-peek-name { animation: db-peek-slide var(--db-andante) var(--db-exhale); }
+  @keyframes db-peek-slide { from { translate: 0.5em 0; } }
+  .db-peek[data-state="open"]:is([dir="rtl"], [dir="rtl"] *) .db-peek-name { animation-name: db-peek-slide-rtl; }
+  @keyframes db-peek-slide-rtl { from { translate: -0.5em 0; } }
+  .db-peek-meta { color: var(--db-pencil); }
+
+  /* ── entry ── a dictionary entry for the word you point at, after "the uncreative": the headword
+     heavy and whole, broken at its syllables by points; the stressed syllable reversed out of the
+     ink; the part of speech in the italic, as a dictionary sets it; the senses numbered in bold
+     figures hung in the margin; the word's history last, in pencil. */
+  .db-peek[data-variant="entry"] { gap: var(--db-space-3); padding-block-start: var(--db-space-4); font-size: var(--db-p); line-height: var(--db-p-lh); letter-spacing: 0; }
+  .db-peek[data-variant="entry"] .db-peek-name {
+    margin: 0; white-space: normal; user-select: none;
+    font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 800;
+  }
+  .db-peek-point { display: inline-block; width: 0.42em; height: 0.42em; vertical-align: 0.04em; }
+  .db-peek-point::before { content: ""; display: block; width: 0.14em; height: 0.14em; margin: 0.14em auto; border-radius: 50%; background: currentColor; }
+  .db-peek-stress { padding-inline: 0.06em; background: var(--db-ink); color: var(--db-paper); }
+  .db-peek[data-variant="entry"] :is(ol, .db-term) { margin: 0; }
+  .db-peek[data-variant="entry"] .db-term { color: var(--db-ink); }
+  .db-peek[data-variant="entry"] ol { display: grid; gap: var(--db-space-2); padding: 0; list-style: none; counter-reset: db-sense; }
+  .db-peek[data-variant="entry"] li { counter-increment: db-sense; position: relative; }
+  .db-peek[data-variant="entry"] li::before { content: counter(db-sense) / ""; position: absolute; inset-inline-end: calc(100% + var(--db-space-2)); font-weight: 800; color: var(--db-ink); font-variant-numeric: lining-nums; }
+  .db-peek[data-variant="entry"] .db-peek-meta { font-size: var(--db-pp); line-height: var(--db-pp-lh); }
+  /* Spelling out: the headword arrives closed up and opens at its breaks; each point lands in turn. */
+  .db-peek[data-variant="entry"][data-state="open"] .db-peek-name { animation: none; }
+  .db-peek[data-variant="entry"][data-state="open"] .db-peek-point { animation: db-peek-open var(--db-moderato) var(--db-exhale) calc(var(--db-arpeggio) * var(--i, 1)) backwards; }
+  .db-peek[data-variant="entry"][data-state="open"] .db-peek-point::before { animation: db-peek-land var(--db-moderato) var(--db-spiccato) calc(var(--db-allegro) + var(--db-arpeggio) * var(--i, 1)) backwards; }
+  @keyframes db-peek-open { from { width: 0; } }
+  @keyframes db-peek-land { from { scale: 0; } }
+
+  /* ── quote ── what the person said, in the italic (their words, not ours), with the opening mark
+     hung in the margin at the size of a title and cut by the card's top edge. The attribution is ours. */
+  .db-peek[data-variant="quote"] { gap: var(--db-space-3); padding-inline-start: var(--db-space-7); }
+  .db-peek[data-variant="quote"] blockquote {
+    position: relative; margin: 0;
+    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-mp)); line-height: 1.25; letter-spacing: 0; color: var(--db-ink);
+  }
+  .db-peek[data-variant="quote"] blockquote::before {
+    content: "\201C" / ""; position: absolute; inset-inline-end: calc(100% + 0.04em); top: -0.3em;
+    font-size: calc(var(--db-ff) * 1.6); line-height: 1; color: var(--db-ink); user-select: none;
+  }
+  .db-peek[data-variant="quote"][data-state="open"] blockquote::before { animation: db-peek-mark var(--db-andante) var(--db-spiccato) backwards; }
+  @keyframes db-peek-mark { from { opacity: 0; translate: 0 -0.2em; } }
+
+  @media (forced-colors: active) {
+    .db-peek { outline: var(--db-hairline) solid CanvasText; outline-offset: calc(-1 * var(--db-hairline)); } /* the hairline is a box-shadow, which forced colours drop */
+    .db-peek-stress, .db-peek-point::before { forced-color-adjust: none; background: CanvasText; color: Canvas; }
+  }
+}
