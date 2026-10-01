@@ -163,10 +163,19 @@ A move serves more than one component only when it is the same idea on purpose. 
 - React 19: `ref` is a plain prop. `"use client"` appears only in files that need state, effects, handlers or Radix, so every other item works in a Server Component. Each root and part carries `data-slot`; `className` merges through `cn`.
 - Imports inside the registry are `@/registry/0db/ui/<x>`, `@/registry/0db/lib/utils` and `@/registry/0db/lib/<x>`. The build rewrites them to `@/components/ui/<x>`, `@/lib/utils` and `@/lib/0db/<x>`.
 - `registryDependencies` is the base item plus every sibling an item imports or lists in its meta's `uses` (a sibling whose classes its CSS borrows). npm dependencies come from its imports.
+- The registry is held to the shadcn directory's health checks:
+  - `registry.json`'s `name` equals the namespace;
+  - every item name is distinct;
+  - the index and every item validate against the schema;
+  - each item installs on its own with `shadcn add --dry-run`;
+  - every endpoint answers over HTTPS with `application/json`.
+
+  An item is added only when it does a job of its own. Never add aliases or splits to raise the count.
 - `npm run registry:build` writes `registry.json`, `public/r/*.json`, `app/registry.css` and `lib/site/entries.ts`. All four are committed, and `check:registry` fails if they're stale.
 
 ## Docs conventions
 
+- The site and the registry live under `/ui` (Next `basePath`), at https://thedirectors.agency/ui. Next's `Link` adds the base path itself; every other same-origin URL (a `fetch`, an `img`, CSS) is built through `lib/site/config.mjs`, never written by hand.
 - The docs are built only from 0dB items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
 - Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.

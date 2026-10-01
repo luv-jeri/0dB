@@ -4,7 +4,7 @@
 
 ## Who it's for
 
-- Its owner first: the agency landing page and the personal portfolio are built on it next.
+- Its makers first. 0dB is the library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's landing page at thedirectors.agency is built on it next, then the founders' portfolios.
 - Anyone who installs a component with `npx shadcn add https://thedirectors.agency/ui/r/<name>.json` and wants an interface where type carries the design.
 - Builders (people and agents) extending it. They read this page, then DESIGN.md, before writing anything.
 
@@ -14,6 +14,13 @@
 2. The docs site is made from 0dB's own components. If the docs need something the library doesn't have, it's built and added to the library, never borrowed.
 3. A stranger can tell from any one screen what the system believes: space does the layout, and type is the only ornament.
 4. `npm run check` passes, and it holds this page, DESIGN.md and the code to each other.
+5. The registry stays healthy by the shadcn directory's own measures, on every check:
+   - the index and every item validate;
+   - each item installs on its own with `shadcn add --dry-run`;
+   - the registry's `name` matches its namespace;
+   - every endpoint answers over HTTPS with JSON.
+
+   The catalog grows only through items that each do a job of their own, never through aliases or splits.
 
 ## What it refuses, and why
 
@@ -24,12 +31,13 @@
 | A second accent colour | The accent means "you are here". Two accents would mean two places. Crimson is kept for errors, and the highlighter for reading marks. |
 | Motion that plays by itself | Nothing moves unless the person does, apart from the overture on the home page, which plays once, and the owner-approved marquee, text-ribbon and word-relay autoplay exceptions (2026-10-01). Each autoplay exception is pausable and off under reduced motion. |
 | Decoration of what the person owns | Their choices and words are set in the italic expression face. That's the only way they're marked. |
-| Effects ported from 000h that have no type-only version (53): adjuster, ambient-background, animated-icon, assembly-part, bento-builder, buy-me-coffee, click-spark, contour-field, contours-background, depth-background, dither-dissolve, dither-sculpture, dock, elastic-mesh, falling-text, float-layer, flow-sculpture, folds-background, ghost-cursor, glass-sculpture, glyph-sculpture, grain-dissolve, icon, image-trail, infinite-spiral, ink-sculpture, magic-rings, meta-balls, orbit-images, organism-assembly, organism-composition, particle-sculpture, particle-text, pebbles-background, pigment-field, pixel-swap, portal-field, ripple-distortion, scroll-organism, sculpture-orbit, semantic-bloom, shape, shape-artwork, shape-scene, sprouts-background, strands, sunwash-background, swarm-cursor, typography-vortex, warp-text, weave-background, writing-caret, zoom-words | Each one's job is only its effect: shapes, fills, particles or motion that plays by itself. With the effect taken away nothing is left for type to carry. A few jobs are still done elsewhere: a hairline scene change covers the dissolves, and a link covers buy-me-coffee. click-spark was weighed as a type mark left where you press, and dropped: every control already answers its own press, so a second mark would decorate the press, not say anything. The owner decided this on 2026-09-30 (click-spark on 2026-10-01); the reasons for each are in `docs/superpowers/specs/2026-09-30-000h-port-inventory.md`, Table C. |
+| Effects that have no type-only version (53): adjuster, ambient-background, animated-icon, assembly-part, bento-builder, buy-me-coffee, click-spark, contour-field, contours-background, depth-background, dither-dissolve, dither-sculpture, dock, elastic-mesh, falling-text, float-layer, flow-sculpture, folds-background, ghost-cursor, glass-sculpture, glyph-sculpture, grain-dissolve, icon, image-trail, infinite-spiral, ink-sculpture, magic-rings, meta-balls, orbit-images, organism-assembly, organism-composition, particle-sculpture, particle-text, pebbles-background, pigment-field, pixel-swap, portal-field, ripple-distortion, scroll-organism, sculpture-orbit, semantic-bloom, shape, shape-artwork, shape-scene, sprouts-background, strands, sunwash-background, swarm-cursor, typography-vortex, warp-text, weave-background, writing-caret, zoom-words | Each one's job is only its effect: shapes, fills, particles or motion that plays by itself. With the effect taken away nothing is left for type to carry. A few jobs are still done elsewhere: a hairline scene change covers the dissolves, and a link covers buy-me-coffee. click-spark was weighed as a type mark left where you press, and dropped: every control already answers its own press, so a second mark would decorate the press, not say anything. The owner decided this on 2026-09-30 (click-spark on 2026-10-01); the reasons for each are in `docs/superpowers/specs/2026-09-30-000h-port-inventory.md`, Table C. |
 | cva, a motion library, a docs framework | Data attributes, CSS and our own components already do the job. Each dependency is a second opinion about how things should look. |
 
 ## Non-goals
 
 - Being a general-purpose kit that looks like anything. 0dB looks like 0dB.
+- Being part of another product. 0dB stands on its own.
 - Matching every shadcn component. An item exists only where the idea can be carried by type and a line.
 - Supporting browsers without `:has()`, `color-mix()` and native `<dialog>`.
 - A theming engine. There are four switches on `<html>` (mode, scheme, key, pair), and that's all.
