@@ -17,7 +17,7 @@ export default function DocsIndexPage() {
       <header className="doc-head">
         <h1 className="doc-title">Index</h1>
         <p className="doc-summary">{count} items in {catalog.length} movements. Each one is a typographic idea standing on a native element or a Radix primitive.</p>
-        <p><Link asChild><NextLink href="/docs/build-with-ai/">Build with AI</NextLink></Link></p>
+        <p><Link asChild><NextLink href="/docs/build-with-ai/" prefetch={false}>Build with AI</NextLink></Link></p>
       </header>
       {catalog.map((m) => (
         <section key={m.num} className="doc-section" aria-labelledby={`m-${m.num}`}>
@@ -27,7 +27,7 @@ export default function DocsIndexPage() {
           <Rows>
             {m.items.map((e) => (
               <Row key={e.meta.name} asChild>
-                <NextLink href={`/docs/${e.meta.name}/`}>
+                <NextLink href={`/docs/${e.meta.name}/`} prefetch={false}>
                   <RowTitle>{e.meta.title}</RowTitle>
                   <RowKind>{UNDER[e.meta.underneath]}</RowKind>
                   <RowMeta>{e.meta.contract}</RowMeta>

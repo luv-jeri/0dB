@@ -85,6 +85,7 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
     const still = matchMedia("(prefers-reduced-motion: reduce)")
     const fine = matchMedia("(hover: hover) and (pointer: fine)")
     const meter = host.querySelector<HTMLElement>("[data-noise-meter]")
+    const meterText = meter?.firstChild
     const ring = host.querySelector<HTMLElement>("[data-noise-ring]")
     let cancelled = false, frame = 0
     const off: (() => void)[] = []
@@ -238,7 +239,8 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
         ctx!.wordSpacing = "0px"
         if (meter) {
           const n = Math.round(top * m)
-          if (n !== shown) { shown = n; meter.textContent = n + (meter.dataset.noiseMeter ?? "") }
+          // Keep the text node: replacing it invalidates ancestor :has() selectors across the page.
+          if (n !== shown && meterText) { shown = n; meterText.nodeValue = n + (meter.dataset.noiseMeter ?? "") }
         }
       }
 

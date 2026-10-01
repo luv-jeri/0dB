@@ -56,7 +56,7 @@ export function DocsIndex({ groups }: { groups: IndexGroup[] }) {
           <SidebarGroup key={g.label} label={g.label}>
             {g.links.map((l) => (
               <SidebarLink key={l.href} asChild current={here === l.href} preview={l.summary}>
-                <NextLink href={l.href}>{l.title}</NextLink>
+                <NextLink href={l.href} prefetch={false}>{l.title}</NextLink>
               </SidebarLink>
             ))}
           </SidebarGroup>

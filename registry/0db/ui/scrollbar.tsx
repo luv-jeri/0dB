@@ -31,6 +31,21 @@ const LEAF = 18 // ponytail: assumes a 16px root; read it from the first leaf if
 
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches
 
+// A page can contain several rails. Read every rail before any of them changes styles,
+// including the section marks and leaves within each rail.
+const measurements = new Set<() => () => void>()
+let measurementFrame = 0
+function queueMeasurement(read: () => () => void) {
+  measurements.add(read)
+  if (measurementFrame) return
+  measurementFrame = requestAnimationFrame(() => {
+    measurementFrame = 0
+    const writes = [...measurements].map((measure) => measure())
+    measurements.clear()
+    writes.forEach((write) => write())
+  })
+}
+
 /** The nearest box around the rail that scrolls its way, or the rail's parent when none does (a dialog scrolls only once it is open). */
 function scroller(rail: HTMLElement, across: boolean) {
   for (let p = rail.parentElement; p && p !== document.body && p !== document.documentElement; p = p.parentElement) {
@@ -75,12 +90,8 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
       }
       return s.getBoundingClientRect().top - (page ? 0 : host.getBoundingClientRect().top) + top()
     }
-    const attrs = { pin: false }
     // A rail is absolute: its host must be a positioned box (unless it already is: a dialog is fixed).
-    if (!page && getComputedStyle(host).position === "static") {
-      host.setAttribute("data-scrollbar-host", "pin")
-      attrs.pin = true
-    }
+    const pin = !page && getComputedStyle(host).position === "static"
     const hadPrevent = host.hasAttribute("data-lenis-prevent")
     // The thumb's top travels (1 − view) of the rail, so a mark sits where the thumb's top
     // will be when its section reaches the top. A section too near the end to reach the top sits as far on,
@@ -89,30 +100,36 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
       const shown = seen(), all = page ? host.scrollHeight : whole(), max = all - shown
       // The numeral's thumb is its figure, so it travels the rail less its own height.
       const view = variant === "numeral" ? thumb.offsetHeight / el.clientHeight || 1 : Math.min(1, Math.max(shown / all, min / (page ? el.clientHeight : shown))) || 1 // a closed box measures 0 / 0
-      el.style.setProperty("--view", String(view))
-      el.style.setProperty("--max", `${max}px`)
-      el.style.setProperty("--dir", rtl() ? "-1" : "1") // a horizontal rail travels the other way in right-to-left
-      el.toggleAttribute("data-idle", max < 1)
-      // Smooth scrolling leaves this box's wheel alone while it has something to scroll (a sideways one never needs it).
-      if (!page && !across && !hadPrevent) host.toggleAttribute("data-lenis-prevent", max >= 1)
-      marks.forEach((mark, i) => {
+      const direction = rtl() ? "-1" : "1"
+      const offsets = marks.map((_, i) => {
         const s = target(i)
-        if (s) mark.style.setProperty("--at", String((offset(s) / max) * (1 - view)))
+        return s ? offset(s) : null
       })
       // The mark for the section in the middle of the view is the one you're in.
-      const middle = top() + shown / 2
+      const at = top(), middle = at + shown / 2
       let now = -1
-      marks.forEach((_, i) => {
-        const s = target(i)
-        if (s && offset(s) <= middle) now = i
-      })
-      marks.forEach((mark, i) => mark.toggleAttribute("data-now", i === now))
-      if (leafRow) leaves(shown, all, max)
+      offsets.forEach((y, i) => { if (y !== null && y <= middle) now = i })
+      const fit = leafRow ? Math.max(1, Math.floor(el.clientHeight / LEAF)) : 1
+      return () => {
+        el.style.setProperty("--view", String(view))
+        el.style.setProperty("--max", `${max}px`)
+        el.style.setProperty("--dir", direction) // a horizontal rail travels the other way in right-to-left
+        el.toggleAttribute("data-idle", max < 1)
+        // Smooth scrolling leaves this box's wheel alone while it has something to scroll (a sideways one never needs it).
+        if (!page && !across && !hadPrevent) host.toggleAttribute("data-lenis-prevent", max >= 1)
+        marks.forEach((mark, i) => {
+          const y = offsets[i]
+          if (y !== null) mark.style.setProperty("--at", String(max > 0 ? (y / max) * (1 - view) : 0))
+          mark.toggleAttribute("data-now", i === now)
+        })
+        if (leafRow) leaves(shown, all, max, fit, at)
+        el.setAttribute("data-ready", "")
+        host.setAttribute("data-scrollbar-host", pin ? "pin" : "")
+      }
     }
     // A disc for each screenful (a leaf), from the top. When they won't fit down the rail, a disc holds as many leaves as it must.
-    const leaves = (shown: number, all: number, max: number) => {
+    const leaves = (shown: number, all: number, max: number, fit: number, at: number) => {
       const n = Math.max(1, Math.ceil(all / shown - 0.01))
-      const fit = Math.max(1, Math.floor(el.clientHeight / LEAF))
       const per = Math.ceil(n / fit), count = Math.ceil(n / per)
       leafStarts = Array.from({ length: count }, (_, j) => Math.min(j * per * shown, max))
       if (leafRow!.childElementCount !== count) {
@@ -124,7 +141,6 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
           return leaf
         }))
       }
-      const at = top()
       let now = 0
       leafStarts.forEach((y, j) => { if (y <= at + 1) now = j })
       ;[...leafRow!.children].forEach((leaf, j) => {
@@ -133,13 +149,10 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
       })
     }
 
-    let frame = 0
-    const soon = () => {
-      cancelAnimationFrame(frame)
-      frame = requestAnimationFrame(measure)
-    }
+    const soon = () => queueMeasurement(measure)
     const scrolled: EventTarget = page ? window : host
     const resize = new ResizeObserver(soon)
+    resize.observe(el)
     // Content that redraws changes what there is to scroll without resizing the box.
     const mutation = new MutationObserver(soon)
     if (page) {
@@ -150,9 +163,7 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
       mutation.observe(host, { childList: true, subtree: true, characterData: true })
     }
     if (marks.length || leafRow) scrolled.addEventListener("scroll", soon, { passive: true })
-    measure()
-    el.setAttribute("data-ready", "")
-    host.setAttribute("data-scrollbar-host", attrs.pin ? "pin" : "")
+    soon()
 
     const scrollToY = (y: number, instant: boolean) => {
       const behavior = instant || reduced() ? "instant" : "smooth"
@@ -196,7 +207,8 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
     el.addEventListener("pointerdown", onPointerDown)
 
     return () => {
-      cancelAnimationFrame(frame)
+      measurements.delete(measure)
+      if (!measurements.size) { cancelAnimationFrame(measurementFrame); measurementFrame = 0 }
       resize.disconnect()
       mutation.disconnect()
       removeEventListener("resize", soon)

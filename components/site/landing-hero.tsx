@@ -31,7 +31,7 @@ function Word({ text, stop }: { text: string; stop?: boolean }) {
  */
 export function Cta({ href, children, size, className }: { href: string; children: string; size?: "l"; className?: string }) {
   return (
-    <NextLink href={href} className={className ? `cta ${className}` : "cta"} data-size={size}>
+    <NextLink href={href} prefetch={false} className={className ? `cta ${className}` : "cta"} data-size={size}>
       <span className="db-sr">{children}</span>
       <span className="cta-word" aria-hidden="true" data-text={children}>
         <span className="cta-letters">
