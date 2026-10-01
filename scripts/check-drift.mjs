@@ -73,6 +73,19 @@ try {
     if (!file || file.type !== "registry:file" || file.path !== expected.path || file.content !== kit.files.get(expected.path))
       fail("AI kit", `registry file differs: ${expected.target}`)
   }
+  // Hold the consumer-facing file list and download URLs to the generated kit.
+  const page = readFileSync("app/docs/build-with-ai/page.tsx", "utf8")
+  const targets = new Set(kit.item.files.map((file) => file.target.slice(2)))
+  for (const [, paths] of page.matchAll(/paths: \[([^\]]+)\]/g)) {
+    for (const [, target] of paths.matchAll(/"([^"]+)"/g)) {
+      const expanded = target.includes("<item>") ? items.map((item) => target.replace("<item>", item.name)) : [target]
+      for (const file of expanded) if (!targets.has(file)) fail("AI kit", `documented install target missing: ${file}`)
+    }
+  }
+  for (const [, href] of page.matchAll(/href: "(\/(?:ai\/[^"]+|llms[^"]+))"/g))
+    if (!kit.files.has(`public${href}`)) fail("AI kit", `documented download missing: ${href}`)
+  for (const file of ["docs/AGENTS.md", "cursor.mdc", "copilot.instructions.md", "claude/SKILL.md", "agents/SKILL.md"])
+    if (!kit.files.has(`public/ai/${file}`)) fail("AI kit", `source download missing: /ai/${file}`)
 } catch (error) {
   fail("AI kit", error.message)
 }

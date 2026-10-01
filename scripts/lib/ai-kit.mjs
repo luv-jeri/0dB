@@ -130,6 +130,10 @@ export function buildAiKit({ root = ".", items, baseURL = "https://0db.cojeev.co
     add(`components/${item.name}.md`, `docs/0db/components/${item.name}.md`, text, `components/${item.name}.md`)
   }
   const adapter = (frontmatter, target) => `---\n${frontmatter}\n---\n\n${instructions(target)}`
+  const claudeTarget = ".claude/rules/0db.md"
+  const claudeReferences = ["docs/0db/AGENTS.md", "docs/0db/DESIGN.md"].map((target) =>
+    `[${target}](${path.posix.relative(path.posix.dirname(claudeTarget), target)})`).join(" and ")
+  add("claude/0db.md", claudeTarget, `# 0dB project rules\n\nBefore building with 0dB, read ${claudeReferences} and the relevant component contracts. Preserve existing project instructions.\n\n${rules}\n`, "claude.md")
   add("cursor.mdc", ".cursor/rules/0db.mdc", adapter('description: "Create and extend type-led 0dB components"\nalwaysApply: true', ".cursor/rules/0db.mdc"), "cursor.md")
   add("copilot.instructions.md", ".github/instructions/0db.instructions.md", adapter('applyTo: "**/*.tsx,**/*.css"', ".github/instructions/0db.instructions.md"), "copilot.md")
   add("devin.md", ".devin/rules/0db.md", adapter("trigger: always_on", ".devin/rules/0db.md"), "devin.md")
@@ -149,6 +153,23 @@ export function buildAiKit({ root = ".", items, baseURL = "https://0db.cojeev.co
       return site ? `[${label}](${path.posix.relative(path.posix.dirname(file), site)})` : match
     }))
   }
+  // Publish the source filenames too (older consumers tried these URLs). Rebase
+  // their links to the installed-layout copies, which preserve the payload bytes.
+  const siteForInstalledTarget = new Map(entries.map((entry) => [entry.target.slice(2), `public/ai/${entry.target.slice(2)}`]))
+  siteForInstalledTarget.set("docs/0db/manifest.json", "public/ai/docs/0db/manifest.json")
+  for (const entry of entries) {
+    const file = `public/ai/${entry.path.slice(SOURCE.length + 1)}`
+    if (files.has(file)) continue
+    const installedTarget = entry.target.slice(2)
+    files.set(file, files.get(entry.path).replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, href) => {
+      const target = path.posix.normalize(path.posix.join(path.posix.dirname(installedTarget), href))
+      const site = siteForInstalledTarget.get(target)
+      return site ? `[${label}](${path.posix.relative(path.posix.dirname(file), site)})` : match
+    }))
+  }
+  // Every installed file also has an exact public copy. Keeping the same directory
+  // layout makes its relative references work both in the consumer and over HTTP.
+  for (const entry of entries) files.set(`public/ai/${entry.target.slice(2)}`, files.get(entry.path))
   const version = JSON.parse(read(root, "package.json")).version
   const manifest = {
     version,
@@ -157,8 +178,9 @@ export function buildAiKit({ root = ".", items, baseURL = "https://0db.cojeev.co
     components: items.map((item) => item.name).sort(),
   }
   add("manifest.json", "docs/0db/manifest.json", JSON.stringify(manifest, null, 2) + "\n", "manifest.json")
+  files.set("public/ai/docs/0db/manifest.json", files.get(`${SOURCE}/manifest.json`))
   const link = (label, href, description) => `- [${label}](${baseURL}${href}): ${description}`
-  const downloads = [...files.keys()].filter((f) => f.startsWith("public/ai/") && f.endsWith(".md"))
+  const downloads = [...files.keys()].filter((f) => f.startsWith("public/ai/") && /\.(md|mdc|json)$/.test(f))
   files.set("public/llms.txt", `# 0dB\n\n> ${principles.content.split("\n").filter(Boolean).map((line) => line.replace(/^\d+\. /, "")).join(" ")}\n\nA type-led component registry. Read intent, core design and relevant contracts before creating a component.\n\n## Documentation\n\n${[
     link("Install", "/docs/install/", "Install the library and its base"),
     link("Principles", "/docs/principles/", "The system's design principles"),
@@ -223,6 +245,10 @@ export function validateAiKit(kit, root = ".") {
     } catch { failures.push(`${file}: invalid manifest`) }
   }
   const targetToFile = new Map(kit.item.files.map((f) => [f.target.slice(2), f.path]))
+  for (const entry of kit.item.files) {
+    const site = `public/ai/${entry.target.slice(2)}`
+    if (contents.get(site) !== contents.get(entry.path)) failures.push(`${site}: installed copy differs`)
+  }
   const docs = new Set(["install", "principles", "tokens", ...kit.items.map((i) => i.name)])
   for (const [file, text] of contents) {
     if (file.endsWith(".json")) continue

@@ -67,7 +67,7 @@ Use your application's component, style and example paths. The paths above descr
 
 ## References
 
-- [Intent](INTENT.md)
-- [Core design](DESIGN-core.md)
-- [Full design (on demand)](DESIGN.md)
-- [Kit version and hashes](manifest.json)
+- [Intent](docs/0db/INTENT.md)
+- [Core design](docs/0db/DESIGN-core.md)
+- [Full design (on demand)](docs/0db/DESIGN.md)
+- [Kit version and hashes](docs/0db/manifest.json)

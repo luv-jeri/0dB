@@ -3772,6 +3772,11 @@
           "target": "~/docs/0db/components/word-relay.md"
         },
         {
+          "path": "registry/0db/ai/claude/0db.md",
+          "type": "registry:file",
+          "target": "~/.claude/rules/0db.md"
+        },
+        {
           "path": "registry/0db/ai/cursor.mdc",
           "type": "registry:file",
           "target": "~/.cursor/rules/0db.mdc"
