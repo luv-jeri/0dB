@@ -3,6 +3,9 @@
 Extracted from DESIGN.md.
 
 ### db-calligram (calligram)
+- Starting points (owner decision 2026-10-02): `square` is an existing product, `arch` a website or store, `ring` a workflow, `diamond` an AI question, `open` something else; `circle` holds the idea. Ring rows have two runs round a hollow centre; open leaves a gap at inline end. `chord(y)` overrides the shape: y is 0 at the top and 1 at the foot, returning a centred width fraction or `[start, end][]` fractions. Invalid runs are discarded, valid runs clamped, sorted and merged. One text cursor continues across runs in reading order, mirrored in RTL. An overfull paragraph continues below instead of losing words; an empty chord terminates safely.
+- `label` makes the paragraph a `role="img"` with that accessible name, hiding its words from readers. Its type may become small enough to draw the silhouette at `size="4rem"`; the name carries the meaning at icon size. Without a label, the paragraph is read once as before. No hover or keyboard action is needed.
+- Why it is type-only: owner decision 2026-10-02 approves shapes made of words because the type is the material and carries meaning: the visitor's starting thought takes shape. This is not particle-text, typography-vortex or warp-text. No blur, shadows, gradients, fills or particles; one accent in view.
 - Underneath: native, plus a hook that lays the lines out with pretext.
 - Anatomy: `<p class="db-calligram" data-shape | data-variant="rain | mirror">` holding the text for readers (`.db-sr`), `.db-calligram-lines` (aria-hidden, one block per line, each carrying `--t`, how far it is from the shape's widest part) and, for `fermata`, `.db-calligram-dot`. Rain fills the lines with `.db-calligram-streak`s of one span per letter (`--j`, its place down the streak); mirror with one `.db-calligram-side` per side (`--x`, `--a` its turn), then `.db-calligram-centre`, which is read.
 - fill (the default): the paragraph fills `shape`.
@@ -14,12 +17,14 @@ Extracted from DESIGN.md.
 
 ## Motion
 
-No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-core.md and the contract above.
+| Component | Articulation | What moves |
+|---|---|---|
+| Calligram (`calligram`) | Held | The thought is set as a silhouette; no travel or hover effect |
 
 ## Where each move comes from
 
 | Component | Reference | Move |
 |---|---|---|
-| Calligram (`calligram`) | Apollinaire's calligrams | The paragraph fills the shape; the outline is only implied |
+| Calligram (`calligram`) | Apollinaire's calligrams; 28 December (8.jpg), its distinct disc and ring silhouettes | The paragraph fills the shape; six starting thoughts are word-made silhouettes, including hollow runs |
 | Rain calligram (`calligram`) | Apollinaire, "Il pleut" (1916) | The words fall in leaning streaks of letters |
 | Mirror calligram (`calligram`) | Apollinaire, "Cœur couronne et miroir" (1918); "Healthy habits →" corner notes | The paragraph is the frame; one italic word in the middle |

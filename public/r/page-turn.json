@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-turn",
+  "title": "Page turn",
+  "description": "One reading recedes and the next comes forward: depth marks a change of attention, then rests.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/page-turn.tsx",
+      "content": "\"use client\"\n\nimport { ViewTransition, type ReactNode } from \"react\"\n\ntype PageTurnProps = { children: ReactNode; share?: string }\n\n/** Wrap each page (not its persistent layout). Add a forward/back type inside startTransition. */\nfunction PageTurn({ children, share }: PageTurnProps) {\n  return (\n    <ViewTransition\n      name={share}\n      default=\"none\"\n      enter={{ default: \"db-page-turn-enter\", forward: \"db-page-turn-enter\", back: \"db-page-turn-enter-back\" }}\n      exit={{ default: \"db-page-turn-exit\", forward: \"db-page-turn-exit\", back: \"db-page-turn-exit-back\" }}\n      share={share ? \"db-page-turn-share\" : \"none\"}\n    >\n      {children}\n    </ViewTransition>\n  )\n}\n\nexport { PageTurn, type PageTurnProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/page-turn.css",
+      "content": "@layer components {\n  /* WOVE: the thought we leave recedes; the next becomes the near, legible plane. */\n  ::view-transition-group(.db-page-turn-enter), ::view-transition-group(.db-page-turn-exit),\n  ::view-transition-group(.db-page-turn-enter-back), ::view-transition-group(.db-page-turn-exit-back),\n  ::view-transition-group(.db-page-turn-share) { animation-duration: var(--db-andante); animation-timing-function: var(--db-exhale); }\n  ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back) {\n    --db-page-turn-angle: 4deg; --db-page-turn-depth: -100px;\n    animation: db-page-turn-recede var(--db-andante) var(--db-exhale) both; mix-blend-mode: normal;\n  }\n  ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back) {\n    --db-page-turn-angle: -4deg; --db-page-turn-depth: -60px;\n    animation: db-page-turn-arrive var(--db-andante) var(--db-exhale) both; mix-blend-mode: normal;\n  }\n  ::view-transition-old(.db-page-turn-exit-back) { --db-page-turn-angle: -4deg; }\n  ::view-transition-new(.db-page-turn-enter-back) { --db-page-turn-angle: 4deg; }\n  ::view-transition-old(.db-page-turn-share) { animation: db-page-turn-fade-out var(--db-andante) both; }\n  ::view-transition-new(.db-page-turn-share) { animation: db-page-turn-fade-in var(--db-andante) both; }\n  @keyframes db-page-turn-recede {\n    from { opacity: 1; transform: perspective(1000px) translateZ(0) rotateX(0); }\n    60% { opacity: 0.5; }\n    to { opacity: 0; transform: perspective(1000px) translateZ(var(--db-page-turn-depth)) rotateX(var(--db-page-turn-angle)) scale(0.94); }\n  }\n  @keyframes db-page-turn-arrive {\n    from { opacity: 0; transform: perspective(1000px) translateZ(var(--db-page-turn-depth)) rotateX(var(--db-page-turn-angle)) scale(0.97); }\n    to { opacity: 1; transform: perspective(1000px) translateZ(0) rotateX(0); }\n  }\n  @keyframes db-page-turn-fade-out { to { opacity: 0; } }\n  @keyframes db-page-turn-fade-in { from { opacity: 0; } }\n  @media (max-width: 40rem) {\n    ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back),\n    ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back) { --db-page-turn-depth: -30px; }\n    ::view-transition-old(.db-page-turn-exit), ::view-transition-new(.db-page-turn-enter-back) { --db-page-turn-angle: 2deg; }\n    ::view-transition-new(.db-page-turn-enter), ::view-transition-old(.db-page-turn-exit-back) { --db-page-turn-angle: -2deg; }\n  }\n  @media (prefers-reduced-motion: reduce) {\n    ::view-transition-group(.db-page-turn-enter), ::view-transition-group(.db-page-turn-exit),\n    ::view-transition-group(.db-page-turn-enter-back), ::view-transition-group(.db-page-turn-exit-back),\n    ::view-transition-group(.db-page-turn-share) { animation: none; }\n    ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back), ::view-transition-old(.db-page-turn-share) { animation: db-page-turn-fade-out 120ms both; }\n    ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back), ::view-transition-new(.db-page-turn-share) { animation: db-page-turn-fade-in 120ms both; }\n  }\n  @media (forced-colors: active) {\n    ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back) { animation-name: db-page-turn-fade-out; }\n    ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back) { animation-name: db-page-turn-fade-in; }\n  }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/page-turn.css"
+    }
+  ],
+  "css": {
+    "@import \"../styles/0db/page-turn.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "native",
+    "contract": "db-page-turn"
+  },
+  "type": "registry:ui"
+}

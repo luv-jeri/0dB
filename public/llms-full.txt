@@ -663,6 +663,8 @@ Extracted from DESIGN.md.
 - No box, only a baseline. Focus draws the accent line outward from where the pointer touched it (script sets `--o`, a percentage) or from the left for the keyboard, and shows the counter. The placeholder steps back to half strength on focus.
 - Yours: the typed value, in the italic. The placeholder stays in the voice, in pencil.
 - Textarea: ruled like paper, with lines every `--lh` (2.25rem) that scroll with the text.
+- `Textarea grow` makes room for the visitor’s thought: Pretext counts the native value at the content width, using the computed italic font and its tracking, after document.fonts.load. Blank lines and a final newline count. Optional minRows (4) and maxRows (unbounded) clamp whole ruled lines; beyond the maximum it scrolls. Controlled/uncontrolled changes, form reset, clientWidth resize and the four html face attributes remeasure. It never replaces the textarea or writes its value, so caret and selection stay native. There is no height travel while typing. The existing italic and baselines are unchanged. Source: Paul Rand’s measured construction sheet (11.jpg), giving each line its exact room.
+- **Why it is type-only:** Owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. This item carries the portfolio story, never an effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance is scale, ink to pencil and plane angle only, with one accent in view.
 - States: rest, focus, filled, error (`aria-invalid="true"` turns both lines crimson; the message in `.db-field-error` is linked with `aria-describedby`), disabled (dotted baseline).
 - The error is a callout, after Weingart: a crimson hairline pill hung from the baseline by a leader line, with a dot where it meets the line. A textarea's ruled lines turn crimson too. It arrives in order: the dot lands, the leader drops, then the pill and its words.
 - Error copy says what to fix: "Check the address. It needs a domain after the @, like studio.com."
@@ -673,6 +675,7 @@ Extracted from DESIGN.md.
 
 | Component | Articulation | What moves |
 |---|---|---|
+| Growing textarea (`field`) | Making room | Height snaps to the measured whole-line count; caret and baselines remain still |
 | Field (`field`) | From the touch | The accent line grows out from where you touched it |
 | Field error (`field`) | Arpeggio | Dot, leader, pill, in that order |
 | Overprint field (`field`) | Inhale | Arriving, the label draws in its width and your words take the accent |
@@ -682,6 +685,7 @@ Extracted from DESIGN.md.
 
 | Component | Reference | Move |
 |---|---|---|
+| Growing textarea (`field`) | Paul Rand measured construction sheet (11.jpg) | Each typed line earns exactly one ruled baseline |
 | Field error (`field`) | Weingart callouts | Pill on a leader line from the baseline |
 | Overprint field (`field`) | "It has to be design." | Your italic printed over a heavy condensed label, knocked out in paper |
 | Signature field (`field`) | The printed form's signature line | A cross where you write; the label a caption under the line |
@@ -2372,6 +2376,9 @@ Extracted from DESIGN.md.
 Extracted from DESIGN.md.
 
 ### db-calligram (calligram)
+- Starting points (owner decision 2026-10-02): `square` is an existing product, `arch` a website or store, `ring` a workflow, `diamond` an AI question, `open` something else; `circle` holds the idea. Ring rows have two runs round a hollow centre; open leaves a gap at inline end. `chord(y)` overrides the shape: y is 0 at the top and 1 at the foot, returning a centred width fraction or `[start, end][]` fractions. Invalid runs are discarded, valid runs clamped, sorted and merged. One text cursor continues across runs in reading order, mirrored in RTL. An overfull paragraph continues below instead of losing words; an empty chord terminates safely.
+- `label` makes the paragraph a `role="img"` with that accessible name, hiding its words from readers. Its type may become small enough to draw the silhouette at `size="4rem"`; the name carries the meaning at icon size. Without a label, the paragraph is read once as before. No hover or keyboard action is needed.
+- Why it is type-only: owner decision 2026-10-02 approves shapes made of words because the type is the material and carries meaning: the visitor's starting thought takes shape. This is not particle-text, typography-vortex or warp-text. No blur, shadows, gradients, fills or particles; one accent in view.
 - Underneath: native, plus a hook that lays the lines out with pretext.
 - Anatomy: `<p class="db-calligram" data-shape | data-variant="rain | mirror">` holding the text for readers (`.db-sr`), `.db-calligram-lines` (aria-hidden, one block per line, each carrying `--t`, how far it is from the shape's widest part) and, for `fermata`, `.db-calligram-dot`. Rain fills the lines with `.db-calligram-streak`s of one span per letter (`--j`, its place down the streak); mirror with one `.db-calligram-side` per side (`--x`, `--a` its turn), then `.db-calligram-centre`, which is read.
 - fill (the default): the paragraph fills `shape`.
@@ -2383,13 +2390,15 @@ Extracted from DESIGN.md.
 
 ## Motion
 
-No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-core.md and the contract above.
+| Component | Articulation | What moves |
+|---|---|---|
+| Calligram (`calligram`) | Held | The thought is set as a silhouette; no travel or hover effect |
 
 ## Where each move comes from
 
 | Component | Reference | Move |
 |---|---|---|
-| Calligram (`calligram`) | Apollinaire's calligrams | The paragraph fills the shape; the outline is only implied |
+| Calligram (`calligram`) | Apollinaire's calligrams; 28 December (8.jpg), its distinct disc and ring silhouettes | The paragraph fills the shape; six starting thoughts are word-made silhouettes, including hollow runs |
 | Rain calligram (`calligram`) | Apollinaire, "Il pleut" (1916) | The words fall in leaning streaks of letters |
 | Mirror calligram (`calligram`) | Apollinaire, "Cœur couronne et miroir" (1918); "Healthy habits →" corner notes | The paragraph is the frame; one italic word in the middle |
 
@@ -2453,6 +2462,31 @@ Extracted from DESIGN.md.
 | Contour (`contour`) | The score's hairpin | The lines taper along a straight edge |
 | Tale contour (`contour`) | Carroll's Mouse's Tale (1865) | The type shrinks as the tail winds down the page |
 | Cola contour (`contour`) | *Per cola et commata*, text set to be read aloud | A line to each phrase; the edge is the rhythm of speech |
+
+
+# 0dB: curtain
+
+Extracted from DESIGN.md.
+
+### db-curtain (curtain)
+- Underneath: the existing native Dialog approach, portalled to body so the menu does not inherit the page transform. Parts: Curtain, CurtainTrigger (asChild), CurtainContent (label, default Menu), CurtainLink (native anchor, optional number and description).
+- Anatomy: `dialog.db-curtain`, caption and Close button, then `nav.db-curtain-links` with `.db-curtain-link`, a small isolated folio, display-size name and optional one-line reading-grade italic description (wrapping when necessary).
+- WOVE (9.jpg) gives distance its meaning: the page marked `[data-curtain-page]` tilts back, scales down and takes pencil; absent a marker, direct body children except the dialog and nonvisual nodes recede. The paper backdrop arrives without blur. Destinations then come forward to a flat reading plane, one arpeggio apart. Closing reverses the planes. Below 40rem the page tilt is shallower and names use f instead of ff.
+- Opening focuses Close. Native modal focus trapping, Escape, and focus return are preserved; html and body scrolling lock while open and their previous styles restore on close/unmount. Normal destination activation closes; modified clicks keep ordinary anchor behavior. All actions work on touch.
+- Reduced motion: composed flat state and crossfade. Forced colours: system paper, CanvasText and LinkText. Number remains isolated LTR inside RTL; placement is logical.
+- **Why it is type-only:** Owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. This item carries the portfolio story, never an effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance is scale, ink to pencil and plane angle only, with one accent in view.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Curtain (`curtain`) | Near plane | Page tilts back into pencil; destinations come forward an arpeggio apart, reversing on close |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Curtain (`curtain`) | WOVE near and distant type (9.jpg) | The reading page recedes and the destinations become the near plane |
 
 
 # 0dB: data-table
@@ -2536,6 +2570,31 @@ Extracted from DESIGN.md.
 |---|---|---|
 | Figure (`figure`) | "the silence that heals" (camera and archive under the picture); a printer's crop marks | A picture cropped to a ratio, named in type: number, caption, credit spread to the far end |
 | Margin figure (`figure`) | A book's side caption in the note columns | The number at the head of the margin, the caption at its foot, level with the picture |
+
+
+# 0dB: folio
+
+Extracted from DESIGN.md.
+
+### db-folio (folio)
+- Underneath: a native article, heading and definition list, with Pretext for title lines.
+- Anatomy: `Folio` (`.db-folio`, data-variant="plate | type | live"), `FolioTitle` (h3, plain text), `FolioLedger` (dl, `rows` of label and value), and `FolioPlate`. Parts accept native attributes. The ledger sits at inline-start like an imprint; the title and plate share the inline-end edge. A narrow container stacks the parts in DOM order.
+- The project spread follows SPECTRA (10.jpg): large type carries the work while small print carries authorship. `plate` holds an image or Halftone; `type` holds only the project's name at display italic scale; `live` holds working components. No fabricated screenshot stands for missing evidence. Ledger labels are roman, personal values use the expression's reading grade.
+- The title opens line by line from the plate edge when the plate enters, once via IntersectionObserver. Pretext is dynamically imported in the effect, waits for document.fonts.load using the computed font, and measures with the computed tracking. The accessible real title stays in the DOM; measured lines are aria-hidden. ResizeObserver watches clientWidth and the html MutationObserver filters data-pair, data-scheme, data-mode and data-key. Resize or theme changes remeasure without replaying the entrance.
+- Keyboard and touch: the spread adds no focus stops; live children retain their own controls. No hover dependency. Logical columns mirror in RTL; title lines rise from the same baseline edge in either direction. Without measurement the plain title remains. Reduced motion shows the composed final state immediately, with no travel. Forced colours use CanvasText.
+- Why it is type-only: owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. These are never the refused effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance uses scale, ink-to-pencil colour and plane angle only; one accent in view. The spread pairs evidence with Sanjay's role; scale, line breaks and the imprint carry that meaning even with all motion removed.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Folio (`folio`) | Open | The measured title opens from the plate edge, line by line once; reduced motion is the composed final state |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Folio (`folio`) | SPECTRA, 10.jpg | A large title opens from its plate edge; the maker’s role sits small in the margin |
 
 
 # 0dB: form
@@ -2627,6 +2686,56 @@ No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-c
 |---|---|---|
 | Grid (`grid`) | "the silence that heals" faint grid; "Less is more."; the posters' + corner signs | A faint square grid with a cross on each corner and a lettered, numbered border |
 | Dots grid (`grid`) | Paul Rand's dotted construction grid and dimension letters | A fine point on each crossing, the rules left out |
+
+
+# 0dB: halftone
+
+Extracted from DESIGN.md.
+
+### db-halftone (halftone)
+- Underneath: native image, hidden canvas sampling and Pretext, dynamically imported inside an effect.
+- Anatomy: `.db-halftone` contains a real `<img alt>` and an aria-hidden `.db-halftone-type`, rows of measured glyphs. The real artifact never leaves the DOM. The example is an explicitly labelled, example-only type specimen, not a claimed project capture.
+- Evidence arriving: after the engraved statue (18.jpg), where fine strokes carry an entire image. The image is sampled into `cols` columns (64 by default, bounded 8–120) and aspect-correct rows (bounded 160). Candidates use the computed voice at weights 400, 500, 600, 700 and 800 and the expression italic at 400: Archivo and Bodoni Moda in the house pair. Fonts load before Pretext measures each advance; a hidden canvas measures each glyph's ink density. Brightness error and width error choose each cell's glyph, then its measured width centres and fits it to the grid. `word` limits candidates to its unique non-space characters (up to 64); empty falls back to the ordinary alphabet. Glyphs are ink or pencil only.
+- `resolve="scroll"` (default) follows the plate from 90% to 25% of the viewport, reversible with scrolling; `load` resolves once over adagio after sampling; `none` keeps the type. Rows thin in reading order while the real image comes up. ResizeObserver watches clientWidth; the html MutationObserver watches only data-pair, data-scheme, data-mode and data-key. Async revisions and cleanup discard stale work.
+- Keyboard and touch: ordinary page scrolling; no hover dependency and no invented focus stop. Before measurement, without script, or when loading, canvas or CORS sampling fails, the real image stays. Cross-origin sampling uses a separate anonymous image so it cannot break the real image. Reduced motion and forced colours show the final real image directly, with no travel. The image grid preserves its physical orientation in RTL.
+- Why it is type-only: owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. These are never the refused effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance uses scale, ink-to-pencil colour and plane angle only; one accent in view. Here the letters carry project evidence, and may literally be the project's own name; removing the resolve leaves a meaningful artifact.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Halftone (`halftone`) | Resolve | Scroll or one load adagio thins glyphs row by row as the real image comes up; reduced motion shows the image directly |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Halftone (`halftone`) | Engraved statue, 18.jpg | Fine-to-dense measured letters carry the evidence, then give way to its real artifact |
+
+
+# 0dB: invitation
+
+Extracted from DESIGN.md.
+
+### db-invitation (invitation)
+- Underneath: a native button, forwarding ref and button events for `<SheetTrigger asChild><Invitation ... /></SheetTrigger>`.
+- Anatomy: `.db-invitation` holds `.db-invitation-call` (label plus directional arrow), then a hint or `.db-invitation-state`. API: required label, optional hint and state, and native button props.
+- The portfolio's conversation stays within reach: a quiet call docked at the bottom inline-end margin, after “Watch this space” (1.jpg). Below 40rem it occupies a hairline bottom bar and respects safe-area-inset-bottom. State, such as “Your brief · Edit”, replaces the hint in the reading-grade italic because it is the visitor's progress.
+- Any visible `[data-invitation-hide]` makes the call lift away, invisible and inert; leaving brings it back. Added and removed markers are tracked. Mark the contact form so the persistent call yields to the conversation itself.
+- Keyboard: native button, visible accent focus outline. Touch opens directly. RTL mirrors only the directional arrow and docking. Reduced motion removes travel. Forced colours use ButtonText and Highlight.
+- **Why it is type-only:** Owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. This item carries the portfolio story, never an effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance is scale, ink to pencil and plane angle only, with one accent in view.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Invitation (`invitation`) | Yield | The margin call lifts away when the conversation is in view |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Invitation (`invitation`) | It has to be design, Watch this space (1.jpg) | The conversation waits as one call in the margin, and yields to the form |
 
 
 # 0dB: line-chart
@@ -2826,6 +2935,57 @@ Extracted from DESIGN.md.
 | Scale number input (`number-input`) | The dial's tuner; Paul Rand dimension ticks | Your figure over the index of a ruler that hangs from the baseline |
 
 
+# 0dB: page-turn
+
+Extracted from DESIGN.md.
+
+### db-page-turn (page-turn)
+- Underneath: React 19.3 ViewTransition. PageTurn wraps children without adding DOM. `share` supplies an optional matching name for continuity; names must be unique in each mounted tree.
+- Wrap each page rather than a persistent layout; in-page examples change the wrapper key inside startTransition. `addTransitionType("forward" | "back")` selects the enter and exit class maps; without a type the forward turn is the default. A shared child keeps its identity through the turn.
+- WOVE (9.jpg): the outgoing reading recedes in perspective and the new reading comes forward from slight depth. Back reverses the plane angles. The browser snapshots are images: their ink falls toward pencil by transparency against paper as they recede, rather than a filter attempting to recolour individual glyphs. No blur, shadow or decoration is added.
+- Installed Next App Router guidance requires no configuration; next.config is unchanged. With no browser View Transition support, React changes content normally. Only user navigation or a transition-driven update starts the turn.
+- Reduced motion: a crossfade, with group size/position travel removed; forced colours also crossfade. The plane angle has no inline direction, so RTL keeps its spatial meaning. Focus and semantics belong to the unchanged real child DOM.
+- **Why it is type-only:** Owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. This item carries the portfolio story, never an effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance is scale, ink to pencil and plane angle only, with one accent in view.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Page turn (`page-turn`) | Near plane | The old reading recedes, the next comes forward; back reverses the plane angle |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Page turn (`page-turn`) | WOVE near and distant type (9.jpg) | The next reading moves from distance into clarity |
+
+
+# 0dB: passage
+
+Extracted from DESIGN.md.
+
+### db-passage (passage)
+- Underneath: native paragraph or div, Pretext and Web Animations. API: `as="p" | "div"`, string children, `announce`, `onSettled`.
+- Anatomy: `.db-passage` holds real `.db-passage-text` and an aria-hidden `.db-passage-art` with at most two measured readings. Without measurement, the real paragraph stays visible.
+- The four personalised portfolio slots re-set when their words change: measure old and new at the current content width, old lines exhale toward inline-end and new lines enter from inline-start, an arpeggio apart. Height moves between measured readings over andante. The thought takes its own room, after Healthy habits' narrow columns (2.jpg).
+- A newer reading cancels previous animations and stale font work; layers never stack. Resize or face changes settle the current reading. `onSettled` runs once for the latest changed reading, including fallback, never for an interrupted reading or initial render.
+- Pretext loads inside the effect; computed font, document.fonts.load, clientWidth ResizeObserver and the four-attribute html observer follow Contour. `announce` adds polite, atomic live text; artwork is never read. Plain text remains selectable at rest. No controls and no hover dependency.
+- Reduced motion: crossfade only, snapped height. Forced colours: CanvasText. RTL reverses inline travel.
+- **Why it is type-only:** Owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. This item carries the portfolio story, never an effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance is scale, ink to pencil and plane angle only, with one accent in view.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Passage (`passage`) | Re-set | Lines exhale inline-end and enter inline-start, an arpeggio apart; height follows over andante |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Passage (`passage`) | Healthy habits narrow columns (2.jpg) | A changed thought is re-set line by line and takes its own room |
+
+
 # 0dB: pie-chart
 
 Extracted from DESIGN.md.
@@ -2963,6 +3123,58 @@ Extracted from DESIGN.md.
 | Reverb (`reverb`) | The score's dynamics | The phrase echoes quieter and drifts, ending on a rest |
 | Antiphon reverb (`reverb`) | Gabrieli's cori spezzati at San Marco; the Renaissance poster's labels spread to the walls | The echoes answer from either wall in turn |
 | Vowels reverb (`reverb`) | A live room, where the consonants are lost first; "the silence that heals" grid | Each echo loses its consonants in place; the vowels ring on in columns |
+
+
+# 0dB: room
+
+Extracted from DESIGN.md.
+
+### db-room (room)
+- Underneath: native, with Pretext loaded inside an effect, computed font and `document.fonts.load`. ResizeObserver watches clientWidth and the shape's dimensions; the html observer filters pair, scheme, mode and key.
+- Anatomy: `.db-room` contains `.db-room-shape`, the real selectable paragraph `.db-room-plain`, and aria-hidden `.db-room-lines`. The real paragraph remains in DOM reading order and becomes transparent while the measured runs show, as in wake. The layer cannot intercept selection. Import or font failure leaves the shape above the complete ordinary paragraph.
+- Props: string `children`, `shape` ReactNode, `outline="box" | "ellipse" | chord-function`, `travel="set" | "pointer" | "scroll"`, `side="start" | "end" | "centre"`, and `gap` in em (0.75). A chord returns a centred width fraction or `[start, end][]` fractions for y in 0..1. The outline is sampled over each row's line box, expanded by the gap and subtracted from the measure. `layoutNextLine` carries one cursor through every free interval, right first in RTL. Narrow runs wait for a readable width; words are never masked by the thought.
+- Move: the text makes room for the visitor's thought, after Healthy habits' narrow notes (2.jpg) and Paul Rand's measured spaces between type (11.jpg). Shape dimensions come from the supplied content, bounded to 35% of the desktop measure. Below a 480px room width it sits above ordinary text, including on touch; its meaning never depends on hovering.
+- Motion: set is still. Pointer answers only a fine pointer, arrives with exhale over moderato and stops its frame loop when it lands. Scroll maps the room's passage through the viewport, bounded by the page's available scroll, through exhale from the top to the bottom; it schedules a layout only for a changed position. There is no idle loop. The paragraph reserves its original height plus the obstacle and clearance, keeping the next content still.
+- Reduced motion: the shape stays at its initial side and top, and the text is set once, then only resized or remeasured for a face change. Keyboard: no added stop; the paragraph reads and selects normally and supplied controls keep their native behaviour. Forced colours: CanvasText, preserving the invisible original so text is not painted twice. No live region: the words do not change.
+- Why it is type-only: owner decision 2026-10-02 approves word-shapes because the type is the material and carries meaning. The page making room is Sanjay's work accommodating an unfinished thought. No blur, shadows, gradients, fills or particles; this is not an effect-only depth-background, particle-text, typography-vortex or warp-text. One accent in view, owned by any supplied choice.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Room (`room`) | Exhale | The thought travels with scroll or a fine pointer; the paragraph yields and rests with it |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Room (`room`) | Healthy habits (2.jpg); Paul Rand (11.jpg), the spaces between type | The paragraph makes room for the thought, continuing on both sides |
+
+
+# 0dB: score
+
+Extracted from DESIGN.md.
+
+### db-score (score)
+- Underneath: a React provider, a native text button and Web Audio synthesis; no audio files.
+- Anatomy: `ScoreProvider`, `ScoreToggle` (`.db-score`, Sound off / Sound on, aria-pressed) and `useScore()` returning `{ on, cue(name), voice(i), resolve(), letter(ch) }`. Outside a provider the hook is silent and the toggle disabled.
+- Sound is resolution: the space and restraint of “the silence that heals” (3.jpg), and the owner's soothing-music brief. Off by default. The on/off preference persists at localStorage key `0db-score`; unavailable storage leaves the control usable. A saved on does not create or resume audio in a new document: switch off and on to activate it there. Only the toggle's enabling press constructs AudioContext. The visible state describes the preference; hook calls need an activated context too.
+- The opening holds C and D (sus2). `voice(i)` adds indexed voices 0–4 at most once; the full suspension is C, G, D, F, C. `resolve()` moves D to E and F to G over a 1.4s audio adagio; later voices join the major chord. `cue("set")` is a soft pluck (120ms throttle); `letter(ch)` maps a codepoint to a chord tone, quietly, at most once per 75ms. Empty text is silent. Sine/triangle oscillators use soft gain envelopes, a 0.055 master and a gentle compressor/limiter; short notes are capped and disconnected at their end.
+- All calls are silent no-ops while off or hidden. Visibility hidden suspends; visibility visible resumes only an already activated, enabled context. Off suspends immediately, unmount stops voices and closes the context, and a storage event turning off also suspends. Unsupported or denied audio leaves the setting off.
+- Keyboard and touch: native Space/Enter or press; text always names the state. Focus is the one accent outline. Reduced motion does not alter opted-in audio. Forced colours retain system button text, underline the on state and use Highlight focus.
+- Why it is type-only: owner decision 2026-10-02 approves 2.5D depth, type-made images, shapes made of words and opt-in sound because type is the material and carries meaning. These are never the refused effect-only depth-background, particle-text, typography-vortex or warp-text: no blur, shadows, gradients, fills or particles; distance uses scale, ink-to-pencil colour and plane angle only; one accent in view. The sound marks chapters becoming a finished thought; its complete visual form is the words Sound off / Sound on, never a waveform or ornamental visualizer.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Score (`score`) | Resolution | Only after opt-in, soft chapter voices enter and the suspended chord settles to major over audio adagio; the text toggle simply inks |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Score (`score`) | “the silence that heals”, 3.jpg; the owner’s soothing-music brief | A text-only invitation to sound; chapter voices move a suspended thought to resolution |
 
 
 # 0dB: scroll-expand
@@ -3117,6 +3329,31 @@ Extracted from DESIGN.md.
 | Steps, rise (`steps`) | SPECTRA; Paul Rand's grid | Numerals sunk into a line rise out as you reach them |
 | Steps, cascade (`steps`) | "Healthy habits → for creatives" | The titles step across the page; an arrow points on |
 | Steps, folio (`steps`) | SPECTRA's 1/3; "Less is more." 01 | The whole sequence folded into one fraction beside the step you're on |
+
+
+# 0dB: strata
+
+Extracted from DESIGN.md.
+
+### db-strata (strata)
+- Underneath: native type in a perspective container, CSS view-timeline animation where supported and a small scroll-event/rAF fallback setting `--p` otherwise. No motion library.
+- Anatomy: `.db-strata` holds direct `.db-strata-plane` children; each plane retains its real DOM content and reading order. The parent ranks depths for timing only, deepest first, without moving nodes. `trigger="scroll" | "load"` defaults to scroll. `StrataPlane` takes `depth` clamped to 0..1, `tilt="x" | "y" | "none"` (y), and `from="start" | "end" | "above" | "below"` (start).
+- Move: WOVE (9.jpg) makes distant words smaller and pencil, chosen words large and near; the opening's weight contrast comes from It has to be design (1.jpg). At zero the planes are translated into depth, angled, scaled down and pencil; at one they are flat, near and ink. Start/end mirror in RTL. Mobile depth is two fifths as deep.
+- Motion: one arrival. Load takes adagio with exhale, each plane one arpeggio after the previous, deepest first. Scroll follows entry to 65% of the section's cover range, with staggered progress equivalent to arpeggio/adagio; the fallback bounds its end to the available page scroll. It stops with the scroll and reverses with it. Settled planes have no pointer parallax, idle loop or continuing travel.
+- Reduced motion and no script: the composed flat, ink state immediately. Turning reduced motion off does not replay a read load opening. Keyboard: no extra stop; child semantics and focus remain intact. Forced colours: CanvasText. No live region: depth changes presentation only.
+- Why it is type-only: owner decision 2026-10-02 approves 2.5D depth because the type is the material and carries meaning: depth becomes clarity, the unfinished thought becomes workable. Distance is scale, ink-to-pencil colour and plane angle only, with perspective and transforms. No blur, shadows, gradients, fills or particles; it must never become the refused effect-only depth-background, particle-text, typography-vortex or warp-text. One accent in view.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Strata (`strata`) | Arrival | The deepest type arrives first, one arpeggio apart; adagio on load or the reader’s scroll, then flat stillness |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Strata (`strata`) | WOVE (9.jpg), distant pencil figures and near ink; It has to be design (1.jpg) | Depth resolves into a flat, clear typographic statement |
 
 
 # 0dB: swapy

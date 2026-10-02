@@ -531,6 +531,9 @@
       "registryDependencies": [
         "https://thedirectors.agency/ui/r/0db.json"
       ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
       "files": [
         {
           "path": "registry/0db/ui/field.tsx",
@@ -2307,6 +2310,35 @@
       }
     },
     {
+      "name": "curtain",
+      "type": "registry:ui",
+      "title": "Curtain",
+      "description": "The page steps back into pencil. The destinations come forward, large and clear, one after another.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/dialog.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/curtain.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/curtain.css",
+          "type": "registry:file",
+          "target": "styles/0db/curtain.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/curtain.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-curtain"
+      }
+    },
+    {
       "name": "data-table",
       "type": "registry:ui",
       "title": "Data table",
@@ -2398,6 +2430,37 @@
       }
     },
     {
+      "name": "folio",
+      "type": "registry:ui",
+      "title": "Folio",
+      "description": "A project spread: the work at reading size, its maker's part in the margin, its title opening from the plate's edge.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/folio.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/folio.css",
+          "type": "registry:file",
+          "target": "styles/0db/folio.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/folio.css\"": {}
+      },
+      "meta": {
+        "movement": "VIII",
+        "underneath": "hook",
+        "contract": "db-folio"
+      }
+    },
+    {
       "name": "form",
       "type": "registry:ui",
       "title": "Form",
@@ -2484,6 +2547,65 @@
         "movement": "IV",
         "underneath": "native",
         "contract": "db-grid"
+      }
+    },
+    {
+      "name": "halftone",
+      "type": "registry:ui",
+      "title": "Halftone",
+      "description": "Evidence arriving. An image set in measured letters gives way, row by row, to the artifact itself.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/halftone.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/halftone.css",
+          "type": "registry:file",
+          "target": "styles/0db/halftone.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/halftone.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-halftone"
+      }
+    },
+    {
+      "name": "invitation",
+      "type": "registry:ui",
+      "title": "Invitation",
+      "description": "A quiet call held in the margin. When the conversation itself comes into view, it gives the page back its room.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/invitation.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/invitation.css",
+          "type": "registry:file",
+          "target": "styles/0db/invitation.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/invitation.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-invitation"
       }
     },
     {
@@ -2664,6 +2786,65 @@
       }
     },
     {
+      "name": "page-turn",
+      "type": "registry:ui",
+      "title": "Page turn",
+      "description": "One reading recedes and the next comes forward: depth marks a change of attention, then rests.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/page-turn.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/page-turn.css",
+          "type": "registry:file",
+          "target": "styles/0db/page-turn.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/page-turn.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-page-turn"
+      }
+    },
+    {
+      "name": "passage",
+      "type": "registry:ui",
+      "title": "Passage",
+      "description": "A thought re-set: the old lines exhale, the new lines arrive, and the page makes room for their length.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/passage.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/passage.css",
+          "type": "registry:file",
+          "target": "styles/0db/passage.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/passage.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-passage"
+      }
+    },
+    {
       "name": "pie-chart",
       "type": "registry:ui",
       "title": "Pie chart",
@@ -2808,6 +2989,65 @@
         "movement": "II",
         "underneath": "hook",
         "contract": "db-reverb"
+      }
+    },
+    {
+      "name": "room",
+      "type": "registry:ui",
+      "title": "Room",
+      "description": "Your thought takes shape, and the paragraph makes room for it. One reading order flows through the space on both sides, then rests when you do.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "dependencies": [
+        "@chenglou/pretext"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/room.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/room.css",
+          "type": "registry:file",
+          "target": "styles/0db/room.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/room.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-room"
+      }
+    },
+    {
+      "name": "score",
+      "type": "registry:ui",
+      "title": "Score",
+      "description": "Silence until asked for. Chapters add voices to an unfinished chord; a thought made workable lets it resolve.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/score.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/score.css",
+          "type": "registry:file",
+          "target": "styles/0db/score.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/score.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-score"
       }
     },
     {
@@ -2956,6 +3196,34 @@
         "movement": "VIII",
         "underneath": "native",
         "contract": "db-steps"
+      }
+    },
+    {
+      "name": "strata",
+      "type": "registry:ui",
+      "title": "Strata",
+      "description": "Depth becomes clarity: type planes come forward from pencil, flatten and set in ink. Once the thought is clear, it rests.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/strata.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/strata.css",
+          "type": "registry:file",
+          "target": "styles/0db/strata.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/strata.css\"": {}
+      },
+      "meta": {
+        "movement": "II",
+        "underneath": "hook",
+        "contract": "db-strata"
       }
     },
     {
@@ -3617,6 +3885,11 @@
           "target": "~/docs/0db/components/contour.md"
         },
         {
+          "path": "registry/0db/ai/components/curtain.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/curtain.md"
+        },
+        {
           "path": "registry/0db/ai/components/data-table.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/data-table.md"
@@ -3632,6 +3905,11 @@
           "target": "~/docs/0db/components/figure.md"
         },
         {
+          "path": "registry/0db/ai/components/folio.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/folio.md"
+        },
+        {
           "path": "registry/0db/ai/components/form.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/form.md"
@@ -3645,6 +3923,16 @@
           "path": "registry/0db/ai/components/grid.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/grid.md"
+        },
+        {
+          "path": "registry/0db/ai/components/halftone.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/halftone.md"
+        },
+        {
+          "path": "registry/0db/ai/components/invitation.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/invitation.md"
         },
         {
           "path": "registry/0db/ai/components/line-chart.md",
@@ -3677,6 +3965,16 @@
           "target": "~/docs/0db/components/number-input.md"
         },
         {
+          "path": "registry/0db/ai/components/page-turn.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/page-turn.md"
+        },
+        {
+          "path": "registry/0db/ai/components/passage.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/passage.md"
+        },
+        {
           "path": "registry/0db/ai/components/pie-chart.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/pie-chart.md"
@@ -3702,6 +4000,16 @@
           "target": "~/docs/0db/components/reverb.md"
         },
         {
+          "path": "registry/0db/ai/components/room.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/room.md"
+        },
+        {
+          "path": "registry/0db/ai/components/score.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/score.md"
+        },
+        {
           "path": "registry/0db/ai/components/scroll-expand.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/scroll-expand.md"
@@ -3725,6 +4033,11 @@
           "path": "registry/0db/ai/components/steps.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/steps.md"
+        },
+        {
+          "path": "registry/0db/ai/components/strata.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/strata.md"
         },
         {
           "path": "registry/0db/ai/components/swapy.md",

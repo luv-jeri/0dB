@@ -71,28 +71,37 @@ import areaChartMeta from "@/content/area-chart"
 import calligramMeta from "@/content/calligram"
 import commandLineMeta from "@/content/command-line"
 import contourMeta from "@/content/contour"
+import curtainMeta from "@/content/curtain"
 import dataTableMeta from "@/content/data-table"
 import dropzoneMeta from "@/content/dropzone"
 import figureMeta from "@/content/figure"
+import folioMeta from "@/content/folio"
 import formMeta from "@/content/form"
 import gatherMeta from "@/content/gather"
 import gridMeta from "@/content/grid"
+import halftoneMeta from "@/content/halftone"
+import invitationMeta from "@/content/invitation"
 import lineChartMeta from "@/content/line-chart"
 import marqueeMeta from "@/content/marquee"
 import measureMeta from "@/content/measure"
 import melodyMeta from "@/content/melody"
 import modeToggleMeta from "@/content/mode-toggle"
 import numberInputMeta from "@/content/number-input"
+import pageTurnMeta from "@/content/page-turn"
+import passageMeta from "@/content/passage"
 import pieChartMeta from "@/content/pie-chart"
 import radarChartMeta from "@/content/radar-chart"
 import radialChartMeta from "@/content/radial-chart"
 import readingTrailMeta from "@/content/reading-trail"
 import reverbMeta from "@/content/reverb"
+import roomMeta from "@/content/room"
+import scoreMeta from "@/content/score"
 import scrollExpandMeta from "@/content/scroll-expand"
 import segueMeta from "@/content/segue"
 import sourceMeta from "@/content/source"
 import statMeta from "@/content/stat"
 import stepsMeta from "@/content/steps"
+import strataMeta from "@/content/strata"
 import swapyMeta from "@/content/swapy"
 import textRibbonMeta from "@/content/text-ribbon"
 import tilingMeta from "@/content/tiling"
@@ -117,7 +126,7 @@ export const entries = [
   { meta: picksMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: switchMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: sliderMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
-  { meta: fieldMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: fieldMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: selectMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: tabsMeta, hasStates: true, siblings: [], exampleDependencies: ["rows"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/rows.json", npm: ["@radix-ui/react-tabs"] },
   { meta: paginationMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@radix-ui/react-slot"] },
@@ -176,28 +185,37 @@ export const entries = [
   { meta: calligramMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: commandLineMeta, hasStates: true, siblings: ["radio-group","source"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: contourMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
+  { meta: curtainMeta, hasStates: true, siblings: ["dialog"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
   { meta: dataTableMeta, hasStates: true, siblings: ["button","pagination","select","table"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: dropzoneMeta, hasStates: true, siblings: ["attachment"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: figureMeta, hasStates: true, siblings: ["aspect-ratio","meta"], exampleDependencies: ["toggle-group"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/toggle-group.json", npm: [] },
+  { meta: folioMeta, hasStates: true, siblings: [], exampleDependencies: ["button","contour","halftone"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json https://thedirectors.agency/ui/r/contour.json https://thedirectors.agency/ui/r/halftone.json", npm: ["@chenglou/pretext"] },
   { meta: formMeta, hasStates: true, siblings: ["button","field"], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: gatherMeta, hasStates: true, siblings: [], exampleDependencies: ["typography"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/typography.json", npm: ["@chenglou/pretext"] },
   { meta: gridMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: halftoneMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: ["@chenglou/pretext"] },
+  { meta: invitationMeta, hasStates: true, siblings: [], exampleDependencies: ["button","field","sheet"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json https://thedirectors.agency/ui/r/field.json https://thedirectors.agency/ui/r/sheet.json", npm: [] },
   { meta: lineChartMeta, hasStates: true, siblings: ["chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: marqueeMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: measureMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: melodyMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: modeToggleMeta, hasStates: true, siblings: [], exampleDependencies: ["appearance"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/appearance.json", npm: [] },
   { meta: numberInputMeta, hasStates: true, siblings: ["button","field"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: pageTurnMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
+  { meta: passageMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: ["@chenglou/pretext"] },
   { meta: pieChartMeta, hasStates: true, siblings: ["radial-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: radarChartMeta, hasStates: true, siblings: ["grid"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: radialChartMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: readingTrailMeta, hasStates: true, siblings: ["item","scrollbar"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: reverbMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
+  { meta: roomMeta, hasStates: true, siblings: [], exampleDependencies: ["calligram"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/calligram.json", npm: ["@chenglou/pretext"] },
+  { meta: scoreMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
   { meta: scrollExpandMeta, hasStates: true, siblings: ["corners","meta"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: segueMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
   { meta: sourceMeta, hasStates: true, siblings: ["button"], exampleDependencies: [], exampleInstallCommand: "", npm: ["sugar-high"] },
   { meta: statMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: stepsMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
+  { meta: strataMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: swapyMeta, hasStates: true, siblings: ["rows"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: textRibbonMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: tilingMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
