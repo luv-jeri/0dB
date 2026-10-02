@@ -1,0 +1,25 @@
+@layer components {
+  .db-folio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); column-gap: var(--db-space-6); row-gap: var(--db-space-6); align-items: start; container-type: inline-size; }
+  .db-folio-title { grid-column: 2; margin: 0; font-family: var(--db-voice); font-weight: 500; font-size: clamp(var(--db-mf), 6cqi, var(--db-ff)); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); overflow-wrap: anywhere; }
+  .db-folio-lines, .db-folio-line { display: block; }
+  .db-folio-line { overflow: clip; padding-block: 0.1em; margin-block: -0.1em; }
+  .db-folio-line > span { --db-folio-line: 0; display: block; white-space: pre-wrap; translate: 0 105%; transition: translate var(--db-andante) var(--db-exhale); transition-delay: calc(var(--db-folio-line) * var(--db-arpeggio)); }
+  .db-folio-title[data-arrived] .db-folio-line > span { translate: 0 0; }
+  .db-folio-ledger { grid-column: 1; grid-row: 2; display: grid; gap: var(--db-space-5); margin: 0; font-size: var(--db-pp); line-height: var(--db-pp-lh); }
+  .db-folio-ledger dt { color: var(--db-pencil); }
+  .db-folio-ledger dd { margin: var(--db-space-1) 0 0; color: var(--db-ink); font-family: var(--db-expression); font-style: italic; overflow-wrap: anywhere; }
+  .db-folio-ledger :is(dt, dd) { unicode-bidi: plaintext; }
+  .db-folio-plate { grid-column: 2; min-inline-size: 0; }
+  .db-folio-plate > img { display: block; inline-size: 100%; block-size: auto; }
+  .db-folio[data-variant="type"] .db-folio-plate { padding-block: var(--db-space-5); font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: clamp(var(--db-f), 12cqi, var(--db-fff)); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); overflow-wrap: anywhere; }
+  @container (max-width: 36rem) {
+    .db-folio-title, .db-folio-ledger, .db-folio-plate { grid-column: 1 / -1; }
+    .db-folio-ledger { grid-row: auto; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .db-folio-line > span { translate: none; transition: none; }
+  }
+  @media (forced-colors: active) {
+    .db-folio-ledger dt, .db-folio-ledger dd { color: CanvasText; }
+  }
+}

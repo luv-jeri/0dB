@@ -1,0 +1,13 @@
+@layer components {
+  .db-score { appearance: none; border: 0; background: none; padding: var(--db-space-3) 0; min-block-size: 44px; color: var(--db-pencil); font-family: var(--db-voice); font-size: var(--db-p); line-height: var(--db-p-lh); text-align: start; cursor: pointer; text-underline-offset: 0.22em; transition: color var(--db-allegro) var(--db-breath); }
+  .db-score[aria-pressed="true"] { color: var(--db-ink); }
+  .db-score:is(:hover, [data-force~="hover"]):not(:disabled) { color: var(--db-ink); text-decoration: underline; text-decoration-thickness: var(--db-hairline); }
+  .db-score:is(:focus-visible, [data-force~="focus"]) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-1); }
+  .db-score:disabled { cursor: default; color: var(--db-pencil); }
+  @media (forced-colors: active) {
+    .db-score { color: ButtonText; }
+    .db-score:disabled { color: GrayText; }
+    .db-score[aria-pressed="true"] { text-decoration: underline; }
+    .db-score:is(:focus-visible, [data-force~="focus"]) { outline-color: Highlight; }
+  }
+}
