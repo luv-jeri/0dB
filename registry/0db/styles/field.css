@@ -40,6 +40,7 @@
   }
   textarea.db-input:focus,
   .db-field[data-force~="focus"] > textarea.db-input { background-size: 100% var(--db-stroke), 100% var(--lh); }
+  textarea.db-input[data-grow] { min-height: 0; field-sizing: fixed; resize: none; }
   textarea.db-input[aria-invalid="true"] {
     background-image:
       linear-gradient(var(--db-signal), var(--db-signal)),

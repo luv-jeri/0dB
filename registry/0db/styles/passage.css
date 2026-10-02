@@ -1,0 +1,9 @@
+@layer components {
+  /* Healthy habits: one thought, re-set to its new measure. */
+  .db-passage { position: relative; margin: 0; overflow-wrap: anywhere; }
+  .db-passage[data-moving] > .db-passage-text { opacity: 0; }
+  .db-passage-art { position: absolute; inset: 0; pointer-events: none; user-select: none; }
+  .db-passage-lines { position: absolute; inset-block-start: 0; inset-inline: 0; display: block; }
+  .db-passage-lines > span { display: block; white-space: pre; }
+  @media (forced-colors: active) { .db-passage { color: CanvasText; } }
+}

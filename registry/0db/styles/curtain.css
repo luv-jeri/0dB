@@ -1,0 +1,44 @@
+@layer components {
+  /* WOVE: distance is scale and pencil. The destinations take the reading plane. */
+  [data-curtain-plane] { transform-origin: 50% 0; transition: transform var(--db-andante) var(--db-exhale), color var(--db-andante); }
+  [data-curtain-far] { transform: perspective(1000px) rotateX(5deg) translateZ(-100px) scale(0.94); color: var(--db-pencil); }
+  [data-curtain-far], [data-curtain-far] * { --db-ink: var(--db-pencil); --db-graphite: var(--db-pencil); --db-accent: var(--db-pencil); }
+  .db-curtain {
+    position: fixed; inset: 0; inline-size: 100%; block-size: 100dvh; max-inline-size: none; max-block-size: none; margin: 0;
+    padding: var(--db-space-6) var(--db-margin); border: 0; background: transparent; color: var(--db-ink); overflow: auto; overscroll-behavior: contain;
+    opacity: 0; transition: opacity var(--db-andante), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+  }
+  .db-curtain[open] { opacity: 1; }
+  .db-curtain::backdrop { background: var(--db-paper); opacity: 0; transition: opacity var(--db-andante), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete; }
+  .db-curtain[open]::backdrop { opacity: 1; }
+  @starting-style { .db-curtain[open], .db-curtain[open]::backdrop { opacity: 0; } }
+  .db-curtain-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--db-space-5); }
+  .db-curtain-caption { font: inherit; font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-curtain-close { appearance: none; border: 0; background: none; color: var(--db-ink); font: inherit; cursor: pointer; padding: var(--db-space-3) 0; }
+  .db-curtain-links { display: grid; gap: var(--db-space-5); margin-block: var(--db-space-7); }
+  .db-curtain-link {
+    display: grid; grid-template-columns: var(--db-space-7) minmax(0, 1fr); align-items: baseline; column-gap: var(--db-space-4); row-gap: var(--db-space-2);
+    color: var(--db-ink); text-decoration: none; transform-origin: center; opacity: 0;
+    transform: perspective(1000px) translateZ(-90px) rotateX(-5deg) scale(0.96);
+    transition: transform var(--db-andante) var(--db-exhale), opacity var(--db-moderato), color var(--db-allegro);
+  }
+  .db-curtain[open] .db-curtain-link { opacity: 1; transform: none; transition-delay: calc(var(--db-moderato) + var(--db-curtain-order, 0) * var(--db-arpeggio)); }
+  @starting-style { .db-curtain[open] .db-curtain-link { opacity: 0; transform: perspective(1000px) translateZ(-90px) rotateX(-5deg) scale(0.96); } }
+  .db-curtain-number { grid-column: 1; grid-row: 1; direction: ltr; unicode-bidi: isolate; font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-curtain-name { grid-column: 2; font-size: var(--db-ff); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 300; overflow-wrap: anywhere; }
+  .db-curtain-description { grid-column: 2; font-family: var(--db-expression); font-style: italic; font-size: var(--db-p); }
+  .db-curtain-link:is(:hover, [data-force~="hover"]) .db-curtain-name { text-decoration: underline; text-decoration-thickness: var(--db-hairline); text-underline-offset: 0.12em; }
+  .db-curtain-close:focus-visible, .db-curtain-link:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: var(--db-space-2); }
+  @media (max-width: 40rem) {
+    .db-curtain { padding-block-end: calc(var(--db-space-6) + env(safe-area-inset-bottom)); }
+    .db-curtain-name { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); }
+    .db-curtain-link { grid-template-columns: var(--db-space-4) minmax(0, 1fr); }
+    [data-curtain-far] { transform: perspective(1000px) rotateX(2deg) translateZ(-40px) scale(0.98); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-curtain-far], .db-curtain .db-curtain-link { transform: none; }
+    .db-curtain, .db-curtain::backdrop, .db-curtain .db-curtain-link { transition-duration: 120ms; transition-delay: 0ms; }
+    @starting-style { .db-curtain[open] .db-curtain-link { transform: none; } }
+  }
+  @media (forced-colors: active) { .db-curtain { color: CanvasText; } .db-curtain::backdrop { background: Canvas; } .db-curtain-link { color: LinkText; } }
+}

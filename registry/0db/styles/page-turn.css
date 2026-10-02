@@ -1,0 +1,46 @@
+@layer components {
+  /* WOVE: the thought we leave recedes; the next becomes the near, legible plane. */
+  ::view-transition-group(.db-page-turn-enter), ::view-transition-group(.db-page-turn-exit),
+  ::view-transition-group(.db-page-turn-enter-back), ::view-transition-group(.db-page-turn-exit-back),
+  ::view-transition-group(.db-page-turn-share) { animation-duration: var(--db-andante); animation-timing-function: var(--db-exhale); }
+  ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back) {
+    --db-page-turn-angle: 4deg; --db-page-turn-depth: -100px;
+    animation: db-page-turn-recede var(--db-andante) var(--db-exhale) both; mix-blend-mode: normal;
+  }
+  ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back) {
+    --db-page-turn-angle: -4deg; --db-page-turn-depth: -60px;
+    animation: db-page-turn-arrive var(--db-andante) var(--db-exhale) both; mix-blend-mode: normal;
+  }
+  ::view-transition-old(.db-page-turn-exit-back) { --db-page-turn-angle: -4deg; }
+  ::view-transition-new(.db-page-turn-enter-back) { --db-page-turn-angle: 4deg; }
+  ::view-transition-old(.db-page-turn-share) { animation: db-page-turn-fade-out var(--db-andante) both; }
+  ::view-transition-new(.db-page-turn-share) { animation: db-page-turn-fade-in var(--db-andante) both; }
+  @keyframes db-page-turn-recede {
+    from { opacity: 1; transform: perspective(1000px) translateZ(0) rotateX(0); }
+    60% { opacity: 0.5; }
+    to { opacity: 0; transform: perspective(1000px) translateZ(var(--db-page-turn-depth)) rotateX(var(--db-page-turn-angle)) scale(0.94); }
+  }
+  @keyframes db-page-turn-arrive {
+    from { opacity: 0; transform: perspective(1000px) translateZ(var(--db-page-turn-depth)) rotateX(var(--db-page-turn-angle)) scale(0.97); }
+    to { opacity: 1; transform: perspective(1000px) translateZ(0) rotateX(0); }
+  }
+  @keyframes db-page-turn-fade-out { to { opacity: 0; } }
+  @keyframes db-page-turn-fade-in { from { opacity: 0; } }
+  @media (max-width: 40rem) {
+    ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back),
+    ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back) { --db-page-turn-depth: -30px; }
+    ::view-transition-old(.db-page-turn-exit), ::view-transition-new(.db-page-turn-enter-back) { --db-page-turn-angle: 2deg; }
+    ::view-transition-new(.db-page-turn-enter), ::view-transition-old(.db-page-turn-exit-back) { --db-page-turn-angle: -2deg; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(.db-page-turn-enter), ::view-transition-group(.db-page-turn-exit),
+    ::view-transition-group(.db-page-turn-enter-back), ::view-transition-group(.db-page-turn-exit-back),
+    ::view-transition-group(.db-page-turn-share) { animation: none; }
+    ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back), ::view-transition-old(.db-page-turn-share) { animation: db-page-turn-fade-out 120ms both; }
+    ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back), ::view-transition-new(.db-page-turn-share) { animation: db-page-turn-fade-in 120ms both; }
+  }
+  @media (forced-colors: active) {
+    ::view-transition-old(.db-page-turn-exit), ::view-transition-old(.db-page-turn-exit-back) { animation-name: db-page-turn-fade-out; }
+    ::view-transition-new(.db-page-turn-enter), ::view-transition-new(.db-page-turn-enter-back) { animation-name: db-page-turn-fade-in; }
+  }
+}

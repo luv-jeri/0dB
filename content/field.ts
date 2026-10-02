@@ -8,6 +8,8 @@ export default defineComponent({
   summary: "No box, only a baseline. Your words arrive in italic, focus draws the accent from where you touched, and an error hangs from the line as a callout. Or your words are overprinted on a heavy label, or signed on a form's line.",
   underneath: "native",
   props: [
+    { name: "Textarea grow", type: "boolean", default: "false", description: "Make room for your thought. Pretext counts the value's lines at the content width; the native value and caret stay untouched and the ruled leading stays fixed." },
+    { name: "Textarea minRows / maxRows", type: "number", default: "4 / unbounded", description: "Bounds for grow. Past maxRows the text scrolls with its baselines. Empty lines, controlled changes, resizing, typeface changes and form reset remeasure." },
     { name: "variant", type: '"line" | "overprint" | "signature"', default: '"line"', description: "How the label and your words share the line. line: a small label over a baseline. overprint: the label is set as a heavy condensed word and your italic is printed over it, knocked out of it by a paper outline, as in \"It has to be design.\"; arriving, the word draws in its width and your words take the accent. signature: a cross marks where to write and the label is a caption under the line, as on a printed form; arriving, the + turns to the × of \"sign here\" and inks, and once you've written it steps back to pencil." },
     { name: "label", type: "ReactNode", description: "Small sans label, wired to the control with htmlFor." },
     { name: "hint", type: "ReactNode", description: "A quiet line under the baseline. Linked with aria-describedby." },
