@@ -8,7 +8,8 @@ import { cn } from "@/registry/0db/lib/utils"
 /** The attributes on <html> that can change the face. Not class: smooth scrolling toggles one on every scroll. */
 const FACE = ["data-pair", "data-scheme", "data-mode", "data-key"]
 
-type Shape = "circle" | "fermata" | "wave"
+type Shape = "circle" | "fermata" | "wave" | "square" | "arch" | "ring" | "diamond" | "open"
+type Chord = (y: number) => number | [number, number][]
 type Variant = "fill" | "rain" | "mirror"
 
 type CalligramProps = Omit<React.ComponentProps<"p">, "children"> & {
@@ -16,6 +17,10 @@ type CalligramProps = Omit<React.ComponentProps<"p">, "children"> & {
   children: string
   /** circle is the 0 of 0dB, fermata an arc over a dot, wave a sound wave. For fill only. */
   shape?: Shape
+  /** A centred width fraction, or [start, end] runs, all in 0..1. Overrides shape. */
+  chord?: Chord
+  /** Names a word-made image; its repeated words are hidden from readers. */
+  label?: string
   /** fill: the paragraph fills the shape. rain: it falls in streaks of letters, as in Apollinaire's "Il pleut".
    *  mirror: it runs round the four sides of a frame and spirals in, around `centre`, as in his "Cœur couronne et miroir". */
   variant?: Variant
@@ -30,7 +35,7 @@ type CalligramProps = Omit<React.ComponentProps<"p">, "children"> & {
 type Side = { text: string; spacing: number; x: number; y: number; a: number; len: number }
 type Streak = { letters: string[]; x: number; y: number }
 type Laid = {
-  lines: { text: string; spacing: number; tracking: number; t: number }[]
+  lines: { text: string; spacing: number; tracking: number; t: number; x: number; y: number; width: number }[]
   size: number
   lh: number
   top: number
@@ -75,7 +80,7 @@ function streaks(words: string[], most: number) {
  * the size of the type is found so the last word lands in the last row. Pointing shows nothing new.
  * Until the fonts and the layout are ready it is a plain paragraph.
  */
-function Calligram({ children: text, shape = "circle", variant = "fill", centre, size, fade = false, className, style, ref: forwardedRef, ...props }: CalligramProps) {
+function Calligram({ children: text, shape = "circle", chord: customChord, label, variant = "fill", centre, size, fade = false, className, style, ref: forwardedRef, ...props }: CalligramProps) {
   const ref = React.useRef<HTMLParagraphElement>(null)
   const composedRef = useComposedRefs(ref, forwardedRef)
   const middle = React.useRef<HTMLSpanElement>(null)
@@ -84,7 +89,7 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
   React.useEffect(() => {
     const el = ref.current
     if (!el) return
-    let cancelled = false
+    let cancelled = false, revision = 0
     const off: (() => void)[] = []
 
     ;(async () => {
@@ -96,49 +101,72 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
       }
       let face = "", prepared: ReturnType<typeof lib.prepareWithSegments> | undefined, longest = 0
 
-      // The room a row has: the shape's chord across it, from its top edge y0 to its bottom edge y1.
-      function chord(D: number, i: number, y0: number, y1: number) {
-        if (shape === "wave") return D * (1 - (1 - WAVE.low) * (1 + Math.cos((2 * Math.PI * i) / WAVE.rows)) / 2)
-        const r = D / 2
-        const far = shape === "fermata" ? r - y0 : Math.max(Math.abs(y0 - r), Math.abs(y1 - r)) // from the centre, or the base
-        return far >= r ? 0 : 2 * Math.sqrt(r * r - far * far)
+      // Runs are fractions of the diameter. A hollow shape has two runs on the same row.
+      function runs(y: number, i: number): [number, number][] {
+        const circle = Math.sqrt(Math.max(0, 1 - (2 * y - 1) ** 2))
+        let value: ReturnType<Chord>
+        if (customChord) value = customChord(y)
+        else if (shape === "square") value = 1
+        else if (shape === "diamond") value = 1 - Math.abs(2 * y - 1)
+        else if (shape === "arch") value = y < 0.5 ? Math.sqrt(Math.max(0, 1 - (2 * y - 1) ** 2)) : 1
+        else if (shape === "ring" || shape === "open") {
+          const inner = Math.sqrt(Math.max(0, 0.52 ** 2 - (2 * y - 1) ** 2))
+          value = inner ? [[(1 - circle) / 2, (1 - inner) / 2], [(1 + inner) / 2, (1 + circle) / 2]] : [[(1 - circle) / 2, (1 + circle) / 2]]
+          if (shape === "open" && Math.abs(y - 0.5) < 0.19) value = value.slice(0, 1)
+        } else if (shape === "wave") value = 1 - (1 - WAVE.low) * (1 + Math.cos((2 * Math.PI * i) / WAVE.rows)) / 2
+        else if (shape === "fermata") value = Math.sqrt(Math.max(0, 1 - (1 - y) ** 2))
+        else value = circle
+        const raw: [number, number][] = typeof value === "number" ? [[(1 - value) / 2, (1 + value) / 2]] : value
+        // Clamp, order and merge overlaps so a custom chord cannot duplicate a run.
+        const out: [number, number][] = []
+        for (const [a, b] of raw.filter(([a, b]) => Number.isFinite(a) && Number.isFinite(b)).sort((a, b) => a[0] - b[0])) {
+          const start = Math.max(0, a), end = Math.min(1, b)
+          if (end <= start) continue
+          const last = out[out.length - 1]
+          if (last && start <= last[1]) last[1] = Math.max(last[1], end)
+          else out.push([start, end])
+        }
+        return out
       }
 
-      // Set the text at size s in a shape D wide; null if it doesn't all fit and `force` is off.
-      function set(s: number, D: number, ratio: number, force: boolean): Laid | null {
+      function set(s: number, D: number, ratio: number, overflow: boolean): Laid | null {
         const p = prepared!, k = s / REF, lh = ratio * s
-        const H = shape === "circle" ? D : D / 2
-        const rows = shape === "wave" ? 1e4 : Math.floor(H / lh)
-        const y0 = shape === "wave" ? 0 : (H - rows * lh) / 2
+        const wave = !customChord && shape === "wave"
+        const H = !customChord && shape === "fermata" ? D / 2 : D
+        const rows = wave ? 10000 : Math.max(1, Math.floor(H / lh))
+        const offset = wave ? 0 : (H - rows * lh) / 2
         const lines: Laid["lines"] = []
-        let cursor = { segmentIndex: 0, graphemeIndex: 0 }, first = -1, done = false, i = 0
-        for (; !done && (i < rows || force); i++) {
-          const w = chord(D, Math.min(i, rows - 1), y0 + i * lh, y0 + (i + 1) * lh)
-          if (w < longest * k * 1.02) { if (first < 0 || i >= rows) continue; break } // too narrow for the longest word: leave the row
-          const want = w * 0.985
-          // Greedy fit, unless one more word fits by squeezing the gaps a little: the closer, the better.
-          let line = lib.layoutNextLine(p, cursor, want / k)
-          if (!line) { done = true; break }
-          if (first < 0) first = i
-          const more = lib.layoutNextLine(p, cursor, (want * 1.06) / k)
-          if (more && more.end.segmentIndex > line.end.segmentIndex) {
-            const g = more.text.trimEnd().split(" ").length - 1
-            if (g && (more.width * k - want) / g <= s * 0.06) line = more
+        let cursor = { segmentIndex: 0, graphemeIndex: 0 }, used = 0
+        const rtl = getComputedStyle(el!).direction === "rtl"
+        for (let i = 0; i < rows; i++) {
+          const intervals = runs((i + 0.5) / rows, i)
+          for (const [a, b] of intervals) {
+            const w = (b - a) * D, want = w * 0.98
+            if (want < longest * k) continue
+            const line = lib.layoutNextLine(p, cursor, want / k)
+            if (!line) return { lines, size: s, lh, top: 0, height: wave ? used * lh : H }
+            const words = line.text.trimEnd(), gaps = words.split(" ").length - 1
+            const last = !lib.layoutNextLine(p, line.end, 1e5)
+            const slack = last ? 0 : Math.max(0, want - line.width * k)
+            const spacing = gaps ? Math.min(slack / gaps, s * 0.3) : 0
+            const tracking = Math.min((slack - spacing * gaps) / Math.max(1, words.length), s * 0.03)
+            lines.push({ text: words, spacing, tracking, t: 1 - w / D, x: (rtl ? 1 - b : a) * D, y: offset + i * lh, width: w })
+            cursor = line.end
+            used = i + 1
           }
-          const words = line.text.trimEnd()
-          const gaps = words.split(" ").length - 1
-          // Spread the line to its chord, mostly in the gaps and a little in the letters; the last line stays as it is.
-          const last = !lib.layoutNextLine(p, line.end, 1e5)
-          const slack = last ? 0 : want - line.width * k
-          const spacing = gaps ? Math.max(-s * 0.06, Math.min(slack / gaps, s * 0.3)) : 0
-          const rest = slack - spacing * gaps
-          const tracking = rest > 0 ? Math.min(rest / words.length, s * 0.03) : 0
-          lines.push({ text: words, spacing, tracking, t: 1 - w / D })
-          cursor = line.end
         }
-        if (!done && lib.layoutNextLine(p, cursor, 1e5)) return null
-        const top = shape === "wave" ? 0 : y0 + first * lh
-        return { lines, size: s, lh, top, height: shape === "wave" ? lines.length * lh : H }
+        if (lib.layoutNextLine(p, cursor, 1e5)) {
+          if (!overflow) return null
+          // An overfull paragraph remains complete below the figure. Empty chords never loop forever.
+          for (let i = rows; i < rows + text.length; i++) {
+            const line = lib.layoutNextLine(p, cursor, D / k)
+            if (!line) break
+            lines.push({ text: line.text.trimEnd(), spacing: 0, tracking: 0, t: 0, x: 0, y: i * lh, width: D })
+            cursor = line.end
+            used = i + 1
+          }
+        }
+        return { lines, size: s, lh, top: 0, height: Math.max(wave ? 0 : H, used * lh) }
       }
 
       // Rain: streaks a pitch apart, each letter a drop below the last and leaning a little, each starting a little late.
@@ -198,6 +226,7 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
       }
 
       async function lay() {
+        const version = ++revision
         if (cancelled || !el!.isConnected) return
         const style = getComputedStyle(el!)
         const base = parseFloat(style.fontSize)
@@ -206,12 +235,12 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
           return
         }
         if (variant === "mirror" && middle.current) await document.fonts.load(`italic 400 ${REF}px ${getComputedStyle(middle.current).fontFamily}`, centre)
-        if (cancelled || !el!.isConnected) return
+        if (cancelled || version !== revision || !el!.isConnected) return
         const next = `${style.fontStyle} ${style.fontWeight} ${REF}px ${style.fontFamily}`
         if (next !== face || !prepared) {
+          await document.fonts.load(next, text)
+          if (cancelled || version !== revision || !el!.isConnected) return
           face = next
-          await document.fonts.load(face, text)
-          if (cancelled || !el!.isConnected) return
           prepared = lib.prepareWithSegments(text, face)
           longest = Math.max(...prepared.widths)
         }
@@ -219,10 +248,10 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
         const D = el!.clientWidth
         let result: Laid | null
         if (variant === "mirror") result = mirror(D, base, ratio)
-        else if (shape === "wave") result = set(base, D, ratio, true)
+        else if (shape === "wave" && !customChord) result = set(base, D, ratio, true)
         else {
           // The largest type that still holds all the words: a search, since widths only shrink with size.
-          let lo = 7, hi = base * 2
+          let lo = label ? 1 : 7, hi = base * 2
           result = null
           for (let n = 0; n < 12; n++) {
             const mid = (lo + hi) / 2
@@ -236,26 +265,27 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
 
       await lay()
       if (cancelled) return
+      const again = () => { lay().catch(() => { if (!cancelled) setLaid(null) }) }
       let width = el.clientWidth
       const resized = new ResizeObserver(() => {
-        if (el.clientWidth !== width) { width = el.clientWidth; lay() }
+        if (el.clientWidth !== width) { width = el.clientWidth; again() }
       })
       resized.observe(el)
       // A change of pair or scheme on <html> can change the face: lay out again.
-      const restyled = new MutationObserver(() => lay())
+      const restyled = new MutationObserver(again)
       restyled.observe(document.documentElement, { attributeFilter: FACE })
       off.push(() => { resized.disconnect(); restyled.disconnect() })
-    })()
+    })().catch(() => { if (!cancelled) setLaid(null) })
 
     return () => {
       cancelled = true
       off.forEach((f) => f())
     }
-  }, [text, shape, variant, centre])
+  }, [text, shape, customChord, label, variant, centre])
 
   return (
-    <p ref={composedRef} data-slot="calligram" data-shape={variant === "fill" ? shape : undefined} data-variant={variant === "fill" ? undefined : variant} data-fade={fade || undefined} className={cn("db-calligram", className)} style={{ ...(size ? { "--size": size } : null), ...style } as React.CSSProperties} {...props}>
-      <span className="db-sr">{text}</span>
+    <p ref={composedRef} data-slot="calligram" role={label ? "img" : undefined} aria-label={label} data-shape={variant === "fill" ? (customChord ? "custom" : shape) : undefined} data-variant={variant === "fill" ? undefined : variant} data-fade={fade || undefined} className={cn("db-calligram", className)} style={{ ...(size ? { "--size": size } : null), ...style } as React.CSSProperties} {...props}>
+      <span className="db-sr" aria-hidden={label ? true : undefined}>{text}</span>
       <span
         aria-hidden="true"
         className="db-calligram-lines"
@@ -277,17 +307,17 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
                   <span key={i} className="db-calligram-side" style={{ "--x": `${side.x}px`, "--a": `${side.a}deg`, "--t": i / laid.sides!.length, top: side.y, width: side.len, wordSpacing: side.spacing } as React.CSSProperties}>{side.text}</span>
                 ))
               : laid.lines.map((line, i) => (
-                  <span key={i} style={{ "--t": line.t, wordSpacing: line.spacing, letterSpacing: line.tracking } as React.CSSProperties}>{line.text}</span>
+                  <span key={i} style={{ position: "absolute", left: line.x, top: line.y, width: line.width, "--t": line.t, wordSpacing: line.spacing, letterSpacing: line.tracking } as React.CSSProperties}>{line.text}</span>
                 ))}
       </span>
       {variant === "mirror" && centre ? (
-        <span ref={middle} className="db-calligram-centre" style={laid?.centre ? { fontSize: laid.centre } : undefined}>
+        <span ref={middle} aria-hidden={label ? true : undefined} className="db-calligram-centre" style={laid?.centre ? { fontSize: laid.centre } : undefined}>
           {centre}
         </span>
       ) : null}
-      {variant === "fill" && shape === "fermata" ? <span aria-hidden="true" className="db-calligram-dot" /> : null}
+      {variant === "fill" && !customChord && shape === "fermata" ? <span aria-hidden="true" className="db-calligram-dot" /> : null}
     </p>
   )
 }
 
-export { Calligram, type CalligramProps }
+export { Calligram, type CalligramProps, type Chord }

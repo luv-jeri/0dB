@@ -1,0 +1,17 @@
+@layer components {
+  /* Healthy habits' narrow text makes room for a thought. The selectable original stays in reading order. */
+  .db-room { position: relative; min-inline-size: 0; font-family: var(--db-voice); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
+  .db-room-plain { margin: 0; }
+  .db-room-shape { inline-size: max-content; max-inline-size: 35%; margin-block-end: var(--db-space-5); }
+  .db-room[data-side="centre"] > .db-room-shape { margin-inline: auto; }
+  .db-room[data-side="end"] > .db-room-shape { margin-inline-start: auto; }
+  .db-room[data-stacked] > .db-room-shape { max-inline-size: 100%; }
+  .db-room[data-laid] > .db-room-shape { position: absolute; inset: 0 auto auto 0; margin: 0; }
+  .db-room[data-laid] > .db-room-plain { color: transparent; }
+  .db-room-lines { position: absolute; inset: 0; pointer-events: none; user-select: none; }
+  .db-room-lines > span { position: absolute; inset: 0 auto auto 0; white-space: pre; }
+  @media (forced-colors: active) {
+    .db-room { color: CanvasText; }
+    .db-room[data-laid] > .db-room-plain { forced-color-adjust: none; color: transparent; }
+  }
+}
