@@ -95,7 +95,7 @@ const sheets: Record<string, string> = {
   "/docs/gather": "/ui/site-styles/05eb4e951a58.css",
   "/docs/grid": "/ui/site-styles/8acf7eecef5b.css",
   "/docs/halftone": "/ui/site-styles/29cbbc07c665.css",
-  "/docs/invitation": "/ui/site-styles/03916c7ee9d4.css",
+  "/docs/invitation": "/ui/site-styles/35dad53f42dc.css",
   "/docs/line-chart": "/ui/site-styles/41582268a77b.css",
   "/docs/marquee": "/ui/site-styles/1749267d0878.css",
   "/docs/measure": "/ui/site-styles/f138d011db54.css",

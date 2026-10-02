@@ -1,9 +1,10 @@
 @layer components {
-  /* "Watch this space": one line in the margin, opening a conversation. */
+  /* "Watch this space": one line in the margin, opening a conversation. It sits on paper, so the page
+     scrolling beneath never shows through its words. */
   .db-invitation {
-    position: fixed; z-index: 20; inset-inline-end: var(--db-margin); inset-block-end: var(--db-space-5);
+    position: fixed; z-index: 20; inset-inline-end: calc(var(--db-margin) - var(--db-space-3)); inset-block-end: var(--db-space-5);
     display: grid; justify-items: start; gap: var(--db-space-1); max-inline-size: calc(100% - 2 * var(--db-margin));
-    appearance: none; border: 0; padding: var(--db-space-3) 0; background: none; color: var(--db-ink); cursor: pointer;
+    appearance: none; border: 0; padding: var(--db-space-3); background: var(--db-paper); color: var(--db-ink); cursor: pointer;
     font: inherit; font-size: var(--db-p); text-align: start;
     transition: translate var(--db-moderato) var(--db-exhale), opacity var(--db-moderato), visibility var(--db-moderato);
   }
