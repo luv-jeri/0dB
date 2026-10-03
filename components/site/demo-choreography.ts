@@ -56,6 +56,21 @@ export function compose(root: HTMLElement, item: string, c: Conductor): Lane[] {
     }
     return [...groups.values()]
   }
+  if (script === "proof") return all(root, "[data-slot=text-diff]").map((el) => {
+    const buttons = all<HTMLButtonElement>(el, "[data-slot=text-diff-views] > button")
+    const initial = buttons.find((button) => button.getAttribute("aria-pressed") === "true")
+    return { steps: buttons.slice(1).map(click), restore: initial ? click(initial) : undefined }
+  })
+  if (script === "find") return all<HTMLInputElement>(root, "[data-slot=text-search-input]").map((el) => {
+    const initial = el.value
+    return { steps: [() => write(el, "space"), () => write(el, "word")], restore: () => write(el, initial) }
+  })
+  if (script === "interval") return all<HTMLInputElement>(root, "[data-slot=time-range-end]").map((el) => {
+    const initial = el.value
+    const minutes = Number(initial.slice(0, 2)) * 60 + Number(initial.slice(3)) + 15
+    const next = `${String(Math.floor(minutes / 60) % 24).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`
+    return { steps: [() => write(el, next)], restore: () => write(el, initial) }
+  })
   if (script === "text") return all<HTMLInputElement | HTMLTextAreaElement>(root, 'input:not([type=hidden]):not([type=file]):not([type=checkbox]):not([type=radio]):not([type=range]):not([type=number]), textarea:not([readonly])').filter((el) => el.getAttribute("aria-invalid") !== "true").map((el, i) => {
     const initial = el.value, words = textFor(el, item, i).slice(0, el.maxLength > 0 ? el.maxLength : undefined)
     return { steps: [async () => {

@@ -1,12 +1,13 @@
-import { registryURL } from "./config.mjs"
+import { registryURL, siteURL } from "./config.mjs"
 import { readFileSync } from "node:fs"
 import { rewriteImports } from "@/scripts/lib/items.mjs"
 
 /** Consumer examples carry literal registry addresses, without the site's config import. */
 export function consumerExampleSource(source: string): string {
   return rewriteImports(source)
-    .replace(/^import \{ registryURL \} from "@\/lib\/site\/config.mjs"\n/m, "")
+    .replace(/^import \{ (?:registryURL|sitePath|siteURL)(?:, (?:registryURL|sitePath|siteURL))* \} from "@\/lib\/site\/config.mjs"\n/m, "")
     .replace(/\$\{registryURL\("([^"]+)"\)\}/g, (_match, name: string) => registryURL(name))
+    .replace(/\b(?:sitePath|siteURL)\("([^"]*)"\)/g, (_match, pathname: string) => JSON.stringify(siteURL(pathname)))
 }
 
 /** The example as a consumer would write it: imports as installed, without the docs-only States. */

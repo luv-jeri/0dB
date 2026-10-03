@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "masked-value",
+  "title": "Masked value",
+  "description": "A private reading between oversized parentheses. Reveal opens the aperture and unfolds your words; Hide removes them immediately.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/masked-value.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype MaskedValueProps = Omit<React.ComponentProps<\"span\">, \"children\"> & {\n  label: string\n  value: string\n  revealed?: boolean\n  defaultRevealed?: boolean\n  onRevealedChange?: (revealed: boolean) => void\n  mask?: string\n  revealLabel?: string\n  hideLabel?: string\n  buttonProps?: Omit<React.ComponentProps<\"button\">, \"children\" | \"type\" | \"aria-expanded\" | \"aria-controls\">\n}\n\n/** Screen privacy: closed, the reading isn't rendered. This is not storage or access control. */\nfunction MaskedValue({ label, value, revealed: controlled, defaultRevealed = false, onRevealedChange, mask = \"Not shown\", revealLabel = \"Reveal\", hideLabel = \"Hide\", buttonProps, className, id, ...props }: MaskedValueProps) {\n  const generated = React.useId()\n  const valueId = `${id ?? generated}-value`\n  const [open, setOpen] = React.useState(defaultRevealed)\n  const revealed = controlled ?? open\n  const [previous, setPrevious] = React.useState(revealed)\n  const [acted, setActed] = React.useState(false)\n  if (previous !== revealed) { setPrevious(revealed); setActed(true) }\n  return <span {...props} id={id} data-slot=\"masked-value\" data-revealed={revealed ? \"\" : undefined} data-acted={acted ? \"\" : undefined} className={cn(\"db-masked\", className)}>\n    <span data-slot=\"masked-value-label\" className=\"db-masked-label\">{label}</span>\n    <span data-slot=\"masked-value-reading\" id={valueId} className=\"db-masked-reading\">{revealed ? <bdi className=\"db-yours db-reading\">{value}</bdi> : mask}</span>\n    <button {...buttonProps} type=\"button\" data-slot=\"masked-value-trigger\" className={cn(\"db-masked-trigger\", buttonProps?.className)} aria-expanded={revealed} aria-controls={valueId} aria-label={buttonProps?.[\"aria-label\"] ?? `${revealed ? hideLabel : revealLabel} ${label}`} onClick={(e) => {\n      buttonProps?.onClick?.(e)\n      if (e.defaultPrevented) return\n      if (controlled === undefined) setOpen(!revealed)\n      onRevealedChange?.(!revealed)\n    }}>{revealed ? hideLabel : revealLabel}</button>\n  </span>\n}\n\nexport { MaskedValue, type MaskedValueProps }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/masked-value.css",
+      "content": "@layer components {\n  /* 20(25), enlarged: parentheses open a private reading, with no hidden copy left in the closed setting. */\n  .db-masked { display: inline-grid; inline-size: 100%; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: var(--db-space-4); row-gap: var(--db-space-5); max-inline-size: 100%; overflow-wrap: anywhere; }\n  .db-masked-label { grid-column: 1 / -1; font-size: var(--db-pp); color: var(--db-graphite); }\n  .db-masked-reading { position: relative; grid-column: 1 / -1; padding-inline: 0.65em; min-inline-size: 0; color: var(--db-pencil); font-family: var(--db-voice); font-style: normal; font-weight: 300; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; letter-spacing: -0.035em; min-block-size: 2.6em; display: flex; align-items: center; }\n  .db-masked-reading::before, .db-masked-reading::after { position: absolute; font-family: var(--db-voice); font-style: normal; font-weight: 200; font-size: 1.5em; color: var(--db-pencil); line-height: 1; inset-block-start: 50%; transform: translateY(-50%); transition: transform var(--db-andante) var(--db-spiccato), color var(--db-moderato); }\n  .db-masked-reading::before { content: \"(\" / \"\"; inset-inline-start: 0; }\n  .db-masked-reading::after { content: \")\" / \"\"; inset-inline-end: 0; }\n  .db-masked[data-revealed] .db-masked-reading { color: var(--db-ink); font-family: var(--db-expression); font-style: italic; }\n  .db-masked[data-revealed] .db-masked-reading::before { transform: translateY(-50%) scaleY(1.25) rotate(-5deg); }\n  .db-masked[data-revealed] .db-masked-reading::after { transform: translateY(-50%) scaleY(1.25) rotate(5deg); }\n  .db-masked-reading bdi { font-size: 1em; line-height: 1.2; }\n  .db-masked[data-acted][data-revealed] bdi { animation: db-masked-unfold var(--db-andante) var(--db-exhale); }\n  .db-masked-trigger { grid-column: 2; border: 0; background: none; min-inline-size: 5rem; min-block-size: 44px; padding: var(--db-space-3) 0; font-size: var(--db-pp); cursor: pointer; text-decoration: underline; text-underline-offset: 0.35em; color: var(--db-graphite); text-align: end; }\n  .db-masked-trigger:hover { color: var(--db-ink); }\n  .db-masked-trigger:disabled { color: var(--db-pencil); cursor: default; }\n  @keyframes db-masked-unfold { 0% { clip-path: inset(0 50%); transform: perspective(400px) rotateY(-15deg) skewX(-8deg); letter-spacing: 0.06em; } 60% { clip-path: inset(0); transform: perspective(400px) rotateY(2deg) skewX(1deg); } 100% { clip-path: inset(0); transform: none; letter-spacing: -0.035em; } }\n  @media (prefers-reduced-motion: reduce) { .db-masked-reading::before, .db-masked-reading::after, .db-masked[data-revealed] bdi { transition: none; animation: none; } }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/masked-value.css"
+    }
+  ],
+  "css": {
+    "@import \"../styles/0db/masked-value.css\"": {}
+  },
+  "meta": {
+    "movement": "VI",
+    "underneath": "native",
+    "contract": "db-masked"
+  },
+  "type": "registry:ui"
+}

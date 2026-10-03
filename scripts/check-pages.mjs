@@ -15,13 +15,21 @@ import { chromium } from "playwright"
 const root = path.resolve("out")
 if (!existsSync(root)) { console.error("No out/. Run npm run build first."); process.exit(1) }
 
-const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".woff2": "font/woff2", ".svg": "image/svg+xml", ".txt": "text/plain" }
+const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".woff2": "font/woff2", ".svg": "image/svg+xml", ".txt": "text/plain", ".wav": "audio/wav" }
 const server = createServer((req, res) => {
   let file = path.join(root, siteRoute(decodeURIComponent(new URL(req.url, "http://x").pathname)))
   if (!file.startsWith(root)) { res.writeHead(403).end(); return }
   if (existsSync(file) && statSync(file).isDirectory()) file = path.join(file, "index.html")
   if (!existsSync(file)) { res.writeHead(404, { "content-type": "text/html" }).end(readFileSync(path.join(root, "404.html"))); return }
-  res.writeHead(200, { "content-type": types[path.extname(file)] ?? "application/octet-stream" }).end(readFileSync(file))
+  const body = readFileSync(file)
+  const headers = { "content-type": types[path.extname(file)] ?? "application/octet-stream", "accept-ranges": "bytes" }
+  const range = req.headers.range?.match(/^bytes=(\d*)-(\d*)$/)
+  if (range && (range[1] || range[2])) {
+    const start = range[1] ? Number(range[1]) : Math.max(0, body.length - Number(range[2]))
+    const end = range[1] && range[2] ? Math.min(body.length - 1, Number(range[2])) : body.length - 1
+    if (start >= body.length || start > end) { res.writeHead(416, { "content-range": `bytes */${body.length}` }).end(); return }
+    res.writeHead(206, { ...headers, "content-length": end - start + 1, "content-range": `bytes ${start}-${end}/${body.length}` }).end(body.subarray(start, end + 1))
+  } else res.writeHead(200, { ...headers, "content-length": body.length }).end(body)
 }).listen(0)
 const base = `http://localhost:${server.address().port}`
 

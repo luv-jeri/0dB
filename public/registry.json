@@ -65,6 +65,11 @@
           "target": "lib/0db/use-form-presentation.ts"
         },
         {
+          "path": "registry/0db/lib/use-form-reset.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-form-reset.ts"
+        },
+        {
           "path": "registry/0db/styles/tokens.css",
           "type": "registry:file",
           "target": "styles/0db/tokens.css"
@@ -2156,6 +2161,34 @@
       }
     },
     {
+      "name": "allocation",
+      "type": "registry:ui",
+      "title": "Allocation",
+      "description": "An allowance held in balance: a large remainder answers independent numbered dimensions, with no silent redistribution.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/allocation.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/allocation.css",
+          "type": "registry:file",
+          "target": "styles/0db/allocation.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/allocation.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-allocation"
+      }
+    },
+    {
       "name": "appearance",
       "type": "registry:ui",
       "title": "Appearance",
@@ -2212,6 +2245,34 @@
         "movement": "X",
         "underneath": "hook",
         "contract": "db-area-chart"
+      }
+    },
+    {
+      "name": "audio-player",
+      "type": "registry:ui",
+      "title": "Audio player",
+      "description": "A monumental media clock above a seekable score. Play lifts the held playhead; the browser supplies every second.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/audio-player.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/audio-player.css",
+          "type": "registry:file",
+          "target": "styles/0db/audio-player.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/audio-player.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-audio"
       }
     },
     {
@@ -2398,6 +2459,34 @@
       }
     },
     {
+      "name": "footnotes",
+      "type": "registry:ui",
+      "title": "Footnotes",
+      "description": "A citation opens its margin: the called number grows into a coordinate while the note answers beside it. Return restores the exact reading place.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/footnotes.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/footnotes.css",
+          "type": "registry:file",
+          "target": "styles/0db/footnotes.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/footnotes.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-footnotes"
+      }
+    },
+    {
       "name": "form",
       "type": "registry:ui",
       "title": "Form",
@@ -2544,6 +2633,34 @@
       }
     },
     {
+      "name": "masked-value",
+      "type": "registry:ui",
+      "title": "Masked value",
+      "description": "A private reading between oversized parentheses. Reveal opens the aperture and unfolds your words; Hide removes them immediately.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/masked-value.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/masked-value.css",
+          "type": "registry:file",
+          "target": "styles/0db/masked-value.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/masked-value.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-masked"
+      }
+    },
+    {
       "name": "measure",
       "type": "registry:ui",
       "title": "Measure",
@@ -2603,6 +2720,34 @@
         "movement": "II",
         "underneath": "hook",
         "contract": "db-melody"
+      }
+    },
+    {
+      "name": "meter",
+      "type": "registry:ui",
+      "title": "Meter",
+      "description": "A bounded reading: your figure in large italic above a dimension line, one accent index locating it between its limits. Space remains space; nothing fills it in.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/meter.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/meter.css",
+          "type": "registry:file",
+          "target": "styles/0db/meter.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/meter.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-meter"
       }
     },
     {
@@ -2869,6 +3014,34 @@
       }
     },
     {
+      "name": "shortcut-recorder",
+      "type": "registry:ui",
+      "title": "Shortcut recorder",
+      "description": "A chord held in typographic tension: the final key stands large, Record cants the setting, and a complete chord releases it into place.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/shortcut-recorder.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/shortcut-recorder.css",
+          "type": "registry:file",
+          "target": "styles/0db/shortcut-recorder.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/shortcut-recorder.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-shortcut"
+      }
+    },
+    {
       "name": "source",
       "type": "registry:ui",
       "title": "Source",
@@ -2988,6 +3161,34 @@
       }
     },
     {
+      "name": "text-diff",
+      "type": "registry:ui",
+      "title": "Text diff",
+      "description": "A living proof sheet: small struck roman gives way to large replacement italic as you turn between three exact readings.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/text-diff.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/text-diff.css",
+          "type": "registry:file",
+          "target": "styles/0db/text-diff.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/text-diff.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-text-diff"
+      }
+    },
+    {
       "name": "text-ribbon",
       "type": "registry:ui",
       "title": "Text ribbon",
@@ -3019,6 +3220,35 @@
       }
     },
     {
+      "name": "text-search",
+      "type": "registry:ui",
+      "title": "Text search",
+      "description": "A large italic query and a travelling margin coordinate locate the chosen occurrence inside its full passage.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/text-search.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/text-search.css",
+          "type": "registry:file",
+          "target": "styles/0db/text-search.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/text-search.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-text-search"
+      }
+    },
+    {
       "name": "tiling",
       "type": "registry:ui",
       "title": "Tiling",
@@ -3044,6 +3274,34 @@
         "movement": "IV",
         "underneath": "native",
         "contract": "db-tiling"
+      }
+    },
+    {
+      "name": "time-range",
+      "type": "registry:ui",
+      "title": "Time range",
+      "description": "A typographic day caliper: two native time readings position and stretch the actual interval across a full day.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/time-range.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/time-range.css",
+          "type": "registry:file",
+          "target": "styles/0db/time-range.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/time-range.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-time-range"
       }
     },
     {
@@ -3103,6 +3361,62 @@
         "movement": "VIII",
         "underneath": "native",
         "contract": "db-tour"
+      }
+    },
+    {
+      "name": "transcript",
+      "type": "registry:ui",
+      "title": "Transcript",
+      "description": "A score for spoken words. The active cue opens in scale and space while its timestamp conducts from the margin.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/transcript.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/transcript.css",
+          "type": "registry:file",
+          "target": "styles/0db/transcript.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/transcript.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-transcript"
+      }
+    },
+    {
+      "name": "transfer-list",
+      "type": "registry:ui",
+      "title": "Transfer list",
+      "description": "Two open margins with oversized counts. Selected words cross their real distance and settle into a new, personal setting.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/transfer-list.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/transfer-list.css",
+          "type": "registry:file",
+          "target": "styles/0db/transfer-list.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/transfer-list.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-transfer"
       }
     },
     {
@@ -3592,6 +3906,11 @@
           "target": "~/docs/0db/components/agent-state.md"
         },
         {
+          "path": "registry/0db/ai/components/allocation.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/allocation.md"
+        },
+        {
           "path": "registry/0db/ai/components/appearance.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/appearance.md"
@@ -3600,6 +3919,11 @@
           "path": "registry/0db/ai/components/area-chart.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/area-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/audio-player.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/audio-player.md"
         },
         {
           "path": "registry/0db/ai/components/calligram.md",
@@ -3632,6 +3956,11 @@
           "target": "~/docs/0db/components/figure.md"
         },
         {
+          "path": "registry/0db/ai/components/footnotes.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/footnotes.md"
+        },
+        {
           "path": "registry/0db/ai/components/form.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/form.md"
@@ -3657,6 +3986,11 @@
           "target": "~/docs/0db/components/marquee.md"
         },
         {
+          "path": "registry/0db/ai/components/masked-value.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/masked-value.md"
+        },
+        {
           "path": "registry/0db/ai/components/measure.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/measure.md"
@@ -3665,6 +3999,11 @@
           "path": "registry/0db/ai/components/melody.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/melody.md"
+        },
+        {
+          "path": "registry/0db/ai/components/meter.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/meter.md"
         },
         {
           "path": "registry/0db/ai/components/mode-toggle.md",
@@ -3712,6 +4051,11 @@
           "target": "~/docs/0db/components/segue.md"
         },
         {
+          "path": "registry/0db/ai/components/shortcut-recorder.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/shortcut-recorder.md"
+        },
+        {
           "path": "registry/0db/ai/components/source.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/source.md"
@@ -3732,14 +4076,29 @@
           "target": "~/docs/0db/components/swapy.md"
         },
         {
+          "path": "registry/0db/ai/components/text-diff.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/text-diff.md"
+        },
+        {
           "path": "registry/0db/ai/components/text-ribbon.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/text-ribbon.md"
         },
         {
+          "path": "registry/0db/ai/components/text-search.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/text-search.md"
+        },
+        {
           "path": "registry/0db/ai/components/tiling.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/tiling.md"
+        },
+        {
+          "path": "registry/0db/ai/components/time-range.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/time-range.md"
         },
         {
           "path": "registry/0db/ai/components/timer.md",
@@ -3750,6 +4109,16 @@
           "path": "registry/0db/ai/components/tour.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/tour.md"
+        },
+        {
+          "path": "registry/0db/ai/components/transcript.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/transcript.md"
+        },
+        {
+          "path": "registry/0db/ai/components/transfer-list.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/transfer-list.md"
         },
         {
           "path": "registry/0db/ai/components/tree.md",

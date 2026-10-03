@@ -1,0 +1,18 @@
+@layer components {
+  /* A score opens around the spoken line; its timestamp is the small conductor in the margin. */
+  .db-transcript { min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-transcript ol { list-style: none; padding: 0; display: grid; }
+  .db-transcript li { position: relative; border-block-start: var(--db-hairline) solid var(--db-rule); }
+  .db-transcript li > :is(button, div) { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: var(--db-space-4); inline-size: 100%; min-block-size: 64px; text-align: start; border: 0; background: none; padding: var(--db-space-4) 0; color: var(--db-pencil); }
+  .db-transcript button { cursor: pointer; }
+  .db-transcript button:hover { color: var(--db-graphite); }
+  .db-transcript time { font-size: var(--db-pp); padding-block-start: 0.4em; line-height: var(--db-p-lh); font-variant-numeric: tabular-nums; }
+  .db-transcript [data-slot="transcript-words"] { display: block; font-size: clamp(1.2rem, 4.5cqi, 1.65rem); font-weight: 300; line-height: 1.4; padding-inline-end: 0; transition: padding-block var(--db-andante) var(--db-exhale), font-size var(--db-andante) var(--db-spiccato), letter-spacing var(--db-andante) var(--db-exhale), color var(--db-moderato); }
+  .db-transcript [data-slot="transcript-speaker"] { display: block; font-family: var(--db-expression); font-style: italic; font-size: var(--db-p); color: var(--db-pencil); margin-block-end: var(--db-space-2); }
+  .db-transcript li[data-current] [data-slot="transcript-words"] { font-size: clamp(1.5rem, 6cqi, 2.4rem); letter-spacing: -0.035em; padding-block: var(--db-space-3); color: var(--db-ink); }
+  .db-transcript li[data-current] time { color: var(--db-accent); }
+  .db-transcript li::before { content: ""; position: absolute; inset-inline-start: 0; inset-block-start: 0; inline-size: 2rem; block-size: 0; border-inline-start: var(--db-hairline) solid var(--db-rule-strong); transition: block-size var(--db-andante) var(--db-spiccato), inline-size var(--db-andante) var(--db-exhale); pointer-events: none; }
+  .db-transcript li[data-current]::before { block-size: var(--db-space-3); inline-size: 3rem; }
+  @media (prefers-reduced-motion: reduce) { .db-transcript li::before, .db-transcript [data-slot="transcript-words"] { transition: none; } }
+  @media (forced-colors: active) { .db-transcript li[data-current] time { color: Highlight; } }
+}

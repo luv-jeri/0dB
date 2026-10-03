@@ -76,21 +76,26 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Activity feed](https://thedirectors.agency/ui/docs/activity-feed/): activity-feed usage and examples
 - [Agent chat](https://thedirectors.agency/ui/docs/agent-chat/): agent-chat usage and examples
 - [Agent state](https://thedirectors.agency/ui/docs/agent-state/): agent-state usage and examples
+- [Allocation](https://thedirectors.agency/ui/docs/allocation/): allocation usage and examples
 - [Appearance](https://thedirectors.agency/ui/docs/appearance/): appearance usage and examples
 - [Area chart](https://thedirectors.agency/ui/docs/area-chart/): area-chart usage and examples
+- [Audio player](https://thedirectors.agency/ui/docs/audio-player/): audio-player usage and examples
 - [Calligram](https://thedirectors.agency/ui/docs/calligram/): calligram usage and examples
 - [Command line](https://thedirectors.agency/ui/docs/command-line/): command-line usage and examples
 - [Contour](https://thedirectors.agency/ui/docs/contour/): contour usage and examples
 - [Data table](https://thedirectors.agency/ui/docs/data-table/): data-table usage and examples
 - [Dropzone](https://thedirectors.agency/ui/docs/dropzone/): dropzone usage and examples
 - [Figure](https://thedirectors.agency/ui/docs/figure/): figure usage and examples
+- [Footnotes](https://thedirectors.agency/ui/docs/footnotes/): footnotes usage and examples
 - [Form](https://thedirectors.agency/ui/docs/form/): form usage and examples
 - [Gather](https://thedirectors.agency/ui/docs/gather/): gather usage and examples
 - [Grid](https://thedirectors.agency/ui/docs/grid/): grid usage and examples
 - [Line chart](https://thedirectors.agency/ui/docs/line-chart/): line-chart usage and examples
 - [Marquee](https://thedirectors.agency/ui/docs/marquee/): marquee usage and examples
+- [Masked value](https://thedirectors.agency/ui/docs/masked-value/): masked-value usage and examples
 - [Measure](https://thedirectors.agency/ui/docs/measure/): measure usage and examples
 - [Melody](https://thedirectors.agency/ui/docs/melody/): melody usage and examples
+- [Meter](https://thedirectors.agency/ui/docs/meter/): meter usage and examples
 - [Mode toggle](https://thedirectors.agency/ui/docs/mode-toggle/): mode-toggle usage and examples
 - [Number input](https://thedirectors.agency/ui/docs/number-input/): number-input usage and examples
 - [Pie chart](https://thedirectors.agency/ui/docs/pie-chart/): pie-chart usage and examples
@@ -100,14 +105,20 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Reverb](https://thedirectors.agency/ui/docs/reverb/): reverb usage and examples
 - [Scroll expand](https://thedirectors.agency/ui/docs/scroll-expand/): scroll-expand usage and examples
 - [Segue](https://thedirectors.agency/ui/docs/segue/): segue usage and examples
+- [Shortcut recorder](https://thedirectors.agency/ui/docs/shortcut-recorder/): shortcut-recorder usage and examples
 - [Source](https://thedirectors.agency/ui/docs/source/): source usage and examples
 - [Stat](https://thedirectors.agency/ui/docs/stat/): stat usage and examples
 - [Steps](https://thedirectors.agency/ui/docs/steps/): steps usage and examples
 - [Swapy](https://thedirectors.agency/ui/docs/swapy/): swapy usage and examples
+- [Text diff](https://thedirectors.agency/ui/docs/text-diff/): text-diff usage and examples
 - [Text ribbon](https://thedirectors.agency/ui/docs/text-ribbon/): text-ribbon usage and examples
+- [Text search](https://thedirectors.agency/ui/docs/text-search/): text-search usage and examples
 - [Tiling](https://thedirectors.agency/ui/docs/tiling/): tiling usage and examples
+- [Time range](https://thedirectors.agency/ui/docs/time-range/): time-range usage and examples
 - [Timer](https://thedirectors.agency/ui/docs/timer/): timer usage and examples
 - [Tour](https://thedirectors.agency/ui/docs/tour/): tour usage and examples
+- [Transcript](https://thedirectors.agency/ui/docs/transcript/): transcript usage and examples
+- [Transfer list](https://thedirectors.agency/ui/docs/transfer-list/): transfer-list usage and examples
 - [Tree](https://thedirectors.agency/ui/docs/tree/): tree usage and examples
 - [Wake](https://thedirectors.agency/ui/docs/wake/): wake usage and examples
 - [Waterfall](https://thedirectors.agency/ui/docs/waterfall/): waterfall usage and examples
@@ -186,21 +197,26 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/activity-feed.md](https://thedirectors.agency/ui/ai/components/activity-feed.md): Downloadable 0dB instructions or reference
 - [components/agent-chat.md](https://thedirectors.agency/ui/ai/components/agent-chat.md): Downloadable 0dB instructions or reference
 - [components/agent-state.md](https://thedirectors.agency/ui/ai/components/agent-state.md): Downloadable 0dB instructions or reference
+- [components/allocation.md](https://thedirectors.agency/ui/ai/components/allocation.md): Downloadable 0dB instructions or reference
 - [components/appearance.md](https://thedirectors.agency/ui/ai/components/appearance.md): Downloadable 0dB instructions or reference
 - [components/area-chart.md](https://thedirectors.agency/ui/ai/components/area-chart.md): Downloadable 0dB instructions or reference
+- [components/audio-player.md](https://thedirectors.agency/ui/ai/components/audio-player.md): Downloadable 0dB instructions or reference
 - [components/calligram.md](https://thedirectors.agency/ui/ai/components/calligram.md): Downloadable 0dB instructions or reference
 - [components/command-line.md](https://thedirectors.agency/ui/ai/components/command-line.md): Downloadable 0dB instructions or reference
 - [components/contour.md](https://thedirectors.agency/ui/ai/components/contour.md): Downloadable 0dB instructions or reference
 - [components/data-table.md](https://thedirectors.agency/ui/ai/components/data-table.md): Downloadable 0dB instructions or reference
 - [components/dropzone.md](https://thedirectors.agency/ui/ai/components/dropzone.md): Downloadable 0dB instructions or reference
 - [components/figure.md](https://thedirectors.agency/ui/ai/components/figure.md): Downloadable 0dB instructions or reference
+- [components/footnotes.md](https://thedirectors.agency/ui/ai/components/footnotes.md): Downloadable 0dB instructions or reference
 - [components/form.md](https://thedirectors.agency/ui/ai/components/form.md): Downloadable 0dB instructions or reference
 - [components/gather.md](https://thedirectors.agency/ui/ai/components/gather.md): Downloadable 0dB instructions or reference
 - [components/grid.md](https://thedirectors.agency/ui/ai/components/grid.md): Downloadable 0dB instructions or reference
 - [components/line-chart.md](https://thedirectors.agency/ui/ai/components/line-chart.md): Downloadable 0dB instructions or reference
 - [components/marquee.md](https://thedirectors.agency/ui/ai/components/marquee.md): Downloadable 0dB instructions or reference
+- [components/masked-value.md](https://thedirectors.agency/ui/ai/components/masked-value.md): Downloadable 0dB instructions or reference
 - [components/measure.md](https://thedirectors.agency/ui/ai/components/measure.md): Downloadable 0dB instructions or reference
 - [components/melody.md](https://thedirectors.agency/ui/ai/components/melody.md): Downloadable 0dB instructions or reference
+- [components/meter.md](https://thedirectors.agency/ui/ai/components/meter.md): Downloadable 0dB instructions or reference
 - [components/mode-toggle.md](https://thedirectors.agency/ui/ai/components/mode-toggle.md): Downloadable 0dB instructions or reference
 - [components/number-input.md](https://thedirectors.agency/ui/ai/components/number-input.md): Downloadable 0dB instructions or reference
 - [components/pie-chart.md](https://thedirectors.agency/ui/ai/components/pie-chart.md): Downloadable 0dB instructions or reference
@@ -210,14 +226,20 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/reverb.md](https://thedirectors.agency/ui/ai/components/reverb.md): Downloadable 0dB instructions or reference
 - [components/scroll-expand.md](https://thedirectors.agency/ui/ai/components/scroll-expand.md): Downloadable 0dB instructions or reference
 - [components/segue.md](https://thedirectors.agency/ui/ai/components/segue.md): Downloadable 0dB instructions or reference
+- [components/shortcut-recorder.md](https://thedirectors.agency/ui/ai/components/shortcut-recorder.md): Downloadable 0dB instructions or reference
 - [components/source.md](https://thedirectors.agency/ui/ai/components/source.md): Downloadable 0dB instructions or reference
 - [components/stat.md](https://thedirectors.agency/ui/ai/components/stat.md): Downloadable 0dB instructions or reference
 - [components/steps.md](https://thedirectors.agency/ui/ai/components/steps.md): Downloadable 0dB instructions or reference
 - [components/swapy.md](https://thedirectors.agency/ui/ai/components/swapy.md): Downloadable 0dB instructions or reference
+- [components/text-diff.md](https://thedirectors.agency/ui/ai/components/text-diff.md): Downloadable 0dB instructions or reference
 - [components/text-ribbon.md](https://thedirectors.agency/ui/ai/components/text-ribbon.md): Downloadable 0dB instructions or reference
+- [components/text-search.md](https://thedirectors.agency/ui/ai/components/text-search.md): Downloadable 0dB instructions or reference
 - [components/tiling.md](https://thedirectors.agency/ui/ai/components/tiling.md): Downloadable 0dB instructions or reference
+- [components/time-range.md](https://thedirectors.agency/ui/ai/components/time-range.md): Downloadable 0dB instructions or reference
 - [components/timer.md](https://thedirectors.agency/ui/ai/components/timer.md): Downloadable 0dB instructions or reference
 - [components/tour.md](https://thedirectors.agency/ui/ai/components/tour.md): Downloadable 0dB instructions or reference
+- [components/transcript.md](https://thedirectors.agency/ui/ai/components/transcript.md): Downloadable 0dB instructions or reference
+- [components/transfer-list.md](https://thedirectors.agency/ui/ai/components/transfer-list.md): Downloadable 0dB instructions or reference
 - [components/tree.md](https://thedirectors.agency/ui/ai/components/tree.md): Downloadable 0dB instructions or reference
 - [components/wake.md](https://thedirectors.agency/ui/ai/components/wake.md): Downloadable 0dB instructions or reference
 - [components/waterfall.md](https://thedirectors.agency/ui/ai/components/waterfall.md): Downloadable 0dB instructions or reference
@@ -304,21 +326,26 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/activity-feed.md](https://thedirectors.agency/ui/ai/docs/0db/components/activity-feed.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/agent-chat.md](https://thedirectors.agency/ui/ai/docs/0db/components/agent-chat.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/agent-state.md](https://thedirectors.agency/ui/ai/docs/0db/components/agent-state.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/allocation.md](https://thedirectors.agency/ui/ai/docs/0db/components/allocation.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/appearance.md](https://thedirectors.agency/ui/ai/docs/0db/components/appearance.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/area-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/area-chart.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/audio-player.md](https://thedirectors.agency/ui/ai/docs/0db/components/audio-player.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/calligram.md](https://thedirectors.agency/ui/ai/docs/0db/components/calligram.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/command-line.md](https://thedirectors.agency/ui/ai/docs/0db/components/command-line.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/contour.md](https://thedirectors.agency/ui/ai/docs/0db/components/contour.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/data-table.md](https://thedirectors.agency/ui/ai/docs/0db/components/data-table.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/dropzone.md](https://thedirectors.agency/ui/ai/docs/0db/components/dropzone.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/figure.md](https://thedirectors.agency/ui/ai/docs/0db/components/figure.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/footnotes.md](https://thedirectors.agency/ui/ai/docs/0db/components/footnotes.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/form.md](https://thedirectors.agency/ui/ai/docs/0db/components/form.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/gather.md](https://thedirectors.agency/ui/ai/docs/0db/components/gather.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/grid.md](https://thedirectors.agency/ui/ai/docs/0db/components/grid.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/line-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/line-chart.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/marquee.md](https://thedirectors.agency/ui/ai/docs/0db/components/marquee.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/masked-value.md](https://thedirectors.agency/ui/ai/docs/0db/components/masked-value.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/measure.md](https://thedirectors.agency/ui/ai/docs/0db/components/measure.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/melody.md](https://thedirectors.agency/ui/ai/docs/0db/components/melody.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/meter.md](https://thedirectors.agency/ui/ai/docs/0db/components/meter.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/mode-toggle.md](https://thedirectors.agency/ui/ai/docs/0db/components/mode-toggle.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/number-input.md](https://thedirectors.agency/ui/ai/docs/0db/components/number-input.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/pie-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/pie-chart.md): Downloadable 0dB instructions or reference
@@ -328,14 +355,20 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/reverb.md](https://thedirectors.agency/ui/ai/docs/0db/components/reverb.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/scroll-expand.md](https://thedirectors.agency/ui/ai/docs/0db/components/scroll-expand.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/segue.md](https://thedirectors.agency/ui/ai/docs/0db/components/segue.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/shortcut-recorder.md](https://thedirectors.agency/ui/ai/docs/0db/components/shortcut-recorder.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/source.md](https://thedirectors.agency/ui/ai/docs/0db/components/source.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/stat.md](https://thedirectors.agency/ui/ai/docs/0db/components/stat.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/steps.md](https://thedirectors.agency/ui/ai/docs/0db/components/steps.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/swapy.md](https://thedirectors.agency/ui/ai/docs/0db/components/swapy.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/text-diff.md](https://thedirectors.agency/ui/ai/docs/0db/components/text-diff.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/text-ribbon.md](https://thedirectors.agency/ui/ai/docs/0db/components/text-ribbon.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/text-search.md](https://thedirectors.agency/ui/ai/docs/0db/components/text-search.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tiling.md](https://thedirectors.agency/ui/ai/docs/0db/components/tiling.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/time-range.md](https://thedirectors.agency/ui/ai/docs/0db/components/time-range.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/timer.md](https://thedirectors.agency/ui/ai/docs/0db/components/timer.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tour.md](https://thedirectors.agency/ui/ai/docs/0db/components/tour.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/transcript.md](https://thedirectors.agency/ui/ai/docs/0db/components/transcript.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/transfer-list.md](https://thedirectors.agency/ui/ai/docs/0db/components/transfer-list.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tree.md](https://thedirectors.agency/ui/ai/docs/0db/components/tree.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/wake.md](https://thedirectors.agency/ui/ai/docs/0db/components/wake.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/waterfall.md](https://thedirectors.agency/ui/ai/docs/0db/components/waterfall.md): Downloadable 0dB instructions or reference

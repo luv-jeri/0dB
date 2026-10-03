@@ -1,0 +1,28 @@
+@layer components {
+  /* The media clock is a moving score. The title parts around it only while the recording is held. */
+  .db-audio { min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-audio-title { display: block; font-size: var(--db-pp); color: var(--db-graphite); margin-block-end: var(--db-space-5); max-inline-size: 40ch; }
+  .db-audio-face { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--db-space-4); }
+  .db-audio-face > button { grid-column: 2; grid-row: 1; position: relative; background: none; border: 0; min-block-size: 48px; padding: var(--db-space-3) 0; cursor: pointer; font-size: var(--db-p); color: var(--db-ink); min-inline-size: 4rem; text-align: end; }
+  .db-audio-hold { position: absolute; inset-block-start: -0.75rem; inset-inline: 0; block-size: 1rem; border: var(--db-hairline) solid var(--db-pencil); border-block-end: 0; border-radius: 50% 50% 0 0; transform: scaleY(0.15) rotate(-8deg); transform-origin: center bottom; transition: transform var(--db-andante) var(--db-spiccato); }
+  .db-audio[data-playing] .db-audio-hold { transform: scaleY(1) rotate(0deg); border-color: var(--db-rule-strong); }
+  .db-audio-time { grid-column: 1; grid-row: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-3); font-size: clamp(4rem, 20cqi, 8rem); color: var(--db-ink); line-height: 1.1; letter-spacing: -0.065em; font-variant-numeric: tabular-nums; }
+  .db-audio-time > bdi { display: inline-block; transform-origin: left bottom; transition: transform var(--db-andante) var(--db-spiccato), letter-spacing var(--db-andante) var(--db-exhale); }
+  .db-audio[data-playing] .db-audio-time > bdi { transform: skewX(-4deg); letter-spacing: -0.04em; }
+  .db-audio-time small { font-size: var(--db-pp); font-family: var(--db-voice); font-style: normal; color: var(--db-pencil); letter-spacing: 0; white-space: nowrap; }
+  .db-audio-track { position: relative; margin-block-start: var(--db-space-5); block-size: 3.5rem; border-block-start: var(--db-hairline) solid var(--db-rule-strong); }
+  .db-audio-track::before { content: ""; position: absolute; inset-inline-start: 0; inset-block-start: -1px; inline-size: calc(var(--db-audio-progress, 0) * 100%); border-block-start: var(--db-hairline) solid var(--db-ink); }
+  .db-audio-needle { position: absolute; inset-inline-start: calc(var(--db-audio-progress, 0) * 100%); inset-block-start: -0.75rem; block-size: 1.5rem; border-inline-start: var(--db-hairline) solid var(--db-accent); pointer-events: none; transition: block-size var(--db-andante) var(--db-spiccato), inset-block-start var(--db-andante) var(--db-spiccato); }
+  .db-audio[data-playing] .db-audio-needle { block-size: 2.5rem; inset-block-start: -1.25rem; }
+  .db-audio-scale { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--db-pencil); padding-block-start: 1.25rem; pointer-events: none; }
+  .db-audio-seek { position: absolute; inset: -1.3rem 0 0; display: block; appearance: none; background: transparent; inline-size: 100%; block-size: 44px; margin: 0; cursor: pointer; }
+  .db-audio-seek::-webkit-slider-runnable-track { block-size: var(--db-hairline); background: transparent; }
+  .db-audio-seek::-moz-range-track { block-size: var(--db-hairline); background: transparent; }
+  .db-audio-seek::-webkit-slider-thumb { appearance: none; inline-size: 14px; block-size: 28px; border: 0; background: transparent; margin-block-start: -14px; }
+  .db-audio-seek::-moz-range-thumb { inline-size: 14px; block-size: 28px; border: 0; background: transparent; }
+  .db-audio-face > button:disabled, .db-audio-seek:disabled { cursor: default; color: var(--db-pencil); }
+  .db-audio-error { color: var(--db-signal); font-size: var(--db-pp); }
+  @container (max-width: 330px) { .db-audio-time { font-size: 3.8rem; } .db-audio-face { gap: var(--db-space-2); } .db-audio-face > button { min-inline-size: 3rem; } }
+  @media (prefers-reduced-motion: reduce) { .db-audio-hold, .db-audio-time > bdi, .db-audio-needle { transition: none; } }
+  @media (forced-colors: active) { .db-audio-seek { appearance: auto; } .db-audio-needle { border-color: Highlight; } }
+}
