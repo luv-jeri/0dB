@@ -1,0 +1,19 @@
+@layer components {
+  /* 20(25), enlarged: parentheses open a private reading, with no hidden copy left in the closed setting. */
+  .db-masked { display: inline-grid; inline-size: 100%; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: var(--db-space-4); row-gap: var(--db-space-5); max-inline-size: 100%; overflow-wrap: anywhere; }
+  .db-masked-label { grid-column: 1 / -1; font-size: var(--db-pp); color: var(--db-graphite); }
+  .db-masked-reading { position: relative; grid-column: 1 / -1; padding-inline: 0.65em; min-inline-size: 0; color: var(--db-pencil); font-family: var(--db-voice); font-style: normal; font-weight: 300; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; letter-spacing: -0.035em; min-block-size: 2.6em; display: flex; align-items: center; }
+  .db-masked-reading::before, .db-masked-reading::after { position: absolute; font-family: var(--db-voice); font-style: normal; font-weight: 200; font-size: 1.5em; color: var(--db-pencil); line-height: 1; inset-block-start: 50%; transform: translateY(-50%); transition: transform var(--db-andante) var(--db-spiccato), color var(--db-moderato); }
+  .db-masked-reading::before { content: "(" / ""; inset-inline-start: 0; }
+  .db-masked-reading::after { content: ")" / ""; inset-inline-end: 0; }
+  .db-masked[data-revealed] .db-masked-reading { color: var(--db-ink); font-family: var(--db-expression); font-style: italic; }
+  .db-masked[data-revealed] .db-masked-reading::before { transform: translateY(-50%) scaleY(1.25) rotate(-5deg); }
+  .db-masked[data-revealed] .db-masked-reading::after { transform: translateY(-50%) scaleY(1.25) rotate(5deg); }
+  .db-masked-reading bdi { font-size: 1em; line-height: 1.2; }
+  .db-masked[data-acted][data-revealed] bdi { animation: db-masked-unfold var(--db-andante) var(--db-exhale); }
+  .db-masked-trigger { grid-column: 2; border: 0; background: none; min-inline-size: 5rem; min-block-size: 44px; padding: var(--db-space-3) 0; font-size: var(--db-pp); cursor: pointer; text-decoration: underline; text-underline-offset: 0.35em; color: var(--db-graphite); text-align: end; }
+  .db-masked-trigger:hover { color: var(--db-ink); }
+  .db-masked-trigger:disabled { color: var(--db-pencil); cursor: default; }
+  @keyframes db-masked-unfold { 0% { clip-path: inset(0 50%); transform: perspective(400px) rotateY(-15deg) skewX(-8deg); letter-spacing: 0.06em; } 60% { clip-path: inset(0); transform: perspective(400px) rotateY(2deg) skewX(1deg); } 100% { clip-path: inset(0); transform: none; letter-spacing: -0.035em; } }
+  @media (prefers-reduced-motion: reduce) { .db-masked-reading::before, .db-masked-reading::after, .db-masked[data-revealed] bdi { transition: none; animation: none; } }
+}

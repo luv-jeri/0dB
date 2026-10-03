@@ -18,4 +18,6 @@ test("deployment paths, public URLs, fonts and headers share the canonical base"
 test("copied examples inline registry URLs without importing site-only helpers", () => {
   const source = 'import { registryURL } from "@/lib/site/config.mjs"\nconst ADD = `shadcn@latest add ${registryURL("button")}`\n'
   assert.equal(consumerExampleSource(source), `const ADD = \`shadcn@latest add ${registryURL("button")}\`\n`)
+  const media = 'import { sitePath } from "@/lib/site/config.mjs"\nconst src = sitePath("/audio/studio-reading.wav")\n'
+  assert.equal(consumerExampleSource(media), `const src = ${JSON.stringify(siteURL("/audio/studio-reading.wav"))}\n`)
 })

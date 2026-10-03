@@ -1,4 +1,4 @@
-type Script = "check" | "choice" | "switch" | "range" | "number" | "text" | "select" | "tabs" | "toggle" | "accordion" | "details" | "calendar" | "drop" | "chart" | "radial" | "pie" | "radar" | "resize" | "measure" | "action" | "scroll" | "carousel" | "note" | "table" | "wake" | "melody" | "tree" | "swapy" | "tiling" | "relay" | "timer"
+type Script = "check" | "choice" | "switch" | "range" | "number" | "text" | "select" | "tabs" | "toggle" | "accordion" | "details" | "calendar" | "drop" | "chart" | "radial" | "pie" | "radar" | "resize" | "measure" | "action" | "scroll" | "carousel" | "note" | "table" | "wake" | "melody" | "tree" | "swapy" | "tiling" | "relay" | "timer" | "proof" | "interval" | "find"
 type Score = { script: Script; phrase: string } | { script: null; reason: string }
 const play = (script: Script, phrase: string): Score => ({ script, phrase })
 const rest = (reason: string): Score => ({ script: null, reason })
@@ -6,6 +6,16 @@ const rest = (reason: string): Score => ({ script: null, reason })
 /** Deliberate coverage, not a selector that clicks whatever happens to be on the page.
  * The same score serves the docs Example and the landing's fitted variations. */
 export const DEMO_SCORES: Record<string, Score> = {
+  "allocation": rest("Set the real shares deliberately; the balance and independent calipers answer each edit."),
+  "audio-player": rest("Playback makes sound and belongs to the reader's Play action."),
+  "footnotes": rest("Reference navigation moves the reading position; follow a reference deliberately."),
+  "masked-value": rest("Revealing a private reading belongs to the reader."),
+  "shortcut-recorder": rest("Recording needs real keyboard focus and a deliberate chord."),
+  "text-diff": rest("Turn the three proof readings deliberately; your chosen view stays in place."),
+  "text-search": rest("Type a query or advance the actual occurrence; the coordinate follows your reading."),
+  "time-range": rest("Edit either native endpoint deliberately; the day caliper follows your interval."),
+  "transcript": rest("Cue seeking changes the recording and belongs to the reader."),
+  "transfer-list": rest("Moving membership focuses the destination and belongs to the reader."),
   "accordion": play("accordion", "The second answer opens, then the first returns"),
   "activity-feed": play("details", "Open the older entries and put them away"),
   "agent-chat": play("text", "Compose a timetable request without sending it"),
@@ -60,6 +70,7 @@ export const DEMO_SCORES: Record<string, Score> = {
   "melody": play("melody", "Sound a phrase with its own arpeggio, then let it rest"),
   "menubar": rest("Menu activation takes focus; the reader should open it deliberately."),
   "message": play("toggle", "Add and remove a real reaction; leave sending to the reader"),
+  "meter": play("select", "Read two archives and let the index settle at each reading"),
   "meta": rest("Static metadata, without an interaction."),
   "mode-toggle": rest("Would change the reader's saved day/nocturne preference."),
   "navigation-menu": rest("Navigation and its portalled panels belong to the reader."),

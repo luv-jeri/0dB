@@ -1,0 +1,22 @@
+@layer components {
+  /* Rand's construction: the key stands against its modifiers; Record tensions the whole typesetting. */
+  .db-shortcut { border: 0; padding: 0; min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-shortcut > legend { padding: 0; font-size: var(--db-pp); color: var(--db-graphite); }
+  .db-shortcut-chord { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-3); position: relative; border-block-end: var(--db-hairline) solid var(--db-rule-strong); padding-block: var(--db-space-5) var(--db-space-4); min-block-size: 9rem; color: var(--db-ink); }
+  .db-shortcut-chord > kbd { font-family: var(--db-expression); font-size: clamp(1.5rem, 5.5cqi, 2.5rem); font-style: italic; font-weight: 400; line-height: 1; max-inline-size: 100%; transition: transform var(--db-andante) var(--db-spiccato), letter-spacing var(--db-andante) var(--db-exhale); }
+  .db-shortcut-chord > kbd:last-child { font-size: clamp(3rem, 16cqi, 7rem); margin-inline-start: auto; letter-spacing: -0.04em; }
+  .db-shortcut-join { font-size: var(--db-pp); color: var(--db-pencil); transition: transform var(--db-andante) var(--db-spiccato), margin var(--db-andante) var(--db-breath); }
+  .db-shortcut[data-recording] .db-shortcut-join { transform: rotate(90deg); margin-inline: var(--db-space-2); }
+  .db-shortcut[data-recording] .db-shortcut-chord > kbd { transform: translateY(-0.12em) skewX(-7deg); letter-spacing: 0.04em; }
+  .db-shortcut[data-recording] .db-shortcut-chord > kbd:last-child { transform: translateY(-0.1em) skewX(6deg); color: var(--db-accent); }
+  .db-shortcut-chord::after { content: ""; position: absolute; inset-inline: 0; inset-block-end: 0; block-size: 0.75rem; border-inline: var(--db-hairline) solid var(--db-rule-strong); pointer-events: none; transition: block-size var(--db-andante) var(--db-spiccato); }
+  .db-shortcut[data-recording] .db-shortcut-chord::after { block-size: 2rem; }
+  .db-shortcut-empty { font-family: var(--db-voice); font-style: normal; font-size: clamp(2rem, 8cqi, 4rem); color: var(--db-pencil); }
+  .db-shortcut-actions { display: flex; flex-wrap: wrap; gap: var(--db-space-5); }
+  .db-shortcut-actions > button { background: none; border: 0; min-block-size: 44px; padding: var(--db-space-3) 0; cursor: pointer; font-size: var(--db-pp); text-decoration: underline; text-underline-offset: 0.3em; }
+  .db-shortcut-hint { font-size: var(--db-pp); color: var(--db-pencil); max-inline-size: 38ch; margin-block-start: var(--db-space-3); }
+  .db-shortcut:disabled, .db-shortcut:disabled kbd { color: var(--db-pencil); }
+  .db-shortcut:disabled button { cursor: default; }
+  @media (prefers-reduced-motion: reduce) { .db-shortcut-chord > kbd, .db-shortcut-chord::after, .db-shortcut-join { transition: none; } }
+  @media (forced-colors: active) { .db-shortcut[data-recording] .db-shortcut-chord > kbd:last-child { color: Highlight; } }
+}
