@@ -90,6 +90,7 @@ import readingTrailMeta from "@/content/reading-trail"
 import reverbMeta from "@/content/reverb"
 import scrollExpandMeta from "@/content/scroll-expand"
 import segueMeta from "@/content/segue"
+import shortcutRecorderMeta from "@/content/shortcut-recorder"
 import sourceMeta from "@/content/source"
 import statMeta from "@/content/stat"
 import stepsMeta from "@/content/steps"
@@ -195,6 +196,7 @@ export const entries = [
   { meta: reverbMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: scrollExpandMeta, hasStates: true, siblings: ["corners","meta"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: segueMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
+  { meta: shortcutRecorderMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: sourceMeta, hasStates: true, siblings: ["button"], exampleDependencies: [], exampleInstallCommand: "", npm: ["sugar-high"] },
   { meta: statMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: stepsMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },

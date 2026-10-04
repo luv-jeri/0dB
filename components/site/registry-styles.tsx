@@ -105,6 +105,7 @@ const sheets: Record<string, string> = {
   "/docs/reverb": "/ui/site-styles/4794eee4cec0.css",
   "/docs/scroll-expand": "/ui/site-styles/7308beb379b4.css",
   "/docs/segue": "/ui/site-styles/d3141c47c327.css",
+  "/docs/shortcut-recorder": "/ui/site-styles/a3e3f24b77b0.css",
   "/docs/source": "/ui/site-styles/239f1e53d50f.css",
   "/docs/stat": "/ui/site-styles/a2c66ad127f7.css",
   "/docs/steps": "/ui/site-styles/239f1e53d50f.css",

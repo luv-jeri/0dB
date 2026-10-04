@@ -100,6 +100,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Reverb](https://thedirectors.agency/ui/docs/reverb/): reverb usage and examples
 - [Scroll expand](https://thedirectors.agency/ui/docs/scroll-expand/): scroll-expand usage and examples
 - [Segue](https://thedirectors.agency/ui/docs/segue/): segue usage and examples
+- [Shortcut recorder](https://thedirectors.agency/ui/docs/shortcut-recorder/): shortcut-recorder usage and examples
 - [Source](https://thedirectors.agency/ui/docs/source/): source usage and examples
 - [Stat](https://thedirectors.agency/ui/docs/stat/): stat usage and examples
 - [Steps](https://thedirectors.agency/ui/docs/steps/): steps usage and examples
@@ -210,6 +211,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/reverb.md](https://thedirectors.agency/ui/ai/components/reverb.md): Downloadable 0dB instructions or reference
 - [components/scroll-expand.md](https://thedirectors.agency/ui/ai/components/scroll-expand.md): Downloadable 0dB instructions or reference
 - [components/segue.md](https://thedirectors.agency/ui/ai/components/segue.md): Downloadable 0dB instructions or reference
+- [components/shortcut-recorder.md](https://thedirectors.agency/ui/ai/components/shortcut-recorder.md): Downloadable 0dB instructions or reference
 - [components/source.md](https://thedirectors.agency/ui/ai/components/source.md): Downloadable 0dB instructions or reference
 - [components/stat.md](https://thedirectors.agency/ui/ai/components/stat.md): Downloadable 0dB instructions or reference
 - [components/steps.md](https://thedirectors.agency/ui/ai/components/steps.md): Downloadable 0dB instructions or reference
@@ -328,6 +330,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/reverb.md](https://thedirectors.agency/ui/ai/docs/0db/components/reverb.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/scroll-expand.md](https://thedirectors.agency/ui/ai/docs/0db/components/scroll-expand.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/segue.md](https://thedirectors.agency/ui/ai/docs/0db/components/segue.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/shortcut-recorder.md](https://thedirectors.agency/ui/ai/docs/0db/components/shortcut-recorder.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/source.md](https://thedirectors.agency/ui/ai/docs/0db/components/source.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/stat.md](https://thedirectors.agency/ui/ai/docs/0db/components/stat.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/steps.md](https://thedirectors.agency/ui/ai/docs/0db/components/steps.md): Downloadable 0dB instructions or reference

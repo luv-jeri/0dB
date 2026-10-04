@@ -1156,6 +1156,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
+### db-shortcut (shortcut-recorder)
+- Underneath: Native fieldset and legend, a stable Record button, optional Clear and a hidden JSON field. Key names are personal italic readings; plus signs and interface words stay roman. Native root ref, form, disabled and direction pass through; form association reaches the hidden submitted value. An uncontrolled form reset restores the default chord and ends capture.
+- Creative move: The terminal key stands large against its modifiers. Record tensions the joins, cants the keys and raises the construction ticks; commit or cancel releases them. Reference: Paul Rand construction dimensions (11.jpg).
+- Behavior: Distinct from Kbd's passive key legend and Command's action search: this assigns a shortcut. Capture is local to the focused Record button. Tab, Escape and blur end capture without commitment; bare modifiers, repeats, dead keys and composition do not commit. By default require Control, Alt or Meta; Shift alone is not sufficient. Captured chords stop propagation so host shortcuts cannot run; Escape is local to recording, and Clear returns focus to Record. Disabling ends capture. No global listener or shortcut registration. Operating-system reserved combinations can remain unavailable.
+- Motion: chord tension. Record cants modifiers and the large terminal key in opposite directions, rotates the joins and raises the baseline ticks. Capture, Escape, Tab or blur releases the tension directly from the current setting. Reduced motion resolves directly; each action ends at rest. Native focus and hit areas remain stable.
+- Access: native controls retain keyboard and touch activation, focus remains visible, long text wraps in flow, logical spacing follows local direction, reduced motion changes directly and forced colours retain semantic lines and system focus. `[hidden]` keeps its native meaning.
+
 ## The overture (specimen only)
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
@@ -1461,6 +1468,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 | Text ribbon (`text-ribbon`) | WOVE (figures along an arc); the fermata arc | The phrase round an arch, largest at the crest and fading by distance |
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
+| Shortcut recorder (`shortcut-recorder`) | Paul Rand construction dimensions (11.jpg) | The terminal key stands large against its modifiers. Record tensions the joins, cants the keys and raises the construction ticks; commit or cancel releases them. |
 
 ### Shared moves
 A move serves more than one component only when it is the same idea on purpose. It keeps one name wherever it appears, so it reads as a move of the system and not a coincidence. The shared ones:
@@ -1749,6 +1757,7 @@ Three rules, then one articulation per component.
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
+| Shortcut recorder (`shortcut-recorder`) | Chord tension | Record cants modifiers and the large terminal key in opposite directions, rotates the joins and raises the baseline ticks. Capture, Escape, Tab or blur releases the tension directly from the current setting. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 

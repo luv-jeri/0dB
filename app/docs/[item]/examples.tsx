@@ -96,6 +96,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "reverb": { Example: dynamic(() => import("@/examples/reverb")), States: dynamic(() => import("@/examples/reverb").then((m) => m.States)) },
   "scroll-expand": { Example: dynamic(() => import("@/examples/scroll-expand")), States: dynamic(() => import("@/examples/scroll-expand").then((m) => m.States)) },
   "segue": { Example: dynamic(() => import("@/examples/segue")), States: dynamic(() => import("@/examples/segue").then((m) => m.States)) },
+  "shortcut-recorder": { Example: dynamic(() => import("@/examples/shortcut-recorder")), States: dynamic(() => import("@/examples/shortcut-recorder").then((m) => m.States)) },
   "source": { Example: dynamic(() => import("@/examples/source")), States: dynamic(() => import("@/examples/source").then((m) => m.States)) },
   "stat": { Example: dynamic(() => import("@/examples/stat")), States: dynamic(() => import("@/examples/stat").then((m) => m.States)) },
   "steps": { Example: dynamic(() => import("@/examples/steps")), States: dynamic(() => import("@/examples/steps").then((m) => m.States)) },
