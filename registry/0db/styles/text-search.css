@@ -1,0 +1,20 @@
+@layer components {
+  /* Weingart's callout becomes a travelling line coordinate, while the actual passage keeps its setting. */
+  .db-text-search { min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-text-search > .db-input { display: block; inline-size: 100%; font-size: clamp(2.5rem, 11cqi, 5rem); font-family: var(--db-expression); font-style: italic; line-height: 1.2; letter-spacing: -0.04em; margin-block: var(--db-space-2); padding-block: var(--db-space-3); }
+  .db-text-search-tools { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-4); font-size: var(--db-pp); margin-block: var(--db-space-2) var(--db-space-6); }
+  .db-text-search-tools > span { margin-inline-end: auto; color: var(--db-pencil); }
+  .db-text-search-tools > button { border: 0; background: none; min-block-size: 44px; padding: var(--db-space-3) 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.3em; }
+  .db-text-search-tools > button:disabled { color: var(--db-pencil); cursor: default; text-decoration: none; }
+  .db-text-search-reading { position: relative; padding-inline-start: 3.7rem; }
+  .db-text-search-coordinate { position: absolute; inset-inline-start: 0; inset-block-start: 0; font-size: 1.7rem; font-weight: 300; letter-spacing: -0.06em; line-height: 1; color: var(--db-pencil); transform: translateY(var(--db-search-y, 0px)); transition: transform var(--db-andante) var(--db-spiccato); }
+  .db-text-search-coordinate::after { content: ""; display: block; inline-size: 2rem; border-block-start: var(--db-hairline) solid var(--db-rule-strong); margin-block-start: var(--db-space-2); }
+  .db-text-search-passage { white-space: pre-wrap; font-size: clamp(1.2rem, 4.5cqi, 1.65rem); font-weight: 300; line-height: 1.65; max-inline-size: var(--db-measure); }
+  .db-text-search mark { position: relative; background: none; color: inherit; text-decoration: underline; text-decoration-color: var(--db-rule-strong); text-decoration-thickness: var(--db-hairline); text-underline-offset: 0.2em; }
+  .db-text-search mark[data-current] { text-decoration-color: var(--db-accent); text-decoration-thickness: var(--db-stroke); }
+  .db-text-search[data-located] mark[data-current]::before { content: "(" / ""; position: absolute; inset-inline-start: -0.22em; color: var(--db-accent); font-family: var(--db-expression); transform: translateX(-0.18em); animation: db-search-clasp var(--db-andante) var(--db-spiccato) both; }
+  .db-text-search[data-located] mark[data-current]::after { content: ")" / ""; position: absolute; inset-inline-end: -0.22em; color: var(--db-accent); font-family: var(--db-expression); transform: translateX(0.18em); animation: db-search-clasp var(--db-andante) var(--db-spiccato) both; }
+  @keyframes db-search-clasp { from { translate: 0 -0.25em; scale: 1 1.8; opacity: 0; } to { translate: 0 0; scale: 1 1; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .db-text-search-coordinate, .db-text-search mark::before, .db-text-search mark::after { transition: none; animation: none; } }
+  @media (forced-colors: active) { .db-text-search mark { color: CanvasText; background: transparent; } .db-text-search mark[data-current] { outline: var(--db-hairline) solid Highlight; text-decoration-color: Highlight; } }
+}
