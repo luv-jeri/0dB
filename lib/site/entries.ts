@@ -74,6 +74,7 @@ import contourMeta from "@/content/contour"
 import dataTableMeta from "@/content/data-table"
 import dropzoneMeta from "@/content/dropzone"
 import figureMeta from "@/content/figure"
+import footnotesMeta from "@/content/footnotes"
 import formMeta from "@/content/form"
 import gatherMeta from "@/content/gather"
 import gridMeta from "@/content/grid"
@@ -179,6 +180,7 @@ export const entries = [
   { meta: dataTableMeta, hasStates: true, siblings: ["button","pagination","select","table"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: dropzoneMeta, hasStates: true, siblings: ["attachment"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: figureMeta, hasStates: true, siblings: ["aspect-ratio","meta"], exampleDependencies: ["toggle-group"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/toggle-group.json", npm: [] },
+  { meta: footnotesMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: formMeta, hasStates: true, siblings: ["button","field"], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: gatherMeta, hasStates: true, siblings: [], exampleDependencies: ["typography"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/typography.json", npm: ["@chenglou/pretext"] },
   { meta: gridMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },

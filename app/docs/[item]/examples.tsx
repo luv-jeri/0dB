@@ -80,6 +80,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "data-table": { Example: dynamic(() => import("@/examples/data-table")), States: dynamic(() => import("@/examples/data-table").then((m) => m.States)) },
   "dropzone": { Example: dynamic(() => import("@/examples/dropzone")), States: dynamic(() => import("@/examples/dropzone").then((m) => m.States)) },
   "figure": { Example: dynamic(() => import("@/examples/figure")), States: dynamic(() => import("@/examples/figure").then((m) => m.States)) },
+  "footnotes": { Example: dynamic(() => import("@/examples/footnotes")), States: dynamic(() => import("@/examples/footnotes").then((m) => m.States)) },
   "form": { Example: dynamic(() => import("@/examples/form")), States: dynamic(() => import("@/examples/form").then((m) => m.States)) },
   "gather": { Example: dynamic(() => import("@/examples/gather")), States: dynamic(() => import("@/examples/gather").then((m) => m.States)) },
   "grid": { Example: dynamic(() => import("@/examples/grid")), States: dynamic(() => import("@/examples/grid").then((m) => m.States)) },
