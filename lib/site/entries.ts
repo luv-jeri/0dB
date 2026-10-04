@@ -66,6 +66,7 @@ import datePickerMeta from "@/content/date-picker"
 import activityFeedMeta from "@/content/activity-feed"
 import agentChatMeta from "@/content/agent-chat"
 import agentStateMeta from "@/content/agent-state"
+import allocationMeta from "@/content/allocation"
 import appearanceMeta from "@/content/appearance"
 import areaChartMeta from "@/content/area-chart"
 import calligramMeta from "@/content/calligram"
@@ -171,6 +172,7 @@ export const entries = [
   { meta: activityFeedMeta, hasStates: true, siblings: ["avatar","collapsible","item","marker"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: agentChatMeta, hasStates: true, siblings: ["agent-state","attachment","button","dialog","field","kbd","marker","progress","radio-group","thread"], exampleDependencies: ["message"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/message.json", npm: [] },
   { meta: agentStateMeta, hasStates: true, siblings: ["marker","spinner"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
+  { meta: allocationMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: appearanceMeta, hasStates: true, siblings: ["mode-toggle","picks"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: areaChartMeta, hasStates: true, siblings: ["line-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: calligramMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },

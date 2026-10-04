@@ -1156,6 +1156,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
+### db-allocation (allocation)
+- Underneath: Native fieldset and legend, labelled native number inputs, a described balance output and one empty hairline measure per share. Native root ref, form, visibility and per-item disabled semantics are retained; form association reaches each submitted input.
+- Creative move: The large unassigned figure answers three numbered, independent dimension arms. Editing raises only the focused arm and the balance flexes once. Reference: Paul Rand independent dimensions (11.jpg), scale contrast (1.jpg).
+- Behavior: Distinct from Slider's one scalar, Chart's read-only series and Meter's bounded reading: this edits several shares constrained by one total. Finite non-negative shares and total, unique non-empty ids, positive step. Missing shares are zero. Editing clamps only that share to the allowance left by others. The live balance includes its meaning as well as its figure. An externally reduced total shows and announces excess instead of redistributing silently; native max and aria-invalid expose the invalid state. Named inputs submit name[id]; an uncontrolled form reset restores the default shares. Decimal remainders are rounded to twelve significant digits to avoid floating-point dust.
+- Motion: counterweight. A changed share stretches its independent dimension; focus raises that arm. The immediately updated balance flexes as a counterweight and settles once. Rapid edits replace that flex, and other shares retain their amounts. Reduced motion resolves directly; each action ends at rest. Native focus and hit areas remain stable.
+- Access: native controls retain keyboard and touch activation, focus remains visible, long text wraps in flow, logical spacing follows local direction, reduced motion changes directly and forced colours retain semantic lines and system focus. `[hidden]` keeps its native meaning.
+
 ## The overture (specimen only)
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
@@ -1461,6 +1468,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 | Text ribbon (`text-ribbon`) | WOVE (figures along an arc); the fermata arc | The phrase round an arch, largest at the crest and fading by distance |
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
+| Allocation (`allocation`) | Paul Rand independent dimensions (11.jpg), scale contrast (1.jpg) | The large unassigned figure answers three numbered, independent dimension arms. Editing raises only the focused arm and the balance flexes once. |
 
 ### Shared moves
 A move serves more than one component only when it is the same idea on purpose. It keeps one name wherever it appears, so it reads as a move of the system and not a coincidence. The shared ones:
@@ -1749,6 +1757,7 @@ Three rules, then one articulation per component.
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
+| Allocation (`allocation`) | Counterweight | A changed share stretches its independent dimension; focus raises that arm. The immediately updated balance flexes as a counterweight and settles once. Rapid edits replace that flex, and other shares retain their amounts. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 

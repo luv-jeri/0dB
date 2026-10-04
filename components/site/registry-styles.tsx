@@ -81,6 +81,7 @@ const sheets: Record<string, string> = {
   "/docs/activity-feed": "/ui/site-styles/6a835118c5b8.css",
   "/docs/agent-chat": "/ui/site-styles/1485853b5816.css",
   "/docs/agent-state": "/ui/site-styles/8dff7fc60c7b.css",
+  "/docs/allocation": "/ui/site-styles/af677cd86f48.css",
   "/docs/appearance": "/ui/site-styles/239f1e53d50f.css",
   "/docs/area-chart": "/ui/site-styles/8b46365372f7.css",
   "/docs/calligram": "/ui/site-styles/8180fbca353f.css",

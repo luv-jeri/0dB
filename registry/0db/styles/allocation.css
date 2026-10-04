@@ -1,0 +1,23 @@
+@layer components {
+  /* A balance with three independent arms: unused time is a figure, the shares are travelling dimensions. */
+  .db-allocation { min-inline-size: 0; padding: 0; border: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-allocation > legend { font-size: var(--db-pp); padding: 0; color: var(--db-graphite); }
+  .db-allocation-balance { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--db-space-3); margin-block: var(--db-space-5) var(--db-space-6); padding-block-end: var(--db-space-4); border-block-end: var(--db-hairline) solid var(--db-rule); }
+  .db-allocation-balance > span { font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-allocation-balance output { font-size: clamp(4rem, 20cqi, 8rem); line-height: 1; letter-spacing: -0.06em; color: var(--db-ink); overflow-wrap: anywhere; }
+  .db-allocation-balance output small { font-size: var(--db-pp); font-family: var(--db-voice); white-space: pre-wrap; margin-inline-start: var(--db-space-2); letter-spacing: 0; }
+  .db-allocation-balance[data-invalid] output { color: var(--db-signal); }
+  .db-allocation-shares { display: grid; gap: var(--db-space-5); counter-reset: db-share; }
+  .db-allocation-share { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(4ch, 5ch); align-items: baseline; column-gap: var(--db-space-4); counter-increment: db-share; padding-inline-start: 2rem; }
+  .db-allocation-share::before { content: counter(db-share, decimal-leading-zero); position: absolute; inset-inline-start: 0; inset-block-start: 0.5rem; font-size: var(--db-pp); color: var(--db-pencil); }
+  .db-allocation-share > label { font-size: clamp(1.2rem, 4.5cqi, 1.8rem); font-weight: 300; }
+  .db-allocation-share input { min-inline-size: 0; inline-size: 100%; border: 0; background: none; font-family: var(--db-expression); font-style: italic; font-size: clamp(1.8rem, 7cqi, 3rem); line-height: 1; color: var(--db-ink); padding-block: var(--db-space-2); padding-inline: 0; font-variant-numeric: tabular-nums; text-align: end; appearance: textfield; }
+  .db-allocation-share input::-webkit-inner-spin-button, .db-allocation-share input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+  .db-allocation-dimension { --db-allocation-share: 0; grid-column: 1 / -1; position: relative; display: block; inline-size: calc(var(--db-allocation-share) * 100%); block-size: 1.25rem; border-block-end: var(--db-hairline) solid var(--db-rule-strong); border-inline-end: var(--db-hairline) solid var(--db-ink); margin-block-start: var(--db-space-2); transition: inline-size var(--db-andante) var(--db-spiccato), block-size var(--db-andante) var(--db-exhale); }
+  .db-allocation-dimension::before { content: ""; position: absolute; inset-inline-start: 0; inset-block-end: 0; block-size: 0.4rem; border-inline-start: var(--db-hairline) solid var(--db-rule-strong); }
+  .db-allocation-share:focus-within .db-allocation-dimension { block-size: 2.5rem; border-color: var(--db-accent); }
+  .db-allocation input:disabled { color: var(--db-pencil); }
+  .db-allocation[data-acted] .db-allocation-balance bdi { display: inline-block; transform-origin: right bottom; animation: db-allocation-counterweight var(--db-andante) var(--db-spiccato); }
+  @keyframes db-allocation-counterweight { 0% { transform: rotate(-4deg) skewX(-6deg) scaleX(0.9); } 65% { transform: rotate(0.7deg) skewX(1deg) scaleX(1.02); } 100% { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .db-allocation-dimension, .db-allocation[data-acted] .db-allocation-balance bdi { transition: none; animation: none; } }
+}
