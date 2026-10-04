@@ -76,6 +76,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Activity feed](https://thedirectors.agency/ui/docs/activity-feed/): activity-feed usage and examples
 - [Agent chat](https://thedirectors.agency/ui/docs/agent-chat/): agent-chat usage and examples
 - [Agent state](https://thedirectors.agency/ui/docs/agent-state/): agent-state usage and examples
+- [Allocation](https://thedirectors.agency/ui/docs/allocation/): allocation usage and examples
 - [Appearance](https://thedirectors.agency/ui/docs/appearance/): appearance usage and examples
 - [Area chart](https://thedirectors.agency/ui/docs/area-chart/): area-chart usage and examples
 - [Calligram](https://thedirectors.agency/ui/docs/calligram/): calligram usage and examples
@@ -186,6 +187,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/activity-feed.md](https://thedirectors.agency/ui/ai/components/activity-feed.md): Downloadable 0dB instructions or reference
 - [components/agent-chat.md](https://thedirectors.agency/ui/ai/components/agent-chat.md): Downloadable 0dB instructions or reference
 - [components/agent-state.md](https://thedirectors.agency/ui/ai/components/agent-state.md): Downloadable 0dB instructions or reference
+- [components/allocation.md](https://thedirectors.agency/ui/ai/components/allocation.md): Downloadable 0dB instructions or reference
 - [components/appearance.md](https://thedirectors.agency/ui/ai/components/appearance.md): Downloadable 0dB instructions or reference
 - [components/area-chart.md](https://thedirectors.agency/ui/ai/components/area-chart.md): Downloadable 0dB instructions or reference
 - [components/calligram.md](https://thedirectors.agency/ui/ai/components/calligram.md): Downloadable 0dB instructions or reference
@@ -304,6 +306,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/activity-feed.md](https://thedirectors.agency/ui/ai/docs/0db/components/activity-feed.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/agent-chat.md](https://thedirectors.agency/ui/ai/docs/0db/components/agent-chat.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/agent-state.md](https://thedirectors.agency/ui/ai/docs/0db/components/agent-state.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/allocation.md](https://thedirectors.agency/ui/ai/docs/0db/components/allocation.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/appearance.md](https://thedirectors.agency/ui/ai/docs/0db/components/appearance.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/area-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/area-chart.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/calligram.md](https://thedirectors.agency/ui/ai/docs/0db/components/calligram.md): Downloadable 0dB instructions or reference

@@ -72,6 +72,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "activity-feed": { Example: dynamic(() => import("@/examples/activity-feed")), States: dynamic(() => import("@/examples/activity-feed").then((m) => m.States)) },
   "agent-chat": { Example: dynamic(() => import("@/examples/agent-chat")), States: dynamic(() => import("@/examples/agent-chat").then((m) => m.States)) },
   "agent-state": { Example: dynamic(() => import("@/examples/agent-state")), States: dynamic(() => import("@/examples/agent-state").then((m) => m.States)) },
+  "allocation": { Example: dynamic(() => import("@/examples/allocation")), States: dynamic(() => import("@/examples/allocation").then((m) => m.States)) },
   "appearance": { Example: dynamic(() => import("@/examples/appearance")), States: dynamic(() => import("@/examples/appearance").then((m) => m.States)) },
   "area-chart": { Example: dynamic(() => import("@/examples/area-chart")), States: dynamic(() => import("@/examples/area-chart").then((m) => m.States)) },
   "calligram": { Example: dynamic(() => import("@/examples/calligram")), States: dynamic(() => import("@/examples/calligram").then((m) => m.States)) },
