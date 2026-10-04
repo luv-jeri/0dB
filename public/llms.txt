@@ -108,6 +108,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Tiling](https://thedirectors.agency/ui/docs/tiling/): tiling usage and examples
 - [Timer](https://thedirectors.agency/ui/docs/timer/): timer usage and examples
 - [Tour](https://thedirectors.agency/ui/docs/tour/): tour usage and examples
+- [Transfer list](https://thedirectors.agency/ui/docs/transfer-list/): transfer-list usage and examples
 - [Tree](https://thedirectors.agency/ui/docs/tree/): tree usage and examples
 - [Wake](https://thedirectors.agency/ui/docs/wake/): wake usage and examples
 - [Waterfall](https://thedirectors.agency/ui/docs/waterfall/): waterfall usage and examples
@@ -218,6 +219,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/tiling.md](https://thedirectors.agency/ui/ai/components/tiling.md): Downloadable 0dB instructions or reference
 - [components/timer.md](https://thedirectors.agency/ui/ai/components/timer.md): Downloadable 0dB instructions or reference
 - [components/tour.md](https://thedirectors.agency/ui/ai/components/tour.md): Downloadable 0dB instructions or reference
+- [components/transfer-list.md](https://thedirectors.agency/ui/ai/components/transfer-list.md): Downloadable 0dB instructions or reference
 - [components/tree.md](https://thedirectors.agency/ui/ai/components/tree.md): Downloadable 0dB instructions or reference
 - [components/wake.md](https://thedirectors.agency/ui/ai/components/wake.md): Downloadable 0dB instructions or reference
 - [components/waterfall.md](https://thedirectors.agency/ui/ai/components/waterfall.md): Downloadable 0dB instructions or reference
@@ -336,6 +338,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/tiling.md](https://thedirectors.agency/ui/ai/docs/0db/components/tiling.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/timer.md](https://thedirectors.agency/ui/ai/docs/0db/components/timer.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tour.md](https://thedirectors.agency/ui/ai/docs/0db/components/tour.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/transfer-list.md](https://thedirectors.agency/ui/ai/docs/0db/components/transfer-list.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tree.md](https://thedirectors.agency/ui/ai/docs/0db/components/tree.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/wake.md](https://thedirectors.agency/ui/ai/docs/0db/components/wake.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/waterfall.md](https://thedirectors.agency/ui/ai/docs/0db/components/waterfall.md): Downloadable 0dB instructions or reference
