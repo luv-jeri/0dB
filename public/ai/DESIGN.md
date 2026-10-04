@@ -1156,6 +1156,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
+### db-footnotes (footnotes)
+- Underneath: Native section, ordered list and fragment links. Footnotes holds a named ol; Footnote is a focusable li with id, number, body and optional Return; FootnoteReference is a raised anchor. Every native ref is forwarded to its own element.
+- Creative move: A called citation expands into a large coordinate and opens the note margin; the reference and exact backlink stay native. Reference: SPECTRA scale collision (10.jpg), Weingart margin callouts (12.jpg).
+- Behavior: This is a citation system, distinct from Note's transient gloss and Link's ornamental reference variant. IDs are caller-owned for stable backlinks. Fragment destinations are encoded; no JS, focus trap or autonomous scrolling is introduced. Repeated citations can author several return links within one note.
+- Motion: citation magnification. Following a reference expands its coordinate and reconfigures the note margin; the body bends into its new measure. Returning releases it and restores the exact native anchor. Reduced motion resolves directly; each action ends at rest. Native focus and hit areas remain stable.
+- Access: native controls retain keyboard and touch activation, focus remains visible, long text wraps in flow, logical spacing follows local direction, reduced motion changes directly and forced colours retain semantic lines and system focus. `[hidden]` keeps its native meaning.
+
 ## The overture (specimen only)
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
@@ -1461,6 +1468,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 | Text ribbon (`text-ribbon`) | WOVE (figures along an arc); the fermata arc | The phrase round an arch, largest at the crest and fading by distance |
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
+| Footnotes (`footnotes`) | SPECTRA scale collision (10.jpg), Weingart margin callouts (12.jpg) | A called citation expands into a large coordinate and opens the note margin; the reference and exact backlink stay native. |
 
 ### Shared moves
 A move serves more than one component only when it is the same idea on purpose. It keeps one name wherever it appears, so it reads as a move of the system and not a coincidence. The shared ones:
@@ -1749,6 +1757,7 @@ Three rules, then one articulation per component.
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
+| Footnotes (`footnotes`) | Citation magnification | Following a reference expands its coordinate and reconfigures the note margin; the body bends into its new measure. Returning releases it and restores the exact native anchor. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 

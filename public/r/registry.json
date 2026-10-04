@@ -2398,6 +2398,34 @@
       }
     },
     {
+      "name": "footnotes",
+      "type": "registry:ui",
+      "title": "Footnotes",
+      "description": "A citation opens its margin: the called number grows into a coordinate while the note answers beside it. Return restores the exact reading place.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/footnotes.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/footnotes.css",
+          "type": "registry:file",
+          "target": "styles/0db/footnotes.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/footnotes.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-footnotes"
+      }
+    },
+    {
       "name": "form",
       "type": "registry:ui",
       "title": "Form",
@@ -3630,6 +3658,11 @@
           "path": "registry/0db/ai/components/figure.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/figure.md"
+        },
+        {
+          "path": "registry/0db/ai/components/footnotes.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/footnotes.md"
         },
         {
           "path": "registry/0db/ai/components/form.md",

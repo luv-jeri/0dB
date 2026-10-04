@@ -84,6 +84,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Data table](https://thedirectors.agency/ui/docs/data-table/): data-table usage and examples
 - [Dropzone](https://thedirectors.agency/ui/docs/dropzone/): dropzone usage and examples
 - [Figure](https://thedirectors.agency/ui/docs/figure/): figure usage and examples
+- [Footnotes](https://thedirectors.agency/ui/docs/footnotes/): footnotes usage and examples
 - [Form](https://thedirectors.agency/ui/docs/form/): form usage and examples
 - [Gather](https://thedirectors.agency/ui/docs/gather/): gather usage and examples
 - [Grid](https://thedirectors.agency/ui/docs/grid/): grid usage and examples
@@ -194,6 +195,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/data-table.md](https://thedirectors.agency/ui/ai/components/data-table.md): Downloadable 0dB instructions or reference
 - [components/dropzone.md](https://thedirectors.agency/ui/ai/components/dropzone.md): Downloadable 0dB instructions or reference
 - [components/figure.md](https://thedirectors.agency/ui/ai/components/figure.md): Downloadable 0dB instructions or reference
+- [components/footnotes.md](https://thedirectors.agency/ui/ai/components/footnotes.md): Downloadable 0dB instructions or reference
 - [components/form.md](https://thedirectors.agency/ui/ai/components/form.md): Downloadable 0dB instructions or reference
 - [components/gather.md](https://thedirectors.agency/ui/ai/components/gather.md): Downloadable 0dB instructions or reference
 - [components/grid.md](https://thedirectors.agency/ui/ai/components/grid.md): Downloadable 0dB instructions or reference
@@ -312,6 +314,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/data-table.md](https://thedirectors.agency/ui/ai/docs/0db/components/data-table.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/dropzone.md](https://thedirectors.agency/ui/ai/docs/0db/components/dropzone.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/figure.md](https://thedirectors.agency/ui/ai/docs/0db/components/figure.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/footnotes.md](https://thedirectors.agency/ui/ai/docs/0db/components/footnotes.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/form.md](https://thedirectors.agency/ui/ai/docs/0db/components/form.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/gather.md](https://thedirectors.agency/ui/ai/docs/0db/components/gather.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/grid.md](https://thedirectors.agency/ui/ai/docs/0db/components/grid.md): Downloadable 0dB instructions or reference

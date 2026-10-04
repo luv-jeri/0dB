@@ -89,6 +89,7 @@ const sheets: Record<string, string> = {
   "/docs/data-table": "/ui/site-styles/ccfb282ebf54.css",
   "/docs/dropzone": "/ui/site-styles/239f1e53d50f.css",
   "/docs/figure": "/ui/site-styles/354ca1498699.css",
+  "/docs/footnotes": "/ui/site-styles/e75c9528d101.css",
   "/docs/form": "/ui/site-styles/1944e5c7d4c6.css",
   "/docs/gather": "/ui/site-styles/1b18d8959f7b.css",
   "/docs/grid": "/ui/site-styles/e331dc99e66e.css",

@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b"
+    "DESIGN.md": "43ac7d7af7f72d222d82b69df9e66ed1c24e4d86f2b81bc52f73884aac65214c"
   },
   "files": {
     "AGENTS.md": "9d0fd00a02f9bc89f828f4f923b91ff05a6755643747a118781bd482f69e9d29",
     "docs/AGENTS.md": "375cc2874815dcd1bbd7145e040534ab46dd29d5a45177bcbed7f51e8e0a4a48",
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b",
+    "DESIGN.md": "43ac7d7af7f72d222d82b69df9e66ed1c24e4d86f2b81bc52f73884aac65214c",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -85,6 +85,7 @@
     "components/data-table.md": "738b8ff3b336a4876d2f67840d8d361c03459194f801fb11570de414383b9774",
     "components/dropzone.md": "04302b5c98b10af488c185d8423900f8c5b100cb48e024d3d94256a3cbd7ca03",
     "components/figure.md": "c0a02c96c8c8dc18233faa9597b5c1e5c064cdcf2acdedd290f90585cc304126",
+    "components/footnotes.md": "934746784bb0968b63a915d27d73af04c2f5771bb8fddf332d55f67d3255c006",
     "components/form.md": "c6d18f6bcad2b39f6aced86dcb4edecb697ac8666c7ace6fad57a1bf064f7e05",
     "components/gather.md": "ae8db935dc86bb063507460ba210325443046747deaedb42ab72b205ce62660a",
     "components/grid.md": "8dfa4fb397e589f5a61026c594f197f1dca88259142d2963d5210086bc43d240",
@@ -158,6 +159,7 @@
     "empty",
     "field",
     "figure",
+    "footnotes",
     "form",
     "fraction",
     "gather",
