@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transcript",
+  "title": "Transcript",
+  "description": "A score for spoken words. The active cue opens in scale and space while its timestamp conducts from the margin.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/ui/transcript.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype TranscriptCue = { id: string; start: number; end?: number; text: string; speaker?: string }\nfunction transcriptCueAt(cues: TranscriptCue[], time: number): number {\n  if (!Number.isFinite(time) || time < 0) return -1\n  let result = -1\n  for (let i = 0; i < cues.length; i++) {\n    if (time >= cues[i].start && time < (cues[i].end ?? cues[i + 1]?.start ?? Infinity)) result = i\n  }\n  return result\n}\nconst clock = (n: number) => `${Math.floor(n / 60)}:${String(Math.floor(n % 60)).padStart(2, \"0\")}`\ntype TranscriptProps = Omit<React.ComponentProps<\"section\">, \"children\"> & {\n  cues: TranscriptCue[]\n  currentTime?: number\n  onSeek?: (seconds: number) => void\n  label?: string\n  formatTime?: (seconds: number) => string\n  seekLabel?: (cue: TranscriptCue) => string\n}\n\n/** Can render as static server text. Add onSeek from a client to connect it to any recording. */\nfunction Transcript({ cues, currentTime = 0, onSeek, label = \"Transcript\", formatTime = clock, seekLabel = (cue) => `Seek to ${clock(cue.start)}: ${cue.speaker ? `${cue.speaker}: ` : \"\"}${cue.text}`, className, ...props }: TranscriptProps) {\n  if (new Set(cues.map((cue) => cue.id)).size !== cues.length || cues.some((cue, i) => !cue.id || !Number.isFinite(cue.start) || cue.start < 0 || (i > 0 && cue.start <= cues[i - 1].start) || (cue.end !== undefined && (!Number.isFinite(cue.end) || cue.end <= cue.start || (i + 1 < cues.length && cue.end > cues[i + 1].start)))))\n    throw new RangeError(\"Transcript needs unique ids and ordered, finite, non-overlapping cue times\")\n  const active = transcriptCueAt(cues, currentTime)\n  return <section {...props} data-slot=\"transcript\" className={cn(\"db-transcript\", className)} aria-label={props[\"aria-label\"] ?? label}>\n    <ol data-slot=\"transcript-cues\">\n      {cues.map((cue, i) => {\n        const content = <><time data-slot=\"transcript-time\" dateTime={`PT${cue.start}S`}><bdi dir=\"ltr\">{formatTime(cue.start)}</bdi></time><span data-slot=\"transcript-words\">{cue.speaker ? <span data-slot=\"transcript-speaker\" className=\"db-reading\">{cue.speaker}</span> : null}{cue.text}</span></>\n        return <li key={cue.id} data-slot=\"transcript-cue\" data-current={active === i ? \"\" : undefined}>{onSeek ? <button type=\"button\" aria-current={active === i ? \"true\" : undefined} aria-label={seekLabel(cue)} onClick={() => onSeek(cue.start)}>{content}</button> : <div aria-current={active === i ? \"true\" : undefined}>{content}</div>}</li>\n      })}\n    </ol>\n  </section>\n}\n\nexport { Transcript, transcriptCueAt, type TranscriptProps, type TranscriptCue }\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "registry/0db/styles/transcript.css",
+      "content": "@layer components {\n  /* A score opens around the spoken line; its timestamp is the small conductor in the margin. */\n  .db-transcript { min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }\n  .db-transcript ol { list-style: none; padding: 0; display: grid; }\n  .db-transcript li { position: relative; border-block-start: var(--db-hairline) solid var(--db-rule); }\n  .db-transcript li > :is(button, div) { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: var(--db-space-4); inline-size: 100%; min-block-size: 64px; text-align: start; border: 0; background: none; padding: var(--db-space-4) 0; color: var(--db-pencil); }\n  .db-transcript button { cursor: pointer; }\n  .db-transcript button:hover { color: var(--db-graphite); }\n  .db-transcript time { font-size: var(--db-pp); padding-block-start: 0.4em; line-height: var(--db-p-lh); font-variant-numeric: tabular-nums; }\n  .db-transcript [data-slot=\"transcript-words\"] { display: block; font-size: clamp(1.2rem, 4.5cqi, 1.65rem); font-weight: 300; line-height: 1.4; padding-inline-end: 0; transition: padding-block var(--db-andante) var(--db-exhale), font-size var(--db-andante) var(--db-spiccato), letter-spacing var(--db-andante) var(--db-exhale), color var(--db-moderato); }\n  .db-transcript [data-slot=\"transcript-speaker\"] { display: block; font-family: var(--db-expression); font-style: italic; font-size: var(--db-p); color: var(--db-pencil); margin-block-end: var(--db-space-2); }\n  .db-transcript li[data-current] [data-slot=\"transcript-words\"] { font-size: clamp(1.5rem, 6cqi, 2.4rem); letter-spacing: -0.035em; padding-block: var(--db-space-3); color: var(--db-ink); }\n  .db-transcript li[data-current] time { color: var(--db-accent); }\n  .db-transcript li::before { content: \"\"; position: absolute; inset-inline-start: 0; inset-block-start: 0; inline-size: 2rem; block-size: 0; border-inline-start: var(--db-hairline) solid var(--db-rule-strong); transition: block-size var(--db-andante) var(--db-spiccato), inline-size var(--db-andante) var(--db-exhale); pointer-events: none; }\n  .db-transcript li[data-current]::before { block-size: var(--db-space-3); inline-size: 3rem; }\n  @media (prefers-reduced-motion: reduce) { .db-transcript li::before, .db-transcript [data-slot=\"transcript-words\"] { transition: none; } }\n  @media (forced-colors: active) { .db-transcript li[data-current] time { color: Highlight; } }\n}\n",
+      "type": "registry:file",
+      "target": "styles/0db/transcript.css"
+    }
+  ],
+  "css": {
+    "@import \"../styles/0db/transcript.css\"": {}
+  },
+  "meta": {
+    "movement": "IX",
+    "underneath": "native",
+    "contract": "db-transcript"
+  },
+  "type": "registry:ui"
+}

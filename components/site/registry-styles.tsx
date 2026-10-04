@@ -113,6 +113,7 @@ const sheets: Record<string, string> = {
   "/docs/tiling": "/ui/site-styles/6027c5d7b573.css",
   "/docs/timer": "/ui/site-styles/f1b28ca33617.css",
   "/docs/tour": "/ui/site-styles/47d78f3723f4.css",
+  "/docs/transcript": "/ui/site-styles/20124873067e.css",
   "/docs/tree": "/ui/site-styles/bab5f71c76a9.css",
   "/docs/wake": "/ui/site-styles/3605e7bb5ab8.css",
   "/docs/waterfall": "/ui/site-styles/1fa113e4a58c.css",
