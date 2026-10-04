@@ -109,6 +109,7 @@ const sheets: Record<string, string> = {
   "/docs/stat": "/ui/site-styles/a2c66ad127f7.css",
   "/docs/steps": "/ui/site-styles/239f1e53d50f.css",
   "/docs/swapy": "/ui/site-styles/25be1f1b72ac.css",
+  "/docs/text-diff": "/ui/site-styles/ae679bda30d1.css",
   "/docs/text-ribbon": "/ui/site-styles/0fa219df74a9.css",
   "/docs/tiling": "/ui/site-styles/6027c5d7b573.css",
   "/docs/timer": "/ui/site-styles/f1b28ca33617.css",

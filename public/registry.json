@@ -2988,6 +2988,34 @@
       }
     },
     {
+      "name": "text-diff",
+      "type": "registry:ui",
+      "title": "Text diff",
+      "description": "A living proof sheet: small struck roman gives way to large replacement italic as you turn between three exact readings.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/text-diff.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/text-diff.css",
+          "type": "registry:file",
+          "target": "styles/0db/text-diff.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/text-diff.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-text-diff"
+      }
+    },
+    {
       "name": "text-ribbon",
       "type": "registry:ui",
       "title": "Text ribbon",
@@ -3730,6 +3758,11 @@
           "path": "registry/0db/ai/components/swapy.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/swapy.md"
+        },
+        {
+          "path": "registry/0db/ai/components/text-diff.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/text-diff.md"
         },
         {
           "path": "registry/0db/ai/components/text-ribbon.md",

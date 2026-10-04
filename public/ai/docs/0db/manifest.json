@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b"
+    "DESIGN.md": "f19d527c25ab4eba34a20655369d62056c06ec237d1aed00993d185fd5fc8d7f"
   },
   "files": {
     "AGENTS.md": "9d0fd00a02f9bc89f828f4f923b91ff05a6755643747a118781bd482f69e9d29",
     "docs/AGENTS.md": "375cc2874815dcd1bbd7145e040534ab46dd29d5a45177bcbed7f51e8e0a4a48",
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b",
+    "DESIGN.md": "f19d527c25ab4eba34a20655369d62056c06ec237d1aed00993d185fd5fc8d7f",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -105,6 +105,7 @@
     "components/stat.md": "4d6b211dde3d4090189bbb4d87a51055cb18ebdd735b0b9ccd2053984e323316",
     "components/steps.md": "614ce875c37df991e00dd61fb75906d12f9fb49410649eb93c2607c8e8b6dd69",
     "components/swapy.md": "6117d2d8dfb8496a5ecb79a5d9995fe172dcc53a0801d1fa0cb69ab64a44721c",
+    "components/text-diff.md": "1b2d0cafdddf0bb3180a1f13d2431981158c9d54259ce9834d1ef0fdc35164b6",
     "components/text-ribbon.md": "81459f56f1f1536756b2b735c56eb086f0238c95bd3299c47f6dc6f472958f4b",
     "components/tiling.md": "be52fcae27dd5f3dcd1e28695055cd8d767ca8c85c6668a82ebf35b38b956b6a",
     "components/timer.md": "9a51e4d627d5af636dfb9b685266b2d7a3042346ed8b1e07566c0b70e1051e34",
@@ -210,6 +211,7 @@
     "switch",
     "table",
     "tabs",
+    "text-diff",
     "text-ribbon",
     "thread",
     "tiling",

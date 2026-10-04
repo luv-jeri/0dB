@@ -94,6 +94,7 @@ import sourceMeta from "@/content/source"
 import statMeta from "@/content/stat"
 import stepsMeta from "@/content/steps"
 import swapyMeta from "@/content/swapy"
+import textDiffMeta from "@/content/text-diff"
 import textRibbonMeta from "@/content/text-ribbon"
 import tilingMeta from "@/content/tiling"
 import timerMeta from "@/content/timer"
@@ -199,6 +200,7 @@ export const entries = [
   { meta: statMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: stepsMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
   { meta: swapyMeta, hasStates: true, siblings: ["rows"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: textDiffMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: textRibbonMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: tilingMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: timerMeta, hasStates: true, siblings: ["button","radial-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
