@@ -2606,6 +2606,34 @@
       }
     },
     {
+      "name": "meter",
+      "type": "registry:ui",
+      "title": "Meter",
+      "description": "A bounded reading: your figure in large italic above a dimension line, one accent index locating it between its limits. Space remains space; nothing fills it in.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/meter.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/meter.css",
+          "type": "registry:file",
+          "target": "styles/0db/meter.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/meter.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-meter"
+      }
+    },
+    {
       "name": "mode-toggle",
       "type": "registry:ui",
       "title": "Mode toggle",
@@ -3665,6 +3693,11 @@
           "path": "registry/0db/ai/components/melody.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/melody.md"
+        },
+        {
+          "path": "registry/0db/ai/components/meter.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/meter.md"
         },
         {
           "path": "registry/0db/ai/components/mode-toggle.md",

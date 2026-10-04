@@ -81,6 +81,7 @@ import lineChartMeta from "@/content/line-chart"
 import marqueeMeta from "@/content/marquee"
 import measureMeta from "@/content/measure"
 import melodyMeta from "@/content/melody"
+import meterMeta from "@/content/meter"
 import modeToggleMeta from "@/content/mode-toggle"
 import numberInputMeta from "@/content/number-input"
 import pieChartMeta from "@/content/pie-chart"
@@ -186,6 +187,7 @@ export const entries = [
   { meta: marqueeMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: measureMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: melodyMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
+  { meta: meterMeta, hasStates: true, siblings: [], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: modeToggleMeta, hasStates: true, siblings: [], exampleDependencies: ["appearance"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/appearance.json", npm: [] },
   { meta: numberInputMeta, hasStates: true, siblings: ["button","field"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: pieChartMeta, hasStates: true, siblings: ["radial-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },

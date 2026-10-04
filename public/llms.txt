@@ -91,6 +91,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Marquee](https://thedirectors.agency/ui/docs/marquee/): marquee usage and examples
 - [Measure](https://thedirectors.agency/ui/docs/measure/): measure usage and examples
 - [Melody](https://thedirectors.agency/ui/docs/melody/): melody usage and examples
+- [Meter](https://thedirectors.agency/ui/docs/meter/): meter usage and examples
 - [Mode toggle](https://thedirectors.agency/ui/docs/mode-toggle/): mode-toggle usage and examples
 - [Number input](https://thedirectors.agency/ui/docs/number-input/): number-input usage and examples
 - [Pie chart](https://thedirectors.agency/ui/docs/pie-chart/): pie-chart usage and examples
@@ -201,6 +202,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/marquee.md](https://thedirectors.agency/ui/ai/components/marquee.md): Downloadable 0dB instructions or reference
 - [components/measure.md](https://thedirectors.agency/ui/ai/components/measure.md): Downloadable 0dB instructions or reference
 - [components/melody.md](https://thedirectors.agency/ui/ai/components/melody.md): Downloadable 0dB instructions or reference
+- [components/meter.md](https://thedirectors.agency/ui/ai/components/meter.md): Downloadable 0dB instructions or reference
 - [components/mode-toggle.md](https://thedirectors.agency/ui/ai/components/mode-toggle.md): Downloadable 0dB instructions or reference
 - [components/number-input.md](https://thedirectors.agency/ui/ai/components/number-input.md): Downloadable 0dB instructions or reference
 - [components/pie-chart.md](https://thedirectors.agency/ui/ai/components/pie-chart.md): Downloadable 0dB instructions or reference
@@ -319,6 +321,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/marquee.md](https://thedirectors.agency/ui/ai/docs/0db/components/marquee.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/measure.md](https://thedirectors.agency/ui/ai/docs/0db/components/measure.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/melody.md](https://thedirectors.agency/ui/ai/docs/0db/components/melody.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/meter.md](https://thedirectors.agency/ui/ai/docs/0db/components/meter.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/mode-toggle.md](https://thedirectors.agency/ui/ai/docs/0db/components/mode-toggle.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/number-input.md](https://thedirectors.agency/ui/ai/docs/0db/components/number-input.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/pie-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/pie-chart.md): Downloadable 0dB instructions or reference

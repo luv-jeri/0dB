@@ -913,6 +913,14 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - Horizontal (`orientation`, stems; `data-orientation="horizontal"`): a ledger. The whole names stand in a column at the start, pencil, and each line runs out from an ink baseline on the start edge to its dot, one row (`--db-space-6`) each, rules at the quarters; the name the number reads is inked. Series stack or group along the row the same way.
 - Keyboard: Tab enters the plot at the bar the number is on (one tab stop, a roving tabindex); Left and Right, or Up and Down, move to the next bar, Home and End jump to the ends. Right to left, Left and Right follow the page. Focus rolls the number as pointing does.
 
+### db-meter (meter)
+- Underneath: native `<meter>`, named by a native `<label>`. A known reading within limits, such as storage used or a budget balance; use progress for completion and slider for input.
+- Anatomy: `.db-meter` holding `.db-meter-label`, `.db-meter-scale` (the visual reading, rule, index and two limits, all `aria-hidden`), a visually hidden native meter, and optional `.db-meter-note`. Every part carries `data-slot`.
+- Creative move: Paul Rand's dimension lines. A large italic figure stands above a hairline between two end ticks; one accent index marks the exact reading. The empty measure stays empty. The space on either side of the figure shares the remaining width in proportion to the reading, keeping it inside both limits without measuring in script. Longer readings step down from ff toward mf to fit their measure, using the formatted length and container width; exceptionally long text still wraps in flow above the line rather than covering it. Labels and notes wrap too. Units and limits are roman; the reading is yours, in italic.
+- `value` is clamped to finite `min` and `max`, shared by the visible reading and native meter. Negative ranges work; non-finite values, an overflowing span and max not greater than min throw a RangeError. `format` sets all three figures and `unit` follows them as supplied. `low`, `high` and `optimum` retain the native semantics without introducing another colour.
+- The formatted reading names the value through `aria-valuetext`; callers can override it. The note joins any supplied `aria-describedby`. `id`, `ref` and other native meter props reach the meter; `className`, `style`, `hidden`, `dir` and `lang` apply to the root. It is a reading, with no tab stop or keyboard interaction.
+- Motion: legato. When the reading changes, one eased number drives the space around the figure and the index at moderato, so they glide together and an interrupted update continues from the current position; there is no entrance or autonomous loop. Reduced motion changes directly. Flex and logical positioning mirror the scale in right to left, including a locally overridden direction. Readings and limits use left-to-right `bdi`, so even a signed number without a lettered unit keeps its sign before the number; localized text retains its own bidi marks. Forced colours keeps the index in Highlight.
+
 ### db-stat (stat)
 - Underneath: native `<dl>`; each `Stat` is a `<div>` of `<dt>` (what it counts) and `<dd>`s (the figure, and a note).
 - Anatomy: `<dl class="db-stats" data-variant="beside | grid" style="--row-len">` of `<div class="db-stat" style="--len">` holding `.db-stat-label`, `.db-stat-figure` (a `db-fraction` with no total, set in the stat's own face: roman, thin, the cell's size; its figures turn on their own wheels and it is read whole) and `.db-stat-note`.
@@ -1196,6 +1204,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Appearance (`appearance`) | "Healthy habits → for creatives"; the score's pizzicato (picks) | The choice written back as one sentence, yours in the italic; the night toggle finishes it |
 | Grid (`grid`) | "the silence that heals" faint grid; "Less is more."; the posters' + corner signs | A faint square grid with a cross on each corner and a lettered, numbered border |
 | Dots grid (`grid`) | Paul Rand's dotted construction grid and dimension letters | A fine point on each crossing, the rules left out |
+| Meter (`meter`) | Paul Rand dimension lines | An italic reading above an empty measure, one index between its limits |
 | Slider (`slider`) | Paul Rand dimension lines | Value set in a dimension from zero |
 | Spread slider (`slider`) | "Renaissance."; "the uncreative" | The label's letters are the ruler's marks; the hand inks them |
 | Dynamics slider (`slider`) | The score's dynamics | The label is as loud as the value |
@@ -1521,6 +1530,7 @@ Three rules, then one articulation per component.
 | Noon mode toggle (`mode-toggle`) | Nightfall | Only the initial rolls, N down and M from above; the new sheet falls from the top edge on one straight line, moderato |
 | Word relay (`word-relay`) | Roll | Every 2400ms by default, or on press/keys, the word turns over and the line follows its width; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Appearance (`appearance`) | Opening | The new page opens over the old as a circle from the control you touched |
+| Meter (`meter`) | Legato | A changed figure and its index glide to their new places, then rest |
 | Slider (`slider`) | Lift | The value rises while the hand is on it |
 | Spread slider (`slider`) | Ink follows | The ink runs through the letters with the hand |
 | Dynamics slider (`slider`) | Swell | The word grows heavier and wider with the hand |
