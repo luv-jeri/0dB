@@ -89,6 +89,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Grid](https://thedirectors.agency/ui/docs/grid/): grid usage and examples
 - [Line chart](https://thedirectors.agency/ui/docs/line-chart/): line-chart usage and examples
 - [Marquee](https://thedirectors.agency/ui/docs/marquee/): marquee usage and examples
+- [Masked value](https://thedirectors.agency/ui/docs/masked-value/): masked-value usage and examples
 - [Measure](https://thedirectors.agency/ui/docs/measure/): measure usage and examples
 - [Melody](https://thedirectors.agency/ui/docs/melody/): melody usage and examples
 - [Mode toggle](https://thedirectors.agency/ui/docs/mode-toggle/): mode-toggle usage and examples
@@ -199,6 +200,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/grid.md](https://thedirectors.agency/ui/ai/components/grid.md): Downloadable 0dB instructions or reference
 - [components/line-chart.md](https://thedirectors.agency/ui/ai/components/line-chart.md): Downloadable 0dB instructions or reference
 - [components/marquee.md](https://thedirectors.agency/ui/ai/components/marquee.md): Downloadable 0dB instructions or reference
+- [components/masked-value.md](https://thedirectors.agency/ui/ai/components/masked-value.md): Downloadable 0dB instructions or reference
 - [components/measure.md](https://thedirectors.agency/ui/ai/components/measure.md): Downloadable 0dB instructions or reference
 - [components/melody.md](https://thedirectors.agency/ui/ai/components/melody.md): Downloadable 0dB instructions or reference
 - [components/mode-toggle.md](https://thedirectors.agency/ui/ai/components/mode-toggle.md): Downloadable 0dB instructions or reference
@@ -317,6 +319,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/grid.md](https://thedirectors.agency/ui/ai/docs/0db/components/grid.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/line-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/line-chart.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/marquee.md](https://thedirectors.agency/ui/ai/docs/0db/components/marquee.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/masked-value.md](https://thedirectors.agency/ui/ai/docs/0db/components/masked-value.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/measure.md](https://thedirectors.agency/ui/ai/docs/0db/components/measure.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/melody.md](https://thedirectors.agency/ui/ai/docs/0db/components/melody.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/mode-toggle.md](https://thedirectors.agency/ui/ai/docs/0db/components/mode-toggle.md): Downloadable 0dB instructions or reference

@@ -79,6 +79,7 @@ import gatherMeta from "@/content/gather"
 import gridMeta from "@/content/grid"
 import lineChartMeta from "@/content/line-chart"
 import marqueeMeta from "@/content/marquee"
+import maskedValueMeta from "@/content/masked-value"
 import measureMeta from "@/content/measure"
 import melodyMeta from "@/content/melody"
 import modeToggleMeta from "@/content/mode-toggle"
@@ -184,6 +185,7 @@ export const entries = [
   { meta: gridMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: lineChartMeta, hasStates: true, siblings: ["chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: marqueeMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: maskedValueMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: measureMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: melodyMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: modeToggleMeta, hasStates: true, siblings: [], exampleDependencies: ["appearance"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/appearance.json", npm: [] },

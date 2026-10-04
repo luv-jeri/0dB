@@ -74,6 +74,7 @@
 @import "../registry/0db/styles/grid.css";
 @import "../registry/0db/styles/line-chart.css";
 @import "../registry/0db/styles/marquee.css";
+@import "../registry/0db/styles/masked-value.css";
 @import "../registry/0db/styles/measure.css";
 @import "../registry/0db/styles/melody.css";
 @import "../registry/0db/styles/mode-toggle.css";

@@ -2544,6 +2544,34 @@
       }
     },
     {
+      "name": "masked-value",
+      "type": "registry:ui",
+      "title": "Masked value",
+      "description": "A private reading between oversized parentheses. Reveal opens the aperture and unfolds your words; Hide removes them immediately.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/masked-value.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/masked-value.css",
+          "type": "registry:file",
+          "target": "styles/0db/masked-value.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/masked-value.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-masked"
+      }
+    },
+    {
       "name": "measure",
       "type": "registry:ui",
       "title": "Measure",
@@ -3655,6 +3683,11 @@
           "path": "registry/0db/ai/components/marquee.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/marquee.md"
+        },
+        {
+          "path": "registry/0db/ai/components/masked-value.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/masked-value.md"
         },
         {
           "path": "registry/0db/ai/components/measure.md",
