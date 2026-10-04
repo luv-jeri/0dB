@@ -65,6 +65,11 @@
           "target": "lib/0db/use-form-presentation.ts"
         },
         {
+          "path": "registry/0db/lib/use-form-reset.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-form-reset.ts"
+        },
+        {
           "path": "registry/0db/styles/tokens.css",
           "type": "registry:file",
           "target": "styles/0db/tokens.css"
@@ -3047,6 +3052,34 @@
       }
     },
     {
+      "name": "time-range",
+      "type": "registry:ui",
+      "title": "Time range",
+      "description": "A typographic day caliper: two native time readings position and stretch the actual interval across a full day.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/time-range.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/time-range.css",
+          "type": "registry:file",
+          "target": "styles/0db/time-range.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/time-range.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-time-range"
+      }
+    },
+    {
       "name": "timer",
       "type": "registry:ui",
       "title": "Timer",
@@ -3740,6 +3773,11 @@
           "path": "registry/0db/ai/components/tiling.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/tiling.md"
+        },
+        {
+          "path": "registry/0db/ai/components/time-range.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/time-range.md"
         },
         {
           "path": "registry/0db/ai/components/timer.md",

@@ -106,6 +106,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Swapy](https://thedirectors.agency/ui/docs/swapy/): swapy usage and examples
 - [Text ribbon](https://thedirectors.agency/ui/docs/text-ribbon/): text-ribbon usage and examples
 - [Tiling](https://thedirectors.agency/ui/docs/tiling/): tiling usage and examples
+- [Time range](https://thedirectors.agency/ui/docs/time-range/): time-range usage and examples
 - [Timer](https://thedirectors.agency/ui/docs/timer/): timer usage and examples
 - [Tour](https://thedirectors.agency/ui/docs/tour/): tour usage and examples
 - [Tree](https://thedirectors.agency/ui/docs/tree/): tree usage and examples
@@ -216,6 +217,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/swapy.md](https://thedirectors.agency/ui/ai/components/swapy.md): Downloadable 0dB instructions or reference
 - [components/text-ribbon.md](https://thedirectors.agency/ui/ai/components/text-ribbon.md): Downloadable 0dB instructions or reference
 - [components/tiling.md](https://thedirectors.agency/ui/ai/components/tiling.md): Downloadable 0dB instructions or reference
+- [components/time-range.md](https://thedirectors.agency/ui/ai/components/time-range.md): Downloadable 0dB instructions or reference
 - [components/timer.md](https://thedirectors.agency/ui/ai/components/timer.md): Downloadable 0dB instructions or reference
 - [components/tour.md](https://thedirectors.agency/ui/ai/components/tour.md): Downloadable 0dB instructions or reference
 - [components/tree.md](https://thedirectors.agency/ui/ai/components/tree.md): Downloadable 0dB instructions or reference
@@ -334,6 +336,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/swapy.md](https://thedirectors.agency/ui/ai/docs/0db/components/swapy.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/text-ribbon.md](https://thedirectors.agency/ui/ai/docs/0db/components/text-ribbon.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tiling.md](https://thedirectors.agency/ui/ai/docs/0db/components/tiling.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/time-range.md](https://thedirectors.agency/ui/ai/docs/0db/components/time-range.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/timer.md](https://thedirectors.agency/ui/ai/docs/0db/components/timer.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tour.md](https://thedirectors.agency/ui/ai/docs/0db/components/tour.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/tree.md](https://thedirectors.agency/ui/ai/docs/0db/components/tree.md): Downloadable 0dB instructions or reference

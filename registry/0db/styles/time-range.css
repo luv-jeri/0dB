@@ -1,0 +1,20 @@
+@layer components {
+  /* A caliper across the day: endpoints travel separately; the measured silence stretches between them. */
+  .db-time-range { border: 0; padding: 0; min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-time-range > legend { font-size: var(--db-pp); padding: 0; color: var(--db-graphite); }
+  .db-time-range-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--db-space-5); margin-block-start: var(--db-space-5); }
+  .db-time-range-part { display: grid; gap: var(--db-space-2); min-inline-size: 0; font-size: var(--db-pp); }
+  .db-time-range input { inline-size: 100%; min-inline-size: 0; padding-block: var(--db-space-3); padding-inline: 0; border: 0; background: none; color: var(--db-ink); font-family: var(--db-expression); font-style: italic; font-size: clamp(1.8rem, 8cqi, 3.5rem); line-height: 1.1; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; }
+  .db-time-range input::-webkit-calendar-picker-indicator { display: none; }
+  .db-time-range-measure { position: relative; block-size: 3.5rem; border-block-end: var(--db-hairline) solid var(--db-rule); margin-block: var(--db-space-4); }
+  .db-time-range-measure > span { --db-time-share: 0; position: absolute; inset-block-end: 0; inset-inline-start: calc(var(--db-time-start, 0) * 100%); inline-size: calc(var(--db-time-share) * 100%); block-size: 1.5rem; border-inline: var(--db-hairline) solid var(--db-ink); border-block-end: var(--db-hairline) solid var(--db-ink); transition: inline-size var(--db-andante) var(--db-spiccato), inset-inline-start var(--db-andante) var(--db-spiccato), block-size var(--db-andante) var(--db-exhale); }
+  .db-time-range:focus-within .db-time-range-measure > span { block-size: 3rem; }
+  .db-time-range-measure > span::after { content: ""; position: absolute; inset-inline: 0; inset-block-start: 0; border-block-start: var(--db-hairline) solid var(--db-rule-strong); transform: skewY(-2deg); transition: transform var(--db-andante) var(--db-spiccato); }
+  .db-time-range:focus-within .db-time-range-measure > span::after { transform: skewY(0deg); }
+  .db-time-range-scale { display: flex; justify-content: space-between; color: var(--db-pencil); font-size: var(--db-pp); font-variant-numeric: tabular-nums; }
+  .db-time-range-duration { display: block; margin-block-start: var(--db-space-4); font-family: var(--db-voice); font-style: normal; font-size: var(--db-p); line-height: 1.5; color: var(--db-pencil); }
+  .db-time-range-duration[data-complete] { font-family: var(--db-expression); font-style: italic; font-size: clamp(2rem, 10cqi, 4.5rem); line-height: 1.15; letter-spacing: -0.04em; color: var(--db-ink); }
+  .db-time-range-duration[data-invalid] { color: var(--db-signal); font-family: var(--db-voice); font-style: normal; font-size: var(--db-p); letter-spacing: 0; }
+  .db-time-range:disabled input { color: var(--db-pencil); }
+  @media (prefers-reduced-motion: reduce) { .db-time-range-measure > span, .db-time-range-measure > span::after { transition: none; } }
+}

@@ -102,6 +102,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "swapy": { Example: dynamic(() => import("@/examples/swapy")), States: dynamic(() => import("@/examples/swapy").then((m) => m.States)) },
   "text-ribbon": { Example: dynamic(() => import("@/examples/text-ribbon")), States: dynamic(() => import("@/examples/text-ribbon").then((m) => m.States)) },
   "tiling": { Example: dynamic(() => import("@/examples/tiling")), States: dynamic(() => import("@/examples/tiling").then((m) => m.States)) },
+  "time-range": { Example: dynamic(() => import("@/examples/time-range")), States: dynamic(() => import("@/examples/time-range").then((m) => m.States)) },
   "timer": { Example: dynamic(() => import("@/examples/timer")), States: dynamic(() => import("@/examples/timer").then((m) => m.States)) },
   "tour": { Example: dynamic(() => import("@/examples/tour")), States: dynamic(() => import("@/examples/tour").then((m) => m.States)) },
   "tree": { Example: dynamic(() => import("@/examples/tree")), States: dynamic(() => import("@/examples/tree").then((m) => m.States)) },

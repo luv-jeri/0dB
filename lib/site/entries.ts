@@ -96,6 +96,7 @@ import stepsMeta from "@/content/steps"
 import swapyMeta from "@/content/swapy"
 import textRibbonMeta from "@/content/text-ribbon"
 import tilingMeta from "@/content/tiling"
+import timeRangeMeta from "@/content/time-range"
 import timerMeta from "@/content/timer"
 import tourMeta from "@/content/tour"
 import treeMeta from "@/content/tree"
@@ -201,6 +202,7 @@ export const entries = [
   { meta: swapyMeta, hasStates: true, siblings: ["rows"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: textRibbonMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: tilingMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: timeRangeMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: timerMeta, hasStates: true, siblings: ["button","radial-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: tourMeta, hasStates: true, siblings: ["dialog"], exampleDependencies: ["button","field","meta"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json https://thedirectors.agency/ui/r/field.json https://thedirectors.agency/ui/r/meta.json", npm: [] },
   { meta: treeMeta, hasStates: true, siblings: ["collapsible","item"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },

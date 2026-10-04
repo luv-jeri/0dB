@@ -111,6 +111,7 @@ const sheets: Record<string, string> = {
   "/docs/swapy": "/ui/site-styles/25be1f1b72ac.css",
   "/docs/text-ribbon": "/ui/site-styles/0fa219df74a9.css",
   "/docs/tiling": "/ui/site-styles/6027c5d7b573.css",
+  "/docs/time-range": "/ui/site-styles/20ac956b3eec.css",
   "/docs/timer": "/ui/site-styles/f1b28ca33617.css",
   "/docs/tour": "/ui/site-styles/47d78f3723f4.css",
   "/docs/tree": "/ui/site-styles/bab5f71c76a9.css",

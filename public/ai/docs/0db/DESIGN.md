@@ -1156,6 +1156,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
+### db-time-range (time-range)
+- Underneath: Native fieldset and two labelled minute-precision time inputs. startProps and endProps forward native names, required, bounds, refs, form and handlers; root props and ref belong to the fieldset. Output describes both inputs.
+- Creative move: Large native endpoint readings stand over a positioned caliper. The interval has a true start position and length, including a split measurement across midnight. Reference: Paul Rand A–B dimension ticks (11.jpg).
+- Behavior: Distinct from DatePicker's date and Timer's running countdown. Civil HH:mm minutes, without a date, timezone or daylight-saving arithmetic. Empty endpoints are incomplete; a reversed interval sets custom validity on the end input. overnight explicitly permits next-day end; equal endpoints mean zero. Duration and action words are localizable. An uncontrolled form reset restores the default endpoints. A caller-prevented change is respected.
+- Motion: day caliper. Editing moves the start and end of a positioned caliper across the day; focus raises its construction arms. Overnight intervals split at the day boundary. Reversals retarget the current CSS interpolation rather than queueing arrivals. Reduced motion resolves directly; each action ends at rest. Native focus and hit areas remain stable.
+- Access: native controls retain keyboard and touch activation, focus remains visible, long text wraps in flow, logical spacing follows local direction, reduced motion changes directly and forced colours retain semantic lines and system focus. `[hidden]` keeps its native meaning.
+
 ## The overture (specimen only)
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
@@ -1461,6 +1468,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 | Text ribbon (`text-ribbon`) | WOVE (figures along an arc); the fermata arc | The phrase round an arch, largest at the crest and fading by distance |
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
+| Time range (`time-range`) | Paul Rand A–B dimension ticks (11.jpg) | Large native endpoint readings stand over a positioned caliper. The interval has a true start position and length, including a split measurement across midnight. |
 
 ### Shared moves
 A move serves more than one component only when it is the same idea on purpose. It keeps one name wherever it appears, so it reads as a move of the system and not a coincidence. The shared ones:
@@ -1749,6 +1757,7 @@ Three rules, then one articulation per component.
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
+| Time range (`time-range`) | Day caliper | Editing moves the start and end of a positioned caliper across the day; focus raises its construction arms. Overnight intervals split at the day boundary. Reversals retarget the current CSS interpolation rather than queueing arrivals. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 
