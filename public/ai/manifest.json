@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b"
+    "DESIGN.md": "ec2f32b4ff996682a7dc82ca5b60ceca1c473bf5b3bae8e1905c46b49f6a5962"
   },
   "files": {
     "AGENTS.md": "9d0fd00a02f9bc89f828f4f923b91ff05a6755643747a118781bd482f69e9d29",
     "docs/AGENTS.md": "375cc2874815dcd1bbd7145e040534ab46dd29d5a45177bcbed7f51e8e0a4a48",
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b",
+    "DESIGN.md": "ec2f32b4ff996682a7dc82ca5b60ceca1c473bf5b3bae8e1905c46b49f6a5962",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -79,6 +79,7 @@
     "components/agent-state.md": "c0da371e78530e15288de908455081ba220cbcf95afb17e1a5580571adbe35ad",
     "components/appearance.md": "91774b59d34bef1edc7353b12b1651c28bd73f8dd07b836a370967d1d1985f86",
     "components/area-chart.md": "a8b6a34a842b24725681003a80cc84a6b4a9bf61b6ad8a9557c573cd2b451dce",
+    "components/audio-player.md": "c04c9900f40b9070dfb737865cb8eca2cec4b2a6c64dc30bda6770fd0f68e443",
     "components/calligram.md": "95ba06713dec96f5611658473f687d5b909accf829c97f82d34660584109bee0",
     "components/command-line.md": "187580d0ab9a272e532ea26d78146c8edff3ec8a264b520369f4642cf96f3387",
     "components/contour.md": "835be6bafea6a0945791bd6af40b5d0772dfb4af77eabd24b6fdc9e50a87de37",
@@ -130,6 +131,7 @@
     "area-chart",
     "aspect-ratio",
     "attachment",
+    "audio-player",
     "avatar",
     "badge",
     "breadcrumb",

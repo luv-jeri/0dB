@@ -78,6 +78,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [Agent state](https://thedirectors.agency/ui/docs/agent-state/): agent-state usage and examples
 - [Appearance](https://thedirectors.agency/ui/docs/appearance/): appearance usage and examples
 - [Area chart](https://thedirectors.agency/ui/docs/area-chart/): area-chart usage and examples
+- [Audio player](https://thedirectors.agency/ui/docs/audio-player/): audio-player usage and examples
 - [Calligram](https://thedirectors.agency/ui/docs/calligram/): calligram usage and examples
 - [Command line](https://thedirectors.agency/ui/docs/command-line/): command-line usage and examples
 - [Contour](https://thedirectors.agency/ui/docs/contour/): contour usage and examples
@@ -188,6 +189,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [components/agent-state.md](https://thedirectors.agency/ui/ai/components/agent-state.md): Downloadable 0dB instructions or reference
 - [components/appearance.md](https://thedirectors.agency/ui/ai/components/appearance.md): Downloadable 0dB instructions or reference
 - [components/area-chart.md](https://thedirectors.agency/ui/ai/components/area-chart.md): Downloadable 0dB instructions or reference
+- [components/audio-player.md](https://thedirectors.agency/ui/ai/components/audio-player.md): Downloadable 0dB instructions or reference
 - [components/calligram.md](https://thedirectors.agency/ui/ai/components/calligram.md): Downloadable 0dB instructions or reference
 - [components/command-line.md](https://thedirectors.agency/ui/ai/components/command-line.md): Downloadable 0dB instructions or reference
 - [components/contour.md](https://thedirectors.agency/ui/ai/components/contour.md): Downloadable 0dB instructions or reference
@@ -306,6 +308,7 @@ A type-led component registry. Read intent, core design and relevant contracts b
 - [docs/0db/components/agent-state.md](https://thedirectors.agency/ui/ai/docs/0db/components/agent-state.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/appearance.md](https://thedirectors.agency/ui/ai/docs/0db/components/appearance.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/area-chart.md](https://thedirectors.agency/ui/ai/docs/0db/components/area-chart.md): Downloadable 0dB instructions or reference
+- [docs/0db/components/audio-player.md](https://thedirectors.agency/ui/ai/docs/0db/components/audio-player.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/calligram.md](https://thedirectors.agency/ui/ai/docs/0db/components/calligram.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/command-line.md](https://thedirectors.agency/ui/ai/docs/0db/components/command-line.md): Downloadable 0dB instructions or reference
 - [docs/0db/components/contour.md](https://thedirectors.agency/ui/ai/docs/0db/components/contour.md): Downloadable 0dB instructions or reference

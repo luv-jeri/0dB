@@ -74,6 +74,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "agent-state": { Example: dynamic(() => import("@/examples/agent-state")), States: dynamic(() => import("@/examples/agent-state").then((m) => m.States)) },
   "appearance": { Example: dynamic(() => import("@/examples/appearance")), States: dynamic(() => import("@/examples/appearance").then((m) => m.States)) },
   "area-chart": { Example: dynamic(() => import("@/examples/area-chart")), States: dynamic(() => import("@/examples/area-chart").then((m) => m.States)) },
+  "audio-player": { Example: dynamic(() => import("@/examples/audio-player")), States: dynamic(() => import("@/examples/audio-player").then((m) => m.States)) },
   "calligram": { Example: dynamic(() => import("@/examples/calligram")), States: dynamic(() => import("@/examples/calligram").then((m) => m.States)) },
   "command-line": { Example: dynamic(() => import("@/examples/command-line")), States: dynamic(() => import("@/examples/command-line").then((m) => m.States)) },
   "contour": { Example: dynamic(() => import("@/examples/contour")), States: dynamic(() => import("@/examples/contour").then((m) => m.States)) },
