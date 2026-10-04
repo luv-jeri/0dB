@@ -1156,6 +1156,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
+### db-transfer (transfer-list)
+- Underneath: Two native sections with named headings, lists of checkbox labels, and Include/Remove buttons. Included names are italic; counts and actions are roman. A polite status reports the number moved.
+- Creative move: Two oversized set counts hold open margins. Words travel from their measured source position into the destination setting, changing from roman to personal italic. Reference: Renaissance spread (17.jpg), scale contrast (1.jpg).
+- Behavior: Distinct from Picks' mutually exclusive choice, Combobox's picked sentence and Swapy's ordering. The value is set membership. Item ids are unique and non-empty, source order stays stable, unavailable items cannot move, and vanished source ids are excluded. value controls the set or defaultValue initializes it; an uncontrolled form reset restores that membership; hidden fields repeat the supplied name. Transfer clears picks and focuses the destination heading. The one-column phone layout preserves both set names.
+- Motion: crossing type. The actual word positions are sampled before transfer. Destination words travel that distance, briefly deform in width and overshoot before settling; neighbouring words close the vacancy. A rapid reversal samples the currently displayed position and cancels earlier flights. Hit areas stay in the destination layout. Reduced motion resolves directly; each action ends at rest. Native focus and hit areas remain stable.
+- Access: native controls retain keyboard and touch activation, focus remains visible, long text wraps in flow, logical spacing follows local direction, reduced motion changes directly and forced colours retain semantic lines and system focus. `[hidden]` keeps its native meaning.
+
 ## The overture (specimen only)
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
@@ -1461,6 +1468,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 | Text ribbon (`text-ribbon`) | WOVE (figures along an arc); the fermata arc | The phrase round an arch, largest at the crest and fading by distance |
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
+| Transfer list (`transfer-list`) | Renaissance spread (17.jpg), scale contrast (1.jpg) | Two oversized set counts hold open margins. Words travel from their measured source position into the destination setting, changing from roman to personal italic. |
 
 ### Shared moves
 A move serves more than one component only when it is the same idea on purpose. It keeps one name wherever it appears, so it reads as a move of the system and not a coincidence. The shared ones:
@@ -1749,6 +1757,7 @@ Three rules, then one articulation per component.
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
+| Transfer list (`transfer-list`) | Crossing type | The actual word positions are sampled before transfer. Destination words travel that distance, briefly deform in width and overshoot before settling; neighbouring words close the vacancy. A rapid reversal samples the currently displayed position and cancels earlier flights. Hit areas stay in the destination layout. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 

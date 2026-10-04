@@ -1,0 +1,24 @@
+@layer components {
+  /* Renaissance's two hands: chosen words cross the real distance between two open margins. */
+  .db-transfer { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--db-space-6); min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-transfer-side { min-inline-size: 0; }
+  .db-transfer-side > h3 { display: flex; flex-direction: column-reverse; gap: var(--db-space-3); font-size: var(--db-pp); font-weight: 400; margin-block-end: var(--db-space-5); }
+  .db-transfer-side > h3 > small { font-size: clamp(3rem, 11cqi, 5rem); font-weight: 300; line-height: 0.9; color: var(--db-pencil); letter-spacing: -0.06em; }
+  .db-transfer-side > ul { list-style: none; padding: 0; min-block-size: 11rem; }
+  .db-transfer-side li { border-block-start: var(--db-hairline) solid var(--db-rule); }
+  .db-transfer-side label { display: flex; align-items: baseline; position: relative; gap: var(--db-space-3); padding-block: var(--db-space-4); min-block-size: 56px; cursor: pointer; }
+  .db-transfer-side label > span { font-size: clamp(1.2rem, 4cqi, 1.65rem); font-weight: 300; line-height: 1.15; transform-origin: center; transition: letter-spacing var(--db-moderato) var(--db-exhale); }
+  .db-transfer-side input[type="checkbox"] { appearance: none; inline-size: 16px; block-size: 16px; flex: 0 0 auto; border: 0; border-block-start: var(--db-hairline) solid var(--db-rule-strong); margin: 0; cursor: pointer; position: relative; }
+  .db-transfer-side input[type="checkbox"]::after { content: ""; position: absolute; inset-inline-start: 50%; inset-block-start: -5px; block-size: 10px; border-inline-start: var(--db-hairline) solid var(--db-rule-strong); transition: transform var(--db-moderato) var(--db-spiccato); transform: rotate(0deg); }
+  .db-transfer-side input:checked::after { transform: rotate(90deg); }
+  .db-transfer-side label:has(input:checked) > span { letter-spacing: 0.025em; text-decoration: line-through; text-decoration-thickness: var(--db-hairline); }
+  .db-transfer-side label:has(input:disabled) { color: var(--db-pencil); cursor: default; }
+  .db-transfer-side li[data-included] span { font-family: var(--db-expression); font-style: italic; color: var(--db-ink); }
+  .db-transfer-side > button { background: none; border: 0; border-block-start: var(--db-hairline) solid var(--db-rule-strong); display: block; inline-size: 100%; min-block-size: 44px; text-align: start; padding: var(--db-space-3) 0; margin-block-start: var(--db-space-3); font-size: var(--db-pp); cursor: pointer; }
+  .db-transfer-side > button:disabled { color: var(--db-pencil); cursor: default; border-color: var(--db-rule); }
+  .db-transfer-empty { color: var(--db-pencil); font-family: var(--db-voice); font-style: normal; font-size: var(--db-mf); padding-block: var(--db-space-4); }
+  @container (max-width: 380px) { .db-transfer { grid-template-columns: minmax(0, 1fr); } .db-transfer-side > h3 { flex-direction: row; justify-content: space-between; align-items: baseline; } .db-transfer-side > ul { min-block-size: 0; } }
+  @media (max-width: 540px) { .db-transfer { grid-template-columns: minmax(0, 1fr); } .db-transfer-side > h3 { flex-direction: row; justify-content: space-between; align-items: baseline; } .db-transfer-side > ul { min-block-size: 0; } }
+  @media (prefers-reduced-motion: reduce) { .db-transfer-side input::after, .db-transfer-side label > span { transition: none; } }
+  @media (forced-colors: active) { .db-transfer-side input[type="checkbox"] { appearance: auto; } .db-transfer-side input::after { display: none; } }
+}

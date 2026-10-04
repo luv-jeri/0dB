@@ -98,6 +98,7 @@ import textRibbonMeta from "@/content/text-ribbon"
 import tilingMeta from "@/content/tiling"
 import timerMeta from "@/content/timer"
 import tourMeta from "@/content/tour"
+import transferListMeta from "@/content/transfer-list"
 import treeMeta from "@/content/tree"
 import wakeMeta from "@/content/wake"
 import waterfallMeta from "@/content/waterfall"
@@ -203,6 +204,7 @@ export const entries = [
   { meta: tilingMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: timerMeta, hasStates: true, siblings: ["button","radial-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: tourMeta, hasStates: true, siblings: ["dialog"], exampleDependencies: ["button","field","meta"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json https://thedirectors.agency/ui/r/field.json https://thedirectors.agency/ui/r/meta.json", npm: [] },
+  { meta: transferListMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: treeMeta, hasStates: true, siblings: ["collapsible","item"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: wakeMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: waterfallMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
