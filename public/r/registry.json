@@ -65,6 +65,11 @@
           "target": "lib/0db/use-form-presentation.ts"
         },
         {
+          "path": "registry/0db/lib/use-form-reset.ts",
+          "type": "registry:lib",
+          "target": "lib/0db/use-form-reset.ts"
+        },
+        {
           "path": "registry/0db/styles/tokens.css",
           "type": "registry:file",
           "target": "styles/0db/tokens.css"
@@ -2869,6 +2874,34 @@
       }
     },
     {
+      "name": "shortcut-recorder",
+      "type": "registry:ui",
+      "title": "Shortcut recorder",
+      "description": "A chord held in typographic tension: the final key stands large, Record cants the setting, and a complete chord releases it into place.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/shortcut-recorder.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/shortcut-recorder.css",
+          "type": "registry:file",
+          "target": "styles/0db/shortcut-recorder.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/shortcut-recorder.css\"": {}
+      },
+      "meta": {
+        "movement": "VI",
+        "underneath": "native",
+        "contract": "db-shortcut"
+      }
+    },
+    {
       "name": "source",
       "type": "registry:ui",
       "title": "Source",
@@ -3710,6 +3743,11 @@
           "path": "registry/0db/ai/components/segue.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/segue.md"
+        },
+        {
+          "path": "registry/0db/ai/components/shortcut-recorder.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/shortcut-recorder.md"
         },
         {
           "path": "registry/0db/ai/components/source.md",

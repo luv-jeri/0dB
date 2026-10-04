@@ -6,6 +6,7 @@ const rest = (reason: string): Score => ({ script: null, reason })
 /** Deliberate coverage, not a selector that clicks whatever happens to be on the page.
  * The same score serves the docs Example and the landing's fitted variations. */
 export const DEMO_SCORES: Record<string, Score> = {
+  "shortcut-recorder": rest("Recording needs real keyboard focus and a deliberate chord."),
   "accordion": play("accordion", "The second answer opens, then the first returns"),
   "activity-feed": play("details", "Open the older entries and put them away"),
   "agent-chat": play("text", "Compose a timetable request without sending it"),

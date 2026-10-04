@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b"
+    "DESIGN.md": "1095a14e341fd062e0de7f89567f326253e94a567a6988ee61d185ab647aab99"
   },
   "files": {
     "AGENTS.md": "9d0fd00a02f9bc89f828f4f923b91ff05a6755643747a118781bd482f69e9d29",
     "docs/AGENTS.md": "375cc2874815dcd1bbd7145e040534ab46dd29d5a45177bcbed7f51e8e0a4a48",
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b",
+    "DESIGN.md": "1095a14e341fd062e0de7f89567f326253e94a567a6988ee61d185ab647aab99",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -101,6 +101,7 @@
     "components/reverb.md": "4f85510189aa8129a952ec793fbe6cb65d5e747ff4eb078858a9ccd64f4d654d",
     "components/scroll-expand.md": "560f880ac350b777130992ebbd1d70d18832731013163d91bffe69a0423bb0ca",
     "components/segue.md": "78602c44c9ca10314ce7133aeef0bb55e927251f854cb75d8d5394f76ed15e81",
+    "components/shortcut-recorder.md": "6b53eb82e2d35062ac8bfaec1e106921b81052e563f82b5ca1c4840c7f2d7165",
     "components/source.md": "cc52dce228058b54bb09894ee411143c5eb7fb292e3e3b0154fbfc0429ddac60",
     "components/stat.md": "4d6b211dde3d4090189bbb4d87a51055cb18ebdd735b0b9ccd2053984e323316",
     "components/steps.md": "614ce875c37df991e00dd61fb75906d12f9fb49410649eb93c2607c8e8b6dd69",
@@ -199,6 +200,7 @@
     "segue",
     "select",
     "sheet",
+    "shortcut-recorder",
     "sidebar",
     "skeleton",
     "slider",
