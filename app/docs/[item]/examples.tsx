@@ -87,6 +87,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "marquee": { Example: dynamic(() => import("@/examples/marquee")), States: dynamic(() => import("@/examples/marquee").then((m) => m.States)) },
   "measure": { Example: dynamic(() => import("@/examples/measure")), States: dynamic(() => import("@/examples/measure").then((m) => m.States)) },
   "melody": { Example: dynamic(() => import("@/examples/melody")), States: dynamic(() => import("@/examples/melody").then((m) => m.States)) },
+  "meter": { Example: dynamic(() => import("@/examples/meter")), States: dynamic(() => import("@/examples/meter").then((m) => m.States)) },
   "mode-toggle": { Example: dynamic(() => import("@/examples/mode-toggle")), States: dynamic(() => import("@/examples/mode-toggle").then((m) => m.States)) },
   "number-input": { Example: dynamic(() => import("@/examples/number-input")), States: dynamic(() => import("@/examples/number-input").then((m) => m.States)) },
   "pie-chart": { Example: dynamic(() => import("@/examples/pie-chart")), States: dynamic(() => import("@/examples/pie-chart").then((m) => m.States)) },
