@@ -1156,6 +1156,13 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
+### db-text-search (text-search)
+- Underneath: Native search Input, result status, Previous and Next buttons, and a plain-text passage with native mark elements. Input supplies its own baseline articulation through the existing Field item.
+- Creative move: A large italic query sets the head; a margin coordinate travels to the actual current line while a pair of reading marks clasps the chosen occurrence. Reference: Weingart leader callouts (12.jpg), SPECTRA coordinates (10.jpg).
+- Behavior: Distinct from Combobox and Command: no suggestions or filtering away the document. Literal, Unicode case-insensitive non-overlapping matching escapes regular-expression syntax and preserves UTF-16 offsets. Empty queries yield no marks. Changing text or query resets to the first hit. Enter advances; Shift+Enter reverses; IME Enter is ignored. No matches disable navigation. Typing never scrolls; explicit navigation uses nearest instant scrolling and keeps focus on its control.
+- Motion: travelling coordinate. Explicit navigation sends the margin coordinate to the measured line of the next occurrence and closes reading parentheses around that hit. Typing changes the marks in place; there is no initial entrance or forced typing scroll. Reduced motion resolves directly; each action ends at rest. Native focus and hit areas remain stable.
+- Access: native controls retain keyboard and touch activation, focus remains visible, long text wraps in flow, logical spacing follows local direction, reduced motion changes directly and forced colours retain semantic lines and system focus. `[hidden]` keeps its native meaning.
+
 ## The overture (specimen only)
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
@@ -1461,6 +1468,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 | Text ribbon (`text-ribbon`) | WOVE (figures along an arc); the fermata arc | The phrase round an arch, largest at the crest and fading by distance |
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
+| Text search (`text-search`) | Weingart leader callouts (12.jpg), SPECTRA coordinates (10.jpg) | A large italic query sets the head; a margin coordinate travels to the actual current line while a pair of reading marks clasps the chosen occurrence. |
 
 ### Shared moves
 A move serves more than one component only when it is the same idea on purpose. It keeps one name wherever it appears, so it reads as a move of the system and not a coincidence. The shared ones:
@@ -1749,6 +1757,7 @@ Three rules, then one articulation per component.
 | Cola contour (`contour`) | Phrasing | The phrase you point at stays in ink; the others rest in pencil |
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
+| Text search (`text-search`) | Travelling coordinate | Explicit navigation sends the margin coordinate to the measured line of the next occurrence and closes reading parentheses around that hit. Typing changes the marks in place; there is no initial entrance or forced typing scroll. |
 
 `roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 

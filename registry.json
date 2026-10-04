@@ -3019,6 +3019,35 @@
       }
     },
     {
+      "name": "text-search",
+      "type": "registry:ui",
+      "title": "Text search",
+      "description": "A large italic query and a travelling margin coordinate locate the chosen occurrence inside its full passage.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json",
+        "https://thedirectors.agency/ui/r/field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/text-search.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/text-search.css",
+          "type": "registry:file",
+          "target": "styles/0db/text-search.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/text-search.css\"": {}
+      },
+      "meta": {
+        "movement": "X",
+        "underneath": "native",
+        "contract": "db-text-search"
+      }
+    },
+    {
       "name": "tiling",
       "type": "registry:ui",
       "title": "Tiling",
@@ -3735,6 +3764,11 @@
           "path": "registry/0db/ai/components/text-ribbon.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/text-ribbon.md"
+        },
+        {
+          "path": "registry/0db/ai/components/text-search.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/text-search.md"
         },
         {
           "path": "registry/0db/ai/components/tiling.md",
