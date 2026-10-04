@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b"
+    "DESIGN.md": "261cb387e5e6b00dc00241e385673b6fd0f2a033380904a8f9282b1f7625c317"
   },
   "files": {
     "AGENTS.md": "9d0fd00a02f9bc89f828f4f923b91ff05a6755643747a118781bd482f69e9d29",
     "docs/AGENTS.md": "375cc2874815dcd1bbd7145e040534ab46dd29d5a45177bcbed7f51e8e0a4a48",
     "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "61ac3ae740b9544c982ebdc0f962a77f43ed5a1851e73269353e94fef814553b",
+    "DESIGN.md": "261cb387e5e6b00dc00241e385673b6fd0f2a033380904a8f9282b1f7625c317",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -90,6 +90,7 @@
     "components/grid.md": "8dfa4fb397e589f5a61026c594f197f1dca88259142d2963d5210086bc43d240",
     "components/line-chart.md": "e3716dd1920e91badb857cc361d26526b02e504c91058f408532291fd91f0937",
     "components/marquee.md": "68c21d4bd25fb7416da52a6db524fd700037692c02c9c0f44d8b4969beb71c9f",
+    "components/masked-value.md": "14b66117878303ac089e8c2565bda78d510d6b6612a786299d8704601a69f881",
     "components/measure.md": "a1ba5710bbac184cd5557233bb8e6abe0ef733a83b0dc2b317bb03da77518070",
     "components/melody.md": "e431ecb3b2cee144d42864994c764354f790ec617127afa0a85f6ec86d1ab382",
     "components/mode-toggle.md": "5779c53f8357e92f5c402344fdbdba1da4729c61cd57b04196eb9b01e4eafcf7",
@@ -171,6 +172,7 @@
     "link",
     "marker",
     "marquee",
+    "masked-value",
     "measure",
     "melody",
     "menubar",
