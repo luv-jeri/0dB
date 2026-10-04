@@ -68,6 +68,7 @@ import agentChatMeta from "@/content/agent-chat"
 import agentStateMeta from "@/content/agent-state"
 import appearanceMeta from "@/content/appearance"
 import areaChartMeta from "@/content/area-chart"
+import audioPlayerMeta from "@/content/audio-player"
 import calligramMeta from "@/content/calligram"
 import commandLineMeta from "@/content/command-line"
 import contourMeta from "@/content/contour"
@@ -173,6 +174,7 @@ export const entries = [
   { meta: agentStateMeta, hasStates: true, siblings: ["marker","spinner"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
   { meta: appearanceMeta, hasStates: true, siblings: ["mode-toggle","picks"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: areaChartMeta, hasStates: true, siblings: ["line-chart"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
+  { meta: audioPlayerMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: calligramMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: commandLineMeta, hasStates: true, siblings: ["radio-group","source"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: contourMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },

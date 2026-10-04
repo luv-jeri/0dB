@@ -2215,6 +2215,34 @@
       }
     },
     {
+      "name": "audio-player",
+      "type": "registry:ui",
+      "title": "Audio player",
+      "description": "A monumental media clock above a seekable score. Play lifts the held playhead; the browser supplies every second.",
+      "registryDependencies": [
+        "https://thedirectors.agency/ui/r/0db.json"
+      ],
+      "files": [
+        {
+          "path": "registry/0db/ui/audio-player.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/0db/styles/audio-player.css",
+          "type": "registry:file",
+          "target": "styles/0db/audio-player.css"
+        }
+      ],
+      "css": {
+        "@import \"../styles/0db/audio-player.css\"": {}
+      },
+      "meta": {
+        "movement": "IX",
+        "underneath": "native",
+        "contract": "db-audio"
+      }
+    },
+    {
       "name": "calligram",
       "type": "registry:ui",
       "title": "Calligram",
@@ -3600,6 +3628,11 @@
           "path": "registry/0db/ai/components/area-chart.md",
           "type": "registry:file",
           "target": "~/docs/0db/components/area-chart.md"
+        },
+        {
+          "path": "registry/0db/ai/components/audio-player.md",
+          "type": "registry:file",
+          "target": "~/docs/0db/components/audio-player.md"
         },
         {
           "path": "registry/0db/ai/components/calligram.md",

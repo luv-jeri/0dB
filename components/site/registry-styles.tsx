@@ -83,6 +83,7 @@ const sheets: Record<string, string> = {
   "/docs/agent-state": "/ui/site-styles/8dff7fc60c7b.css",
   "/docs/appearance": "/ui/site-styles/239f1e53d50f.css",
   "/docs/area-chart": "/ui/site-styles/8b46365372f7.css",
+  "/docs/audio-player": "/ui/site-styles/8ec3f06d7cfc.css",
   "/docs/calligram": "/ui/site-styles/8180fbca353f.css",
   "/docs/command-line": "/ui/site-styles/239f1e53d50f.css",
   "/docs/contour": "/ui/site-styles/c117d9463a92.css",
