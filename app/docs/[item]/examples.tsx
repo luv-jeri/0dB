@@ -100,6 +100,7 @@ const examples: Record<string, { Example: ComponentType; States?: ComponentType 
   "stat": { Example: dynamic(() => import("@/examples/stat")), States: dynamic(() => import("@/examples/stat").then((m) => m.States)) },
   "steps": { Example: dynamic(() => import("@/examples/steps")), States: dynamic(() => import("@/examples/steps").then((m) => m.States)) },
   "swapy": { Example: dynamic(() => import("@/examples/swapy")), States: dynamic(() => import("@/examples/swapy").then((m) => m.States)) },
+  "text-diff": { Example: dynamic(() => import("@/examples/text-diff")), States: dynamic(() => import("@/examples/text-diff").then((m) => m.States)) },
   "text-ribbon": { Example: dynamic(() => import("@/examples/text-ribbon")), States: dynamic(() => import("@/examples/text-ribbon").then((m) => m.States)) },
   "tiling": { Example: dynamic(() => import("@/examples/tiling")), States: dynamic(() => import("@/examples/tiling").then((m) => m.States)) },
   "timer": { Example: dynamic(() => import("@/examples/timer")), States: dynamic(() => import("@/examples/timer").then((m) => m.States)) },

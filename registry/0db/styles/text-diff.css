@@ -1,0 +1,19 @@
+@layer components {
+  /* A proof sheet: the corrected setting turns, the old ink contracts, the new voice unfolds. */
+  .db-text-diff { min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+  .db-text-diff-views { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block-end: var(--db-hairline) solid var(--db-rule); margin-block-end: var(--db-space-6); }
+  .db-text-diff-views::after { content: ""; position: absolute; inset-block-end: -1px; inset-inline-start: calc(var(--db-proof-position, 0) * 100% / 3); inline-size: calc(100% / 3); border-block-start: var(--db-hairline) solid var(--db-accent); transition: inset-inline-start var(--db-andante) var(--db-spiccato); }
+  .db-text-diff-views > button { display: grid; gap: var(--db-space-2); text-align: start; background: none; border: 0; padding: var(--db-space-3) var(--db-space-2) var(--db-space-4) 0; font-size: var(--db-pp); cursor: pointer; color: var(--db-pencil); min-block-size: 64px; }
+  .db-text-diff-views > button > small { font-size: var(--db-pp); font-variant-numeric: tabular-nums; }
+  .db-text-diff-views > button[aria-pressed="true"] { color: var(--db-ink); }
+  .db-text-diff-body { white-space: pre-wrap; font-size: clamp(1.6rem, 5.8cqi, 2.6rem); line-height: 1.38; font-weight: 300; letter-spacing: -0.025em; max-inline-size: var(--db-measure); transform-origin: center top; }
+  .db-text-diff del { color: var(--db-pencil); text-decoration-thickness: var(--db-hairline); font-size: 0.7em; letter-spacing: 0; }
+  .db-text-diff :is(ins, .db-text-diff-new) { color: var(--db-ink); font-family: var(--db-expression); font-style: italic; font-size: 1.2em; text-decoration-thickness: var(--db-hairline); text-underline-offset: 0.16em; }
+  .db-text-diff[data-view="changes"] :is(del + ins, ins + del) { margin-inline-start: 0.2em; }
+  .db-text-diff[data-proofed] .db-text-diff-body { animation: db-proof-turn var(--db-andante) var(--db-exhale); }
+  .db-text-diff[data-proofed] ins { animation: db-proof-correct var(--db-andante) var(--db-spiccato); }
+  @keyframes db-proof-turn { 0% { transform: perspective(600px) rotateX(-12deg) translateY(0.32em); letter-spacing: 0.025em; } 100% { transform: none; letter-spacing: -0.025em; } }
+  @keyframes db-proof-correct { 0% { font-size: 0.85em; text-decoration-color: transparent; } 55% { font-size: 1.28em; } 100% { font-size: 1.2em; } }
+  @media (prefers-reduced-motion: reduce) { .db-text-diff-views::after, .db-text-diff-body, .db-text-diff ins { transition: none; animation: none; } }
+  @media (forced-colors: active) { .db-text-diff-views::after { border-color: Highlight; } }
+}
