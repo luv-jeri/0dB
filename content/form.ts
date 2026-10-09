@@ -16,5 +16,6 @@ export default defineComponent({
     { name: "FormPostscript, FormPostmark", type: "parts", description: "The letter's postscript and the postmark. The Form renders them itself; they're exported to pin a state in documentation." },
     { name: "FormPostscript errors", type: "Record<string, string>", description: "Required when rendering the part yourself: control IDs mapped to messages. Each message links to its control. Form supplies these automatically for its letter variant." },
     { name: "FormPostmark date", type: "Date", description: "Required when rendering the part yourself: when the form was sent. Form supplies it automatically for its postmark variant." },
+    { name: "FormPostmark locale, timeZone", type: "string", description: "The locale and time zone the day and time are set in. Without them, the reader's own. Pin both when the postmark is rendered on the server, so the server and the browser write the same words." },
   ],
 })

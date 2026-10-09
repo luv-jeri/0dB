@@ -78,7 +78,7 @@ export default function Example() {
 }
 
 const noop = () => {}
-const POSTED = new Date(2026, 8, 30, 14, 2)
+const POSTED = new Date(Date.UTC(2026, 8, 30, 14, 2))
 
 export function States() {
   return (
@@ -111,7 +111,7 @@ export function States() {
             <Input defaultValue="ada@studio.com" />
           </Field>
           <Button variant="statement">Subscribed</Button>
-          <FormPostmark date={POSTED} />
+          <FormPostmark date={POSTED} locale="en-GB" timeZone="UTC" />
         </Form>
       </State>
     </>
