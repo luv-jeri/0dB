@@ -8,4 +8,3 @@ next-env.d.ts
 public/specimen/
 .DS_Store
 .wrangler/
-registry/0db/signs/
