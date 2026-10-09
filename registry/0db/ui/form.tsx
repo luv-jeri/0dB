@@ -137,9 +137,19 @@ function FormPostscript({ errors, className, ...props }: React.ComponentProps<"d
   )
 }
 
-/** The postmark: sent, and when, in a double ring set down askew on the form's corner. Exported to pin in docs. */
-function FormPostmark({ date, className, ...props }: React.ComponentProps<"p"> & { date: Date }) {
-  const f = (o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(undefined, o).format(date)
+/**
+ * The postmark: sent, and when, in a double ring set down askew on the form's corner. Exported to pin in docs.
+ * The day and time are set in the reader's own locale and time zone. A postmark rendered on the server must
+ * pin both, or the server's words and the browser's differ and React redraws it.
+ */
+function FormPostmark({
+  date,
+  locale,
+  timeZone,
+  className,
+  ...props
+}: React.ComponentProps<"p"> & { date: Date; locale?: string; timeZone?: string }) {
+  const f = (o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { ...o, timeZone }).format(date)
   return (
     <p data-slot="form-postmark" role="status" className={cn("db-form-postmark", className)} {...props}>
       <span>Sent</span>{" "}
