@@ -26,7 +26,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 ## Rules
 
-- Type is the only ornament: no icons, cards, fills, shadows or gradients, and one accent in view. Interface text is roman; anything the person chose or typed is italic.
+- Type is the only ornament: icons are allowed only as signs made of their own word (owner decision 2026-10-10); no icon drawn as a picture; no cards, fills, shadows or gradients, and one accent in view. Interface text is roman; anything the person chose or typed is italic.
 - Names: `db-` classes, `--db-` tokens, and `data-variant`, `data-size` and `data-force` attributes. No cva and no `:dir()`. `!important` appears only on `[hidden]` and `.db-sr`.
 - Never run prettier or any formatter. Match the file you're in: no semicolons, double quotes.
 - Never hand-edit generated files: `registry.json`, `public/r/*`, `public/ai/*`, `public/llms*.txt`, `lib/site/entries.ts` and `app/registry.css`. Run `npm run registry:build` instead.
@@ -49,7 +49,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 - **Pre-release.** "0dB" is a working name. A new name is being chosen, and it lands before any public listing, because the shadcn directory ties a registry's history to its namespace.
 - **Not listed anywhere yet:** no shadcn directory entry, no release and no announcement until the launch plan is ready. Deploys and pushes are fine.
-- **Ranking:** the directory ranks by registry health and by the number of distinct items. Only real items count toward it; never add aliases or splits to raise the count. The rules are in `docs/superpowers/reports/2026-10-01-directory-ranking.md`.
+- **Ranking:** the directory ranks by registry health and by the number of distinct items. Only real items count toward it; never add aliases or splits to raise the count, though each sign variant (dots, words) is its own item by owner decision 2026-10-10. The rules are in `docs/superpowers/reports/2026-10-01-directory-ranking.md`.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
