@@ -1,0 +1,49 @@
+@layer components {
+  /* ── db-sign ── an icon made of its own word, after the ampersand (the word "et" worn down into a sign) and
+     Apollinaire's calligrams. Pretext lays the word along the drawing's strokes (line) or through its silhouette
+     (fill). Each letter is set at the size it is said at and scaled down into the drawing, so saying it is one
+     transform: it travels to its place in the word, turns upright and comes to full size. */
+  .db-sign {
+    --db-sign-size: 1.5rem;
+    position: relative; display: inline-block; flex: none; vertical-align: middle;
+    width: var(--db-sign-size); height: var(--db-sign-size);
+    font-family: var(--db-voice); font-style: normal; color: inherit;
+  }
+  .db-sign[data-face="italic"] { font-family: var(--db-expression); font-style: italic; }
+  .db-sign-glyphs { position: absolute; inset: 0; pointer-events: none; }
+  .db-sign-glyph {
+    position: absolute; left: 0; top: 0; transform-origin: 0 0; /* placed in the square's own coordinates, so the same either way round */
+    font-size: var(--ws); line-height: 1; white-space: pre; font-weight: var(--rest);
+    /* The letter's middle on the stroke: the em box's centre sits a little above the x-height's. */
+    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--k)) translate(-50%, -54%);
+    transition: transform var(--db-allegro) var(--db-breath), font-weight var(--db-allegro) var(--db-breath), opacity var(--db-allegro) linear, color var(--db-allegro) linear;
+    /* Going home, the last letter of the word leaves first; the echoes come back once the word has gone. */
+    transition-delay: calc(var(--m, 0) * var(--db-arpeggio));
+  }
+  .db-sign-glyph:not([data-say]) { transition-delay: calc(var(--db-arpeggio) * 2); }
+  /* In the text cut the word's letters wait unseen at the leaders, and rise out of them when it's said. */
+  .db-sign-glyph[data-hush] { opacity: 0; }
+  .db-sign[data-face="italic"] .db-sign-glyph { font-variation-settings: var(--db-expression-text-variation, normal); }
+
+  /* Said: pointing at the sign, or at the control it sits in, or focusing that control, sets the word. The echoes
+     sketch out in pencil and go quiet. data-force="hover" pins it for a states row. */
+  .db-sign:is([data-force~="hover"], [data-force~="hover"] *, :is(a, button, summary, [role="button"], [tabindex]):focus-visible *) .db-sign-glyph[data-say] {
+    transform: translate(var(--wx), var(--wy)) rotate(0deg) scale(1) translate(-50%, -54%);
+    font-weight: var(--said); opacity: 1;
+    transition-duration: var(--db-moderato); transition-delay: calc(var(--n, 0) * var(--db-arpeggio));
+  }
+  .db-sign:is([data-force~="hover"], [data-force~="hover"] *, :is(a, button, summary, [role="button"], [tabindex]):focus-visible *) .db-sign-glyph:not([data-say]) {
+    opacity: 0; color: var(--db-pencil); transition-delay: 0s;
+  }
+  @media (hover: hover) {
+    .db-sign:is(:hover, :is(a, button:not(:disabled), summary, label, [role="button"]):hover *) .db-sign-glyph[data-say] {
+      transform: translate(var(--wx), var(--wy)) rotate(0deg) scale(1) translate(-50%, -54%);
+      font-weight: var(--said); opacity: 1;
+      transition-duration: var(--db-moderato); transition-delay: calc(var(--n, 0) * var(--db-arpeggio));
+    }
+    .db-sign:is(:hover, :is(a, button:not(:disabled), summary, label, [role="button"]):hover *) .db-sign-glyph:not([data-say]) {
+      opacity: 0; color: var(--db-pencil); transition-delay: 0s;
+    }
+  }
+  @media (forced-colors: active) { .db-sign-glyph { color: CanvasText; } }
+}
