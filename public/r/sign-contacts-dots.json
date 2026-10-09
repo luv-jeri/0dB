@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-contacts-dots",
+  "title": "Sign: contacts (dots)",
+  "description": "A sign for \"address\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-contacts-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"address\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        2,\n        6\n      ],\n      [\n        \"L\",\n        6,\n        6\n      ]\n    ],\n    [\n      [\n        \"M\",\n        2,\n        10\n      ],\n      [\n        \"L\",\n        6,\n        10\n      ]\n    ],\n    [\n      [\n        \"M\",\n        2,\n        14\n      ],\n      [\n        \"L\",\n        6,\n        14\n      ]\n    ],\n    [\n      [\n        \"M\",\n        2,\n        18\n      ],\n      [\n        \"L\",\n        6,\n        18\n      ]\n    ],\n    [\n      [\n        \"M\",\n        6,\n        2\n      ],\n      [\n        \"L\",\n        18,\n        2\n      ]\n    ],\n    [\n      [\n        \"M\",\n        20,\n        4\n      ],\n      [\n        \"L\",\n        20,\n        20\n      ]\n    ],\n    [\n      [\n        \"M\",\n        18,\n        22\n      ],\n      [\n        \"L\",\n        6,\n        22\n      ]\n    ],\n    [\n      [\n        \"M\",\n        4,\n        20\n      ],\n      [\n        \"L\",\n        4,\n        4\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        2\n      ],\n      [\n        \"L\",\n        15,\n        22\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        7\n      ],\n      [\n        \"L\",\n        20,\n        7\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        12\n      ],\n      [\n        \"L\",\n        20,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        17\n      ],\n      [\n        \"L\",\n        20,\n        17\n      ]\n    ]\n  ]\n}\n\nfunction SignContactsDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignContactsDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-contacts-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

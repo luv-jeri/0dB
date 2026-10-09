@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-calendar-days-words",
+  "title": "Sign: calendar-days (words)",
+  "description": "A sign for \"schedule\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-calendar-days-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"schedule\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        8,\n        2\n      ],\n      [\n        \"L\",\n        8,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        16,\n        2\n      ],\n      [\n        \"L\",\n        16,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        5,\n        3\n      ],\n      [\n        \"L\",\n        19,\n        3\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        5\n      ],\n      [\n        \"L\",\n        21,\n        19\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        21\n      ],\n      [\n        \"L\",\n        5,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        19\n      ],\n      [\n        \"L\",\n        3,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        9\n      ],\n      [\n        \"L\",\n        21,\n        9\n      ]\n    ]\n  ]\n}\n\nfunction SignCalendarDaysWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignCalendarDaysWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-calendar-days-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

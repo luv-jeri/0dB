@@ -1160,6 +1160,17 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - horizon: after Eclipse, the disc standing on one line. The crop starts as a hairline across the whole measure (the horizon, drawn in `--db-rule-strong` while it's shut, and gone by a quarter open) and opens up and down from it; the caption stays full width.
 - The whole plate is in the flow and read from the start; only the view of it is cropped. Nothing to focus. Reduced motion, or no script: it stands open. It is symmetric, so right to left changes nothing. Forced colours: the marks and the horizon in CanvasText.
 
+### db-sign (sign)
+- Underneath: hook. Pretext lays the word along the drawing's strokes.
+- Anatomy: `<span class="db-sign" data-variant="dots | words" role="img" aria-label="word"><span class="db-sign-glyphs" aria-hidden="true"><span class="db-sign-glyph">…</span></span></span>`. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
+- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Line style only. Pretext sets the word letter by letter, kerning included, along the strokes of the drawing (`words`) or in middle-dot leaders (`dots`), so type stays the only ornament.
+- Variants:
+  - `dots`: each stroke is ruled in middle-dot leaders at every size; the letters wait unseen at the dots and rise out of them when said.
+  - `words`: the word runs along each stroke in whole words, closed up or spread to reach both ends; where a stroke is too short it falls back to leaders.
+- Yours: `data-face="italic"` sets the expression italic: a sign for something that belongs to the person (their mail, their home).
+- Said: pointing at the sign, or at the control it sits in, or focusing that control makes the drawing say its word. The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word; echoes sketch out in pencil and go quiet. Leaving winds them back.
+- States: rest, hover, focus. Reduced motion: the word and the drawing change places without travel. Forced colours use CanvasText.
+
 ### Globals
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
@@ -1175,6 +1186,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 | Component | Reference | Move |
 |---|---|---|
+| Sign (`sign`) | The ampersand ("et" worn down into a mark); Apollinaire, *Calligrammes*, 1918 | An icon made of its own word; pointing says the word |
 | Statement button (`button`) | "the silence that heals" corners | Corner marks close in on hover |
 | Space button (`button`) | "It has to be design." ("Watch this space."); the Renaissance top row | The words spread across the line; gathered, the silence they leave becomes the arrow |
 | Repeat button (`button`) | The score's repeat signs | The word between repeat bars; the opening dots set it to go round |
@@ -1492,6 +1504,7 @@ Three rules, then one articulation per component.
 
 | Component | Articulation | What moves |
 |---|---|---|
+| Sign (`sign`) | Said | The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word; echoes sketch out in pencil |
 | Statement button (`button`) | Accent (a pressed note) | Hover widens it; press makes it heavier and narrower, and the corners clasp |
 | Bracket button (`button`) | Spiccato | The parentheses step apart and rebound |
 | Quiet button (`button`) | Pass-through | The line leaves to the right and redraws from the left |

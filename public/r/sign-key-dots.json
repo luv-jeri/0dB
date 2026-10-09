@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-key-dots",
+  "title": "Sign: key (dots)",
+  "description": "A sign for \"key\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-key-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"key\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        2,\n        21\n      ],\n      [\n        \"L\",\n        11.6,\n        11.4\n      ]\n    ],\n    [\n      [\n        \"M\",\n        7.5,\n        15.5\n      ],\n      [\n        \"L\",\n        9.8,\n        17.8\n      ],\n      [\n        \"L\",\n        10.01,\n        18.12\n      ],\n      [\n        \"L\",\n        10.09,\n        18.5\n      ],\n      [\n        \"L\",\n        10.01,\n        18.88\n      ],\n      [\n        \"L\",\n        9.8,\n        19.2\n      ],\n      [\n        \"L\",\n        7.7,\n        21.3\n      ],\n      [\n        \"L\",\n        7.38,\n        21.51\n      ],\n      [\n        \"L\",\n        7,\n        21.59\n      ],\n      [\n        \"L\",\n        6.62,\n        21.51\n      ],\n      [\n        \"L\",\n        6.3,\n        21.3\n      ],\n      [\n        \"L\",\n        4,\n        19\n      ]\n    ],\n    [\n      [\n        \"O\",\n        15.5,\n        7.5,\n        5.5,\n        0,\n        360\n      ]\n    ]\n  ]\n}\n\nfunction SignKeyDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignKeyDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-key-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-circle-slash-words",
+  "title": "Sign: circle-slash (words)",
+  "description": "A sign for \"empty\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-circle-slash-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"empty\",\n  \"line\": [\n    [\n      [\n        \"O\",\n        12,\n        12,\n        10,\n        0,\n        360\n      ]\n    ],\n    [\n      [\n        \"M\",\n        9,\n        15\n      ],\n      [\n        \"L\",\n        15,\n        9\n      ]\n    ]\n  ]\n}\n\nfunction SignCircleSlashWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignCircleSlashWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-circle-slash-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

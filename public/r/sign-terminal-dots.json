@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-terminal-dots",
+  "title": "Sign: terminal (dots)",
+  "description": "A sign for \"shell\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-terminal-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"shell\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        12,\n        19\n      ],\n      [\n        \"L\",\n        20,\n        19\n      ]\n    ],\n    [\n      [\n        \"M\",\n        4,\n        17\n      ],\n      [\n        \"L\",\n        10,\n        11\n      ]\n    ],\n    [\n      [\n        \"M\",\n        10,\n        11\n      ],\n      [\n        \"L\",\n        4,\n        5\n      ]\n    ]\n  ]\n}\n\nfunction SignTerminalDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignTerminalDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-terminal-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-feather-words",
+  "title": "Sign: feather (words)",
+  "description": "A sign for \"write\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-feather-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"write\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        14.09,\n        18.41\n      ],\n      [\n        \"L\",\n        13.78,\n        18.66\n      ],\n      [\n        \"L\",\n        13.44,\n        18.85\n      ],\n      [\n        \"L\",\n        13.06,\n        18.96\n      ],\n      [\n        \"L\",\n        12.67,\n        19\n      ],\n      [\n        \"L\",\n        5,\n        19\n      ]\n    ],\n    [\n      [\n        \"M\",\n        5,\n        19\n      ],\n      [\n        \"L\",\n        5,\n        11.33\n      ],\n      [\n        \"L\",\n        5.04,\n        10.94\n      ],\n      [\n        \"L\",\n        5.15,\n        10.56\n      ],\n      [\n        \"L\",\n        5.34,\n        10.22\n      ],\n      [\n        \"L\",\n        5.59,\n        9.91\n      ],\n      [\n        \"L\",\n        11.75,\n        3.75\n      ],\n      [\n        \"L\",\n        12.34,\n        3.23\n      ],\n      [\n        \"L\",\n        12.99,\n        2.8\n      ],\n      [\n        \"L\",\n        13.7,\n        2.45\n      ],\n      [\n        \"L\",\n        14.44,\n        2.2\n      ],\n      [\n        \"L\",\n        15.21,\n        2.04\n      ],\n      [\n        \"L\",\n        16,\n        1.99\n      ],\n      [\n        \"L\",\n        16.78,\n        2.04\n      ],\n      [\n        \"L\",\n        17.55,\n        2.2\n      ],\n      [\n        \"L\",\n        18.29,\n        2.45\n      ],\n      [\n        \"L\",\n        19,\n        2.8\n      ],\n      [\n        \"L\",\n        19.65,\n        3.23\n      ],\n      [\n        \"L\",\n        20.24,\n        3.75\n      ],\n      [\n        \"L\",\n        20.76,\n        4.34\n      ],\n      [\n        \"L\",\n        21.19,\n        4.99\n      ],\n      [\n        \"L\",\n        21.54,\n        5.7\n      ],\n      [\n        \"L\",\n        21.79,\n        6.44\n      ],\n      [\n        \"L\",\n        21.95,\n        7.21\n      ],\n      [\n        \"L\",\n        22,\n        7.99\n      ],\n      [\n        \"L\",\n        21.95,\n        8.78\n      ],\n      [\n        \"L\",\n        21.79,\n        9.55\n      ],\n      [\n        \"L\",\n        21.54,\n        10.29\n      ],\n      [\n        \"L\",\n        21.19,\n        11\n      ],\n      [\n        \"L\",\n        20.76,\n        11.65\n      ],\n      [\n        \"L\",\n        20.24,\n        12.24\n      ],\n      [\n        \"L\",\n        14.09,\n        18.41\n      ]\n    ],\n    [\n      [\n        \"M\",\n        16,\n        8\n      ],\n      [\n        \"L\",\n        2,\n        22\n      ]\n    ],\n    [\n      [\n        \"M\",\n        17.49,\n        15\n      ],\n      [\n        \"L\",\n        9,\n        15\n      ]\n    ]\n  ]\n}\n\nfunction SignFeatherWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignFeatherWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-feather-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

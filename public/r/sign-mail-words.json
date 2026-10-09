@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-mail-words",
+  "title": "Sign: mail (words)",
+  "description": "A sign for \"mail\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-mail-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"mail\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        3,\n        6\n      ],\n      [\n        \"L\",\n        21,\n        6\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        6\n      ],\n      [\n        \"L\",\n        21,\n        18\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        18\n      ],\n      [\n        \"L\",\n        21,\n        18\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        18\n      ],\n      [\n        \"L\",\n        3,\n        6\n      ]\n    ],\n    [\n      [\n        \"M\",\n        4,\n        7.5\n      ],\n      [\n        \"L\",\n        12,\n        13.2\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        13.2\n      ],\n      [\n        \"L\",\n        20,\n        7.5\n      ]\n    ]\n  ]\n}\n\nfunction SignMailWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignMailWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-mail-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

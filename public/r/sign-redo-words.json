@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-redo-words",
+  "title": "Sign: redo (words)",
+  "description": "A sign for \"redo\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-redo-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"redo\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        15,\n        14\n      ],\n      [\n        \"L\",\n        20,\n        9\n      ]\n    ],\n    [\n      [\n        \"M\",\n        20,\n        9\n      ],\n      [\n        \"L\",\n        15,\n        4\n      ]\n    ],\n    [\n      [\n        \"M\",\n        20,\n        9\n      ],\n      [\n        \"L\",\n        9.5,\n        9\n      ],\n      [\n        \"L\",\n        9.02,\n        9.02\n      ],\n      [\n        \"L\",\n        8.54,\n        9.08\n      ],\n      [\n        \"L\",\n        8.08,\n        9.19\n      ],\n      [\n        \"L\",\n        7.62,\n        9.33\n      ],\n      [\n        \"L\",\n        7.18,\n        9.52\n      ],\n      [\n        \"L\",\n        6.75,\n        9.74\n      ],\n      [\n        \"L\",\n        6.35,\n        9.99\n      ],\n      [\n        \"L\",\n        5.96,\n        10.29\n      ],\n      [\n        \"L\",\n        5.61,\n        10.61\n      ],\n      [\n        \"L\",\n        5.29,\n        10.96\n      ],\n      [\n        \"L\",\n        4.99,\n        11.35\n      ],\n      [\n        \"L\",\n        4.74,\n        11.75\n      ],\n      [\n        \"L\",\n        4.52,\n        12.18\n      ],\n      [\n        \"L\",\n        4.33,\n        12.62\n      ],\n      [\n        \"L\",\n        4.19,\n        13.08\n      ],\n      [\n        \"L\",\n        4.08,\n        13.54\n      ],\n      [\n        \"L\",\n        4.02,\n        14.02\n      ],\n      [\n        \"L\",\n        4,\n        14.5\n      ],\n      [\n        \"L\",\n        4.02,\n        14.98\n      ],\n      [\n        \"L\",\n        4.08,\n        15.46\n      ],\n      [\n        \"L\",\n        4.19,\n        15.92\n      ],\n      [\n        \"L\",\n        4.33,\n        16.38\n      ],\n      [\n        \"L\",\n        4.52,\n        16.82\n      ],\n      [\n        \"L\",\n        4.74,\n        17.25\n      ],\n      [\n        \"L\",\n        4.99,\n        17.65\n      ],\n      [\n        \"L\",\n        5.29,\n        18.04\n      ],\n      [\n        \"L\",\n        5.61,\n        18.39\n      ],\n      [\n        \"L\",\n        5.96,\n        18.71\n      ],\n      [\n        \"L\",\n        6.35,\n        19.01\n      ],\n      [\n        \"L\",\n        6.75,\n        19.26\n      ],\n      [\n        \"L\",\n        7.18,\n        19.48\n      ],\n      [\n        \"L\",\n        7.62,\n        19.67\n      ],\n      [\n        \"L\",\n        8.08,\n        19.81\n      ],\n      [\n        \"L\",\n        8.54,\n        19.92\n      ],\n      [\n        \"L\",\n        9.02,\n        19.98\n      ],\n      [\n        \"L\",\n        9.5,\n        20\n      ],\n      [\n        \"L\",\n        13,\n        20\n      ]\n    ]\n  ]\n}\n\nfunction SignRedoWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignRedoWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-redo-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

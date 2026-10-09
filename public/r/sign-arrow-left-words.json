@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-arrow-left-words",
+  "title": "Sign: arrow-left (words)",
+  "description": "A sign for \"previous\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-arrow-left-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"previous\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        12,\n        19\n      ],\n      [\n        \"L\",\n        5,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        5,\n        12\n      ],\n      [\n        \"L\",\n        12,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        12\n      ],\n      [\n        \"L\",\n        5,\n        12\n      ]\n    ]\n  ]\n}\n\nfunction SignArrowLeftWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignArrowLeftWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-arrow-left-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-pencil-words",
+  "title": "Sign: pencil (words)",
+  "description": "A sign for \"edit\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-pencil-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"edit\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        21.17,\n        6.81\n      ],\n      [\n        \"L\",\n        21.49,\n        6.44\n      ],\n      [\n        \"L\",\n        21.74,\n        6.01\n      ],\n      [\n        \"L\",\n        21.9,\n        5.55\n      ],\n      [\n        \"L\",\n        21.99,\n        5.06\n      ],\n      [\n        \"L\",\n        21.99,\n        4.57\n      ],\n      [\n        \"L\",\n        21.9,\n        4.09\n      ],\n      [\n        \"L\",\n        21.74,\n        3.63\n      ],\n      [\n        \"L\",\n        21.49,\n        3.2\n      ],\n      [\n        \"L\",\n        21.17,\n        2.83\n      ],\n      [\n        \"L\",\n        20.8,\n        2.51\n      ],\n      [\n        \"L\",\n        20.37,\n        2.26\n      ],\n      [\n        \"L\",\n        19.91,\n        2.1\n      ],\n      [\n        \"L\",\n        19.43,\n        2.01\n      ],\n      [\n        \"L\",\n        18.94,\n        2.01\n      ],\n      [\n        \"L\",\n        18.45,\n        2.1\n      ],\n      [\n        \"L\",\n        17.99,\n        2.26\n      ],\n      [\n        \"L\",\n        17.56,\n        2.51\n      ],\n      [\n        \"L\",\n        17.19,\n        2.83\n      ],\n      [\n        \"L\",\n        3.84,\n        16.17\n      ],\n      [\n        \"L\",\n        3.68,\n        16.36\n      ],\n      [\n        \"L\",\n        3.54,\n        16.56\n      ],\n      [\n        \"L\",\n        3.43,\n        16.78\n      ],\n      [\n        \"L\",\n        3.34,\n        17\n      ],\n      [\n        \"L\",\n        2.02,\n        21.36\n      ],\n      [\n        \"L\",\n        2.02,\n        21.62\n      ],\n      [\n        \"L\",\n        2.15,\n        21.85\n      ],\n      [\n        \"L\",\n        2.38,\n        21.98\n      ],\n      [\n        \"L\",\n        2.64,\n        21.98\n      ],\n      [\n        \"L\",\n        7,\n        20.66\n      ],\n      [\n        \"L\",\n        7.23,\n        20.57\n      ],\n      [\n        \"L\",\n        7.44,\n        20.46\n      ],\n      [\n        \"L\",\n        7.64,\n        20.32\n      ],\n      [\n        \"L\",\n        7.83,\n        20.16\n      ],\n      [\n        \"L\",\n        21.17,\n        6.81\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        5\n      ],\n      [\n        \"L\",\n        19,\n        9\n      ]\n    ]\n  ]\n}\n\nfunction SignPencilWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignPencilWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-pencil-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-home-words",
+  "title": "Sign: home (words)",
+  "description": "A sign for \"home\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-home-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"home\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        2,\n        11.5\n      ],\n      [\n        \"L\",\n        12,\n        3\n      ],\n      [\n        \"L\",\n        22,\n        11.5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        5,\n        21\n      ],\n      [\n        \"L\",\n        5,\n        10\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        10\n      ],\n      [\n        \"L\",\n        19,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        5,\n        21\n      ],\n      [\n        \"L\",\n        19,\n        21\n      ]\n    ]\n  ]\n}\n\nfunction SignHomeWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignHomeWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-home-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

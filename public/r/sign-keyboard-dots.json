@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-keyboard-dots",
+  "title": "Sign: keyboard (dots)",
+  "description": "A sign for \"keys\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-keyboard-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"keys\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        7,\n        16\n      ],\n      [\n        \"L\",\n        17,\n        16\n      ]\n    ],\n    [\n      [\n        \"M\",\n        4,\n        4\n      ],\n      [\n        \"L\",\n        20,\n        4\n      ]\n    ],\n    [\n      [\n        \"M\",\n        22,\n        6\n      ],\n      [\n        \"L\",\n        22,\n        18\n      ]\n    ],\n    [\n      [\n        \"M\",\n        20,\n        20\n      ],\n      [\n        \"L\",\n        4,\n        20\n      ]\n    ],\n    [\n      [\n        \"M\",\n        2,\n        18\n      ],\n      [\n        \"L\",\n        2,\n        6\n      ]\n    ]\n  ]\n}\n\nfunction SignKeyboardDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignKeyboardDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-keyboard-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

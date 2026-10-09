@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-book-dots",
+  "title": "Sign: book (dots)",
+  "description": "A sign for \"read\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-book-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"read\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        4,\n        19.5\n      ],\n      [\n        \"L\",\n        4,\n        4.5\n      ],\n      [\n        \"L\",\n        4.05,\n        4.01\n      ],\n      [\n        \"L\",\n        4.19,\n        3.54\n      ],\n      [\n        \"L\",\n        4.42,\n        3.11\n      ],\n      [\n        \"L\",\n        4.73,\n        2.73\n      ],\n      [\n        \"L\",\n        5.11,\n        2.42\n      ],\n      [\n        \"L\",\n        5.54,\n        2.19\n      ],\n      [\n        \"L\",\n        6.01,\n        2.05\n      ],\n      [\n        \"L\",\n        6.5,\n        2\n      ],\n      [\n        \"L\",\n        19,\n        2\n      ],\n      [\n        \"L\",\n        19.38,\n        2.08\n      ],\n      [\n        \"L\",\n        19.71,\n        2.29\n      ],\n      [\n        \"L\",\n        19.92,\n        2.62\n      ],\n      [\n        \"L\",\n        20,\n        3\n      ],\n      [\n        \"L\",\n        20,\n        21\n      ],\n      [\n        \"L\",\n        19.92,\n        21.38\n      ],\n      [\n        \"L\",\n        19.71,\n        21.71\n      ],\n      [\n        \"L\",\n        19.38,\n        21.92\n      ],\n      [\n        \"L\",\n        19,\n        22\n      ],\n      [\n        \"L\",\n        6.5,\n        22\n      ],\n      [\n        \"L\",\n        6.01,\n        21.95\n      ],\n      [\n        \"L\",\n        5.54,\n        21.81\n      ],\n      [\n        \"L\",\n        5.11,\n        21.58\n      ],\n      [\n        \"L\",\n        4.73,\n        21.27\n      ],\n      [\n        \"L\",\n        4.42,\n        20.89\n      ],\n      [\n        \"L\",\n        4.19,\n        20.46\n      ],\n      [\n        \"L\",\n        4.05,\n        19.99\n      ],\n      [\n        \"L\",\n        4,\n        19.5\n      ],\n      [\n        \"L\",\n        4.05,\n        19.01\n      ],\n      [\n        \"L\",\n        4.19,\n        18.54\n      ],\n      [\n        \"L\",\n        4.42,\n        18.11\n      ],\n      [\n        \"L\",\n        4.73,\n        17.73\n      ],\n      [\n        \"L\",\n        5.11,\n        17.42\n      ],\n      [\n        \"L\",\n        5.54,\n        17.19\n      ],\n      [\n        \"L\",\n        6.01,\n        17.05\n      ],\n      [\n        \"L\",\n        6.5,\n        17\n      ],\n      [\n        \"L\",\n        20,\n        17\n      ]\n    ]\n  ]\n}\n\nfunction SignBookDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignBookDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-book-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

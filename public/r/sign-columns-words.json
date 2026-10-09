@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-columns-words",
+  "title": "Sign: columns (words)",
+  "description": "A sign for \"split\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-columns-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"split\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        5,\n        3\n      ],\n      [\n        \"L\",\n        19,\n        3\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        5\n      ],\n      [\n        \"L\",\n        21,\n        19\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        21\n      ],\n      [\n        \"L\",\n        5,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        19\n      ],\n      [\n        \"L\",\n        3,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        3\n      ],\n      [\n        \"L\",\n        12,\n        21\n      ]\n    ]\n  ]\n}\n\nfunction SignColumnsWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignColumnsWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-columns-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

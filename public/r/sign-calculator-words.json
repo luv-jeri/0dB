@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-calculator-words",
+  "title": "Sign: calculator (words)",
+  "description": "A sign for \"calc\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-calculator-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"calc\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        6,\n        2\n      ],\n      [\n        \"L\",\n        18,\n        2\n      ]\n    ],\n    [\n      [\n        \"M\",\n        20,\n        4\n      ],\n      [\n        \"L\",\n        20,\n        20\n      ]\n    ],\n    [\n      [\n        \"M\",\n        18,\n        22\n      ],\n      [\n        \"L\",\n        6,\n        22\n      ]\n    ],\n    [\n      [\n        \"M\",\n        4,\n        20\n      ],\n      [\n        \"L\",\n        4,\n        4\n      ]\n    ],\n    [\n      [\n        \"M\",\n        8,\n        6\n      ],\n      [\n        \"L\",\n        16,\n        6\n      ]\n    ],\n    [\n      [\n        \"M\",\n        16,\n        14\n      ],\n      [\n        \"L\",\n        16,\n        18\n      ]\n    ]\n  ]\n}\n\nfunction SignCalculatorWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignCalculatorWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-calculator-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

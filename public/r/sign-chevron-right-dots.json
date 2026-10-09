@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-chevron-right-dots",
+  "title": "Sign: chevron-right (dots)",
+  "description": "A sign for \"forward\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-chevron-right-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"forward\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        9,\n        18\n      ],\n      [\n        \"L\",\n        15,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        12\n      ],\n      [\n        \"L\",\n        9,\n        6\n      ]\n    ]\n  ]\n}\n\nfunction SignChevronRightDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignChevronRightDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-chevron-right-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

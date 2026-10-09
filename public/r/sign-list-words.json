@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-list-words",
+  "title": "Sign: list (words)",
+  "description": "A sign for \"list\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-list-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"list\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        8,\n        5\n      ],\n      [\n        \"L\",\n        21,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        8,\n        12\n      ],\n      [\n        \"L\",\n        21,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        8,\n        19\n      ],\n      [\n        \"L\",\n        21,\n        19\n      ]\n    ]\n  ]\n}\n\nfunction SignListWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignListWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-list-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

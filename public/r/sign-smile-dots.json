@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-smile-dots",
+  "title": "Sign: smile (dots)",
+  "description": "A sign for \"happy\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-smile-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"happy\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        15,\n        10\n      ],\n      [\n        \"L\",\n        15,\n        9\n      ]\n    ],\n    [\n      [\n        \"M\",\n        16.47,\n        15\n      ],\n      [\n        \"L\",\n        16.14,\n        15.34\n      ],\n      [\n        \"L\",\n        15.78,\n        15.66\n      ],\n      [\n        \"L\",\n        15.39,\n        15.95\n      ],\n      [\n        \"L\",\n        14.98,\n        16.2\n      ],\n      [\n        \"L\",\n        14.56,\n        16.43\n      ],\n      [\n        \"L\",\n        14.12,\n        16.61\n      ],\n      [\n        \"L\",\n        13.66,\n        16.77\n      ],\n      [\n        \"L\",\n        13.19,\n        16.88\n      ],\n      [\n        \"L\",\n        12.72,\n        16.96\n      ],\n      [\n        \"L\",\n        12.24,\n        16.99\n      ],\n      [\n        \"L\",\n        11.76,\n        16.99\n      ],\n      [\n        \"L\",\n        11.28,\n        16.96\n      ],\n      [\n        \"L\",\n        10.81,\n        16.88\n      ],\n      [\n        \"L\",\n        10.34,\n        16.77\n      ],\n      [\n        \"L\",\n        9.88,\n        16.61\n      ],\n      [\n        \"L\",\n        9.44,\n        16.43\n      ],\n      [\n        \"L\",\n        9.02,\n        16.2\n      ],\n      [\n        \"L\",\n        8.61,\n        15.95\n      ],\n      [\n        \"L\",\n        8.22,\n        15.66\n      ],\n      [\n        \"L\",\n        7.86,\n        15.34\n      ],\n      [\n        \"L\",\n        7.53,\n        15\n      ]\n    ],\n    [\n      [\n        \"M\",\n        9,\n        10\n      ],\n      [\n        \"L\",\n        9,\n        9\n      ]\n    ],\n    [\n      [\n        \"O\",\n        12,\n        12,\n        10,\n        0,\n        360\n      ]\n    ]\n  ]\n}\n\nfunction SignSmileDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignSmileDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-smile-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -12,6 +12,7 @@ import ts from "typescript"
 import { transform } from "lightningcss"
 import { readItems, deriveDeps, rewriteImports, SOURCE } from "./lib/items.mjs"
 import { buildAiKit, writeAiKit, checkAiKit } from "./lib/ai-kit.mjs"
+import { buildSigns } from "./build-signs.mjs"
 
 const check = process.argv.includes("--check")
 const baseURL = registryBaseURL()
@@ -74,9 +75,19 @@ const items = metas.map((m) => ({
   meta: { movement: m.movement, underneath: m.underneath, contract: m.contract },
 }))
 
+const { items: signItems, siteSignsTS } = buildSigns({ check })
+const signRegistryItems = signItems.map((s) => ({
+  name: s.name,
+  type: "registry:ui",
+  title: `Sign: ${s.signName} (${s.variant})`,
+  description: `A sign for "${s.word}", drawn as ${s.variant === "words" ? "words along its strokes" : "dots"}.`,
+  registryDependencies: [url("0db"), url("sign")],
+  files: [{ path: s.file, type: "registry:ui", target: `components/ui/${s.name}.tsx` }],
+}))
+
 const fonts = siteFonts()
 const kit = buildAiKit({ items: metas, baseURL })
-const registry = { $schema: "https://ui.shadcn.com/schema/registry.json", name: "0db", homepage: baseURL, items: [base, ...pairs, ...items, kit.item] }
+const registry = { $schema: "https://ui.shadcn.com/schema/registry.json", name: "0db", homepage: baseURL, items: [base, ...pairs, ...items, ...signRegistryItems, kit.item] }
 const out = check ? ".tmp/registry-check" : "."
 mkdirSync(out, { recursive: true })
 writeAiKit(kit, out)
@@ -199,6 +210,7 @@ if (check) {
   if (!same(`${out}/registry.json`, "registry.json")) stale.push("registry.json")
   if (readFileSync("app/registry.css", "utf8") !== registryCSS) stale.push("app/registry.css")
   if (readFileSync("lib/site/entries.ts", "utf8") !== entriesTS) stale.push("lib/site/entries.ts")
+  if (siteSignsTS && readFileSync("lib/site/signs.ts", "utf8") !== siteSignsTS) stale.push("lib/site/signs.ts")
   for (const [file, source] of [["components/site/registry-styles.tsx", stylesTS], ["app/docs/[item]/examples.tsx", examplesTS]]) {
     if (!existsSync(file) || readFileSync(file, "utf8") !== source) stale.push(file)
   }

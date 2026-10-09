@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-monitor-dots",
+  "title": "Sign: monitor (dots)",
+  "description": "A sign for \"desktop\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-monitor-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"desktop\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        4,\n        3\n      ],\n      [\n        \"L\",\n        20,\n        3\n      ]\n    ],\n    [\n      [\n        \"M\",\n        22,\n        5\n      ],\n      [\n        \"L\",\n        22,\n        15\n      ]\n    ],\n    [\n      [\n        \"M\",\n        20,\n        17\n      ],\n      [\n        \"L\",\n        4,\n        17\n      ]\n    ],\n    [\n      [\n        \"M\",\n        2,\n        15\n      ],\n      [\n        \"L\",\n        2,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        8,\n        21\n      ],\n      [\n        \"L\",\n        16,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        17\n      ],\n      [\n        \"L\",\n        12,\n        21\n      ]\n    ]\n  ]\n}\n\nfunction SignMonitorDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignMonitorDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-monitor-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

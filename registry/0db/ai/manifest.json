@@ -1,14 +1,14 @@
 {
   "version": "0.1.0",
   "sources": {
-    "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "e5078aa968210246fd51d26a0cad06b6ad52637f7893ecf2371ba5d935f8e293"
+    "INTENT.md": "b288befa516995e3c2880d52e8e31864be528342021ed43d3f601db94fe34eb2",
+    "DESIGN.md": "7bd51cc13ef071a33e013c8b662fa611fbf630638cf117f4c9da8a24303336bf"
   },
   "files": {
-    "AGENTS.md": "9d0fd00a02f9bc89f828f4f923b91ff05a6755643747a118781bd482f69e9d29",
-    "docs/AGENTS.md": "375cc2874815dcd1bbd7145e040534ab46dd29d5a45177bcbed7f51e8e0a4a48",
-    "INTENT.md": "5d38b268856917d43bae5b00c030dda39d0c134fd5b4899a41d6c020ea09e293",
-    "DESIGN.md": "e5078aa968210246fd51d26a0cad06b6ad52637f7893ecf2371ba5d935f8e293",
+    "AGENTS.md": "9d0dc5d8d2eacc1009262a42f1b500667bb0e801da68a7776a13c1ae8014df17",
+    "docs/AGENTS.md": "d09ea0aadb3f9058b55f0f0db28e68c494c5d4548f6bc5e47e4078175d8a691c",
+    "INTENT.md": "b288befa516995e3c2880d52e8e31864be528342021ed43d3f601db94fe34eb2",
+    "DESIGN.md": "7bd51cc13ef071a33e013c8b662fa611fbf630638cf117f4c9da8a24303336bf",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -102,6 +102,7 @@
     "components/reverb.md": "4f85510189aa8129a952ec793fbe6cb65d5e747ff4eb078858a9ccd64f4d654d",
     "components/scroll-expand.md": "560f880ac350b777130992ebbd1d70d18832731013163d91bffe69a0423bb0ca",
     "components/segue.md": "78602c44c9ca10314ce7133aeef0bb55e927251f854cb75d8d5394f76ed15e81",
+    "components/sign.md": "a79a27d092b193138bb472a3d550b00c218ff4161f0bf2cbe64cc063dec71585",
     "components/source.md": "cc52dce228058b54bb09894ee411143c5eb7fb292e3e3b0154fbfc0429ddac60",
     "components/stat.md": "4d6b211dde3d4090189bbb4d87a51055cb18ebdd735b0b9ccd2053984e323316",
     "components/steps.md": "614ce875c37df991e00dd61fb75906d12f9fb49410649eb93c2607c8e8b6dd69",
@@ -114,12 +115,12 @@
     "components/wake.md": "635a17fbb8628772f84e672409b86b4d4e0b8e96044a51ca0f3f742f89d2a45c",
     "components/waterfall.md": "06ec1320d3f73f22d754045f7bc41f371cc49803725b5065933d1ce33faea386",
     "components/word-relay.md": "a5a9bd3fc3e62acfce01cd3fb276eef5f84697456d18a7557b42db8328ac87c0",
-    "claude/0db.md": "5943990cc01c7cb6da93f80c4f96a71bb73ceb2b20cb7f8e09703397cd1de725",
-    "cursor.mdc": "95ea47e3cf875fd1a18af69563aab0aca4ec2e0ea8bdf54c89af1048d88cc519",
-    "copilot.instructions.md": "aa6321add49db0e69a7ee5a63120fa168cc3260aafa93df55adbcaa0d22a1be7",
-    "devin.md": "2f774c22e63fe8285d146e98abde8b51bf2e0318e5fccf7d33659e23b355e722",
-    "claude/SKILL.md": "efe1ee30dc383bc667a511a30fe02c296e8b4f1fb41227c169c359696ad76521",
-    "agents/SKILL.md": "efe1ee30dc383bc667a511a30fe02c296e8b4f1fb41227c169c359696ad76521"
+    "claude/0db.md": "e076c9744147047ec4d6045565339d24ae2dd291d4eb80f417ceb823f07267a1",
+    "cursor.mdc": "dc5314cadd5965bfef9f032794c9e3857941eb0232ef6e7ff93fb7483e0862ca",
+    "copilot.instructions.md": "5e7c242d605a20f2c6d9ac5577bab0b57195ae25a45171517b3aea402411e4e4",
+    "devin.md": "ccb72d37cf0a6323ae1452f944830ba7a6183a21460652d0ef06b0308f135ca1",
+    "claude/SKILL.md": "fd2fce01bf542fc3c4748d5df8ba67c38e7143cd2198747e00fc83b0497ffaf2",
+    "agents/SKILL.md": "fd2fce01bf542fc3c4748d5df8ba67c38e7143cd2198747e00fc83b0497ffaf2"
   },
   "components": [
     "accordion",
@@ -202,6 +203,7 @@
     "select",
     "sheet",
     "sidebar",
+    "sign",
     "skeleton",
     "slider",
     "source",

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-download-words",
+  "title": "Sign: download (words)",
+  "description": "A sign for \"download\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-download-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"download\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        12,\n        15\n      ],\n      [\n        \"L\",\n        12,\n        3\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        15\n      ],\n      [\n        \"L\",\n        21,\n        19\n      ],\n      [\n        \"L\",\n        20.95,\n        19.45\n      ],\n      [\n        \"L\",\n        20.8,\n        19.87\n      ],\n      [\n        \"L\",\n        20.56,\n        20.25\n      ],\n      [\n        \"L\",\n        20.25,\n        20.56\n      ],\n      [\n        \"L\",\n        19.87,\n        20.8\n      ],\n      [\n        \"L\",\n        19.45,\n        20.95\n      ],\n      [\n        \"L\",\n        19,\n        21\n      ],\n      [\n        \"L\",\n        5,\n        21\n      ],\n      [\n        \"L\",\n        4.55,\n        20.95\n      ],\n      [\n        \"L\",\n        4.13,\n        20.8\n      ],\n      [\n        \"L\",\n        3.75,\n        20.56\n      ],\n      [\n        \"L\",\n        3.44,\n        20.25\n      ],\n      [\n        \"L\",\n        3.2,\n        19.87\n      ],\n      [\n        \"L\",\n        3.05,\n        19.45\n      ],\n      [\n        \"L\",\n        3,\n        19\n      ],\n      [\n        \"L\",\n        3,\n        15\n      ]\n    ],\n    [\n      [\n        \"M\",\n        7,\n        1\n      ],\n      [\n        \"L\",\n        7,\n        6\n      ]\n    ],\n    [\n      [\n        \"M\",\n        7,\n        6\n      ],\n      [\n        \"L\",\n        12,\n        11\n      ]\n    ]\n  ]\n}\n\nfunction SignDownloadWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignDownloadWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-download-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

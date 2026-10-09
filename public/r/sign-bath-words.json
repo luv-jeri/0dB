@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-bath-words",
+  "title": "Sign: bath (words)",
+  "description": "A sign for \"wash\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-bath-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"wash\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        10,\n        4\n      ],\n      [\n        \"L\",\n        8,\n        6\n      ]\n    ],\n    [\n      [\n        \"M\",\n        17,\n        19\n      ],\n      [\n        \"L\",\n        17,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        2,\n        12\n      ],\n      [\n        \"L\",\n        22,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        7,\n        19\n      ],\n      [\n        \"L\",\n        7,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        9,\n        5\n      ],\n      [\n        \"L\",\n        7.62,\n        3.62\n      ],\n      [\n        \"L\",\n        7.24,\n        3.32\n      ],\n      [\n        \"L\",\n        6.8,\n        3.11\n      ],\n      [\n        \"L\",\n        6.32,\n        3.01\n      ],\n      [\n        \"L\",\n        5.84,\n        3.02\n      ],\n      [\n        \"L\",\n        5.36,\n        3.14\n      ],\n      [\n        \"L\",\n        4.93,\n        3.36\n      ],\n      [\n        \"L\",\n        4.56,\n        3.68\n      ],\n      [\n        \"L\",\n        4.27,\n        4.07\n      ],\n      [\n        \"L\",\n        4.08,\n        4.52\n      ],\n      [\n        \"L\",\n        4,\n        5\n      ],\n      [\n        \"L\",\n        4,\n        17\n      ],\n      [\n        \"L\",\n        4.05,\n        17.45\n      ],\n      [\n        \"L\",\n        4.2,\n        17.87\n      ],\n      [\n        \"L\",\n        4.44,\n        18.25\n      ],\n      [\n        \"L\",\n        4.75,\n        18.56\n      ],\n      [\n        \"L\",\n        5.13,\n        18.8\n      ],\n      [\n        \"L\",\n        5.55,\n        18.95\n      ],\n      [\n        \"L\",\n        6,\n        19\n      ],\n      [\n        \"L\",\n        18,\n        19\n      ],\n      [\n        \"L\",\n        18.45,\n        18.95\n      ],\n      [\n        \"L\",\n        18.87,\n        18.8\n      ],\n      [\n        \"L\",\n        19.25,\n        18.56\n      ],\n      [\n        \"L\",\n        19.56,\n        18.25\n      ],\n      [\n        \"L\",\n        19.8,\n        17.87\n      ],\n      [\n        \"L\",\n        19.95,\n        17.45\n      ],\n      [\n        \"L\",\n        20,\n        17\n      ],\n      [\n        \"L\",\n        20,\n        12\n      ]\n    ]\n  ]\n}\n\nfunction SignBathWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignBathWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-bath-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

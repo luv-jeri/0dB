@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-package-words",
+  "title": "Sign: package (words)",
+  "description": "A sign for \"bundle\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-package-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"bundle\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        11,\n        21.73\n      ],\n      [\n        \"L\",\n        11.38,\n        21.9\n      ],\n      [\n        \"L\",\n        11.79,\n        21.99\n      ],\n      [\n        \"L\",\n        12.21,\n        21.99\n      ],\n      [\n        \"L\",\n        12.62,\n        21.9\n      ],\n      [\n        \"L\",\n        13,\n        21.73\n      ],\n      [\n        \"L\",\n        20,\n        17.73\n      ],\n      [\n        \"L\",\n        20.34,\n        17.48\n      ],\n      [\n        \"L\",\n        20.62,\n        17.17\n      ],\n      [\n        \"L\",\n        20.83,\n        16.81\n      ],\n      [\n        \"L\",\n        20.96,\n        16.42\n      ],\n      [\n        \"L\",\n        21,\n        16\n      ],\n      [\n        \"L\",\n        21,\n        8\n      ],\n      [\n        \"L\",\n        20.96,\n        7.58\n      ],\n      [\n        \"L\",\n        20.83,\n        7.19\n      ],\n      [\n        \"L\",\n        20.62,\n        6.83\n      ],\n      [\n        \"L\",\n        20.34,\n        6.52\n      ],\n      [\n        \"L\",\n        20,\n        6.27\n      ],\n      [\n        \"L\",\n        13,\n        2.27\n      ],\n      [\n        \"L\",\n        12.62,\n        2.1\n      ],\n      [\n        \"L\",\n        12.21,\n        2.01\n      ],\n      [\n        \"L\",\n        11.79,\n        2.01\n      ],\n      [\n        \"L\",\n        11.38,\n        2.1\n      ],\n      [\n        \"L\",\n        11,\n        2.27\n      ],\n      [\n        \"L\",\n        4,\n        6.27\n      ],\n      [\n        \"L\",\n        3.66,\n        6.52\n      ],\n      [\n        \"L\",\n        3.38,\n        6.83\n      ],\n      [\n        \"L\",\n        3.17,\n        7.19\n      ],\n      [\n        \"L\",\n        3.04,\n        7.58\n      ],\n      [\n        \"L\",\n        3,\n        8\n      ],\n      [\n        \"L\",\n        3,\n        16\n      ],\n      [\n        \"L\",\n        3.04,\n        16.42\n      ],\n      [\n        \"L\",\n        3.17,\n        16.81\n      ],\n      [\n        \"L\",\n        3.38,\n        17.17\n      ],\n      [\n        \"L\",\n        3.66,\n        17.48\n      ],\n      [\n        \"L\",\n        4,\n        17.73\n      ],\n      [\n        \"L\",\n        11,\n        21.73\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        22\n      ],\n      [\n        \"L\",\n        12,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3.29,\n        7\n      ],\n      [\n        \"L\",\n        12,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        12\n      ],\n      [\n        \"L\",\n        20.71,\n        7\n      ]\n    ],\n    [\n      [\n        \"M\",\n        7.5,\n        4.27\n      ],\n      [\n        \"L\",\n        16.5,\n        9.42\n      ]\n    ]\n  ]\n}\n\nfunction SignPackageWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignPackageWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-package-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

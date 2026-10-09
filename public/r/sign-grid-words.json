@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-grid-words",
+  "title": "Sign: grid (words)",
+  "description": "A sign for \"table\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-grid-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"table\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        5,\n        3\n      ],\n      [\n        \"L\",\n        19,\n        3\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        5\n      ],\n      [\n        \"L\",\n        21,\n        19\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        21\n      ],\n      [\n        \"L\",\n        5,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        19\n      ],\n      [\n        \"L\",\n        3,\n        5\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        9\n      ],\n      [\n        \"L\",\n        21,\n        9\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        15\n      ],\n      [\n        \"L\",\n        21,\n        15\n      ]\n    ],\n    [\n      [\n        \"M\",\n        9,\n        3\n      ],\n      [\n        \"L\",\n        9,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        3\n      ],\n      [\n        \"L\",\n        15,\n        21\n      ]\n    ]\n  ]\n}\n\nfunction SignGridWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignGridWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-grid-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

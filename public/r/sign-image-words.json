@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-image-words",
+  "title": "Sign: image (words)",
+  "description": "A sign for \"picture\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-image-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"picture\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        5,\n        3\n      ],\n      [\n        \"L\",\n        19,\n        3\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        5\n      ],\n      [\n        \"L\",\n        21,\n        19\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        21\n      ],\n      [\n        \"L\",\n        5,\n        21\n      ]\n    ],\n    [\n      [\n        \"M\",\n        3,\n        19\n      ],\n      [\n        \"L\",\n        3,\n        5\n      ]\n    ],\n    [\n      [\n        \"O\",\n        9,\n        9,\n        2,\n        0,\n        360\n      ]\n    ],\n    [\n      [\n        \"M\",\n        21,\n        15\n      ],\n      [\n        \"L\",\n        17.91,\n        11.91\n      ],\n      [\n        \"L\",\n        17.56,\n        11.63\n      ],\n      [\n        \"L\",\n        17.16,\n        11.44\n      ],\n      [\n        \"L\",\n        16.72,\n        11.34\n      ],\n      [\n        \"L\",\n        16.28,\n        11.34\n      ],\n      [\n        \"L\",\n        15.84,\n        11.44\n      ],\n      [\n        \"L\",\n        15.44,\n        11.63\n      ],\n      [\n        \"L\",\n        15.09,\n        11.91\n      ],\n      [\n        \"L\",\n        6,\n        21\n      ]\n    ]\n  ]\n}\n\nfunction SignImageWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignImageWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-image-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

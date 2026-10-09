@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-skip-forward-words",
+  "title": "Sign: skip-forward (words)",
+  "description": "A sign for \"skip\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-skip-forward-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"skip\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        21,\n        4\n      ],\n      [\n        \"L\",\n        21,\n        20\n      ]\n    ],\n    [\n      [\n        \"M\",\n        6.03,\n        4.29\n      ],\n      [\n        \"L\",\n        5.6,\n        4.09\n      ],\n      [\n        \"L\",\n        5.14,\n        4.01\n      ],\n      [\n        \"L\",\n        4.67,\n        4.03\n      ],\n      [\n        \"L\",\n        4.23,\n        4.16\n      ],\n      [\n        \"L\",\n        3.82,\n        4.39\n      ],\n      [\n        \"L\",\n        3.48,\n        4.71\n      ],\n      [\n        \"L\",\n        3.22,\n        5.1\n      ],\n      [\n        \"L\",\n        3.05,\n        5.54\n      ],\n      [\n        \"L\",\n        3,\n        6\n      ],\n      [\n        \"L\",\n        3,\n        18\n      ],\n      [\n        \"L\",\n        3.05,\n        18.46\n      ],\n      [\n        \"L\",\n        3.22,\n        18.9\n      ],\n      [\n        \"L\",\n        3.48,\n        19.29\n      ],\n      [\n        \"L\",\n        3.82,\n        19.61\n      ],\n      [\n        \"L\",\n        4.23,\n        19.84\n      ],\n      [\n        \"L\",\n        4.67,\n        19.97\n      ],\n      [\n        \"L\",\n        5.14,\n        19.99\n      ],\n      [\n        \"L\",\n        5.6,\n        19.91\n      ],\n      [\n        \"L\",\n        6.03,\n        19.72\n      ],\n      [\n        \"L\",\n        16.03,\n        13.72\n      ],\n      [\n        \"L\",\n        18.03,\n        13.72\n      ]\n    ]\n  ]\n}\n\nfunction SignSkipForwardWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignSkipForwardWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-skip-forward-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

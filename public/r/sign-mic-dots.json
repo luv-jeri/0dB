@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-mic-dots",
+  "title": "Sign: mic (dots)",
+  "description": "A sign for \"record\", drawn as dots.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-mic-dots.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"record\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        12,\n        19\n      ],\n      [\n        \"L\",\n        12,\n        22\n      ]\n    ],\n    [\n      [\n        \"M\",\n        19,\n        10\n      ],\n      [\n        \"L\",\n        19,\n        12\n      ],\n      [\n        \"L\",\n        18.94,\n        12.91\n      ],\n      [\n        \"L\",\n        18.76,\n        13.81\n      ],\n      [\n        \"L\",\n        18.47,\n        14.68\n      ],\n      [\n        \"L\",\n        18.06,\n        15.5\n      ],\n      [\n        \"L\",\n        17.55,\n        16.26\n      ],\n      [\n        \"L\",\n        16.95,\n        16.95\n      ],\n      [\n        \"L\",\n        16.26,\n        17.55\n      ],\n      [\n        \"L\",\n        15.5,\n        18.06\n      ],\n      [\n        \"L\",\n        14.68,\n        18.47\n      ],\n      [\n        \"L\",\n        13.81,\n        18.76\n      ],\n      [\n        \"L\",\n        12.91,\n        18.94\n      ],\n      [\n        \"L\",\n        12,\n        19\n      ],\n      [\n        \"L\",\n        11.09,\n        18.94\n      ],\n      [\n        \"L\",\n        10.19,\n        18.76\n      ],\n      [\n        \"L\",\n        9.32,\n        18.47\n      ],\n      [\n        \"L\",\n        8.5,\n        18.06\n      ],\n      [\n        \"L\",\n        7.74,\n        17.55\n      ],\n      [\n        \"L\",\n        7.05,\n        16.95\n      ],\n      [\n        \"L\",\n        6.45,\n        16.26\n      ],\n      [\n        \"L\",\n        5.94,\n        15.5\n      ],\n      [\n        \"L\",\n        5.53,\n        14.68\n      ],\n      [\n        \"L\",\n        5.24,\n        13.81\n      ],\n      [\n        \"L\",\n        5.06,\n        12.91\n      ],\n      [\n        \"L\",\n        5,\n        12\n      ],\n      [\n        \"L\",\n        5,\n        10\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        2\n      ],\n      [\n        \"L\",\n        12,\n        2\n      ]\n    ],\n    [\n      [\n        \"M\",\n        15,\n        5\n      ],\n      [\n        \"L\",\n        15,\n        12\n      ]\n    ],\n    [\n      [\n        \"M\",\n        12,\n        15\n      ],\n      [\n        \"L\",\n        12,\n        15\n      ]\n    ],\n    [\n      [\n        \"M\",\n        9,\n        12\n      ],\n      [\n        \"L\",\n        9,\n        5\n      ]\n    ]\n  ]\n}\n\nfunction SignMicDots(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"dots\" {...props} />\n}\n\nexport { SignMicDots, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-mic-dots.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

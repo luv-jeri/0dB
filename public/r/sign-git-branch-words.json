@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-git-branch-words",
+  "title": "Sign: git-branch (words)",
+  "description": "A sign for \"branch\", drawn as words along its strokes.",
+  "registryDependencies": [
+    "https://thedirectors.agency/ui/r/0db.json",
+    "https://thedirectors.agency/ui/r/sign.json"
+  ],
+  "files": [
+    {
+      "path": "registry/0db/signs/sign-git-branch-words.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Sign, type SignProps } from \"@/components/ui/sign\"\nimport type { SignShape } from \"@/lib/0db/sign-shapes\"\n\nconst shape: SignShape = {\n  \"word\": \"branch\",\n  \"line\": [\n    [\n      [\n        \"M\",\n        15,\n        6\n      ],\n      [\n        \"L\",\n        14.41,\n        6.02\n      ],\n      [\n        \"L\",\n        13.83,\n        6.08\n      ],\n      [\n        \"L\",\n        13.24,\n        6.17\n      ],\n      [\n        \"L\",\n        12.67,\n        6.31\n      ],\n      [\n        \"L\",\n        12.11,\n        6.48\n      ],\n      [\n        \"L\",\n        11.56,\n        6.69\n      ],\n      [\n        \"L\",\n        11.02,\n        6.93\n      ],\n      [\n        \"L\",\n        10.5,\n        7.21\n      ],\n      [\n        \"L\",\n        10,\n        7.52\n      ],\n      [\n        \"L\",\n        9.52,\n        7.86\n      ],\n      [\n        \"L\",\n        9.07,\n        8.23\n      ],\n      [\n        \"L\",\n        8.64,\n        8.64\n      ],\n      [\n        \"L\",\n        8.23,\n        9.07\n      ],\n      [\n        \"L\",\n        7.86,\n        9.52\n      ],\n      [\n        \"L\",\n        7.52,\n        10\n      ],\n      [\n        \"L\",\n        7.21,\n        10.5\n      ],\n      [\n        \"L\",\n        6.93,\n        11.02\n      ],\n      [\n        \"L\",\n        6.69,\n        11.56\n      ],\n      [\n        \"L\",\n        6.48,\n        12.11\n      ],\n      [\n        \"L\",\n        6.31,\n        12.67\n      ],\n      [\n        \"L\",\n        6.17,\n        13.24\n      ],\n      [\n        \"L\",\n        6.08,\n        13.83\n      ],\n      [\n        \"L\",\n        6.02,\n        14.41\n      ],\n      [\n        \"L\",\n        6,\n        15\n      ]\n    ],\n    [\n      [\n        \"M\",\n        6,\n        15\n      ],\n      [\n        \"L\",\n        6,\n        3\n      ]\n    ],\n    [\n      [\n        \"O\",\n        18,\n        6,\n        3,\n        0,\n        360\n      ]\n    ],\n    [\n      [\n        \"O\",\n        6,\n        18,\n        3,\n        0,\n        360\n      ]\n    ]\n  ]\n}\n\nfunction SignGitBranchWords(props: Omit<SignProps, \"shape\" | \"variant\">) {\n  return <Sign shape={shape} variant=\"words\" {...props} />\n}\n\nexport { SignGitBranchWords, shape }\n",
+      "type": "registry:ui",
+      "target": "components/ui/sign-git-branch-words.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}
