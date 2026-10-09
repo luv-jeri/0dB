@@ -16,3 +16,4 @@
 .lab-sheet { display: grid; grid-template-columns: repeat(auto-fill, var(--tile)); gap: var(--db-space-4) var(--db-space-2); margin-block-start: var(--db-space-5); }
 .lab-tile { display: grid; justify-items: center; gap: var(--db-space-2); margin: 0; }
 .lab-tile .lab-key { text-align: center; font-size: 11px; line-height: 1.3; }
+.lab-variants { display: flex; gap: var(--db-space-3); }
