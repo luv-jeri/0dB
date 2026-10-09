@@ -15,6 +15,7 @@ export function rewriteImports(source) {
       .replace(/^@\/registry\/0db\/lib\/utils$/, "@/lib/utils")
       .replace(/^@\/registry\/0db\/lib\//, "@/lib/0db/")
       .replace(/^@\/registry\/0db\/ui\//, "@/components/ui/")
+      .replace(/^@\/registry\/0db\/signs\//, "@/components/ui/")
       .replace(/^\.\/(?=[a-z])/, "@/components/ui/")
     return `${start}${to}${end}`
   })
