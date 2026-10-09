@@ -22,13 +22,13 @@
    - the registry's `name` matches its namespace;
    - every endpoint answers over HTTPS with JSON.
 
-   The catalog grows only through items that each do a job of their own, never through aliases or splits.
+   The catalog grows only through items that each do a job of their own, never through aliases or splits; each sign variant (dots, words) is its own item by owner decision 2026-10-10.
 
 ## What it refuses, and why
 
 | Refused | Why |
 |---|---|
-| Icons | Words say what an icon only suggests, and an icon set brings a second visual language. Arrows appear only where there's real direction (↗ external, ↓ sort, → opens). |
+| Icons | Allowed only as signs made of their own word (owner decision 2026-10-10); no icon drawn as a picture. Words say what an icon only suggests, and an icon set brings a second visual language. Arrows appear only where there's real direction (↗ external, ↓ sort, → opens). |
 | Cards, fills and shadows | Space already separates things. A box around content says the space failed. |
 | A second accent colour | The accent means "you are here". Two accents would mean two places. Crimson is kept for errors, and the highlighter for reading marks. |
 | Motion that plays by itself | Nothing moves unless the person does, apart from the overture on the home page, which plays once, and the owner-approved marquee, text-ribbon and word-relay autoplay exceptions (2026-10-01). Each autoplay exception is pausable and off under reduced motion. |
@@ -3045,6 +3045,34 @@ Extracted from DESIGN.md.
 | Segue (`segue`) | The film editor's wipe; SHAPES / GRADIENTS (a hairline carrying a date and a name) | One hairline crosses and the next scene is behind it, its name carried on the line |
 | Horizon segue (`segue`) | Eclipse | The line rises like a horizon and the next scene comes up under it |
 | Scrub segue (`segue`) | The reader's own pace (the scrub gather) | The line stands as far across as the scroll has gone |
+
+
+# 0dB: sign
+
+Extracted from DESIGN.md.
+
+### db-sign (sign)
+- Underneath: hook. Pretext lays the word along the drawing's strokes.
+- Anatomy: `<span class="db-sign" data-variant="dots | words" role="img" aria-label="word"><span class="db-sign-glyphs" aria-hidden="true"><span class="db-sign-glyph">…</span></span></span>`. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
+- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Line style only. Pretext sets the word letter by letter, kerning included, along the strokes of the drawing (`words`) or in middle-dot leaders (`dots`), so type stays the only ornament.
+- Variants:
+  - `dots`: each stroke is ruled in middle-dot leaders at every size; the letters wait unseen at the dots and rise out of them when said.
+  - `words`: the word runs along each stroke in whole words, closed up or spread to reach both ends; where a stroke is too short it falls back to leaders.
+- Yours: `data-face="italic"` sets the expression italic: a sign for something that belongs to the person (their mail, their home).
+- Said: pointing at the sign, or at the control it sits in, or focusing that control makes the drawing say its word. The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word; echoes sketch out in pencil and go quiet. Leaving winds them back.
+- States: rest, hover, focus. Reduced motion: the word and the drawing change places without travel. Forced colours use CanvasText.
+
+## Motion
+
+| Component | Articulation | What moves |
+|---|---|---|
+| Sign (`sign`) | Said | The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word; echoes sketch out in pencil |
+
+## Where each move comes from
+
+| Component | Reference | Move |
+|---|---|---|
+| Sign (`sign`) | The ampersand ("et" worn down into a mark); Apollinaire, *Calligrammes*, 1918 | An icon made of its own word; pointing says the word |
 
 
 # 0dB: source
