@@ -1,7 +1,7 @@
 // every example compiles with consumer aliases: lays out public/r payloads the way
 // `shadcn add` would (components/ui, lib, lib/0db), rewrites each example's imports
 // the same way, and type-checks the lot with tsc.
-import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, cpSync } from "node:fs"
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, cpSync, existsSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import path from "node:path"
 import { consumerExampleSource } from "../lib/site/example-source.ts"
@@ -19,6 +19,9 @@ for (const payload of readdirSync("public/r").filter((f) => f.endsWith(".json") 
 for (const f of readdirSync("examples").filter((f) => f.endsWith(".tsx")))
   put(`examples/${f}`, consumerExampleSource(readFileSync(`examples/${f}`, "utf8")))
 cpSync("components/site/state.tsx", path.join(dir, "components/site/state.tsx")) // the docs-only <State> wrapper, all examples import from the site
+if (existsSync("lib/site/signs.ts")) {
+  put("lib/site/signs.ts", consumerExampleSource(readFileSync("lib/site/signs.ts", "utf8")))
+}
 
 put("tsconfig.json", JSON.stringify({
   compilerOptions: {

@@ -16,8 +16,8 @@ type SignProps = Omit<React.ComponentProps<"span">, "children"> & {
   variant?: "dots" | "words"
   /** roman for what the interface offers; italic for what belongs to the person (their mail, their home). */
   face?: "roman" | "italic"
-  /** The square's side, a CSS length. Default 1.5rem. */
-  size?: string
+  /** The square's side, a CSS length or pixel number. Default 1.5rem. */
+  size?: string | number
   /** What a reader hears. Default: the word. An empty label hides the sign from readers, for a control that already says it. */
   label?: string
 }
@@ -244,7 +244,7 @@ function Sign({ shape, variant = "words", face = "roman", size, label, className
       aria-label={hidden ? undefined : (label ?? shape.word)}
       aria-hidden={hidden || undefined}
       className={cn("db-sign", className)}
-      style={{ ...(size ? { "--db-sign-size": size } : null), ...(laid ? { "--ws": `${laid.ws}px`, "--k": laid.k, "--rest": laid.rest, "--said": laid.said } : null), ...style } as React.CSSProperties}
+      style={{ ...(size != null ? { "--db-sign-size": typeof size === "number" ? `${size}px` : size } : null), ...(laid ? { "--ws": `${laid.ws}px`, "--k": laid.k, "--rest": laid.rest, "--said": laid.said } : null), ...style } as React.CSSProperties}
       {...props}
     >
       <span aria-hidden="true" className="db-sign-glyphs" data-laid={laid ? "" : undefined}>
