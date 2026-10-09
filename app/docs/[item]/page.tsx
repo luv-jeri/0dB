@@ -20,6 +20,7 @@ import { exampleSource, installCommand } from "@/lib/site/example-source"
 import { rewriteImports } from "@/scripts/lib/items.mjs"
 import { ItemExample } from "./examples"
 import { DemoExample } from "./demo-example"
+import { SignCatalogue } from "@/components/site/sign-catalogue"
 
 type Params = { params: Promise<{ item: string }> }
 
@@ -120,6 +121,14 @@ export default async function ItemPage({ params }: Params) {
           </div>
         ) : null}
       </section>
+
+      {item === "sign" ? (
+        <section className="doc-section" id="signs" data-rail="Signs" aria-labelledby="signs-h">
+          <h2 id="signs-h">Signs</h2>
+          <p className="doc-lead">Each sign is its own item in each variant: install only the ones you use, and each brings this primitive along. Point at one to hear it; press it for its install line.</p>
+          <SignCatalogue />
+        </section>
+      ) : null}
 
       <section className="doc-section doc-install" id="install" data-rail="Install" aria-labelledby="install-h">
         <h2 id="install-h">Install</h2>

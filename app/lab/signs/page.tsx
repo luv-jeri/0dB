@@ -1,64 +1,17 @@
 import type { Metadata } from "next"
 
-import { signs } from "@/registry/0db/lib/sign-shapes"
-import { Sign } from "@/registry/0db/ui/sign"
+import { Sheet } from "./sheet"
 import "@/registry/0db/styles/sign.css"
 import "./lab.css"
 
-export const metadata: Metadata = { title: "Signs (preview)", robots: { index: false } }
+export const metadata: Metadata = { title: "Signs (contact sheet)", robots: { index: false } }
 
-const variants = [
-  { variant: "dots", face: "roman", name: "dots", note: "The dotted drawing at every size. Ours, so roman." },
-  { variant: "dots", face: "italic", name: "dots, italic", note: "The dotted drawing in the expression italic: a sign for something that belongs to the person." },
-  { variant: "words", face: "roman", name: "words", note: "The word runs along each stroke. Ours, so roman." },
-  { variant: "words", face: "italic", name: "words, italic", note: "The word set in the expression italic." },
-] as const
-
-const sizes = ["16px", "20px", "24px", "48px"]
-
-/** A dev-only preview of the first five signs: every variant at four sizes and one large, at rest and said. */
+/** A dev-only contact sheet of every sign, for judging them tile by tile. ?set=words-120, fill-24, dots-48 and so on;
+ *  ?from=0&count=48 for a page of them; ?say=1 pins the said state; ?names=star,share picks signs by name. */
 export default function SignsLab() {
   return (
     <main id="content" className="lab-signs">
-      <header className="lab-head">
-        <h1 className="db-f">Signs</h1>
-        <p className="lab-lead">Icons made of their own word. Pretext sets the word along the drawing’s strokes or rules them in leaders; point at one, or tab to it, and it says the word. Five signs, two ways of setting, two faces.</p>
-      </header>
-      {variants.map((v) => (
-        <section key={v.name} className="lab-set" data-set={v.name}>
-          <h2 className="lab-name">{v.name}</h2>
-          <p className="lab-note">{v.note}</p>
-          <div className="lab-grid">
-            <span className="lab-col" />
-            {sizes.map((s) => <span key={s} className="lab-col">{s}</span>)}
-            <span className="lab-col">120px</span>
-            <span className="lab-col">24px, said</span>
-            <span className="lab-col">120px, said</span>
-            {Object.entries(signs).map(([key, shape]) => (
-              <div key={key} className="lab-row" data-sign={key}>
-                <span className="lab-key">{key}</span>
-                {sizes.map((s) => (
-                  <button key={s} type="button" className="lab-hit"><Sign shape={shape} variant={v.variant} face={v.face} size={s} /></button>
-                ))}
-                <button type="button" className="lab-hit" data-big><Sign shape={shape} variant={v.variant} face={v.face} size="120px" /></button>
-                <span className="lab-hit" data-force="hover"><Sign shape={shape} variant={v.variant} face={v.face} size="24px" /></span>
-                <span className="lab-hit" data-force="hover" data-big><Sign shape={shape} variant={v.variant} face={v.face} size="120px" /></span>
-              </div>
-            ))}
-          </div>
-        </section>
-      ))}
-      <section className="lab-set" data-set="in-use">
-        <h2 className="lab-name">In use</h2>
-        <p className="lab-note">Beside a label, with the sign hidden from readers because the label already says it; and alone, where the sign is the label.</p>
-        <div className="lab-use">
-          <button type="button" className="db-btn" data-variant="quiet"><Sign shape={signs.search} label="" size="20px" /> Search the library</button>
-          <button type="button" className="lab-hit"><Sign shape={signs.mail} face="italic" size="24px" /></button>
-          <button type="button" className="lab-hit"><Sign shape={signs.close} size="24px" /></button>
-          <button type="button" className="lab-hit"><Sign shape={signs["arrow-right"]} size="24px" /></button>
-          <button type="button" className="lab-hit"><Sign shape={signs.home} variant="words" size="24px" /></button>
-        </div>
-      </section>
+      <Sheet />
     </main>
   )
 }

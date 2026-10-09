@@ -155,6 +155,25 @@ body { overflow-x: clip; }
 }
 .doc-install [data-slot="tabs-content"] > p { max-width: var(--db-measure); margin-bottom: var(--db-space-6); }
 .doc-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-7); }
+/* The sign catalogue: the controls on one line, the install line for the pressed sign, then every sign, live. */
+.doc-signs { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-7); }
+.doc-signs-controls { display: flex; flex-wrap: wrap; align-items: last baseline; gap: var(--db-space-5) var(--db-space-7); }
+.doc-signs-find { flex: 1 1 16rem; max-inline-size: 22rem; }
+.doc-signs-choice { display: grid; justify-items: start; gap: var(--db-space-2); }
+.doc-signs-picked { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-3); }
+.doc-signs-count { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); font-variant-numeric: tabular-nums lining-nums; }
+.doc-signs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tile, 8.5rem), 1fr)); gap: var(--db-space-3) var(--db-space-2); }
+.doc-sign {
+  display: grid; justify-items: center; align-content: start; gap: var(--db-space-1); inline-size: 100%;
+  padding: var(--db-space-5) var(--db-space-2) var(--db-space-3); color: var(--db-ink); text-align: center;
+}
+.doc-sign-art { display: grid; place-items: center; min-block-size: 4.5rem; margin-block-end: var(--db-space-2); }
+.doc-sign-word, .doc-sign-name { max-inline-size: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; hyphens: none; }
+.doc-sign-word { font-size: var(--db-p); line-height: var(--db-p-lh); }
+.doc-sign-name { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); direction: ltr; unicode-bidi: isolate; }
+.doc-sign[aria-pressed="true"] .doc-sign-word { color: var(--db-accent); }
+.doc-sign[aria-pressed="true"] .doc-sign-name { color: var(--db-graphite); }
+.doc-signs-none { font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
 /* Two blocks of one kind in a section each carry a name you can see: a p-size line in ink, near what it names. */
 .doc-sub { margin-bottom: var(--db-space-3); font-size: var(--db-p); line-height: var(--db-p-lh); font-weight: 400; color: var(--db-ink); }
 /* The way on is the page's last section: it begins at a rule like the others, after the same silence. */

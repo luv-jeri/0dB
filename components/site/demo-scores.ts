@@ -86,6 +86,7 @@ export const DEMO_SCORES: Record<string, Score> = {
   "select": play("select", "Choose actual options, then restore the defaults"),
   "sheet": rest("Opening a modal sheet would take focus and cover the page."),
   "sidebar": rest("App navigation and folding would distract from the docs."),
+  "sign": rest("Pointing at a sign says its word; the pinned states and the catalogue show that without moving the reader's pointer."),
   "skeleton": rest("A loading placeholder already expresses its state."),
   "slider": play("range", "Volume and brightness rise gently, then return"),
   "source": rest("Copying would overwrite the reader's clipboard."),
