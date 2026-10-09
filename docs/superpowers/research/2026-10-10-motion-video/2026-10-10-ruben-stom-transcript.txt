@@ -1,0 +1,314 @@
+[00:00] With AI, anyone can build
+[00:01] a website in a matter of minutes
+[00:01] without any coding experience.
+[00:04] But what makes a website feel
+[00:04] premium is often not the design itself.
+[00:07] It is the motion. And done right,
+[00:09] animations
+[00:09] make your site more interesting.
+[00:11] They hold your visitor's
+[00:11] attention for longer
+[00:13] and they can even steer people
+[00:13] in a certain direction.
+[00:16] But to do that,
+[00:16] you need to know what to prompt for.
+[00:18] And just as important,
+[00:18] when not to animate at all.
+[00:21] So in today's video,
+[00:22] I show you the five web animations
+[00:22] that I like to use the most.
+[00:25] And for each one,
+[00:25] I show you what it looks like,
+[00:27] where it works and where it doesn't,
+[00:27] and what to prompt for.
+[00:30] And I ordered them
+[00:30] from subtle to dramatic.
+[00:32] So we start with the one that you can add
+[00:32] to almost any site,
+[00:35] and we end with the most cinematic one.
+[00:37] My goal is that by the end of this video,
+[00:37] you choose your animations with intent.
+[00:41] And as always, I share all the prompts
+[00:41] and the code, so stick around till the end.
+[00:44] Because this gift is a bit different
+[00:44] than the ones that I usually share.
+[00:51] The first animation that we're going to
+[00:51] explore is a reveal animation,
+[00:54] and this animation shows parts
+[00:54] of your page as they scroll into view.
+[00:57] And that can be an entire section
+[00:59] or single elements like an image
+[00:59] or a block of text for example.
+[01:03] Here I used a wipe reveal that plays
+[01:03] the moment the section comes into view.
+[01:07] And what I like about this
+[01:07] type of animation is that it can
+[01:10] very easily turn an average website
+[01:10] into a more interesting one.
+[01:14] And the best use of a reveal
+[01:14] animation is to make visitors
+[01:17] curious about what's coming next
+[01:17] so that they keep scrolling.
+[01:20] For example,
+[01:20] I like to animate text. So in this case,
+[01:22] I prompted for a text reveal as you scroll
+[01:22] and it pulls your attention straight
+[01:26] to it. But it also stays subtle.
+[01:28] And here every thumbnail fades up
+[01:28] one after the other, which easily
+[01:32] turns an ordinary grid into something
+[01:32] you actually want to scroll through.
+[01:35] And this one is less subtle
+[01:36] as it slides an entire section
+[01:36] up and over the previous one.
+[01:40] But another interesting
+[01:40] use case of the animation, where I don't
+[01:43] just use it for a single element,
+[01:43] but for an entire section.
+[01:46] Generally speaking,
+[01:47] I would avoid the reveal animation
+[01:47] on a site that's already busy,
+[01:50] because when everything moves,
+[01:51] nothing stands out
+[01:51] and it quickly becomes distracting.
+[01:55] If you prompt for a reveal animation,
+[01:55] you only have to name three things.
+[01:58] First, name the type of reveal like a fade
+[01:58] or a wipe or a slide.
+[02:02] Second, name the direction like a fade up,
+[02:02] a wipe right, or a slide down animation.
+[02:07] And third, tell it which
+[02:07] elements or sections it applies to.
+[02:10] And that's how easy
+[02:10] it is to add this animation.
+[02:15] A parallax animation is when elements move
+[02:15] at a different speed
+[02:18] than the page itself as you scroll,
+[02:18] and that gives the page a sense of depth.
+[02:22] And what I like so much about this
+[02:22] animation
+[02:24] is that it works on almost any site,
+[02:24] and it instantly gives a calm
+[02:27] and premium feel.
+[02:28] It can be very subtle, which also makes it
+[02:28] perfect for more minimal designs.
+[02:32] There are a few different versions
+[02:32] of parallax animations.
+[02:35] The first is layers stacked on top of
+[02:35] each other, each moving at its own speed.
+[02:39] Here you can see that
+[02:39] the text and the images
+[02:41] all move at different speeds
+[02:41] when I scroll.
+[02:43] Another version is where images float next
+[02:43] to each other, also in different speeds.
+[02:47] And this is actually
+[02:47] one of my favorite effects.
+[02:49] It gives a very calm and minimal
+[02:49] feel to your site.
+[02:52] Perfect for showcasing a few projects
+[02:52] you worked on, for example. Or
+[02:56] an image that moves inside its own frame.
+[02:58] And this is probably the most subtle one.
+[03:00] It kind of feels as if you are looking
+[03:00] through a window or something.
+[03:03] There is something to keep in mind
+[03:03] when using this animation.
+[03:06] The images need room to travel,
+[03:06] so when you design your website,
+[03:09] you have to carefully plan
+[03:09] for extra space around it.
+[03:12] And space is exactly
+[03:12] what you don't have on a phone.
+[03:14] So on a mobile,
+[03:14] I almost always turn it off.
+[03:17] And this is the easiest one to prompt
+[03:17] for of the five animations.
+[03:20] Most of the time,
+[03:20] just asking for a parallax effect
+[03:23] on a specific image
+[03:23] or a set of images is all you need.
+[03:29] A loading
+[03:29] animation or intro animation plays
+[03:31] the moment someone lands on your site
+[03:31] before they see the homepage.
+[03:35] It looks great
+[03:35] and it can buy your site a second
+[03:37] to load heavier things in the background
+[03:37] like videos.
+[03:40] You can for example, add a short and
+[03:40] subtle text animation like this one, or go
+[03:44] wild and add a more playful animation
+[03:44] whatever fits your project.
+[03:47] I find that it works best
+[03:49] for the more entertaining
+[03:49] and artistic sites,
+[03:51] because there the intro is
+[03:51] part of the experience.
+[03:53] You can already show some of the work
+[03:53] before the visitor has even scrolled,
+[03:57] but I definitely do not recommend using it
+[03:57] on just any website that you make.
+[04:01] Adding an intro
+[04:02] animation means that people have to wait
+[04:02] before landing on the website,
+[04:05] and every second of waiting is a moment
+[04:05] where they might click away.
+[04:09] So I would skip it on sites
+[04:09] where people visit for information.
+[04:12] if you just want to see a restaurant's
+[04:12] menu,
+[04:14] you don't want to sit through
+[04:14] a loading animation first.
+[04:17] The easiest way to prompt for a loading
+[04:17] animation is to describe the sequence step
+[04:21] by step, what appears first, how it moves,
+[04:21] and how it hands over to the homepage.
+[04:25] And in my experience,
+[04:27] adding a reference image
+[04:27] of the loading state helps a lot here.
+[04:29] And then I add two more rules.
+[04:31] The first is to keep it short,
+[04:31] ideally just a few seconds,
+[04:34] and only show it on the first visit
+[04:34] so people who come back
+[04:37] land straight on the page.
+[04:42] Travel animation is a more general term
+[04:42] of animations, where
+[04:45] specific elements on your page follow
+[04:45] a certain path from point A to point B,
+[04:49] and what I like about this is that it
+[04:49] enables you to give a bird's eye
+[04:52] view of your work,
+[04:52] which is especially interesting
+[04:55] if you have a lot to show,
+[04:55] and it really leaves an impression.
+[04:58] For example, in this animation,
+[04:58] I prompted the images to travel
+[05:01] towards the website visitor.
+[05:03] And there are so many ways to implement
+[05:05] travel animations, which is probably why
+[05:05] this is the most fun one in my opinion.
+[05:09] Here I orbit around the center,
+[05:09] and here's another one of the visuals
+[05:13] floating into the distance,
+[05:13] or a 3D spiral animation.
+[05:18] And this is perfect for a project
+[05:18] where you have a lot of images.
+[05:20] So for a photography
+[05:20] or a portfolio website like this one here,
+[05:25] and in this example
+[05:25] I tied the images to a sphere shape.
+[05:28] So the images travel
+[05:28] around an invisible 3D sphere.
+[05:31] And in this version
+[05:31] I put the viewer inside that sphere
+[05:34] so it feels like
+[05:34] the images are orbiting around them.
+[05:38] Something to keep in mind with
+[05:38] this one is the loading time
+[05:40] because all of the images need
+[05:40] time to load at once.
+[05:43] So I really recommend prompting to your
+[05:43] AI agent to optimize the images.
+[05:47] And I would avoid putting videos in here
+[05:47] because that quickly gets too heavy.
+[05:51] I divide my prompts
+[05:51] for travel animations in two parts.
+[05:54] I first describe the path
+[05:55] so an orbiting circle
+[05:55] or an infinite spiral, for example.
+[05:59] And then I mention the speed
+[05:59] and the direction
+[06:01] like a gentle continuous motion
+[06:01] or a faster movement tied to your scroll.
+[06:05] And once I'm happy with how it looks,
+[06:05] I ask it to compress the images
+[06:09] and resize them to the size
+[06:09] they actually show on screen.
+[06:15] With this one,
+[06:15] you use video to move
+[06:15] from one section of your site to the next.
+[06:18] It is the most cinematic of the five
+[06:18] and the complete opposite of subtle.
+[06:22] There are three ways to play the video
+[06:22] animation. You can prompt for your video to
+[06:26] play on load. So it starts by itself.
+[06:28] You can add a trigger,
+[06:28] like a button or a handle,
+[06:31] or with scrubbing
+[06:31] where the video is tied to your scroll.
+[06:34] So the faster
+[06:35] you scroll, the faster it plays,
+[06:35] and when you scroll back up, it rewinds.
+[06:38] And I think that Apple really nails this,
+[06:38] where you scroll and the camera orbits
+[06:42] around a product,
+[06:43] for example.
+[06:44] If you want to make the video pause and
+[06:44] land on a specific part to reveal a section,
+[06:48] you have to carefully plan out
+[06:48] your scenes.
+[06:51] So I generate my videos with Seedance
+[06:52] 2.5 and I give each video a start frame
+[06:52] and an end frame.
+[06:56] The end frame of one video
+[06:58] is always the start frame of the next,
+[06:58] so the handoff between them is invisible.
+[07:02] And that way you can use each end
+[07:04] frame of your video to plan
+[07:04] what a section looks like on a website.
+[07:08] If done right,
+[07:08] this is one of the most impressive
+[07:10] and expensive
+[07:10] looking effects that you can add.
+[07:12] Think of product launches or a brand
+[07:12] that really wants to make a statement,
+[07:16] but at the same time
+[07:16] it is a lot more dramatic.
+[07:19] So it's not very subtle
+[07:19] and it's not for every site.
+[07:22] And it takes careful planning.
+[07:23] Like where does each video stop
+[07:23] and become a new section?
+[07:26] Plus video files get large very quickly.
+[07:29] So when I prompt to add a video,
+[07:29] I first explain how the video should play:
+[07:32] when the website loads,
+[07:32] on a specific trigger action or on scroll.
+[07:36] And I also ask it to optimize the files
+[07:36] for web. For play on load or on a trigger,
+[07:41] a compressed WebM file with an MP4 fallback
+[07:41] for older browsers works best,
+[07:45] and for scroll scrubbing, I'd ask it
+[07:45] to turn the video into a compressed image
+[07:49] sequence instead, because that scrubs
+[07:49] a lot smoother than a regular video file.
+[07:54] Okay, so you now have
+[07:54] everything you need to animate
+[07:56] your website with intent
+[07:56] and to make your website really stand out.
+[08:00] And as promised,
+[08:00] I share all the prompts and the code
+[08:02] snippets of the animations
+[08:02] that I showed today,
+[08:04] and normally I put them in a document.
+[08:06] But for this video I built a whole website
+[08:06] for it called Cadence.
+[08:09] It has over 100 animations
+[08:09] and for each one you can copy the prompt
+[08:13] or copy the code
+[08:14] and use it on your own website
+[08:14] for both personal and commercial projects.
+[08:18] It's completely free
+[08:18] and you can access it with this link.
+[08:20] I hope you enjoyed this video,
+[08:20] and if you'd like to see more designs
+[08:23] that I built with AI, then
+[08:23] please subscribe to my YouTube channel
+[08:26] and let me know in the comments below
+[08:28] if you'd like me to go
+[08:29] deeper on one of the animation techniques
+[08:29] that we saw today in a future video.
+[08:33] Thank you for watching
+[08:33] and I hope to see you in the next one.
