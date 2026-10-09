@@ -198,7 +198,7 @@ export const entries = [
   { meta: reverbMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
   { meta: scrollExpandMeta, hasStates: true, siblings: ["corners","meta"], exampleDependencies: [], exampleInstallCommand: "", npm: [] },
   { meta: segueMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },
-  { meta: signMeta, hasStates: true, siblings: [], exampleDependencies: [], exampleInstallCommand: "", npm: ["@chenglou/pretext"] },
+  { meta: signMeta, hasStates: true, siblings: [], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: ["@chenglou/pretext"] },
   { meta: sourceMeta, hasStates: true, siblings: ["button"], exampleDependencies: [], exampleInstallCommand: "", npm: ["sugar-high"] },
   { meta: statMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["select"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/select.json", npm: [] },
   { meta: stepsMeta, hasStates: true, siblings: ["fraction"], exampleDependencies: ["button"], exampleInstallCommand: "npx shadcn@latest add https://thedirectors.agency/ui/r/button.json", npm: [] },

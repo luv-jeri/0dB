@@ -20,7 +20,7 @@
    - the registry's `name` matches its namespace;
    - every endpoint answers over HTTPS with JSON.
 
-   The catalog grows only through items that each do a job of their own, never through aliases or splits; each sign variant (dots, words) is its own item by owner decision 2026-10-10.
+   The catalog grows only through items that each do a job of their own, never through aliases or splits; each sign variant (dots, words, fill) is its own item by owner decision 2026-10-10.
 
 ## What it refuses, and why
 

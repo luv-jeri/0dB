@@ -3,14 +3,17 @@
 Extracted from DESIGN.md.
 
 ### db-sign (sign)
-- Underneath: hook. Pretext lays the word along the drawing's strokes.
-- Anatomy: `<span class="db-sign" data-variant="dots | words" role="img" aria-label="word"><span class="db-sign-glyphs" aria-hidden="true"><span class="db-sign-glyph">…</span></span></span>`. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
-- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Line style only. Pretext sets the word letter by letter, kerning included, along the strokes of the drawing (`words`) or in middle-dot leaders (`dots`), so type stays the only ornament.
+- Underneath: hook. Pretext measures the word, kerning included, and the sign is laid out from those widths.
+- Anatomy: `<span class="db-sign" data-variant="dots | words | fill" role="img" aria-label="word"><span class="db-sign-glyph">…</span>…</span>`: one element per letter or leader, placed by `--x`, `--y`, `--r` and `--k`, since each one travels on its own when the word is said. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
+- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0dB; a sign that can't be read in all three variants is left out rather than shipped.
 - Variants:
-  - `dots`: each stroke is ruled in middle-dot leaders at every size; the letters wait unseen at the dots and rise out of them when said.
-  - `words`: the word runs along each stroke in whole words, closed up or spread to reach both ends; where a stroke is too short it falls back to leaders.
-- Yours: `data-face="italic"` sets the expression italic: a sign for something that belongs to the person (their mail, their home).
-- Said: pointing at the sign, or at the control it sits in, or focusing that control makes the drawing say its word. The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word; echoes sketch out in pencil and go quiet. Leaving winds them back.
+  - `dots`: each stroke ruled in middle-dot leaders, at every size; the leaders grow more slowly than the sign, so a large one is drawn finer. The letters wait unseen at the dots and rise out of them when said.
+  - `words`: from 40px up the word runs along each stroke in whole words, closed up or spread to reach both ends, longest stroke first, never upside down and never turning more than 80° within one word; a stroke too short or bending too tight for it is ruled in leaders at the words' size. Below 40px it is drawn as `dots`, since no letter can hold a stroke there.
+  - `fill`: the word set in rows that fill the drawing's silhouette, running on from one row to the next as a paragraph runs round a picture; each run is spread to its ends so the edge of the type is the outline.
+- Laid out on the server from a table of advances, so the first paint already shows the sign; Pretext then sets it again with the face's real kerning. The smaller the sign, the heavier its letters (800 at 16px to 500 at 128px), as a punchcutter cuts optical sizes.
+- Yours: `face="italic"` (`data-face="italic"`) sets it in the expression: a sign for something that belongs to the person (their mail, their home).
+- Said: pointing at the sign, or at the control it sits in, or focusing that control makes the drawing say its word. The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word across the middle, no wider than half again the sign (a caption's 11px floor aside); the rest sketch out in pencil and go quiet. Leaving winds them back, last letter first.
+- Right to left: a sign that points the way the reader goes (`mirror` in its shape: arrows, chevrons, send, undo) turns round, its strokes still read forwards.
 - States: rest, hover, focus. Reduced motion: the word and the drawing change places without travel. Forced colours use CanvasText.
 
 ## Motion
