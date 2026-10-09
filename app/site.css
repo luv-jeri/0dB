@@ -5,7 +5,16 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-:root { --bar: 4rem; }
+:root {
+  --bar: 4rem;
+  /* The site's measured width. On a wider screen the bar and the page hold this width centred and the margins
+     grow instead, so a line of type, a row of the index or a demo never runs out to an ultra-wide edge.
+     1760px plus the 80px margin each side is exactly 1920, so nothing changes up to a 1920 screen. */
+  --site-max: 1760px;
+  /* One viewport percent that stops growing where the site stops growing: type sized in it keeps its
+     proportion to the measured width instead of swelling on an ultra-wide screen. */
+  --site-vw: min(1vw, calc((var(--site-max) + 160px) / 100));
+}
 html { scroll-padding-top: calc(var(--bar) + var(--db-space-6)); scrollbar-gutter: stable; }
 /* The pre-paint theme script selects the ruler before the browser allocates a
    native gutter. Its SSR hairline is already present; hydration only measures
@@ -30,7 +39,7 @@ body { overflow-x: clip; }
 
 .page, .docs {
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--db-gutter);
-  padding-inline: var(--db-margin);
+  padding-inline: max(var(--db-margin), calc((100% - var(--site-max)) / 2));
 }
 .principle { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
 .margin { grid-column: 1 / 4; }
@@ -40,7 +49,7 @@ body { overflow-x: clip; }
 .bar {
   position: fixed; inset: 0 0 auto; z-index: 40; height: var(--bar);
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: var(--db-space-5);
-  padding-inline: var(--db-margin);
+  padding-inline: max(var(--db-margin), calc((100% - var(--site-max)) / 2));
   background: color-mix(in srgb, var(--db-paper) 90%, transparent);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   box-shadow: inset 0 calc(-1 * var(--db-hairline)) 0 var(--db-rule);
