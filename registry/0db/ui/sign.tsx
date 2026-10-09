@@ -12,8 +12,8 @@ const FACE = ["data-pair", "data-scheme", "data-mode", "data-key"]
 type SignProps = Omit<React.ComponentProps<"span">, "children"> & {
   /** The sign: its word and the drawing the word is set into. */
   shape: SignShape
-  /** line: the word runs along the strokes. fill: the word fills the silhouette, row by row. */
-  variant?: "line" | "fill"
+  /** dots: always shows the dotted drawing at every size. words: sets the word along the strokes. */
+  variant?: "dots" | "words"
   /** roman for what the interface offers; italic for what belongs to the person (their mail, their home). */
   face?: "roman" | "italic"
   /** The square's side, a CSS length. Default 1.5rem. */
@@ -26,8 +26,6 @@ type Glyph = { ch: string; x: number; y: number; r: number; say: number; stroke?
 type Laid = { glyphs: Glyph[]; ws: number; k: number; rest: number; said: number; word: { x: number; y: number }[] }
 
 const REF = 100 // pretext measures once at this size; widths scale straight from it
-const ROWS = 10 // the rows a fill is set in, at every size
-const LEADERS = 40 // below this side a line sign is set in leaders: its letters are too small to hold a stroke
 const LEADER = "\u00b7" // the middle dot, type's own dotted line
 const graphemes = new Intl.Segmenter(undefined, { granularity: "grapheme" })
 
@@ -63,49 +61,14 @@ function at({ pts, along }: ReturnType<typeof sample>, s: number) {
   return { x: ax + (bx - ax) * t, y: ay + (by - ay) * t, r: (Math.atan2(by - ay, bx - ax) * 180) / Math.PI }
 }
 
-/** Where a closed path crosses the row at height y: pairs of x, start and end of each run inside it. */
-function crossings(pts: [number, number][], y: number) {
-  const xs: number[] = []
-  for (let i = 0; i < pts.length; i++) {
-    const [ax, ay] = pts[i], [bx, by] = pts[(i + 1) % pts.length]
-    if ((ay <= y && by > y) || (by <= y && ay > y)) xs.push(ax + ((y - ay) / (by - ay)) * (bx - ax))
-  }
-  xs.sort((a, b) => a - b)
-  const runs: [number, number][] = []
-  for (let i = 0; i + 1 < xs.length; i += 2) runs.push([xs[i], xs[i + 1]])
-  return runs
-}
-
-/** Runs joined, then the cut runs taken out of them. */
-function union(runs: [number, number][]) {
-  const out: [number, number][] = []
-  for (const [a, b] of [...runs].sort((p, q) => p[0] - q[0])) {
-    const last = out[out.length - 1]
-    if (last && a <= last[1]) last[1] = Math.max(last[1], b)
-    else out.push([a, b])
-  }
-  return out
-}
-function subtract(runs: [number, number][], cuts: [number, number][]) {
-  let out = runs
-  for (const [c0, c1] of cuts) out = out.flatMap(([a, b]): [number, number][] => (c1 <= a || c0 >= b ? [[a, b]] : [...(c0 > a ? [[a, c0] as [number, number]] : []), ...(c1 < b ? [[c1, b] as [number, number]] : [])]))
-  return out
-}
-/** Where both rows of runs are inside: a row is inside the silhouette only where its top and its foot both are. */
-function intersect(p: [number, number][], q: [number, number][]) {
-  const out: [number, number][] = []
-  for (const [a, b] of p) for (const [c, d] of q) if (Math.min(b, d) > Math.max(a, c)) out.push([Math.max(a, c), Math.min(b, d)])
-  return out
-}
-
 /**
- * A sign: an icon made of its own word. The word is set by pretext along the strokes of the drawing (line) or
- * row by row through its silhouette (fill), so type stays the only ornament and no second visual language
- * arrives. Pointing at it, or at the control it sits in, sets the word: the letters leave the drawing in
- * reading order, one arpeggio apart, and stand up as the word they always were; the echoes go quiet. Leaving
- * winds them back. Under reduced motion the word and the drawing change places without travel.
+ * A sign: an icon made of its own word. The word is set by pretext along the strokes of the drawing (words) or
+ * in middle-dot leaders (dots), so type stays the only ornament and no second visual language arrives. Pointing
+ * at it, or at the control it sits in, sets the word: the letters leave the drawing in reading order, one arpeggio
+ * apart, and stand up as the word they always were; the echoes go quiet. Leaving winds them back. Under reduced
+ * motion the word and the drawing change places without travel.
  */
-function Sign({ shape, variant = "line", face = "roman", size, label, className, style, ref: forwardedRef, ...props }: SignProps) {
+function Sign({ shape, variant = "words", face = "roman", size, label, className, style, ref: forwardedRef, ...props }: SignProps) {
   const ref = React.useRef<HTMLSpanElement>(null)
   const composedRef = useComposedRefs(ref, forwardedRef)
   const [laid, setLaid] = React.useState<Laid | null>(null)
@@ -132,15 +95,8 @@ function Sign({ shape, variant = "line", face = "roman", size, label, className,
         const italic = face === "italic" ? "italic " : ""
         // Optical sizes, as a punchcutter would cut them: the smaller the sign, the larger and heavier its letters.
         const t = Math.max(0, Math.min(3, Math.log2(S / 16)))
-        // A line's letters are its stroke: large at small sizes, so the stroke stays dark. A fill always has ROWS rows,
-        // so at small sizes it becomes a tone of type, the way a calligram's paragraph reads as grey before it reads as words.
-        const add = shape.fill.add.map((d) => sample(d).pts), cut = (shape.fill.cut ?? []).map((d) => sample(d).pts)
-        const ys = add.flat().map(([, y]) => y)
-        const top = Math.min(...ys), foot = Math.max(...ys)
-        const leaders = variant === "line" && S < LEADERS
-        const f = variant === "fill"
-          ? ((foot - top) * (S / 24) * 1.3) / ROWS
-          : leaders ? S * 0.66 : S * Math.max(0.15, Math.min(0.3, 0.3 - 0.075 * Math.log2(S / 32)))
+        const leaders = variant === "dots"
+        const f = leaders ? S * 0.66 : S * Math.max(0.15, Math.min(0.3, 0.3 - 0.075 * Math.log2(S / 32)))
         const rest = Math.round(800 - 100 * t) // their weight
         const said = face === "italic" ? 500 : 560 // the weight of the word when it's said
         const ws = Math.max(13, S * 0.42) // the word's size when it's said: never under a caption
@@ -182,7 +138,7 @@ function Sign({ shape, variant = "line", face = "roman", size, label, className,
         const clear = (x: number, y: number, stroke: number, gap: number) => glyphs.every((g) => g.stroke === stroke || Math.hypot(g.x - x, g.y - y) >= gap)
 
         if (leaders) {
-          // The text cut: each stroke ruled in leaders, ends included, at the leader's pitch. The word's
+          // The dotted cut: each stroke ruled in leaders, ends included, at the leader's pitch. The word's
           // letters wait unseen at points spread along the whole drawing, and rise out of them when it's said.
           const step = pitch
           shape.line.forEach((path, stroke) => {
@@ -197,10 +153,10 @@ function Sign({ shape, variant = "line", face = "roman", size, label, className,
           })
           const dots = glyphs.slice()
           letters.forEach((ch, j) => {
-            const d = dots[Math.floor(((j + 0.5) * dots.length) / letters.length)]
+            const d = dots[Math.floor(((j + 0.5) * dots.length) / letters.length)] ?? { x: S / 2, y: S / 2 }
             glyphs.push({ ch, x: d.x, y: d.y, r: 0, say: j, k: (S * 0.3) / ws, hush: true })
           })
-        } else if (variant === "line") {
+        } else {
           // Each stroke reads the word from its start, in whole words, spread or closed up to reach both its ends. A
           // stroke too short for the word sets it smaller, down to three fifths; shorter still, the stroke is ruled in
           // leaders, since part of a word is no longer the word. A stroke that starts or ends against an earlier one
@@ -234,44 +190,20 @@ function Sign({ shape, variant = "line", face = "roman", size, label, className,
               s += a
             }
           })
-        } else {
-          // The silhouette in rows, a little tighter than the type's own leading so it reads as one shape. Each row
-          // is cut where the outline crosses it, and the word runs on from one run to the next, as a paragraph does
-          // round a picture; each run is spread to its ends so the edge is the outline.
-          const rows = ROWS
-          const step = (foot - top) / rows
-          const inside = (y: number) => subtract(union(add.flatMap((pts) => crossings(pts, y))), union(cut.flatMap((pts) => crossings(pts, y))))
-          let from = 0
-          for (let row = 0; row < rows; row++) {
-            const y0 = top + row * step
-            for (const [a, b] of intersect(inside(y0 + step * 0.22), inside(y0 + step * 0.78))) {
-              const cw = (b - a) * u
-              let n = 0
-              while (run(from, n + 1) <= cw * 1.06) n++
-              if (!n) {
-                if (cw < adv[from % adv.length] * 0.55) continue // too narrow for a letter: paper
-                n = 1
-              }
-              // Spread to the edge, but never so far the run falls apart into letters: the rest of the slack is shared either side.
-              const spread = Math.min(cw / run(from, n), 1.35)
-              const inset = (cw - run(from, n) * spread) / 2
-              let s = 0
-              for (let i = 0; i < n; i++) {
-                const a2 = adv[(from + i) % adv.length]
-                glyphs.push({ ch: letters[(from + i) % letters.length], x: a * u + inset + (s + a2 / 2) * spread, y: (y0 + step / 2) * u, r: 0, say: -1 })
-                s += a2
-              }
-              from += n
+          // The letters that say the word: the first whole word in reading order, else each letter's first appearance.
+          const at0 = glyphs.findIndex((_, i) => letters.every((ch, j) => glyphs[i + j]?.ch === ch))
+          const dots = glyphs.filter((g) => g.ch === LEADER)
+          letters.forEach((ch, j) => {
+            const g = at0 >= 0 ? glyphs[at0 + j] : glyphs.find((x) => x.ch === ch && x.say < 0)
+            if (g) {
+              g.say = j
+            } else if (dots.length) {
+              const d = dots[Math.floor(((j + 0.5) * dots.length) / letters.length)] ?? { x: S / 2, y: S / 2 }
+              glyphs.push({ ch, x: d.x, y: d.y, r: 0, say: j, k: (S * 0.3) / ws, hush: true })
             }
-          }
+          })
         }
 
-        // The letters that say the word: the first whole word in reading order, else each letter's first appearance.
-        const at0 = glyphs.findIndex((_, i) => letters.every((ch, j) => glyphs[i + j]?.ch === ch))
-        if (!leaders) letters.forEach((ch, j) => {
-          const g = at0 >= 0 ? glyphs[at0 + j] : glyphs.find((x) => x.ch === ch && x.say < 0)
-          if (g) g.say = j
-        })
         // Where they stand when it's said: the word set straight across the middle of the square, at a size a person reads.
         const wadv = advances(said).map((a) => (a * ws) / REF)
         wadv[wadv.length - 1] -= ((width(shape.word + shape.word, said) - 2 * width(shape.word, said)) * ws) / REF
@@ -306,7 +238,7 @@ function Sign({ shape, variant = "line", face = "roman", size, label, className,
     <span
       ref={composedRef}
       data-slot="sign"
-      data-variant={variant === "line" ? undefined : variant}
+      data-variant={variant}
       data-face={face === "roman" ? undefined : face}
       role={hidden ? undefined : "img"}
       aria-label={hidden ? undefined : (label ?? shape.word)}

@@ -1,7 +1,7 @@
 @layer components {
   /* ── db-sign ── an icon made of its own word, after the ampersand (the word "et" worn down into a sign) and
-     Apollinaire's calligrams. Pretext lays the word along the drawing's strokes (line) or through its silhouette
-     (fill). Each letter is set at the size it is said at and scaled down into the drawing, so saying it is one
+     Apollinaire's calligrams. Pretext lays the word along the drawing's strokes (words) or in middle-dot leaders
+     (dots). Each letter is set at the size it is said at and scaled down into the drawing, so saying it is one
      transform: it travels to its place in the word, turns upright and comes to full size. */
   .db-sign {
     --db-sign-size: 1.5rem;

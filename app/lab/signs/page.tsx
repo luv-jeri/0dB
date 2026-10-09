@@ -8,10 +8,10 @@ import "./lab.css"
 export const metadata: Metadata = { title: "Signs (preview)", robots: { index: false } }
 
 const variants = [
-  { variant: "line", face: "roman", name: "line", note: "The word runs along the strokes. Ours, so roman." },
-  { variant: "line", face: "italic", name: "line, italic", note: "The same drawing in the expression italic: a sign for something that belongs to the person." },
-  { variant: "fill", face: "roman", name: "fill", note: "The word fills the silhouette, row by row, as a calligram does." },
-  { variant: "fill", face: "italic", name: "fill, italic", note: "The silhouette filled in the expression italic." },
+  { variant: "dots", face: "roman", name: "dots", note: "The dotted drawing at every size. Ours, so roman." },
+  { variant: "dots", face: "italic", name: "dots, italic", note: "The dotted drawing in the expression italic: a sign for something that belongs to the person." },
+  { variant: "words", face: "roman", name: "words", note: "The word runs along each stroke. Ours, so roman." },
+  { variant: "words", face: "italic", name: "words, italic", note: "The word set in the expression italic." },
 ] as const
 
 const sizes = ["16px", "20px", "24px", "48px"]
@@ -22,7 +22,7 @@ export default function SignsLab() {
     <main id="content" className="lab-signs">
       <header className="lab-head">
         <h1 className="db-f">Signs</h1>
-        <p className="lab-lead">Icons made of their own word. Pretext sets the word along the drawing or through it; point at one, or tab to it, and it says the word. Five signs, two ways of setting, two faces: twenty items.</p>
+        <p className="lab-lead">Icons made of their own word. Pretext sets the word along the drawing’s strokes or rules them in leaders; point at one, or tab to it, and it says the word. Five signs, two ways of setting, two faces.</p>
       </header>
       {variants.map((v) => (
         <section key={v.name} className="lab-set" data-set={v.name}>
@@ -56,7 +56,7 @@ export default function SignsLab() {
           <button type="button" className="lab-hit"><Sign shape={signs.mail} face="italic" size="24px" /></button>
           <button type="button" className="lab-hit"><Sign shape={signs.close} size="24px" /></button>
           <button type="button" className="lab-hit"><Sign shape={signs["arrow-right"]} size="24px" /></button>
-          <button type="button" className="lab-hit"><Sign shape={signs.home} variant="fill" size="24px" /></button>
+          <button type="button" className="lab-hit"><Sign shape={signs.home} variant="words" size="24px" /></button>
         </div>
       </section>
     </main>
