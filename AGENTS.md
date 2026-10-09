@@ -49,7 +49,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 - **Pre-release.** "0dB" is a working name. A new name is being chosen, and it lands before any public listing, because the shadcn directory ties a registry's history to its namespace.
 - **Not listed anywhere yet:** no shadcn directory entry, no release and no announcement until the launch plan is ready. Deploys and pushes are fine.
-- **Ranking:** the directory ranks by registry health and by the number of distinct items. Only real items count toward it; never add aliases or splits to raise the count, though each sign variant (dots, words) is its own item by owner decision 2026-10-10. The rules are in `docs/superpowers/reports/2026-10-01-directory-ranking.md`.
+- **Ranking:** the directory ranks by registry health and by the number of distinct items. Only real items count toward it; never add aliases or splits to raise the count, though each sign variant (dots, words, fill) is its own item by owner decision 2026-10-10. The rules are in `docs/superpowers/reports/2026-10-01-directory-ranking.md`.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
