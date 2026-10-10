@@ -54,8 +54,14 @@ try {
     await catalogue()
     await page.screenshot({ path: `${OUT}/${name}-catalogue.png` })
     if (mode === "day") {
+      // Right to left from the first paint, as a page set in Arabic or Hebrew arrives: flipping dir on a page that's
+      // already laid out leaves whatever measured itself in the old direction (the runner's dot) where it was.
+      await page.addInitScript(() => {
+        const set = () => document.documentElement && (document.documentElement.dir = "rtl")
+        if (!set()) new MutationObserver((_, o) => set() && o.disconnect()).observe(document, { childList: true })
+      })
+      await page.goto(`${BASE}/docs/sign/`, { waitUntil: "networkidle" })
       await page.locator(".doc-signs-find input").fill("arrow")
-      await page.evaluate(() => { document.documentElement.dir = "rtl" })
       await catalogue()
       await page.screenshot({ path: `${OUT}/${name}-rtl-catalogue.png` })
     }
