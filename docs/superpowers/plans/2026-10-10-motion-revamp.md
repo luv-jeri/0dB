@@ -480,7 +480,9 @@ Each builder receives the governing brief, this plan, current INTENT, relevant D
 
 ## 8. Owner decisions needed
 
-These are real choices, not a claim that approval has already been given. The plan is written against all six recommended defaults, as requested. They do not block this documentation revision. No INTENT amendment is assumed.
+**Answered 2026-10-10 (IST):** the owner saw a to f in plain English and replied "looks good", so all six recommended defaults below are decisions. Decision e is moot: the signs branch merged as `dd33506` (PR #18) before the answer.
+
+These were real choices, not a claim that approval had already been given. The plan is written against all six recommended defaults, as requested. They do not block this documentation revision. No INTENT amendment is assumed.
 
 | ID | Owner choice | Recommended default used in this plan | If answered differently |
 |---|---|---|---|
