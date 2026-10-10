@@ -173,7 +173,7 @@ The dependency column is a starting point. The real list is derived from each it
 
 - Next 16 App Router, `output: "export"`, `trailingSlash: true`.
 - Tailwind v4 is imported the way a consumer would, so compatibility is exercised on every build.
-- Lenis provides smooth scrolling, but only when reduced motion is off.
+- Scrolling is the browser's own. Lenis smooth scrolling was removed by owner decision on 2026-10-10: the page kept gliding 0.7 to 0.9 s after the wheel stopped (native stops in about 0.03 s), and it ran every scroll on the main thread, which dragged on heavy pages. Items keep their `data-lenis-prevent` marks for people who add a smooth scroller to their own app.
 - The theme (mode, scheme, key, pair) is restored from `localStorage` by an inline script in `<head>` before first paint.
 
 **Pages:**
