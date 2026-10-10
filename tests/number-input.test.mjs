@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { reader, raw } from "../registry/0db/lib/number.ts"
+import { reader, raw } from "../registry/0nlytype/lib/number.ts"
 
 test("localized editing and grouped display values round trip", () => {
   for (const locale of ["en", "de", "fr", "ar-EG", "fa", "bn", "hi-u-nu-deva", "th-u-nu-thai", "zh-u-nu-hanidec"]) {

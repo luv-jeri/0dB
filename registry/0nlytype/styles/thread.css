@@ -1,0 +1,48 @@
+@layer components {
+  /* ── ot-thread ── message scroller: it keeps to the latest; scrolled back, it counts what's new.
+     Give .ot-thread a height (26rem here). It borrows ot-scroll (edge rules), ot-msg and ot-marker. */
+  .ot-thread { position: relative; display: grid; grid-template-rows: minmax(0, 1fr); height: 26rem; }
+  .ot-thread-scroll {
+    display: grid; align-content: safe end; gap: var(--ot-space-6);
+    padding-block: var(--ot-space-5); padding-inline-end: var(--ot-space-3);
+  }
+  .ot-thread-latest {
+    position: absolute; inset-block-end: var(--ot-space-4); inset-inline: 0; margin-inline: auto; width: fit-content;
+    display: inline-flex; align-items: baseline; gap: 0.35em; appearance: none; border: 0; margin-block: 0; padding: 0.3em 0.95em 0.36em; border-radius: 1em;
+    background: var(--ot-ink); color: var(--ot-paper); font: 500 var(--ot-pp) / var(--ot-pp-lh) var(--ot-voice); cursor: pointer;
+    animation: ot-land var(--ot-moderato) var(--ot-spiccato);
+  }
+  .ot-thread-new { display: inline-block; font-variant-numeric: tabular-nums; }
+
+  /* ── rests ── the space between two messages is the silence between them: its gap grows with the log of the minutes
+     (script sets --ot-rest). A pause of an hour or more is said in that silence the way the marker's lapse says it:
+     "3 hours later", in pencil, centred, its letters spread by how long it went quiet (--ot-lapse, the lapse's scale). */
+  .ot-thread[data-variant="rests"] .ot-thread-scroll { gap: var(--ot-space-3); }
+  .ot-thread[data-variant="rests"] .ot-thread-scroll > .ot-msg {
+    --ot-rest-gap: min(var(--ot-space-9), calc(var(--ot-rest, 0) * var(--ot-space-2) * 1.25));
+    position: relative; margin-block-start: var(--ot-rest-gap);
+  }
+  .ot-thread[data-variant="rests"] .ot-thread-scroll > [data-slot="thread-day"] { margin-block: var(--ot-space-5); }
+  .ot-thread[data-variant="rests"] .ot-msg[data-rest]::after {
+    --ot-rest-tr: calc(var(--ot-pp-tr) + var(--ot-lapse, 0) * 0.36em);
+    content: attr(data-rest) / ""; position: absolute; inset-inline: 0; margin-inline: auto; width: fit-content; pointer-events: none;
+    inset-block-start: calc((var(--ot-rest-gap) + var(--ot-space-3)) / -2); translate: 0 -50%;
+    font: 400 var(--ot-pp) / 1 var(--ot-voice); letter-spacing: var(--ot-rest-tr); padding-inline-start: var(--ot-rest-tr); white-space: nowrap; color: var(--ot-pencil); direction: ltr; unicode-bidi: isolate; /* the words are the library's English */
+  }
+
+  /* ── running ── scrolled back, the top edge carries the day you are in and the time of the first message in view,
+     on a hairline between them (the SHAPES / GRADIENTS frame row). Its day rolls as the days change. */
+  .ot-thread-head {
+    position: absolute; inset-block-start: 0; inset-inline: 0 var(--ot-space-4); z-index: 1; margin: 0;
+    display: flex; align-items: center; gap: var(--ot-space-3); padding-block: var(--ot-space-2);
+    background: var(--ot-paper); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite);
+    transition: opacity var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-thread-head:not([data-shown]) { opacity: 0; visibility: hidden; }
+  .ot-thread-head > span { display: inline-block; }
+  .ot-thread-head::after { content: ""; order: 1; flex: 1; height: var(--ot-hairline); background: var(--ot-rule-strong); }
+  .ot-thread-head > time { order: 2; color: var(--ot-pencil); font-variant-numeric: tabular-nums; }
+  @media (forced-colors: active) {
+    .ot-thread-head::after { background: CanvasText; }
+  }
+}

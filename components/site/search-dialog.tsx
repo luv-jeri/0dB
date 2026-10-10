@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/registry/0db/ui/command"
+import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/registry/0nlytype/ui/command"
 import type { SearchGroup } from "./search"
 
 /** The palette is fetched on its first click or keyboard shortcut. */

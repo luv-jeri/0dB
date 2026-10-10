@@ -1,5 +1,5 @@
-import { Field } from "@/registry/0db/ui/field"
-import { InputGroup, InputGroupButton, InputGroupInput, InputGroupText } from "@/registry/0db/ui/input-group"
+import { Field } from "@/registry/0nlytype/ui/field"
+import { InputGroup, InputGroupButton, InputGroupInput, InputGroupText } from "@/registry/0nlytype/ui/input-group"
 import { State } from "@/components/site/state"
 
 export default function Example() {

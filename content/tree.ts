@@ -4,7 +4,7 @@ export default defineComponent({
   name: "tree",
   title: "Tree",
   movement: "X",
-  contract: "db-tree",
+  contract: "ot-tree",
   summary: "A hierarchy set as a contents page: names on hairline branches, each hanging from under its folder's first letter, a folder opened at a time.",
   underneath: "native",
   props: [

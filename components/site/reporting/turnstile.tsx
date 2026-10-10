@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 
 type TurnstileAPI = { render: (element: HTMLElement, options: Record<string, unknown>) => string; remove: (id: string) => void }
 declare global { interface Window { turnstile?: TurnstileAPI } }
@@ -49,7 +49,7 @@ export function Turnstile({ siteKey, attempt, onToken }: { siteKey: string; atte
     return () => { active = false; if (id) window.turnstile?.remove(id) }
   }, [siteKey, attempt, retry])
   return (
-    <div className="db-report-verification">
+    <div className="ot-report-verification">
       <div ref={container} />
       {error ? <p role="alert">{error}</p> : null}
       <Button variant="quiet" onClick={() => { setError(""); setRetry((n) => n + 1) }}>Retry verification</Button>

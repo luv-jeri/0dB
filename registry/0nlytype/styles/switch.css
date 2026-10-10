@@ -1,0 +1,77 @@
+@layer components {
+  /* ── ot-switch ── a sentence whose last word you can change */
+  .ot-switch { position: relative; display: inline-block; cursor: pointer; color: var(--ot-graphite); -webkit-tap-highlight-color: transparent; }
+  .ot-switch > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+  .ot-switch-state {
+    display: inline-grid; vertical-align: baseline; overflow: clip;
+    padding: 0.12em 0.14em 0.24em; margin-block: -0.12em -0.24em; margin-inline: -0.08em -0.14em;
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1;
+    color: var(--ot-ink);
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0.14em calc(100% - 0.1em) / calc(100% - 0.28em) var(--ot-hairline);
+    transition: color var(--ot-moderato) var(--ot-breath);
+  }
+  .ot-switch-state > span { grid-area: 1 / 1; transition: translate var(--ot-moderato) var(--ot-breath), opacity var(--ot-moderato) var(--ot-breath); }
+  .ot-switch > input:not(:checked) ~ .ot-switch-state { color: var(--ot-pencil); }
+  .ot-switch > input:not(:checked) ~ .ot-switch-state > :first-child { translate: 0 -110%; opacity: 0; }
+  .ot-switch > input:checked ~ .ot-switch-state > :last-child { translate: 0 110%; opacity: 0; }
+  .ot-switch:is(:hover, [data-force~="hover"]) > .ot-switch-state { background-image: linear-gradient(var(--ot-ink), var(--ot-ink)); }
+  .ot-switch > input:focus-visible ~ :is(.ot-switch-state, .ot-switch-either),
+  .ot-switch[data-force~="focus"] > :is(.ot-switch-state, .ot-switch-either) { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 0; }
+  .ot-switch[data-force~="focus"] { outline: 0; }
+  .ot-switch:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }
+  /* The sentence's full stop: a dot when on, a ring when off. */
+  .ot-switch-stop {
+    display: inline-block; width: max(0.22em, 5px); height: max(0.22em, 5px); margin-inline-start: 0.24em; border-radius: 50%;
+    box-shadow: inset 0 0 0 0.5em currentColor;
+    transition: box-shadow var(--ot-andante) var(--ot-exhale);
+  }
+  .ot-switch > input:not(:checked) ~ .ot-switch-stop { box-shadow: inset 0 0 0 var(--ot-hairline) currentColor; }
+
+  /* ── either ── "delete as appropriate": a printed form offers both words and you strike out the one that doesn't
+     apply. Both stand in the italic; the one that holds is in ink, the other pencil, struck. Pointing pencils a hairline
+     through the one that holds, since that is the one you'd strike; switching lifts the old strike off to the right
+     and draws the new one from the left, as the checkbox's pen does. */
+  .ot-switch-either { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; white-space: nowrap; }
+  .ot-switch-either > :not(.ot-switch-or) {
+    --y: 58%;
+    padding-inline: 0.06em; margin-inline: -0.06em; color: var(--ot-ink);
+    background:
+      linear-gradient(var(--ot-graphite), var(--ot-graphite)) no-repeat 100% var(--y) / 0% var(--ot-stroke),
+      linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 100% var(--y) / 0% var(--ot-hairline);
+    transition: background-size var(--ot-moderato) var(--ot-breath), background-position 0s, color var(--ot-moderato) var(--ot-breath);
+  }
+  .ot-switch-or { margin-inline: 0.22em; font-family: var(--ot-voice); font-style: normal; font-size: calc(1em / var(--ot-expression-scale)); color: var(--ot-pencil); }
+  .ot-switch > input:checked ~ .ot-switch-either > :last-child,
+  .ot-switch > input:not(:checked) ~ .ot-switch-either > :first-child { color: var(--ot-pencil); background-position: 0 var(--y), 100% var(--y); background-size: 100% var(--ot-stroke), 0% var(--ot-hairline); }
+  .ot-switch:is(:hover, [data-force~="hover"]):not(:has(input:disabled)) > input:checked ~ .ot-switch-either > :first-child,
+  .ot-switch:is(:hover, [data-force~="hover"]):not(:has(input:disabled)) > input:not(:checked) ~ .ot-switch-either > :last-child { background-position: 100% var(--y), 0 var(--y); background-size: 0% var(--ot-stroke), 100% var(--ot-hairline); }
+  .ot-switch:is([dir="rtl"], [dir="rtl"] *) .ot-switch-either > :not(.ot-switch-or) { background-position: 0 var(--y), 0 var(--y); }
+  .ot-switch:is([dir="rtl"], [dir="rtl"] *) > input:checked ~ .ot-switch-either > :last-child,
+  .ot-switch:is([dir="rtl"], [dir="rtl"] *) > input:not(:checked) ~ .ot-switch-either > :first-child { background-position: 100% var(--y), 0 var(--y); }
+  .ot-switch:is([dir="rtl"], [dir="rtl"] *):is(:hover, [data-force~="hover"]):not(:has(input:disabled)) > input:checked ~ .ot-switch-either > :first-child,
+  .ot-switch:is([dir="rtl"], [dir="rtl"] *):is(:hover, [data-force~="hover"]):not(:has(input:disabled)) > input:not(:checked) ~ .ot-switch-either > :last-child { background-position: 0 var(--y), 100% var(--y); }
+
+  /* ── question ── after "It has to be design.": "the concept of passion?" is answered by "the voice of reason."
+     Off, the sentence asks, in graphite, ending on an italic question mark in pencil. On, the hook is wiped away from
+     the top down to its dot, which stays as the full stop, and the sentence inks: it has been answered. Switching off,
+     the hook grows back up out of the dot. The full stop sits at the start of the question mark's cell, so the line never moves. */
+  .ot-switch[data-variant="question"] { transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-switch[data-variant="question"]:has(input:checked) { color: var(--ot-ink); }
+  /* An inline span, not a box, so the mark can never wrap away from the last word; the full stop is laid over its start. */
+  .ot-switch-ask { position: relative; margin-inline-start: 0.02em; font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 0; color: var(--ot-pencil); } /* 0: the larger italic never opens the line */
+  .ot-switch-ask > :first-child { position: absolute; inset-inline-start: 0; top: 0; line-height: normal; opacity: 0; color: var(--ot-ink); transition: opacity var(--ot-allegro); }
+  .ot-switch-ask > :last-child { clip-path: inset(-0.2em -0.3em); transition: clip-path var(--ot-moderato) var(--ot-breath), color var(--ot-allegro); }
+  .ot-switch:is(:hover, [data-force~="hover"]):not(:has(input:disabled)) .ot-switch-ask > :last-child { color: var(--ot-ink); }
+  .ot-switch > input:checked ~ .ot-switch-ask > :first-child { opacity: 1; transition-delay: calc(var(--ot-moderato) * 0.55); }
+  .ot-switch > input:checked ~ .ot-switch-ask > :last-child { clip-path: inset(calc(100% + 0.2em) -0.3em -0.2em); }
+  .ot-switch[data-variant="question"]:has(input:focus-visible),
+  .ot-switch[data-variant="question"][data-force~="focus"] { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 4px; }
+
+  /* Forced colours drop box-shadow, which draws the full stop (keep it, in the forced text colour), and background
+     images, which draw either's strike (restate it as a line-through). */
+  @media (forced-colors: active) {
+    .ot-switch-stop { forced-color-adjust: none; }
+    .ot-switch > input:checked ~ .ot-switch-either > :last-child,
+    .ot-switch > input:not(:checked) ~ .ot-switch-either > :first-child { text-decoration: line-through; }
+  }
+}

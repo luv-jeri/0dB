@@ -4,7 +4,7 @@ export default defineComponent({
   name: "agent-chat",
   title: "Agent chat",
   movement: "XI",
-  contract: "db-agent-chat",
+  contract: "ot-agent-chat",
   summary: "Talk to an agent. Its words are roman and yours arrive in italic; it asks before it acts, in a question you must answer, and it tells you what it is doing as a sentence that inks in.",
   underneath: "native",
   props: [

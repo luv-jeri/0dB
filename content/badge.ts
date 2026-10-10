@@ -4,7 +4,7 @@ export default defineComponent({
   name: "badge",
   title: "Badge",
   movement: "VIII",
-  contract: "db-tag",
+  contract: "ot-tag",
   summary: "The one rounded shape: a hairline pill for a tag or a status; or tags written as one list in the italic; or a seal with its legend set round a ring.",
   underneath: "native",
   props: [

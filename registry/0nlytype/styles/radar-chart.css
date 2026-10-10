@@ -1,0 +1,69 @@
+@layer components {
+  /* ── ot-radar ── several measures on one shape, drawn as Paul Rand draws "design": a dotted construction sheet (the
+     grid item), dotted construction polygons at the quarters and dotted spokes, the shape itself one ink hairline with a
+     paper bead at each point, and each axis named in small caps at its end. Pointing at an axis measures it off as a
+     dimension line, ticked at both ends and stepped off the spoke, with its figure set on it. */
+  .ot-radar { --dir: 1; margin: 0; display: grid; row-gap: var(--ot-space-4); inline-size: min(100%, var(--ot-radar-size, 30rem)); }
+  .ot-radar:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
+  .ot-radar-plot { position: relative; aspect-ratio: 1; cursor: crosshair; }
+  .ot-radar-draw { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
+  .ot-radar-draw:is([dir="rtl"] *) { scale: -1 1; }
+
+  /* The construction: dotted, faint, the rim a step firmer. */
+  .ot-radar-build > * { fill: none; stroke: var(--ot-rule-strong); stroke-width: var(--ot-hairline); stroke-dasharray: 1 4; }
+  .ot-radar-build > [data-rim] { stroke: var(--ot-pencil); stroke-dasharray: 1 3; }
+
+  /* The shape: ink hairline, paper beads. The second series dashed graphite, the third dashed pencil (chart's voices). */
+  .ot-radar-line { fill: none; stroke: var(--c, var(--ot-ink)); stroke-width: var(--ot-hairline); stroke-linejoin: round; }
+  .ot-radar-series[data-series="1"], .ot-radar-dim[data-series="1"], .ot-radar-name[data-series="1"] { --c: var(--ot-graphite); --dash: 4 2; }
+  .ot-radar-series[data-series="2"], .ot-radar-dim[data-series="2"], .ot-radar-name[data-series="2"] { --c: var(--ot-pencil); --dash: 1 2; }
+  .ot-radar-series > .ot-radar-line { stroke-dasharray: var(--dash, none); }
+  .ot-radar-bead {
+    fill: var(--ot-paper); stroke: var(--c, var(--ot-ink)); stroke-width: var(--ot-hairline);
+    transition: r var(--ot-moderato) var(--ot-spiccato), fill var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-radar-series[data-series="0"] > .ot-radar-bead[data-shown] { r: 4.5px; fill: var(--ot-accent); stroke: var(--ot-accent); }
+
+  /* The dimension line: drawn out from the centre along the spoke (moderato, exhale), a tick at each end. */
+  .ot-radar-dims { animation: ot-radar-measure var(--ot-moderato) var(--ot-exhale) both; transform-origin: 0 0; }
+  .ot-radar-dim > path { fill: none; stroke: var(--c, var(--ot-ink)); stroke-width: var(--ot-hairline); }
+  @keyframes ot-radar-measure { from { scale: 0; opacity: 0; } to { scale: 1; opacity: 1; } }
+
+  .ot-radar-figure {
+    position: absolute; inset-inline-start: calc(50% + var(--x)); inset-block-start: calc(50% + var(--y)); pointer-events: none;
+    font-size: var(--ot-pp); line-height: 1; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap;
+  }
+  .ot-radar-figure { translate: -50% -50%; font-weight: 500; color: var(--c, var(--ot-ink)); animation: ot-radar-set var(--ot-moderato) var(--ot-exhale) both; }
+  .ot-radar-figure[data-series="1"] { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-pp) * var(--ot-expression-scale)); font-weight: 400; }
+  .ot-radar-figure:is([dir="rtl"] *) { translate: 50% -50%; }
+  @keyframes ot-radar-set { from { opacity: 0; } }
+  /* The rim's value after the figure, in pencil: SPECTRA's fractions, the measure against its whole. */
+  .ot-radar-of { font-weight: 400; color: var(--ot-pencil); }
+
+  /* The axis names at the spokes' ends, in small caps, each hung off its end in the direction the spoke runs. The inline
+     inset mirrors itself right to left; the translate is physical, so it turns with --dir. */
+  .ot-radar-axis {
+    position: absolute; appearance: none; border: 0; margin: 0; padding: var(--ot-space-1); background: none; font: inherit; cursor: crosshair;
+    inset-inline-start: calc(50% + var(--c) * (var(--r, 34%) + var(--ot-space-2))); inset-block-start: calc(50% + var(--s) * (var(--r, 34%) + var(--ot-space-2)));
+    translate: calc(var(--dir) * (-50% + var(--c) * 50%)) calc(-50% + var(--s) * 50%);
+    inline-size: max-content; max-inline-size: 11em; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); font-variant-caps: all-small-caps; letter-spacing: 0.08em; font-weight: 500;
+    color: var(--ot-pencil); text-align: center; transition: color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-radar-axis:is(:hover, :focus-visible, [data-shown]) { color: var(--ot-ink); }
+
+  /* With series, a key: each name after a sample of its line, and its figure on the axis you're on. */
+  .ot-radar-key { display: flex; flex-wrap: wrap; gap: var(--ot-space-2) var(--ot-space-5); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-graphite); }
+  .ot-radar-name { display: inline-flex; align-items: baseline; gap: var(--ot-space-2); }
+  .ot-radar-name[data-series="1"] { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-pp) * var(--ot-expression-scale)); }
+  .ot-radar-name[data-series="2"] { color: var(--ot-pencil); }
+  .ot-radar-swatch { inline-size: var(--ot-space-5); block-size: 0.5em; overflow: visible; }
+  .ot-radar-swatch > line { stroke: var(--c, var(--ot-ink)); stroke-width: var(--ot-hairline); stroke-dasharray: var(--dash, none); }
+  .ot-radar-key-value { color: var(--ot-ink); font-variant-numeric: tabular-nums; }
+  .ot-radar-note { font-size: var(--ot-p); color: var(--ot-graphite); }
+
+  @media (forced-colors: active) {
+    .ot-radar-line, .ot-radar-dim > path { stroke: CanvasText; }
+    .ot-radar-build > * { stroke: GrayText; }
+    .ot-radar-series[data-series="0"] > .ot-radar-bead[data-shown] { fill: Highlight; stroke: Highlight; }
+  }
+}

@@ -1,0 +1,60 @@
+@layer components {
+  /* ── ot-relay ── a sentence whose last word is yours to change: mode-toggle's sentence, for any set of words.
+     The lead is ours, in the roman; the word is the one you chose, in the italic, on a hairline that hugs it.
+     The word rolls on and its box eases to the new width; the autoplay clock yields to the person. */
+  .ot-relay {
+    appearance: none; border: 0; background: none; padding: 0; margin: 0; font: inherit; letter-spacing: inherit;
+    color: var(--ot-graphite); text-align: start; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: color var(--ot-allegro) var(--ot-breath);
+  }
+  .ot-relay:is(:hover, [data-force~="hover"]) { color: var(--ot-ink); }
+  .ot-relay:focus-visible, .ot-relay[data-force~="focus"] { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 0.12em; }
+  .ot-relay:disabled { opacity: 0.55; cursor: not-allowed; }
+  .ot-relay-word {
+    display: inline-block; box-sizing: border-box; vertical-align: baseline; overflow: clip; white-space: nowrap;
+    padding: 0.12em 0.14em 0.24em; margin-block: -0.12em -0.24em; margin-inline: -0.08em -0.14em;
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; color: var(--ot-ink);
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0.14em calc(100% - 0.1em) / calc(100% - 0.28em) var(--ot-hairline);
+  }
+  .ot-relay-word > span { display: inline-block; }
+  .ot-relay:is(:hover, [data-force~="hover"]) .ot-relay-word { background-image: linear-gradient(var(--ot-ink), var(--ot-ink)); }
+
+  /* statement: after "It has to be design.", where heavy narrow roman is answered by a large italic that overlaps it, the one
+     accent on the italic word and its full stop. The sentence stands in ink; the word drops under it, half again as large,
+     rising into the line above with a halo of the paper round its letters, so it cuts the roman where they cross. */
+  .ot-relay[data-variant="statement"] { display: inline-grid; justify-items: start; color: var(--ot-ink); }
+  .ot-relay[data-variant="statement"] .ot-relay-lead { font-weight: 800; font-stretch: 75%; letter-spacing: -0.035em; line-height: 0.92; }
+  .ot-relay[data-variant="statement"] .ot-relay-word {
+    font-size: calc(1.5 * var(--ot-expression-scale) * 1em); line-height: 0.9; margin-block: -0.42em -0.24em; margin-inline-start: 0.3em;
+    color: var(--ot-accent); background-size: 0 var(--ot-hairline);
+    paint-order: stroke fill; -webkit-text-stroke: 0.06em var(--ot-relay-ground, var(--ot-paper));
+    transition: background-size var(--ot-moderato) var(--ot-exhale);
+  }
+  /* Pointing sketches the hairline under the word in pencil: it can be changed. */
+  .ot-relay[data-variant="statement"]:is(:hover, [data-force~="hover"]) .ot-relay-word { background-image: linear-gradient(var(--ot-pencil), var(--ot-pencil)); background-size: calc(100% - 0.28em) var(--ot-hairline); }
+  @media (forced-colors: active) {
+    .ot-relay-word { background-image: linear-gradient(CanvasText, CanvasText); }
+    .ot-relay[data-variant="statement"] .ot-relay-word { color: CanvasText; -webkit-text-stroke: 0; margin-block-start: 0; margin-inline-start: 0; }
+  }
+  .ot-relay-frame { display: inline-grid; justify-items: start; max-inline-size: 100%; vertical-align: baseline; }
+
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .ot-relay-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--ot-space-3); padding: var(--ot-space-1) 0;
+    min-block-size: var(--ot-space-5); color: var(--ot-pencil); font: 400 var(--ot-pp) / var(--ot-pp-lh) var(--ot-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .ot-relay-pause::before { content: "( "; }
+  .ot-relay-pause::after { content: " )"; }
+  .ot-relay-pause:hover { color: var(--ot-ink); }
+  .ot-relay-pause:focus-visible { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: var(--ot-space-1); }
+  .ot-relay-pause:disabled { color: var(--ot-pencil); cursor: not-allowed; }
+  .ot-relay-frame[data-force~="reduced"] .ot-relay-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .ot-relay-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .ot-relay-pause { color: ButtonText; }
+    .ot-relay-pause:focus-visible { outline-color: Highlight; }
+  }
+
+}

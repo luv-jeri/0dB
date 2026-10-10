@@ -4,7 +4,7 @@ export default defineComponent({
   name: "radio-group",
   title: "Radio group",
   movement: "VI",
-  contract: "db-choice",
+  contract: "ot-choice",
   summary: "Words in a row. The one you choose turns italic, because it's yours now. One dot glides beneath it along a slur, or the italic itself slides through the words to it and sets a full stop after it. A ballot cross can be written after it, or, in a heavy column, its italic swells.",
   underneath: "native",
   props: [

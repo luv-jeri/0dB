@@ -8,7 +8,7 @@ const read = () => readFileSync("DESIGN.md", "utf8")
 /** The body of `### <contract> (… name …)`, rendered, without its heading. Null if DESIGN.md has none. */
 export function contractFor(contract: string, name: string): string | null {
   const section = read().split(/^(?=### |## )/m).find((s) => {
-    const m = s.match(/^### ((?:db-[a-z-]+, )*db-[a-z-]+) \(([^)]+)\)/)
+    const m = s.match(/^### ((?:ot-[a-z-]+, )*ot-[a-z-]+) \(([^)]+)\)/)
     return m && m[1].split(", ").includes(contract) && m[2].split(",").some((n) => n.trim() === name)
   })
   return section ? (marked.parse(section.replace(/^### .*\n/, ""), { async: false }) as string) : null

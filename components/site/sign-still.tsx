@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { layoutSign, tableMetrics, type SignShape, type SignVariant } from "@/registry/0db/ui/sign"
+import { layoutSign, tableMetrics, type SignShape, type SignVariant } from "@/registry/0nlytype/ui/sign"
 
 const metrics = { roman: tableMetrics(false), italic: tableMetrics(true) }
 // How far the baseline sits below the middle of a line-height-1 em box: half of ascent less descent, in ems, for
@@ -38,7 +38,7 @@ export function SignStill({ shape, variant, face, size }: { shape: SignShape; va
     group.ch.push(g.ch)
   }
   return (
-    <span className="db-sign" data-face={face === "italic" ? "italic" : undefined} aria-hidden style={{ "--db-sign-size": `${size}px` } as React.CSSProperties}>
+    <span className="ot-sign" data-face={face === "italic" ? "italic" : undefined} aria-hidden style={{ "--ot-sign-size": `${size}px` } as React.CSSProperties}>
       <svg className="doc-sign-still" viewBox={`0 0 ${size} ${size}`} width={size} height={size} fontWeight={laid.rest}>
         {[...groups].map(([key, g]) => (
           <text key={key} fontSize={g.fs} data-quiet={g.quiet || undefined} x={g.x.join(" ")} y={g.y.join(" ")} rotate={g.r.join(" ")}>{g.ch.join("")}</text>

@@ -1,0 +1,79 @@
+@layer components {
+  /* ── ot-dialog ── the question, set large */
+  .ot-dialog {
+    border: 0; margin: auto; padding: var(--ot-space-8) var(--ot-space-7) var(--ot-space-7);
+    width: min(44rem, calc(100vw - 2 * var(--ot-margin))); max-width: none;
+    background: var(--ot-paper); color: var(--ot-graphite);
+    --ot-corner: 14px;
+    opacity: 0; translate: 0 12px;
+    transition: opacity var(--ot-andante) var(--ot-exhale), translate var(--ot-andante) var(--ot-exhale), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
+  }
+  .ot-dialog[open] { opacity: 1; translate: 0 0; }
+  @starting-style { .ot-dialog[open] { opacity: 0; translate: 0 12px; } }
+  :is(.ot-dialog, .ot-sheet, .ot-drawer)::backdrop {
+    background: color-mix(in srgb, var(--ot-paper) 86%, transparent);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity var(--ot-andante), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
+  }
+  :is(.ot-dialog, .ot-sheet, .ot-drawer)[open]::backdrop { opacity: 1; }
+  @starting-style { :is(.ot-dialog, .ot-sheet, .ot-drawer)[open]::backdrop { opacity: 0; } }
+  .ot-dialog-meta { margin-block-end: var(--ot-space-7); }
+  .ot-dialog[open]::after { animation: ot-frame var(--ot-andante) var(--ot-exhale) 80ms backwards; }
+  .ot-dialog[open] .ot-dialog-meta > hr { transform-origin: 0 50%; animation: ot-draw-x var(--ot-andante) var(--ot-exhale) 200ms backwards; }
+  .ot-dialog[open] .ot-dialog-title { animation: ot-breathe-out var(--ot-andante) var(--ot-exhale) 120ms backwards; }
+  @keyframes ot-frame { from { opacity: 0; scale: 0.95; } } /* opens out from inside, so the dialog never scrolls */
+  @keyframes ot-breathe-out { from { opacity: 0; font-weight: 500; font-stretch: 88%; } }
+  .ot-dialog-title .ot-yours { margin-inline-start: 0.06em; } /* Bodoni's italic leans into the word before it at this size */
+  .ot-dialog-title { font-size: var(--ot-f); line-height: var(--ot-f-lh); letter-spacing: var(--ot-f-tr); font-weight: 300; color: var(--ot-ink); }
+  .ot-dialog-body { margin-block-start: var(--ot-space-4); max-inline-size: 40ch; }
+  .ot-dialog-actions { margin: var(--ot-space-7) 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--ot-space-6); }
+  @media (max-width: 40rem) { .ot-dialog { padding: var(--ot-space-7) var(--ot-space-5) var(--ot-space-6); } .ot-dialog-meta { margin-block-end: var(--ot-space-6); } .ot-dialog-actions { margin-block-start: var(--ot-space-6); gap: var(--ot-space-5); } }
+
+  /* Reply ("It has to be design."): the question is ours, heavy and narrow; the answers are yours, set large in the
+     italic. The one you point at, or that holds focus, takes a full stop in the accent, and only one ever does. */
+  .ot-dialog[data-variant][open] .ot-dialog-title { animation: none; }
+  .ot-dialog[data-variant="reply"] .ot-dialog-title { font-weight: 800; font-stretch: 72%; line-height: 0.98; letter-spacing: -0.015em; word-spacing: 0.06em; text-wrap: balance; }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions { justify-content: flex-start; align-items: baseline; column-gap: var(--ot-space-7); row-gap: var(--ot-space-4); }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions > button:not(.ot-btn) {
+    appearance: none; border: 0; padding: 0; background: none; cursor: pointer;
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: calc(var(--ot-mf) * var(--ot-expression-scale)); line-height: 1; letter-spacing: 0;
+    color: var(--ot-graphite); transition: color var(--ot-allegro) var(--ot-breath);
+  }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions > button:not(.ot-btn)::after { content: "." / ""; display: inline-block; color: var(--ot-accent); scale: 0; transform-origin: 50% 85%; transition: scale var(--ot-moderato) var(--ot-spiccato); }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions > button:not(.ot-btn):is(:hover, :focus, [data-force~="hover"]) { color: var(--ot-ink); }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions > button:not(.ot-btn):is(:hover, :focus, [data-force~="hover"])::after { scale: 1; }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions:has(> :hover) > button:not(.ot-btn, :hover) { color: var(--ot-graphite); }
+  .ot-dialog[data-variant="reply"] .ot-dialog-actions:has(> :hover) > button:not(.ot-btn, :hover)::after { scale: 0; }
+
+  /* Ruled ("Less is more."): a grid of hairlines to the dialog's edges. Facts in the top corners; the question large,
+     each of its lines standing on a rule that draws across as it opens; the detail ragged on the far side; the
+     answers in the cells below. */
+  .ot-dialog[data-variant="ruled"] { --pad: var(--ot-space-6); width: min(58rem, calc(100vw - 2 * var(--ot-margin))); padding: 0; }
+  .ot-dialog[data-variant="ruled"][open] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 16rem); }
+  .ot-dialog[data-variant="ruled"]::before { content: ""; grid-column: 2; grid-row: 2 / 4; border-inline-start: var(--ot-hairline) solid var(--ot-ink); pointer-events: none; }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-meta { grid-column: 1 / -1; grid-row: 1; margin: 0; padding: var(--ot-space-4) var(--pad); justify-content: space-between; border-block-end: var(--ot-hairline) solid var(--ot-ink); }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-meta > hr { display: none; }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-title { grid-column: 1; grid-row: 2; position: relative; isolation: isolate; padding: var(--ot-space-8) var(--pad) 0; font-size: var(--ot-ff); line-height: 1.15; letter-spacing: var(--ot-ff-tr); font-weight: 500; }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-title::after { content: ""; position: absolute; z-index: -1; inset: var(--ot-space-8) 0 -1px; background: repeating-linear-gradient(to bottom, transparent 0 calc(1lh - 1px), var(--ot-ink) calc(1lh - 1px) 1lh); transform-origin: 0 50%; }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-title .ot-yours { line-height: 0; } /* the italic mustn't grow a line, or the rules fall out of step */
+  :is([dir="rtl"], [dir="rtl"] *).ot-dialog[data-variant="ruled"] .ot-dialog-title::after { transform-origin: 100% 50%; }
+  .ot-dialog[data-variant="ruled"][open] .ot-dialog-title::after { animation: ot-draw-x var(--ot-andante) var(--ot-exhale) 160ms backwards; }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-body { grid-column: 2; grid-row: 2; align-self: center; margin: 0; padding: var(--ot-space-5); max-inline-size: none; text-align: end; text-wrap: pretty; }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-actions { grid-column: 1 / -1; grid-row: 3; margin: 0; display: grid; grid-template-columns: subgrid; align-items: center; gap: 0; border-block-start: var(--ot-hairline) solid var(--ot-ink); }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-actions > * { grid-column: 1; justify-self: start; margin: var(--ot-space-5) var(--pad); }
+  .ot-dialog[data-variant="ruled"] .ot-dialog-actions > :last-child:not(:first-child) { grid-column: 2; justify-self: end; margin-inline: var(--ot-space-5); }
+  @media (max-width: 40rem) {
+    .ot-dialog[data-variant="ruled"] { --pad: var(--ot-space-5); }
+    .ot-dialog[data-variant="ruled"][open] { grid-template-columns: minmax(0, 1fr); }
+    .ot-dialog[data-variant="ruled"]::before { content: none; }
+    .ot-dialog[data-variant="ruled"] .ot-dialog-title { grid-row: auto; padding-block: var(--ot-space-7) var(--ot-space-5); font-size: var(--ot-f); }
+    .ot-dialog[data-variant="ruled"] .ot-dialog-title::after { inset-block: var(--ot-space-7) var(--ot-space-5); }
+    .ot-dialog[data-variant="ruled"] .ot-dialog-body { grid-column: 1; grid-row: auto; padding: 0 var(--pad) var(--ot-space-6); text-align: start; }
+    .ot-dialog[data-variant="ruled"] .ot-dialog-actions { grid-column: 1; grid-row: auto; display: flex; justify-content: space-between; }
+    .ot-dialog[data-variant="ruled"] .ot-dialog-actions > :last-child:not(:first-child) { margin-inline: var(--pad); }
+  }
+  @media (forced-colors: active) {
+    .ot-dialog[data-variant="ruled"] .ot-dialog-title::after { forced-color-adjust: none; background: repeating-linear-gradient(to bottom, transparent 0 calc(1lh - 1px), CanvasText calc(1lh - 1px) 1lh); }
+  }
+}

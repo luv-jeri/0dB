@@ -20,10 +20,10 @@ export function FilePreview({ file }: { file: File }) {
 }
 
 export function MediaReview({ files }: { files: ReportFile[] }) {
-  return files.length ? <div className="db-report-media">
+  return files.length ? <div className="ot-report-media">
     {files.map(({ id, file }) => <figure key={id}>
       <FilePreview file={file} />
-      <figcaption><span className="db-yours" dir="auto">{file.name}</span> <bdi className="db-report-number">({(file.size / 1024 / 1024).toFixed(2)} MiB)</bdi></figcaption>
+      <figcaption><span className="ot-yours" dir="auto">{file.name}</span> <bdi className="ot-report-number">({(file.size / 1024 / 1024).toFixed(2)} MiB)</bdi></figcaption>
     </figure>)}
   </div> : null
 }

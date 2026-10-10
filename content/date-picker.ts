@@ -4,7 +4,7 @@ export default defineComponent({
   name: "date-picker",
   title: "Date picker",
   movement: "VI",
-  contract: "db-date",
+  contract: "ot-date",
   summary: "A date inside a sentence, like the select. It opens the month on a leader line; choose a day and it is written into the sentence in italic.",
   underneath: "radix",
   uses: ["popover", "calendar", "field"],

@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { composeRefs } from "../registry/0db/lib/refs.ts"
+import { composeRefs } from "../registry/0nlytype/lib/refs.ts"
 
 test("composed refs attach both owners and preserve React 19 cleanup", () => {
   const node = { tagName: "INPUT" }

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "combobox",
   title: "Combobox",
   movement: "VI",
-  contract: "db-combo",
+  contract: "ot-combo",
   summary: "A field that suggests. Type and the letters you typed are marked in each match, the suggestions arrive in turn, and what you chose sits on the line in italic; with multiple, your choices are written there as one sentence.",
   underneath: "cmdk",
   uses: ["popover", "command", "field"],

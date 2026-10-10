@@ -11,7 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
   paginationRange,
-} from "@/registry/0db/ui/pagination"
+} from "@/registry/0nlytype/ui/pagination"
 import { State } from "@/components/site/state"
 
 const pad = (n: number) => String(n).padStart(2, "0")
@@ -120,23 +120,23 @@ export default function Example() {
   return (
     <div className="grid w-full justify-items-start gap-12">
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Numbers, a long run</span>
+        <span className="ot-label">Numbers, a long run</span>
         <Numbers page={page} go={go} total={24} />
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Folio</span>
+        <span className="ot-label">Folio</span>
         <Folio page={page} go={go} total={24} />
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Barcode</span>
+        <span className="ot-label">Barcode</span>
         <Barcode page={page} go={go} total={24} />
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Neighbours</span>
+        <span className="ot-label">Neighbours</span>
         <Neighbours at={at} go={goChapter} />
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Thumb index</span>
+        <span className="ot-label">Thumb index</span>
         <Thumb at={letters[letter]} go={(l) => goLetter(letters.indexOf(l))} />
       </div>
     </div>

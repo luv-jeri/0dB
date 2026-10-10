@@ -4,7 +4,7 @@ export default defineComponent({
   name: "pagination",
   title: "Pagination",
   movement: "VIII",
-  contract: "db-pager",
+  contract: "ot-pager",
   summary: "Numbers with a dot beneath each, weight falling away from the current page and its accent dot; or a folio, the page over its total; the neighbours, by name; every page as a barcode's line; or an alphabet set as one word.",
   underneath: "native",
   props: [

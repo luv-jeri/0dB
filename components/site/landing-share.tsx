@@ -3,7 +3,7 @@
 import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 
-import { Link } from "@/registry/0db/ui/link"
+import { Link } from "@/registry/0nlytype/ui/link"
 
 // Pass it on: one click copies the link and says so, and the places to send it open beside it, as words. Each
 // place is a link to its own share page, in a new tab. Where the system has a share sheet (phones, mostly),
@@ -11,7 +11,7 @@ import { Link } from "@/registry/0db/ui/link"
 // closes it, and focus goes back where it was. The noise section sets it in the silence the pointer makes;
 // "Help build it" sets it on a line.
 
-export const REPO = "https://github.com/luv-jeri/0dB"
+export const REPO = "https://github.com/luv-jeri/0nlyType"
 
 const places = (url: string, text: string) => {
   const u = encodeURIComponent(url), t = encodeURIComponent(text)
@@ -152,7 +152,7 @@ export function SharePlaces({ share, text, star = true, className, style }: Plac
           </Link>
         </p>
       ) : null}
-      <span className="db-sr" aria-live="polite">
+      <span className="ot-sr" aria-live="polite">
         {open && copied ? "Link copied. Or choose where to send it." : ""}
       </span>
     </div>
@@ -171,7 +171,7 @@ export function ShareCall({ url, text, children, note }: { url: string; text: st
         aria-expanded={share.open}
         onClick={(e) => (share.open ? share.close() : share.show(e.currentTarget))}
       >
-        <span className="db-sr">{children}</span>
+        <span className="ot-sr">{children}</span>
         <span className="cta-word" aria-hidden="true" data-text={children}>
           <span className="cta-letters">
             {Array.from(children).map((c, i) => (

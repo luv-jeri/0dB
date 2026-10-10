@@ -4,7 +4,7 @@ export default defineComponent({
   name: "note",
   title: "Note",
   movement: "VIII",
-  contract: "db-note",
+  contract: "ot-note",
   summary: "Marginalia: a dotted term, and a leader line that draws out to its note; or a gloss set over the word; an abbreviation that opens into its words; or a word struck through and rewritten.",
   underneath: "native",
   props: [

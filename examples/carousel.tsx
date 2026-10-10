@@ -1,5 +1,5 @@
-import { Carousel, CarouselItem, CarouselTitle } from "@/registry/0db/ui/carousel"
-import { Meta } from "@/registry/0db/ui/meta"
+import { Carousel, CarouselItem, CarouselTitle } from "@/registry/0nlytype/ui/carousel"
+import { Meta } from "@/registry/0nlytype/ui/meta"
 import { State } from "@/components/site/state"
 
 const work = [

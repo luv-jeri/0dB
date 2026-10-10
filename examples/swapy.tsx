@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Swapy, type SwapyItem } from "@/registry/0db/ui/swapy"
+import { Swapy, type SwapyItem } from "@/registry/0nlytype/ui/swapy"
 
 const issue: SwapyItem[] = [
   { id: "letter", label: "Editor’s letter", kind: "Opening", meta: "2 pp" },
@@ -30,15 +30,15 @@ export default function Example() {
   const [order, setOrder] = React.useState(issue.map((i) => i.id))
   const names = order.map((id) => issue.find((i) => i.id === id)?.label)
   return (
-    <div className="grid w-full max-w-3xl" style={{ gap: "var(--db-space-8)" }}>
-      <div className="grid" style={{ gap: "var(--db-space-4)" }}>
+    <div className="grid w-full max-w-3xl" style={{ gap: "var(--ot-space-8)" }}>
+      <div className="grid" style={{ gap: "var(--ot-space-4)" }}>
         <Swapy label="Running order" items={issue} order={order} onOrderChange={setOrder} />
-        <p className="db-pp" style={{ color: "var(--db-graphite)" }}>
+        <p className="ot-pp" style={{ color: "var(--ot-graphite)" }}>
           Press <i>move</i> and use the arrow keys, or drag it. The issue opens with {names[0]} and closes with {names.at(-1)}.
         </p>
       </div>
-      <div className="grid" style={{ gap: "var(--db-space-4)" }}>
-        <span className="db-label">Transpose</span>
+      <div className="grid" style={{ gap: "var(--ot-space-4)" }}>
+        <span className="ot-label">Transpose</span>
         <Swapy label="Set list" variant="transpose" items={set} />
       </div>
     </div>

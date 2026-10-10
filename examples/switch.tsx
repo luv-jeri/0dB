@@ -1,9 +1,9 @@
-import { Switch } from "@/registry/0db/ui/switch"
+import { Switch } from "@/registry/0nlytype/ui/switch"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
-    <div className="db-mp grid justify-items-start gap-4">
+    <div className="ot-mp grid justify-items-start gap-4">
       <Switch defaultChecked>Email me when someone replies:</Switch>
       <Switch>Send the weekly digest:</Switch>
       <Switch variant="either" defaultChecked>Comments on this draft are</Switch>

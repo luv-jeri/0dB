@@ -13,7 +13,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@/registry/0db/ui/context-menu"
+} from "@/registry/0nlytype/ui/context-menu"
 import { State } from "@/components/site/state"
 
 /** The area that answers a right-click: corner marks round a line of help. */
@@ -21,7 +21,7 @@ function Area({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <ContextMenuTrigger asChild>
       <div
-        className="db-corners"
+        className="ot-corners"
         tabIndex={0}
         aria-describedby={id}
         style={{
@@ -29,10 +29,10 @@ function Area({ id, children }: { id: string; children: React.ReactNode }) {
           placeItems: "center",
           width: "min(19rem, 100%)",
           minHeight: "9rem",
-          padding: "var(--db-space-5)",
+          padding: "var(--ot-space-5)",
           textAlign: "center",
-          fontSize: "var(--db-pp)",
-          color: "var(--db-pencil)",
+          fontSize: "var(--ot-pp)",
+          color: "var(--ot-pencil)",
           cursor: "context-menu",
         }}
       >
@@ -116,15 +116,15 @@ export default function Example() {
   return (
     <div className="flex w-full flex-wrap items-start gap-x-10 gap-y-10">
       <div className="grid gap-3">
-        <span className="db-label">List</span>
+        <span className="ot-label">List</span>
         <Notes />
       </div>
       <div className="grid gap-3">
-        <span className="db-label">Leaders</span>
+        <span className="ot-label">Leaders</span>
         <Text />
       </div>
       <div className="grid gap-3">
-        <span className="db-label">Orbit</span>
+        <span className="ot-label">Orbit</span>
         <Photo />
       </div>
     </div>
@@ -134,8 +134,8 @@ export default function Example() {
 /** A menu pinned open where it was pressed, one item pointed at. The docs' states row is inert, so this is the look alone. */
 function Pinned({ variant, children }: { variant: string; children: React.ReactNode }) {
   return (
-    <div style={{ padding: "var(--db-space-3) 0 0 var(--db-space-3)" }}>
-      <div className="db-pop db-menu" data-at="point" data-variant={variant} data-state="open" style={{ "--db-at-x": "-2px", "--db-at-y": "-2px" } as React.CSSProperties}>
+    <div style={{ padding: "var(--ot-space-3) 0 0 var(--ot-space-3)" }}>
+      <div className="ot-pop ot-menu" data-at="point" data-variant={variant} data-state="open" style={{ "--ot-at-x": "-2px", "--ot-at-y": "-2px" } as React.CSSProperties}>
         {children}
       </div>
     </div>
@@ -147,25 +147,25 @@ export function States() {
     <>
       <State label="List, pointed at">
         <Pinned variant="list">
-          <div className="db-menu-item">Copy the link</div>
-          <div className="db-menu-item" data-force="hover">Duplicate <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">D</kbd></span></div>
-          <div className="db-menu-item">Archive</div>
+          <div className="ot-menu-item">Copy the link</div>
+          <div className="ot-menu-item" data-force="hover">Duplicate <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">D</kbd></span></div>
+          <div className="ot-menu-item">Archive</div>
         </Pinned>
       </State>
       <State label="Leaders, pointed at">
         <Pinned variant="leaders">
-          <div className="db-menu-item">Cut <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">X</kbd></span></div>
-          <div className="db-menu-item" data-force="hover">Copy <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">C</kbd></span></div>
-          <div className="db-menu-item">Add a margin note</div>
+          <div className="ot-menu-item">Cut <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">X</kbd></span></div>
+          <div className="ot-menu-item" data-force="hover">Copy <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">C</kbd></span></div>
+          <div className="ot-menu-item">Add a margin note</div>
         </Pinned>
       </State>
       <State label="Orbit, pointed at">
         <Pinned variant="orbit">
-          <div className="db-menu-item">Open</div>
-          <div className="db-menu-item">Set as the cover</div>
-          <div className="db-menu-item" data-force="hover">Copy the photograph</div>
-          <div className="db-menu-item">Save to Halden</div>
-          <div className="db-menu-item">Remove it</div>
+          <div className="ot-menu-item">Open</div>
+          <div className="ot-menu-item">Set as the cover</div>
+          <div className="ot-menu-item" data-force="hover">Copy the photograph</div>
+          <div className="ot-menu-item">Save to Halden</div>
+          <div className="ot-menu-item">Remove it</div>
         </Pinned>
       </State>
     </>

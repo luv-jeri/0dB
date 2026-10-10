@@ -4,7 +4,7 @@ export default defineComponent({
   name: "link",
   title: "Link",
   movement: "II",
-  contract: "db-link",
+  contract: "ot-link",
   summary: "One link: a hairline underline at rest, and pointing at it, focusing it or holding its card open draws a highlighter stroke through the whole word, on from the left and off to the right.",
   underneath: "native",
   props: [

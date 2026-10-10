@@ -1,0 +1,69 @@
+@layer components {
+  /* ── ot-agent-chat ── talk to an agent, after "It has to be design.": the agent's words are ours, in roman; yours
+     arrive in italic, and when it asks, the question is heavy and narrow and your answer is large. Composed of
+     ot-thread, ot-msg, ot-attachments, ot-field, ot-dialog, ot-choice, ot-progress, ot-marker and ot-agent. */
+  .ot-agent-chat {
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto; row-gap: var(--ot-space-5);
+    block-size: min(44rem, 88svh); container-type: inline-size;
+  }
+  .ot-agent-chat-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ot-space-2) var(--ot-space-5);
+    padding-block-end: var(--ot-space-3); border-block-end: var(--ot-hairline) solid var(--ot-rule);
+  }
+  .ot-agent-chat-head > h2 { margin: 0; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); font-weight: 600; letter-spacing: var(--ot-mp-tr); }
+  .ot-agent-chat > .ot-thread { block-size: auto; min-block-size: 0; }
+
+  /* The agent's work, told as it goes: a sentence that inks in, at the size of the messages. */
+  .ot-agent-note { display: grid; justify-items: start; max-inline-size: 34rem; }
+  .ot-agent-note .ot-progress[data-variant="sentence"] > .ot-progress-label { font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); }
+  /* A receipt: the question stays ours, the answer is yours. */
+  .ot-agent-note [data-decision] { flex-wrap: wrap; column-gap: var(--ot-space-2); color: var(--ot-graphite); }
+  .ot-agent-note [data-decision] > .ot-yours { color: var(--ot-ink); }
+  .ot-agent-note [data-decision="pending"] > span { color: var(--ot-pencil); }
+
+  /* The choice: the question over a column of words, Continue under them. Answered, the words step back and only yours stays. */
+  .ot-agent-choice { display: grid; justify-items: start; row-gap: var(--ot-space-4); max-inline-size: 34rem; }
+  .ot-agent-choice[data-answered] .ot-choice-word { color: var(--ot-pencil); }
+
+  /* ── the composer ── a ruled box your words arrive on, the files under it as a letter's enclosure line. */
+  .ot-agent-compose { display: grid; row-gap: var(--ot-space-4); }
+  .ot-agent-compose textarea.ot-input { min-block-size: calc(var(--lh) * 2); max-block-size: calc(var(--lh) * 6); scrollbar-width: thin; }
+  .ot-agent-compose-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--ot-space-3) var(--ot-space-5); }
+  .ot-agent-compose-hint { flex: 1 1 auto; margin: 0; text-align: end; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-agent-compose-actions > .ot-btn:last-child { margin-inline-start: auto; } /* Send (or Stop) keeps the far end, wrapped or not */
+  @container (max-width: 22rem) { .ot-agent-compose-hint { display: none; } }
+  /* Disabled, the box keeps its rules, only fainter, and nothing takes the accent. */
+  .ot-agent-compose textarea.ot-input:disabled { background: repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--ot-rule) calc(var(--lh) - 1px) var(--lh)) 0 var(--ot-rule-shift, -0.3rem) / 100% var(--lh); background-attachment: local; }
+  .ot-agent-compose-hint > .ot-kbd { color: var(--ot-graphite); }
+  /* Files dragged over: the enclosure line counts them in, in pencil, before you let go; let go and they are ink. */
+  .ot-agent-compose[data-over] .ot-agent-encl::before { color: var(--ot-ink); }
+  .ot-agent-drop { display: inline; font-style: italic; font-family: var(--ot-expression); font-size: calc(var(--ot-expression-scale) * 1em); color: var(--ot-pencil); }
+  .ot-agent-compose[data-over] textarea.ot-input { background-size: 100% var(--ot-stroke), 100% var(--lh); }
+
+  /* ── callout ── Weingart's letter: the agent's work and your receipts leave the column and hang at the far side, reversed
+     out of pills, each on a leader line that reaches back toward the conversation and ends in a dot. */
+  .ot-agent-chat[data-variant="callout"] { --ot-agent-pill: var(--ot-ink); --ot-agent-on: var(--ot-paper); }
+  .ot-agent-chat[data-variant="callout"] .ot-agent-note {
+    position: relative; justify-self: end; max-inline-size: min(20rem, 72%);
+    margin-inline-start: var(--ot-space-7); padding: 0.35em 0.95em 0.42em; border-radius: 1.1em;
+    background: var(--ot-agent-pill);
+    /* inside the pill the ink is paper, so the parts that ink in (the work sentence) do it in reverse */
+    --ot-ink: var(--ot-agent-on); --ot-graphite: var(--ot-agent-on); --ot-pencil: color-mix(in srgb, var(--ot-agent-on) 62%, transparent); --ot-rule-strong: color-mix(in srgb, var(--ot-agent-on) 34%, transparent);
+    color: var(--ot-agent-on);
+  }
+  .ot-agent-chat[data-variant="callout"] .ot-agent-note::before {
+    content: ""; position: absolute; inset-block-start: 50%; inset-inline-end: 100%; inline-size: var(--ot-space-6); block-size: var(--ot-hairline);
+    background: var(--ot-agent-pill);
+  }
+  .ot-agent-chat[data-variant="callout"] .ot-agent-note::after {
+    content: ""; position: absolute; inset-block-start: calc(50% - 2px); inset-inline-end: calc(100% + var(--ot-space-6) - 2px); inline-size: 5px; block-size: 5px; border-radius: 50%;
+    background: var(--ot-agent-pill);
+  }
+  .ot-agent-chat[data-variant="callout"] .ot-agent-note :is(.ot-marker, .ot-progress-label) { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: 0; font-weight: 500; }
+  .ot-agent-chat[data-variant="callout"] .ot-agent-note .ot-marker { color: inherit; }
+  .ot-agent-chat[data-variant="callout"] .ot-agent-note .ot-marker-dot { display: none; } /* the leader's dot says it */
+  @media (forced-colors: active) {
+    .ot-agent-chat[data-variant="callout"] .ot-agent-note { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    .ot-agent-chat[data-variant="callout"] .ot-agent-note::before, .ot-agent-chat[data-variant="callout"] .ot-agent-note::after { background: CanvasText; }
+  }
+}

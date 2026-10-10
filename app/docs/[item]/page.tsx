@@ -3,16 +3,16 @@ import type { Metadata } from "next"
 import NextLink from "next/link"
 import { notFound } from "next/navigation"
 
-import { Meta } from "@/registry/0db/ui/meta"
-import { Prose } from "@/registry/0db/ui/typography"
-import { Source } from "@/registry/0db/ui/source"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Steps, Step, StepTitle } from "@/registry/0db/ui/steps"
-import { Scrollbar } from "@/registry/0db/ui/scrollbar"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/0db/ui/tabs"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0db/ui/table"
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/registry/0db/ui/pagination"
-import { Link } from "@/registry/0db/ui/link"
+import { Meta } from "@/registry/0nlytype/ui/meta"
+import { Prose } from "@/registry/0nlytype/ui/typography"
+import { Source } from "@/registry/0nlytype/ui/source"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Steps, Step, StepTitle } from "@/registry/0nlytype/ui/steps"
+import { Scrollbar } from "@/registry/0nlytype/ui/scrollbar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/0nlytype/ui/tabs"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0nlytype/ui/table"
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/registry/0nlytype/ui/pagination"
+import { Link } from "@/registry/0nlytype/ui/link"
 import { entries } from "@/lib/site/entries"
 import { movementName, ordered, UNDER } from "@/lib/site/catalog"
 import { contractFor, motionRows, moveRows } from "@/lib/site/design-md"
@@ -43,7 +43,7 @@ function payload(name: string) {
   return {
     npm: json.dependencies ?? [],
     files: json.files.map((f) => ({
-      target: f.target ?? f.path.replace("registry/0db/ui/", "components/ui/").replace("registry/0db/lib/", "lib/0db/"),
+      target: f.target ?? f.path.replace("registry/0nlytype/ui/", "components/ui/").replace("registry/0nlytype/lib/", "lib/0nlytype/"),
       content: f.path.endsWith(".css") ? f.content : rewriteImports(f.content),
     })),
   }
@@ -103,15 +103,15 @@ export default async function ItemPage({ params }: Params) {
             {meta.movement} {movementName(meta.movement)}
           </span>
           <span>{UNDER[meta.underneath]}</span>
-          <span className="db-label">{meta.contract}</span>
+          <span className="ot-label">{meta.contract}</span>
         </Meta>
         <h1 className="doc-title">{meta.title}</h1>
         <p className="doc-summary">{meta.summary}</p>
-        <Link asChild className="db-report-item-link"><NextLink href={`/feedback/?kind=bug&item=${encodeURIComponent(meta.name)}`} prefetch={false}>Report an issue with {meta.title}</NextLink></Link>
+        <Link asChild className="ot-report-item-link"><NextLink href={`/feedback/?kind=bug&item=${encodeURIComponent(meta.name)}`} prefetch={false}>Report an issue with {meta.title}</NextLink></Link>
       </header>
 
       <section className="doc-section" id="example" data-rail="Example" aria-labelledby="example-h">
-        <h2 id="example-h" className="db-sr">
+        <h2 id="example-h" className="ot-sr">
           Example
         </h2>
         <DemoExample item={item}><ItemExample item={item} /></DemoExample>

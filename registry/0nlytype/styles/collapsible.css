@@ -1,0 +1,72 @@
+@layer components {
+  /* ── ot-collapse ── a list that ends in the rest of itself */
+  .ot-collapse-list { list-style: none; margin: 0; padding: 0; }
+  .ot-collapse-list > li { padding-block: 0.45em; border-block-end: var(--ot-hairline) solid var(--ot-rule); }
+  .ot-collapse > summary { list-style: none; }
+  .ot-collapse > summary::-webkit-details-marker { display: none; }
+  .ot-collapse > summary > :last-child, .ot-collapse[open] > summary > :first-child { display: none; }
+  .ot-collapse[open] > summary > :last-child { display: inline; }
+  .ot-collapse::details-content { block-size: 0; overflow: clip; transition: block-size var(--ot-andante) var(--ot-exhale), content-visibility var(--ot-andante) allow-discrete; }
+  .ot-collapse[open]::details-content { block-size: auto; }
+  .ot-collapse[open] .ot-collapse-list > li { animation: ot-arrive var(--ot-moderato) var(--ot-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--ot-arpeggio)); }
+
+  /* Tail (the default): the words are the list's last line, set as the poster's caption, straight under the last rule. */
+  .ot-collapse:not([data-variant]) > summary { margin-block-start: var(--ot-space-1); margin-inline-start: -0.1em; font-size: var(--ot-pp); letter-spacing: var(--ot-pp-tr); }
+  .ot-collapse:not([data-variant])[open] > summary { margin-block-end: var(--ot-space-2); } /* the rows that arrive stand clear of the words that opened them */
+
+  /* The cue: catchword and sotto set their own control, not a button. */
+  .ot-collapse-cue {
+    --dir: 1;
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--ot-space-5);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil);
+  }
+  .ot-collapse-cue:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
+  .ot-collapse[open] > .ot-collapse-cue > :last-child { display: inline; white-space: nowrap; }
+
+  /* Catchword (the printer's catchword): the first name of the rest waits at the foot, flush to the far edge,
+     as the next page's first word waits under the last line. Opening, it steps back to the start and grows
+     into the first row of the rest; the rest follow it. The summary is a container, so the word can travel
+     the measure: its start is 100cqi less its own width from the far edge. */
+  .ot-collapse[data-variant="catchword"] > summary {
+    container-type: inline-size; padding-block: 0.45em;
+    border-block-end: var(--ot-hairline) solid transparent;
+    transition: font-size var(--ot-andante) var(--ot-exhale), color var(--ot-moderato), border-color var(--ot-andante);
+  }
+  .ot-collapse[data-variant="catchword"] > summary > :first-child {
+    display: inline-block; translate: calc((100cqi - 100%) * var(--dir)) 0;
+    text-decoration: underline var(--ot-hairline) transparent; text-underline-offset: 0.3em;
+    transition: translate var(--ot-andante) var(--ot-exhale), text-decoration-color var(--ot-allegro);
+  }
+  .ot-collapse[data-variant="catchword"]:not([open]) > summary:is(:hover, [data-force~="hover"]) { color: var(--ot-ink); }
+  .ot-collapse[data-variant="catchword"]:not([open]) > summary:is(:hover, [data-force~="hover"]) > :first-child { text-decoration-color: var(--ot-rule-strong); }
+  .ot-collapse[data-variant="catchword"][open] > summary {
+    font-size: var(--ot-p); line-height: 1.6; letter-spacing: 0; color: var(--ot-graphite);
+    border-block-end-color: var(--ot-rule);
+  }
+  .ot-collapse[data-variant="catchword"][open] > summary > :first-child { display: inline-block; translate: 0 0; }
+  .ot-collapse[data-variant="catchword"][open] > summary > :last-child:not([data-echo]) { font-size: var(--ot-pp); color: var(--ot-pencil); }
+  .ot-collapse[data-variant="catchword"][open] > summary > [data-echo] { display: none; }
+  .ot-collapse[data-variant="catchword"][open] > summary:hover > :last-child { color: var(--ot-ink); }
+  .ot-collapse[data-variant="catchword"][open] .ot-collapse-list > li { animation-delay: calc(var(--ot-moderato) + sibling-index() * 2 * var(--ot-arpeggio)); }
+
+  /* Sotto voce: the rest is never hidden, only said under the breath: one run of fine print in pencil,
+     and the whole run is the control. Opening says it in full: each name grows into its row, in turn.
+     The content stays visible while closed, so the summary lies over it in the same cell. */
+  .ot-collapse[data-variant="sotto"] { display: grid; }
+  .ot-collapse[data-variant="sotto"]::details-content { grid-area: 1 / 1; content-visibility: visible; block-size: auto; transition: none; }
+  .ot-collapse[data-variant="sotto"] > summary { grid-area: 1 / 1; position: relative; z-index: 1; }
+  .ot-collapse[data-variant="sotto"]:not([open]) > summary > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ot-collapse[data-variant="sotto"]:not([open]) .ot-collapse-list { padding-block: 0.7em; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); text-wrap: pretty; }
+  .ot-collapse[data-variant="sotto"]:not([open]) .ot-collapse-list > li {
+    display: inline; padding: 0; border: 0;
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil);
+    transition: color var(--ot-allegro);
+  }
+  .ot-collapse[data-variant="sotto"]:not([open]) .ot-collapse-list > li:not(:last-child)::after { content: ", "; }
+  .ot-collapse[data-variant="sotto"]:not([open]):has(> summary:is(:hover, [data-force~="hover"])) .ot-collapse-list > li { color: var(--ot-ink); }
+  .ot-collapse[data-variant="sotto"][open] > summary { grid-area: 2 / 1; margin-block-start: var(--ot-space-1); padding-block: 0.7em; justify-content: flex-start; }
+  .ot-collapse[data-variant="sotto"][open] > summary:hover { color: var(--ot-ink); }
+  .ot-collapse[data-variant="sotto"][open] .ot-collapse-list > li { animation: ot-sotto var(--ot-andante) var(--ot-exhale) backwards; animation-delay: calc((sibling-index() - 1) * 2 * var(--ot-arpeggio)); }
+  @keyframes ot-sotto { from { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); padding-block: 0; color: var(--ot-pencil); border-block-end-color: transparent; } }
+}

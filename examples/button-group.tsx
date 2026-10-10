@@ -1,10 +1,10 @@
-import { Button } from "@/registry/0db/ui/button"
-import { ButtonGroup } from "@/registry/0db/ui/button-group"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { ButtonGroup } from "@/registry/0nlytype/ui/button-group"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
-    <div className="grid justify-items-start gap-(--db-space-8)">
+    <div className="grid justify-items-start gap-(--ot-space-8)">
       <ButtonGroup aria-label="Share Halden">
         <Button>Copy link</Button>
         <Button>Email</Button>
@@ -16,7 +16,7 @@ export default function Example() {
         <Button>Duplicate</Button>
         <Button>Move to archive</Button>
       </ButtonGroup>
-      <p className="db-mp max-w-[34ch] text-(--db-graphite)">
+      <p className="ot-mp max-w-[34ch] text-(--ot-graphite)">
         Halden is ready to share. You can{" "}
         <ButtonGroup variant="sentence" aria-label="Share Halden">
           <Button>copy the link</Button>

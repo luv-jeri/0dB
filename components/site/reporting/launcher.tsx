@@ -44,8 +44,8 @@ export function FeedbackLink() {
   }, [path])
 
   return <>
-    <Link className="db-link db-report-entry" href="/feedback/" prefetch={false} aria-haspopup="dialog" aria-busy={loading || undefined}>Feedback</Link>
-    {loading ? <span className="db-sr" role="status">Opening feedback…</span> : null}
+    <Link className="ot-link ot-report-entry" href="/feedback/" prefetch={false} aria-haspopup="dialog" aria-busy={loading || undefined}>Feedback</Link>
+    {loading ? <span className="ot-sr" role="status">Opening feedback…</span> : null}
     {Panel && href ? <Panel key={path + href} href={href} onClose={() => {
       setHref(null)
       requestAnimationFrame(() => opener.current?.isConnected && opener.current.focus({ preventScroll: true }))

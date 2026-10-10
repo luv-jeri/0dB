@@ -4,15 +4,15 @@ A prototype for the owner's request of 2026-10-10: icons for 0dB, built with Pre
 
 ## The concept
 
-A sign is an icon made of its own word, the way the ampersand is the word "et" worn down into a mark, and the way Apollinaire's calligrams draw a rain or a heart out of the poem itself. Pretext measures the word letter by letter, kerning included, and sets it along the drawing's strokes (`line`) or row by row through its silhouette (`fill`), so type stays the only ornament and no second visual language arrives. Pointing at the sign, at the control it sits in, or tabbing to that control makes the drawing say its word: the letters leave the drawing in reading order, one `--db-arpeggio` apart, and stand up as the plain word; leaving winds them back.
+A sign is an icon made of its own word, the way the ampersand is the word "et" worn down into a mark, and the way Apollinaire's calligrams draw a rain or a heart out of the poem itself. Pretext measures the word letter by letter, kerning included, and sets it along the drawing's strokes (`line`) or row by row through its silhouette (`fill`), so type stays the only ornament and no second visual language arrives. Pointing at the sign, at the control it sits in, or tabbing to that control makes the drawing say its word: the letters leave the drawing in reading order, one `--ot-arpeggio` apart, and stand up as the plain word; leaving winds them back.
 
 ## What is built
 
 | File | What it is |
 |---|---|
-| `registry/0db/ui/sign.tsx` | The `Sign` primitive: Pretext layout, optical cuts, the said word |
-| `registry/0db/styles/sign.css` | Rest and said states, all motion on 0dB tempo tokens |
-| `registry/0db/lib/sign-shapes.ts` | The shape table: word, strokes and silhouette on a 24-unit grid. Data only. |
+| `registry/0nlytype/ui/sign.tsx` | The `Sign` primitive: Pretext layout, optical cuts, the said word |
+| `registry/0nlytype/styles/sign.css` | Rest and said states, all motion on 0dB tempo tokens |
+| `registry/0nlytype/lib/sign-shapes.ts` | The shape table: word, strokes and silhouette on a 24-unit grid. Data only. |
 | `app/lab/signs/page.tsx`, `lab.css` | The preview route, `/ui/lab/signs/` (noindex) |
 
 Five signs: `search`, `arrow-right` (word "next"), `close`, `mail`, `home`.
@@ -23,7 +23,7 @@ Optical cuts, as a punchcutter would cut them:
 - **Line at 40px and over.** The word runs along each stroke in whole words, closed up or spread to reach both ends, turned to the stroke. A short stroke sets the word smaller (down to three fifths); shorter still it is ruled in leaders, because part of a word is no longer the word. Where a later stroke meets an earlier one it starts where it comes clear, so crossings never clot.
 - **Fill.** Ten rows across the silhouette at every size. At 16 to 24px it reads as a halftone of type; at 120px as a calligram.
 
-Motion articulation, "Said": letters travel to the word on `--db-moderato` with `--db-breath`, staggered by `--db-arpeggio`; echoes sketch out to `--db-pencil`. Reduced motion collapses the tempo tokens, so the word and the drawing change places without travel. Forced colours use `CanvasText`.
+Motion articulation, "Said": letters travel to the word on `--ot-moderato` with `--ot-breath`, staggered by `--ot-arpeggio`; echoes sketch out to `--ot-pencil`. Reduced motion collapses the tempo tokens, so the word and the drawing change places without travel. Forced colours use `CanvasText`.
 
 ## The variant axis and the count
 
@@ -45,7 +45,7 @@ Flag, once: AGENTS.md says the directory ranks distinct items and "never add ali
 ## How the set is generated at scale
 
 1. **One table, grown by hand and script.** `sign-shapes.ts` holds each sign as data: the word, `line` strokes (`M`, `L`, `O` arc moves on a 24-unit grid) and `fill` add/cut polygons. Adding a sign is adding a row, never layout code. Words and drawings can be drafted in batches of 50 from a word list grouped by job (navigation, actions, files, media, people, status), then reviewed at 16, 24 and 120px on the preview page.
-2. **Generated items.** `scripts/build-registry.mjs` would gain a step that reads the table and writes, per sign and variant, `registry/0db/ui/sign-<name>[-fill][-italic].tsx` (a three-line wrapper over `Sign` with the shape inlined), plus `content/sign-<name>….ts` and `examples/sign-<name>….tsx` from one template. Each item declares `registryDependencies: ["sign"]` so the primitive ships once. The generated files join the "never hand-edit" list.
+2. **Generated items.** `scripts/build-registry.mjs` would gain a step that reads the table and writes, per sign and variant, `registry/0nlytype/ui/sign-<name>[-fill][-italic].tsx` (a three-line wrapper over `Sign` with the shape inlined), plus `content/sign-<name>….ts` and `examples/sign-<name>….tsx` from one template. Each item declares `registryDependencies: ["sign"]` so the primitive ships once. The generated files join the "never hand-edit" list.
 3. **Gates.** A check renders every sign at 16, 24 and 120px in both faces and fails on: any sign that does not lay out, a line stroke left with a partial word, a fill under a minimum glyph count, and a said word wider than three times the box.
 
 ## Risks, measured where possible
@@ -59,7 +59,7 @@ Flag, once: AGENTS.md says the directory ranks distinct items and "never add ali
 - **Font loading.** Layout waits for `document.fonts.load`; a fallback face would lay out differently, so the sign re-lays on font or theme change (MutationObserver on the html attributes, as `calligram` does).
 - **Right to left.** Placement uses physical coordinates; the drawings are not mirrored for `rtl`, and arrow-right should become a logical "next" that flips.
 - **Not yet run:** `npm run registry:build` and `npm run check` (the prototype is not registered). `tsc --noEmit` and eslint on the new files pass.
-- **INTENT.md** refuses Icons and lists `icon` and `animated-icon` among refused effects. If the owner adopts signs, the Icons row would become: "Signs: icons made of their own word. A drawing set in its word, never a second visual language." DESIGN.md would gain a `### db-sign (sign)` contract, a Motion row for "Said", and a references row (the ampersand; Apollinaire, *Calligrammes*, 1918).
+- **INTENT.md** refuses Icons and lists `icon` and `animated-icon` among refused effects. If the owner adopts signs, the Icons row would become: "Signs: icons made of their own word. A drawing set in its word, never a second visual language." DESIGN.md would gain a `### ot-sign (sign)` contract, a Motion row for "Said", and a references row (the ampersand; Apollinaire, *Calligrammes*, 1918).
 
 ## Preview files
 

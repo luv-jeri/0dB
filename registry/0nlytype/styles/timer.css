@@ -1,0 +1,52 @@
+@layer components {
+  /* ── ot-timer ── a countdown the person starts: the time set large in tabular figures inside the calendar's hairline
+     ring (ot-ring, from radial-chart). The ring empties clockwise from the top as the time goes, the accent dot at its
+     leading end like a clock's hand; the figures turn over like a counter's wheels. Done, a full stop lands. */
+  .ot-timer {
+    display: grid; grid-template-columns: minmax(0, 1fr); inline-size: min(100%, var(--ot-timer-size, 22rem)); justify-items: center; row-gap: var(--ot-space-6); container-type: inline-size;
+  }
+  .ot-timer-face { grid-area: 1 / 1; position: relative; inline-size: 100%; aspect-ratio: 1; }
+  .ot-timer .ot-ring { --ot-ring-head: var(--ot-accent); }
+  /* Running, the ring is drawn from the clock every frame, so it doesn't also ease; Reset still sweeps it back. */
+  .ot-timer[data-state="running"] .ot-ring { transition: none; }
+
+  .ot-timer-read { grid-area: 1 / 1; place-self: center; display: grid; justify-items: center; row-gap: var(--ot-space-3); text-align: center; }
+  .ot-timer-time {
+    position: relative; font-size: clamp(var(--ot-mf), calc(118cqi / var(--ot-timer-chars, 5)), var(--ot-fff)); line-height: 0.9; letter-spacing: var(--ot-ff-tr); font-weight: 200;
+    color: var(--ot-ink); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap;
+    transition: color var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-timer-figures { position: relative; display: inline-flex; }
+  .ot-timer-figures > span { display: inline-block; }
+  .ot-timer-figures > [data-colon] { translate: 0 -0.06em; padding-inline: 0.02em; }
+  /* The full stop is always there, unseen and out of the flow, so the time stays centred; done, it drops onto the line. */
+  .ot-timer-figures::after {
+    content: "."; position: absolute; left: 100%; bottom: 0; opacity: 0; translate: 0 -0.4em;
+    transition: opacity var(--ot-allegro) var(--ot-exhale), translate var(--ot-moderato) var(--ot-spiccato);
+  }
+  .ot-timer[data-state="done"] .ot-timer-figures::after { opacity: 1; translate: 0 0; transition-delay: var(--ot-moderato); }
+  /* Paused, the time is held in pencil until it goes on. */
+  .ot-timer[data-state="paused"] .ot-timer-time { color: var(--ot-pencil); }
+
+  .ot-timer-words { display: grid; justify-items: center; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); }
+  .ot-timer-label { font-weight: 500; color: var(--ot-ink); }
+  .ot-timer-note { color: var(--ot-pencil); font-variant-numeric: tabular-nums; }
+
+  /* The two presses stand either side of the centre line, so when Start becomes Pause or Start again, only it moves. */
+  .ot-timer-actions { display: grid; grid-template-columns: 1fr 1fr; inline-size: max-content; column-gap: var(--ot-space-5); }
+  .ot-timer-actions > .ot-btn:first-child { justify-self: end; }
+  .ot-timer-actions > .ot-btn:last-child { justify-self: start; }
+
+  /* horizon: the Eclipse. A half ring stands on a horizon that runs past it; the dot crosses it like the sun, from the
+     start of the line to its end, and what's left of the arc is the day still to go. The time stands on the line and
+     its words sit under it. Right to left, the sun crosses the other way. */
+  .ot-timer[data-variant="horizon"] { --ot-ring-sweep: 0.5; --ot-ring-start: -90deg; grid-template-rows: auto auto auto; row-gap: 0; padding-inline: var(--ot-space-5); inline-size: min(100%, calc(var(--ot-timer-size, 22rem) + 2 * var(--ot-space-5))); }
+  .ot-timer[data-variant="horizon"] > .ot-timer-face { aspect-ratio: 2; }
+  .ot-timer[data-variant="horizon"] .ot-ring { inset-block-end: auto; aspect-ratio: 1; }
+  .ot-timer[data-variant="horizon"] > .ot-timer-face::after { content: ""; position: absolute; inset-inline: calc(-1 * var(--ot-space-5)); inset-block-end: 0; block-size: var(--ot-hairline); background: var(--ot-rule-strong); }
+  .ot-timer[data-variant="horizon"]:is([dir="rtl"], [dir="rtl"] *) > .ot-timer-face { scale: -1 1; }
+  .ot-timer[data-variant="horizon"] > .ot-timer-read { grid-row: 1 / span 2; place-self: stretch; grid-template-rows: subgrid; row-gap: 0; }
+  .ot-timer[data-variant="horizon"] .ot-timer-time { align-self: end; font-size: clamp(var(--ot-mf), calc(96cqi / var(--ot-timer-chars, 5)), var(--ot-fff)); line-height: 1; text-box: trim-end alphabetic; }
+  .ot-timer[data-variant="horizon"] .ot-timer-words { padding-block-start: var(--ot-space-3); }
+  .ot-timer[data-variant="horizon"] > .ot-timer-actions { grid-row: 3; padding-block-start: var(--ot-space-6); }
+}

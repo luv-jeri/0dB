@@ -3,8 +3,8 @@
 import * as React from "react"
 import dynamic from "next/dynamic"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Kbd } from "@/registry/0db/ui/kbd"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Kbd } from "@/registry/0nlytype/ui/kbd"
 
 const SearchDialog = dynamic(() => import("./search-dialog").then((m) => m.SearchDialog))
 

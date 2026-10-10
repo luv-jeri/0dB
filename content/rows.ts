@@ -4,7 +4,7 @@ export default defineComponent({
   name: "rows",
   title: "Rows",
   movement: "VIII",
-  contract: "db-rows",
+  contract: "ot-rows",
   summary: "An index of hairline-separated rows. The one you point at reverses out of ink and steps forward with an arrow; or repeats are set as ditto marks; or a ring before each row fills once you have been there.",
   underneath: "native",
   props: [

@@ -2,7 +2,7 @@ import assert from "node:assert/strict"
 import test from "node:test"
 import vm from "node:vm"
 
-import { OVERTURE_ATTR, OVERTURE_DEADLINE, OVERTURE_END_EVENT, OVERTURE_KEY, OVERTURE_SCRIPT } from "../lib/site/overture.mjs"
+import { OVERTURE_ATTR, OVERTURE_DEADLINE, OVERTURE_END_EVENT, OVERTURE_KEY, OVERTURE_KEY_LEGACY, OVERTURE_SCRIPT } from "../lib/site/overture.mjs"
 
 // The first-visit decision is a script that runs in the page's HTML before the hero paints. These tests run the
 // real script text against a fake browser, so the storage design and the clock are held to what they say: one key, written before
@@ -69,6 +69,16 @@ test("the second visit arrives settled, and writes nothing more", () => {
   const again = browser({ store })
   again.run()
   assert.equal(again.attrs[OVERTURE_ATTR], undefined)
+  assert.deepEqual(again.calls.set, [])
+})
+
+test("a visitor who saw it under the old key arrives settled, and only the new key is written", () => {
+  const b = browser({ store: { [OVERTURE_KEY_LEGACY]: "1" } })
+  b.run()
+  assert.equal(b.attrs[OVERTURE_ATTR], undefined)
+  assert.deepEqual(b.calls.set, [[OVERTURE_KEY, "1"]])
+  const again = browser({ store: b.store })
+  again.run()
   assert.deepEqual(again.calls.set, [])
 })
 

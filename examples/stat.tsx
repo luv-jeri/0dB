@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Select } from "@/registry/0db/ui/select"
-import { Stat, Stats, type StatsProps } from "@/registry/0db/ui/stat"
+import { Select } from "@/registry/0nlytype/ui/select"
+import { Stat, Stats, type StatsProps } from "@/registry/0nlytype/ui/stat"
 import { State } from "@/components/site/state"
 
 const years = {
@@ -33,15 +33,15 @@ export default function Example() {
         {Object.keys(years).map((y) => <option key={y}>{y}</option>)}
       </Select>
       <div className="grid w-full gap-3">
-        <span className="db-label">Crop</span>
+        <span className="ot-label">Crop</span>
         <Year year={year} />
       </div>
       <div className="grid w-full gap-3">
-        <span className="db-label">Beside</span>
+        <span className="ot-label">Beside</span>
         <Year year={year} variant="beside" />
       </div>
       <div className="grid w-full gap-3">
-        <span className="db-label">Grid</span>
+        <span className="ot-label">Grid</span>
         <Year year={year} variant="grid" />
       </div>
     </div>

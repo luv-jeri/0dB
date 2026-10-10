@@ -4,7 +4,7 @@ export default defineComponent({
   name: "toggle",
   title: "Toggle",
   movement: "VI",
-  contract: "db-toggle",
+  contract: "ot-toggle",
   summary: "A word you can hold down. Held, it's yours and turns italic: under a fermata's arc and dot, behind a pen that inks the tenuto's line, with a small note hung beside it, or set on its drawn guides.",
   underneath: "radix",
   props: [

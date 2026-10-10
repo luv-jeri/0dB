@@ -4,7 +4,7 @@ export default defineComponent({
   name: "wake",
   title: "Wake",
   movement: "II",
-  contract: "db-wake",
+  contract: "ot-wake",
   summary: "A paragraph that parts around your pointer like water around a hand: the lines it crosses split in two and the words move on.",
   underneath: "hook",
   props: [

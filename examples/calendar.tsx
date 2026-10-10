@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Calendar } from "@/registry/0db/ui/calendar"
+import { Calendar } from "@/registry/0nlytype/ui/calendar"
 import { State } from "@/components/site/state"
 
 const longDay = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long" })
@@ -14,25 +14,25 @@ export default function Example() {
     <div className="grid w-full gap-8">
       <p id="calendar-lead">Pick a day for a first call.</p>
       <div className="grid gap-4">
-        <span className="db-label">dots</span>
+        <span className="ot-label">dots</span>
         <Calendar disablePast value={day} onValueChange={setDay} aria-labelledby="calendar-lead" />
       </div>
       <div className="mt-8 grid gap-4">
-        <span className="db-label">ruler</span>
+        <span className="ot-label">ruler</span>
         <Calendar variant="ruler" disablePast value={day} onValueChange={setDay} aria-labelledby="calendar-lead" />
       </div>
       <div className="mt-8 grid gap-4">
-        <span className="db-label">ghost</span>
+        <span className="ot-label">ghost</span>
         <Calendar variant="ghost" disablePast value={day} onValueChange={setDay} aria-labelledby="calendar-lead" />
       </div>
       <div className="mt-8 grid gap-4">
-        <span className="db-label">parenthesis</span>
+        <span className="ot-label">parenthesis</span>
         <Calendar variant="parenthesis" disablePast value={day} onValueChange={setDay} aria-labelledby="calendar-lead" />
       </div>
       <p aria-live="polite">
         {day ? (
           <>
-            Your first call: <span className="db-yours">{longDay.format(day)}</span>.
+            Your first call: <span className="ot-yours">{longDay.format(day)}</span>.
           </>
         ) : (
           "No day chosen yet."

@@ -1,0 +1,40 @@
+@layer components {
+  /* ── ot-calligram ── a paragraph that fills a shape. There is no outline: the lines are laid to the
+     shape's width at their height, centred, and that is the whole drawing. The circle and the
+     fermata's half-disc have a height of their own, so nothing moves when the lines arrive. */
+  /* Its width never comes from its lines: they are laid to the width, so a width that followed them would lay them again, narrower, for ever.
+     In a box that fits its content it asks for --size. */
+  .ot-calligram { --size: 34rem; width: min(100%, var(--size)); max-width: 100%; margin: 0; font-size: var(--ot-p); line-height: 1.4; contain: inline-size; contain-intrinsic-inline-size: var(--size); }
+  .ot-calligram-lines { display: block; box-sizing: border-box; text-align: center; color: var(--ot-ink); }
+  .ot-calligram-lines > span { display: block; white-space: pre; }
+  .ot-calligram[data-shape="circle"] .ot-calligram-lines { aspect-ratio: 1; }
+  .ot-calligram[data-shape="fermata"] .ot-calligram-lines { aspect-ratio: 2; }
+  /* Before the layout, the plain text waits inside the shape's box. */
+  .ot-calligram-lines:not([data-laid]) { display: grid; place-content: center; overflow: hidden; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); }
+  :is(.ot-calligram[data-shape="wave"], .ot-calligram[data-variant="rain"]) .ot-calligram-lines:not([data-laid]) { display: block; }
+  .ot-calligram[data-fade] .ot-calligram-lines > span { color: color-mix(in oklab, var(--ot-ink) calc((1 - var(--t)) * 100%), var(--ot-pencil)); }
+  /* rain: after Apollinaire's "Il pleut". The words fall in streaks, a letter to a drop, each letter a sixth of an em
+     further over than the one above; the streaks start at different heights, as rain does. With data-fade each
+     streak's letters darken as they fall, the drop at its foot in ink. */
+  .ot-calligram[data-variant="rain"] .ot-calligram-lines[data-laid] { position: relative; }
+  .ot-calligram-streak { position: absolute; display: block; }
+  .ot-calligram-streak > span { display: block; width: 1em; line-height: 0.8em; /* a drop: RAIN.drop */ text-align: center; white-space: pre; translate: calc(var(--j) * -0.16em) 0; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-calligram-streak > span { translate: calc(var(--j) * 0.16em) 0; }
+  .ot-calligram[data-fade] .ot-calligram-streak > span { color: color-mix(in oklab, var(--ot-ink) calc((1 - var(--t)) * 100%), var(--ot-pencil)); }
+  /* mirror: after Apollinaire's "Cœur couronne et miroir". The paragraph is the frame: a line to each side, clockwise
+     from the top and turned to face out, each ring a line inside the last, until the words run out. What is left in the
+     middle holds one word in the expression italic, as the mirror held his name. Right to left it runs the other way. */
+  .ot-calligram[data-variant="mirror"] { position: relative; }
+  .ot-calligram[data-variant="mirror"] .ot-calligram-lines { aspect-ratio: 1; position: relative; }
+  .ot-calligram-side { position: absolute; inset-inline-start: var(--x); display: block; white-space: pre; text-align: start; transform-origin: 0 0; rotate: var(--a); }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-calligram-side { transform-origin: 100% 0; rotate: calc(-1 * var(--a)); }
+  .ot-calligram[data-fade] .ot-calligram-side { color: color-mix(in oklab, var(--ot-ink) calc((1 - var(--t)) * 100%), var(--ot-pencil)); }
+  .ot-calligram-centre {
+    position: absolute; inset: 0; display: grid; place-content: center; pointer-events: none;
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; line-height: 1; color: var(--ot-ink); white-space: nowrap;
+  }
+  .ot-calligram[data-variant="mirror"] .ot-calligram-lines:not([data-laid]) ~ .ot-calligram-centre { position: static; display: block; font-size: var(--ot-mf); }
+  /* The fermata's dot, under the middle of the arc. */
+  .ot-calligram-dot { display: block; width: var(--ot-dot); height: var(--ot-dot); margin: var(--ot-space-4) auto 0; border-radius: 50%; background: var(--ot-accent); }
+  @media (forced-colors: active) { .ot-calligram-dot { background: CanvasText; } }
+}

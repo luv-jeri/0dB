@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { OVERTURE_ATTR, OVERTURE_DEADLINE, OVERTURE_END_EVENT, OVERTURE_SCRIPT } from "@/lib/site/overture.mjs"
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 
 // The home overture, seen from React. The clock is not here: a script in the hero's HTML (lib/site/overture.mjs)
 // decides on a browser's first visit, sets data-overture-at on <html>, and ends the overture itself (at the deadline,

@@ -1,0 +1,58 @@
+@layer components {
+  /* ── ot-menubar ── a frame row of words on a hairline; each opens a menu (ot-menu,
+     dropdown-menu.css, on the popover panel). Opening a word opens the hairline under it into
+     a pocket: the line folds down around the menu and back up. One line, no leader, no stroke.
+     The words sit in from the rule's ends by a menu's own inset, so every menu, the first one
+     too, folds from the rule with its words under the word. Radix moves between menus with
+     Left and Right. */
+  .ot-menubar { --ot-menubar-line: var(--ot-rule-strong); position: relative; display: flex; flex-wrap: wrap; column-gap: var(--ot-space-5); padding-inline: var(--ot-space-5); box-shadow: inset 0 calc(-1 * var(--ot-hairline)) 0 var(--ot-menubar-line); }
+  /* The word reaches down to the rule, so its menu can hang from the word's own edge. */
+  .ot-menubar-trigger {
+    appearance: none; border: 0; margin: 0; padding: 0 0 var(--ot-space-2); font: inherit; color: var(--ot-graphite); cursor: pointer; outline: 0;
+    background: linear-gradient(var(--ot-accent), var(--ot-accent)) no-repeat 0 calc(100% - var(--ot-hairline)) / 0% var(--ot-stroke);
+    transition: color var(--ot-allegro);
+  }
+  .ot-menubar-trigger:is(:hover, [data-state="open"], [data-force~="hover"]) { color: var(--ot-ink); }
+  /* Focus is the one accent: a stroke laid on the rule under the word. */
+  .ot-menubar-trigger:is(:focus-visible, [data-force~="focus"]) { color: var(--ot-ink); background-size: 100% var(--ot-stroke); }
+  .ot-menubar-trigger:disabled { color: var(--ot-pencil); opacity: 0.55; cursor: not-allowed; }
+
+  /* The menu: its paper covers the rule where it hangs, and its sides and foot are the same
+     line, so the hairline runs in, down, along and back up. No dot, no leader. It unrolls down
+     out of the line and rolls back up into it; the words arrive in turn (dropdown-menu.css). */
+  .ot-pop.ot-menu[data-slot="menubar-content"] {
+    --ot-menubar-line: var(--ot-rule-strong);
+    box-shadow: inset var(--ot-hairline) 0 0 var(--ot-menubar-line), inset calc(-1 * var(--ot-hairline)) 0 0 var(--ot-menubar-line), inset 0 calc(-1 * var(--ot-hairline)) 0 var(--ot-menubar-line);
+    animation: ot-menubar-unroll var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-pop.ot-menu[data-slot="menubar-content"]::before, .ot-pop.ot-menu[data-slot="menubar-content"]::after { display: none; }
+  .ot-pop.ot-menu[data-slot="menubar-content"][data-state="closed"] { animation: ot-menubar-roll-up var(--ot-allegro) var(--ot-breath) forwards; }
+  /* Without room below, Radix turns it above the words, where there's no line to hang in:
+     it stands clear of them in a whole frame and unrolls upward. */
+  .ot-pop.ot-menu[data-slot="menubar-content"][data-side="top"] { translate: 0 calc(-1 * var(--ot-space-2)); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-menubar-line); animation-name: ot-menubar-unroll-up; }
+  .ot-pop.ot-menu[data-slot="menubar-content"][data-side="top"][data-state="closed"] { animation-name: ot-menubar-roll-down; }
+  @keyframes ot-menubar-unroll { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+  @keyframes ot-menubar-roll-up { from { clip-path: inset(0); } to { clip-path: inset(0 0 100% 0); } }
+  @keyframes ot-menubar-unroll-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+  @keyframes ot-menubar-roll-down { from { clip-path: inset(0); } to { clip-path: inset(100% 0 0 0); } }
+
+  /* ── caption ── after the SHAPES / GRADIENTS rule that carries a name at its far end, and
+     the old status line: the bar's rule runs on to a small caption on its far end, on the
+     words' baseline. At rest it is the bar's own name, in pencil; as focus moves it is the path
+     to where you are ("File / Export / As PDF"), the last step inked and arriving. On a narrow
+     bar only the last step stands. */
+  .ot-menubar[data-variant="caption"] { align-items: baseline; }
+  .ot-menubar-caption { display: flex; gap: 0.5em; min-width: 0; margin-inline-start: auto; overflow: hidden; white-space: nowrap; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-menubar-caption > span + span::before { content: "/" / ""; margin-inline-end: 0.5em; color: var(--ot-rule-strong); }
+  .ot-menubar-caption:not([data-rest]) > span:last-child { color: var(--ot-ink); animation: ot-arrive var(--ot-moderato) var(--ot-exhale); }
+  @media (max-width: 40rem) {
+    .ot-menubar-caption > span:not(:last-child) { display: none; }
+    .ot-menubar-caption > span:last-child::before { display: none; }
+  }
+
+  @media (forced-colors: active) {
+    .ot-menubar { border-bottom: 1px solid CanvasText; }
+    .ot-menubar-trigger:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+    .ot-pop.ot-menu[data-slot="menubar-content"] { border: 1px solid CanvasText; border-top: 0; }
+  }
+}

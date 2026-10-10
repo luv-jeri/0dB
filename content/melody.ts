@@ -4,7 +4,7 @@ export default defineComponent({
   name: "melody",
   title: "Melody",
   movement: "II",
-  contract: "db-melody",
+  contract: "ot-melody",
   summary: "A sentence set on a stave, each word a note. Point at one and the phrase plays from it; or sing along discs on the staff; or draw the staff only where there are words.",
   underneath: "hook",
   props: [

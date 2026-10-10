@@ -1,17 +1,17 @@
-import { Select } from "@/registry/0db/ui/select"
+import { Select } from "@/registry/0nlytype/ui/select"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
     <div className="grid gap-12">
       <div className="grid gap-6">
-        <span className="db-label">underline</span>
+        <span className="ot-label">underline</span>
         <Select label="Sort by" defaultValue="newest">
           <option>newest</option>
           <option>oldest</option>
           <option>name</option>
         </Select>
-        <p className="db-mp text-[color:var(--db-graphite)]">
+        <p className="ot-mp text-[color:var(--ot-graphite)]">
           <Select label="Show" aria-label="Which projects">
             <option>all</option>
             <option>identity</option>
@@ -27,14 +27,14 @@ export default function Example() {
         </p>
       </div>
       <div className="grid gap-6">
-        <span className="db-label">compose</span>
+        <span className="ot-label">compose</span>
         <Select label="Sort by" variant="compose" defaultValue="newest">
           <option>newest</option>
           <option>oldest</option>
           <option>latest</option>
           <option>name</option>
         </Select>
-        <p className="db-mp text-[color:var(--db-graphite)]">
+        <p className="ot-mp text-[color:var(--ot-graphite)]">
           Send it{" "}
           <Select aria-label="When to send" variant="compose" defaultValue="tonight">
             <option>now</option>
@@ -45,13 +45,13 @@ export default function Example() {
         </p>
       </div>
       <div className="grid gap-6">
-        <span className="db-label">ruby</span>
+        <span className="ot-label">ruby</span>
         <Select label="Set in" variant="ruby" defaultValue="Bodoni">
           <option>Bodoni</option>
           <option>Garamond</option>
           <option>Caslon</option>
         </Select>
-        <p className="db-mp text-[color:var(--db-graphite)]">
+        <p className="ot-mp text-[color:var(--ot-graphite)]">
           Reply{" "}
           <Select aria-label="How to reply" variant="ruby" defaultValue="by email">
             <option>by email</option>

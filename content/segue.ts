@@ -4,7 +4,7 @@ export default defineComponent({
   name: "segue",
   title: "Segue",
   movement: "IX",
-  contract: "db-segue",
+  contract: "ot-segue",
   summary: "One scene at a time. When you change it, one hairline crosses the frame carrying the next scene's number and name, and the next scene is already behind it.",
   underneath: "hook",
   props: [

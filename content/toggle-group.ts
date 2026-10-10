@@ -4,7 +4,7 @@ export default defineComponent({
   name: "toggle-group",
   title: "Toggle group",
   movement: "VI",
-  contract: "db-toggles",
+  contract: "ot-toggles",
   summary: "Words in a row you can hold down, one or many; held neighbours are tied under one slur or share one pair of parentheses, held words are numbered in the order you held them, or cross into the margin.",
   underneath: "radix",
   props: [

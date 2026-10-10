@@ -9,7 +9,7 @@ export function siteFonts() {
   const files = new Map()
   const faces = []
   for (const pair of ["fonts", "fonts-press", "fonts-paris", "fonts-salon"]) {
-    const source = readFileSync(`registry/0db/styles/${pair}.css`, "utf8")
+    const source = readFileSync(`registry/0nlytype/styles/${pair}.css`, "utf8")
     for (const [face] of source.matchAll(/@font-face \{[^}]+\}/g)) {
       const family = face.match(/font-family: "([^"]+)"/)[1].toLowerCase().replaceAll(" ", "-")
       const style = face.match(/font-style: ([^;]+)/)[1]

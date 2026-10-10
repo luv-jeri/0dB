@@ -4,7 +4,7 @@ export default defineComponent({
   name: "line-chart",
   title: "Line chart",
   movement: "X",
-  contract: "db-line-chart",
+  contract: "ot-line-chart",
   summary: "One hairline through the points, a ring on each, against one very large number that rolls to the point you're on.",
   underneath: "hook",
   props: [

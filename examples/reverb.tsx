@@ -1,10 +1,10 @@
-import { Reverb } from "@/registry/0db/ui/reverb"
+import { Reverb } from "@/registry/0nlytype/ui/reverb"
 import { State } from "@/components/site/state"
 
 /** The canon drifts on by a word; the antiphon answers from either wall; the vowels ring on after the consonants have gone. */
 export default function Example() {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-y-(--db-space-8)">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-y-(--ot-space-8)">
       <Reverb>Nothing left to say</Reverb>
       <Reverb variant="antiphon" echoes={4} className="max-w-[36rem]">Is anyone there</Reverb>
       <Reverb variant="vowels" from="f" echoes={5}>Let it ring</Reverb>

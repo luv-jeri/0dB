@@ -1,10 +1,10 @@
-import { Timer } from "@/registry/0db/ui/timer"
+import { Timer } from "@/registry/0nlytype/ui/timer"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
     <div className="flex flex-wrap items-start gap-x-24 gap-y-16">
-      <Timer label={<span className="db-yours">The second chapter</span>} />
+      <Timer label={<span className="ot-yours">The second chapter</span>} />
       <Timer variant="horizon" duration={600} label="A walk round the block" />
     </div>
   )

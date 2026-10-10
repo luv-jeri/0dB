@@ -1,6 +1,6 @@
 import { registryBaseURL, sitePath } from "../lib/site/config.mjs"
 import { siteFonts } from "./lib/site-assets.mjs"
-// Builds registry.json from content/*.ts and registry/0db, runs `shadcn build`,
+// Builds registry.json from content/*.ts and registry/0nlytype, runs `shadcn build`,
 // then rewrites imports in the payloads to the consumer's aliases.
 //   node --import tsx scripts/build-registry.mjs          build
 //   node --import tsx scripts/build-registry.mjs --check  exit 1 if the committed output is stale
@@ -17,9 +17,9 @@ import { buildSigns } from "./build-signs.mjs"
 const check = process.argv.includes("--check")
 const baseURL = registryBaseURL()
 const url = (name) => `${baseURL}/r/${name}.json`
-const style = (name) => ({ path: `${SOURCE}/styles/${name}.css`, type: "registry:file", target: `styles/0db/${name}.css` })
+const style = (name) => ({ path: `${SOURCE}/styles/${name}.css`, type: "registry:file", target: `styles/0nlytype/${name}.css` })
 // Relative to app/globals.css: Tailwind inlines @import with its own resolver, which knows no tsconfig alias.
-const imports = (...names) => Object.fromEntries(names.map((n) => [`@import "../styles/0db/${n}.css"`, {}]))
+const imports = (...names) => Object.fromEntries(names.map((n) => [`@import "../styles/0nlytype/${n}.css"`, {}]))
 
 // Tailwind theme and shadcn aliases come from theme.css, so the docs and installs agree.
 const theme = readFileSync(`${SOURCE}/styles/theme.css`, "utf8")
@@ -29,20 +29,20 @@ const aliases = Object.fromEntries(Object.entries(block(/:root \{([^}]*)\}/)).ma
 const variant = theme.match(/@custom-variant dark ([^;]+);/)[1]
 
 const base = {
-  name: "0db",
+  name: "0nlytype",
   type: "registry:base",
   extends: "none",
   title: "0nlyType",
   description: "0nlyType tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
   dependencies: ["clsx", "tailwind-merge"],
-  config: { registries: { "@0db": `${baseURL}/r/{name}.json` } },
+  config: { registries: { "@0nlytype": `${baseURL}/r/{name}.json` } },
   files: [
     { path: `${SOURCE}/lib/utils.ts`, type: "registry:lib", target: "lib/utils.ts" },
     ...readdirSync(`${SOURCE}/lib`).filter((f) => f.endsWith(".ts") && f !== "utils.ts").sort()
-      .map((f) => ({ path: `${SOURCE}/lib/${f}`, type: "registry:lib", target: `lib/0db/${f}` })),
+      .map((f) => ({ path: `${SOURCE}/lib/${f}`, type: "registry:lib", target: `lib/0nlytype/${f}` })),
     style("tokens"), style("fonts"), style("base"),
-    { path: "FONT-NOTICES.md", type: "registry:file", target: "styles/0db/FONT-NOTICES.md" },
-    { path: "LICENCE", type: "registry:file", target: "styles/0db/LICENCE-0db.md" },
+    { path: "FONT-NOTICES.md", type: "registry:file", target: "styles/0nlytype/FONT-NOTICES.md" },
+    { path: "LICENCE", type: "registry:file", target: "styles/0nlytype/LICENCE-0nlytype.md" },
   ],
   cssVars: { theme: themeVars },
   css: {
@@ -57,7 +57,7 @@ const pairs = [["press", "Schibsted Grotesk and Newsreader"], ["paris", "Instrum
   type: "registry:item",
   title: `Pair: ${pair}`,
   description: `${faces}, for <html data-pair="${pair}">.`,
-  registryDependencies: [url("0db")],
+  registryDependencies: [url("0nlytype")],
   files: [style(`fonts-${pair}`)],
   css: imports(`fonts-${pair}`),
 }))
@@ -68,11 +68,11 @@ const items = metas.map((m) => ({
   type: "registry:ui",
   title: m.title,
   description: m.summary,
-  registryDependencies: [url("0db"), ...m.siblings.map(url)],
+  registryDependencies: [url("0nlytype"), ...m.siblings.map(url)],
   ...(m.npm.length ? { dependencies: m.npm } : {}),
   files: [{ path: m.ui, type: "registry:ui" }, ...(m.css ? [style(m.name)] : []),
     // The signs' drawings come from Lucide (ISC): the primitive every sign installs carries the notice.
-    ...(m.name === "sign" ? [{ path: "ICON-NOTICES.md", type: "registry:file", target: "styles/0db/ICON-NOTICES.md" }] : [])],
+    ...(m.name === "sign" ? [{ path: "ICON-NOTICES.md", type: "registry:file", target: "styles/0nlytype/ICON-NOTICES.md" }] : [])],
   ...(m.css ? { css: imports(m.name) } : {}),
   meta: { movement: m.movement, underneath: m.underneath, contract: m.contract },
 }))
@@ -83,13 +83,13 @@ const signRegistryItems = signItems.map((s) => ({
   type: "registry:ui",
   title: `Sign: ${s.sign} (${s.variant})`,
   description: `The sign for "${s.word}": ${{ dots: "its strokes ruled in middle-dot leaders", words: "the word set along its strokes", fill: "the word filling its silhouette row by row" }[s.variant]}. Says the word when pointed at.`,
-  registryDependencies: [url("0db"), url("sign")],
+  registryDependencies: [url("0nlytype"), url("sign")],
   files: [{ path: s.file, type: "registry:ui", target: `components/ui/${s.name}.tsx` }],
 }))
 
 const fonts = siteFonts()
 const kit = buildAiKit({ items: metas, baseURL })
-const registry = { $schema: "https://ui.shadcn.com/schema/registry.json", name: "0db", homepage: baseURL, items: [base, ...pairs, ...items, ...signRegistryItems, kit.item] }
+const registry = { $schema: "https://ui.shadcn.com/schema/registry.json", name: "0nlytype", homepage: baseURL, items: [base, ...pairs, ...items, ...signRegistryItems, kit.item] }
 const out = check ? ".tmp/registry-check" : "."
 mkdirSync(out, { recursive: true })
 writeAiKit(kit, out)
@@ -138,7 +138,7 @@ function collectStyles(files) {
         : ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword ? node.arguments[0] : undefined
       if (spec && ts.isStringLiteralLike(spec)) {
         const value = spec.text
-        if (value.startsWith("@/registry/0db/ui/")) item(value.slice("@/registry/0db/ui/".length))
+        if (value.startsWith("@/registry/0nlytype/ui/")) item(value.slice("@/registry/0nlytype/ui/".length))
         else if (value.startsWith("@/components/") || value.startsWith("@/examples/") || value.startsWith(".")) {
           const base = value.startsWith("@/") ? value.slice(2) : path.join(path.dirname(file), value)
           const target = [base, `${base}.tsx`, `${base}.ts`].find((f) => /\.tsx?$/.test(f) && existsSync(f))

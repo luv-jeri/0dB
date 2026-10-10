@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Step, StepTitle, Steps, type StepsProps } from "@/registry/0db/ui/steps"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Step, StepTitle, Steps, type StepsProps } from "@/registry/0nlytype/ui/steps"
 import { State } from "@/components/site/state"
 
 const STEPS = [
@@ -35,7 +35,7 @@ export default function Example() {
       </div>
       {(["margin", "rise", "cascade", "folio"] as const).map((v) => (
         <div key={v} className="grid gap-y-4">
-          <span className="db-label">{v}</span>
+          <span className="ot-label">{v}</span>
           <Sequence variant={v} at={at} go={setAt} />
         </div>
       ))}

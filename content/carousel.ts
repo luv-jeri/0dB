@@ -4,7 +4,7 @@ export default defineComponent({
   name: "carousel",
   title: "Carousel",
   movement: "IX",
-  contract: "db-carousel",
+  contract: "ot-carousel",
   summary: "One poster at a time, each name set so large the frame crops it. The count between the arrows rolls the way you travel.",
   underneath: "hook",
   props: [

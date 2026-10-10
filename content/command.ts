@@ -4,7 +4,7 @@ export default defineComponent({
   name: "command",
   title: "Command",
   movement: "VIII",
-  contract: "db-command",
+  contract: "ot-command",
   summary: "What you type is set as large as a headline, in italic. Matches are marked; the chosen row steps forward. Or every row set on one axis at its match, as a mesostic; or the groups run on, as a book's index.",
   underneath: "cmdk",
   props: [

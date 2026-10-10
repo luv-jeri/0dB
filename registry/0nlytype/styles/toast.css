@@ -1,0 +1,63 @@
+@layer components {
+  /* ── ot-toast ── one line rises; a fermata held over its last word empties while it stays */
+  .ot-toaster { position: fixed; z-index: 50; inset-inline-start: var(--ot-margin); inset-block-end: var(--ot-space-6); display: grid; justify-items: start; gap: var(--ot-space-2); pointer-events: none; }
+  .ot-toast {
+    position: relative; pointer-events: auto;
+    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--ot-space-5); row-gap: var(--ot-space-2);
+    max-inline-size: min(34rem, calc(100vw - 2 * var(--ot-margin)));
+    padding: var(--ot-space-4) var(--ot-space-5) calc(var(--ot-space-4) + 2px);
+    background: var(--ot-paper); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule);
+    color: var(--ot-ink);
+    animation: ot-toast-rise var(--ot-andante) var(--ot-exhale);
+  }
+  /* The timer is a fermata over the sentence's last note: its arc empties while the toast stays. Point at the
+     toast and the pause is held, which is what a fermata means. It hangs up against the full stop, the way the
+     sign is written over the note it holds. */
+  .ot-toast-timer { flex: none; align-self: flex-start; width: 22px; height: 14px; margin-inline-start: calc(var(--ot-space-1) - var(--ot-space-5)); margin-block-start: -0.1em; overflow: visible; }
+  .ot-toast-timer path { fill: none; stroke: var(--ot-ink); stroke-width: 1.5; stroke-linecap: round; animation: ot-toast-deplete var(--life, 5s) linear forwards; }
+  .ot-toast-timer circle { fill: var(--ot-accent); }
+  .ot-toast:is(:hover, :focus-within, [data-force~="hover"]) :is(.ot-toast-timer path, .ot-toast-rule) { animation-play-state: paused; }
+  .ot-toast > p { animation: ot-toast-write var(--ot-andante) var(--ot-exhale) 140ms backwards; }
+  .ot-toast[data-leaving] { overflow: clip; animation: ot-toast-sink var(--ot-andante) var(--ot-breath) forwards; }
+  @keyframes ot-toast-rise { from { opacity: 0; translate: 0 12px; } }
+  @keyframes ot-toast-write { from { clip-path: inset(0 100% 0 0); } }
+  :is([dir="rtl"], [dir="rtl"] *).ot-toast > p { animation-name: ot-toast-write-rtl; }
+  @keyframes ot-toast-write-rtl { from { clip-path: inset(0 0 0 100%); } }
+  @keyframes ot-toast-sink {
+    45%  { opacity: 0; translate: 0 8px; }
+    100% { opacity: 0; translate: 0 8px; block-size: 0; padding-block: 0; margin-block-start: calc(-1 * var(--gap, var(--ot-space-2))); }
+  }
+  @keyframes ot-toast-deplete { to { stroke-dashoffset: -1; } }
+
+  /* The footnote and the dateline keep the fermata as their clock, unseen. */
+  .ot-toaster[data-variant] .ot-toast-timer { position: absolute; inset: 0 auto auto 0; width: 1px; height: 1px; margin: 0; opacity: 0; }
+
+  /* Footnote: the book's note at the foot of the page. One frame holds the foot: a short rule, then the notes,
+     numbered as they come; each number hangs in the margin so the sentences keep one edge under the rule. The
+     newest number takes the accent. */
+  .ot-toaster[data-variant="footnote"] { --gap: 0px; gap: 0; }
+  .ot-toaster[data-variant="footnote"]:has(> .ot-toast) { padding: var(--ot-space-4) var(--ot-space-5) var(--ot-space-4) var(--ot-space-6); background: var(--ot-paper); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule); max-inline-size: min(34rem, calc(100vw - 2 * var(--ot-margin))); }
+  .ot-toaster[data-variant="footnote"]:has(> .ot-toast)::before { content: ""; inline-size: var(--ot-space-8); block-size: var(--ot-hairline); margin-block-end: var(--ot-space-3); background: var(--ot-ink); transform-origin: 0 50%; animation: ot-draw-x var(--ot-andante) var(--ot-exhale) backwards; }
+  :is([dir="rtl"], [dir="rtl"] *).ot-toaster[data-variant="footnote"]::before { transform-origin: 100% 50%; }
+  .ot-toaster[data-variant="footnote"] .ot-toast { column-gap: var(--ot-space-4); padding: var(--ot-space-1) 0; box-shadow: none; background: none; color: var(--ot-graphite); }
+  .ot-toast-n { position: absolute; inset-inline-end: calc(100% + 0.35em); inset-block-start: calc(var(--ot-space-1) + 0.1em); font-size: var(--ot-pp); line-height: 1; font-feature-settings: "lnum", "tnum"; color: var(--ot-pencil); animation: ot-land var(--ot-moderato) var(--ot-spiccato) 160ms backwards; }
+  .ot-toast:last-child .ot-toast-n { color: var(--ot-accent); }
+
+  /* Dateline: the frame row of a poster. The sentence, a hairline, the time it happened; the hairline runs out
+     toward the time while the toast stays, and holds while you point at it. */
+  .ot-toaster[data-variant="dateline"] { grid-template-columns: minmax(0, 1fr); }
+  .ot-toaster[data-variant="dateline"] .ot-toast { column-gap: var(--ot-space-4); inline-size: min(30rem, calc(100vw - 2 * var(--ot-margin))); max-inline-size: 100%; }
+  .ot-toaster[data-variant="dateline"] .ot-toast > p { flex: none; max-inline-size: 70%; }
+  .ot-toast-rule { flex: 1; min-inline-size: var(--ot-space-5); block-size: var(--ot-hairline); align-self: center; background: var(--ot-rule-strong); transform-origin: 100% 50%; animation: ot-toast-run var(--life, 5s) linear forwards; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-toast-rule { transform-origin: 0 50%; }
+  .ot-toast-time { flex: none; font-size: var(--ot-pp); font-variant-numeric: tabular-nums lining-nums; color: var(--ot-graphite); }
+  @keyframes ot-toast-run { to { scale: 0 1; } }
+
+  @media (forced-colors: active) {
+    .ot-toast { border: var(--ot-hairline) solid CanvasText; }
+    .ot-toaster[data-variant="footnote"] .ot-toast { border: 0; }
+    .ot-toaster[data-variant="footnote"]:has(> .ot-toast) { border: var(--ot-hairline) solid CanvasText; }
+    .ot-toast-rule { forced-color-adjust: none; background: CanvasText; }
+    .ot-toaster[data-variant="footnote"]::before { forced-color-adjust: none; background: CanvasText; }
+  }
+}

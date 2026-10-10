@@ -1,0 +1,132 @@
+@layer components {
+  /* ── ot-chart ── hairlines and dots, against one very large number */
+  .ot-chart { margin: 0; display: grid; gap: var(--ot-space-5); }
+  .ot-chart:not([data-variant="spark"]) { container-type: inline-size; }
+  .ot-chart-read { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--ot-space-4); color: var(--ot-graphite); }
+  /* The number is as large as the chart allows: SPECTRA's scale contrast, tiny data against giant type. */
+  .ot-chart-value { display: inline-block; font-size: clamp(var(--ot-ff), 16cqi, var(--ot-fff)); line-height: 0.9; letter-spacing: var(--ot-ff-tr); font-weight: 200; color: var(--ot-ink); font-variant-numeric: tabular-nums lining-nums; }
+  .ot-chart-plot {
+    display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); height: 13rem;
+    background: repeating-linear-gradient(to top, var(--ot-rule) 0 1px, transparent 1px 25%);
+    box-shadow: inset 0 calc(-1 * var(--ot-hairline)) 0 var(--ot-ink);
+  }
+  .ot-chart-bar { position: relative; appearance: none; border: 0; margin: 0; padding: 0; background: none; cursor: crosshair; }
+  .ot-chart-bar::before, .ot-chart-bar::after { content: ""; position: absolute; left: 50%; pointer-events: none; }
+  .ot-chart-bar::before { bottom: 0; width: var(--ot-hairline); height: calc(var(--v) * 100%); translate: -50% 0; background: var(--ot-pencil); transition: width var(--ot-allegro), background-color var(--ot-allegro); }
+  .ot-chart-bar::after {
+    bottom: calc(var(--v) * 100%); width: 7px; height: 7px; border-radius: 50%; translate: -50% 50%;
+    background: var(--ot-paper); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-pencil);
+    transition: scale var(--ot-moderato) var(--ot-spiccato), background-color var(--ot-allegro), box-shadow var(--ot-allegro);
+  }
+  .ot-chart-bar:is(:hover, :focus-visible)::before, .ot-chart[data-force~="hover"] > .ot-chart-plot > .ot-chart-bar[data-shown]::before { width: var(--ot-stroke); background: var(--ot-ink); }
+  .ot-chart-bar:is(:hover, :focus-visible)::after, .ot-chart[data-force~="hover"] > .ot-chart-plot > .ot-chart-bar[data-shown]::after { scale: 1.5; background: var(--ot-ink); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-ink); }
+  .ot-chart-bar[data-now]::after { background: var(--ot-accent); box-shadow: none; }
+  .ot-chart-bar:focus-visible { outline-offset: 2px; }
+  .ot-chart-axis { display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); margin-top: calc(-1 * var(--ot-space-3)); font-size: var(--ot-pp); color: var(--ot-pencil); text-align: center; }
+
+  /* spark: word-sized, set in the sentence (Tufte's sparkline). Stems as tall as a capital, standing
+     on the baseline, the accent dot on now; the number follows at the text's own size and rolls. */
+  .ot-chart[data-variant="spark"] { display: inline; }
+  .ot-chart[data-variant="spark"] > .ot-chart-plot {
+    display: inline-flex; align-items: stretch; height: 0.72em; vertical-align: baseline;
+    margin-inline: 0.1em 0.05em; background: none; box-shadow: none;
+  }
+  .ot-chart[data-variant="spark"] .ot-chart-bar { flex: none; width: 0.34em; cursor: crosshair; }
+  .ot-chart[data-variant="spark"] .ot-chart-bar::before { height: calc(var(--s) * 100%); background: var(--ot-graphite); }
+  .ot-chart[data-variant="spark"] .ot-chart-bar::after { bottom: calc(var(--s) * 100%); width: 0.26em; height: 0.26em; background: transparent; box-shadow: none; }
+  .ot-chart[data-variant="spark"] .ot-chart-bar[data-now]::after { background: var(--ot-accent); }
+  .ot-chart[data-variant="spark"] .ot-chart-bar:is(:hover, :focus-visible)::after,
+  .ot-chart[data-variant="spark"][data-force~="hover"] > .ot-chart-plot > .ot-chart-bar[data-shown]::after { scale: 1; background: var(--ot-ink); box-shadow: none; }
+  .ot-chart[data-variant="spark"] > .ot-chart-read { display: inline; color: inherit; }
+  .ot-chart[data-variant="spark"] .ot-chart-value { font-size: inherit; line-height: inherit; letter-spacing: inherit; font-weight: 500; }
+
+  /* isotype: Neurath's rule, count don't scale. Each column a stack of dots, one dot a fixed amount:
+     had in ink, the room left to the ceiling in hairline rings; now's top dot is the accent.
+     Pointing a column sets the rest back and counts its dots up, one after another. */
+  .ot-chart[data-variant="isotype"] { --ot-chart-dot: clamp(0.5rem, calc(55cqi / var(--n)), 1rem); }
+  .ot-chart[data-variant="isotype"] > .ot-chart-plot { height: auto; background: none; box-shadow: none; }
+  .ot-chart[data-variant="isotype"] .ot-chart-bar { display: flex; flex-direction: column-reverse; align-items: center; gap: calc(var(--ot-chart-dot) * 0.45); padding-block: var(--ot-space-2); }
+  .ot-chart[data-variant="isotype"] .ot-chart-bar::before, .ot-chart[data-variant="isotype"] .ot-chart-bar::after { content: none; }
+  .ot-chart[data-variant="isotype"] .ot-chart-bar > i {
+    display: block; flex: none; inline-size: var(--ot-chart-dot); aspect-ratio: 1; border-radius: 50%;
+    box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong);
+    transition: background-color var(--ot-allegro), box-shadow var(--ot-allegro);
+  }
+  .ot-chart[data-variant="isotype"] .ot-chart-bar > i[data-on] { background: var(--ot-ink); box-shadow: none; }
+  .ot-chart[data-variant="isotype"] .ot-chart-bar[data-now] > i[data-top] { background: var(--ot-accent); }
+  .ot-chart[data-variant="isotype"] > .ot-chart-plot:is(:hover, :focus-within) > .ot-chart-bar:not([data-shown]) > i[data-on],
+  .ot-chart[data-variant="isotype"][data-force~="hover"] > .ot-chart-plot > .ot-chart-bar:not([data-shown]) > i[data-on] { background: var(--ot-rule-strong); }
+  .ot-chart[data-variant="isotype"][data-moved] .ot-chart-bar[data-shown] > i[data-on] { animation: ot-chart-count var(--ot-moderato) var(--ot-spiccato) calc(var(--k) * var(--ot-arpeggio)) both; }
+  @keyframes ot-chart-count { from { scale: 0.35; } to { scale: 1; } }
+  .ot-chart[data-variant="isotype"] > .ot-chart-axis { margin-top: calc(-1 * var(--ot-space-4)); }
+  .ot-chart-key { display: inline-flex; align-items: center; gap: var(--ot-space-2); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-chart-key > i { inline-size: 0.5rem; aspect-ratio: 1; border-radius: 50%; background: var(--ot-ink); }
+
+  /* series: two or more read at once. Each has its own line, solid, dotted or dashed (a ring, a disc,
+     a ring on the dots), and its own voice in the readout, roman, italic or pencil, as "It has to be
+     design." pairs the two faces. Grouped, the stems stand side by side; stacked, one stem per column
+     is cut into lengths with a dot at every joint, and the top joint is now's accent. */
+  .ot-chart-bar:has(> .ot-chart-mark)::before, .ot-chart-bar:has(> .ot-chart-mark)::after { content: none; }
+  .ot-chart-mark { --c: var(--ot-pencil); position: absolute; inset-block: 0; left: calc(50% + (var(--k) - (var(--m) - 1) / 2) * var(--ot-space-2)); pointer-events: none; }
+  .ot-chart[data-stacked] .ot-chart-mark { left: 50%; }
+  .ot-chart-mark::before, .ot-chart-mark::after { content: ""; position: absolute; left: 0; }
+  .ot-chart-mark::before { bottom: calc(var(--b) * 100%); width: var(--ot-hairline); height: calc((var(--v) - var(--b)) * 100%); translate: -50% 0; background: var(--c); }
+  .ot-chart-mark[data-series="1"]::before { background: repeating-linear-gradient(to top, var(--c) 0 1px, transparent 1px 3px); }
+  .ot-chart-mark[data-series="2"]::before { background: repeating-linear-gradient(to top, var(--c) 0 4px, transparent 4px 7px); }
+  .ot-chart-mark::after {
+    z-index: 1; bottom: calc(var(--v) * 100%); width: 7px; height: 7px; border-radius: 50%; translate: -50% 50%;
+    background: var(--ot-paper); box-shadow: inset 0 0 0 var(--ot-hairline) var(--c);
+    transition: scale var(--ot-moderato) var(--ot-spiccato), background-color var(--ot-allegro), box-shadow var(--ot-allegro);
+  }
+  .ot-chart-mark[data-series="1"]::after { background: var(--c); }
+  .ot-chart-bar:is(:hover, :focus-visible) > .ot-chart-mark, .ot-chart[data-force~="hover"] > .ot-chart-plot > .ot-chart-bar[data-shown] > .ot-chart-mark { --c: var(--ot-ink); }
+  .ot-chart-bar:is(:hover, :focus-visible) > .ot-chart-mark::after, .ot-chart[data-force~="hover"] > .ot-chart-plot > .ot-chart-bar[data-shown] > .ot-chart-mark::after { scale: 1.5; }
+  .ot-chart:not([data-stacked]) .ot-chart-bar[data-now] > .ot-chart-mark[data-series="0"]::after,
+  .ot-chart[data-stacked] .ot-chart-bar[data-now] > .ot-chart-mark[data-top]::after { background: var(--ot-accent); box-shadow: none; }
+
+  /* The readout for several series: the one giant number becomes a short list, figures set flush
+     right in a column as on a ledger, each rolling on its own; stacked, a rule and the sum under it. */
+  .ot-chart-read[data-list] { display: grid; row-gap: var(--ot-space-3); }
+  .ot-chart-list { display: grid; grid-template-columns: max-content auto; column-gap: var(--ot-space-4); row-gap: var(--ot-space-1); align-items: baseline; justify-content: start; }
+  .ot-chart-row { display: contents; }
+  .ot-chart-row > .ot-chart-value { grid-column: 1; }
+  .ot-chart-row > .ot-chart-name { grid-column: 2; }
+  .ot-chart-list .ot-chart-value { justify-self: end; font-size: clamp(var(--ot-mf), 8cqi, var(--ot-f)); letter-spacing: var(--ot-f-tr); }
+  .ot-chart-row[data-total]::before { content: ""; grid-column: 1; border-top: var(--ot-hairline) solid var(--ot-ink); margin-block: var(--ot-space-1) var(--ot-space-2); }
+  .ot-chart-name { display: inline-flex; align-items: center; gap: var(--ot-space-2); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite); }
+  .ot-chart-row[data-series="1"] > .ot-chart-name { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-pp) * var(--ot-expression-scale)); }
+  .ot-chart-row[data-series="2"] > .ot-chart-name { color: var(--ot-pencil); }
+  .ot-chart-swatch { --c: var(--ot-graphite); flex: none; inline-size: 1.5em; block-size: var(--ot-hairline); background: var(--c); }
+  .ot-chart-row[data-series="1"] .ot-chart-swatch { background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 3px); }
+  .ot-chart-row[data-series="2"] .ot-chart-swatch { background: repeating-linear-gradient(to right, var(--c) 0 4px, transparent 4px 7px); }
+  .ot-chart-row[data-total] .ot-chart-swatch { visibility: hidden; }
+
+  /* horizontal: a ledger. The names stand in a column at the start, each line runs out from a
+     baseline on the start edge to its dot, and the name of the line the number reads is inked. */
+  .ot-chart[data-orientation="horizontal"] { grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--ot-space-4); }
+  .ot-chart[data-orientation="horizontal"] > .ot-chart-read { grid-column: 1 / -1; }
+  .ot-chart[data-orientation="horizontal"] > :is(.ot-chart-plot, .ot-chart-axis) { grid-row: 2; grid-template-columns: none; grid-template-rows: repeat(var(--n, 12), var(--ot-space-6)); }
+  .ot-chart[data-orientation="horizontal"] > .ot-chart-plot {
+    grid-column: 2; height: auto; box-shadow: none; border-inline-start: var(--ot-hairline) solid var(--ot-ink);
+    background: repeating-linear-gradient(to right, var(--ot-rule) 0 1px, transparent 1px 25%);
+  }
+  .ot-chart[data-orientation="horizontal"] > .ot-chart-axis { grid-column: 1; margin-top: 0; align-items: center; text-align: end; }
+  .ot-chart[data-orientation="horizontal"] > .ot-chart-axis > [data-shown] { color: var(--ot-ink); }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-bar::before { left: auto; bottom: auto; top: 50%; inset-inline-start: 0; width: calc(var(--v) * 100%); height: var(--ot-hairline); translate: 0 -50%; }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-bar:is(:hover, :focus-visible)::before,
+  .ot-chart[data-orientation="horizontal"][data-force~="hover"] > .ot-chart-plot > .ot-chart-bar[data-shown]::before { width: calc(var(--v) * 100%); height: var(--ot-stroke); }
+  .ot-chart[data-orientation="horizontal"] :is(.ot-chart-bar, .ot-chart-mark)::after { left: auto; bottom: auto; top: 50%; inset-inline-start: calc(var(--v) * 100%); margin-inline-start: -3.5px; translate: 0 -50%; }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-mark { inset: auto 0; top: calc(50% + (var(--k) - (var(--m) - 1) / 2) * var(--ot-space-2)); height: 0; }
+  .ot-chart[data-orientation="horizontal"][data-stacked] .ot-chart-mark { top: 50%; }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-mark::after { top: 0; }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-mark::before { left: auto; bottom: auto; top: 0; inset-inline-start: calc(var(--b) * 100%); width: calc((var(--v) - var(--b)) * 100%); height: var(--ot-hairline); translate: 0 -50%; }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-mark[data-series="1"]::before { background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 3px); }
+  .ot-chart[data-orientation="horizontal"] .ot-chart-mark[data-series="2"]::before { background: repeating-linear-gradient(to right, var(--c) 0 4px, transparent 4px 7px); }
+
+  @media (forced-colors: active) {
+    .ot-chart-bar::before, .ot-chart[data-variant="isotype"] .ot-chart-bar > i[data-on], .ot-chart-key > i { background: CanvasText; forced-color-adjust: none; }
+    .ot-chart-bar[data-now]::after, .ot-chart-bar[data-now] > .ot-chart-mark:is([data-series="0"], [data-top])::after, .ot-chart[data-variant="isotype"] .ot-chart-bar[data-now] > i[data-top] { background: Highlight; forced-color-adjust: none; }
+    .ot-chart-mark, .ot-chart-swatch { --c: CanvasText; forced-color-adjust: none; }
+    .ot-chart[data-variant="isotype"] .ot-chart-bar > i { box-shadow: inset 0 0 0 1px CanvasText; forced-color-adjust: none; }
+  }
+}

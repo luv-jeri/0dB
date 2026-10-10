@@ -1,0 +1,35 @@
+@layer components {
+  /* ── ot-figure ── a picture cropped to a ratio and marked like a printer's proof (the aspect ratio's trim marks), then named in
+     type: its number as data, the caption in the voice, the credit spread to the far end on the same baseline, as "the silence
+     that heals" sets its camera and its archive under the picture. No filter, no mask, no zoom: the picture is shown as it is. */
+  .ot-figure { display: grid; gap: var(--ot-space-6); margin: 0; min-width: 0; container-type: inline-size; }
+  .ot-figure-frame { width: 100%; overflow: visible; }
+  .ot-figure-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  /* The picture that isn't there is described in its place, inside the marks, the way a layout holds a place for one. */
+  .ot-figure-alt { display: none; max-width: 30ch; padding: var(--ot-space-4); text-align: center; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-figure[data-missing] .ot-figure-img { opacity: 0; }
+  .ot-figure[data-missing] .ot-figure-alt { display: block; }
+
+  .ot-figure-caption { display: flex; align-items: first baseline; gap: var(--ot-space-4); min-width: 0; }
+  .ot-figure-number { flex: none; font-size: var(--ot-mp); line-height: 1; font-weight: 300; letter-spacing: var(--ot-mp-tr); font-variant-numeric: tabular-nums lining-nums; color: var(--ot-ink); }
+  .ot-figure-lines { flex: 1; min-width: 0; }
+  .ot-figure-text { max-width: 44ch; text-wrap: pretty; }
+  .ot-figure-credit { max-width: 24ch; color: var(--ot-pencil); text-align: end; }
+  /* Narrow: no room to spread the credit to the far end, so it steps under the caption and the hairline goes. */
+  @container (width < 26rem) {
+    .ot-figure-lines { flex-direction: column; align-items: start; gap: var(--ot-space-1); }
+    .ot-figure-lines > hr { display: none; }
+    .ot-figure-credit { text-align: start; }
+  }
+
+  /* margin: the caption stands in the margin beside the picture, as a book sets a side caption in the columns kept for notes (3 of 12):
+     the number at the head, level with the picture's top, the caption and credit at the foot, level with its foot.
+     Where the two can't stand side by side the caption falls under the picture. */
+  .ot-figure[data-variant="margin"] { display: flex; flex-flow: row-reverse wrap; gap: var(--ot-space-5) var(--ot-space-6); }
+  .ot-figure[data-variant="margin"] > .ot-figure-frame { flex: 9 1 0; min-width: min(100%, 20rem); }
+  .ot-figure[data-variant="margin"] > .ot-figure-caption { flex: 3 1 0; min-width: 9rem; flex-direction: column; justify-content: space-between; align-items: stretch; gap: var(--ot-space-4); }
+  .ot-figure[data-variant="margin"] .ot-figure-number { font-size: var(--ot-mf); letter-spacing: var(--ot-mf-tr); font-weight: 200; }
+  .ot-figure[data-variant="margin"] .ot-figure-lines { flex: none; flex-direction: column; align-items: start; gap: var(--ot-space-2); }
+  .ot-figure[data-variant="margin"] .ot-figure-lines > hr { display: none; }
+  .ot-figure[data-variant="margin"] .ot-figure-credit { text-align: start; }
+}

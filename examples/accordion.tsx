@@ -1,4 +1,4 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionProps } from "@/registry/0db/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionProps } from "@/registry/0nlytype/ui/accordion"
 import { State } from "@/components/site/state"
 
 const FAQ = [
@@ -49,12 +49,12 @@ export default function Example() {
     <div className="grid gap-y-10">
       {(["cross", "run-in", "gloss"] as const).map((v) => (
         <div key={v} className="grid gap-y-4">
-          <span className="db-label">{v}</span>
+          <span className="ot-label">{v}</span>
           <Questions variant={v} />
         </div>
       ))}
       <div className="grid gap-y-4">
-        <span className="db-label">horizontal</span>
+        <span className="ot-label">horizontal</span>
         <Columns />
       </div>
     </div>

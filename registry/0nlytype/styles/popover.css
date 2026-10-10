@@ -1,0 +1,88 @@
+@layer components {
+  /* ── ot-pop ── popover: a panel hung from what opened it, on a leader line.
+     Keyed on the class and [data-state] alone, so the menus and pickers that
+     wear ot-pop (dropdown menu, combobox, date picker) hang the same way.
+     Radix places it (side, align, sideOffset); --ot-pop-gap is that offset. */
+  .ot-pop {
+    --ot-pop-gap: 8px; --ot-pop-lead: 1.1em;
+    position: relative; z-index: 50; padding: var(--ot-space-4) var(--ot-space-5); overflow: visible;
+    max-width: min(26rem, calc(100vw - 2 * var(--ot-margin)));
+    background: var(--ot-paper); color: var(--ot-graphite); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong);
+    outline: 0;
+    animation: ot-pop-in var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-pop[data-state="closed"] { animation: ot-pop-out var(--ot-allegro) var(--ot-breath) forwards; }
+  .ot-pop[data-side="top"] { --ot-pop-from: 4px; }
+  @keyframes ot-pop-in { from { opacity: 0; translate: 0 var(--ot-pop-from, -4px); } }
+  @keyframes ot-pop-out { to { opacity: 0; } }
+
+  /* The leader: a dot on the trigger's edge and a line dropping to the panel. */
+  .ot-pop:is([data-side="bottom"], [data-side="top"])::before,
+  .ot-pop:is([data-side="bottom"], [data-side="top"])::after { content: ""; position: absolute; pointer-events: none; }
+  .ot-pop:is([data-side="bottom"], [data-side="top"])::before { inset-inline-start: var(--ot-pop-lead); width: var(--ot-hairline); height: var(--ot-pop-gap); background: var(--ot-ink); }
+  .ot-pop:is([data-side="bottom"], [data-side="top"])::after { inset-inline-start: calc(var(--ot-pop-lead) - 2px); width: 5px; height: 5px; border-radius: 50%; background: var(--ot-ink); }
+  .ot-pop[data-align="end"] { --ot-pop-lead: calc(100% - 1.1em); }
+  .ot-pop[data-align="center"] { --ot-pop-lead: 50%; }
+  .ot-pop[data-side="bottom"]::before { bottom: 100%; transform-origin: 50% 0; }
+  .ot-pop[data-side="bottom"]::after { bottom: calc(100% + var(--ot-pop-gap) - 2.5px); }
+  .ot-pop[data-side="top"]::before { top: 100%; transform-origin: 50% 100%; }
+  .ot-pop[data-side="top"]::after { top: calc(100% + var(--ot-pop-gap) - 2.5px); }
+  .ot-pop[data-state="open"]::after { animation: ot-land var(--ot-moderato) var(--ot-spiccato) backwards; }
+  .ot-pop[data-state="open"]::before { animation: ot-draw-y var(--ot-moderato) var(--ot-breath) 60ms backwards; }
+
+  /* Forced colours drop the panel's hairline (a box-shadow) and paint the leader's background away. */
+  @media (forced-colors: active) {
+    /* The hairline is a box-shadow, which forced colours drop. A border, not an outline: Radix's menus
+       set an inline outline: none on their panel, which no stylesheet can outrank. */
+    .ot-pop { border: var(--ot-hairline) solid CanvasText; }
+    .ot-pop::before, .ot-pop::after { forced-color-adjust: none; background: CanvasText; }
+    .ot-pop[data-variant="brace"] { border: 0; } /* boxless: its brace is the edge */
+  }
+
+  /* ── brace ── the panel's width gathered to one point at the trigger, like the brace that joins a
+     score's staves or an underbrace that sums a span. The ends curl at the panel's corners (this
+     element's own ::before and ::after); the arms and the point are Radix's arrow, which Radix keeps
+     over the trigger's middle when the panel shifts (it measures from .ot-pop-brace-arms, which is centred
+     on the panel, so no correction is needed). The arms run long and .ot-pop-brace-arms clips
+     them where the curls begin. Drawn as for a panel above; Radix turns the point over for one below. */
+  .ot-pop[data-variant="brace"] {
+    --ot-pop-brace-r: var(--ot-space-2); --ot-pop-brace-g: var(--ot-space-2); --ot-pop-brace-in: var(--ot-space-5);
+    padding: var(--ot-space-3) var(--ot-pop-brace-in) var(--ot-space-4); box-shadow: none; /* the brace is the panel's edge */
+  }
+  .ot-pop:is([data-variant="brace"], [data-variant="cut"])::before,
+  .ot-pop:is([data-variant="brace"], [data-variant="cut"])::after { content: none; }
+  .ot-pop-brace, .ot-pop-brace-arms { position: absolute; inset-block: 0; pointer-events: none; }
+  .ot-pop-brace { inset-inline: var(--ot-pop-brace-in); } /* spans the words, not the paper round them */
+  .ot-pop-brace-arms { left: var(--ot-pop-brace-r); right: var(--ot-pop-brace-r); overflow-x: clip; overflow-y: visible; clip-path: inset(-3em 0); }
+  .ot-pop-brace-point { position: relative; width: 0; height: calc(var(--ot-pop-brace-g) + 2 * var(--ot-pop-brace-r)); }
+  .ot-pop-brace::before, .ot-pop-brace::after,
+  .ot-pop-brace-point::before, .ot-pop-brace-point::after { content: ""; position: absolute; border: 0 solid var(--ot-ink); }
+  .ot-pop-brace-point::before, .ot-pop-brace-point::after {
+    top: calc(var(--ot-pop-brace-g) + var(--ot-pop-brace-r) - var(--ot-hairline)); width: 100vw; height: calc(var(--ot-pop-brace-r) + var(--ot-hairline));
+    border-top-width: var(--ot-hairline);
+  }
+  .ot-pop-brace-point::before { right: 0; border-right-width: var(--ot-hairline); border-top-right-radius: var(--ot-pop-brace-r); }
+  .ot-pop-brace-point::after { left: 0; border-left-width: var(--ot-hairline); border-top-left-radius: var(--ot-pop-brace-r); }
+  .ot-pop-brace::before, .ot-pop-brace::after { width: var(--ot-pop-brace-r); height: var(--ot-pop-brace-r); }
+  .ot-pop-brace::before { left: 0; border-left-width: var(--ot-hairline); }
+  .ot-pop-brace::after { right: 0; border-right-width: var(--ot-hairline); }
+  .ot-pop[data-side="bottom"] .ot-pop-brace::before, .ot-pop[data-side="bottom"] .ot-pop-brace::after { top: calc(-1 * (var(--ot-pop-brace-g) + var(--ot-pop-brace-r))); border-top-width: var(--ot-hairline); }
+  .ot-pop[data-side="top"] .ot-pop-brace::before, .ot-pop[data-side="top"] .ot-pop-brace::after { top: calc(100% + var(--ot-pop-brace-g)); border-bottom-width: var(--ot-hairline); }
+  .ot-pop[data-side="bottom"] .ot-pop-brace::before { border-top-left-radius: var(--ot-pop-brace-r); }
+  .ot-pop[data-side="bottom"] .ot-pop-brace::after { border-top-right-radius: var(--ot-pop-brace-r); }
+  .ot-pop[data-side="top"] .ot-pop-brace::before { border-bottom-left-radius: var(--ot-pop-brace-r); }
+  .ot-pop[data-side="top"] .ot-pop-brace::after { border-bottom-right-radius: var(--ot-pop-brace-r); }
+  .ot-pop[data-variant="brace"]:is([data-side="left"], [data-side="right"]) .ot-pop-brace { display: none; } /* a brace gathers a width; beside the trigger there's none to gather */
+  /* Gather: the arms open out from the middle to the panel's ends, then the ends curl in. */
+  .ot-pop[data-state="open"] .ot-pop-brace-arms { animation: ot-pop-brace-open var(--ot-moderato) var(--ot-exhale) backwards; }
+  .ot-pop[data-state="open"] .ot-pop-brace::before, .ot-pop[data-state="open"] .ot-pop-brace::after { animation: ot-pop-out var(--ot-allegro) var(--ot-breath) reverse var(--ot-moderato) backwards; }
+  @keyframes ot-pop-brace-open { from { clip-path: inset(-3em 50%); } }
+
+  /* ── cut ── the panel's edge cuts through the trigger's words at half their height and rides over
+     the lower half, the way SPECTRA's title is cut by a line. There is no leader: the join is the cut.
+     Radix gives the trigger's height; the edge the words are cut by is set in ink. */
+  .ot-pop[data-variant="cut"] { --ot-pop-from: 0px; --ot-pop-cut: calc(var(--radix-popover-trigger-height, 0px) / 2); }
+  .ot-pop[data-variant="cut"][data-side="bottom"] { translate: 0 calc(-1 * var(--ot-pop-cut)); box-shadow: inset 0 var(--ot-hairline) var(--ot-ink), inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong); }
+  .ot-pop[data-variant="cut"][data-side="top"] { translate: 0 var(--ot-pop-cut); box-shadow: inset 0 calc(-1 * var(--ot-hairline)) var(--ot-ink), inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong); }
+  .ot-pop[data-variant="cut"][data-state="open"] { animation-duration: var(--ot-andante); }
+}

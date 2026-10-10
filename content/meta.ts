@@ -4,7 +4,7 @@ export default defineComponent({
   name: "meta",
   title: "Meta",
   movement: "IV",
-  contract: "db-meta",
+  contract: "ot-meta",
   summary: "A frame row: small words held apart by hairlines that stretch to fill the row.",
   underneath: "native",
   props: [

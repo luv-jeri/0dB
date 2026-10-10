@@ -1,0 +1,70 @@
+@layer components {
+  /* ── ot-carousel ── one poster at a time; the count rolls the way you travel.
+     The arrows are bare words, no brackets. */
+  .ot-carousel { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-5); min-width: 0; }
+  .ot-carousel-track {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none; outline-offset: var(--ot-space-3);
+  }
+  .ot-carousel-track::-webkit-scrollbar { display: none; }
+  .ot-carousel-slide { position: relative; scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 1fr); align-content: end; gap: var(--ot-space-4); min-width: 0; min-height: 19rem; overflow: clip; }
+  /* The name sinks under a hairline, its feet cut off by it, the way SPECTRA's rule crops its word. */
+  .ot-carousel-title {
+    height: 0.7em; margin-inline-start: -0.05em; overflow: clip; white-space: nowrap; border-bottom: var(--ot-hairline) solid var(--ot-rule-strong);
+    font-size: var(--ot-fff); line-height: var(--ot-fff-lh); letter-spacing: var(--ot-fff-tr); font-weight: 200; color: var(--ot-ink);
+  }
+  .ot-carousel-title:is([dir="rtl"], [dir="rtl"] *) { margin-inline-start: 0; }
+  .ot-carousel-nav { display: flex; align-items: baseline; gap: var(--ot-space-5); font-size: var(--ot-mp); }
+  .ot-carousel-arrow { appearance: none; border: 0; background: none; padding: 0.1em; font: inherit; color: var(--ot-ink); cursor: pointer; transition: translate var(--ot-allegro) var(--ot-exhale); }
+  .ot-carousel-arrow:first-child { margin-inline-start: -0.1em; }
+  .ot-carousel-arrow:first-child:hover:not(:disabled) { translate: -3px 0; }
+  .ot-carousel-arrow:last-child:hover:not(:disabled) { translate: 3px 0; }
+  .ot-carousel-arrow:disabled { color: var(--ot-rule-strong); cursor: default; }
+  /* An arrow has a direction: flip the glyph and its nudge. */
+  .ot-carousel-arrow:is([dir="rtl"], [dir="rtl"] *) { scale: -1 1; }
+  .ot-carousel-arrow:first-child:is([dir="rtl"], [dir="rtl"] *):hover:not(:disabled) { translate: 3px 0; }
+  .ot-carousel-arrow:last-child:is([dir="rtl"], [dir="rtl"] *):hover:not(:disabled) { translate: -3px 0; }
+  .ot-carousel-count { color: var(--ot-pencil); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+  .ot-carousel-now { display: inline-block; color: var(--ot-ink); }
+
+  /* Line: the names run on as one line of display type, each closed by a full stop, and you read along it.
+     The name at the start is the one you're on: it inks and its full stop takes the accent; the rest wait in pencil,
+     the next one cropped by the frame's end. A spacer after the last lets it, too, come to the start. */
+  .ot-carousel[data-variant="line"] .ot-carousel-track { grid-auto-columns: max-content; column-gap: var(--ot-space-6); container-type: inline-size; }
+  .ot-carousel[data-variant="line"] .ot-carousel-track::after { content: ""; width: 60cqi; }
+  .ot-carousel[data-variant="line"] .ot-carousel-slide { min-height: 0; align-content: start; gap: var(--ot-space-3); overflow: visible; }
+  .ot-carousel[data-variant="line"] .ot-carousel-title { height: auto; overflow: visible; border: 0; padding-bottom: 0.14em; color: var(--ot-pencil); transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-carousel[data-variant="line"] .ot-carousel-title::after { content: "." / ""; transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-carousel[data-variant="line"] .ot-carousel-slide > :not(.ot-carousel-title) { opacity: 0; transition: opacity var(--ot-moderato) var(--ot-breath); }
+  .ot-carousel[data-variant="line"] .ot-carousel-slide[data-current] > * { opacity: 1; }
+  .ot-carousel[data-variant="line"] [data-current] > .ot-carousel-title { color: var(--ot-ink); }
+  .ot-carousel[data-variant="line"] [data-current] > .ot-carousel-title::after { color: var(--ot-accent); }
+
+  /* Shelf: every slide stands as a spine, a hairline between each, its name running up it in pencil.
+     Take one out and it widens and turns to face you, the name sinking under its hairline; the other goes back. */
+  .ot-carousel[data-variant="shelf"] { --spine: var(--ot-space-7); }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-track { display: flex; overflow: clip; scroll-snap-type: none; }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide {
+    flex: 0 0 var(--spine); padding-inline: var(--ot-space-3); border-inline-start: var(--ot-hairline) solid var(--ot-rule);
+    transition: flex-grow var(--ot-andante) var(--ot-breath);
+  }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide:first-child { border-inline-start: 0; padding-inline-start: 0; }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide[data-current] { flex-grow: 1; }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide:not([data-current]) > :not(.ot-carousel-title, .ot-carousel-spine) { display: none; }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide:not([data-current]) > .ot-carousel-title {
+    justify-self: start; height: auto; margin: 0; border: 0; writing-mode: vertical-rl; rotate: 180deg;
+    font-size: var(--ot-mp); line-height: 1; letter-spacing: var(--ot-mp-tr); font-weight: 300; color: var(--ot-pencil);
+    transition: color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide:not([data-current]):has(.ot-carousel-spine:hover) > .ot-carousel-title { color: var(--ot-ink); }
+  .ot-carousel[data-variant="shelf"] .ot-carousel-slide[data-current] > * { animation: ot-carousel-face var(--ot-moderato) var(--ot-exhale) var(--ot-allegro) backwards; }
+  @keyframes ot-carousel-face { from { opacity: 0; } }
+  .ot-carousel-spine { position: absolute; inset: 0; appearance: none; border: 0; padding: 0; background: none; cursor: pointer; }
+  @media (max-width: 859px) { .ot-carousel[data-variant="shelf"] { --spine: var(--ot-space-6); } }
+
+  @media (forced-colors: active) {
+    .ot-carousel[data-variant="line"] .ot-carousel-title { color: GrayText; }
+    .ot-carousel[data-variant="line"] [data-current] > .ot-carousel-title, .ot-carousel[data-variant="line"] [data-current] > .ot-carousel-title::after { color: CanvasText; }
+    .ot-carousel[data-variant="shelf"] .ot-carousel-slide { border-color: CanvasText; }
+  }
+}

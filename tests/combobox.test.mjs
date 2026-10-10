@@ -2,7 +2,7 @@ import { test } from "node:test"
 import assert from "node:assert/strict"
 import * as React from "react"
 import { renderToStaticMarkup } from "react-dom/server"
-import { Combobox } from "../registry/0db/ui/combobox.tsx"
+import { Combobox } from "../registry/0nlytype/ui/combobox.tsx"
 
 const options = [{ value: "a", label: "Alpha" }, { value: "b", label: "Beta" }]
 

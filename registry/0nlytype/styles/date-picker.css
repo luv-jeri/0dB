@@ -1,0 +1,18 @@
+@layer components {
+  /* ── ot-date ── a date inside a sentence, like the select. The month hangs from it
+     on a leader line (a ot-pop holding a Calendar); the chosen day is written in italic. */
+  .ot-date-root { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.25em; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-graphite); }
+  .ot-field > .ot-date-root { grid-column: 1 / -1; justify-self: start; }
+  .ot-date {
+    appearance: none; border: 0; border-radius: 0; margin: 0; padding: 0 0 0.1em; cursor: pointer;
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0 100% / 100% var(--ot-hairline);
+    color: var(--ot-pencil); font: inherit; line-height: 1.2;
+    transition: background-color var(--ot-allegro);
+  }
+  :is(.ot-date:hover, .ot-date[data-force~="hover"]) { background-image: linear-gradient(var(--ot-ink), var(--ot-ink)); }
+  .ot-date[data-set] { color: var(--ot-ink); font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); }
+  .ot-date[data-invalid] { background-image: linear-gradient(var(--ot-signal), var(--ot-signal)); }
+  .ot-date:disabled { color: var(--ot-pencil); cursor: not-allowed; background-image: none; }
+  /* The month at popover size: the same poster, its numeral a step down. */
+  .ot-date-pop > .ot-month { --big: var(--ot-ff); width: min(21rem, 78vw); gap: var(--ot-space-5); }
+}

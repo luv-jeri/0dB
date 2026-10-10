@@ -1,0 +1,76 @@
+@layer components {
+  /* ── ot-pie ── shares of a whole, from the dot calendar's rings: radial-chart's ring cut into arcs, a hairline of
+     paper between each, no wedges and no fills. The arcs are numbered round the rim, in the small print, and the total
+     stands inside as one very large number. Point at an arc and it inks in the accent and swells, the others step back
+     to pencil, and the total rolls down to that arc's share. */
+  .ot-pie {
+    --ot-pie-inset: var(--ot-space-6);
+    --dir: 1;
+    margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); inline-size: min(100%, var(--ot-pie-size, 22rem)); row-gap: var(--ot-space-5); container-type: inline-size;
+  }
+  .ot-pie:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
+  .ot-pie-face { grid-area: 1 / 1; position: relative; aspect-ratio: 1; container-type: inline-size; cursor: crosshair; }
+  .ot-pie-arcs { position: absolute; inset: 0; }
+  .ot-pie-arcs:is([dir="rtl"] *) { scale: -1 1; }
+
+  /* The arcs are the whole ring: no track under them, so the gaps are paper. */
+  .ot-pie .ot-ring { --ot-ring-inset: var(--ot-pie-inset); --ot-ring-track: transparent; }
+  .ot-pie .ot-ring[data-empty] { --ot-ring-track: var(--ot-rule-strong); }
+  .ot-pie .ot-ring[data-shown] { --ot-ring-ink: var(--ot-accent); --ot-stroke: calc(3 * var(--ot-hairline)); }
+  .ot-pie:is([data-pointed], [data-force~="hover"]) .ot-ring:not([data-shown]) { --ot-ring-ink: var(--ot-rule-strong); }
+
+  /* The numbers round the rim, each at the middle of its arc, halfway into the margin the ring stands in. They stay
+     upright: turned out to the arc, then back. */
+  .ot-pie-tick {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(calc(var(--dir) * (var(--ot-ring-start, 0deg) + var(--t) * var(--ot-ring-sweep, 1) * 1turn))) translateY(calc(var(--ot-pie-inset) / 2 - 50cqi)) rotate(calc(-1 * var(--dir) * (var(--ot-ring-start, 0deg) + var(--t) * var(--ot-ring-sweep, 1) * 1turn)));
+    font-size: var(--ot-pp); line-height: 1; letter-spacing: var(--ot-pp-tr); font-variant-numeric: tabular-nums lining-nums; color: var(--ot-pencil);
+    transition: color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-pie-tick[data-shown] { color: var(--ot-ink); }
+
+  /* The number stands in the middle, as large as the ring allows: SPECTRA's scale against the small print. */
+  .ot-pie-read {
+    grid-area: 1 / 1; place-self: center; display: grid; justify-items: center; row-gap: var(--ot-space-2);
+    max-inline-size: calc(100% - 2 * var(--ot-pie-inset) - var(--ot-space-6)); text-align: center; pointer-events: none;
+  }
+  .ot-pie-value {
+    display: inline-block; font-size: clamp(var(--ot-f), 22cqi, var(--ot-fff)); line-height: 0.9; letter-spacing: var(--ot-ff-tr); font-weight: 200;
+    color: var(--ot-ink); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap;
+  }
+  .ot-pie-unit { font-size: 0.4em; letter-spacing: 0; vertical-align: 0.95em; margin-inline-start: 0.08em; }
+  .ot-pie-words { display: grid; justify-items: center; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); }
+  .ot-pie-name { font-weight: 500; color: var(--ot-ink); }
+  .ot-pie-of { color: var(--ot-pencil); font-variant-numeric: tabular-nums; }
+
+  /* The key: a contents page of the arcs, number, name and figure on one line. One tab stop; the arrows walk it. */
+  .ot-pie-key { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--ot-space-4); margin: 0; padding: 0; list-style: none; }
+  .ot-pie-key > li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
+  .ot-pie-key button {
+    appearance: none; border: 0; margin: 0; padding: var(--ot-space-1) 0; background: none; font: inherit; cursor: crosshair; text-align: start;
+    display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: baseline;
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil);
+    transition: color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-pie-place, .ot-pie-key-value { font-variant-numeric: tabular-nums lining-nums; }
+  .ot-pie-key-value { color: var(--ot-graphite); transition: color var(--ot-allegro) var(--ot-exhale); }
+  .ot-pie-key button:is(:hover, :focus-visible, [data-shown]) { color: var(--ot-ink); }
+  .ot-pie-key button:is(:hover, :focus-visible, [data-shown]) .ot-pie-key-value { color: var(--ot-ink); }
+
+  /* horizon: the Eclipse. A half ring stands on a horizon that runs past it, and everything else is said below it:
+     the number on the line (cap to baseline, so its feet stand on it), its words under the line. The rows keep no gap,
+     or the subgrid would push the number half a gap below the line. Right to left, the arcs rise from the right. */
+  .ot-pie[data-variant="horizon"] { --ot-ring-sweep: 0.5; --ot-ring-start: -90deg; grid-template-rows: auto auto auto; row-gap: 0; }
+  .ot-pie[data-variant="horizon"] > .ot-pie-face { aspect-ratio: 2; }
+  .ot-pie[data-variant="horizon"] .ot-ring { inset-block-end: auto; aspect-ratio: 1; }
+  .ot-pie[data-variant="horizon"] .ot-pie-tick { top: 100%; }
+  .ot-pie[data-variant="horizon"] > .ot-pie-face::after { content: ""; position: absolute; inset-inline: 0; inset-block-end: 0; block-size: var(--ot-hairline); background: var(--ot-rule-strong); }
+  .ot-pie[data-variant="horizon"] > .ot-pie-read { grid-row: 1 / span 2; place-self: stretch; grid-template-rows: subgrid; max-inline-size: none; row-gap: 0; }
+  .ot-pie[data-variant="horizon"] .ot-pie-value { align-self: end; justify-self: center; font-size: clamp(var(--ot-mf), 18cqi, var(--ot-fff)); line-height: 1; text-box: trim-end cap alphabetic; }
+  .ot-pie[data-variant="horizon"] .ot-pie-words { padding-block-start: var(--ot-space-3); }
+  .ot-pie[data-variant="horizon"] > .ot-pie-key { grid-row: 3; margin-block-start: var(--ot-space-5); }
+
+  @media (forced-colors: active) {
+    .ot-pie-tick { color: CanvasText; }
+  }
+}

@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Fraction } from "@/registry/0db/ui/fraction"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Fraction } from "@/registry/0nlytype/ui/fraction"
 import { State } from "@/components/site/state"
 
 /** Words written, grouped by a thin space as a printer groups them: 3 466. */
@@ -15,18 +15,18 @@ export default function Example() {
     <div className="flex flex-wrap items-end gap-x-8 gap-y-5">
       <p className="flex items-baseline gap-3" aria-live="polite">
         <Fraction count={done} total={24} />
-        <span className="db-p">done</span>
+        <span className="ot-p">done</span>
       </p>
       <p className="flex items-baseline gap-3" aria-hidden="true">
         <Fraction variant="vinculum" count={done} total={24} />
-        <span className="db-p">done</span>
+        <span className="ot-p">done</span>
       </p>
       <p className="flex items-baseline gap-3" aria-hidden="true">
         <Fraction variant="readout" count={done} total={24} />
       </p>
       <p className="flex items-baseline gap-3" aria-hidden="true">
         <Fraction count={words(done)} />
-        <span className="db-p">words</span>
+        <span className="ot-p">words</span>
       </p>
       <p className="flex gap-5">
         <Button disabled={done === 0} onClick={() => setDone(done - 1)}>

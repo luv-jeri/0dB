@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { signs } from "@/lib/site/signs"
-import { Sign, type SignVariant } from "@/registry/0db/ui/sign"
+import { Sign, type SignVariant } from "@/registry/0nlytype/ui/sign"
 import { SignStill } from "@/components/site/sign-still"
 
 type Set = { variant: SignVariant | "all"; size: number; face: "roman" | "italic"; from: number; count: number; say: boolean; names: string[]; still: boolean }

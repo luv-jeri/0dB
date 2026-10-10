@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { AspectRatio } from "@/registry/0db/ui/aspect-ratio"
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
+import { AspectRatio } from "@/registry/0nlytype/ui/aspect-ratio"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
 import { State } from "@/components/site/state"
 
 const ratios = [

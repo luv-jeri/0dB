@@ -1,4 +1,4 @@
-import { Meta, MetaItem } from "@/registry/0db/ui/meta"
+import { Meta, MetaItem } from "@/registry/0nlytype/ui/meta"
 
 export default function Example() {
   return (

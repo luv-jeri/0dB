@@ -4,7 +4,7 @@ export default defineComponent({
   name: "avatar",
   title: "Avatar",
   movement: "X",
-  contract: "db-avatar",
+  contract: "ot-avatar",
   summary: "A person is a ring and their initial, in italic, since a name is theirs; or a monogram of both initials; or the given name set to fill one width.",
   underneath: "native",
   props: [

@@ -2,9 +2,9 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { RadioGroup, RadioGroupItem } from "@/registry/0db/ui/radio-group"
-import { Toast, Toaster, dismiss, toast, type ToastVariant } from "@/registry/0db/ui/toast"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { RadioGroup, RadioGroupItem } from "@/registry/0nlytype/ui/radio-group"
+import { Toast, Toaster, dismiss, toast, type ToastVariant } from "@/registry/0nlytype/ui/toast"
 import { State } from "@/components/site/state"
 
 const still = () => () => {}
@@ -14,7 +14,7 @@ export default function Example() {
   // The site already mounts a Toaster; this one mounts a commit later, so it's the latest and speaks for the page.
   const mounted = React.useSyncExternalStore(still, () => true, () => false)
   return (
-    <div className="grid justify-items-start gap-(--db-space-7)">
+    <div className="grid justify-items-start gap-(--ot-space-7)">
       <RadioGroup legend="Toasts as" value={variant} onValueChange={(v) => setVariant(v as ToastVariant)}>
         <RadioGroupItem value="fermata">Fermata</RadioGroupItem>
         <RadioGroupItem value="footnote">Footnote</RadioGroupItem>
@@ -41,7 +41,7 @@ export default function Example() {
 // Pinned: a toaster set in place, its clock held as if pointed at.
 function Still({ variant, children }: { variant: ToastVariant; children: React.ReactNode }) {
   return (
-    <div className="db-toaster" data-variant={variant === "fermata" ? undefined : variant} style={{ position: "static", zIndex: "auto", maxInlineSize: "100%" }}>
+    <div className="ot-toaster" data-variant={variant === "fermata" ? undefined : variant} style={{ position: "static", zIndex: "auto", maxInlineSize: "100%" }}>
       {children}
     </div>
   )

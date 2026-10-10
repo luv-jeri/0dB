@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
 import { Sheet } from "./sheet"
-import "@/registry/0db/styles/sign.css"
+import "@/registry/0nlytype/styles/sign.css"
 import "./lab.css"
 
 export const metadata: Metadata = { title: "Signs (contact sheet)", robots: { index: false } }

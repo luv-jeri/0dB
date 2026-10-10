@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Meter } from "@/registry/0db/ui/meter"
-import { Select } from "@/registry/0db/ui/select"
+import { Meter } from "@/registry/0nlytype/ui/meter"
+import { Select } from "@/registry/0nlytype/ui/select"
 import { State } from "@/components/site/state"
 
 const projects = { "Film archive": 72, "Identity archive": 38, "Empty archive": 0, "Full archive": 100 }

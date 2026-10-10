@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Field } from "@/registry/0db/ui/field"
-import { InputOTP, type InputOTPProps } from "@/registry/0db/ui/input-otp"
+import { Field } from "@/registry/0nlytype/ui/field"
+import { InputOTP, type InputOTPProps } from "@/registry/0nlytype/ui/input-otp"
 import { State } from "@/components/site/state"
 
 // For this page, the code we sent is 246810.

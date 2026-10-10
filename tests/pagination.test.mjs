@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { paginationRange as r } from "../registry/0db/ui/pagination.tsx"
+import { paginationRange as r } from "../registry/0nlytype/ui/pagination.tsx"
 
 test("paginationRange keeps its slots and never hides a single page", () => {
   assert.deepEqual(r(1, 5), [1, 2, 3, 4, 5])

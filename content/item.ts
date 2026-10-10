@@ -4,7 +4,7 @@ export default defineComponent({
   name: "item",
   title: "Item",
   movement: "X",
-  contract: "db-item",
+  contract: "ot-item",
   summary: "A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across. Or every fifth line numbered in the margin; or the description running along the leader.",
   underneath: "native",
   props: [

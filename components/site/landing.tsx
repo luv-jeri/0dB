@@ -4,11 +4,11 @@ import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 
 import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls"
-import { Button } from "@/registry/0db/ui/button"
-import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
-import { Input } from "@/registry/0db/ui/field"
-import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
-import { Select } from "@/registry/0db/ui/select"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Checkbox, CheckboxGroup } from "@/registry/0nlytype/ui/checkbox"
+import { Input } from "@/registry/0nlytype/ui/field"
+import { ModeToggle } from "@/registry/0nlytype/ui/mode-toggle"
+import { Select } from "@/registry/0nlytype/ui/select"
 
 // The home page's small instruments: the ones that answer a hand. Everything else on the page is a server component.
 
@@ -20,7 +20,7 @@ export function LeftOut() {
     <CheckboxGroup
       tally
       className="left-out"
-      legend={<span className="db-sr">What 0nlyType leaves out</span>}
+      legend={<span className="ot-sr">What 0nlyType leaves out</span>}
       done={(count, total) => (count === total ? "left out, and not missed." : "left out.")}
     >
       {LEFT_OUT.map((word) => (
@@ -113,7 +113,7 @@ export function CopyCommand({ command, emphasis }: { command: string; emphasis?:
           <span>{copied ? "Copied" : "Copy"}</span>
         </span>
       </button>
-      <span className="db-sr" aria-live="polite">
+      <span className="ot-sr" aria-live="polite">
         {copied ? "Copied to the clipboard." : ""}
       </span>
     </>
@@ -121,7 +121,7 @@ export function CopyCommand({ command, emphasis }: { command: string; emphasis?:
 }
 
 const PROMPT = (thing: string) =>
-  `Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0nlyType. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.`
+  `Read docs/0nlytype/AGENTS.md, docs/0nlytype/INTENT.md, docs/0nlytype/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0nlyType. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.`
 
 /** Ask for it: you write what you want in the blank, in your italic, and copy a prompt that already knows the rules. */
 export function AskFor() {
@@ -153,7 +153,7 @@ export function AskFor() {
         <Button variant="bracket" onClick={copy}>
           {copied ? "Copied" : "Copy the prompt"}
         </Button>
-        <span className="db-sr" aria-live="polite">
+        <span className="ot-sr" aria-live="polite">
           {copied ? "The prompt is on the clipboard." : ""}
         </span>
       </div>
@@ -191,7 +191,7 @@ export function Share({ url, title, children }: { url: string; title: string; ch
       <button type="button" className="share" data-copied={copied || undefined} onClick={share}>
         {copied ? "Link copied" : children}
       </button>
-      <span className="db-sr" aria-live="polite">
+      <span className="ot-sr" aria-live="polite">
         {copied ? "Link copied" : ""}
       </span>
     </>

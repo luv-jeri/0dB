@@ -4,7 +4,7 @@ export default defineComponent({
   name: "activity-feed",
   title: "Activity feed",
   movement: "X",
-  contract: "db-feed",
+  contract: "ot-feed",
   summary: "A history of what happened, grouped by day: who, what, and a dotted leader to when, on one hairline down the margin. The newest carries the accent; the rest waits behind \"and 4 more\".",
   underneath: "native",
   props: [

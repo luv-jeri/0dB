@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, type BreadcrumbProps } from "@/registry/0db/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, type BreadcrumbProps } from "@/registry/0nlytype/ui/breadcrumb"
 import { State } from "@/components/site/state"
 
 type Path = { steps: string[]; here: string; variant?: BreadcrumbProps["variant"]; force?: string; open?: boolean }
@@ -26,15 +26,15 @@ export default function Example() {
   return (
     <div className="grid w-full justify-items-start gap-12">
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Slashes</span>
+        <span className="ot-label">Slashes</span>
         <Path steps={["Work", "Identity"]} here="Halden" />
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Stack</span>
+        <span className="ot-label">Stack</span>
         <Path variant="stack" steps={["Work", "Identity"]} here="Halden" />
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Elide, a long path</span>
+        <span className="ot-label">Elide, a long path</span>
         <Path variant="elide" steps={long} here="Wordmark" />
       </div>
     </div>

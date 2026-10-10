@@ -16,9 +16,9 @@ export const PAGES = [
 
 /** Every token tokens.css defines in its first :root block, in order. */
 export const TOKENS: string[] = (() => {
-  const css = readFileSync("registry/0db/styles/tokens.css", "utf8")
+  const css = readFileSync("registry/0nlytype/styles/tokens.css", "utf8")
   const root = css.slice(css.indexOf(":root"), css.indexOf("}", css.indexOf(":root")))
-  return [...root.matchAll(/(--db-[a-z0-9-]+)\s*:/g)].map((m) => m[1])
+  return [...root.matchAll(/(--ot-[a-z0-9-]+)\s*:/g)].map((m) => m[1])
 })()
 
 /** Where each path is, for the top row: page names, and each item's movement. */

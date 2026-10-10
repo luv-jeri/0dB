@@ -34,12 +34,12 @@ test("dependency scan preserves real imports, package roots and sibling filterin
     import { another } from "package/other"
     import * as scoped from "@scope/package/subpath"
     import { Button } from "./button"
-    import { Button as Again } from "@/registry/0db/ui/button"
-    import { Field } from "@/registry/0db/ui/field"
+    import { Button as Again } from "@/registry/0nlytype/ui/button"
+    import { Field } from "@/registry/0nlytype/ui/field"
     import React from "react"
     import "react-dom/client"
     import "next/navigation"
-    import "@/registry/0db/lib/utils"
+    import "@/registry/0nlytype/lib/utils"
     import "../helper"
   `
   assert.deepEqual(deriveDeps(source), {
@@ -66,7 +66,7 @@ test("dependency scan includes named, star, namespace and type-only re-exports",
     export * as namespace from "@scope/namespace/subpath"
     export type { Options } from "type-package"
     export { Button } from "./button"
-    export * from "@/registry/0db/ui/field"
+    export * from "@/registry/0nlytype/ui/field"
     export { local }
   `
   assert.deepEqual(deriveDeps(source), {
@@ -97,6 +97,6 @@ test("dependency scan finds literal dynamic calls within expressions, with comme
 })
 
 test("Dropzone's actual source does not depend on the image package", () => {
-  const source = readFileSync(new URL("../registry/0db/ui/dropzone.tsx", import.meta.url), "utf8")
+  const source = readFileSync(new URL("../registry/0nlytype/ui/dropzone.tsx", import.meta.url), "utf8")
   assert.deepEqual(deriveDeps(source), { npm: [], siblings: ["attachment"] })
 })

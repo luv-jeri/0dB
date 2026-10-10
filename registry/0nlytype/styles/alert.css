@@ -1,0 +1,49 @@
+@layer components {
+  /* ── ot-alert ── a double bar: in a score, the sign that something changes here */
+  .ot-alert { --c: var(--ot-ink); --bar: 5px; position: relative; display: grid; justify-items: start; gap: var(--ot-space-2); padding-inline-start: calc(var(--ot-space-5) + var(--bar)); color: var(--ot-graphite); }
+  .ot-alert::before {
+    content: ""; position: absolute; inset-block: 0.3em 0.2em; inset-inline-start: 0; width: var(--bar); transform-origin: 50% 0;
+    background: linear-gradient(var(--c), var(--c)) 0 0 / var(--ot-hairline) 100% no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / var(--ot-stroke) 100% no-repeat;
+  }
+  .ot-alert-title { text-wrap: balance; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-ink); }
+  /* Error: the final bar, thin then thick. What was happening stopped here. */
+  .ot-alert[data-variant="error"] { --c: var(--ot-signal); --bar: 7px; }
+  .ot-alert[data-variant="error"]::before { background-size: var(--ot-hairline) 100%, 4px 100%; }
+  .ot-alert[data-variant="error"] .ot-alert-title { color: var(--ot-signal); }
+  .ot-alert-actions { display: flex; flex-wrap: wrap; gap: var(--ot-space-5); margin-block-start: var(--ot-space-2); }
+  .ot-alert[data-arriving]::before { animation: ot-draw-y var(--ot-andante) var(--ot-exhale) backwards; }
+  .ot-alert[data-arriving] > * { animation: ot-arrive var(--ot-moderato) var(--ot-exhale) backwards; animation-delay: calc(160ms + (sibling-index() - 1) * 2 * var(--ot-arpeggio)); }
+
+  /* Cue ("Watch this space."): a hairline arrow runs in from the margin and stops at the first word. */
+  .ot-alert[data-variant="cue"] { --cue: clamp(var(--ot-space-6), 12vw, var(--ot-space-9)); --at: calc(var(--ot-mp) * 0.84); padding-inline-start: calc(var(--cue) + var(--ot-space-4)); }
+  .ot-alert[data-variant="cue"]::before { inset-block: var(--at) auto; width: calc(var(--cue) - 3px); height: var(--ot-hairline); background: var(--c); transform-origin: 0 50%; }
+  .ot-alert[data-variant="cue"]::after { content: ""; position: absolute; inset-block-start: calc(var(--at) - 3px); inset-inline-start: calc(var(--cue) - 9px); width: 9px; height: 7px; background: var(--c); clip-path: polygon(0 0, 100% 50%, 0 100%, 2px 50%); }
+  :is([dir="rtl"], [dir="rtl"] *).ot-alert[data-variant="cue"]::before { transform-origin: 100% 50%; }
+  :is([dir="rtl"], [dir="rtl"] *).ot-alert[data-variant="cue"]::after { scale: -1 1; }
+  .ot-alert[data-variant="cue"][data-arriving]::before { animation-name: ot-draw-x; }
+  .ot-alert[data-variant="cue"][data-arriving]::after { animation: ot-alert-head var(--ot-moderato) var(--ot-spiccato) 420ms backwards; }
+  .ot-alert[data-variant="cue"][data-arriving] > * { animation-delay: calc(560ms + (sibling-index() - 1) * 2 * var(--ot-arpeggio)); }
+  @keyframes ot-alert-head { from { opacity: 0; scale: 0.4; } }
+  :is([dir="rtl"], [dir="rtl"] *).ot-alert[data-variant="cue"][data-arriving]::after { animation-name: ot-alert-head-rtl; }
+  @keyframes ot-alert-head-rtl { from { opacity: 0; scale: -0.4 0.4; } }
+
+  /* Errata: the printer's slip. "for" what was set, "read" what is true: small upright words between two large italics. */
+  .ot-alert[data-variant="errata"] { padding-inline-start: 0; }
+  .ot-alert[data-variant="errata"]::before { content: none; }
+  .ot-alert-correction { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--ot-space-4); margin-block: var(--ot-space-1); font-size: clamp(var(--ot-mp), 7vw, var(--ot-mf)); line-height: var(--ot-mf-lh); }
+  .ot-alert-correction > span > span { font-size: var(--ot-pp); letter-spacing: 0.02em; color: var(--ot-pencil); }
+  .ot-alert-correction :is(del, ins) { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; text-decoration: none; }
+  .ot-alert-correction del { color: var(--ot-pencil); }
+  .ot-alert-correction ins { color: var(--ot-ink); }
+  .ot-alert[data-arriving] .ot-alert-correction del { animation: ot-alert-stale var(--ot-andante) var(--ot-breath) 360ms backwards; }
+  .ot-alert[data-arriving] .ot-alert-correction ins { animation: ot-alert-write var(--ot-andante) var(--ot-exhale) 760ms backwards; }
+  @keyframes ot-alert-stale { from { color: var(--ot-ink); } }
+  @keyframes ot-alert-write { from { clip-path: inset(-0.3em 100% -0.3em -0.3em); } to { clip-path: inset(-0.3em -0.3em -0.3em -0.3em); } }
+  :is([dir="rtl"], [dir="rtl"] *).ot-alert[data-arriving] .ot-alert-correction ins { animation-name: ot-alert-write-rtl; }
+  @keyframes ot-alert-write-rtl { from { clip-path: inset(-0.3em -0.3em -0.3em 100%); } to { clip-path: inset(-0.3em -0.3em -0.3em -0.3em); } }
+
+  @media (forced-colors: active) {
+    .ot-alert { --c: CanvasText; }
+    .ot-alert::before, .ot-alert::after { forced-color-adjust: none; }
+  }
+}

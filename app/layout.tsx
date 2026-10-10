@@ -5,8 +5,8 @@ import { ThemeScript } from "@/components/site/theme-script"
 import { TopRow } from "@/components/site/top-row"
 import { PageRail } from "@/components/site/page-rail"
 import { RegistryStyles } from "@/components/site/registry-styles"
-import { Toaster } from "@/registry/0db/ui/toast"
-import { TooltipProvider } from "@/registry/0db/ui/tooltip"
+import { Toaster } from "@/registry/0nlytype/ui/toast"
+import { TooltipProvider } from "@/registry/0nlytype/ui/tooltip"
 import { places, searchGroups } from "@/lib/site/nav"
 import "./globals.css"
 
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <RegistryStyles />
       </head>
       <body>
-        <a className="skip db-link" href="#content">Skip to the content</a>
+        <a className="skip ot-link" href="#content">Skip to the content</a>
         <TooltipProvider>
           <TopRow places={places} groups={searchGroups} />
           {children}

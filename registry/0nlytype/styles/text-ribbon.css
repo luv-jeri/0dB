@@ -1,0 +1,62 @@
+@layer components {
+  /* ── ot-ribbon ── a phrase laid along a curve by pretext, repeated round with a dot between each time. Each letter is placed
+     by the hook (translate, rotate, scale) and carries --d, its distance from the middle of the curve, 0 to 1; the colour and
+     the fade follow it here. The idle drift yields to the hand; pause, hover and focus hold the phrase in place. */
+  .ot-ribbon { container-type: inline-size; min-width: 0; }
+  .ot-ribbon-stage {
+    position: relative; overflow: clip; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab;
+    /* The arch's height, reserved before it's laid, so nothing moves: its rise over the chord, plus a line above and below. */
+    block-size: calc(0.2331 * (100cqi - 1.5em) + 2.4em);
+    color: var(--ot-ink); line-height: 1; white-space: nowrap;
+  }
+  .ot-ribbon[data-held] .ot-ribbon-stage { cursor: grabbing; }
+  .ot-ribbon-stage:focus-visible { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: var(--ot-space-2); }
+  .ot-ribbon-plain { position: absolute; inset-inline: 0; top: 0.4em; text-align: center; }
+  .ot-ribbon[data-laid] .ot-ribbon-plain { visibility: hidden; }
+  .ot-ribbon-guide { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
+  .ot-ribbon-guide path { fill: none; stroke: var(--ot-rule); stroke-width: var(--ot-hairline); vector-effect: non-scaling-stroke; }
+  .ot-ribbon-letters > span {
+    position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform;
+    /* WOVE: ink at the crest, falling to pencil by distance, and gone at the very ends. */
+    color: color-mix(in oklab, var(--ot-ink) calc((1 - var(--d, 0)) * 100%), var(--ot-pencil));
+    opacity: calc(1 - max(0, var(--d, 0) - 0.72) / 0.28);
+  }
+  /* The dots between the phrases ride on the guide, in pencil, as WOVE's dots stand on its arc. */
+  .ot-ribbon-letters > .ot-ribbon-dot { inline-size: 0.16em; block-size: 0.16em; border-radius: 50%; background: var(--ot-pencil); }
+  /* The crest: one ink dot on the guide where the phrase stands tallest, the "here" of WOVE's dial. Focus inks it in the accent. */
+  .ot-ribbon[data-laid]:not([data-variant]) .ot-ribbon-stage::after {
+    content: ""; position: absolute; left: calc(50% - 0.11em); top: calc(1.75em - 0.11em); inline-size: 0.22em; block-size: 0.22em; border-radius: 50%;
+    background: var(--ot-ink); pointer-events: none;
+  }
+  .ot-ribbon-stage:focus-visible::after { background: var(--ot-accent); }
+
+  /* wave: the phrase rides a slow wave across the measure, like the script that sweeps through the capitals of
+     "Less stress. More creativity."; every letter the same size, fading in and out at the edges only. */
+  .ot-ribbon[data-variant="wave"] .ot-ribbon-stage { block-size: 3.4em; }
+  .ot-ribbon[data-variant="wave"] .ot-ribbon-letters > span { color: var(--ot-ink); opacity: calc(1 - max(0, var(--d, 0) - 0.8) / 0.2); }
+  .ot-ribbon[data-variant="wave"] .ot-ribbon-letters > .ot-ribbon-dot { background: var(--ot-pencil); }
+  @media (forced-colors: active) {
+    .ot-ribbon-letters > span { color: CanvasText; }
+    .ot-ribbon-letters > .ot-ribbon-dot, .ot-ribbon-stage::after { background: CanvasText; forced-color-adjust: none; }
+    .ot-ribbon-guide path { stroke: GrayText; }
+  }
+  /* The same small word beneath each autoplaying phrase; the parentheses are its only frame. */
+  .ot-ribbon-pause {
+    display: block; justify-self: start; appearance: none; border: 0; background: none; margin: 0; margin-block-start: var(--ot-space-3); padding: var(--ot-space-1) 0;
+    min-block-size: var(--ot-space-5); color: var(--ot-pencil); font: 400 var(--ot-pp) / var(--ot-pp-lh) var(--ot-voice); letter-spacing: 0; text-transform: none; cursor: pointer;
+  }
+  .ot-ribbon-pause::before { content: "( "; }
+  .ot-ribbon-pause::after { content: " )"; }
+  .ot-ribbon-pause:hover { color: var(--ot-ink); }
+  .ot-ribbon-pause:focus-visible { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: var(--ot-space-1); }
+  .ot-ribbon-pause:disabled { color: var(--ot-pencil); cursor: not-allowed; }
+  .ot-ribbon[data-force~="reduced"] .ot-ribbon-pause { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .ot-ribbon-pause { display: none; }
+  }
+  @media (forced-colors: active) {
+    .ot-ribbon-pause { color: ButtonText; }
+    .ot-ribbon-pause:focus-visible { outline-color: Highlight; }
+  }
+
+}

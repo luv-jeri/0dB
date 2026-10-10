@@ -1,9 +1,9 @@
 import type { CSSProperties, ReactNode } from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@/registry/0db/ui/drawer"
-import { Fraction } from "@/registry/0db/ui/fraction"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Checkbox, CheckboxGroup } from "@/registry/0nlytype/ui/checkbox"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@/registry/0nlytype/ui/drawer"
+import { Fraction } from "@/registry/0nlytype/ui/fraction"
 import { State } from "@/components/site/state"
 
 const notes = [
@@ -83,22 +83,22 @@ function Still({ variant, style, share, children }: { variant?: string; style?: 
   return (
     <dialog
       open
-      className="db-drawer"
+      className="ot-drawer"
       data-variant={variant}
       style={{ position: "relative", inset: "auto", translate: "none", width: "min(22rem, 100%)", maxHeight: "none", height: "auto", boxShadow: "none", transition: "none", ...style }}
     >
-      <span className="db-drawer-handle" aria-hidden="true" style={{ width: "fit-content" }}>
+      <span className="ot-drawer-handle" aria-hidden="true" style={{ width: "fit-content" }}>
         <svg viewBox="0 0 40 22">
           <path d="M3 20 A17 17 0 0 1 37 20" />
           <circle cx="20" cy="17" r="2.6" />
         </svg>
       </span>
       {share && (
-        <span className="db-drawer-share" aria-hidden="true">
+        <span className="ot-drawer-share" aria-hidden="true">
           <Fraction count={share} total={3} />
         </span>
       )}
-      <div className="db-drawer-body">{children}</div>
+      <div className="ot-drawer-body">{children}</div>
     </dialog>
   )
 }
@@ -107,19 +107,19 @@ export function States() {
   return (
     <>
       <State label="Open">
-        <Still><p className="db-drawer-title">Filter the work</p><Button variant="statement">Show 7 projects</Button></Still>
+        <Still><p className="ot-drawer-title">Filter the work</p><Button variant="statement">Show 7 projects</Button></Still>
       </State>
       <State label="thirds, at two thirds">
-        <Still variant="thirds" share={2}><p className="db-drawer-title">Notes</p><p>Keep the flag. Lose the anchor.</p></Still>
+        <Still variant="thirds" share={2}><p className="ot-drawer-title">Notes</p><p>Keep the flag. Lose the anchor.</p></Still>
       </State>
       <State label="solid, at rest">
-        <Still variant="solid"><p className="db-drawer-title">Sort the work</p><p>By year</p><Button variant="statement">Sort</Button></Still>
+        <Still variant="solid"><p className="ot-drawer-title">Sort the work</p><p>By year</p><Button variant="statement">Sort</Button></Still>
       </State>
       <State label="solid, pulled halfway">
-        <Still variant="solid" style={{ "--solid": 0.5 } as CSSProperties}><p className="db-drawer-title">Sort the work</p><p>By year</p><Button variant="statement">Sort</Button></Still>
+        <Still variant="solid" style={{ "--solid": 0.5 } as CSSProperties}><p className="ot-drawer-title">Sort the work</p><p>By year</p><Button variant="statement">Sort</Button></Still>
       </State>
       <State label="solid, set solid">
-        <Still variant="solid" style={{ "--solid": 1 } as CSSProperties}><p className="db-drawer-title">Sort the work</p><p>By year</p><Button variant="statement">Sort</Button></Still>
+        <Still variant="solid" style={{ "--solid": 1 } as CSSProperties}><p className="ot-drawer-title">Sort the work</p><p>By year</p><Button variant="statement">Sort</Button></Still>
       </State>
     </>
   )

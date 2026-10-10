@@ -1,0 +1,69 @@
+@layer components {
+  /* ── ot-attach ── a file: its extension is its picture; a ring counts it in */
+  .ot-attachments { list-style: none; margin: 0; padding: 0; border-top: var(--ot-hairline) solid var(--ot-rule); }
+  .ot-attach { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto auto; align-items: center; column-gap: var(--ot-space-4); padding-block: var(--ot-space-3); border-bottom: var(--ot-hairline) solid var(--ot-rule); }
+  .ot-attach-ext { font-size: var(--ot-mf); line-height: 1; font-weight: 200; font-stretch: 125%; color: var(--ot-ink); text-transform: lowercase; }
+  .ot-attach-body { display: grid; min-width: 0; }
+  .ot-attach-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1.3; color: var(--ot-ink); }
+  .ot-attach-meta { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); font-variant-numeric: tabular-nums; }
+  .ot-attach-ring { width: 22px; height: 22px; overflow: visible; rotate: -90deg; }
+  .ot-attach-ring circle { fill: none; stroke-width: 1.5; }
+  .ot-attach-track { stroke: var(--ot-rule); transition: stroke-opacity var(--ot-moderato) var(--ot-breath) var(--ot-moderato); }
+  .ot-attach-arc { stroke: var(--ot-ink); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p, 0)); transition: stroke-dashoffset var(--ot-moderato) var(--ot-breath), stroke var(--ot-allegro), stroke-opacity var(--ot-moderato) var(--ot-breath) var(--ot-moderato); }
+  .ot-attach-ring .ot-attach-fill { fill: var(--ot-ink); stroke: none; r: 0; transition: r var(--ot-moderato) var(--ot-spiccato) var(--ot-moderato); }
+  .ot-attach[data-state="processing"] .ot-attach-arc { --p: 1; stroke: var(--ot-pencil); }
+  .ot-attach[data-state="done"] .ot-attach-arc { --p: 1; }
+  /* Safe, the ring closes and gives way to a full stop: a ring round a dot would read as a chosen radio. */
+  .ot-attach[data-state="done"] :is(.ot-attach-track, .ot-attach-arc) { stroke-opacity: 0; }
+  .ot-attach[data-state="done"] .ot-attach-fill { r: calc(var(--ot-dot) / 2); }
+  .ot-attach[data-state="error"] .ot-attach-arc { stroke: var(--ot-signal); }
+  .ot-attach[data-state="error"] .ot-attach-meta { color: var(--ot-signal); }
+  .ot-attach > .ot-btn { font-size: var(--ot-pp); }
+  @media (max-width: 30rem) {
+    .ot-attach { grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; }
+    .ot-attach-ext { font-size: var(--ot-mp); }
+    /* Narrow, Remove steps down under the name, so the name keeps the width. */
+    .ot-attach > .ot-btn { grid-column: 2 / -1; justify-self: start; }
+  }
+
+  /* ── reverse ── after "the uncreative": the extension reversed out of an ink block. The block prints across the
+     letters as the file arrives (--p), so each letter turns from ink on paper to paper on ink. Checking, the block
+     is pencil; safe, it is ink; failed, it stops in crimson where the connection dropped. */
+  .ot-attachments[data-variant="reverse"] .ot-attach { grid-template-columns: 4.5rem minmax(0, 1fr) auto; }
+  .ot-attachments[data-variant="reverse"] .ot-attach-ring { display: none; }
+  .ot-attachments[data-variant="reverse"] .ot-attach-ext {
+    position: relative; justify-self: start; padding: 0.06em 0.12em 0.12em;
+    font-weight: 700; font-stretch: 100%; letter-spacing: -0.04em;
+  }
+  .ot-attachments[data-variant="reverse"] .ot-attach-ext::after {
+    content: attr(data-ext) / ""; position: absolute; inset: 0; padding: inherit; background: var(--ot-ink); color: var(--ot-paper);
+    clip-path: inset(0 calc((1 - var(--p, 0)) * 100%) 0 0); transition: clip-path var(--ot-moderato) var(--ot-breath), background-color var(--ot-moderato);
+  }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-attachments[data-variant="reverse"] .ot-attach-ext::after { clip-path: inset(0 0 0 calc((1 - var(--p, 0)) * 100%)); }
+  .ot-attachments[data-variant="reverse"] .ot-attach:is([data-state="processing"], [data-state="done"]) { --p: 1; }
+  .ot-attachments[data-variant="reverse"] .ot-attach[data-state="processing"] .ot-attach-ext::after { background: var(--ot-pencil); }
+  .ot-attachments[data-variant="reverse"] .ot-attach[data-state="error"] .ot-attach-ext::after { background: var(--ot-signal); }
+  @media (max-width: 30rem) {
+    .ot-attachments[data-variant="reverse"] .ot-attach { grid-template-columns: 3.4rem minmax(0, 1fr); }
+  }
+  @media (forced-colors: active) {
+    .ot-attachments[data-variant="reverse"] .ot-attach-ext::after { forced-color-adjust: none; background: CanvasText; color: Canvas; }
+  }
+
+  /* ── enclosure ── the letter's enclosure line: "Encl. (2)", then each file run on in one sentence, the name yours in
+     italic and its size in parentheses, a semicolon between and a full stop at the end. The ring stays only while a
+     file is on its way. */
+  .ot-attachments[data-variant="enclosure"] { border-top: 0; font-size: var(--ot-p); line-height: var(--ot-p-lh); color: var(--ot-pencil); }
+  .ot-attachments[data-variant="enclosure"]::before { content: attr(data-enclosure-label) "\00a0(" attr(data-count) ")\00a0\00a0" / ""; color: var(--ot-graphite); }
+  .ot-attachments[data-variant="enclosure"] > .ot-attach { display: inline; padding: 0; border: 0; }
+  .ot-attachments[data-variant="enclosure"] > .ot-attach:not(:last-child)::after { content: ";" / ""; margin-inline-end: 0.3em; }
+  .ot-attachments[data-variant="enclosure"] > .ot-attach:last-child::after { content: "." / ""; }
+  .ot-attachments[data-variant="enclosure"] :is(.ot-attach-ext, .ot-attach[data-state="done"] .ot-attach-ring) { display: none; }
+  .ot-attachments[data-variant="enclosure"] :is(.ot-attach-body, .ot-attach-name, .ot-attach-meta) { display: inline; font-size: inherit; line-height: inherit; }
+  .ot-attachments[data-variant="enclosure"] .ot-attach-name { white-space: normal; overflow-wrap: anywhere; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; }
+  .ot-attachments[data-variant="enclosure"] .ot-attach-meta { white-space: normal; overflow-wrap: anywhere; }
+  .ot-attachments[data-variant="enclosure"] .ot-attach-meta::before { content: "(" / ""; }
+  .ot-attachments[data-variant="enclosure"] .ot-attach-meta::after { content: ")" / ""; }
+  .ot-attachments[data-variant="enclosure"] .ot-attach-ring { display: inline; width: 0.7em; height: 0.7em; margin-inline-start: 0.35em; vertical-align: -0.05em; }
+  .ot-attachments[data-variant="enclosure"] .ot-attach > .ot-btn { display: inline-flex; margin-inline-start: 0.35em; vertical-align: baseline; }
+}

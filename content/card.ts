@@ -4,7 +4,7 @@ export default defineComponent({
   name: "card",
   title: "Card",
   movement: "IX",
-  contract: "db-card",
+  contract: "ot-card",
   summary: "A column under a rule, not a box. Point at it and an ink stroke passes along the rule.",
   underneath: "native",
   props: [

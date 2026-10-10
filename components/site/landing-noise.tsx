@@ -144,7 +144,7 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
         R = Math.max(64, Math.min(150, W * 0.07))
         if (!held) rNow = rWant = R
         ink = getComputedStyle(canvas!).color
-        const voice = getComputedStyle(document.documentElement).getPropertyValue("--db-voice").trim() || "sans-serif"
+        const voice = getComputedStyle(document.documentElement).getPropertyValue("--ot-voice").trim() || "sans-serif"
         const next = `400 ${size}px ${voice}`
         if (next !== font || prepFor !== material) {
           font = next

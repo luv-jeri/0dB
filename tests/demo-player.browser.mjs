@@ -40,7 +40,7 @@ const AUTOPLAY_ALLOWED = {
   "marquee": { reason: "owner-approved drift with its own pause control; not scripted, so never reached" },
   "text-ribbon": { reason: "owner-approved drift with its own pause control; not scripted, so never reached" },
   "word-relay": { reason: "owner-approved relay that advances by itself until paused (2026-10-01)" },
-  "resizable": { reason: "fit titles re-measure and re-set their own width when the page scrolls or resizes; layout only, nothing is performed", ignore: ".db-resize-title" },
+  "resizable": { reason: "fit titles re-measure and re-set their own width when the page scrolls or resizes; layout only, nothing is performed", ignore: ".ot-resize-title" },
 }
 
 /** Runs in the page before any of its scripts. Records, never judges. */
@@ -77,6 +77,9 @@ function watchAutoplay({ root: rootSelector, ignore }) {
     addEventListener(type, (event) => {
       const target = event.target
       if (target && target.closest && target.closest("[data-demo-control]")) return
+      // Only the example's own events count, as with DOM changes. Chromium sends its own untrusted hover updates
+      // to whatever sits under a still cursor when the layout shifts (the site header, at load), which is not a demo.
+      if (!event.isTrusted && !document.querySelector(rootSelector)?.contains(target)) return
       const entry = { at: performance.now(), type, target: target && target.nodeType === 1 ? label(target) : String(target) }
       if (event.isTrusted) w.trusted.push({ ...entry, node: target })
       else w.synthetic.push(entry)
@@ -293,6 +296,7 @@ async function selfTest(browser) {
     "synthetic key": { script: "setTimeout(() => document.getElementById('i').dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true })), 300)" },
     "late, only after the first second": { script: "setTimeout(() => { document.getElementById('t').textContent = '2' }, 1300)" },
     "on a repeating timer": { script: "setInterval(() => { document.getElementById('t').textContent = String(Math.random()) }, 400)" },
+    "synthetic hover outside the example": { script: "setTimeout(() => document.body.dispatchEvent(new MouseEvent('mouseover', { bubbles: true })), 300)", quiet: true },
     "starts when scrolled into view": { script: "new IntersectionObserver((e) => { if (e[0].isIntersecting) document.getElementById('t').textContent = 'seen' }).observe(document.getElementById('r'))" },
   }
   const html = (script, cover) => `<!doctype html><title>fixture</title><body style="margin:0"><div id="r" data-demo-item="fixture" style="padding:40px"><span id="t">0</span> <button id="b">Do</button> <input id="i"></div>${cover ? '<div style="position:fixed;inset:0"></div>' : ""}<script>${script}</script></body>`
@@ -380,7 +384,7 @@ await context.close()
 // The landing's stage.
 if (!only) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
-  await ctx.addInitScript((key) => { try { localStorage.setItem(key, "1") } catch {} }, "0db-overture-seen")
+  await ctx.addInitScript((key) => { try { localStorage.setItem(key, "1") } catch {} }, "0nlytype-overture-seen")
   const page = await ctx.newPage()
   await page.addInitScript(watchAutoplay, { root: ".pieces-preview", ignore: null })
   try {

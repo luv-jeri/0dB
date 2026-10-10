@@ -4,7 +4,7 @@ export default defineComponent({
   name: "number-input",
   title: "Number input",
   movement: "VI",
-  contract: "db-number",
+  contract: "ot-number",
   summary: "A number on a baseline, yours in italic and formatted; less and more step it, and each step turns the changed figures over like a counter. Or it stands over a small ruler you can drag.",
   underneath: "hook",
   props: [

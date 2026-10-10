@@ -1,0 +1,42 @@
+@layer components {
+  /* ── ot-gather ── a line whose letters start as dust (or the forme, or a coil) and settle into place. Pretext puts each
+     letter where the real text would have it; the last to land gives the real text back. Until
+     script runs, or under reduced motion, it's just the line. */
+  .ot-gather { position: relative; margin: 0; }
+  .ot-gather[data-slot="gather"] { text-wrap: wrap; } /* pretext breaks greedily: it wraps so, even where a parent balances its headings (prose) */
+  .ot-gather[data-phase] > .ot-gather-text { opacity: 0; } /* still there for readers, and it holds the height */
+  .ot-gather-glyphs { position: absolute; inset: 0; pointer-events: none; user-select: none; }
+  .ot-gather-glyphs > span {
+    position: absolute; white-space: pre; opacity: 1; translate: 0 0; rotate: 0rad; scale: 1;
+    transition-property: translate, rotate, scale, opacity, color; transition-duration: var(--ot-andante); transition-timing-function: var(--ot-exhale);
+    transition-delay: min(calc(var(--n) * var(--step, var(--ot-arpeggio))), 1s); /* a long line arrives in a second, not a minute */
+  }
+  /* A word is set down a few letters' time after the last; a line, as long again (the compositor's pace, not the reader's). */
+  .ot-gather[data-by="word"] { --step: calc(4 * var(--ot-arpeggio)); }
+  .ot-gather[data-by="line"] { --step: calc(8 * var(--ot-arpeggio)); }
+  .ot-gather[data-phase="dust"] .ot-gather-glyphs > span {
+    opacity: 0.18; /* pp: the quietest a thing can be and still be seen */
+    translate: var(--dx) var(--dy);
+  }
+  /* forme: the line as type stands in the chase before it is printed, mirrored and not yet inked. Each letter turns
+     over as it crosses to its place, and inks as it lands. */
+  .ot-gather[data-variant="forme"][data-phase="dust"] .ot-gather-glyphs > span { opacity: 1; color: var(--ot-pencil); scale: var(--sx) 1; }
+  /* coil: the line wound up at its start like a ribbon, outermost turn first; it unwinds from its free end. */
+  .ot-gather[data-variant="coil"][data-phase="dust"] .ot-gather-glyphs > span { opacity: 0.5; rotate: var(--r); }
+
+  /* scrub: the settle follows the scroll. --p (0 to 1) is how far the line has risen through the view; each piece
+     sets off when --p passes its place in the order (--s, 0 to 1) and lands 0.4 of the scroll later. Nothing
+     eases or lingers: when the scroll stops, so do the letters, and scrolling back scatters them again. */
+  .ot-gather[data-phase="scrub"] .ot-gather-glyphs > span {
+    --q: clamp(0, calc((var(--p) - var(--s) * 0.6) / 0.4), 1);
+    transition: none;
+    translate: calc(var(--dx) * (1 - var(--q))) calc(var(--dy) * (1 - var(--q)));
+    opacity: calc(0.18 + 0.82 * var(--q));
+  }
+  .ot-gather[data-variant="forme"][data-phase="scrub"] .ot-gather-glyphs > span {
+    opacity: 1; scale: calc(var(--sx) + (1 - var(--sx)) * var(--q)) 1;
+    color: color-mix(in oklab, currentColor calc(var(--q) * 100%), var(--ot-pencil));
+  }
+  .ot-gather[data-variant="coil"][data-phase="scrub"] .ot-gather-glyphs > span { opacity: calc(0.5 + 0.5 * var(--q)); rotate: calc(var(--r) * (1 - var(--q))); }
+  .ot-gather:not([data-phase]) > .ot-gather-glyphs { visibility: hidden; } /* a scrub that has arrived keeps its letters, out of sight, for the way back */
+}

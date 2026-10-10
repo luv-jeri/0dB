@@ -4,7 +4,7 @@ export default defineComponent({
   name: "skeleton",
   title: "Skeleton",
   movement: "VII",
-  contract: "db-skeleton",
+  contract: "ot-skeleton",
   summary: "Where the words will be: their baselines, the guides a letterer rules for them, or their rhythm. Still until something is loading, and still when motion is off.",
   underneath: "native",
   props: [

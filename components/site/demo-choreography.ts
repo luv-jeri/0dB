@@ -21,8 +21,8 @@ export function tempo(root: HTMLElement): Tempo {
     // Reduced motion collapses the CSS tokens; reading time must not collapse too.
     return n > 1 ? n : fallback
   }
-  const moderato = ms("--db-moderato", 320), andante = ms("--db-andante", 640)
-  return { moderato, andante, breath: Math.max(ms("--db-adagio", 1400), 2 * andante), reduced: matchMedia("(prefers-reduced-motion: reduce)").matches }
+  const moderato = ms("--ot-moderato", 320), andante = ms("--ot-andante", 640)
+  return { moderato, andante, breath: Math.max(ms("--ot-adagio", 1400), 2 * andante), reduced: matchMedia("(prefers-reduced-motion: reduce)").matches }
 }
 
 function textFor(el: HTMLInputElement | HTMLTextAreaElement, item: string, i: number) {
@@ -45,8 +45,8 @@ export function compose(root: HTMLElement, item: string, c: Conductor): Lane[] {
   const clocks = all(root, "[data-demo-clock]")
   if (clocks.length && item !== "tiling") return clocks.map((el) => ({ steps: [1, 2].map((step) => () => { el.dispatchEvent(new CustomEvent("preview-step", { detail: step })) }), restore: () => { el.dispatchEvent(new CustomEvent("preview-step", { detail: 0 })) } }))
   const { script } = score
-  if (item === "measure" && all(root, ".db-measure").some((el) => !el.querySelector(".db-measure-lines"))) return []
-  if (item === "melody" && all(root, ".db-melody").some((el) => !el.querySelector(".db-melody-note"))) return []
+  if (item === "measure" && all(root, ".ot-measure").some((el) => !el.querySelector(".ot-measure-lines"))) return []
+  if (item === "melody" && all(root, ".ot-melody").some((el) => !el.querySelector(".ot-melody-note"))) return []
   const click = (el: HTMLElement) => () => { el.click() }
   const grouped = (selector: string, parent: string) => {
     const groups = new Map<Element, HTMLElement[]>()
@@ -82,8 +82,8 @@ export function compose(root: HTMLElement, item: string, c: Conductor): Lane[] {
     return lanes
   }
   if (script === "check" || script === "choice" || script === "switch" || script === "toggle" || script === "tabs") {
-    const selector = script === "check" ? 'input[type=checkbox]' : script === "choice" ? 'input[type=radio]' : script === "switch" ? 'input[type=checkbox], [role=switch]' : script === "tabs" ? '[role=tab]' : '[aria-pressed], .db-toggles [role=radio]'
-    return grouped(selector, 'fieldset, [role=tablist], .db-toggles, .db-reactions').map((els) => {
+    const selector = script === "check" ? 'input[type=checkbox]' : script === "choice" ? 'input[type=radio]' : script === "switch" ? 'input[type=checkbox], [role=switch]' : script === "tabs" ? '[role=tab]' : '[aria-pressed], .ot-toggles [role=radio]'
+    return grouped(selector, 'fieldset, [role=tablist], .ot-toggles, .ot-reactions').map((els) => {
       const selected = (el: HTMLElement) => (el instanceof HTMLInputElement && el.checked) || el.getAttribute("aria-selected") === "true" || el.getAttribute("aria-pressed") === "true" || el.getAttribute("aria-checked") === "true"
       const initial = els.filter(selected)
       const targets = els.filter((el) => !selected(el)).slice(0, 2)
@@ -98,37 +98,37 @@ export function compose(root: HTMLElement, item: string, c: Conductor): Lane[] {
       } }
     })
   }
-  if (script === "accordion") return all(root, ".db-accordion").map((group) => {
+  if (script === "accordion") return all(root, ".ot-accordion").map((group) => {
     const ds = all<HTMLDetailsElement>(group, ":scope > details"), initial = ds.map((d) => d.open)
     return { steps: [1, 2].map((n) => () => { ds.forEach((d, i) => { d.open = i === n % ds.length }) }), restore: () => ds.forEach((d, i) => { d.open = initial[i] }) }
   })
-  if (script === "details" || script === "tree") return all<HTMLDetailsElement>(root, script === "tree" ? '.db-tree > .db-tree-list > li > details' : "details.db-collapse").map((el) => {
+  if (script === "details" || script === "tree") return all<HTMLDetailsElement>(root, script === "tree" ? '.ot-tree > .ot-tree-list > li > details' : "details.ot-collapse").map((el) => {
     const initial = el.open
     return { steps: [() => { el.open = !initial }], restore: () => { el.open = initial } }
   })
-  if (script === "calendar") return all(root, ".db-month").map((el) => ({ steps: all(el, '.db-month-day:not([aria-pressed=true])').slice(-3, -1).map(click) }))
-  if (script === "drop") return all<HTMLInputElement>(root, '.db-drop input[type=file]').map((el) => ({ steps: [() => {
+  if (script === "calendar") return all(root, ".ot-month").map((el) => ({ steps: all(el, '.ot-month-day:not([aria-pressed=true])').slice(-3, -1).map(click) }))
+  if (script === "drop") return all<HTMLInputElement>(root, '.ot-drop input[type=file]').map((el) => ({ steps: [() => {
     const data = new DataTransfer()
     data.items.add(new File(['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text y="30">Halden</text></svg>'], "Halden mark.svg", { type: "image/svg+xml", lastModified: 0 }))
     el.files = data.files
     el.dispatchEvent(new Event("change", { bubbles: true }))
   }] }))
   if (["chart", "radial", "pie", "radar"].includes(script)) {
-    const selector = script === "chart" ? ".db-chart" : script === "radial" ? ".db-radial" : script === "pie" ? ".db-pie" : ".db-radar"
-    const targets = script === "chart" ? '[data-slot=chart-bar]' : script === "radial" ? ".db-radial-key button" : script === "pie" ? ".db-pie-key button" : ".db-radar-axis"
+    const selector = script === "chart" ? ".ot-chart" : script === "radial" ? ".ot-radial" : script === "pie" ? ".ot-pie" : ".ot-radar"
+    const targets = script === "chart" ? '[data-slot=chart-bar]' : script === "radial" ? ".ot-radial-key button" : script === "pie" ? ".ot-pie-key button" : ".ot-radar-axis"
     return all(root, selector).map((el) => {
       const picks = all(el, targets), take = [picks[1] ?? picks[0], picks[Math.min(3, picks.length - 1)]].filter(Boolean)
       return { steps: take.map((t) => () => point(t, true)), restore: () => take.forEach((t) => point(t, false)) }
     })
   }
-  if (script === "resize" || script === "measure") return all(root, script === "resize" ? ".db-resize-handle" : ".db-measure:has(.db-measure-lines) .db-measure-handle").map((el) => ({ steps: [() => key(el, "ArrowLeft"), () => key(el, "ArrowLeft")], restore: () => { key(el, "ArrowRight"); key(el, "ArrowRight") } }))
-  if (script === "scroll") return all(root, script === "scroll" && item === "scroll-area" ? ".db-scroll" : '[role=region]').filter((el) => el.scrollHeight > el.clientHeight + 4 || el.scrollWidth > el.clientWidth + 4).map((el) => {
+  if (script === "resize" || script === "measure") return all(root, script === "resize" ? ".ot-resize-handle" : ".ot-measure:has(.ot-measure-lines) .ot-measure-handle").map((el) => ({ steps: [() => key(el, "ArrowLeft"), () => key(el, "ArrowLeft")], restore: () => { key(el, "ArrowRight"); key(el, "ArrowRight") } }))
+  if (script === "scroll") return all(root, script === "scroll" && item === "scroll-area" ? ".ot-scroll" : '[role=region]').filter((el) => el.scrollHeight > el.clientHeight + 4 || el.scrollWidth > el.clientWidth + 4).map((el) => {
     const top = el.scrollTop, left = el.scrollLeft
     return { steps: [() => c.move((p) => el.scrollTo({ top: top + Math.min(el.clientHeight * 0.65, el.scrollHeight - el.clientHeight) * p, left: left + Math.min(el.clientWidth * 0.5, el.scrollWidth - el.clientWidth) * p, behavior: "instant" }))], restore: () => { const y = el.scrollTop, x = el.scrollLeft; return c.move((p) => el.scrollTo({ top: y + (top - y) * p, left: x + (left - x) * p, behavior: "instant" })) } }
   })
-  if (script === "carousel") return all(root, ".db-carousel").map((el) => {
+  if (script === "carousel") return all(root, ".ot-carousel").map((el) => {
     if (el.dataset.variant === "shelf") return { steps: [() => el.querySelector<HTMLButtonElement>('[data-slot=carousel-next]')?.click()], restore: () => el.querySelector<HTMLButtonElement>('[data-slot=carousel-previous]')?.click() }
-    const track = el.querySelector<HTMLElement>(".db-carousel-track")!, initial = track.scrollLeft
+    const track = el.querySelector<HTMLElement>(".ot-carousel-track")!, initial = track.scrollLeft
     const travel = async (to: number) => {
       const from = track.scrollLeft, snap = track.style.scrollSnapType
       track.style.scrollSnapType = "none"
@@ -143,19 +143,19 @@ export function compose(root: HTMLElement, item: string, c: Conductor): Lane[] {
       return travel(track.scrollLeft + (next.getBoundingClientRect()[side] - track.getBoundingClientRect()[side]) / scale)
     }], restore: () => travel(initial) }
   })
-  if (script === "note") return all(root, '.db-note[data-variant=expand], .db-note[data-variant=revise]').map((el) => ({ steps: [click(el)], restore: () => key(el, "Escape") }))
+  if (script === "note") return all(root, '.ot-note[data-variant=expand], .ot-note[data-variant=revise]').map((el) => ({ steps: [click(el)], restore: () => key(el, "Escape") }))
   if (script === "table") return all(root, "table").map((el) => ({ steps: all(el, "th button").slice(1, 3).map(click) }))
-  if (script === "swapy" || script === "tiling") return all(root, script === "swapy" ? ".db-swap" : ".db-tiling-editor").slice(0, clocks.length ? 1 : undefined).map((el) => {
-    const handle = el.querySelector<HTMLElement>(script === "swapy" ? ".db-swap-move" : '.db-tile[tabindex]')
+  if (script === "swapy" || script === "tiling") return all(root, script === "swapy" ? ".ot-swap" : ".ot-tiling-editor").slice(0, clocks.length ? 1 : undefined).map((el) => {
+    const handle = el.querySelector<HTMLElement>(script === "swapy" ? ".ot-swap-move" : '.ot-tile[tabindex]')
     return { steps: handle ? [() => { if (script === "swapy") handle.click(); else key(handle, " ") }, () => key(handle, script === "swapy" ? "ArrowDown" : "ArrowRight"), () => { if (script === "swapy") handle.click(); else key(handle, " ") }] : [] }
   })
-  if (script === "relay") return all(root, ".db-relay").map((el) => ({ steps: [() => key(el, "ArrowRight"), () => key(el, "ArrowRight")], restore: () => key(el, "Home") }))
-  if (script === "melody") return all(root, ".db-melody").filter((el) => el.querySelector(".db-melody-note")).map((el) => ({ steps: [() => key(el, "Enter"), () => key(el, "Home")] }))
-  if (script === "wake") return all(root, ".db-wake").map((el) => ({ steps: [() => c.move((p) => {
+  if (script === "relay") return all(root, ".ot-relay").map((el) => ({ steps: [() => key(el, "ArrowRight"), () => key(el, "ArrowRight")], restore: () => key(el, "Home") }))
+  if (script === "melody") return all(root, ".ot-melody").filter((el) => el.querySelector(".ot-melody-note")).map((el) => ({ steps: [() => key(el, "Enter"), () => key(el, "Home")] }))
+  if (script === "wake") return all(root, ".ot-wake").map((el) => ({ steps: [() => c.move((p) => {
     const b = el.getBoundingClientRect()
     el.dispatchEvent(new PointerEvent("pointermove", { clientX: b.left + b.width * (0.3 + p * 0.35), clientY: b.top + b.height * 0.45, pointerType: "mouse" }))
   })], restore: () => { el.dispatchEvent(new PointerEvent("pointerleave", { pointerType: "mouse" })) } }))
-  if (script === "timer") return all(root, ".db-timer").map((el) => ({ steps: [() => all(el, "button").find((b) => b.textContent?.trim() === "Start")?.click(), () => all(el, "button").find((b) => b.textContent?.trim() === "Pause")?.click()], restore: () => all(el, "button").find((b) => b.textContent?.trim() === "Pause")?.click() }))
+  if (script === "timer") return all(root, ".ot-timer").map((el) => ({ steps: [() => all(el, "button").find((b) => b.textContent?.trim() === "Start")?.click(), () => all(el, "button").find((b) => b.textContent?.trim() === "Pause")?.click()], restore: () => all(el, "button").find((b) => b.textContent?.trim() === "Pause")?.click() }))
   if (script === "action") {
     const actions: Record<string, RegExp> = { "agent-state": /^Next state$/, "attachment": /^Send the next part$/, "fraction": /^Do one$/, "marker": /^Draw them again$/, "segue": /^Next scene$/, "steps": /^Next step$/, "thread": /^Ask Ada for an update$/ }
     const pattern = actions[item]

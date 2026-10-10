@@ -1,5 +1,5 @@
 import { registryURL } from "@/lib/site/config.mjs"
-import { Source } from "@/registry/0db/ui/source"
+import { Source } from "@/registry/0nlytype/ui/source"
 import { State } from "@/components/site/state"
 
 const code = `import { Button } from "@/components/ui/button"
@@ -33,15 +33,15 @@ export default function Example() {
     <div className="grid gap-y-16">
       <Source title="actions.tsx" code={code} />
       <div className="grid gap-y-4">
-        <span className="db-label">gloss</span>
+        <span className="ot-label">gloss</span>
         <Source variant="gloss" title="post.tsx" code={glossed} />
       </div>
       <div className="grid gap-y-4">
-        <span className="db-label">passage</span>
+        <span className="ot-label">passage</span>
         <Source variant="passage" passage={[3, 5]} title="theme.tsx" code={theme} />
       </div>
       <div className="grid gap-y-4">
-        <span className="db-label">unwrapped, with its language</span>
+        <span className="ot-label">unwrapped, with its language</span>
         <Source wrap={false} language="ts" code={install} />
       </div>
     </div>

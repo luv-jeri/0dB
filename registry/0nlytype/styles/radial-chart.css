@@ -1,0 +1,87 @@
+@layer components {
+  /* ── ot-ring ── one hairline ring with an arc inked on it and a dot at one end. The calendar's vocabulary: a pencil
+     ring for what's to come, ink for what was had. Both strokes are inset box-shadows cut by a conic mask (as the dot
+     calendar sweeps its days), so they stay one hairline and one stroke at any size. The parent sets the span of a turn
+     (--ot-ring-sweep, 1) and where it starts (--ot-ring-start, 0deg is the top, clockwise); --ot-ring-inset steps a
+     ring in, --ot-ring-ink, --ot-ring-track and --ot-ring-head colour it. The timer and the pie chart stand on it. */
+  @property --ot-ring-p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  @property --ot-ring-from { syntax: "<number>"; inherits: true; initial-value: 0; }
+  .ot-ring {
+    --ot-ring-p: 0; --ot-ring-from: 0;
+    position: absolute; inset: var(--ot-ring-inset, 0); border-radius: 50%; pointer-events: none;
+    transition: --ot-ring-p var(--ot-andante) var(--ot-exhale), --ot-ring-from var(--ot-andante) var(--ot-exhale);
+  }
+  .ot-ring::before, .ot-ring::after { content: ""; position: absolute; inset: 0; border-radius: 50%; }
+  .ot-ring::before {
+    box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-ring-track, var(--ot-rule-strong));
+    mask: conic-gradient(from var(--ot-ring-start, 0deg), #000 calc(var(--ot-ring-sweep, 1) * 1turn), #0000 0);
+  }
+  .ot-ring::after {
+    box-shadow: inset 0 0 0 var(--ot-stroke) var(--ot-ring-ink, var(--ot-ink));
+    mask: conic-gradient(from calc(var(--ot-ring-start, 0deg) + var(--ot-ring-from) * var(--ot-ring-sweep, 1) * 1turn), #000 calc(var(--ot-ring-p) * var(--ot-ring-sweep, 1) * 1turn), #0000 0);
+    transition: box-shadow var(--ot-allegro) var(--ot-exhale);
+  }
+  /* The dot rides the arc's end, its centre on the stroke's centre line. */
+  .ot-ring-head { position: absolute; top: 0; left: 50%; inline-size: 0; block-size: 50%; transform-origin: 50% 100%; rotate: calc(var(--ot-ring-start, 0deg) + (var(--ot-ring-from) + var(--ot-ring-p)) * var(--ot-ring-sweep, 1) * 1turn); }
+  .ot-ring[data-head="start"] > .ot-ring-head { rotate: calc(var(--ot-ring-start, 0deg) + var(--ot-ring-from) * var(--ot-ring-sweep, 1) * 1turn); }
+  .ot-ring-head::after {
+    content: ""; position: absolute; top: calc(var(--ot-stroke) / 2); left: 50%; inline-size: var(--ot-dot); block-size: var(--ot-dot); border-radius: 50%; translate: -50% -50%;
+    background: var(--ot-ring-head, var(--ot-ink));
+    transition: background-color var(--ot-allegro) var(--ot-exhale), scale var(--ot-moderato) var(--ot-spiccato);
+  }
+  @media (forced-colors: active) {
+    .ot-ring::before { box-shadow: inset 0 0 0 var(--ot-hairline) GrayText; }
+    .ot-ring::after { box-shadow: inset 0 0 0 var(--ot-stroke) CanvasText; }
+    .ot-ring-head::after { background: Highlight; }
+  }
+
+  /* ── ot-radial ── progress against one maximum, from the dot calendar: a hairline ring per series, the arc inked as
+     far as it has got, and one very large number inside it. Pointing at a ring, or its name, inks it and steps the
+     others back to pencil; the number rolls to it and the accent dot moves to its ring. */
+  .ot-radial {
+    --ot-radial-gap: var(--ot-space-4);
+    margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); inline-size: min(100%, var(--ot-radial-size, 20rem)); row-gap: var(--ot-space-5); container-type: inline-size;
+  }
+  .ot-radial-face { grid-area: 1 / 1; position: relative; aspect-ratio: 1; }
+  .ot-radial .ot-ring { --ot-ring-inset: calc(var(--i, 0) * var(--ot-radial-gap)); }
+  .ot-radial .ot-ring[data-shown] { --ot-ring-head: var(--ot-accent); }
+  .ot-radial:is([data-pointed], [data-force~="hover"]) .ot-ring:not([data-shown]) { --ot-ring-ink: var(--ot-rule-strong); --ot-ring-head: var(--ot-rule-strong); --ot-ring-track: var(--ot-rule); }
+  .ot-radial-face { cursor: crosshair; }
+
+  /* The number stands in the middle, as large as the innermost ring allows: SPECTRA's scale against the small print. */
+  .ot-radial-read {
+    grid-area: 1 / 1; place-self: center; display: grid; justify-items: center; row-gap: var(--ot-space-2); max-inline-size: calc(100% - 2 * var(--n, 1) * var(--ot-radial-gap) - var(--ot-space-5));
+    text-align: center; pointer-events: none;
+  }
+  .ot-radial-value {
+    display: inline-block; font-size: clamp(var(--ot-f), calc(34cqi - var(--n, 1) * 3cqi), var(--ot-fff)); line-height: 0.9; letter-spacing: var(--ot-ff-tr); font-weight: 200;
+    color: var(--ot-ink); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap;
+  }
+  .ot-radial-words { display: grid; justify-items: center; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); }
+  .ot-radial-name { font-weight: 500; color: var(--ot-ink); }
+  .ot-radial-of { color: var(--ot-pencil); }
+
+  /* The key names each ring, outermost first. Pointing at a name, or focusing it, inks its ring. */
+  .ot-radial-key { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ot-space-2) var(--ot-space-5); margin: 0; padding: 0; list-style: none; }
+  .ot-radial-key button {
+    appearance: none; border: 0; margin: 0; padding: var(--ot-space-1) 0; background: none; font: inherit; cursor: crosshair;
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil);
+    transition: color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-radial-key-value { color: var(--ot-graphite); font-variant-numeric: tabular-nums; transition: color var(--ot-allegro) var(--ot-exhale); }
+  .ot-radial-key button:is(:hover, :focus-visible, [data-shown]) { color: var(--ot-ink); }
+  .ot-radial-key button:is(:hover, :focus-visible, [data-shown]) .ot-radial-key-value { color: var(--ot-ink); }
+
+  /* horizon: the Eclipse. Half rings stand on a horizon that runs past them, and everything else is said below it:
+     the number sits on the line, its words under the line. Right to left, the arcs rise from the right. */
+  .ot-radial[data-variant="horizon"] { --ot-ring-sweep: 0.5; --ot-ring-start: -90deg; grid-template-rows: auto auto auto; row-gap: 0; padding-inline: var(--ot-space-5); inline-size: min(100%, calc(var(--ot-radial-size, 20rem) + 2 * var(--ot-space-5))); }
+  .ot-radial[data-variant="horizon"] > .ot-radial-face { aspect-ratio: 2; }
+  .ot-radial[data-variant="horizon"] .ot-ring { inset-block-end: auto; aspect-ratio: 1; }
+  .ot-radial[data-variant="horizon"] > .ot-radial-face::after { content: ""; position: absolute; inset-inline: calc(-1 * var(--ot-space-5)); inset-block-end: 0; block-size: var(--ot-hairline); background: var(--ot-rule-strong); }
+  .ot-radial[data-variant="horizon"]:is([dir="rtl"], [dir="rtl"] *) > .ot-radial-face { scale: -1 1; }
+  .ot-radial[data-variant="horizon"] > .ot-radial-read { grid-row: 1 / span 2; place-self: stretch; grid-template-rows: subgrid; max-inline-size: none; row-gap: 0; }
+  .ot-radial[data-variant="horizon"] .ot-radial-value { align-self: end; justify-self: center; font-size: clamp(var(--ot-mf), calc(26cqi - var(--n, 1) * 3cqi), var(--ot-fff)); line-height: 1; text-box: trim-end cap alphabetic; }
+  .ot-radial[data-variant="horizon"] .ot-radial-words { padding-block-start: var(--ot-space-3); }
+  /* No row gap on the horizon: the subgrid would push the number half a gap below the line. The key keeps its distance. */
+  .ot-radial[data-variant="horizon"] > .ot-radial-key { margin-block-start: var(--ot-space-5); }
+}

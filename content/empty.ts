@@ -4,7 +4,7 @@ export default defineComponent({
   name: "empty",
   title: "Empty",
   movement: "VII",
-  contract: "db-empty",
+  contract: "ot-empty",
   summary: "An invitation to act, not an apology: what is missing, and the one thing to do about it. Under half a zero, under the score's tacet, or on a page left blank on purpose.",
   underneath: "native",
   uses: ["button"],

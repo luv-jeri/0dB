@@ -1,23 +1,23 @@
-import { Toggle } from "@/registry/0db/ui/toggle"
+import { Toggle } from "@/registry/0nlytype/ui/toggle"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
-    <div className="db-mp grid justify-items-start gap-x-10 gap-y-12 sm:grid-cols-2">
+    <div className="ot-mp grid justify-items-start gap-x-10 gap-y-12 sm:grid-cols-2">
       <div className="grid justify-items-start gap-4">
-        <span className="db-label">fermata</span>
+        <span className="ot-label">fermata</span>
         <Toggle>Pin this note</Toggle>
       </div>
       <div className="grid justify-items-start gap-4">
-        <span className="db-label">tenuto</span>
+        <span className="ot-label">tenuto</span>
         <Toggle variant="tenuto">Keep a copy</Toggle>
       </div>
       <div className="grid justify-items-start gap-4">
-        <span className="db-label">aside</span>
+        <span className="ot-label">aside</span>
         <Toggle variant="aside" note="muted">Mute replies</Toggle>
       </div>
       <div className="grid justify-items-start gap-4">
-        <span className="db-label">guides</span>
+        <span className="ot-label">guides</span>
         <Toggle variant="guides">Show guides</Toggle>
       </div>
     </div>

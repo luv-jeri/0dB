@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { useAppearance } from "@/registry/0db/ui/appearance"
-import { ModeToggle, type Mode } from "@/registry/0db/ui/mode-toggle"
+import { useAppearance } from "@/registry/0nlytype/ui/appearance"
+import { ModeToggle, type Mode } from "@/registry/0nlytype/ui/mode-toggle"
 import { State } from "@/components/site/state"
 
 // The three switches, each with the scene change it asks the page for.
@@ -20,16 +20,16 @@ export default function Example() {
   const mode: Mode = theme.mode === "nocturne" ? "nocturne" : "day"
   const change = (m: Mode, e: React.MouseEvent<HTMLButtonElement>) => set({ mode: m }, e.currentTarget)
   return (
-    <div className="db-mp grid justify-items-start gap-x-10 gap-y-7 sm:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:self-stretch">
+    <div className="ot-mp grid justify-items-start gap-x-10 gap-y-7 sm:grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] sm:self-stretch">
       {scenes.map(({ variant, scene }) => (
         <div key={variant} className="grid justify-items-start gap-4">
-          <span className="db-label">{variant}, {scene}</span>
+          <span className="ot-label">{variant}, {scene}</span>
           <ModeToggle variant={variant} mode={mode} onModeChange={change} />
         </div>
       ))}
       {variants.map((variant) => (
         <div key={variant} className="grid justify-items-start gap-4">
-          <span className="db-label">{variant}</span>
+          <span className="ot-label">{variant}</span>
           <ModeToggle variant={variant} mode={mode} onModeChange={change} />
         </div>
       ))}

@@ -6,8 +6,8 @@ import { createPortal } from "react-dom"
 import { cropImage, type Crop } from "@/lib/reporting/capture"
 import { type ComponentMatch, type Pin } from "@/lib/reporting/contracts"
 import { structuralPath } from "@/lib/reporting/diagnostics"
-import { Button } from "@/registry/0db/ui/button"
-import { Field, Input } from "@/registry/0db/ui/field"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Field, Input } from "@/registry/0nlytype/ui/field"
 import { FilePreview } from "./media"
 
 export type ReportingItem = ComponentMatch & { contract?: string }
@@ -50,10 +50,10 @@ export function CropEditor({ file, onAccept, onCancel }: { file: File; onAccept:
     const rect = area.current!.getBoundingClientRect()
     return { x: Math.max(0, Math.min(100, (event.clientX - rect.left) / rect.width * 100)), y: Math.max(0, Math.min(100, (event.clientY - rect.top) / rect.height * 100)) }
   }
-  return <section className="db-report-crop" aria-labelledby={id} aria-busy={busy}>
+  return <section className="ot-report-crop" aria-labelledby={id} aria-busy={busy}>
     <h2 ref={heading} id={id} tabIndex={-1}>Keep what matters.</h2>
-    <p className="db-report-note">Review your screenshot. Drag a frame, or set the crop below. Fields and private regions are excluded; check the rest before sharing.</p>
-    <div className="db-report-crop-image" ref={area} onPointerDown={(event) => {
+    <p className="ot-report-note">Review your screenshot. Drag a frame, or set the crop below. Fields and private regions are excluded; check the rest before sharing.</p>
+    <div className="ot-report-crop-image" ref={area} onPointerDown={(event) => {
       if (busy || event.button !== 0) return
       event.preventDefault()
       event.currentTarget.setPointerCapture(event.pointerId)
@@ -65,9 +65,9 @@ export function CropEditor({ file, onAccept, onCancel }: { file: File; onAccept:
       setCrop({ x, y, width: Math.min(100 - x, Math.max(1, Math.abs(end.x - origin.x))), height: Math.min(100 - y, Math.max(1, Math.abs(end.y - origin.y))) })
     }} onPointerUp={() => { start.current = null }} onPointerCancel={() => { start.current = null }}>
       <FilePreview file={file} />
-      <div className="db-report-crop-outline" aria-hidden="true" style={{ left: `${crop.x}%`, top: `${crop.y}%`, width: `${crop.width}%`, height: `${crop.height}%` }} />
+      <div className="ot-report-crop-outline" aria-hidden="true" style={{ left: `${crop.x}%`, top: `${crop.y}%`, width: `${crop.width}%`, height: `${crop.height}%` }} />
     </div>
-    <div className="db-report-crop-fields">{(["x", "y", "width", "height"] as const).map((key) => <Field key={key} label={{ x: "Left %", y: "Top %", width: "Width %", height: "Height %" }[key]}>
+    <div className="ot-report-crop-fields">{(["x", "y", "width", "height"] as const).map((key) => <Field key={key} label={{ x: "Left %", y: "Top %", width: "Width %", height: "Height %" }[key]}>
       <Input type="number" dir="ltr" min={key === "x" || key === "y" ? 0 : 1} max={key === "x" || key === "y" ? 99 : 100} step={1} disabled={busy} value={Math.round(crop[key])} onChange={(event) => {
         const value = Number(event.target.value)
         if (!Number.isFinite(value)) return
@@ -77,9 +77,9 @@ export function CropEditor({ file, onAccept, onCancel }: { file: File; onAccept:
         setCrop(next)
       }} />
     </Field>)}</div>
-    <p className="db-report-note" role="status">Crop: <bdi className="db-report-number">{Math.round(crop.width)} × {Math.round(crop.height)}%</bdi> of the screenshot.</p>
-    {error ? <p role="alert" className="db-report-error">{error}</p> : null}
-    <div className="db-report-actions">
+    <p className="ot-report-note" role="status">Crop: <bdi className="ot-report-number">{Math.round(crop.width)} × {Math.round(crop.height)}%</bdi> of the screenshot.</p>
+    {error ? <p role="alert" className="ot-report-error">{error}</p> : null}
+    <div className="ot-report-actions">
       <Button variant="bracket" disabled={busy} busy={busy && "Cropping"} onClick={async () => {
         setBusy(true); setError("")
         try { await onAccept(await cropImage(file, crop)) }
@@ -94,10 +94,10 @@ export function CropEditor({ file, onAccept, onCancel }: { file: File; onAccept:
 export function ItemSearch({ entries, onSelect }: { entries: ReportingItem[]; onSelect: (item: ReportingItem) => void }) {
   const [query, setQuery] = React.useState("")
   const matches = entries.filter((entry) => `${entry.name} ${entry.title} ${entry.description}`.toLowerCase().includes(query.trim().toLowerCase()))
-  return <div className="db-report-item-search">
+  return <div className="ot-report-item-search">
     <Field label="Search library items" hint="Type a name, then Tab to a result and press Enter."><Input type="search" value={query} onChange={(event) => setQuery(event.target.value)} /></Field>
-    <p className="db-report-note" role="status">{matches.length} {matches.length === 1 ? "item" : "items"}{matches.length > 12 ? "; first 12 shown. Keep typing to narrow the list." : "."}</p>
-    <ul>{matches.slice(0, 12).map((item) => <li key={item.name}><Button variant="quiet" onClick={() => onSelect(item)}>{item.title}</Button><p className="db-report-note">{item.description}</p></li>)}</ul>
+    <p className="ot-report-note" role="status">{matches.length} {matches.length === 1 ? "item" : "items"}{matches.length > 12 ? "; first 12 shown. Keep typing to narrow the list." : "."}</p>
+    <ul>{matches.slice(0, 12).map((item) => <li key={item.name}><Button variant="quiet" onClick={() => onSelect(item)}>{item.title}</Button><p className="ot-report-note">{item.description}</p></li>)}</ul>
   </div>
 }
 
@@ -105,7 +105,7 @@ export function PinPicker({ entries, onSelect, onCancel }: { entries: ReportingI
   const [target, setTarget] = React.useState<Target | null>(null)
   const [rect, setRect] = React.useState<DOMRect | null>(null)
   const toolbar = React.useRef<HTMLDivElement>(null)
-  const [accent] = React.useState(() => getComputedStyle(document.documentElement).getPropertyValue("--db-accent"))
+  const [accent] = React.useState(() => getComputedStyle(document.documentElement).getPropertyValue("--ot-accent"))
   const callbacks = React.useRef({ onSelect, onCancel })
   const current = React.useRef<Target | null>(null)
   React.useEffect(() => { callbacks.current = { onSelect, onCancel } }, [onSelect, onCancel])
@@ -170,12 +170,12 @@ export function PinPicker({ entries, onSelect, onCancel }: { entries: ReportingI
       window.removeEventListener("resize", measure)
     }
   }, [entries])
-  return createPortal(<div className="db-report-picker" data-reporting-chrome style={{ "--db-report-accent": accent } as React.CSSProperties}>
-    {rect && target ? <div className="db-report-pin-frame" aria-hidden="true" style={{ left: rect.left, top: rect.top, width: rect.width, height: rect.height }}><span className="db-report-pin-name" data-below={rect.top < 40 || undefined}>{target.item.title}</span></div> : null}
-    <div className="db-report-picker-toolbar" ref={toolbar} tabIndex={-1} role="dialog" aria-label="Pick the item" aria-describedby="db-report-picker-help">
-      <div className="db-report-actions"><strong>Pick the item.</strong><Button variant="quiet" onClick={onCancel}>Cancel picking</Button></div>
-      <p id="db-report-picker-help">Point, then click. Arrow keys browse; Enter selects. Escape cancels.</p>
-      <p role="status">{target ? <><span className="db-yours">{target.item.title}</span> — click to select.</> : "Choose a component on this page. Page actions are paused."}</p>
+  return createPortal(<div className="ot-report-picker" data-reporting-chrome style={{ "--ot-report-accent": accent } as React.CSSProperties}>
+    {rect && target ? <div className="ot-report-pin-frame" aria-hidden="true" style={{ left: rect.left, top: rect.top, width: rect.width, height: rect.height }}><span className="ot-report-pin-name" data-below={rect.top < 40 || undefined}>{target.item.title}</span></div> : null}
+    <div className="ot-report-picker-toolbar" ref={toolbar} tabIndex={-1} role="dialog" aria-label="Pick the item" aria-describedby="ot-report-picker-help">
+      <div className="ot-report-actions"><strong>Pick the item.</strong><Button variant="quiet" onClick={onCancel}>Cancel picking</Button></div>
+      <p id="ot-report-picker-help">Point, then click. Arrow keys browse; Enter selects. Escape cancels.</p>
+      <p role="status">{target ? <><span className="ot-yours">{target.item.title}</span> — click to select.</> : "Choose a component on this page. Page actions are paused."}</p>
     </div>
   </div>, document.body)
 }

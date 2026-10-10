@@ -4,7 +4,7 @@ export default defineComponent({
   name: "aspect-ratio",
   title: "Aspect ratio",
   movement: "IX",
-  contract: "db-ratio",
+  contract: "ot-ratio",
   summary: "A frame kept to a ratio and marked the way a printer marks a crop: short lines outside each corner, never a border.",
   underneath: "native",
   props: [

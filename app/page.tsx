@@ -10,8 +10,8 @@ import { ShareCall } from "@/components/site/landing-share"
 import { Toy } from "@/components/site/landing-toy"
 import { catalog } from "@/lib/site/catalog"
 import { entries } from "@/lib/site/entries"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Link } from "@/registry/0db/ui/link"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Link } from "@/registry/0nlytype/ui/link"
 
 // The home page arrives as noise and turns it down to 0 dB. Then, in order: the whole library, playing; your
 // own words to turn down; what it leaves out; one sentence that retunes the page; the line that installs it;
@@ -60,7 +60,7 @@ const movements: Movement[] = catalog.map((m) => ({
 }))
 const count = entries.length
 
-const REPO = "https://github.com/luv-jeri/0dB"
+const REPO = "https://github.com/luv-jeri/0nlyType"
 
 export default function Home() {
   return (

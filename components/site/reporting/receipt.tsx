@@ -4,10 +4,10 @@ import * as React from "react"
 import type { ReportFile } from "@/lib/reporting/client"
 import type { Receipt } from "@/lib/reporting/contracts"
 import { emailReceiptLabel, issueReceiptLabel } from "@/lib/reporting/receipt-labels"
-import { Button } from "@/registry/0db/ui/button"
-import { Link } from "@/registry/0db/ui/link"
-import { Marker } from "@/registry/0db/ui/marker"
-import { toast } from "@/registry/0db/ui/toast"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Link } from "@/registry/0nlytype/ui/link"
+import { Marker } from "@/registry/0nlytype/ui/marker"
+import { toast } from "@/registry/0nlytype/ui/toast"
 import { message, publicLink, STATUS_LABELS, uploaded } from "./shared"
 import { fetchReceipt, uploadAttachment } from "./connection"
 
@@ -59,31 +59,31 @@ export function ReportReceipt({ receipt, title, files, externalBusy, onBusyChang
   }
 
   return (
-    <section className="db-report-receipt" aria-labelledby="receipt-heading">
+    <section className="ot-report-receipt" aria-labelledby="receipt-heading">
       <Marker dot role="status">{STATUS_LABELS[receipt.status]}</Marker>
       <h2 id="receipt-heading" ref={heading} tabIndex={-1}>Your words are with us.</h2>
-      {title ? <p className="db-report-receipt-title db-yours" dir="auto">{title}</p> : null}
+      {title ? <p className="ot-report-receipt-title ot-yours" dir="auto">{title}</p> : null}
       <p>Keep this receipt to check progress. Receiving a report, sending an email and creating a tracking issue are separate steps.</p>
-      <dl className="db-report-ledger">
+      <dl className="ot-report-ledger">
         <div><dt>Report</dt><dd>{STATUS_LABELS[receipt.status]}</dd></div>
         <div><dt>Email</dt><dd>{emailReceiptLabel(receipt)}</dd></div>
         <div><dt>Tracking issue</dt><dd>{issueReceiptLabel(receipt)}</dd></div>
-        <div><dt>Receipt number</dt><dd className="db-report-id">{receipt.id}</dd></div>
+        <div><dt>Receipt number</dt><dd className="ot-report-id">{receipt.id}</dd></div>
         {receipt.attachments.map((file, index) => <div key={file.id}>
-          <dt><span className="db-yours" dir="auto">{files.find((item) => item.id === file.id)?.file.name || `Attachment ${index + 1}`}</span></dt>
+          <dt><span className="ot-yours" dir="auto">{files.find((item) => item.id === file.id)?.file.name || `Attachment ${index + 1}`}</span></dt>
           <dd>{uploaded(file.state) ? "Uploaded" : file.state === "expired" ? "Expired" : "Awaiting upload"}</dd>
         </div>)}
       </dl>
       {componentUrl ? <Link href={componentUrl}>See the component</Link> : null}
-      {remaining.length ? <p><bdi className="db-report-number">{remaining.length}</bdi> {remaining.length === 1 ? "file still needs" : "files still need"} uploading. {files.length ? "Your originals are kept with this draft." : "The originals are not on this device. Open the receipt on the device you sent from to retry."}</p> : null}
-      <p role="status" className="db-report-note">{busy}</p>
-      {error ? <p role="alert" className="db-report-error">{error}</p> : null}
-      <div className="db-report-actions">
+      {remaining.length ? <p><bdi className="ot-report-number">{remaining.length}</bdi> {remaining.length === 1 ? "file still needs" : "files still need"} uploading. {files.length ? "Your originals are kept with this draft." : "The originals are not on this device. Open the receipt on the device you sent from to retry."}</p> : null}
+      <p role="status" className="ot-report-note">{busy}</p>
+      {error ? <p role="alert" className="ot-report-error">{error}</p> : null}
+      <div className="ot-report-actions">
         <Button variant="bracket" disabled={Boolean(busy || externalBusy)} onClick={() => void update()}>Check status</Button>
         {remaining.length && files.length ? <Button variant="bracket" disabled={Boolean(busy || externalBusy)} onClick={() => void update(true)}>Retry uploads</Button> : null}
         <Button variant="quiet" onClick={() => { downloadReceipt(receipt); toast("Receipt download started.") }}>Download receipt</Button>
       </div>
-      <p className="db-report-note">The receipt file is private: anyone with it can check this report’s status. The browser copy expires seven days after a save. Download it before it expires, before starting another report, or before clearing browser storage.</p>
+      <p className="ot-report-note">The receipt file is private: anyone with it can check this report’s status. The browser copy expires seven days after a save. Download it before it expires, before starting another report, or before clearing browser storage.</p>
       <Button variant="quiet" disabled={Boolean(busy || externalBusy)} onClick={onNew}>Start another report</Button>
     </section>
   )

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 import {
   Command,
   CommandDialog,
@@ -13,8 +13,8 @@ import {
   CommandItem,
   CommandList,
   CommandShortcut,
-} from "@/registry/0db/ui/command"
-import { Kbd } from "@/registry/0db/ui/kbd"
+} from "@/registry/0nlytype/ui/command"
+import { Kbd } from "@/registry/0nlytype/ui/kbd"
 import { State } from "@/components/site/state"
 
 const PROJECTS = [
@@ -66,21 +66,21 @@ export default function Example() {
     return () => document.removeEventListener("keydown", down)
   }, [])
   return (
-    <div className="grid w-full max-w-[40rem] justify-items-stretch" style={{ gap: "var(--db-space-8)" }}>
-      <div className="flex flex-wrap items-center" style={{ gap: "var(--db-space-5)" }}>
+    <div className="grid w-full max-w-[40rem] justify-items-stretch" style={{ gap: "var(--ot-space-8)" }}>
+      <div className="flex flex-wrap items-center" style={{ gap: "var(--ot-space-5)" }}>
         <Button variant="bracket" onClick={() => setOpen(true)}>
           Search <Kbd>⌘K</Kbd>
         </Button>
         <p aria-live="polite">{said}</p>
       </div>
-      <div className="grid" style={{ gap: "var(--db-space-3)" }}>
-        <span className="db-label">Mesostic</span>
+      <div className="grid" style={{ gap: "var(--ot-space-3)" }}>
+        <span className="ot-label">Mesostic</span>
         <Command variant="mesostic" aria-label="Projects and actions, as a mesostic" defaultSearch="ar">
           <Palette onRun={setSaid} whole />
         </Command>
       </div>
-      <div className="grid" style={{ gap: "var(--db-space-3)" }}>
-        <span className="db-label">Index</span>
+      <div className="grid" style={{ gap: "var(--ot-space-3)" }}>
+        <span className="ot-label">Index</span>
         <Command variant="index" aria-label="Projects and actions, as an index">
           <Palette onRun={setSaid} whole />
         </Command>

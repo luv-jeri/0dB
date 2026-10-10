@@ -1,0 +1,61 @@
+@layer components {
+  /* ── ot-trail ── a trail through a long page, set as a contents page: each section's number and name, a dotted leader
+     (item's), and where on the page it is reached, 00 to 100. What you've read keeps its leader in ink, the section you
+     are in carries the accent and its leader inks as you read it, what is to come waits on a rule. Script sets
+     --ot-trail-read (0 to 1, how much of the section you are in is read) and each step's data-state. */
+  .ot-trail { --ot-trail-read: 0; min-width: 0; }
+  .ot-trail-caption { margin: 0 0 var(--ot-space-3); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil); }
+  .ot-trail-list.ot-items { border-top: 0; }
+  .ot-trail-step.ot-item { gap: var(--ot-space-3); padding-block: var(--ot-space-2); border-bottom: 0; }
+  .ot-trail-link { display: inline-flex; align-items: baseline; gap: var(--ot-space-3); color: var(--ot-graphite); text-decoration: none; transition: color var(--ot-allegro); }
+  .ot-trail-num { flex: none; min-width: 2ch; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); font-variant-numeric: tabular-nums lining-nums; color: var(--ot-pencil); transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-trail-step .ot-item-end { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-trail-step:is(:hover, [data-force~="hover"]) .ot-trail-link, .ot-trail[data-force~="hover"] .ot-trail-step:last-child .ot-trail-link { color: var(--ot-ink); }
+  .ot-trail[data-force~="hover"] .ot-trail-step:last-child .ot-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
+
+  /* Read: the name steps back, its leader stays inked. Now: the accent on its number, ink on its name and its place,
+     and the leader inked as far as you have read (it follows the scroll, so it doesn't ease). */
+  .ot-trail-step[data-state="read"] .ot-trail-link { color: var(--ot-pencil); }
+  .ot-trail-step[data-state="read"] .ot-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
+  .ot-trail-step[data-state="now"] .ot-trail-link { color: var(--ot-ink); }
+  .ot-trail-step[data-state="now"] .ot-trail-num { color: var(--ot-accent); }
+  .ot-trail-step[data-state="now"] .ot-item-end { color: var(--ot-ink); }
+  .ot-trail-step[data-state="now"] .ot-item-leader::after { mask-position: 0 0; mask-size: calc(var(--ot-trail-read) * 100%) 100%; transition: none; }
+  :is([dir="rtl"], [dir="rtl"] *).ot-trail-step:is([data-state="read"], [data-state="now"]) .ot-item-leader::after { mask-position: 100% 0; }
+
+  /* ── rail ── the page's scrollbar at the window's edge, and beside it, running down the rail like the title on a book's
+     spine, the section you are in: its number in the accent, then its name. Physical sides, since the head is set
+     vertically. It shows only while the rail runs, and steps aside while you point at the rail (its numbers arrive there)
+     or while the contents are out. --ot-trail-top keeps it clear of a fixed bar. */
+  .ot-trail[data-variant="rail"] > .ot-scrollbar { top: var(--ot-trail-top, 0px); }
+  .ot-trail-head {
+    position: fixed; z-index: 40; top: calc(var(--ot-trail-top, 0px) + var(--ot-space-5)); right: 1.25rem; margin: 0;
+    display: none; writing-mode: vertical-rl; direction: ltr; unicode-bidi: isolate; pointer-events: none;
+    font-size: var(--ot-pp); line-height: 1; letter-spacing: 0.02em; white-space: nowrap; color: var(--ot-graphite);
+    transition: opacity var(--ot-allegro) var(--ot-exhale);
+  }
+  :is([dir="rtl"], [dir="rtl"] *).ot-trail-head { right: auto; left: 1.25rem; }
+  .ot-trail-head-in { display: flex; gap: var(--ot-space-2); }
+  .ot-trail-head .ot-trail-num { min-width: 0; line-height: 1; color: var(--ot-accent); }
+  .ot-trail-head-in[data-turn] { animation: ot-trail-turn var(--ot-moderato) var(--ot-exhale) backwards; }
+  @keyframes ot-trail-turn { from { opacity: 0; translate: 0 -0.75em; } }
+  @supports (animation-timeline: scroll()) {
+    @media (pointer: fine) {
+      .ot-trail[data-variant="rail"]:has(> .ot-scrollbar[data-ready]:not([data-idle])) > .ot-trail-head { display: block; }
+    }
+  }
+  .ot-trail[data-variant="rail"]:is(:has(> .ot-scrollbar:hover), :focus-within) > .ot-trail-head { opacity: 0; }
+
+  /* The contents, for the keyboard: out of sight until focus reaches them, then out beside the rail on the page's paper. */
+  .ot-trail[data-variant="rail"] > .ot-trail-list {
+    position: fixed; z-index: 41; top: calc(var(--ot-trail-top, 0px) + var(--ot-space-5)); inset-inline-end: 2.5rem;
+    inline-size: max-content; max-inline-size: min(22rem, calc(100vw - 5rem)); max-block-size: calc(100dvh - var(--ot-trail-top, 0px) - var(--ot-space-7)); overflow: auto;
+    padding: var(--ot-space-3) var(--ot-space-5); background: var(--ot-paper); border-inline-start: var(--ot-hairline) solid var(--ot-rule);
+    transition: opacity var(--ot-allegro) var(--ot-exhale), translate var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-trail[data-variant="rail"]:not(:focus-within) > .ot-trail-list { opacity: 0; translate: 0 -0.5em; pointer-events: none; }
+
+  @media (forced-colors: active) {
+    .ot-trail-step[data-state="now"] .ot-trail-num, .ot-trail-head .ot-trail-num { color: Highlight; }
+  }
+}

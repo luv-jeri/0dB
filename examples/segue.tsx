@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Segue, SegueScene } from "@/registry/0db/ui/segue"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Segue, SegueScene } from "@/registry/0nlytype/ui/segue"
 import { State } from "@/components/site/state"
 
 const acts = [
@@ -12,15 +12,15 @@ const acts = [
   ["Coda", "Then nothing again.", "The last word stays a moment, and the page is quiet once more."],
 ]
 
-function Scenes({ variant, size = "db-ff" }: { variant?: "wipe" | "horizon"; size?: string }) {
+function Scenes({ variant, size = "ot-ff" }: { variant?: "wipe" | "horizon"; size?: string }) {
   const [at, setAt] = React.useState(0)
   return (
     <div className="grid gap-8">
       <Segue value={at} onValueChange={setAt} variant={variant} aria-label="Three scenes">
         {acts.map(([label, line, note]) => (
           <SegueScene key={label} label={label} className="grid content-start gap-4 py-10">
-            <p className={size} style={{ margin: 0, color: "var(--db-ink)" }}>{line}</p>
-            <p className="db-p" style={{ margin: 0, maxWidth: "34ch", color: "var(--db-graphite)" }}>{note}</p>
+            <p className={size} style={{ margin: 0, color: "var(--ot-ink)" }}>{line}</p>
+            <p className="ot-p" style={{ margin: 0, maxWidth: "34ch", color: "var(--ot-graphite)" }}>{note}</p>
           </SegueScene>
         ))}
       </Segue>
@@ -49,16 +49,16 @@ export function States() {
   return (
     <>
       <State label="Wipe">
-        <Scenes size="db-mf" />
+        <Scenes size="ot-mf" />
       </State>
       <State label="Horizon">
-        <Scenes variant="horizon" size="db-mf" />
+        <Scenes variant="horizon" size="ot-mf" />
       </State>
       <State label="Scrub">
         <Segue scrub aria-label="Scenes that change as you scroll" style={{ width: "20rem", maxWidth: "100%" }}>
           {acts.map(([label, line]) => (
             <SegueScene key={label} label={label} className="py-10">
-              <p className="db-mf" style={{ margin: 0, color: "var(--db-ink)" }}>{line}</p>
+              <p className="ot-mf" style={{ margin: 0, color: "var(--ot-ink)" }}>{line}</p>
             </SegueScene>
           ))}
         </Segue>
@@ -67,7 +67,7 @@ export function States() {
         <Segue scrub variant="horizon" aria-label="Scenes that rise as you scroll" style={{ width: "20rem", maxWidth: "100%" }}>
           {acts.map(([label, line]) => (
             <SegueScene key={label} label={label} className="py-10">
-              <p className="db-mf" style={{ margin: 0, color: "var(--db-ink)" }}>{line}</p>
+              <p className="ot-mf" style={{ margin: 0, color: "var(--ot-ink)" }}>{line}</p>
             </SegueScene>
           ))}
         </Segue>

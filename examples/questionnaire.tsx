@@ -1,7 +1,7 @@
 "use client"
 
 import { State } from "@/components/site/state"
-import { Questionnaire, type Answers, type Question } from "@/registry/0db/ui/questionnaire"
+import { Questionnaire, type Answers, type Question } from "@/registry/0nlytype/ui/questionnaire"
 
 const says: Record<string, Record<string, string>> = {
   make: { "An identity": "an identity", "A website": "a website", "A film": "a film" },
@@ -37,21 +37,21 @@ const partway: Answers = { make: "A website", team: "Two to ten" }
 const all: Answers = { ...partway, when: "Next season" }
 
 function Caption({ children }: { children: string }) {
-  return <p className="db-label" style={{ margin: 0 }}>{children}</p>
+  return <p className="ot-label" style={{ margin: 0 }}>{children}</p>
 }
 
 export default function Example() {
   return (
-    <div className="grid max-w-[44rem]" style={{ gap: "var(--db-space-9)" }}>
-      <div className="grid gap-(--db-space-5)">
+    <div className="grid max-w-[44rem]" style={{ gap: "var(--ot-space-9)" }}>
+      <div className="grid gap-(--ot-space-5)">
         <Caption>Sentence</Caption>
         <Questionnaire questions={questions} sentence={sentence} />
       </div>
-      <div className="grid gap-(--db-space-5)">
+      <div className="grid gap-(--ot-space-5)">
         <Caption>Interview</Caption>
         <Questionnaire variant="interview" questions={questions} sentence={sentence} />
       </div>
-      <div className="grid gap-(--db-space-5)">
+      <div className="grid gap-(--ot-space-5)">
         <Caption>Definition</Caption>
         <Questionnaire variant="definition" questions={questions} sentence={sense} entry={entry} />
       </div>

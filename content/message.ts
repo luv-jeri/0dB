@@ -4,7 +4,7 @@ export default defineComponent({
   name: "message",
   title: "Message",
   movement: "XI",
-  contract: "db-msg",
+  contract: "ot-msg",
   summary: "No balloons. Of the speech bubble only its tail is left, a leaning hairline. What they wrote is roman; what you wrote sits on the other side, in italic.",
   underneath: "native",
   uses: ["avatar", "badge"],

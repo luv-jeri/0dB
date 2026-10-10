@@ -4,7 +4,7 @@ export default defineComponent({
   name: "slider",
   title: "Slider",
   movement: "VI",
-  contract: "db-ruler",
+  contract: "ot-ruler",
   summary: "A ruler with a hand. The value is drawn as a dimension from zero with your number in italic in the gap, or runs through the label's spread letters, or makes the label as loud as the value.",
   underneath: "hook",
   props: [

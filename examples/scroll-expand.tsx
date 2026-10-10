@@ -1,17 +1,17 @@
-import { ScrollExpand } from "@/registry/0db/ui/scroll-expand"
+import { ScrollExpand } from "@/registry/0nlytype/ui/scroll-expand"
 import { State } from "@/components/site/state"
 
 function Plate({ small = false }: { small?: boolean }) {
   return (
-    <div className="grid gap-(--db-space-5) py-(--db-space-6)">
-      <p className={small ? "db-f" : "db-fff"} style={{ margin: 0 }}>
+    <div className="grid gap-(--ot-space-5) py-(--ot-space-6)">
+      <p className={small ? "ot-f" : "ot-fff"} style={{ margin: 0 }}>
         Space
         <br />
         does the
         <br />
         layout.
       </p>
-      <p className="db-pp max-w-[18rem] justify-self-end text-pretty" style={{ margin: 0, color: "var(--db-pencil)" }}>
+      <p className="ot-pp max-w-[18rem] justify-self-end text-pretty" style={{ margin: 0, color: "var(--ot-pencil)" }}>
         A hairline appears only where space alone can&rsquo;t hold two things apart.
       </p>
     </div>
@@ -20,8 +20,8 @@ function Plate({ small = false }: { small?: boolean }) {
 
 export default function Example() {
   return (
-    <div className="grid w-full gap-(--db-space-9)">
-      <p className="db-pp" style={{ margin: 0, color: "var(--db-pencil)" }}>Scroll down: the plates open as far as you go, and close when you go back.</p>
+    <div className="grid w-full gap-(--ot-space-9)">
+      <p className="ot-pp" style={{ margin: 0, color: "var(--ot-pencil)" }}>Scroll down: the plates open as far as you go, and close when you go back.</p>
       <ScrollExpand caption={["Plate 01", "Principles, the first"]}>
         <Plate />
       </ScrollExpand>

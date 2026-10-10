@@ -1,0 +1,158 @@
+@layer components {
+  /* ── ot-choice ── radio: the chosen word turns italic, because it's yours now.
+     legato: one accent dot glides beneath it along a slur; pointing sketches the slur in pencil.
+     glissando: the italic itself slides through the words between, and an accent full stop lands after the word. */
+  @property --ot-choice-a { syntax: "<length>"; inherits: true; initial-value: -100000px; }
+  @property --ot-choice-b { syntax: "<length>"; inherits: true; initial-value: -100000px; }
+  @property --ot-choice-f { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  @property --ot-choice-drop { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  @property --ot-choice-nudge { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  .ot-choice {
+    /* Where the dot and the hover ring sit: this far below the word (or before it, in a column). Script reads these too.
+       In ems, so small words (the command line's runners) keep their dot as close as large ones: 14.5px at the mp step. */
+    --ot-choice-drop: 0.66em;
+    --ot-choice-nudge: 0px;
+    --ot-choice-x: 0px; --ot-choice-y: 0px;
+    position: relative; border: 0; margin: 0; padding: 0 0 calc(var(--ot-choice-drop) + var(--ot-dot) / 2); min-inline-size: 0;
+    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--ot-space-6); row-gap: var(--ot-space-5);
+    font-size: var(--ot-mp); line-height: var(--ot-mp-lh);
+  }
+  .ot-choice > legend { padding: 0; margin-bottom: var(--ot-space-3); }
+  .ot-choice > label { --ot-choice-s: 0px; --ot-choice-w: 0px; --ot-choice-r: 0px; position: relative; display: inline-grid; align-items: baseline; cursor: pointer; color: var(--ot-graphite); -webkit-tap-highlight-color: transparent; }
+  .ot-choice > label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+  .ot-choice > label > span { grid-area: 1 / 1; justify-self: start; transition: opacity var(--ot-moderato) var(--ot-breath), translate var(--ot-moderato) var(--ot-exhale), color var(--ot-allegro); }
+  .ot-choice-yours { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; color: var(--ot-ink); user-select: none; }
+
+  /* The italic cross-fades in and the roman lifts away; once one word is chosen, the others step back to pencil.
+     The face that leaves goes quickly and the one that arrives takes its time, so the two are never printed over each other. */
+  .ot-choice > label > .ot-choice-yours { opacity: 0; translate: 0 0.12em; transition-duration: var(--ot-allegro); }
+  .ot-choice > label:has(input:checked) > .ot-choice-word { opacity: 0; translate: 0 -0.12em; transition-duration: var(--ot-allegro); }
+  .ot-choice > label:has(input:checked) > .ot-choice-yours { opacity: 1; translate: 0 0; transition-duration: var(--ot-moderato); transition-delay: calc(var(--ot-arpeggio) * 2); }
+  .ot-choice:has(input:checked) > label > .ot-choice-word { color: var(--ot-pencil); }
+  .ot-choice > label:is(:hover, [data-force~="hover"]):not(:has(input:disabled)) > .ot-choice-word { color: var(--ot-ink); }
+  .ot-choice > label:has(input:focus-visible),
+  .ot-choice > label[data-force~="focus"] { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 6px; }
+  .ot-choice > label:has(input:disabled) { color: var(--ot-pencil); opacity: 0.55; cursor: not-allowed; }
+
+  /* legato: pointing shows a pencil ring where the dot would land, a beat after the pencil slur sets off toward it. */
+  .ot-choice[data-variant="legato"] > label::before {
+    content: ""; position: absolute; inset-inline-start: 50%; top: calc(100% + var(--ot-choice-drop));
+    width: var(--ot-dot); height: var(--ot-dot); margin-block-start: calc(var(--ot-dot) / -2); margin-inline-start: calc(var(--ot-dot) / -2); box-sizing: border-box;
+    border: var(--ot-hairline) solid var(--ot-rule-strong); border-radius: 50%; scale: 0; pointer-events: none;
+    transition: scale var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-choice[data-variant="legato"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::before { scale: 1; transition: scale var(--ot-moderato) var(--ot-spiccato) calc(var(--ot-arpeggio) * 3); }
+  .ot-choice-dot {
+    position: absolute; left: 0; top: 0; width: var(--ot-dot); height: var(--ot-dot); margin: calc(var(--ot-dot) / -2) 0 0 calc(var(--ot-dot) / -2);
+    border-radius: 50%; background: var(--ot-accent); pointer-events: none;
+    translate: var(--ot-choice-x) var(--ot-choice-y);
+    transition: opacity var(--ot-allegro);
+  }
+  .ot-choice:is(:not([data-ready]), :not(:has(input:checked))) > .ot-choice-dot { opacity: 0; }
+  .ot-choice-slur { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .ot-choice-slur > path { fill: none; stroke: var(--ot-rule-strong); stroke-width: var(--ot-hairline); stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+  /* A column: the dot hangs in the margin before the word, level with its x-height, and the slur bows out into it. */
+  .ot-choice[data-orientation="vertical"] { flex-direction: column; align-items: flex-start; row-gap: var(--ot-space-2); }
+  .ot-choice[data-orientation="vertical"][data-variant="legato"] {
+    --ot-choice-drop: var(--ot-space-4); --ot-choice-nudge: 0.08em;
+    padding-block-end: 0; padding-inline-start: calc(var(--ot-space-4) + var(--ot-dot));
+  }
+  .ot-choice[data-orientation="vertical"][data-variant="legato"] > legend { margin-inline-start: calc(-1 * (var(--ot-space-4) + var(--ot-dot))); }
+  .ot-choice[data-orientation="vertical"][data-variant="legato"] > label::before { inset-inline-start: calc(-1 * var(--ot-choice-drop)); top: calc(50% + var(--ot-choice-nudge)); }
+
+  /* glissando: the italic shows only inside a lens (--ot-choice-a to -b, along the line of words, soft at both ends
+     by --ot-choice-f); the roman shows everywhere else. Choosing moves the lens leading edge first, so the italic
+     runs through every word between like a glissando through the keys, then gathers itself into the chosen word. */
+  .ot-choice[data-variant="glissando"] {
+    --ot-choice-a: -100000px; --ot-choice-b: -100000px; --ot-choice-f: 0.2em; --ot-choice-to: to right;
+    --ot-choice-far: 0; --ot-choice-t: calc(var(--ot-moderato) + var(--ot-choice-far) * (var(--ot-andante) - var(--ot-moderato)));
+    padding-block-end: 0;
+  }
+  .ot-choice[data-variant="glissando"]:is([dir="rtl"], [dir="rtl"] *) { --ot-choice-to: to left; }
+  .ot-choice[data-variant="glissando"][data-ready] { transition: --ot-choice-a var(--ot-choice-t) var(--ot-breath) calc(var(--ot-choice-t) * 0.3), --ot-choice-b var(--ot-choice-t) var(--ot-breath); }
+  .ot-choice[data-variant="glissando"][data-ready][data-heading="start"] { transition-delay: 0s, calc(var(--ot-choice-t) * 0.3); }
+  .ot-choice[data-variant="glissando"][data-ready][data-still] { transition: none; }
+  .ot-choice[data-variant="glissando"][data-ready] > label > span { opacity: 1; translate: none; transition: color var(--ot-allegro); }
+  .ot-choice[data-variant="glissando"][data-ready] > label > .ot-choice-word {
+    mask-image: linear-gradient(var(--ot-choice-to), #000 calc(var(--ot-choice-a) - var(--ot-choice-s) - var(--ot-choice-f)), transparent calc(var(--ot-choice-a) - var(--ot-choice-s)), transparent calc(var(--ot-choice-b) - var(--ot-choice-s)), #000 calc(var(--ot-choice-b) - var(--ot-choice-s) + var(--ot-choice-f)));
+  }
+  .ot-choice[data-variant="glissando"][data-ready] > label > .ot-choice-yours {
+    mask-image: linear-gradient(var(--ot-choice-to), transparent calc(var(--ot-choice-a) - var(--ot-choice-s) - var(--ot-choice-f)), #000 calc(var(--ot-choice-a) - var(--ot-choice-s)), #000 calc(var(--ot-choice-b) - var(--ot-choice-s)), transparent calc(var(--ot-choice-b) - var(--ot-choice-s) + var(--ot-choice-f)));
+  }
+  /* The full stop sits on the baseline after the word. Its room is always kept (after the wider of roman and
+     italic), so nothing moves its neighbours; pointing sketches it as a pencil ring there, and choosing lifts
+     the ring, lets the italic arrive, then lands the accent stop just after the italic's last letter. */
+  .ot-choice[data-variant="glissando"] > label::before {
+    content: ""; grid-area: 1 / 1; justify-self: start; align-self: baseline;
+    width: max(0.22em, 5px); height: max(0.22em, 5px); margin-inline-start: calc(max(var(--ot-choice-w), var(--ot-choice-r)) + 0.16em); box-sizing: border-box;
+    border: var(--ot-hairline) solid var(--ot-rule-strong); border-radius: 50%; scale: 0;
+    transition: scale var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-choice[data-variant="glissando"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::before { scale: 1; transition: scale var(--ot-moderato) var(--ot-spiccato); }
+  .ot-choice[data-variant="glissando"] > label:has(input:checked)::before {
+    --ot-choice-in: calc(var(--ot-choice-w) - max(var(--ot-choice-w), var(--ot-choice-r)));
+    scale: 1; translate: var(--ot-choice-in) 0; background: var(--ot-accent); border-color: var(--ot-accent);
+  }
+  .ot-choice[data-variant="glissando"] > label:has(input:checked):is([dir="rtl"], [dir="rtl"] *)::before { translate: calc(-1 * var(--ot-choice-in)) 0; }
+  .ot-choice[data-variant="glissando"][data-moved] > label:has(input:checked)::before { animation: ot-choice-land var(--ot-moderato) var(--ot-spiccato) calc(var(--ot-choice-t) * 0.8) backwards; }
+  @keyframes ot-choice-land { from { scale: 0; } }
+
+  /* ballot: the cross a hand sets in the box after a name on a ballot paper, in the accent, in a margin every word
+     keeps after it (so nothing moves, and the words still line up under the legend). Two strokes, as large as a
+     capital and never quite square: the pen writes the short one, lifts and writes the longer one past it (one path,
+     one dash). Pointing sketches it in pencil; leaving, the
+     pen runs on and it passes through. Choosing inks the sketch where it is, or writes it; the old cross runs on off
+     the page. Script runs the dash; the stylesheet holds where it rests. */
+  .ot-choice[data-variant="ballot"] { column-gap: var(--ot-space-6); }
+  .ot-choice[data-variant="ballot"] > label { padding-inline-end: 1.2em; }
+  .ot-choice-ballot {
+    position: absolute; inset-inline-end: 0; top: 50%; width: 0.78em; height: 0.78em; translate: 0 -50%;
+    overflow: visible; pointer-events: none;
+  }
+  .ot-choice-ballot:is([dir="rtl"], [dir="rtl"] *) { scale: -1 1; } /* the short stroke still comes first, from the inline start */
+  .ot-choice-ballot > path {
+    fill: none; stroke: var(--ot-rule-strong); stroke-width: calc(var(--ot-stroke) * 1.35); stroke-linecap: round;
+    stroke-dasharray: 1 2; stroke-dashoffset: 1;
+    transition: stroke 0s linear var(--ot-moderato); /* a cross that leaves keeps its ink until it has passed through */
+  }
+  .ot-choice > label:has(input:checked) > .ot-choice-ballot > path { stroke: var(--ot-accent); stroke-dashoffset: 0; transition: stroke var(--ot-allegro); }
+  .ot-choice > label[data-force~="hover"]:not(:has(input:checked)) > .ot-choice-ballot > path { stroke-dashoffset: 0; }
+
+  /* sforzando: the poster's scale contrast. The words stand in a column, set heavy and narrow in the voice, packed
+     close; the chosen one's roman steps out and its italic, in the accent, swells to 1.75 times from its baseline, so it
+     runs up under the word above the way "has" crosses "It" and "design." crosses "to be". Nothing reflows: the swell is
+     a scale. It lands with spiccato, the sudden accent the mark is named for; the one it leaves falls back at once. */
+  .ot-choice[data-variant="sforzando"] {
+    flex-direction: column; align-items: flex-start; row-gap: 0; padding-block: 0.55em 0.1em;
+    font-size: var(--ot-mf); line-height: 1.02;
+  }
+  .ot-choice[data-variant="sforzando"] > label > .ot-choice-word { font-weight: 780; font-stretch: 72%; letter-spacing: -0.015em; }
+  .ot-choice[data-variant="sforzando"]:has(input:checked) > label > .ot-choice-word { color: var(--ot-graphite); }
+  .ot-choice[data-variant="sforzando"] > label:is(:hover, [data-force~="hover"]):not(:has(input:disabled)) > .ot-choice-word { color: var(--ot-ink); }
+  /* The swell runs under the word above, so that word still reads; focus rings the swell, not the box it left. */
+  .ot-choice[data-variant="sforzando"] > label:not(:has(input:checked)) { z-index: 1; }
+  .ot-choice[data-variant="sforzando"] > label:has(input:checked):is(:has(input:focus-visible), [data-force~="focus"]) { outline: 0; }
+  .ot-choice[data-variant="sforzando"] > label:has(input:checked):is(:has(input:focus-visible), [data-force~="focus"]) > .ot-choice-yours {
+    outline: calc(var(--ot-stroke) / 1.75) solid var(--ot-accent); outline-offset: 0.06em;
+  }
+  .ot-choice[data-variant="sforzando"] > label > .ot-choice-yours { color: var(--ot-accent); transform-origin: 0 80%; }
+  .ot-choice[data-variant="sforzando"] > label > .ot-choice-yours:is([dir="rtl"], [dir="rtl"] *) { transform-origin: 100% 80%; }
+  .ot-choice[data-variant="sforzando"] > label:has(input:checked) > .ot-choice-yours {
+    scale: 1.75; translate: calc(-0.08em * var(--ot-choice-dir, 1)) 0;
+    transition: opacity var(--ot-allegro), scale var(--ot-moderato) var(--ot-spiccato), translate var(--ot-moderato) var(--ot-spiccato);
+  }
+  .ot-choice[data-variant="sforzando"]:is([dir="rtl"], [dir="rtl"] *) { --ot-choice-dir: -1; }
+
+  @media (forced-colors: active) {
+    .ot-choice > label:is(:has(input:focus-visible), [data-force~="focus"]) { outline-color: Highlight; }
+    .ot-choice > label:is(:has(input:focus-visible), [data-force~="focus"]) > .ot-choice-yours { outline-color: Highlight; }
+    .ot-choice-ballot > path { stroke: CanvasText; }
+    .ot-choice > label:has(input:checked) > .ot-choice-ballot > path { stroke: Highlight; }
+    .ot-choice-dot, .ot-choice-slur, .ot-choice-ballot, .ot-choice > label::before { forced-color-adjust: none; }
+    .ot-choice-dot { background: Highlight; }
+    .ot-choice-slur > path { stroke: CanvasText; }
+    .ot-choice > label::before { border-color: CanvasText; }
+    .ot-choice[data-variant="glissando"] > label:has(input:checked)::before { background: Highlight; border-color: Highlight; }
+  }
+}

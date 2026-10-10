@@ -4,7 +4,7 @@ export default defineComponent({
   name: "marker",
   title: "Marker",
   movement: "XI",
-  contract: "db-marker",
+  contract: "ot-marker",
   summary: "A quiet line in a conversation: a status, where a day begins, where you left off, or how long it went quiet.",
   underneath: "native",
   props: [

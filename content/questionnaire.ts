@@ -4,7 +4,7 @@ export default defineComponent({
   name: "questionnaire",
   title: "Questionnaire",
   movement: "XI",
-  contract: "db-quest",
+  contract: "ot-quest",
   summary:
     "Questions one at a time, set large. The count rolls and a hairline fills; each question turns in from the side you're heading. At the end your answers are written into one sentence, in italic, arriving word by word.",
   underneath: "native",

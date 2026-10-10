@@ -1,0 +1,50 @@
+@layer components {
+  /* ── ot-marker ── a quiet line in a conversation: a status, a day, where you left off, or a pause */
+  .ot-marker { display: flex; align-items: center; gap: var(--ot-space-3); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-marker-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* divider: the word stands on the rule it pushed apart ("Less is more." sets its rules on the baselines). */
+  .ot-marker[data-variant="divider"] { align-items: baseline; gap: var(--ot-space-4); color: var(--ot-graphite); }
+  .ot-marker[data-variant="divider"]::before, .ot-marker[data-variant="divider"]::after { content: ""; flex: 1; block-size: var(--ot-hairline); background: var(--ot-rule-strong); }
+  .ot-marker[data-variant="divider"]::before { transform-origin: 100% 50%; }
+  .ot-marker[data-variant="divider"]::after { transform-origin: 0 50%; }
+  :is([dir="rtl"], [dir="rtl"] *).ot-marker[data-variant="divider"]::before { transform-origin: 0 50%; }
+  :is([dir="rtl"], [dir="rtl"] *).ot-marker[data-variant="divider"]::after { transform-origin: 100% 50%; }
+  .ot-marker[data-variant="divider"][data-arriving]::before, .ot-marker[data-variant="divider"][data-arriving]::after { animation: ot-draw-x var(--ot-andante) var(--ot-exhale) backwards; }
+  /* With no word the two rules meet: one unbroken hairline, which arriving still draws outward from its middle. */
+  .ot-marker[data-variant="divider"]:empty { gap: 0; }
+  /* vertical: the rule stands up between two things in a row ("Less is more." rules its columns), as tall as the row.
+     The marker turns on its side (writing-mode), so a word reads down it like a spine and the rules run above and below. */
+  .ot-marker[data-variant="divider"][data-orientation="vertical"] { writing-mode: vertical-rl; align-self: stretch; }
+  .ot-marker[data-variant="divider"][data-orientation="vertical"]::before { transform-origin: 50% 100%; }
+  .ot-marker[data-variant="divider"][data-orientation="vertical"]::after { transform-origin: 50% 0; }
+  .ot-marker[data-variant="divider"][data-orientation="vertical"][data-arriving]::before, .ot-marker[data-variant="divider"][data-orientation="vertical"][data-arriving]::after { animation-name: ot-draw-y; }
+
+  /* ribbon: the book's ribbon, laid across the page where you stopped reading. The one accent line. */
+  .ot-marker[data-variant="ribbon"] { align-items: baseline; gap: var(--ot-space-3); color: var(--ot-accent); font-weight: 500; }
+  .ot-marker[data-variant="ribbon"]::before { content: ""; flex: 1; height: var(--ot-stroke); background: currentColor; transform-origin: 0 50%; }
+  :is([dir="rtl"], [dir="rtl"] *).ot-marker[data-variant="ribbon"]::before { transform-origin: 100% 50%; }
+  .ot-marker[data-variant="ribbon"][data-arriving]::before { animation: ot-draw-x var(--ot-andante) var(--ot-exhale) backwards; }
+
+  /* lapse: no rule at all. The pause is the room around the words and the space between their letters. */
+  .ot-marker[data-variant="lapse"] {
+    --lapse: 0;
+    justify-content: center; text-align: center;
+    padding-block: calc(var(--ot-space-3) + var(--lapse) * (var(--ot-space-8) - var(--ot-space-3)));
+    --lapse-tr: calc(var(--ot-pp-tr) + var(--lapse) * 0.36em);
+    letter-spacing: var(--lapse-tr); padding-inline-start: var(--lapse-tr); /* the tracking trails the last letter; this puts it back in the middle */
+    font-variant-numeric: tabular-nums;
+  }
+  /* Tracking breaks a joined script apart; there the pause widens the word spaces instead. */
+  .ot-marker[data-variant="lapse"]:lang(ar, fa, ur) { letter-spacing: normal; padding-inline-start: 0; word-spacing: calc(var(--lapse) * 1.2em); }
+  .ot-marker[data-variant="lapse"][data-arriving] { animation: ot-marker-open var(--ot-andante) var(--ot-exhale) backwards; }
+
+  .ot-marker[data-arriving] { animation: ot-arrive var(--ot-moderato) var(--ot-exhale) backwards; }
+  @keyframes ot-marker-open { from { padding-block: 0; padding-inline-start: 0; letter-spacing: var(--ot-pp-tr); opacity: 0; } }
+
+  @media (forced-colors: active) {
+    .ot-marker[data-variant="divider"]::before, .ot-marker[data-variant="divider"]::after { forced-color-adjust: none; background: CanvasText; }
+    .ot-marker[data-variant="ribbon"] { color: Highlight; }
+    .ot-marker[data-variant="ribbon"]::before { forced-color-adjust: none; background: Highlight; }
+  }
+}

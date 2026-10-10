@@ -4,7 +4,7 @@ export default defineComponent({
   name: "text-ribbon",
   title: "Text ribbon",
   movement: "II",
-  contract: "db-ribbon",
+  contract: "ot-ribbon",
   summary: "A phrase travelling along an arch or a wave, measured by pretext. Drag, keys and scroll take over; pause holds it in place.",
   underneath: "hook",
   props: [

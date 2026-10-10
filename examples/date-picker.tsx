@@ -2,15 +2,15 @@
 
 import * as React from "react"
 
-import { DatePicker } from "@/registry/0db/ui/date-picker"
-import { Field } from "@/registry/0db/ui/field"
+import { DatePicker } from "@/registry/0nlytype/ui/date-picker"
+import { Field } from "@/registry/0nlytype/ui/field"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   const [due, setDue] = React.useState<Date>()
   return (
     <div className="grid w-full max-w-md gap-10">
-      <p className="db-mp">
+      <p className="ot-mp">
         The call is on <DatePicker aria-label="Day of the call" disablePast />.
       </p>
       <Field label="Deliver the brief by" hint={due ? "We'll send the reminder the day before." : "Pick the day Halden's brief is due."}>

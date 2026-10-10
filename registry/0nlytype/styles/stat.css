@@ -1,0 +1,51 @@
+@layer components {
+  /* ── ot-stat ── a named value: SPECTRA's giant thin figures, their feet cut off by the one hairline that runs under the row, the
+     name small beneath it. The figure is set to its cell (--len is its length; the row takes its longest, --row-len, so a row shares one size), as large as the cell allows. Its wheels turn inside
+     the crop, so a changed figure drops under the rule and the new one rises out of it, as in a counter's window. */
+  .ot-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); row-gap: var(--ot-space-7); min-inline-size: min(11rem, 100%); margin: 0; }
+  .ot-stat { --ot-stat-pad: var(--ot-space-5); display: grid; align-content: start; min-width: 0; padding-inline-end: var(--ot-stat-pad); container-type: inline-size; }
+  :where(.ot-stat > dd) { margin: 0; }
+  .ot-stat-label { grid-row: 2; padding-block-start: var(--ot-space-3); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-graphite); }
+  .ot-stat-figure {
+    grid-row: 1; white-space: nowrap; overflow: clip;
+    font-size: clamp(var(--ot-mf), calc(100cqi / (var(--row-len, var(--len)) * 0.6)), var(--ot-fff)); line-height: 0.9; font-weight: 200; letter-spacing: var(--ot-ff-tr);
+    font-variant-numeric: tabular-nums lining-nums; color: var(--ot-ink);
+    /* the rule runs on through the gap to the next stat, so a row stands on one line */
+    margin-inline-end: calc(-1 * var(--ot-stat-pad)); padding-inline-end: var(--ot-stat-pad);
+    border-block-end: var(--ot-hairline) solid var(--ot-rule-strong);
+  }
+  @supports (text-box: trim-both cap alphabetic) {
+    .ot-stat-figure { line-height: 1; text-box: trim-both cap alphabetic; block-size: calc(1cap - 0.05em); }
+  }
+  /* The figure is a Fraction with no total (its wheels), set in the stat's own face: roman, thin, the cell's size. */
+  .ot-stat-figure > .ot-fraction { display: inline; font-size: inherit; line-height: inherit; color: inherit; }
+  .ot-stat-figure .ot-fraction > .ot-yours { display: inline-block; font: inherit; letter-spacing: inherit; }
+  .ot-stat-note { grid-row: 3; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil); }
+
+  /* ── beside ── WOVE's 03: the figure heavy and whole, its name and a line about it set beside it, their caps on its cap line.
+     The stats stand in a list, figures flush to one edge (tabular, so the units line up) and the words in one column. */
+  .ot-stats[data-variant="beside"] { grid-template-columns: max-content minmax(0, 20rem); gap: var(--ot-space-6) var(--ot-space-4); }
+  .ot-stats[data-variant="beside"] .ot-stat { grid-column: 1 / -1; grid-template-columns: subgrid; padding: 0; container-type: normal; }
+  .ot-stats[data-variant="beside"] .ot-stat-figure {
+    grid-row: 1 / span 2; justify-self: end; margin: 0; padding: 0; border: 0; block-size: auto; overflow: visible;
+    font-size: var(--ot-ff); line-height: 0.9; font-weight: 700; letter-spacing: var(--ot-mf-tr); text-box: trim-both cap alphabetic;
+  }
+  .ot-stats[data-variant="beside"] .ot-stat-label { grid-row: 1; grid-column: 2; padding: 0; font-size: var(--ot-p); line-height: 1.25; font-weight: 600; color: var(--ot-ink); text-box: trim-start cap; }
+  .ot-stats[data-variant="beside"] .ot-stat-note { grid-row: 2; grid-column: 2; font-size: var(--ot-p); line-height: 1.25; color: var(--ot-pencil); }
+  @media (max-width: 40rem) { .ot-stats[data-variant="beside"] .ot-stat-figure { font-size: var(--ot-mf); } }
+
+  /* ── grid ── "Less is more.": each stat a cell of a hairline grid; the name in the cell's first corner, the figure large in the
+     far one. The lines run between the cells only (the outer ones are cut off), so they stop where the stats do. */
+  .ot-stats[data-variant="grid"] { overflow: clip; row-gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+  .ot-stats[data-variant="grid"] .ot-stat {
+    grid-template-rows: auto auto 1fr; min-block-size: 11rem; padding: var(--ot-space-4) var(--ot-space-4) var(--ot-space-4) var(--ot-space-4);
+    margin-block-start: calc(-1 * var(--ot-hairline)); margin-inline-start: calc(-1 * var(--ot-hairline));
+    border-block-start: var(--ot-hairline) solid var(--ot-rule-strong); border-inline-start: var(--ot-hairline) solid var(--ot-rule-strong);
+  }
+  .ot-stats[data-variant="grid"] .ot-stat-label { grid-row: 1; padding: 0; }
+  .ot-stats[data-variant="grid"] .ot-stat-note { grid-row: 2; }
+  .ot-stats[data-variant="grid"] .ot-stat-figure {
+    grid-row: 3; align-self: end; justify-self: end; margin: 0; padding: var(--ot-space-4) 0 0; border: 0; block-size: auto; overflow: visible;
+    font-size: clamp(var(--ot-mf), calc(80cqi / (var(--row-len, var(--len)) * 0.6)), var(--ot-ff)); line-height: 0.9; font-weight: 500; text-box: trim-both cap alphabetic;
+  }
+}

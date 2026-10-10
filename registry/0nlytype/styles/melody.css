@@ -1,0 +1,86 @@
+@layer components {
+  /* ── ot-melody ── a sentence on a stave: five hairlines, and each word sits on a line or in a
+     space as a note does. Pretext spaces the words across the measure; pointing at one sounds it,
+     and the rest of the phrase lights after it in turn, then settles back. */
+  .ot-melody { margin: 0; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); color: var(--ot-ink); }
+  .ot-melody-stave { position: relative; margin-block-end: var(--ot-space-5); }
+  .ot-melody-stave:last-child { margin-block-end: 0; }
+  /* The staff: five hairlines a space apart, the opening barline, and a barline to close each stave. */
+  .ot-melody-staff {
+    position: absolute; inset-inline: 0; block-size: calc(4 * var(--s) + var(--ot-hairline));
+    border-inline-start: var(--ot-hairline) solid var(--ot-rule-strong);
+    background: repeating-linear-gradient(to bottom, var(--ot-rule) 0 var(--ot-hairline), transparent var(--ot-hairline) var(--s));
+  }
+  .ot-melody-staff::before, .ot-melody-staff::after {
+    content: ""; position: absolute; inset-block: 0; inset-inline-end: 0; background: var(--ot-rule-strong);
+  }
+  .ot-melody-staff::before { inline-size: var(--ot-hairline); }
+  .ot-melody-staff::after { display: none; }
+  /* The last stave ends on a double bar, thin then heavy. */
+  .ot-melody-stave[data-last] .ot-melody-staff::before { inset-inline-end: calc(var(--ot-stroke) + 3px); }
+  .ot-melody-stave[data-last] .ot-melody-staff::after { display: block; inline-size: var(--ot-stroke); }
+  /* The engraving: slurs and the fermata, drawn as pen strokes (filled, so they swell and taper), and the dynamic in the italic,
+     all in pencil, under the words. In right-to-left the script mirrors the strokes to follow the notes. */
+  .ot-melody-marks { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; fill: var(--ot-pencil); }
+  .ot-melody-dynamic { font-family: var(--ot-expression); font-style: italic; font-weight: 600; font-size: calc(var(--ot-expression-scale) * 0.82em); letter-spacing: 0.02em; }
+  /* A note: the word's baseline sits on the step it was given. A halo of the ground around its letters stops the staff lines
+     and the stems just short of them, as a score leaves the lines clear of the words: the stave stays whole, and the words read.
+     Set --ot-melody-ground if the melody sits on something other than the paper. */
+  .ot-melody-note {
+    position: absolute; line-height: 1; white-space: pre; translate: 0 calc(-1 * var(--b));
+    paint-order: stroke fill; -webkit-text-stroke: 0.22em var(--ot-melody-ground, var(--ot-paper));
+  }
+  .ot-melody-note[data-lit] {
+    animation: ot-melody-sound var(--ot-adagio) var(--ot-exhale) calc(var(--k) * var(--ot-arpeggio));
+  }
+  /* Under its fermata the last word holds: it keeps the accent for as long again before it lets go. */
+  .ot-melody-note[data-lit][data-hold] { animation-name: ot-melody-hold; animation-duration: calc(2 * var(--ot-adagio)); }
+  /* Sounded: the accent, a small lift that lands, then it settles back to ink. */
+  @keyframes ot-melody-sound {
+    0%   { color: var(--ot-accent); translate: 0 calc(-1 * var(--b) - 0.14em); }
+    12%  { color: var(--ot-accent); translate: 0 calc(-1 * var(--b)); }
+    35%  { color: var(--ot-accent); }
+    100% { color: var(--ot-ink); }
+  }
+  @keyframes ot-melody-hold {
+    0%   { color: var(--ot-accent); translate: 0 calc(-1 * var(--b) - 0.14em); }
+    6%   { color: var(--ot-accent); translate: 0 calc(-1 * var(--b)); }
+    68%  { color: var(--ot-accent); }
+    100% { color: var(--ot-ink); }
+  }
+  /* Without motion there's no travel, only the colour: it holds until you leave. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.ot-melody-note[data-lit], .ot-melody-note[data-lit][data-hold]) { animation: none; color: var(--ot-accent); }
+  }
+
+  /* noteheads: the tune as discs on the staff, one a staff space across, the words underlaid as a
+     score's lyrics; no stems, no slurs. The discs speak as the calendar poster's days do: to come in
+     hairline rings, sung in ink, the word you're at in the accent. They fill (or empty) in turn from
+     where you were, one arpeggio apart. The fermata stands over the last disc; the dynamic above the
+     staff, as a vocal score sets it. */
+  .ot-melody-head {
+    position: absolute; inline-size: var(--s); block-size: var(--s); margin-inline-start: calc(var(--s) / -2); margin-block-start: calc(var(--s) / -2);
+    border-radius: 50%; border: var(--ot-stroke) solid var(--ot-rule-strong); background: var(--ot-melody-ground, var(--ot-paper));
+    transition: background-color var(--ot-moderato) var(--ot-exhale), border-color var(--ot-moderato) var(--ot-exhale); transition-delay: calc(var(--k) * var(--ot-arpeggio));
+  }
+  .ot-melody-head[data-sung] { background-color: var(--ot-ink); border-color: var(--ot-ink); }
+  .ot-melody-head[data-here] { background-color: var(--ot-accent); border-color: var(--ot-accent); }
+  .ot-melody[data-variant="noteheads"] .ot-melody-note { cursor: default; }
+
+  /* cutaway: as a cutaway score drops an instrument's staff while it rests, the five lines are drawn
+     only under the words; between them, and at the ends, there is only the paper, and the slurs carry
+     across the silence. No barlines. */
+  .ot-melody[data-variant="cutaway"] .ot-melody-staff { display: none; }
+  .ot-melody-bit {
+    position: absolute; block-size: calc(4 * var(--s) + var(--ot-hairline)); margin-inline-start: -0.12em; padding-inline: 0.12em; box-sizing: content-box;
+    background: repeating-linear-gradient(to bottom, var(--ot-rule) 0 var(--ot-hairline), transparent var(--ot-hairline) var(--s));
+  }
+
+  @media (forced-colors: active) {
+    .ot-melody-note { -webkit-text-stroke: 0; } /* the halo would be forced to the text colour and blot the words */
+    .ot-melody-head { forced-color-adjust: none; border-color: CanvasText; background: Canvas; }
+    .ot-melody-head[data-sung] { background: CanvasText; }
+    .ot-melody-head[data-here] { background: Highlight; border-color: Highlight; }
+    .ot-melody-bit, .ot-melody-staff { forced-color-adjust: none; background-image: repeating-linear-gradient(to bottom, GrayText 0 var(--ot-hairline), transparent var(--ot-hairline) var(--s)); }
+  }
+}

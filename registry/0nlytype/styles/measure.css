@@ -1,0 +1,83 @@
+@layer components {
+  /* ── ot-measure ── a paragraph whose width you set by its right edge. Everything is drawn in
+     characters (--ch: the average one in this text, measured by pretext; 1ch until then), so the handle, the track and the text agree.
+     The track runs the whole width; the range where a line reads well is the accent on it. */
+  .ot-measure { max-width: 100%; --track: 2.25rem; --from: 45; --to: 75; /* the comfortable range, in characters */ margin: 0; font-size: var(--ot-p); line-height: var(--ot-p-lh); }
+  /* A phone can't hold a comfortable measure at reading size, so it sets the paragraph a size down. */
+  @media (max-width: 30rem) { .ot-measure { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); } }
+  .ot-measure-read { display: flex; flex-direction: column; align-items: start; gap: var(--ot-space-1); margin: 0 0 var(--ot-space-4); }
+  /* The count: the number large, its words a dynamic down beside it, on one baseline (scale contrast, as "It has to be design." sets it). */
+  .ot-measure-count { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-mp) * var(--ot-expression-scale)); line-height: 1; letter-spacing: 0; color: var(--ot-ink); font-variant-numeric: lining-nums; }
+  .ot-measure-n { font-size: calc(var(--ot-mf) * var(--ot-expression-scale)); }
+  .ot-measure-verdict { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil); }
+
+  .ot-measure-stage { position: relative; padding-top: var(--track); }
+  .ot-measure-track {
+    position: absolute; inset: 0 0 auto; height: var(--track); cursor: ew-resize; touch-action: none;
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) 0 50% / 100% var(--ot-hairline) no-repeat;
+  }
+  .ot-measure-good {
+    position: absolute; top: calc(50% - var(--ot-stroke) / 2); height: var(--ot-stroke); background: var(--ot-accent);
+    inset-inline-start: calc(var(--from) * var(--ch, 1ch)); width: calc((var(--to) - var(--from)) * var(--ch, 1ch)); max-width: calc(100% - var(--from) * var(--ch, 1ch));
+  }
+  /* The comfortable range's ends as figures over the track, small and in pencil, as SPECTRA sets its data. */
+  .ot-measure-at {
+    position: absolute; bottom: calc(50% + 0.5rem); inset-inline-start: calc(var(--at) * var(--ch, 1ch)); translate: calc(var(--ot-measure-dir, 1) * -50%) 0; pointer-events: none;
+    font-size: var(--ot-pp); line-height: 1; letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil); font-variant-numeric: tabular-nums lining-nums;
+  }
+  /* The handle is the paragraph's right edge, a hairline from the track down through the lines; its
+     ring sits on the track. The hit area is wider than what's drawn. */
+  .ot-measure-handle {
+    position: absolute; top: 0; bottom: 0; inset-inline-start: calc(var(--n) * var(--ch, 1ch)); width: 2.25rem; translate: calc(var(--ot-measure-dir, 1) * -50%) 0;
+    cursor: ew-resize; touch-action: none; outline: 0;
+    background: linear-gradient(var(--ot-ink), var(--ot-ink)) 50% var(--track) / var(--ot-hairline) calc(100% - var(--track)) no-repeat;
+  }
+  .ot-measure-ring {
+    position: absolute; top: calc(var(--track) / 2); left: 50%; width: 0.75rem; height: 0.75rem; translate: -50% -50%;
+    border: var(--ot-stroke) solid var(--ot-ink); border-radius: 50%; background: var(--ot-paper);
+    transition: scale var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-measure-handle:is(:hover, :active) .ot-measure-ring { scale: 1.25; }
+  :is(.ot-measure-handle:focus-visible, .ot-measure[data-force~="focus"] .ot-measure-handle) .ot-measure-ring { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 4px; }
+
+  /* Right to left the edge is the line's end on the left: the handle and the figures centre the other way. */
+  .ot-measure:is([dir="rtl"], [dir="rtl"] *) { --ot-measure-dir: -1; }
+  .ot-measure-body { margin: 0; width: calc(var(--n) * var(--ch, 1ch)); max-width: 100%; color: var(--ot-graphite); }
+  .ot-measure-lines { display: block; }
+  .ot-measure-lines > span { display: block; white-space: pre; }
+
+  /* alphabets: the track is a ruler of lowercase alphabets in the paragraph's own face and size, as a
+     type specimen gives a face's alphabet length. The letters inside the measure are graphite, the
+     rest a rule's grey, and the letter the edge cuts is the accent; the hairline runs down through it. The
+     comfortable range is a hairline under the ruler. */
+  .ot-measure[data-variant="alphabets"] { --track: 3rem; }
+  .ot-measure[data-variant="alphabets"] .ot-measure-track { background: none; overflow: clip; }
+  .ot-measure-abc {
+    position: absolute; inset-inline: 0; top: 50%; translate: 0 -50%; display: block; overflow: clip;
+    line-height: 1; white-space: pre; color: var(--ot-rule-strong); /* the ruler beyond the measure: drawn, not read */
+  }
+  .ot-measure-abc > [data-in] { color: var(--ot-graphite); }
+  .ot-measure-abc > [data-edge] { color: var(--ot-accent); }
+  .ot-measure[data-variant="alphabets"] .ot-measure-good { top: calc(50% + 0.75em); height: var(--ot-hairline); background: var(--ot-rule-strong); }
+  .ot-measure[data-variant="alphabets"] .ot-measure-at, .ot-measure[data-variant="alphabets"] .ot-measure-ring { display: none; }
+  .ot-measure[data-variant="alphabets"] .ot-measure-handle { background-position: 50% 0; background-size: var(--ot-hairline) 100%; }
+  .ot-measure[data-variant="alphabets"] :is(.ot-measure-handle:focus-visible, [data-force~="focus"] .ot-measure-handle) { background-image: linear-gradient(var(--ot-accent), var(--ot-accent)); background-size: var(--ot-stroke) 100%; }
+
+  /* columns: the page takes as many columns of the measure as it holds, two ems apart, balanced;
+     the handle is the first column's edge, and narrowing the line brings another column in. */
+  .ot-measure[data-variant="columns"] .ot-measure-body {
+    width: calc(var(--cols) * var(--n) * var(--ch, 1ch) + (var(--cols) - 1) * var(--gap)); column-count: var(--cols); column-gap: var(--gap);
+  }
+
+  /* Forced colours: the hairlines in CanvasText, the comfortable range and the edge letter in Highlight. */
+  @media (forced-colors: active) {
+    .ot-measure-track, .ot-measure-handle, .ot-measure-good, .ot-measure-abc { forced-color-adjust: none; }
+    .ot-measure-track { background-image: linear-gradient(CanvasText, CanvasText); }
+    .ot-measure-handle { background-image: linear-gradient(CanvasText, CanvasText); }
+    .ot-measure-good { background: Highlight; }
+    .ot-measure-ring { border-color: CanvasText; background: Canvas; }
+    .ot-measure-abc { color: GrayText; }
+    .ot-measure-abc > [data-in] { color: CanvasText; }
+    .ot-measure-abc > [data-edge] { color: Highlight; }
+  }
+}

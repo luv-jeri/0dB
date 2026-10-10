@@ -1,4 +1,4 @@
-import { Skeleton, SkeletonLine, SkeletonRing, type SkeletonProps } from "@/registry/0db/ui/skeleton"
+import { Skeleton, SkeletonLine, SkeletonRing, type SkeletonProps } from "@/registry/0nlytype/ui/skeleton"
 import { State } from "@/components/site/state"
 
 // A headline and a paragraph that ends short, as a real one does.
@@ -15,10 +15,10 @@ const variants = ["baseline", "metrics", "words"] as const
 
 export default function Example() {
   return (
-    <div aria-busy="true" className="grid w-[min(36rem,100%)] gap-(--db-space-8)">
+    <div aria-busy="true" className="grid w-[min(36rem,100%)] gap-(--ot-space-8)">
       {variants.map((v) => (
         <div key={v} className="grid gap-4">
-          <span className="db-label">{v}</span>
+          <span className="ot-label">{v}</span>
           {lines(v)}
         </div>
       ))}

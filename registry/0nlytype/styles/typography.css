@@ -1,0 +1,70 @@
+@layer components {
+  /* ── ot-prose ── long text; punctuation hangs in the margin so the edge stays true */
+  .ot-prose { max-width: var(--ot-measure); color: var(--ot-graphite); hanging-punctuation: first last; }
+  .ot-prose > * + * { margin-top: 1em; }
+  .ot-prose > * + :is(h2, h3, h4, h5, h6) { margin-top: 1.8em; }
+  .ot-prose :is(h1, h2, h3, h4, h5, h6) { font-weight: 300; color: var(--ot-ink); }
+  .ot-prose h1 { font-size: var(--ot-ff); line-height: var(--ot-ff-lh); letter-spacing: var(--ot-ff-tr); }
+  .ot-prose h2 { font-size: var(--ot-f); line-height: var(--ot-f-lh); letter-spacing: var(--ot-f-tr); }
+  .ot-prose h3 { font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); }
+  .ot-prose :is(h4, h5, h6) { font-size: var(--ot-mp); line-height: var(--ot-mp-lh); font-weight: 500; }
+  .ot-prose-lead { font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-ink); text-wrap: balance; }
+  .ot-prose :is(h1, h2, h3, h4, h5, h6) { text-wrap: balance; }
+  .ot-prose :is(p, li) { text-wrap: pretty; }
+  .ot-prose blockquote { quotes: "“" "”"; font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-mp) * var(--ot-expression-scale)); line-height: 1.35; color: var(--ot-ink); }
+  .ot-prose blockquote > p { text-indent: -0.4em; } /* the opening mark hangs */
+  .ot-prose blockquote > p::before { content: open-quote; }
+  .ot-prose blockquote > p::after { content: close-quote; }
+  .ot-prose blockquote footer { margin-top: 0.6em; font-family: var(--ot-voice); font-style: normal; font-size: var(--ot-pp); color: var(--ot-pencil); }
+  .ot-prose ul { list-style: none; padding: 0; }
+  .ot-prose ul > li { position: relative; }
+  .ot-prose ul > li::before { content: "–" / ""; position: absolute; inset-inline-start: -1.1em; color: var(--ot-pencil); }
+  .ot-prose ol { padding: 0; padding-inline-start: 1.6em; list-style: decimal outside; } /* a number is too wide to hang: the list steps in, and the numbers stand on the edge */
+  .ot-prose ol > li::marker { color: var(--ot-pencil); font-variant-numeric: tabular-nums; }
+  .ot-prose li + li { margin-top: 0.5em; } /* half a paragraph's pause, so a long item still reads as one */
+  .ot-prose code { font-family: var(--ot-voice); font-stretch: 78%; font-weight: 500; letter-spacing: 0.01em; color: var(--ot-ink); }
+  .ot-prose small { font-size: var(--ot-pp); color: var(--ot-pencil); }
+  .ot-prose > :first-child { margin-top: 0; }
+  .ot-prose strong { font-weight: 500; color: var(--ot-ink); }
+  .ot-prose :is(em, i) { font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); }
+  .ot-prose ul ul, .ot-prose ol ol, .ot-prose ul ol, .ot-prose ol ul { margin-top: 0.35em; }
+  .ot-prose li > ul { padding-inline-start: 1.1em; } /* a nested list steps in by its dash, so the dash hangs under its parent's words */
+  .ot-prose hr { margin-block: 2em; }
+  .ot-prose img { display: block; max-inline-size: 100%; block-size: auto; }
+  .ot-prose figcaption { margin-top: 0.6em; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-prose pre {
+    tab-size: 2; white-space: pre-wrap; overflow-wrap: anywhere; /* code wraps: nothing in the page scrolls sideways */
+    font-family: var(--ot-voice); font-stretch: 88%; font-size: 0.9375em; line-height: 1.7; letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums lining-nums; color: var(--ot-graphite);
+  }
+  .ot-prose pre code { font: inherit; letter-spacing: inherit; color: inherit; }
+  .ot-prose table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+  .ot-prose :is(th, td) { padding: var(--ot-space-3) var(--ot-space-4) var(--ot-space-3) 0; text-align: start; vertical-align: baseline; border-bottom: var(--ot-hairline) solid var(--ot-rule); }
+  .ot-prose :is(th, td):last-child { padding-inline-end: 0; }
+  .ot-prose th { font-weight: 400; font-size: var(--ot-pp); color: var(--ot-pencil); }
+  .ot-prose thead th { padding-top: 0; border-bottom-color: var(--ot-ink); white-space: nowrap; }
+
+  /* book: the page of a book (Tschichold's Penguin rules; Bringhurst: indent or space, never both).
+     Paragraphs follow on without a space, each indented an em and a half, the first after a heading flush;
+     justified and hyphenated; the opening line set in spaced capitals; figures old style; a section break
+     is a dinkus of three dots, not a rule. */
+  .ot-prose[data-variant="book"] > p { text-align: justify; hyphens: auto; font-variant-numeric: oldstyle-nums proportional-nums; }
+  .ot-prose[data-variant="book"] > p + p { margin-top: 0; text-indent: 1.5em; }
+  .ot-prose[data-variant="book"] > :is(h1, h2, h3, h4, h5, h6, hr) + p::first-line,
+  .ot-prose[data-variant="book"] > p:first-child::first-line { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.84em; color: var(--ot-ink); }
+  .ot-prose[data-variant="book"] > :is(h1, h2, h3, h4, h5, h6) + .ot-prose-lead::first-line { text-transform: none; letter-spacing: inherit; font-size: inherit; }
+  .ot-prose[data-variant="book"] > hr { height: auto; margin-block: 1.6em; background: none; text-align: center; color: var(--ot-pencil); line-height: 1; }
+  .ot-prose[data-variant="book"] > hr::before { content: "·\2003·\2003·" / ""; font-size: var(--ot-mf); }
+  .ot-prose[data-variant="book"] > blockquote { margin-inline: 1.5em; font-size: calc(var(--ot-p) * var(--ot-expression-scale)); }
+
+  /* run-on: the scribe's paragraph. The paragraphs of a passage run on as one block, and where one
+     ends a pilcrow stands in the line: the silence between paragraphs is kept as a single mark. */
+  .ot-prose[data-variant="run-on"] > p:not(.ot-prose-lead) { display: inline; }
+  .ot-prose[data-variant="run-on"] > p:not(.ot-prose-lead) + p:not(.ot-prose-lead)::before {
+    content: "\00b6" / ""; margin-inline: 0.35em 0.3em;
+    font-family: var(--ot-expression); font-style: normal; font-size: calc(var(--ot-expression-scale) * 1.1em); line-height: 1; color: var(--ot-ink);
+  }
+  .ot-prose[data-variant="run-on"] > :not(p):has(+ p:not(.ot-prose-lead)) { margin-bottom: 1em; } /* an inline paragraph takes no margin: what stands before it keeps the space */
+  .ot-prose[data-variant="run-on"] > p:not(.ot-prose-lead) + :not(p) { margin-top: 1em; }
+  .ot-prose[data-variant="run-on"] > p:not(.ot-prose-lead) + :is(h2, h3, h4, h5, h6) { margin-top: 1.8em; }
+}

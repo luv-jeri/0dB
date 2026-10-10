@@ -1,0 +1,114 @@
+@layer components {
+  /* ── ot-menu ── a list of words on the popover panel (ot-pop, from popover.css: the
+     leader, the in and out); the one you point at is marked with the highlighter.
+     Radix moves the highlight (data-highlighted) with the pointer and the arrow keys.
+     Dropdown menu, context menu and menubar all wear it. */
+  .ot-pop.ot-menu { padding: var(--ot-space-2) 0; min-width: 14rem; }
+  .ot-pop.ot-menu > * { animation: ot-arrive var(--ot-moderato) var(--ot-exhale) backwards; animation-delay: calc((sibling-index() - 1) * var(--ot-arpeggio)); }
+  .ot-pop.ot-menu[data-state="closed"] > * { animation: none; }
+
+  .ot-menu-item {
+    position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: var(--ot-space-6);
+    margin: 0; padding: 0.34em var(--ot-space-5); cursor: pointer; user-select: none; outline: 0;
+    color: var(--ot-graphite);
+    background: linear-gradient(var(--ot-mark), var(--ot-mark)) no-repeat 100% 0 / 0% 100%;
+    /* The colour flips with the first frames of the stroke and back after the last, as the link's does, so the words are never pale on yellow. */
+    transition: background-size var(--ot-allegro) var(--ot-exhale), background-position 0s, color 0s linear var(--ot-allegro);
+  }
+  .ot-menu-item:is([data-highlighted], [data-force~="hover"], .ot-menu-sub[data-state="open"]) { background-position: 0 0; background-size: 100% 100%; color: var(--ot-on-mark); transition-delay: 0s; }
+  .ot-menu-item:is([dir="rtl"], [dir="rtl"] *) { background-position: 0 0; }
+  .ot-menu-item:is([dir="rtl"], [dir="rtl"] *):is([data-highlighted], [data-force~="hover"], .ot-menu-sub[data-state="open"]) { background-position: 100% 0; }
+
+  /* Checked, a sentence is yours: the expression italic. */
+  .ot-menu-item:is([data-state="checked"]) {
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); color: var(--ot-ink);
+    line-height: calc(var(--ot-p-lh) / var(--ot-expression-scale)); padding-block: calc(0.34em / var(--ot-expression-scale)); /* the row keeps its height */
+  }
+  .ot-menu-item[data-state="checked"][data-highlighted] { color: var(--ot-on-mark); }
+
+  /* A destructive item says so in its words; it only sits a little heavier. Red is for errors. */
+  .ot-menu-item[data-variant="destructive"] { font-weight: 500; color: var(--ot-ink); }
+  .ot-menu-item[data-variant="destructive"][data-highlighted] { color: var(--ot-on-mark); }
+
+  .ot-menu-item[data-disabled] { color: var(--ot-pencil); opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+
+  /* Only a sub-trigger opens something, so only it carries the arrow. */
+  .ot-menu-sub::after { content: "→" / ""; font-size: 0.85em; color: var(--ot-pencil); }
+  .ot-menu-sub:is([dir="rtl"], [dir="rtl"] *)::after { content: "←" / ""; }
+  .ot-menu-sub:is([data-highlighted], [data-state="open"])::after { color: inherit; }
+
+  /* On a narrow screen, with no room beside it, a submenu drops open under its item
+     (useSubmenuPlace), in by the words' inset: the next level of an outline. It hangs from
+     the item as the menu hangs from its trigger, a callout on a leader after Weingart: the dot
+     lands on the marked item's foot and the line drops, over a strip of paper that covers the
+     words it passes (and takes their taps). The item's arrow turns down while it is open. */
+  .ot-pop.ot-menu[data-drop] { border-top: var(--ot-pop-gap) solid var(--ot-paper); }
+  .ot-pop.ot-menu[data-drop]::before, .ot-pop.ot-menu[data-drop]::after { content: ""; position: absolute; pointer-events: none; background: var(--ot-ink); }
+  .ot-pop.ot-menu[data-drop]::before { inset-inline-start: var(--ot-pop-lead); bottom: 100%; width: var(--ot-hairline); height: var(--ot-pop-gap); transform-origin: 50% 0; }
+  .ot-pop.ot-menu[data-drop]::after { inset-inline-start: calc(var(--ot-pop-lead) - 2px); bottom: calc(100% + var(--ot-pop-gap) - 2.5px); width: 5px; height: 5px; border-radius: 50%; }
+  .ot-menu-sub[data-drop][data-state="open"]::after { content: "↓" / ""; }
+  @media (forced-colors: active) {
+    /* The highlighter is a gradient, which forced colours drops; the system's own highlight stands in. Leaders and orbit mark by other means. */
+    .ot-pop.ot-menu:not([data-variant="leaders"], [data-variant="orbit"]) .ot-menu-item:is([data-highlighted], [data-force~="hover"], .ot-menu-sub[data-state="open"]) { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+    .ot-pop.ot-menu[data-drop] { border-top-color: Canvas; }
+    .ot-pop.ot-menu[data-drop]::before, .ot-pop.ot-menu[data-drop]::after { background: CanvasText; }
+  }
+
+  .ot-menu-keys { display: inline-flex; align-items: baseline; gap: var(--ot-space-2); font-size: var(--ot-pp); color: var(--ot-pencil); font-variant-numeric: tabular-nums; }
+  .ot-menu-item:is([data-highlighted], [data-force~="hover"]) :is(.ot-menu-keys, .ot-kbd) { color: inherit; }
+  /* On the highlighter the caps' corners are drawn in the text's own colour, as the rules follow the ink. */
+  .ot-menu-item:is([data-highlighted], [data-force~="hover"]) .ot-kbd { --c: color-mix(in srgb, var(--ot-on-mark) 42%, transparent); }
+  .ot-pop.ot-menu:is([data-variant="leaders"], [data-variant="orbit"]) .ot-menu-item .ot-kbd { --c: var(--ot-rule-strong); }
+
+  .ot-menu-label { padding: var(--ot-space-2) var(--ot-space-5) var(--ot-space-1); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-menu-sep { height: var(--ot-hairline); margin-block: var(--ot-space-2); background: var(--ot-rule); }
+
+  /* ── leaders ── a book's contents page: each word is joined to its keys by a row of leader
+     dots, the way a title is joined to its page number. The highlighter stands down; the
+     leader of the word you point at inks from the word to its keys (or to the line's end, where
+     there are none) and leaves toward them, as the highlighter's stroke does. Submenus keep it. */
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item { --ot-leader: transparent; gap: var(--ot-space-2); white-space: nowrap; background: none; transition: color var(--ot-allegro); }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item:is(:has(.ot-menu-keys), .ot-menu-sub) { --ot-leader: var(--ot-rule-strong); }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item::before {
+    content: ""; order: 1; flex: 1 0 var(--ot-space-6); align-self: baseline; height: 0.5em;
+    background: linear-gradient(var(--ot-ink), var(--ot-ink)) no-repeat 100% 0 / 0% 100%, var(--ot-leader);
+    mask: radial-gradient(circle at 50% 84%, #000 0.07em, transparent 0.1em) 0 0 / 0.45em 100% repeat-x;
+    transition: background-size var(--ot-allegro) var(--ot-exhale), background-position 0s;
+  }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item > .ot-menu-keys { order: 2; }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-sub::after { order: 3; }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item:is([data-highlighted], [data-force~="hover"], .ot-menu-sub[data-state="open"]) { color: var(--ot-ink); }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item:is([data-highlighted], [data-force~="hover"], .ot-menu-sub[data-state="open"])::before { background-position: 0 0; background-size: 100% 100%; }
+  .ot-pop.ot-menu[data-variant="leaders"]:is([dir="rtl"], [dir="rtl"] *) .ot-menu-item::before { background-position: 0 0; }
+  .ot-pop.ot-menu[data-variant="leaders"]:is([dir="rtl"], [dir="rtl"] *) .ot-menu-item:is([data-highlighted], [data-force~="hover"], .ot-menu-sub[data-state="open"])::before { background-position: 100% 0; }
+  .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item:is([data-highlighted], [data-force~="hover"]) .ot-menu-keys { color: var(--ot-ink); }
+
+  /* ── marginalia ── after "It has to be design.", where small notes hang beside the big
+     words on hairline arrows: the word you point at is explained by its hint, set small in a
+     narrow ragged column beside the list at that word's height, on an arrow pointing back at
+     it. It glides from word to word. Where there's no room beside the list, it stands under
+     it as the list's caption, without the arrow. aria-hidden: each item carries its hint as its
+     description. */
+  .ot-menu-note {
+    position: absolute; inset-inline-start: calc(100% + var(--ot-space-3)); top: var(--ot-note-y, 0);
+    width: max-content; max-width: 13em; padding-block: var(--ot-space-1); padding-inline: calc(var(--ot-space-5) + var(--ot-space-2)) var(--ot-space-2);
+    translate: 0 calc(var(--ot-pp) * var(--ot-pp-lh) / -2 - var(--ot-space-1));
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite); text-wrap: pretty; background: var(--ot-paper); pointer-events: none;
+    transition: top var(--ot-moderato) var(--ot-exhale), opacity var(--ot-allegro);
+  }
+  .ot-menu-note::before, .ot-menu-note::after { content: ""; position: absolute; top: calc(var(--ot-space-1) + var(--ot-pp) * var(--ot-pp-lh) / 2); }
+  .ot-menu-note::before { inset-inline-start: 0; width: var(--ot-space-5); height: var(--ot-hairline); background: var(--ot-ink); }
+  .ot-menu-note::after { inset-inline-start: 1px; width: 5px; height: 5px; margin-top: -2.5px; border-inline-start: var(--ot-hairline) solid var(--ot-ink); border-block-end: var(--ot-hairline) solid var(--ot-ink); rotate: 45deg; }
+  .ot-menu-note:is([dir="rtl"], [dir="rtl"] *)::after { rotate: -45deg; }
+  .ot-menu-note[data-empty] { opacity: 0; }
+  .ot-menu-note[data-under] { top: calc(100% + var(--ot-space-3)); inset-inline-start: calc(var(--ot-space-5) - var(--ot-space-2)); translate: none; padding-inline-start: var(--ot-space-2); transition: opacity var(--ot-allegro); }
+  .ot-menu-note[data-under]::before, .ot-menu-note[data-under]::after { display: none; }
+
+  @media (forced-colors: active) {
+    .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item::before { forced-color-adjust: none; background: linear-gradient(CanvasText, CanvasText) no-repeat 100% 0 / 0% 100%, GrayText; }
+    .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item:not(:has(.ot-menu-keys), .ot-menu-sub)::before { background-color: transparent; }
+    .ot-pop.ot-menu[data-variant="leaders"] .ot-menu-item:is([data-highlighted], [data-force~="hover"])::before { background-position: 0 0; background-size: 100% 100%; }
+    .ot-menu-note::before { background: CanvasText; }
+    .ot-menu-note::after { border-color: CanvasText; }
+  }
+}

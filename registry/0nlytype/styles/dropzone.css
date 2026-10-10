@@ -1,0 +1,41 @@
+@layer components {
+  /* ── ot-drop ── files, dropped or chosen. The area is only its corner marks, after "the silence that heals": a frame that
+     doesn't close. Pointing sketches them in pencil; files carried over close them in and ink them, landing with spiccato;
+     focus sets them in the accent. The sentence is the control, a real file input under "choose". */
+  @property --ot-drop-c { syntax: "<color>"; inherits: true; initial-value: transparent; }
+  .ot-drop { display: grid; gap: var(--ot-space-5); }
+  .ot-drop[data-force~="focus"] { outline: 0; }
+  .ot-drop-zone {
+    --ot-drop-c: var(--ot-rule-strong); --ot-corner: var(--ot-space-4); --ot-corner-colour: var(--ot-drop-c); --ot-corner-inset: 0px;
+    position: relative; isolation: isolate; overflow: clip; display: grid; place-content: center; justify-items: center; gap: var(--ot-space-2);
+    min-block-size: calc(var(--ot-space-9) + var(--ot-space-5)); padding: var(--ot-space-6) var(--ot-space-5); text-align: center; cursor: pointer;
+    transition: --ot-drop-c var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-drop-zone::after { transition: inset var(--ot-andante) var(--ot-spiccato); }
+  .ot-drop-zone:hover, .ot-drop[data-force~="hover"] > .ot-drop-zone { --ot-drop-c: var(--ot-pencil); }
+  .ot-drop-zone:has(> input:focus-visible), .ot-drop[data-force~="focus"] > .ot-drop-zone { --ot-drop-c: var(--ot-accent); }
+  .ot-drop:is([data-over], [data-force~="over"]) > .ot-drop-zone { --ot-drop-c: var(--ot-ink); --ot-corner-inset: var(--ot-space-4); }
+  .ot-drop-words { font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-graphite); transition: color var(--ot-moderato); }
+  .ot-drop:is([data-over], [data-force~="over"]) .ot-drop-words { color: var(--ot-ink); }
+  .ot-drop-hint { max-width: 40ch; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+  .ot-drop[data-disabled] > .ot-drop-zone { --ot-drop-c: var(--ot-rule); cursor: not-allowed; }
+  .ot-drop[data-disabled] :is(.ot-drop-words, .ot-drop-words .ot-link) { color: var(--ot-pencil); }
+
+  /* ── ghost ── after the ghost numerals behind "the silence that heals": the number of files you carry stands huge and faint
+     behind the words, cropped by the area's foot and end, and stays as the number held. It turns over as the count moves. */
+  .ot-drop-ghost {
+    position: absolute; z-index: -1; inset-inline-end: var(--ot-space-3); bottom: -0.2em; pointer-events: none;
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-fff) * var(--ot-expression-scale)); line-height: 0.8; letter-spacing: var(--ot-fff-tr);
+    font-variant-numeric: lining-nums tabular-nums; color: color-mix(in srgb, var(--ot-ink) 8%, transparent);
+    transition: opacity var(--ot-andante) var(--ot-exhale), color var(--ot-moderato);
+  }
+  .ot-drop-ghost[data-none] { opacity: 0; }
+  .ot-drop:is([data-over], [data-force~="over"]) .ot-drop-ghost { color: color-mix(in srgb, var(--ot-ink) 14%, transparent); }
+
+  @media (forced-colors: active) {
+    .ot-drop-zone { forced-color-adjust: none; --ot-drop-c: GrayText; color: CanvasText; }
+    .ot-drop-zone:has(> input:focus-visible) { --ot-drop-c: Highlight; }
+    .ot-drop[data-over] > .ot-drop-zone { --ot-drop-c: CanvasText; }
+    .ot-drop-ghost { display: none; }
+  }
+}

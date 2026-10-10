@@ -1,0 +1,142 @@
+@layer components {
+  /* ── ot-scrollbar ── a scrollbar as a ruler: a hairline and a thumb as long as the
+     view. Inside a scroller it is pinned to the edge by the scroller's own timeline;
+     data-axis="x" runs it along the bottom of a box that scrolls sideways;
+     data-variant="page" fixes it to the window and adds a mark at each section.
+     Pointing sketches; holding inks it in the accent. Script sets --view, --max,
+     data-idle (nothing to scroll) and data-ready. data-force pins a look for the docs:
+     the rail is drawn where --view and --p (0 to 1) put the thumb. */
+  .ot-scrollbar {
+    --view: 0.2; --max: 0px; --w: var(--ot-stroke); --line: 0.375rem; /* the hairline sits this far in from the edge */
+    position: absolute; z-index: 3; inset-block: 0; inset-inline-end: 0; width: 0.875rem;
+    display: none; touch-action: none; user-select: none;
+    /* The rail lives inside what scrolls, so it travels down as far as the content does, and stays put. */
+    animation: ot-scrollbar-pin linear both; animation-timeline: scroll(nearest);
+  }
+  /* The rail's host (the scroller around it) needs a position to pin to; the script says so when it has none (a class of yours can override this). */
+  [data-scrollbar-host="pin"] { position: relative; }
+  @keyframes ot-scrollbar-pin { to { translate: 0 var(--max); } }
+  @keyframes ot-scrollbar-pin-x { to { translate: calc(var(--max) * var(--dir, 1)) 0; } }
+  .ot-scrollbar[data-variant="page"] { --line: 0.5rem; position: fixed; z-index: 40; width: 1.5rem; animation: none; }
+  @supports (animation-timeline: scroll()) {
+    @media (pointer: fine) {
+      .ot-scrollbar[data-ready]:not([data-idle]) { display: block; }
+      [data-scrollbar-host] { scrollbar-width: none; }
+      [data-scrollbar-host]::-webkit-scrollbar { display: none; }
+    }
+  }
+  .ot-scrollbar::before {
+    content: ""; position: absolute; inset-block: 0; inset-inline-end: var(--line); width: var(--ot-hairline);
+    background: var(--ot-rule); transition: background-color var(--ot-allegro) var(--ot-exhale);
+  }
+  /* Sideways: the same rail along the bottom edge, travelling the other way in right-to-left. */
+  .ot-scrollbar[data-axis="x"] { inset-block: auto 0; inset-inline: 0; width: auto; height: 0.875rem; animation-name: ot-scrollbar-pin-x; animation-timeline: scroll(nearest inline); }
+  .ot-scrollbar[data-axis="x"]::before { inset-block: auto var(--line); inset-inline: 0; width: auto; height: var(--ot-hairline); }
+  .ot-scrollbar-thumb {
+    position: absolute; top: 0; inset-inline-end: var(--line); height: calc(var(--view) * 100%);
+    width: var(--w); margin-inline-end: calc((var(--ot-hairline) - var(--w)) / 2); /* centred on the hairline */
+    background: var(--ot-ink);
+    /* translate is a share of its own height: the rest of the rail is (1 / view − 1) thumbs long */
+    animation: ot-scrollbar-go linear both; animation-timeline: scroll(nearest);
+    transition: width var(--ot-allegro) var(--ot-spiccato), height var(--ot-allegro) var(--ot-spiccato), margin var(--ot-allegro) var(--ot-spiccato), background-color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-scrollbar[data-axis="x"] .ot-scrollbar-thumb {
+    top: auto; bottom: var(--line); inset-inline: 0 auto; width: calc(var(--view) * 100%); height: var(--w);
+    margin: 0; margin-block-end: calc((var(--ot-hairline) - var(--w)) / 2);
+    animation-name: ot-scrollbar-go-x; animation-timeline: scroll(nearest inline);
+  }
+  .ot-scrollbar[data-variant="page"] .ot-scrollbar-thumb { animation-timeline: scroll(root); }
+  @keyframes ot-scrollbar-go { to { translate: 0 calc((1 / var(--view) - 1) * 100%); } }
+  @keyframes ot-scrollbar-go-x { to { translate: calc((1 / var(--view) - 1) * 100% * var(--dir, 1)) 0; } }
+  .ot-scrollbar[data-force] { display: block; animation: none; }
+  .ot-scrollbar[data-force] .ot-scrollbar-thumb { animation: none; translate: 0 calc(var(--p, 0) * (1 / var(--view) - 1) * 100%); }
+  .ot-scrollbar-mark {
+    position: absolute; top: calc(var(--at) * 100%); inset-inline: 0; height: 1rem; margin-top: -0.5rem; cursor: pointer;
+  }
+  .ot-scrollbar-mark::before {
+    content: ""; position: absolute; top: 50%; inset-inline-end: var(--line); width: 0.5rem; height: var(--ot-hairline);
+    background: var(--ot-rule-strong); transition: background-color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-scrollbar-mark[data-now]::before { background: var(--ot-ink); }
+  .ot-scrollbar-mark::after {
+    content: attr(data-num); position: absolute; top: 50%; inset-inline-end: calc(100% + var(--ot-space-1));
+    translate: 0 -50%; padding-inline: 0.4em; white-space: nowrap; background: var(--ot-paper);
+    font-size: var(--ot-pp); line-height: 1; font-variant-numeric: tabular-nums; color: var(--ot-pencil);
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--ot-allegro) var(--ot-exhale), visibility 0s var(--ot-allegro);
+  }
+  /* Sideways, a mark is a tick rising from the rail, its number above it. The number leans into the box as its mark
+     nears either end (by its share of the rail), so it is never cut off by the box's edge. */
+  .ot-scrollbar[data-axis="x"] .ot-scrollbar-mark { inset-block: 0; inset-inline: calc(var(--at) * 100%) auto; width: 1rem; height: auto; margin: 0; margin-inline-start: -0.5rem; }
+  .ot-scrollbar[data-axis="x"] .ot-scrollbar-mark::before { top: auto; bottom: var(--line); inset-inline: 50% auto; width: var(--ot-hairline); height: 0.5rem; }
+  .ot-scrollbar[data-axis="x"] .ot-scrollbar-mark::after { top: auto; bottom: 100%; inset-inline: 50% auto; translate: calc(var(--at) * -100% * var(--dir, 1)) 0; }
+  /* A box is short, so down its side a number leans into it as its mark nears the top or bottom (by its share of the
+     rail), the way the sideways ones do: the first is never cut off by the box's top edge. The page's rail is tall enough. */
+  .ot-scrollbar:not([data-variant="page"], [data-axis]) .ot-scrollbar-mark::after { translate: 0 calc(var(--at) * -100%); }
+  /* Pointing sketches: pointing at what scrolls darkens the rail; pointing at the rail thickens the thumb
+     and brings the page's numbers down the rail in turn. */
+  :hover > .ot-scrollbar::before, .ot-scrollbar:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"])::before { background: var(--ot-rule-strong); }
+  .ot-scrollbar:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"]) { --w: 4px; }
+  .ot-scrollbar:is(:hover, [data-force~="hover"], [data-force~="active"]) .ot-scrollbar-mark::after {
+    opacity: 1; visibility: visible; transition-delay: calc(var(--i, 0) * var(--ot-arpeggio)), 0s;
+  }
+  .ot-scrollbar-mark:hover::after { content: attr(data-num) "\2002" attr(data-name); color: var(--ot-ink); }
+  .ot-scrollbar-mark[data-num=""]:hover::after { content: attr(data-name); } /* a section without a numeral goes by its name */
+  .ot-scrollbar-mark:hover::before { background: var(--ot-ink); }
+  /* Holding inks it: the thumb is where you are, so it takes the one accent. */
+  .ot-scrollbar:is([data-dragging], [data-force~="active"]) .ot-scrollbar-thumb { background: var(--ot-accent); }
+  .ot-scrollbar[data-dragging] { cursor: grabbing; } /* pointer capture keeps it while the hand is down */
+
+  /* Numeral, after "the silence that heals" (14 / 08), where numbers are the data: the thumb is a figure, how far down
+     you are from 00 to 100, riding the hairline on a dot. It counts through every number as the box scrolls: a counter on
+     a registered number that the scroller's own timeline drives, so it keeps time with any smooth scrolling. */
+  @property --ot-scrollbar-read { syntax: "<number>"; inherits: true; initial-value: 0; }
+  @property --ot-scrollbar-n { syntax: "<integer>"; inherits: false; initial-value: 0; }
+  .ot-scrollbar[data-variant="numeral"] { width: 3.25rem; }
+  .ot-scrollbar[data-variant="numeral"] .ot-scrollbar-thumb { inset-inline-start: 0; width: auto; height: 1.5rem; margin: 0; background: none; animation-name: ot-scrollbar-read; }
+  @keyframes ot-scrollbar-read { to { translate: 0 calc((1 / var(--view) - 1) * 100%); --ot-scrollbar-read: 1; } }
+  .ot-scrollbar[data-variant="numeral"][data-force] .ot-scrollbar-thumb { --ot-scrollbar-read: var(--p, 0); }
+  .ot-scrollbar[data-variant="numeral"] .ot-scrollbar-thumb::before {
+    content: ""; position: absolute; top: 50%; inset-inline-end: calc(var(--ot-hairline) / 2 - 0.1875rem); width: 0.375rem; height: 0.375rem;
+    translate: 0 -50%; border-radius: 50%; background: var(--ot-ink); transition: background-color var(--ot-allegro) var(--ot-exhale), scale var(--ot-allegro) var(--ot-spiccato);
+  }
+  .ot-scrollbar[data-variant="numeral"] .ot-scrollbar-thumb::after {
+    --ot-scrollbar-n: round(var(--ot-scrollbar-read) * 100, 1); counter-reset: ot-scrollbar-read var(--ot-scrollbar-n); content: counter(ot-scrollbar-read, decimal-leading-zero);
+    position: absolute; inset-block: 0; inset-inline-end: calc(0.1875rem + var(--ot-space-2)); line-height: 1.5rem; font-size: var(--ot-p); letter-spacing: var(--ot-p-tr);
+    font-variant-numeric: tabular-nums; color: var(--ot-pencil); transition: color var(--ot-allegro) var(--ot-exhale);
+  }
+  .ot-scrollbar[data-variant="numeral"]:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"]) .ot-scrollbar-thumb::after { color: var(--ot-ink); }
+  .ot-scrollbar[data-variant="numeral"]:is(:hover, [data-dragging], [data-force~="hover"], [data-force~="active"]) .ot-scrollbar-thumb::before { scale: 1.34; }
+  .ot-scrollbar[data-variant="numeral"]:is([data-dragging], [data-force~="active"]) .ot-scrollbar-thumb { background: none; }
+  .ot-scrollbar[data-variant="numeral"]:is([data-dragging], [data-force~="active"]) .ot-scrollbar-thumb::before { background: var(--ot-accent); }
+  .ot-scrollbar[data-variant="numeral"]:is([data-dragging], [data-force~="active"]) .ot-scrollbar-thumb::after { color: var(--ot-accent); }
+  /* Numbers of the section marks stand clear of the figure. */
+  .ot-scrollbar[data-variant="numeral"] .ot-scrollbar-mark::after { inset-inline-end: calc(100% + var(--ot-space-1)); }
+
+  /* Leaves, after the "Less but better" calendar: a disc for every screenful the box holds, down from the top of its rail.
+     Those you've read are ink, the one you're on is the one accent, those to come are hairline rings. There is no thumb:
+     press a disc and the box turns to that leaf. The script lays the discs and marks data-read and data-now as you scroll. */
+  .ot-scrollbar[data-variant="leaves"] { width: 1.5rem; --line: 0.5rem; }
+  .ot-scrollbar[data-variant="leaves"]::before, .ot-scrollbar[data-variant="leaves"] .ot-scrollbar-thumb { display: none; }
+  .ot-scrollbar-leaves { position: absolute; inset: 0; display: grid; align-content: start; }
+  .ot-scrollbar-leaf { position: relative; height: 1.125rem; cursor: pointer; }
+  .ot-scrollbar-leaf::before {
+    content: ""; position: absolute; top: 50%; inset-inline-end: calc(var(--line) + var(--ot-hairline) / 2 - 0.3125rem); width: 0.625rem; height: 0.625rem;
+    translate: 0 -50%; box-sizing: border-box; border-radius: 50%; border: var(--ot-hairline) solid var(--ot-rule-strong);
+    transition: background-color var(--ot-allegro) var(--ot-exhale), border-color var(--ot-allegro) var(--ot-exhale), scale var(--ot-allegro) var(--ot-spiccato);
+  }
+  .ot-scrollbar-leaf[data-read]::before { background: var(--ot-ink); border-color: var(--ot-ink); }
+  .ot-scrollbar-leaf[data-now]::before { background: var(--ot-accent); border-color: var(--ot-accent); }
+  .ot-scrollbar-leaf:hover::before { scale: 1.2; }
+  .ot-scrollbar-leaf::after {
+    content: attr(data-leaf); position: absolute; top: 50%; inset-inline-end: calc(100% + var(--ot-space-1)); translate: 0 -50%;
+    padding-inline: 0.4em; white-space: nowrap; background: var(--ot-paper); font-size: var(--ot-pp); line-height: 1; font-variant-numeric: tabular-nums; color: var(--ot-ink);
+    opacity: 0; visibility: hidden; transition: opacity var(--ot-allegro) var(--ot-exhale), visibility 0s var(--ot-allegro);
+  }
+  .ot-scrollbar-leaf:hover::after { opacity: 1; visibility: visible; transition-delay: 0s; }
+
+  /* Forced colours paint over backgrounds, which is how the thumb, the dot and the discs are drawn: keep them, in system colours. */
+  @media (forced-colors: active) {
+    .ot-scrollbar { forced-color-adjust: none; --ot-paper: Canvas; --ot-ink: CanvasText; --ot-pencil: GrayText; --ot-rule: GrayText; --ot-rule-strong: GrayText; --ot-accent: Highlight; }
+  }
+}

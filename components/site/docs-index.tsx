@@ -4,8 +4,8 @@ import * as React from "react"
 import NextLink from "next/link"
 import { usePathname } from "next/navigation"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Sidebar, SidebarGroup, SidebarLink } from "@/registry/0db/ui/sidebar"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Sidebar, SidebarGroup, SidebarLink } from "@/registry/0nlytype/ui/sidebar"
 
 export type IndexGroup = { label: string; links: { href: string; title: string; summary?: string }[] }
 

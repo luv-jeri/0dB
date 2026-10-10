@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TablePick, type TableProps } from "@/registry/0db/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TablePick, type TableProps } from "@/registry/0nlytype/ui/table"
 import { State } from "@/components/site/state"
 
 const projects = [
@@ -38,7 +38,7 @@ function Distances({ force }: { force?: [number, number] }) {
       <TableCaption>Distances between the studios, in kilometres</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead><span className="db-sr">From</span></TableHead>
+          <TableHead><span className="ot-sr">From</span></TableHead>
           {cities.map((c) => <TableHead key={c} numeric>{c}</TableHead>)}
         </TableRow>
       </TableHeader>
@@ -62,15 +62,15 @@ export default function Example() {
   return (
     <div className="grid w-full grid-cols-[minmax(0,1fr)] justify-items-start gap-12">
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Ink</span>
+        <span className="ot-label">Ink</span>
         <Projects />
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Forte</span>
+        <span className="ot-label">Forte</span>
         <Projects variant="forte" />
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Cross</span>
+        <span className="ot-label">Cross</span>
         <Distances />
       </div>
     </div>
@@ -84,7 +84,7 @@ function Projects({ variant }: { variant?: TableProps["variant"] }) {
   const all = picked.size === projects.length
 
   return (
-    <div className="grid w-full gap-(--db-space-4)">
+    <div className="grid w-full gap-(--ot-space-4)">
       <Table variant={variant}>
         <TableCaption>Fees by project</TableCaption>
         <TableHeader>
@@ -129,7 +129,7 @@ function Projects({ variant }: { variant?: TableProps["variant"] }) {
         </TableBody>
       </Table>
       <p aria-live="polite">
-        <span className="db-yours">{picked.size}</span> of {projects.length} chosen
+        <span className="ot-yours">{picked.size}</span> of {projects.length} chosen
       </p>
     </div>
   )

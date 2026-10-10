@@ -4,7 +4,7 @@ export default defineComponent({
   name: "waterfall",
   title: "Waterfall",
   movement: "II",
-  contract: "db-waterfall",
+  contract: "ot-waterfall",
   summary: "A type specimen waterfall: one sentence at every dynamic, loudest first, each line filled to the measure with as many whole words as the size holds.",
   underneath: "hook",
   props: [

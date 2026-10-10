@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Button } from "@/registry/0db/ui/button"
-import { Sidebar, SidebarGroup, SidebarHead, SidebarLink, type SidebarProps } from "@/registry/0db/ui/sidebar"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Sidebar, SidebarGroup, SidebarHead, SidebarLink, type SidebarProps } from "@/registry/0nlytype/ui/sidebar"
 
 // Folded, pointing at a tick names it and shows its line.
 const pages = {
@@ -53,7 +53,7 @@ export default function Example() {
         <Button variant="quiet" aria-expanded={!folded} aria-controls="studio-app" onClick={() => setFolded((f) => !f)}>
           {folded ? "Unfold the sidebar" : "Fold the sidebar"}
         </Button>
-        <p className="db-mf">{current}</p>
+        <p className="ot-mf">{current}</p>
         <p>Seven projects, three of them live. Choose a page on the left, or fold the column to a ruler and point at a tick.</p>
       </div>
     </div>

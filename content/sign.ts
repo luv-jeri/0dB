@@ -4,7 +4,7 @@ export default defineComponent({
   name: "sign",
   title: "Sign",
   movement: "II",
-  contract: "db-sign",
+  contract: "ot-sign",
   summary: "An icon made of its own word with Pretext: ruled in middle-dot leaders, laid along its strokes, or filling its silhouette row by row. Pointed at, it says itself.",
   underneath: "hook",
   props: [

@@ -1,4 +1,4 @@
-import { RadarChart } from "@/registry/0db/ui/radar-chart"
+import { RadarChart } from "@/registry/0nlytype/ui/radar-chart"
 import { State } from "@/components/site/state"
 
 // A typeface judged out of ten on six counts.

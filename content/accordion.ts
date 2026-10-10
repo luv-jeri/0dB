@@ -4,7 +4,7 @@ export default defineComponent({
   name: "accordion",
   title: "Accordion",
   movement: "VIII",
-  contract: "db-disclose",
+  contract: "ot-disclose",
   summary: "Questions you open. Ruled off, with a plus that winds into a cross as the question swells into a heading; or run in with their answers like a book's paragraphs; glossed in the outer column; or stood side by side as columns that widen.",
   underneath: "native",
   props: [

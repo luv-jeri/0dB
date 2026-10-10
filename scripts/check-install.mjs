@@ -29,7 +29,7 @@ export function readRegistry(root) {
 export function dependencyName(address, registry) {
   const name = /^https?:\/\//.test(address)
     ? siteRoute(new URL(address).pathname).match(/^\/r\/([^/]+)\.json$/)?.[1]
-    : address.replace(/^@0db\//, "")
+    : address.replace(/^@0nlytype\//, "")
   if (!name || !registry.has(name)) throw new Error(`Missing local registry dependency: ${address}`)
   return name
 }
@@ -164,8 +164,8 @@ export async function main(args = process.argv.slice(2)) {
   const registry = readRegistry(here)
   const names = selectItems(args, registry)
   const plan = checkPlan(names, registry, args.length > 0)
-  const root = mkdtempSync(path.join(tmpdir(), "0db-install-"))
-  const cache = path.join(tmpdir(), "0db-install-npm-cache")
+  const root = mkdtempSync(path.join(tmpdir(), "0nlytype-install-"))
+  const cache = path.join(tmpdir(), "0nlytype-install-npm-cache")
   let server
   try {
     const pkg = JSON.parse(readFileSync(path.join(here, "package.json"), "utf8"))
@@ -176,7 +176,7 @@ export async function main(args = process.argv.slice(2)) {
     }))
     const baseline = path.join(root, "baseline")
     put(baseline, "package.json", {
-      name: "0db-install-consumer", private: true, type: "module",
+      name: "0nlytype-install-consumer", private: true, type: "module",
       dependencies: versions(["next", "react", "react-dom"]),
       devDependencies: versions(["tailwindcss", "@tailwindcss/postcss", "typescript", "@types/react", "@types/react-dom", "@types/node"]),
     })
@@ -194,7 +194,7 @@ export async function main(args = process.argv.slice(2)) {
       if (!item) { res.writeHead(404).end(); return }
       try {
         const local = { ...item, registryDependencies: (item.registryDependencies ?? []).map((dep) => `${base}/r/${dependencyName(dep, registry)}.json`) }
-        if (item.config?.registries) local.config = { ...item.config, registries: { ...item.config.registries, "@0db": `${base}/r/{name}.json` } }
+        if (item.config?.registries) local.config = { ...item.config, registries: { ...item.config.registries, "@0nlytype": `${base}/r/{name}.json` } }
         res.writeHead(200, { "content-type": "application/json" }).end(JSON.stringify(local))
       } catch (error) { res.writeHead(500).end(error.message) }
     })

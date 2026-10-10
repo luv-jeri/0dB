@@ -4,7 +4,7 @@ export default defineComponent({
   name: "attachment",
   title: "Attachment",
   movement: "XI",
-  contract: "db-attach",
+  contract: "ot-attach",
   summary: "A file's extension is its picture; a ring counts it in and fills to a dot when it's safe.",
   underneath: "native",
   props: [

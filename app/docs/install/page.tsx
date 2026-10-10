@@ -2,11 +2,11 @@ import { siteURL } from "@/lib/site/config.mjs"
 import type { Metadata } from "next"
 import NextLink from "next/link"
 
-import { Source } from "@/registry/0db/ui/source"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Steps, Step, StepTitle } from "@/registry/0db/ui/steps"
-import { Link } from "@/registry/0db/ui/link"
-import { Prose } from "@/registry/0db/ui/typography"
+import { Source } from "@/registry/0nlytype/ui/source"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Steps, Step, StepTitle } from "@/registry/0nlytype/ui/steps"
+import { Link } from "@/registry/0nlytype/ui/link"
+import { Prose } from "@/registry/0nlytype/ui/typography"
 
 export const metadata: Metadata = {
   title: "Install",
@@ -44,13 +44,13 @@ export default function Install() {
               The tokens, the default font pair, the reset and the base pieces (link, key, fraction, meta, corners). It also points shadcn&apos;s own colour names at 0nlyType&apos;s, so
               a stock globals.css renders 0nlyType.
             </p>
-            <CommandLine runner command={`shadcn@latest add ${BASE}/0db.json`} emphasis="0db" />
+            <CommandLine runner command={`shadcn@latest add ${BASE}/0nlytype.json`} emphasis="0nlytype" />
           </Step>
           <Step>
             <StepTitle>Add an item</StepTitle>
             <p>
               Each item brings the base and the siblings it needs. Its stylesheet is imported into your global CSS for you, by a path relative to app/globals.css. With a src/ layout,
-              shadcn puts the files in src/styles/0db/, so the same path works from src/app/globals.css.
+              shadcn puts the files in src/styles/0nlytype/, so the same path works from src/app/globals.css.
             </p>
             <CommandLine runner command={`shadcn@latest add ${BASE}/button.json ${BASE}/checkbox.json`} />
           </Step>
@@ -72,7 +72,7 @@ export default function Install() {
               <code>fonts-salon</code>.
             </li>
             <li>
-              Every item&apos;s CSS sits in <code>@layer components</code> and reads only <code>--db-*</code> tokens, so your Tailwind utilities still win where you use them.
+              Every item&apos;s CSS sits in <code>@layer components</code> and reads only <code>--ot-*</code> tokens, so your Tailwind utilities still win where you use them.
             </li>
             <li>Reduced motion is handled in the tokens: every tempo becomes 1ms. Nothing else to set.</li>
             <li>

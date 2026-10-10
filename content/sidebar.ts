@@ -4,7 +4,7 @@ export default defineComponent({
   name: "sidebar",
   title: "Sidebar",
   movement: "VIII",
-  contract: "db-sidebar",
+  contract: "ot-sidebar",
   summary: "A column of words beside the work. Folded, it becomes a ruler: a numeral for each group, a tick for each link, and the name comes out into the margin when you point at it.",
   underneath: "hook",
   props: [

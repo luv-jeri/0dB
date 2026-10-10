@@ -1,5 +1,5 @@
-import { Alert, AlertActions, AlertCorrection, AlertDescription, AlertTitle } from "@/registry/0db/ui/alert"
-import { Button } from "@/registry/0db/ui/button"
+import { Alert, AlertActions, AlertCorrection, AlertDescription, AlertTitle } from "@/registry/0nlytype/ui/alert"
+import { Button } from "@/registry/0nlytype/ui/button"
 import { State } from "@/components/site/state"
 
 export default function Example() {

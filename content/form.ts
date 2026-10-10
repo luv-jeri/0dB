@@ -4,7 +4,7 @@ export default defineComponent({
   name: "form",
   title: "Form",
   movement: "VI",
-  contract: "db-form",
+  contract: "ot-form",
   summary: "Fields on the grid and one statement button. A failed send gives each field its callout and focuses the first; while sending, the button says so. Or write it as a letter with a postscript, or have it postmarked when it's sent.",
   underneath: "hook",
   props: [

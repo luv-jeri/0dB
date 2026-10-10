@@ -4,7 +4,7 @@ export default defineComponent({
   name: "dialog",
   title: "Dialog",
   movement: "VII",
-  contract: "db-dialog",
+  contract: "ot-dialog",
   summary: "The question, set large, with two plain answers. The page holds still behind it.",
   underneath: "hook",
   props: [

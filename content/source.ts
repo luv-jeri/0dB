@@ -4,7 +4,7 @@ export default defineComponent({
   name: "source",
   title: "Source",
   movement: "X",
-  contract: "db-source",
+  contract: "ot-source",
   summary: "Code, set as type. Weight is the only highlighting, what someone wrote is italic, and a bracket joins the lines like a system in a score.",
   underneath: "hook",
   props: [

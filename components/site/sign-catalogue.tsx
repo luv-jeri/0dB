@@ -5,11 +5,11 @@ import NextLink from "next/link"
 
 import { signs } from "@/lib/site/signs"
 import { registryURL } from "@/lib/site/config.mjs"
-import { Sign, mirrored, type SignShape, type SignVariant } from "@/registry/0db/ui/sign"
-import { Field, Input } from "@/registry/0db/ui/field"
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Link } from "@/registry/0db/ui/link"
+import { Sign, mirrored, type SignShape, type SignVariant } from "@/registry/0nlytype/ui/sign"
+import { Field, Input } from "@/registry/0nlytype/ui/field"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Link } from "@/registry/0nlytype/ui/link"
 import { SignStill } from "@/components/site/sign-still"
 
 const all = Object.entries(signs)
@@ -17,7 +17,7 @@ const VARIANTS: SignVariant[] = ["dots", "words", "fill"]
 // The grid draws this many tiles at first and as many more each time an undrawn one comes near, so the page opens
 // light. Undrawn tiles still carry their word and name, one element each, so the browser's Find reaches every sign.
 const BATCH = 48
-// Words below this side are drawn as dots (registry/0db/ui/sign.tsx, WORDS): the size control says so.
+// Words below this side are drawn as dots (registry/0nlytype/ui/sign.tsx, WORDS): the size control says so.
 const WORDS_FROM = 40
 
 const watchDir = (change: () => void) => {
@@ -92,13 +92,13 @@ export function SignCatalogue() {
           <Input type="search" value={query} placeholder="A name or a word" onChange={(event) => { setQuery(event.target.value); setLimit(BATCH) }} />
         </Field>
         <div className="doc-signs-choice">
-          <span className="db-label" id="doc-signs-variant">Variant</span>
+          <span className="ot-label" id="doc-signs-variant">Variant</span>
           <ToggleGroup variant="bracket" type="single" value={variant} onValueChange={(v) => v && setVariant(v as SignVariant)} aria-labelledby="doc-signs-variant">
             {VARIANTS.map((v) => <ToggleGroupItem key={v} value={v}>{v}</ToggleGroupItem>)}
           </ToggleGroup>
         </div>
         <div className="doc-signs-choice">
-          <span className="db-label" id="doc-signs-size">Size</span>
+          <span className="ot-label" id="doc-signs-size">Size</span>
           <ToggleGroup variant="bracket" type="single" value={size} onValueChange={(v) => v && setSize(v)} aria-labelledby="doc-signs-size">
             <ToggleGroupItem value="24">24</ToggleGroupItem>
             <ToggleGroupItem value="48">48</ToggleGroupItem>
@@ -106,7 +106,7 @@ export function SignCatalogue() {
           </ToggleGroup>
         </div>
         <div className="doc-signs-choice">
-          <span className="db-label" id="doc-signs-face">Face</span>
+          <span className="ot-label" id="doc-signs-face">Face</span>
           <ToggleGroup variant="bracket" type="single" value={face} onValueChange={(v) => v && setFace(v as "roman" | "italic")} aria-labelledby="doc-signs-face">
             <ToggleGroupItem value="roman">roman</ToggleGroupItem>
             <ToggleGroupItem value="italic">italic</ToggleGroupItem>

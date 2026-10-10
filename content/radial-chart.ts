@@ -4,7 +4,7 @@ export default defineComponent({
   name: "radial-chart",
   title: "Radial chart",
   movement: "X",
-  contract: "db-radial",
+  contract: "ot-radial",
   summary: "Progress against one maximum: a hairline ring per series with its arc inked as far as it has got, and one very large number inside that rolls to the ring you point at.",
   underneath: "hook",
   props: [

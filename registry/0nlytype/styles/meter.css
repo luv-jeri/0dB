@@ -1,0 +1,31 @@
+@layer components {
+  /* Paul Rand's dimension lines: a precise index, with the measured figure above it and the limits below.
+     The space on either side shares what the figure leaves, so it fits at both ends in either writing direction. */
+  @property --ot-meter-p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  .ot-meter { --ot-meter-p: 0; --ot-meter-length: 1; --ot-meter-unit-length: 0; min-inline-size: 0; inline-size: 100%; container-type: inline-size; overflow-wrap: anywhere; transition: --ot-meter-p var(--ot-moderato) var(--ot-breath); }
+  .ot-meter-label { display: block; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-graphite); }
+  .ot-meter-scale { margin-block-start: var(--ot-space-3); }
+  .ot-meter-reading {
+    display: flex; min-inline-size: 0;
+    font-size: clamp(var(--ot-mf), calc(100cqi / (var(--ot-meter-length) * 0.75 + var(--ot-meter-unit-length) * 0.2)), var(--ot-ff)); line-height: 1.2; letter-spacing: var(--ot-ff-tr); color: var(--ot-ink);
+    overflow-wrap: anywhere; font-variant-numeric: tabular-nums lining-nums;
+  }
+  .ot-meter-reading::before, .ot-meter-reading::after { content: ""; flex: var(--ot-meter-p) 0 0px; }
+  .ot-meter-reading::after { flex-grow: calc(1 - var(--ot-meter-p)); }
+  .ot-meter-reading > bdi { min-inline-size: 0; max-inline-size: 100%; }
+  .ot-meter-reading small { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); white-space: pre-wrap; }
+  .ot-meter-rule { position: relative; display: block; margin-block-start: var(--ot-space-4); border-block-start: var(--ot-hairline) solid var(--ot-rule-strong); }
+  .ot-meter-rule::before, .ot-meter-rule::after { content: ""; position: absolute; inset-block-start: -5px; block-size: 9px; border-inline-start: var(--ot-hairline) solid var(--ot-rule-strong); }
+  .ot-meter-rule::before { inset-inline-start: 0; }
+  .ot-meter-rule::after { inset-inline-end: 0; }
+  .ot-meter-index {
+    position: absolute; inset-block-start: calc(-1 * var(--ot-space-3)); inset-inline-start: calc(var(--ot-meter-p) * (100% - var(--ot-stroke)));
+    block-size: calc(var(--ot-space-3) * 2); border-inline-start: var(--ot-stroke) solid var(--ot-accent);
+  }
+  .ot-meter-ends { display: flex; justify-content: space-between; gap: var(--ot-space-4); padding-block-start: var(--ot-space-4); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-pencil); }
+  .ot-meter-ends > bdi { min-inline-size: 0; overflow-wrap: anywhere; }
+  .ot-meter-ends > bdi:last-child { text-align: end; }
+  .ot-meter-note { margin-block-start: var(--ot-space-3); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite); }
+  @media (prefers-reduced-motion: reduce) { .ot-meter { transition: none; } }
+  @media (forced-colors: active) { .ot-meter-index { border-color: Highlight; } }
+}

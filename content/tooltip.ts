@@ -4,7 +4,7 @@ export default defineComponent({
   name: "tooltip",
   title: "Tooltip",
   movement: "IX",
-  contract: "db-tip",
+  contract: "ot-tip",
   summary: "A whisper in parentheses above the thing it names.",
   underneath: "radix",
   props: [

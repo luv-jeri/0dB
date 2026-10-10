@@ -28,7 +28,7 @@ const browser = await chromium.launch()
 try {
   const open = async (mode, viewport, scale = 1) => {
     const context = await browser.newContext({ viewport, deviceScaleFactor: scale })
-    await context.addInitScript((m) => { try { localStorage.setItem("0db-theme", JSON.stringify({ mode: m })) } catch {} }, mode)
+    await context.addInitScript((m) => { try { localStorage.setItem("0nlytype-theme", JSON.stringify({ mode: m })) } catch {} }, mode)
     return context
   }
   for (const [name, set, mode, scale] of sheets) {

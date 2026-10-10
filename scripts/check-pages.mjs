@@ -65,15 +65,15 @@ for (const width of [375, 1440]) {
   const page = await browser.newPage()
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto(`${base}${sitePath("/")}`)
-  const andante = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--db-andante").trim())
-  if (andante !== "1ms") failures.push(`reduced motion collapses tempo: --db-andante is "${andante}"`)
+  const andante = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--ot-andante").trim())
+  if (andante !== "1ms") failures.push(`reduced motion collapses tempo: --ot-andante is "${andante}"`)
   await page.close()
 }
 
 {
   const context = await browser.newContext()
   await context.addInitScript((docsPath) => {
-    if (location.pathname === docsPath) localStorage.setItem("0db-theme", JSON.stringify({ mode: "nocturne" }))
+    if (location.pathname === docsPath) localStorage.setItem("0nlytype-theme", JSON.stringify({ mode: "nocturne" }))
     // Record the mode the moment <body> is created, before anything in it can paint.
     new MutationObserver((_, obs) => {
       if (document.body) { window.__modeAtBody = document.documentElement.dataset.mode ?? "day"; obs.disconnect() }

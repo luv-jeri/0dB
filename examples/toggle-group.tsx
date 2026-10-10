@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
 import { State } from "@/components/site/state"
 
 const sizes = ["p", "mp", "mf", "f"] as const
@@ -14,7 +14,7 @@ export default function Example() {
   return (
     <div className="grid justify-items-start gap-8">
       <div className="grid justify-items-start gap-2">
-        <span className="db-label">Format</span>
+        <span className="ot-label">Format</span>
         <ToggleGroup type="multiple" value={format} onValueChange={setFormat} aria-label="Format">
           <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
           <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
@@ -23,7 +23,7 @@ export default function Example() {
         </ToggleGroup>
       </div>
       <div className="grid justify-items-start gap-2">
-        <span className="db-label">Size</span>
+        <span className="ot-label">Size</span>
         {/* Radix single groups clear on a second press; a size is always one of the four. */}
         <ToggleGroup variant="bracket" type="single" value={size} onValueChange={(v) => v && setSize(v)} aria-label="Size">
           {sizes.map((s) => (
@@ -32,23 +32,23 @@ export default function Example() {
         </ToggleGroup>
       </div>
       <p className="text-balance" style={{
-          color: "var(--db-ink)",
-          fontSize: `var(--db-${size})`,
-          lineHeight: `var(--db-${size}-lh)`,
-          fontFamily: has("italic") ? "var(--db-expression)" : undefined,
+          color: "var(--ot-ink)",
+          fontSize: `var(--ot-${size})`,
+          lineHeight: `var(--ot-${size}-lh)`,
+          fontFamily: has("italic") ? "var(--ot-expression)" : undefined,
           fontStyle: has("italic") ? "italic" : undefined,
           fontWeight: has("bold") ? 700 : 400,
           fontStretch: has("wide") ? "125%" : "100%",
           textDecorationLine: "underline",
           textDecorationColor: has("underline") ? "currentColor" : "transparent",
-          textDecorationThickness: "var(--db-hairline)",
+          textDecorationThickness: "var(--ot-hairline)",
           textUnderlineOffset: "0.18em",
-          transition: "font-size var(--db-moderato) var(--db-exhale), font-weight var(--db-moderato) var(--db-exhale), font-stretch var(--db-moderato) var(--db-exhale), text-decoration-color var(--db-allegro)",
+          transition: "font-size var(--ot-moderato) var(--ot-exhale), font-weight var(--ot-moderato) var(--ot-exhale), font-stretch var(--ot-moderato) var(--ot-exhale), text-decoration-color var(--ot-allegro)",
         }}>
         Silence is structure.
       </p>
       <div className="grid justify-items-start gap-2">
-        <span className="db-label">Rank what matters</span>
+        <span className="ot-label">Rank what matters</span>
         <ToggleGroup variant="fingering" type="multiple" defaultValue={["purpose", "clarity"]} aria-label="Rank what matters">
           {["Clarity", "Purpose", "Simplicity", "Impact"].map((w) => (
             <ToggleGroupItem key={w} value={w.toLowerCase()}>{w}</ToggleGroupItem>
@@ -56,7 +56,7 @@ export default function Example() {
         </ToggleGroup>
       </div>
       <div className="grid justify-items-start gap-2">
-        <span className="db-label">Show on the page</span>
+        <span className="ot-label">Show on the page</span>
         <ToggleGroup variant="margin" type="multiple" defaultValue={["baselines", "captions"]} aria-label="Show on the page">
           {["Grid", "Baselines", "Margins", "Captions"].map((w) => (
             <ToggleGroupItem key={w} value={w.toLowerCase()}>{w}</ToggleGroupItem>

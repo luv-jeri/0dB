@@ -4,7 +4,7 @@ export default defineComponent({
   name: "radar-chart",
   title: "Radar chart",
   movement: "X",
-  contract: "db-radar",
+  contract: "ot-radar",
   summary: "Several measures on one shape: a hairline polygon on a dotted construction sheet, each axis named in small caps at its end, and the axis you point at measured off as a dimension line with its figure on it.",
   underneath: "hook",
   props: [

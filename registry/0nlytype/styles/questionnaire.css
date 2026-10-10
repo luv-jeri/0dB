@@ -1,0 +1,49 @@
+@layer components {
+  /* ── ot-quest ── questions one at a time; your answers are written into one sentence */
+  .ot-quest { display: grid; gap: var(--ot-space-6); }
+  .ot-quest-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--ot-space-5); }
+  .ot-quest-head .ot-fraction { font-size: var(--ot-mf); }
+  .ot-quest-head .ot-fraction > .ot-yours { display: inline-block; }
+  .ot-quest-head progress { -webkit-appearance: none; appearance: none; width: 100%; height: var(--ot-stroke); border: 0; background: var(--ot-rule); color: var(--ot-ink); }
+  .ot-quest-head progress::-webkit-progress-bar { background: transparent; } /* the element draws the track, or a translucent rule would be laid on itself */
+  .ot-quest-head progress::-webkit-progress-value { background: var(--ot-ink); transition: inline-size var(--ot-andante) var(--ot-breath); }
+  .ot-quest-head progress::-moz-progress-bar { background: var(--ot-ink); }
+  .ot-quest-step { display: grid; gap: var(--ot-space-5); min-width: 0; }
+  .ot-quest-step[data-arriving] { animation: ot-quest-turn var(--ot-andante) var(--ot-exhale) backwards; }
+  /* The sentence's home stays in the tree so its live region is heard; until the end it takes no room. */
+  .ot-quest-step[data-slot="questionnaire-end"]:not([data-done]) { position: absolute; }
+  .ot-quest-step > .ot-btn { justify-self: start; }
+  .ot-quest-q { font-size: var(--ot-f); line-height: var(--ot-f-lh); letter-spacing: var(--ot-f-tr); font-weight: 300; color: var(--ot-ink); text-wrap: balance; }
+  .ot-quest-sentence { font-size: var(--ot-mf); line-height: 1.35; letter-spacing: var(--ot-mf-tr); font-weight: 300; color: var(--ot-ink); text-wrap: pretty; }
+  .ot-quest-sentence > .ot-yours { display: inline-block; animation: ot-arrive var(--ot-andante) var(--ot-exhale) backwards; animation-delay: calc(5 * var(--ot-arpeggio) + var(--i, 0) * var(--ot-arpeggio)); }
+  .ot-quest-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ot-space-5) var(--ot-space-6); }
+  .ot-quest-actions > [data-variant="statement"] { margin-inline-start: auto; }
+  /* interview: the printed interview's Q and A. What's been asked stays, small, above the next question;
+     the letters hang in the margin, and step in where there's no margin to hang them in. */
+  .ot-quest-log { display: grid; gap: var(--ot-space-4); margin: 0; padding: 0; list-style: none; }
+  .ot-quest-log > li { display: grid; gap: var(--ot-space-1); animation: ot-arrive var(--ot-andante) var(--ot-exhale) backwards; }
+  .ot-quest-log p { display: grid; grid-template-columns: var(--ot-space-5) minmax(0, 1fr); align-items: baseline; margin: 0; }
+  .ot-quest-hang { font-size: var(--ot-pp); line-height: 1; font-weight: 600; letter-spacing: 0.04em; color: var(--ot-pencil); }
+  .ot-quest-log-q { font-size: var(--ot-p); line-height: var(--ot-p-lh); color: var(--ot-graphite); }
+  .ot-quest-log-a { font-size: var(--ot-mp); line-height: var(--ot-mp-lh); }
+  .ot-quest-log-a > button { justify-self: start; padding: 0; border: 0; background: none; font: inherit; color: var(--ot-pencil); text-align: start; cursor: pointer; text-decoration: underline var(--ot-hairline) transparent; text-underline-offset: 0.25em; transition: text-decoration-color var(--ot-allegro) var(--ot-breath); }
+  .ot-quest-log-a > button > .ot-yours { color: var(--ot-ink); }
+  .ot-quest-log-a > button:hover, .ot-quest[data-force~="hover"] .ot-quest-log > li:last-child .ot-quest-log-a > button { text-decoration-color: var(--ot-rule-strong); }
+  .ot-quest-log-a > button:active { text-decoration-color: var(--ot-ink); }
+  @media (min-width: 860px) { .ot-quest-log p { margin-inline-start: calc(-1 * var(--ot-space-5)); } }
+
+  /* definition: after "the uncreative", the end set as a dictionary entry. The headword is yours, in italic,
+     reversed out of an ink block that draws across behind it; the part of speech under it, then the sense. */
+  .ot-quest-said { display: grid; gap: var(--ot-space-4); }
+  .ot-quest-entry { display: grid; justify-items: start; gap: var(--ot-space-2); margin: 0; }
+  .ot-quest-word { position: relative; isolation: isolate; padding: 0.02em 0.14em 0.1em 0.06em; font-size: var(--ot-ff); line-height: 1; letter-spacing: var(--ot-ff-tr); color: var(--ot-paper); overflow-wrap: anywhere; }
+  .ot-quest-word::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--ot-ink); transform-origin: 0 50%; animation: ot-draw-x var(--ot-andante) var(--ot-exhale) backwards; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-quest-word::before { transform-origin: 100% 50%; }
+  .ot-quest-kind { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); font-weight: 600; letter-spacing: 0.04em; color: var(--ot-graphite); }
+  .ot-quest[data-variant="definition"] .ot-quest-sentence > .ot-yours { animation-delay: calc(var(--ot-andante) / 2 + var(--i, 0) * var(--ot-arpeggio)); }
+  .ot-quest[data-variant="definition"] .ot-quest-sentence { max-width: 32ch; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); }
+  @media (max-width: 520px) { .ot-quest-word { font-size: var(--ot-f); } }
+  @media (forced-colors: active) { .ot-quest-word { forced-color-adjust: none; color: Canvas; } .ot-quest-word::before { background: CanvasText; } }
+
+  @keyframes ot-quest-turn { from { opacity: 0; translate: calc(var(--from, 1) * 8px) 0; } }
+}

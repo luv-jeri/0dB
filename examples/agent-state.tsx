@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { AgentState, type AgentStateValue } from "@/registry/0db/ui/agent-state"
-import { Button } from "@/registry/0db/ui/button"
+import { AgentState, type AgentStateValue } from "@/registry/0nlytype/ui/agent-state"
+import { Button } from "@/registry/0nlytype/ui/button"
 
 const order: AgentStateValue[] = ["ready", "thinking", "working", "input", "done"]
 
@@ -13,7 +13,7 @@ export default function Example() {
   const [at, setAt] = React.useState(0)
   const state = order[at]
   return (
-    <div className="grid justify-items-start gap-(--db-space-6)">
+    <div className="grid justify-items-start gap-(--ot-space-6)">
       <AgentState state={state}>{state === "working" ? "Reading the brief" : undefined}</AgentState>
       <Button variant="quiet" onClick={() => setAt((n) => (n + 1) % order.length)}>
         {at === order.length - 1 ? "Start again" : "Next state"}

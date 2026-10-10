@@ -4,7 +4,7 @@ export default defineComponent({
   name: "table",
   title: "Table",
   movement: "X",
-  contract: "db-table",
+  contract: "ot-table",
   summary: "Hairline rows in tabular figures; the column you sort by is set in ink, or set loud; or the row and column you point at cross in ink.",
   underneath: "native",
   props: [

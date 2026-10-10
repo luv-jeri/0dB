@@ -14,7 +14,7 @@ html { scroll-padding-top: calc(var(--bar) + 2rem); }
      proportion to the measured width instead of swelling on an ultra-wide screen. */
   --site-vw: min(1vw, calc((var(--site-max) + 160px) / 100));
 }
-html { scroll-padding-top: calc(var(--bar) + var(--db-space-6)); scrollbar-gutter: stable; }
+html { scroll-padding-top: calc(var(--bar) + var(--ot-space-6)); scrollbar-gutter: stable; }
 /* The pre-paint theme script selects the ruler before the browser allocates a
    native gutter. Its SSR hairline is already present; hydration only measures
    the thumb. Touch, no-script and browsers without scroll timelines keep the
@@ -23,22 +23,22 @@ html { scroll-padding-top: calc(var(--bar) + var(--db-space-6)); scrollbar-gutte
   @media (pointer: fine) {
     html[data-page-scrollbar] { scrollbar-width: none; }
     html[data-page-scrollbar]::-webkit-scrollbar { display: none; }
-    html[data-page-scrollbar] .page-rail .db-scrollbar[data-variant="page"]:not([data-idle]) { display: block; }
+    html[data-page-scrollbar] .page-rail .ot-scrollbar[data-variant="page"]:not([data-idle]) { display: block; }
   }
   @media (pointer: fine) and (min-width: 860px) {
     html[data-page-scrollbar] .docs-index-list { position: relative; scrollbar-width: none; }
     html[data-page-scrollbar] .docs-index-list::-webkit-scrollbar { display: none; }
-    html[data-page-scrollbar] .docs-index-list > .db-scrollbar:not([data-idle]) { display: block; }
+    html[data-page-scrollbar] .docs-index-list > .ot-scrollbar:not([data-idle]) { display: block; }
   }
 }
 body { overflow-x: clip; }
 
-.skip { position: fixed; inset-block-start: var(--db-space-3); inset-inline-start: var(--db-margin); z-index: 50; translate: 0 -200%; }
+.skip { position: fixed; inset-block-start: var(--ot-space-3); inset-inline-start: var(--ot-margin); z-index: 50; translate: 0 -200%; }
 .skip:focus-visible { translate: 0 0; }
 
 .page, .docs {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--db-gutter);
-  padding-inline: max(var(--db-margin), calc((100% - var(--site-max)) / 2));
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ot-gutter);
+  padding-inline: max(var(--ot-margin), calc((100% - var(--site-max)) / 2));
 }
 .principle { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
 .margin { grid-column: 1 / 4; }
@@ -47,190 +47,190 @@ body { overflow-x: clip; }
 /* ── the bar ── */
 .bar {
   position: fixed; inset: 0 0 auto; z-index: 40; height: var(--bar);
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: var(--db-space-5);
-  padding-inline: max(var(--db-margin), calc((100% - var(--site-max)) / 2));
-  background: color-mix(in srgb, var(--db-paper) 90%, transparent);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: var(--ot-space-5);
+  padding-inline: max(var(--ot-margin), calc((100% - var(--site-max)) / 2));
+  background: color-mix(in srgb, var(--ot-paper) 90%, transparent);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-  box-shadow: inset 0 calc(-1 * var(--db-hairline)) 0 var(--db-rule);
-  font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-ink);
+  box-shadow: inset 0 calc(-1 * var(--ot-hairline)) 0 var(--ot-rule);
+  font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-ink);
 }
-.bar-mark { justify-self: start; display: inline-flex; align-items: center; gap: var(--db-space-3); color: inherit; text-decoration: none; font-weight: 600; letter-spacing: 0.02em; }
+.bar-mark { justify-self: start; display: inline-flex; align-items: center; gap: var(--ot-space-3); color: inherit; text-decoration: none; font-weight: 600; letter-spacing: 0.02em; }
 .bar-mark svg { width: 20px; height: 13px; overflow: visible; }
-.bar-mark svg circle { fill: var(--db-accent); }
-.bar-now { display: flex; gap: var(--db-space-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.bar-num { color: var(--db-pencil); }
-.bar-end { justify-self: end; display: flex; align-items: center; gap: var(--db-space-5); }
+.bar-mark svg circle { fill: var(--ot-accent); }
+.bar-now { display: flex; gap: var(--ot-space-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar-num { color: var(--ot-pencil); }
+.bar-end { justify-self: end; display: flex; align-items: center; gap: var(--ot-space-5); }
 
 /* ── the overture ── */
-.overture { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-top: calc(var(--bar) + var(--db-space-8)); padding-bottom: var(--db-space-7); align-content: start; }
+.overture { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-top: calc(var(--bar) + var(--ot-space-8)); padding-bottom: var(--ot-space-7); align-content: start; }
 .overture-title {
   grid-column: 1 / -1; margin-inline-start: -0.055em; white-space: nowrap;
-  font-size: var(--db-ffff); line-height: var(--db-ffff-lh); letter-spacing: var(--db-ffff-tr);
-  font-weight: 200; font-stretch: 112%; color: var(--db-ink);
-  animation: site-exhale-title var(--db-adagio) var(--db-exhale) both;
+  font-size: var(--ot-ffff); line-height: var(--ot-ffff-lh); letter-spacing: var(--ot-ffff-tr);
+  font-weight: 200; font-stretch: 112%; color: var(--ot-ink);
+  animation: site-exhale-title var(--ot-adagio) var(--ot-exhale) both;
 }
 @keyframes site-exhale-title {
   0%  { opacity: 0; font-weight: 800; font-stretch: 62%; }
   15% { opacity: 1; }
 }
-.overture-def { grid-column: 1 / -1; margin-top: var(--db-space-6); font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); }
-.overture-def .db-term { margin-inline-end: 0.3em; color: var(--db-graphite); }
-.flow-caption { grid-row: 3; align-self: start; margin-top: var(--db-space-9); max-width: 22ch; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); }
-.flow, .manifesto { grid-row: 3; grid-column: 4 / 12; margin-top: var(--db-space-9); }
+.overture-def { grid-column: 1 / -1; margin-top: var(--ot-space-6); font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-ink); }
+.overture-def .ot-term { margin-inline-end: 0.3em; color: var(--ot-graphite); }
+.flow-caption { grid-row: 3; align-self: start; margin-top: var(--ot-space-9); max-width: 22ch; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); }
+.flow, .manifesto { grid-row: 3; grid-column: 4 / 12; margin-top: var(--ot-space-9); }
 .flow { position: relative; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
 .flow-lines > span {
   position: absolute; left: 0; top: 0; white-space: pre;
-  font-family: var(--db-voice); font-size: var(--size); line-height: var(--lh);
-  font-weight: 400; font-stretch: 100%; letter-spacing: 0; color: var(--db-ink);
+  font-family: var(--ot-voice); font-size: var(--size); line-height: var(--lh);
+  font-weight: 400; font-stretch: 100%; letter-spacing: 0; color: var(--ot-ink);
 }
-.manifesto { max-width: 44em; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-ink); }
+.manifesto { max-width: 44em; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-ink); }
 .flow-mark { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
-.flow-mark path { fill: none; stroke: var(--db-ink); stroke-linecap: round; }
-.flow-mark circle { fill: var(--db-accent); }
+.flow-mark path { fill: none; stroke: var(--ot-ink); stroke-linecap: round; }
+.flow-mark circle { fill: var(--ot-accent); }
 @media (prefers-reduced-motion: no-preference) {
-  .flow.intro .flow-lines > span { animation: site-line-in var(--db-andante) var(--db-exhale) both; animation-delay: calc(600ms + var(--i) * 40ms); }
-  .flow.intro .flow-mark path { animation: site-draw var(--db-adagio) var(--db-breath) 300ms both; }
-  .flow.intro .flow-mark circle { animation: site-drop var(--db-andante) var(--db-exhale) 1300ms both; }
+  .flow.intro .flow-lines > span { animation: site-line-in var(--ot-andante) var(--ot-exhale) both; animation-delay: calc(600ms + var(--i) * 40ms); }
+  .flow.intro .flow-mark path { animation: site-draw var(--ot-adagio) var(--ot-breath) 300ms both; }
+  .flow.intro .flow-mark circle { animation: site-drop var(--ot-andante) var(--ot-exhale) 1300ms both; }
 }
 @keyframes site-line-in { from { opacity: 0; } }
 @keyframes site-draw { from { stroke-dashoffset: 1; } }
 @keyframes site-drop { from { opacity: 0; translate: 0 -24px; } }
-.overture-foot { grid-column: 4 / -1; margin-top: var(--db-space-2); display: flex; flex-wrap: wrap; align-items: center; gap: var(--db-space-6); }
+.overture-foot { grid-column: 4 / -1; margin-top: var(--ot-space-2); display: flex; flex-wrap: wrap; align-items: center; gap: var(--ot-space-6); }
 
 /* ── principles ── */
-.principles { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-block: var(--db-space-9); }
-.principle { align-items: baseline; padding-block: var(--db-space-7); border-top: var(--db-hairline) solid var(--db-rule); }
-.principle:last-child { border-bottom: var(--db-hairline) solid var(--db-rule); }
-.principle-text { font-size: var(--db-ff); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 300; color: var(--db-ink); text-wrap: balance; }
-.principle-note { grid-row: 1; max-width: 28ch; font-size: var(--db-pp); line-height: var(--db-pp-lh); }
-.stop { display: inline-block; width: 0.15em; height: 0.15em; margin-inline-start: 0.05em; border-radius: 50%; background: var(--db-accent); }
-.fine { grid-column: 1 / -1; margin-block: var(--db-space-8); text-align: end; font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: var(--db-fff); line-height: 1; letter-spacing: -0.02em; color: var(--db-ink); }
+.principles { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-block: var(--ot-space-9); }
+.principle { align-items: baseline; padding-block: var(--ot-space-7); border-top: var(--ot-hairline) solid var(--ot-rule); }
+.principle:last-child { border-bottom: var(--ot-hairline) solid var(--ot-rule); }
+.principle-text { font-size: var(--ot-ff); line-height: var(--ot-ff-lh); letter-spacing: var(--ot-ff-tr); font-weight: 300; color: var(--ot-ink); text-wrap: balance; }
+.principle-note { grid-row: 1; max-width: 28ch; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); }
+.stop { display: inline-block; width: 0.15em; height: 0.15em; margin-inline-start: 0.05em; border-radius: 50%; background: var(--ot-accent); }
+.fine { grid-column: 1 / -1; margin-block: var(--ot-space-8); text-align: end; font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: var(--ot-fff); line-height: 1; letter-spacing: -0.02em; color: var(--ot-ink); }
 
 /* ── the docs frame: the index in the margin, the page on the stave ── */
 /* The room at the foot belongs to the page, not the grid: in the grid it would end the index's sticky run early and strand it above the bottom of the window. */
-.docs { padding-top: calc(var(--bar) + var(--db-space-7)); align-items: start; }
+.docs { padding-top: calc(var(--bar) + var(--ot-space-7)); align-items: start; }
 /* The index holds still while the page scrolls; its own list scrolls under the fold button. Folded, it is a
    narrow ruler in the first column and the page takes the room. It sits above the page so its callout can. */
-.docs-index { grid-column: 1 / 4; position: sticky; z-index: 10; top: calc(var(--bar) + var(--db-space-7)); display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: start; row-gap: var(--db-space-4); max-height: calc(100dvh - var(--bar) - var(--db-space-8)); }
-.docs-index-fold { font-size: var(--db-pp); }
+.docs-index { grid-column: 1 / 4; position: sticky; z-index: 10; top: calc(var(--bar) + var(--ot-space-7)); display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: start; row-gap: var(--ot-space-4); max-height: calc(100dvh - var(--bar) - var(--ot-space-8)); }
+.docs-index-fold { font-size: var(--ot-pp); }
 /* The list is as wide as its longest word, so its rule stands beside the words it belongs to and the gutter before the page stays empty:
    the page's hanging dashes and numbers hang into silence, not against a line. */
-.docs-index-list { justify-self: start; inline-size: fit-content; max-inline-size: 100%; min-height: 0; padding-block: var(--db-space-2); }
+.docs-index-list { justify-self: start; inline-size: fit-content; max-inline-size: 100%; min-height: 0; padding-block: var(--ot-space-2); }
 .docs:has(> .docs-index[data-folded]) .docs-index { grid-column: 1 / 2; inline-size: 3rem; }
 .docs:has(> .docs-index[data-folded]) .docs-main { grid-column: 2 / -1; }
-.docs-main { grid-column: 4 / -1; min-width: 0; padding-bottom: var(--db-space-10); }
+.docs-main { grid-column: 4 / -1; min-width: 0; padding-bottom: var(--ot-space-10); }
 /* In the bar the key sits inside the search button's underline: a shorter cap keeps its corners clear of it. */
-.bar-search .db-kbd { height: 1.7em; margin-inline-start: 0.15em; }
+.bar-search .ot-kbd { height: 1.7em; margin-inline-start: 0.15em; }
 
-.doc-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-5); margin-bottom: var(--db-space-8); }
-.doc-title { overflow-wrap: anywhere; margin-inline-start: -0.04em; font-size: var(--db-fff); line-height: var(--db-fff-lh); letter-spacing: var(--db-fff-tr); font-weight: 300; color: var(--db-ink); }
-.doc-summary { max-width: 40ch; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
+.doc-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-5); margin-bottom: var(--ot-space-8); }
+.doc-title { overflow-wrap: anywhere; margin-inline-start: -0.04em; font-size: var(--ot-fff); line-height: var(--ot-fff-lh); letter-spacing: var(--ot-fff-tr); font-weight: 300; color: var(--ot-ink); }
+.doc-summary { max-width: 40ch; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-graphite); }
 
 /* A section begins at its rule: the heading hangs just under it, and the silence goes before the rule, never between
    a heading and what it names. Near to far: rule to heading, heading to content, one section to the next. */
-.doc-section { padding-block: var(--db-space-5) var(--db-space-8); border-top: var(--db-hairline) solid var(--db-rule); }
+.doc-section { padding-block: var(--ot-space-5) var(--ot-space-8); border-top: var(--ot-hairline) solid var(--ot-rule); }
 /* A section with no visible heading straight after the head is the lead going on (the principles' five rules, an item's example
    in its corners): no rule between them. */
-.doc-head + .doc-section:not(:has(> h2:not(.db-sr))) { padding-top: 0; border-top: 0; }
+.doc-head + .doc-section:not(:has(> h2:not(.ot-sr))) { padding-top: 0; border-top: 0; }
 /* A heading whose content opens with its own rule (rows, steps) stands on that rule instead: one line per boundary, and the silence
    before it is the section's. */
-.doc-section:has(> h2 + :is(.db-rows, .db-steps)) { padding-top: 0; border-top: 0; }
-.doc-section > h2:has(+ :is(.db-rows, .db-steps)) { margin-bottom: var(--db-space-3); }
-.doc-section > h2 { margin-bottom: var(--db-space-6); font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 400; color: var(--db-ink); }
-.doc-example-dependencies { margin-block-end: var(--db-space-6); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); }
-.doc-example-dependencies > p { margin-block-end: var(--db-space-3); }
-.doc-example-dependencies .db-command-line-text { font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); }
-.doc-lead { max-width: var(--db-measure); margin-bottom: var(--db-space-7); font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
-.doc-example { padding: var(--db-space-8) var(--db-space-7); }
+.doc-section:has(> h2 + :is(.ot-rows, .ot-steps)) { padding-top: 0; border-top: 0; }
+.doc-section > h2:has(+ :is(.ot-rows, .ot-steps)) { margin-bottom: var(--ot-space-3); }
+.doc-section > h2 { margin-bottom: var(--ot-space-6); font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 400; color: var(--ot-ink); }
+.doc-example-dependencies { margin-block-end: var(--ot-space-6); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite); }
+.doc-example-dependencies > p { margin-block-end: var(--ot-space-3); }
+.doc-example-dependencies .ot-command-line-text { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); }
+.doc-lead { max-width: var(--ot-measure); margin-bottom: var(--ot-space-7); font-size: var(--ot-p); line-height: var(--ot-p-lh); color: var(--ot-graphite); }
+.doc-example { padding: var(--ot-space-8) var(--ot-space-7); }
 /* Layered, so an example's own max-w-* still wins. */
 @layer base {
-  .doc-demo-controls { display: flex; justify-content: flex-end; align-items: center; min-block-size: 44px; margin-block-end: var(--db-space-3); }
+  .doc-demo-controls { display: flex; justify-content: flex-end; align-items: center; min-block-size: 44px; margin-block-end: var(--ot-space-3); }
   .doc-example > * { max-width: 100%; }
 }
-.doc-install [data-slot="tabs-content"] > p { max-width: var(--db-measure); margin-bottom: var(--db-space-6); }
-.doc-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-7); }
+.doc-install [data-slot="tabs-content"] > p { max-width: var(--ot-measure); margin-bottom: var(--ot-space-6); }
+.doc-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-7); }
 /* The sign catalogue: the controls on one line, the install line for the pressed sign, then every sign, live. */
-.doc-signs { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-7); }
-.doc-signs-controls { display: flex; flex-wrap: wrap; align-items: last baseline; gap: var(--db-space-5) var(--db-space-7); }
+.doc-signs { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-7); }
+.doc-signs-controls { display: flex; flex-wrap: wrap; align-items: last baseline; gap: var(--ot-space-5) var(--ot-space-7); }
 .doc-signs-find { flex: 1 1 16rem; max-inline-size: 22rem; }
-.doc-signs-choice { display: grid; justify-items: start; gap: var(--db-space-2); }
-.doc-signs-picked { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-3); }
-.doc-signs-count { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); font-variant-numeric: tabular-nums lining-nums; }
-.doc-signs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tile, 8.5rem), 1fr)); gap: var(--db-space-3) var(--db-space-2); }
+.doc-signs-choice { display: grid; justify-items: start; gap: var(--ot-space-2); }
+.doc-signs-picked { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-3); }
+.doc-signs-count { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite); font-variant-numeric: tabular-nums lining-nums; }
+.doc-signs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tile, 8.5rem), 1fr)); gap: var(--ot-space-3) var(--ot-space-2); }
 /* Tiles out of view skip layout and paint; each holds the height a tile has (padding, art, word and name: the art and
    6.3rem) till then. Skipping clips a tile's paint to its box, so the clip reaches out far enough for the focus ring. */
-.doc-signs-grid > li { content-visibility: auto; contain-intrinsic-size: auto calc(var(--art, 72px) + 6.3rem); overflow-clip-margin: var(--db-space-2); }
+.doc-signs-grid > li { content-visibility: auto; contain-intrinsic-size: auto calc(var(--art, 72px) + 6.3rem); overflow-clip-margin: var(--ot-space-2); }
 /* A tile not drawn yet: its word and name where the tile sets them, as one element and as tall as the tile, so Find
    reaches it and drawing it moves nothing. */
 .doc-signs-grid > li[data-later] {
   box-sizing: border-box; block-size: calc(var(--art, 72px) + 6.3rem); overflow: hidden;
-  padding: calc(var(--db-space-5) + var(--art, 72px) + var(--db-space-2) + var(--db-space-1)) var(--db-space-2) 0;
-  white-space: pre-line; text-align: center; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil);
+  padding: calc(var(--ot-space-5) + var(--art, 72px) + var(--ot-space-2) + var(--ot-space-1)) var(--ot-space-2) 0;
+  white-space: pre-line; text-align: center; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil);
 }
-.doc-signs-grid > li[data-later]::first-line { font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-ink); }
+.doc-signs-grid > li[data-later]::first-line { font-size: var(--ot-p); line-height: var(--ot-p-lh); color: var(--ot-ink); }
 /* The live Sign that takes a still tile's place stands at rest for its first frame, so saying the word is motion. */
-.doc-sign[data-waking] .db-sign-glyph { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--k)) translate(-50%, -54%); font-weight: var(--rest); opacity: 1; color: inherit; transition: none; }
-.doc-sign[data-waking] .db-sign-glyph[data-hush] { opacity: 0; }
-.doc-sign[data-waking] .db-sign-glyph[data-quiet] { color: var(--db-pencil); }
+.doc-sign[data-waking] .ot-sign-glyph { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--k)) translate(-50%, -54%); font-weight: var(--rest); opacity: 1; color: inherit; transition: none; }
+.doc-sign[data-waking] .ot-sign-glyph[data-hush] { opacity: 0; }
+.doc-sign[data-waking] .ot-sign-glyph[data-quiet] { color: var(--ot-pencil); }
 .doc-sign {
-  display: grid; justify-items: center; align-content: start; gap: var(--db-space-1); inline-size: 100%;
-  padding: var(--db-space-5) var(--db-space-2) var(--db-space-3); color: var(--db-ink); text-align: center;
+  display: grid; justify-items: center; align-content: start; gap: var(--ot-space-1); inline-size: 100%;
+  padding: var(--ot-space-5) var(--ot-space-2) var(--ot-space-3); color: var(--ot-ink); text-align: center;
 }
-.doc-sign-art { display: grid; place-items: center; min-block-size: 4.5rem; margin-block-end: var(--db-space-2); }
+.doc-sign-art { display: grid; place-items: center; min-block-size: 4.5rem; margin-block-end: var(--ot-space-2); }
 /* A sign at rest as one SVG (components/site/sign-still.tsx), each letter placed by its text's x, y and rotate lists:
    left to right whatever the page's direction, or right-to-left would anchor each letter at its right edge. */
 .doc-sign-still { display: block; overflow: visible; direction: ltr; }
 .doc-sign-still text { fill: currentColor; white-space: pre; }
-.doc-sign-still text[data-quiet] { fill: var(--db-pencil); }
-.db-sign[data-face="italic"] .doc-sign-still text { font-variation-settings: var(--db-expression-text-variation, normal); }
+.doc-sign-still text[data-quiet] { fill: var(--ot-pencil); }
+.ot-sign[data-face="italic"] .doc-sign-still text { font-variation-settings: var(--ot-expression-text-variation, normal); }
 .doc-sign-word, .doc-sign-name { max-inline-size: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; hyphens: none; }
-.doc-sign-word { font-size: var(--db-p); line-height: var(--db-p-lh); }
-.doc-sign-name { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); direction: ltr; unicode-bidi: isolate; }
-.doc-sign[aria-pressed="true"] .doc-sign-word { color: var(--db-accent); }
-.doc-sign[aria-pressed="true"] .doc-sign-name { color: var(--db-graphite); }
-.doc-signs-none { font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
+.doc-sign-word { font-size: var(--ot-p); line-height: var(--ot-p-lh); }
+.doc-sign-name { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil); direction: ltr; unicode-bidi: isolate; }
+.doc-sign[aria-pressed="true"] .doc-sign-word { color: var(--ot-accent); }
+.doc-sign[aria-pressed="true"] .doc-sign-name { color: var(--ot-graphite); }
+.doc-signs-none { font-size: var(--ot-p); line-height: var(--ot-p-lh); color: var(--ot-graphite); }
 /* Two blocks of one kind in a section each carry a name you can see: a p-size line in ink, near what it names. */
-.doc-sub { margin-bottom: var(--db-space-3); font-size: var(--db-p); line-height: var(--db-p-lh); font-weight: 400; color: var(--db-ink); }
+.doc-sub { margin-bottom: var(--ot-space-3); font-size: var(--ot-p); line-height: var(--ot-p-lh); font-weight: 400; color: var(--ot-ink); }
 /* The way on is the page's last section: it begins at a rule like the others, after the same silence. */
-.doc-foot { padding-top: var(--db-space-5); border-top: var(--db-hairline) solid var(--db-rule); }
+.doc-foot { padding-top: var(--ot-space-5); border-top: var(--ot-hairline) solid var(--ot-rule); }
 
 /* Build with AI: the opening is silent; file paths stay legible and isolated in either direction. */
 .doc-ai-install { padding-top: 0; border-top: 0; }
 .doc-ai-files { table-layout: fixed; }
-.doc-ai-files :is(th, td) { padding-inline: 0 var(--db-space-4); overflow-wrap: anywhere; }
+.doc-ai-files :is(th, td) { padding-inline: 0 var(--ot-space-4); overflow-wrap: anywhere; }
 .doc-ai-files :is(th, td):last-child { padding-inline-end: 0; }
 .doc-ai-files th:first-child { width: 36%; }
 .doc-ai-files th:nth-child(2) { width: 24%; }
 .doc-ai-files code { display: block; direction: ltr; unicode-bidi: isolate; }
-.doc-ai-files code + code { margin-top: var(--db-space-2); }
-.doc-ai-prompt-head { display: flex; align-items: baseline; gap: var(--db-space-4); margin-bottom: var(--db-space-3); }
+.doc-ai-files code + code { margin-top: var(--ot-space-2); }
+.doc-ai-prompt-head { display: flex; align-items: baseline; gap: var(--ot-space-4); margin-bottom: var(--ot-space-3); }
 .doc-ai-prompt-head .doc-sub { margin-bottom: 0; }
-.doc-ai-prompt-head .db-source-copy { flex-shrink: 0; margin-inline-start: auto; }
+.doc-ai-prompt-head .ot-source-copy { flex-shrink: 0; margin-inline-start: auto; }
 .doc-ai-prompt { overflow-wrap: anywhere; }
 @media (max-width: 560px) {
-  .doc-ai-files { font-size: var(--db-pp); line-height: var(--db-pp-lh); }
-  .doc-ai-files :is(th, td) { padding-inline-end: var(--db-space-3); }
+  .doc-ai-files { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); }
+  .doc-ai-files :is(th, td) { padding-inline-end: var(--ot-space-3); }
 }
 
 /* The states sit on the example's inset, so the two read as one block. */
-.spec-states { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-6) var(--db-space-7); margin-top: var(--db-space-6); padding: var(--db-space-5) var(--db-space-7) 0; border-top: var(--db-hairline) dotted var(--db-rule-strong); }
-.state { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: var(--db-space-3); min-width: 0; max-width: 100%; }
+.spec-states { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--ot-space-6) var(--ot-space-7); margin-top: var(--ot-space-6); padding: var(--ot-space-5) var(--ot-space-7) 0; border-top: var(--ot-hairline) dotted var(--ot-rule-strong); }
+.state { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: var(--ot-space-3); min-width: 0; max-width: 100%; }
 .state > :not(.state-label) { max-inline-size: 100%; }
-.state-label { font-size: var(--db-pp); color: var(--db-pencil); }
+.state-label { font-size: var(--ot-pp); color: var(--ot-pencil); }
 
-.page-rail { --db-trail-top: var(--bar); }
+.page-rail { --ot-trail-top: var(--bar); }
 
 /* The tokens page: every token, click to copy. */
-.token-list { columns: 3 16rem; column-gap: var(--db-gutter); }
+.token-list { columns: 3 16rem; column-gap: var(--ot-gutter); }
 .token-list > li { break-inside: avoid; }
 
 @media (max-width: 860px) {
   .page, .docs { grid-template-columns: minmax(0, 1fr); }
   .page > *, .margin, .stave, .overture > *, .principle > *, .docs-index, .docs-main { grid-column: 1 / -1; }
-  .flow-caption { grid-row: 3; margin-top: var(--db-space-8); }
-  .flow, .manifesto { grid-row: 4; margin-top: var(--db-space-6); }
-  .principle-note { grid-row: 2; margin-top: var(--db-space-4); }
-  .docs-index { position: static; max-height: none; margin-bottom: var(--db-space-6); }
+  .flow-caption { grid-row: 3; margin-top: var(--ot-space-8); }
+  .flow, .manifesto { grid-row: 4; margin-top: var(--ot-space-6); }
+  .principle-note { grid-row: 2; margin-top: var(--ot-space-4); }
+  .docs-index { position: static; max-height: none; margin-bottom: var(--ot-space-6); }
   .docs-index-fold { display: none; }
   .docs-index-list { overflow: visible; padding: 0; background: none; }
   .docs:has(> .docs-index[data-folded]) :is(.docs-index, .docs-main) { grid-column: 1 / -1; }
@@ -238,28 +238,28 @@ body { overflow-x: clip; }
 }
 @media (max-width: 560px) {
   .bar { grid-template-columns: auto 1fr; }
-  .bar-end, .bar-controls { gap: var(--db-space-4); }
+  .bar-end, .bar-controls { gap: var(--ot-space-4); }
   .bar-search kbd { display: none; }
-  .doc-example { padding: var(--db-space-6) var(--db-space-4); }
-  .spec-states { padding-inline: var(--db-space-4); }
+  .doc-example { padding: var(--ot-space-6) var(--ot-space-4); }
+  .spec-states { padding-inline: var(--ot-space-4); }
   /* Demo grids and pinned states keep their own measure; wide tabular runs scroll at their edge. */
   .docs-main :not(pre) > code { overflow-wrap: anywhere; }
-  .doc-example .grid:has(> nav), .doc-example .grid:has(> .grid > .db-table) { min-inline-size: 0; max-inline-size: 100%; grid-template-columns: minmax(0, 1fr); }
-  .doc-example nav:has(> .db-pager), .state nav:has(> .db-pager), .doc-example :has(> .db-table), .spec-states :has(> .db-table), .state > :has(> .db-tour-callout) { min-inline-size: 0; max-inline-size: 100%; overflow-x: auto; overscroll-behavior-x: contain; border-inline-end: var(--db-hairline) solid var(--db-rule); }
-  .doc-example .db-relay-frame, .state .db-relay-frame { font-size: var(--db-mf); }
+  .doc-example .grid:has(> nav), .doc-example .grid:has(> .grid > .ot-table) { min-inline-size: 0; max-inline-size: 100%; grid-template-columns: minmax(0, 1fr); }
+  .doc-example nav:has(> .ot-pager), .state nav:has(> .ot-pager), .doc-example :has(> .ot-table), .spec-states :has(> .ot-table), .state > :has(> .ot-tour-callout) { min-inline-size: 0; max-inline-size: 100%; overflow-x: auto; overscroll-behavior-x: contain; border-inline-end: var(--ot-hairline) solid var(--ot-rule); }
+  .doc-example .ot-relay-frame, .state .ot-relay-frame { font-size: var(--ot-mf); }
   /* The margin is too narrow here for a dash to hang in without touching the edge of the screen: the list steps in. */
-  .db-prose ul { padding-inline-start: 1.1em; }
+  .ot-prose ul { padding-inline-start: 1.1em; }
 }
 
 /* The tuning popover in the bar. */
-.bar-controls { display: flex; align-items: center; gap: var(--db-space-5); }
-.tune { width: min(26rem, calc(100vw - 2 * var(--db-margin))); padding: var(--db-space-5); }
+.bar-controls { display: flex; align-items: center; gap: var(--ot-space-5); }
+.tune { width: min(26rem, calc(100vw - 2 * var(--ot-margin))); padding: var(--ot-space-5); }
 
 /* Code outside prose (tables, notes) reads like prose's: the voice, condensed. No monospace anywhere. */
-.docs-main :not(pre) > code { font-family: var(--db-voice); font-stretch: 78%; font-weight: 500; letter-spacing: 0.01em; color: var(--db-ink); }
-.doc-install [data-slot="tabs-content"] { padding-top: var(--db-space-6); }
+.docs-main :not(pre) > code { font-family: var(--ot-voice); font-stretch: 78%; font-weight: 500; letter-spacing: 0.01em; color: var(--ot-ink); }
+.doc-install [data-slot="tabs-content"] { padding-top: var(--ot-space-6); }
 /* Under the tabs' own line the steps start in silence: the first step draws no second rule. */
-.doc-install [data-slot="tabs-content"] > .db-steps > .db-step:first-child { padding-top: 0; border-top: 0; }
+.doc-install [data-slot="tabs-content"] > .ot-steps > .ot-step:first-child { padding-top: 0; border-top: 0; }
 
 /* Wide tables scroll sideways inside the page, never the page itself. */
 .doc-table { overflow-x: auto; overscroll-behavior-x: contain; }
@@ -267,19 +267,19 @@ body { overflow-x: clip; }
    The column heads go (kept for screen readers); the default says its own name. */
 @media (max-width: 560px) {
   .doc-props thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .doc-props tr { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-2) var(--db-space-4); padding-block: var(--db-space-4); border-bottom: var(--db-hairline) solid var(--db-rule); }
-  .doc-props .db-table { table-layout: fixed; }
+  .doc-props tr { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--ot-space-2) var(--ot-space-4); padding-block: var(--ot-space-4); border-bottom: var(--ot-hairline) solid var(--ot-rule); }
+  .doc-props .ot-table { table-layout: fixed; }
   .doc-props tr > td { min-inline-size: 0; max-inline-size: 100%; overflow-wrap: anywhere; padding: 0; border: 0; }
   .doc-props tr > td:nth-child(3) { margin-inline-start: auto; }
   .doc-props tr > td:last-child { flex-basis: 100%; }
-  .doc-props tr > td:nth-child(3):not(:empty)::before { content: "Default "; font-size: var(--db-pp); color: var(--db-pencil); }
+  .doc-props tr > td:nth-child(3):not(:empty)::before { content: "Default "; font-size: var(--ot-pp); color: var(--ot-pencil); }
 }
 
 /* The smallest phones: the row keeps every word by tightening its gaps. */
 @media (max-width: 380px) {
-  .bar { column-gap: var(--db-space-4); }
-  .bar-mark { gap: var(--db-space-2); }
+  .bar { column-gap: var(--ot-space-4); }
+  .bar-mark { gap: var(--ot-space-2); }
   .bar-mark svg { flex: none; }
-  .bar-end, .bar-controls { gap: var(--db-space-3); }
-  .bar .db-btn { font-size: inherit; min-block-size: 44px; }
+  .bar-end, .bar-controls { gap: var(--ot-space-3); }
+  .bar .ot-btn { font-size: inherit; min-block-size: 44px; }
 }

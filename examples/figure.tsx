@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Figure } from "@/registry/0db/ui/figure"
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
+import { Figure } from "@/registry/0nlytype/ui/figure"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
 import { State } from "@/components/site/state"
 
 // Two studies drawn in SVG, so the specimen needs no image files: a sea at first light and a window's light on a wall.
@@ -22,8 +22,8 @@ export default function Example() {
   const [ratio, setRatio] = React.useState("3:2")
   const value = ratios.find(([name]) => name === ratio)?.[1] ?? 3 / 2
   return (
-    <div className="grid w-full gap-(--db-space-8)">
-      <div className="grid gap-(--db-space-7)">
+    <div className="grid w-full gap-(--ot-space-8)">
+      <div className="grid gap-(--ot-space-7)">
         {/* Radix single groups clear on a second press; a crop is always one of the four. */}
         <ToggleGroup type="single" value={ratio} onValueChange={(v) => v && setRatio(v)} aria-label="Crop">
           {ratios.map(([name]) => (

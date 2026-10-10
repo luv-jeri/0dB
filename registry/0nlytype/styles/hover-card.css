@@ -1,0 +1,69 @@
+@layer components {
+  /* ── ot-peek ── hover card: the name, set large and cut by the card's top edge and its end,
+     the way POINT and SPECTRA crop their titles. Radix places it and waits for the pointer;
+     focus opens it at once. */
+  .ot-peek {
+    z-index: 50; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-2); width: min(21rem, 80vw); padding: var(--ot-space-5) var(--ot-space-5) var(--ot-space-4); overflow: clip;
+    background: var(--ot-paper); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong);
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-graphite);
+    animation: ot-peek-in var(--ot-moderato) var(--ot-exhale);
+  }
+  .ot-peek[data-state="closed"] { animation: ot-peek-out var(--ot-allegro) var(--ot-breath) forwards; }
+  @keyframes ot-peek-in { from { opacity: 0; } }
+  @keyframes ot-peek-out { to { opacity: 0; } }
+  /* The top edge falls through the ascenders, so the word reads from its x-height down; a long name
+     also runs off the end. The card's paper covers what the crop takes. */
+  .ot-peek-name {
+    margin-block-start: calc(-1 * var(--ot-space-5) - 0.3em); margin-inline-end: -30%; white-space: nowrap; user-select: none; /* decorative and cropped: a selection would only paint a slab of yellow */
+    font-size: calc(var(--ot-ff) * 1.25); line-height: 0.85; letter-spacing: var(--ot-ff-tr); font-weight: 200; color: var(--ot-ink);
+  }
+  .ot-peek[data-state="open"] .ot-peek-name { animation: ot-peek-slide var(--ot-andante) var(--ot-exhale); }
+  @keyframes ot-peek-slide { from { translate: 0.5em 0; } }
+  .ot-peek[data-state="open"]:is([dir="rtl"], [dir="rtl"] *) .ot-peek-name { animation-name: ot-peek-slide-rtl; }
+  @keyframes ot-peek-slide-rtl { from { translate: -0.5em 0; } }
+  .ot-peek-meta { color: var(--ot-pencil); }
+
+  /* ── entry ── a dictionary entry for the word you point at, after "the uncreative": the headword
+     heavy and whole, broken at its syllables by points; the stressed syllable reversed out of the
+     ink; the part of speech in the italic, as a dictionary sets it; the senses numbered in bold
+     figures hung in the margin; the word's history last, in pencil. */
+  .ot-peek[data-variant="entry"] { gap: var(--ot-space-3); padding-block-start: var(--ot-space-4); font-size: var(--ot-p); line-height: var(--ot-p-lh); letter-spacing: 0; }
+  .ot-peek[data-variant="entry"] .ot-peek-name {
+    margin: 0; white-space: normal; user-select: none;
+    font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 800;
+  }
+  .ot-peek-point { display: inline-block; width: 0.42em; height: 0.42em; vertical-align: 0.04em; }
+  .ot-peek-point::before { content: ""; display: block; width: 0.14em; height: 0.14em; margin: 0.14em auto; border-radius: 50%; background: currentColor; }
+  .ot-peek-stress { padding-inline: 0.06em; background: var(--ot-ink); color: var(--ot-paper); }
+  .ot-peek[data-variant="entry"] :is(ol, .ot-term) { margin: 0; }
+  .ot-peek[data-variant="entry"] .ot-term { color: var(--ot-ink); }
+  .ot-peek[data-variant="entry"] ol { display: grid; gap: var(--ot-space-2); padding: 0; list-style: none; counter-reset: ot-sense; }
+  .ot-peek[data-variant="entry"] li { counter-increment: ot-sense; position: relative; }
+  .ot-peek[data-variant="entry"] li::before { content: counter(ot-sense) / ""; position: absolute; inset-inline-end: calc(100% + var(--ot-space-2)); font-weight: 800; color: var(--ot-ink); font-variant-numeric: lining-nums; }
+  .ot-peek[data-variant="entry"] .ot-peek-meta { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); }
+  /* Spelling out: the headword arrives closed up and opens at its breaks; each point lands in turn. */
+  .ot-peek[data-variant="entry"][data-state="open"] .ot-peek-name { animation: none; }
+  .ot-peek[data-variant="entry"][data-state="open"] .ot-peek-point { animation: ot-peek-open var(--ot-moderato) var(--ot-exhale) calc(var(--ot-arpeggio) * var(--i, 1)) backwards; }
+  .ot-peek[data-variant="entry"][data-state="open"] .ot-peek-point::before { animation: ot-peek-land var(--ot-moderato) var(--ot-spiccato) calc(var(--ot-allegro) + var(--ot-arpeggio) * var(--i, 1)) backwards; }
+  @keyframes ot-peek-open { from { width: 0; } }
+  @keyframes ot-peek-land { from { scale: 0; } }
+
+  /* ── quote ── what the person said, in the italic (their words, not ours), with the opening mark
+     hung in the margin at the size of a title and cut by the card's top edge. The attribution is ours. */
+  .ot-peek[data-variant="quote"] { gap: var(--ot-space-3); padding-inline-start: var(--ot-space-7); }
+  .ot-peek[data-variant="quote"] blockquote {
+    position: relative; margin: 0;
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * var(--ot-mp)); line-height: 1.25; letter-spacing: 0; color: var(--ot-ink);
+  }
+  .ot-peek[data-variant="quote"] blockquote::before {
+    content: "\201C" / ""; position: absolute; inset-inline-end: calc(100% + 0.04em); top: -0.3em;
+    font-size: calc(var(--ot-ff) * 1.6); line-height: 1; color: var(--ot-ink); user-select: none;
+  }
+  .ot-peek[data-variant="quote"][data-state="open"] blockquote::before { animation: ot-peek-mark var(--ot-andante) var(--ot-spiccato) backwards; }
+  @keyframes ot-peek-mark { from { opacity: 0; translate: 0 -0.2em; } }
+
+  @media (forced-colors: active) {
+    .ot-peek { outline: var(--ot-hairline) solid CanvasText; outline-offset: calc(-1 * var(--ot-hairline)); } /* the hairline is a box-shadow, which forced colours drop */
+    .ot-peek-stress, .ot-peek-point::before { forced-color-adjust: none; background: CanvasText; color: Canvas; }
+  }
+}

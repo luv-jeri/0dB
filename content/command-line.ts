@@ -4,7 +4,7 @@ export default defineComponent({
   name: "command-line",
   title: "Command line",
   movement: "X",
-  contract: "db-command-line",
+  contract: "ot-command-line",
   summary: "One line to type, on a baseline like a field already filled in. The address recedes, the part that's yours is italic, and copying draws the line in the accent.",
   underneath: "hook",
   props: [

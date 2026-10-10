@@ -1,0 +1,147 @@
+/* 0nlyType · tokens
+   The registry:base item. Every component reads only these variables.
+   Modes:   <html data-mode="day | nocturne">
+   Schemes: <html data-scheme="cotton | blueprint | statue | silence | riso">
+   Keys:    <html data-key="ultramarine | viridian | ember | violet">  (overrides the scheme's accent)
+   Pairs:   <html data-pair="parma | press | paris | salon"> */
+
+:root {
+  color-scheme: light;
+  interpolate-size: allow-keywords;
+
+  /* Colour: one note. Ink on paper, one accent for "where you are". */
+  --ot-paper: #f2f3f0;
+  --ot-ink: #000;
+  --ot-graphite: #4a4b50;
+  --ot-pencil: #6b6c71;
+  --ot-rule: color-mix(in srgb, var(--ot-ink) 14%, transparent);
+  --ot-rule-strong: color-mix(in srgb, var(--ot-ink) 42%, transparent);
+  --ot-accent: #2b2bee;
+  --ot-signal: #c8102e;
+  --ot-mark: #ffe45a;
+  --ot-on-mark: #000;
+
+  /* Type: the voice (ours) and the expression (yours). */
+  --ot-voice: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ot-expression: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+  --ot-expression-scale: 1.15; /* matches Bodoni's x-height to Archivo's */
+  /* Reading grade: the same italic, cut for a line of text. Display keeps its own scale and optical sizing. */
+  --ot-expression-text-opsz: 6;
+  --ot-expression-text-variation: "opsz" var(--ot-expression-text-opsz);
+  --ot-expression-text-weight: 500;
+  --ot-expression-text-tracking: 0.012em;
+  --ot-expression-text-scale: 1.18;
+
+  /* Dynamics: text steps by a fourth, headings by a fifth. */
+  --ot-pp: 0.8125rem;   --ot-pp-lh: 1.45;  --ot-pp-tr: 0.01em;
+  --ot-p: 1.0625rem;    --ot-p-lh: 1.6;    --ot-p-tr: 0em;
+  --ot-mp: 1.375rem;    --ot-mp-lh: 1.45;  --ot-mp-tr: -0.005em;
+  --ot-mf: 2rem;        --ot-mf-lh: 1.15;  --ot-mf-tr: -0.015em;
+  --ot-f: 3rem;         --ot-f-lh: 1.05;   --ot-f-tr: -0.025em;
+  --ot-ff: 4.5rem;      --ot-ff-lh: 0.95;  --ot-ff-tr: -0.035em;
+  --ot-fff: clamp(4rem, 11vw, 10rem);       --ot-fff-lh: 0.9;  --ot-fff-tr: -0.045em;
+  --ot-ffff: clamp(4rem, 17.5vw, 17rem);  --ot-ffff-lh: 0.82; --ot-ffff-tr: -0.055em;
+  --ot-measure: 62ch;
+
+  /* Space: perfect fifths from 8. */
+  --ot-space-1: 0.25rem;   /*   4 */
+  --ot-space-2: 0.5rem;    /*   8 */
+  --ot-space-3: 0.75rem;   /*  12 */
+  --ot-space-4: 1.125rem;  /*  18 */
+  --ot-space-5: 1.6875rem; /*  27 */
+  --ot-space-6: 2.5rem;    /*  40 */
+  --ot-space-7: 3.75rem;   /*  60 */
+  --ot-space-8: 5.625rem;  /*  90 */
+  --ot-space-9: 8.4375rem; /* 135 */
+  --ot-space-10: 12.5rem;  /* 200 */
+
+  /* Line and shape. */
+  --ot-hairline: 1px;
+  --ot-stroke: 1.5px;
+  --ot-dot: 7px;
+  --ot-gutter: 24px;
+  --ot-margin: clamp(20px, 5vw, 80px);
+
+  /* Tempo. */
+  --ot-allegro: 160ms;   /* hover, press */
+  --ot-moderato: 320ms;  /* a state changes */
+  --ot-andante: 640ms;   /* panels, toast, dialog */
+  --ot-adagio: 1400ms;   /* the overture, once */
+  --ot-exhale: cubic-bezier(0.16, 1, 0.3, 1);   /* arriving */
+  --ot-breath: cubic-bezier(0.65, 0, 0.35, 1);  /* moving between states */
+  --ot-spiccato: cubic-bezier(0.34, 1.5, 0.5, 1); /* landing: a bounced bow, one small rebound */
+  --ot-arpeggio: 36ms;                           /* the step between things arriving in turn */
+}
+
+/* Pairs: a voice (grotesque) and an expression (italic serif). The scale
+   lifts each italic until its x-height meets the voice's on the line. */
+:root[data-pair="press"] {
+  --ot-voice: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --ot-expression: "Newsreader", Georgia, serif;
+  --ot-expression-scale: 1.1;
+  --ot-expression-text-opsz: 6;
+  --ot-expression-text-variation: "opsz" var(--ot-expression-text-opsz);
+  --ot-expression-text-weight: 500;
+  --ot-expression-text-tracking: 0.01em;
+  --ot-expression-text-scale: 1.12;
+}
+:root[data-pair="paris"] {
+  --ot-voice: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --ot-expression: "EB Garamond", Garamond, Georgia, serif;
+  --ot-expression-scale: 1.24;
+  --ot-expression-text-variation: normal; /* Garamond has a weight axis, no optical-size axis. */
+  --ot-expression-text-weight: 500;
+  --ot-expression-text-tracking: 0.015em;
+  --ot-expression-text-scale: 1.3;
+}
+:root[data-pair="salon"] {
+  --ot-voice: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --ot-expression: "Cormorant", Garamond, Georgia, serif;
+  --ot-expression-scale: 1.26;
+  --ot-expression-text-variation: normal; /* Cormorant needs ink and x-height, not an invented axis. */
+  --ot-expression-text-weight: 600;
+  --ot-expression-text-tracking: 0.015em;
+  --ot-expression-text-scale: 1.38;
+}
+
+/* Schemes: paper, ink and accent move together; the rules follow the ink. */
+:root[data-scheme="blueprint"] { --ot-paper: #edf0f7; --ot-ink: #0c1b8f; --ot-graphite: #2f3b7c; --ot-pencil: #58608f; --ot-accent: #c23d00; --ot-signal: #a3001e; }
+:root[data-scheme="statue"]    { --ot-paper: #ebeae5; --ot-ink: #14213d; --ot-graphite: #39445f; --ot-pencil: #5f687e; --ot-accent: #875600; --ot-signal: #b3122e; }
+:root[data-scheme="silence"]   { --ot-paper: #e2e8e3; --ot-ink: #0e2a23; --ot-graphite: #32504a; --ot-pencil: #4f6962; --ot-accent: #1b3de0; --ot-signal: #b3122e; }
+:root[data-scheme="riso"]      { --ot-paper: #f6f5f2; --ot-ink: #25286b; --ot-graphite: #3f4278; --ot-pencil: #636591; --ot-accent: #b8005f; --ot-signal: #c23c00; }
+
+/* Nocturne: the dark mode, for the long sessions. */
+:root[data-mode="nocturne"] {
+  color-scheme: dark;
+  --ot-paper: #10111c;
+  --ot-ink: #e9eaec;
+  --ot-graphite: #b4b5bc;
+  --ot-pencil: #83848c;
+  --ot-accent: #8c8cff;
+  --ot-signal: #ff6b7f;
+}
+:root[data-mode="nocturne"][data-scheme="blueprint"] { --ot-paper: #0a1766; --ot-ink: #f0f2ff; --ot-graphite: #c4caf2; --ot-pencil: #929ad0; --ot-accent: #ff9557; --ot-signal: #ff8a9a; }
+:root[data-mode="nocturne"][data-scheme="statue"]    { --ot-paper: #0d1528; --ot-ink: #eee7d7; --ot-graphite: #c7c0b0; --ot-pencil: #938d80; --ot-accent: #e3b04f; --ot-signal: #ff7b86; }
+:root[data-mode="nocturne"][data-scheme="silence"]   { --ot-paper: #0c1c18; --ot-ink: #e1ebe6; --ot-graphite: #adc0b9; --ot-pencil: #7a918a; --ot-accent: #93a6ff; --ot-signal: #ff7b86; }
+:root[data-mode="nocturne"][data-scheme="riso"]      { --ot-paper: #1a1537; --ot-ink: #f8eef5; --ot-graphite: #d2c6d8; --ot-pencil: #9d92ab; --ot-accent: #ff62b0; --ot-signal: #ffa066; }
+
+/* Keys: the accent can change, the rule doesn't. Declared last so a key wins
+   over any scheme. All ≥ 4.5:1 on every paper, by day and in Nocturne. */
+:root[data-key="ultramarine"] { --ot-accent: #2b2bee; }
+:root[data-key="viridian"]    { --ot-accent: #0b6e4f; }
+:root[data-key="ember"]       { --ot-accent: #b83d00; }
+:root[data-key="violet"]      { --ot-accent: #6a1b9a; }
+:root[data-mode="nocturne"][data-key="ultramarine"] { --ot-accent: #8c8cff; }
+:root[data-mode="nocturne"][data-key="viridian"]    { --ot-accent: #4fd1a5; }
+:root[data-mode="nocturne"][data-key="ember"]       { --ot-accent: #ff8a4c; }
+:root[data-mode="nocturne"][data-key="violet"]      { --ot-accent: #c58cf2; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ot-allegro: 1ms;
+    --ot-moderato: 1ms;
+    --ot-andante: 1ms;
+    --ot-adagio: 1ms;
+    --ot-arpeggio: 0ms;
+  }
+}

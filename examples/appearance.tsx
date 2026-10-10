@@ -1,4 +1,4 @@
-import { Appearance } from "@/registry/0db/ui/appearance"
+import { Appearance } from "@/registry/0nlytype/ui/appearance"
 import { State } from "@/components/site/state"
 
 // Live: choosing here retunes this page, as the Tune panel in the bar does.

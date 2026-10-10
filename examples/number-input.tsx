@@ -2,14 +2,14 @@
 
 import * as React from "react"
 
-import { Field } from "@/registry/0db/ui/field"
-import { NumberInput } from "@/registry/0db/ui/number-input"
+import { Field } from "@/registry/0nlytype/ui/field"
+import { NumberInput } from "@/registry/0nlytype/ui/number-input"
 import { State } from "@/components/site/state"
 
 export default function Example() {
   const [fee, setFee] = React.useState<number | null>(1250)
   return (
-    <div className="grid w-full max-w-md gap-(--db-space-8)">
+    <div className="grid w-full max-w-md gap-(--ot-space-8)">
       <Field label="Guests" hint="Up to twelve at the long table.">
         <NumberInput defaultValue={4} min={1} max={12} unit={{ one: "guest", other: "guests" }} name="guests" />
       </Field>

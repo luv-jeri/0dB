@@ -1,0 +1,50 @@
+@layer components {
+  /* ── ot-sign ── an icon made of its own word, after the ampersand (the word "et" worn down into a sign) and
+     Apollinaire's calligrams. Pretext rules the drawing's strokes in middle-dot leaders (dots), lays the word along
+     them (words), or sets it in rows that fill the drawing's silhouette (fill). Each letter is set at the size it is said at and scaled down into the drawing, so saying it is one
+     transform: it travels to its place in the word, turns upright and comes to full size. */
+  .ot-sign {
+    --ot-sign-size: 1.5rem;
+    position: relative; display: inline-block; flex: none; vertical-align: middle;
+    width: var(--ot-sign-size); height: var(--ot-sign-size);
+    font-family: var(--ot-voice); font-style: normal; color: inherit;
+  }
+  .ot-sign[data-face="italic"] { font-family: var(--ot-expression); font-style: italic; }
+  .ot-sign-glyph {
+    position: absolute; left: 0; top: 0; pointer-events: none; transform-origin: 0 0; /* placed in the square's own coordinates, so the same either way round */
+    font-size: var(--ws); line-height: 1; white-space: pre; font-weight: var(--rest);
+    /* The letter's middle on the stroke: the em box's centre sits a little above the x-height's. */
+    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--k)) translate(-50%, -54%);
+    transition: transform var(--ot-allegro) var(--ot-breath), font-weight var(--ot-allegro) var(--ot-breath), opacity var(--ot-allegro) linear, color var(--ot-allegro) linear;
+    /* Going home, the last letter of the word leaves first; the echoes come back once the word has gone. */
+    transition-delay: calc(var(--m, 0) * var(--ot-arpeggio));
+  }
+  .ot-sign-glyph:not([data-say]) { transition-delay: calc(var(--ot-arpeggio) * 2); }
+  /* In the text cut the word's letters wait unseen at the leaders, and rise out of them when it's said. */
+  .ot-sign-glyph[data-hush] { opacity: 0; }
+  /* In the word cut the drawing round the word is ruled in pencil, so the word is the one thing in ink. */
+  .ot-sign-glyph[data-quiet] { color: var(--ot-pencil); }
+  .ot-sign[data-face="italic"] .ot-sign-glyph { font-variation-settings: var(--ot-expression-text-variation, normal); }
+
+  /* Said: pointing at the sign, or at the control it sits in, or focusing that control, sets the word. The echoes
+     sketch out in pencil and go quiet. data-force="hover" pins it for a states row. */
+  .ot-sign:is([data-force~="hover"], [data-force~="hover"] *, :is(a, button, summary, [role="button"], [tabindex]):focus-visible *) .ot-sign-glyph[data-say] {
+    transform: translate(var(--wx), var(--wy)) rotate(0deg) scale(1) translate(-50%, -54%);
+    font-weight: var(--said); opacity: 1;
+    transition-duration: var(--ot-moderato); transition-delay: calc(var(--n, 0) * var(--ot-arpeggio));
+  }
+  .ot-sign:is([data-force~="hover"], [data-force~="hover"] *, :is(a, button, summary, [role="button"], [tabindex]):focus-visible *) .ot-sign-glyph:not([data-say]) {
+    opacity: 0; color: var(--ot-pencil); transition-delay: 0s;
+  }
+  @media (hover: hover) {
+    .ot-sign:is(:hover, :is(a, button:not(:disabled), summary, label, [role="button"]):hover *) .ot-sign-glyph[data-say] {
+      transform: translate(var(--wx), var(--wy)) rotate(0deg) scale(1) translate(-50%, -54%);
+      font-weight: var(--said); opacity: 1;
+      transition-duration: var(--ot-moderato); transition-delay: calc(var(--n, 0) * var(--ot-arpeggio));
+    }
+    .ot-sign:is(:hover, :is(a, button:not(:disabled), summary, label, [role="button"]):hover *) .ot-sign-glyph:not([data-say]) {
+      opacity: 0; color: var(--ot-pencil); transition-delay: 0s;
+    }
+  }
+  @media (forced-colors: active) { .ot-sign-glyph { color: CanvasText; } .ot-sign-glyph[data-quiet] { color: GrayText; } }
+}

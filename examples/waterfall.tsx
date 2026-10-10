@@ -1,4 +1,4 @@
-import { Waterfall } from "@/registry/0db/ui/waterfall"
+import { Waterfall } from "@/registry/0nlytype/ui/waterfall"
 import { State } from "@/components/site/state"
 
 const words = "Hush, the whole hall is listening. Nothing is louder than a room that has just gone quiet, and every sound after it is measured against that silence."
