@@ -11,9 +11,17 @@
 .hero-title { margin-top: var(--db-space-6); margin-inline-start: -0.04em; font-size: min(16.2cqi, 38svh); line-height: 0.8; letter-spacing: -0.035em; color: var(--db-ink); }
 .hero-line { display: block; white-space: nowrap; }
 .hero-line[data-line="loud"] { font-weight: 850; font-stretch: 62%; letter-spacing: -0.02em; }
-/* The quiet line arrives as loud as the first, and exhales: the one word that turns itself down. */
-.hero-line[data-line="quiet"] { font-weight: 200; font-stretch: 112%; animation: hero-exhale var(--db-adagio) var(--db-exhale) calc(8 * var(--db-arpeggio)) both; }
+/* The quiet line rests at its quietest. On a browser's first visit only (landing-overture sets data-overture-at on <html>
+   before the hero paints) it arrives as loud as the first and exhales, 8 steps then 1400ms: done by 1.7s, inside the
+   overture's 2s deadline. Ending the overture removes the attribute, which settles the line at once. */
+.hero-line[data-line="quiet"] { font-weight: 200; font-stretch: 112%; }
+html[data-overture-at] .hero-line[data-line="quiet"] { animation: hero-exhale var(--db-adagio) var(--db-exhale) calc(8 * var(--db-arpeggio)) both; }
 @keyframes hero-exhale { from { font-weight: 850; font-stretch: 62%; letter-spacing: -0.02em; } }
+/* Skip intro: a real control for as long as the overture plays, and nothing after. It sits at the end of the headline's
+   block, on the stave of the first row, clear of the bar. */
+.hero .hero-skip { display: none; position: absolute; inset-block-start: calc(var(--bar) + var(--db-space-3)); inset-inline-end: 0; min-block-size: 44px; font-size: var(--db-pp); }
+html[data-overture-at] .hero .hero-skip { display: inline-flex; }
+@media (prefers-reduced-motion: reduce) { html[data-overture-at] .hero-line[data-line="quiet"] { animation: none; } html[data-overture-at] .hero .hero-skip { display: none; } }
 .hero-stop { justify-self: end; color: var(--db-accent); font-weight: 200; font-stretch: 112%; letter-spacing: -0.035em; }
 .hero-line[data-line="quiet"] .hero-word { display: inline-grid; }
 .hero-line[data-line="quiet"] .hero-word > *, .hero-line[data-line="quiet"] .hero-word::after { grid-area: 1 / 1; }
