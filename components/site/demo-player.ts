@@ -22,19 +22,26 @@ export function useDemoClock() {
 
 export type DemoState = "waiting" | "playing" | "finished" | "stopped" | "static"
 
-/** Owns discovery, load/idle gating, choreography, cancellation, and the two performances.
- * Reset is the host's keyed example remount: React remains the owner of every real default. */
+/** Owns discovery, load/idle gating, choreography and cancellation of one explicit demonstration.
+ * Nothing moves until the person presses Demonstrate: discovery only finds out whether there is something to show
+ * (and loads the choreography to do it), and never clicks, types or starts. Stop, or any real touch of the example,
+ * hands it back. Reset is the host's keyed example remount: React remains the owner of every real default. */
 export function useDemoPlayer({ root, host = root, item, identity = item, reset }: { root: React.RefObject<HTMLElement | null>; host?: React.RefObject<HTMLElement | null>; item: string; identity?: string; reset: () => void }) {
-  const [state, setState] = React.useState<DemoState>("waiting")
-  const [interactive, setInteractive] = React.useState(false)
-  const control = React.useRef<() => void>(() => {})
+  // Both belong to one piece on one mount: a new piece starts with nothing to offer until it has been looked at.
+  const key = `${item}\n${identity}`
+  const [shown, setShown] = React.useState<{ key: string; state: DemoState; interactive: boolean }>({ key, state: "waiting", interactive: false })
+  const state = shown.key === key ? shown.state : "waiting"
+  const interactive = shown.key === key && shown.interactive
+  const control = React.useRef<{ demonstrate: () => void; stop: () => void }>({ demonstrate: () => {}, stop: () => {} })
   const resetRef = React.useRef(reset)
   React.useLayoutEffect(() => { resetRef.current = reset }, [reset])
   React.useEffect(() => {
     const el = root.current, surface = host.current
     if (!el || !surface) return
+    const setState = (next: DemoState) => setShown((now) => ({ key, state: next, interactive: now.key === key && now.interactive }))
+    const setInteractive = (next: boolean) => setShown((now) => ({ key, state: now.key === key ? now.state : "waiting", interactive: next }))
     const motion = matchMedia("(prefers-reduced-motion: reduce)")
-    let disposed = false, ready = false, visible = false, touched = false, started = false, available = false
+    let disposed = false, ready = false, visible = false, started = false, available = false
     let run: AbortController | null = null, idle = 0, deferred = 0
     let choreography: typeof import("@/components/site/demo-choreography") | null = null, loading = false
     let lanes: Lane[] = [], driving = false, sheetHeight = 0
@@ -75,52 +82,57 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
       try { return fn() } finally { driving = false }
     }
     const cancel = (handover: boolean) => {
+      const running = run !== null
       run?.abort(); run = null
-      if (handover) { touched = true; started = true; release() }
+      if (handover) release()
       // Remove synthetic pointer presence; preserve the value the person is taking over.
       if (DEMO_SCORES[item]?.script === "wake" || DEMO_SCORES[item]?.script === "timer") lanes.forEach((l) => l.restore && invoke(l.restore))
       lanes = []
-      if (started) publish("stopped")
+      if (running) publish("stopped")
     }
     const quiet = () => { if (item === "word-relay") choreography?.all(el, ".db-relay-pause").filter((b) => b.textContent?.trim() === "pause").forEach((b) => invoke(() => b.click())) }
     const remount = () => { driving = true; try { flushSync(() => resetRef.current()); quiet(); stabilize() } finally { driving = false } }
-    const start = async (replay = false) => {
-      if (disposed || !available || (!replay && (!ready || !visible || touched || started || motion.matches))) return
+    // Only ever called by the person's own press of Demonstrate. It starts from the example's defaults and plays once.
+    const start = async () => {
+      if (disposed || !available) return
       cancel(false)
       started = true
       const current = new AbortController()
       run = current
       const signal = current.signal, c = conductor(signal)
       try {
-        if (replay) { remount(); await c.wait(c.tempo.moderato) }
+        remount()
+        await c.wait(c.tempo.moderato)
         stabilize()
         publish("playing")
-        for (let cycle = 0; cycle < 2; cycle++) {
-          el.dataset.demoCycle = String(cycle + 1)
-          lanes = choreography!.compose(el, item, c).filter((l) => l.steps.length)
-          await Promise.all(lanes.map(async (lane, i) => {
-            // A short canon: lead, answer, inner voice, cadence. Entries overlap; no serial tour.
-            const entry = [0, 1, 0.5, 1.5][i % 4] * c.tempo.moderato
-            await c.wait(entry)
-            for (const step of lane.steps) {
-              if (signal.aborted) throw signal.reason
-              await invoke(step)
-              await c.wait(c.tempo.breath + (i % 2) * c.tempo.moderato / 2)
-            }
-          }))
-          if (signal.aborted) return
-          await Promise.all(lanes.map((l) => l.restore && invoke(l.restore)))
-          await c.wait(c.tempo.andante)
-          remount()
-          await c.wait(c.tempo.breath)
-        }
+        el.dataset.demoCycle = "1"
+        lanes = choreography!.compose(el, item, c).filter((l) => l.steps.length)
+        await Promise.all(lanes.map(async (lane, i) => {
+          // A short canon: lead, answer, inner voice, cadence. Entries overlap; no serial tour.
+          const entry = [0, 1, 0.5, 1.5][i % 4] * c.tempo.moderato
+          await c.wait(entry)
+          for (const step of lane.steps) {
+            if (signal.aborted) throw signal.reason
+            await invoke(step)
+            await c.wait(c.tempo.breath + (i % 2) * c.tempo.moderato / 2)
+          }
+        }))
+        if (signal.aborted) return
+        await Promise.all(lanes.map((l) => l.restore && invoke(l.restore)))
+        await c.wait(c.tempo.andante)
+        remount()
+        await c.wait(c.tempo.breath)
         run = null; lanes = []
         publish("finished")
       } catch (error) {
         if (!signal.aborted) { cancel(false); publish("stopped"); console.error("Demo could not finish", item, error) }
       }
     }
-    control.current = () => { touched = false; void start(true) }
+    control.current = {
+      demonstrate: () => { void start() },
+      stop: () => { if (run) cancel(true) },
+    }
+    // Finds out whether there is a demonstration to give. It acts on nothing.
     const discover = () => {
       if (disposed || !ready || !visible) return
       if (!DEMO_SCORES[item]?.script) { publish("static"); return }
@@ -133,12 +145,12 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
         }
         return
       }
-      quiet()
       const found = choreography.compose(el, item, conductor(new AbortController().signal)).some((l) => l.steps.length)
       if (found !== available) { available = found; setInteractive(found) }
-      if (found) void start()
     }
     const hands = (event: Event) => {
+      // The Demonstrate and Stop control is the person asking, not the person taking over.
+      if (event.target instanceof Element && event.target.closest("[data-demo-control]")) return
       if (event.isTrusted && !driving) cancel(true)
     }
     const events = ["pointerenter", "pointerdown", "keydown", "focusin", "click"]
@@ -164,7 +176,7 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
     if (document.readyState === "complete") afterLoad()
     else window.addEventListener("load", afterLoad, { once: true })
     return () => {
-      disposed = true; run?.abort(); release(); control.current = () => {}
+      disposed = true; run?.abort(); release(); control.current = { demonstrate: () => {}, stop: () => {} }
       changes.disconnect(); view.disconnect(); clearTimeout(deferred)
       if (idle) window.cancelIdleCallback(idle)
       window.removeEventListener("load", afterLoad)
@@ -173,6 +185,6 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
       motion.removeEventListener("change", changed)
       delete el.dataset.demoState; delete el.dataset.demoCycle
     }
-  }, [root, host, item, identity])
-  return { state, interactive, replay: () => control.current() }
+  }, [root, host, item, key])
+  return { state, interactive, demonstrate: () => control.current.demonstrate(), stop: () => control.current.stop() }
 }
