@@ -109,6 +109,10 @@ const failures = []
 const only = process.env.DEMO_ONLY?.split(",")
 const items = only ?? (engine === "chromium" ? scripted : sample)
 
+/** The control's label follows the published state by a render; wait for it rather than reading it the instant the state changes. */
+const labelBecomes = (page, text) => page.waitForFunction((want) => document.querySelector(".doc-demo-controls button, .pieces-actions [data-demo-control]")?.textContent?.trim() === want, text, { timeout: 2000, polling: 50 })
+  .catch(async () => { throw new Error(`the control should read "${text}" but reads "${(await page.locator(".doc-demo-controls button").first().textContent().catch(() => "")).trim()}"`) })
+
 /** The state the player publishes on the example, and whether a performance has begun. */
 const demoState = (page, selector) => page.evaluate((sel) => { const el = document.querySelector(sel); return { state: el?.dataset.demoState ?? null, cycle: el?.dataset.demoCycle ?? null } }, selector)
 
@@ -222,11 +226,11 @@ async function one(context, item) {
     await mark(page)
     await control.click()
     await page.waitForFunction((sel) => document.querySelector(sel)?.dataset.demoState === "playing", example, { timeout: 5000 })
-    assert.equal((await control.textContent()).trim(), "Stop")
+    await labelBecomes(page, "Stop")
     await page.waitForFunction(() => window.__autoplay.mutations.length + window.__autoplay.synthetic.length > 0, null, { timeout: 5000 }).catch(() => { throw new Error("Demonstrate played, but the detector saw no change or event on the example") })
     await control.click()
     await page.waitForFunction((sel) => document.querySelector(sel)?.dataset.demoState === "stopped", example, { timeout: 2000 })
-    assert.equal((await control.textContent()).trim(), "Demonstrate")
+    await labelBecomes(page, "Demonstrate")
     assert.equal((await demoState(page, example)).state, "stopped")
     // After Stop: let any settling finish, then nothing may move, and a real control must still answer.
     if (!exempt) {
@@ -307,7 +311,7 @@ for (const item of only ? [] : ["toggle", "accordion", "tabs"]) {
     await page.waitForFunction(() => { const b = document.querySelector(".doc-demo-controls button"); return b && !b.disabled }, null, { timeout: 10000 })
     await page.locator(".doc-demo-controls button").click()
     await page.waitForFunction((sel) => document.querySelector(sel)?.dataset.demoState === "finished", `[data-demo-item="${item}"]`, { timeout: 30000 })
-    assert.equal((await page.locator(".doc-demo-controls button").textContent()).trim(), "Demonstrate")
+    await labelBecomes(page, "Demonstrate")
   } catch (error) { failures.push(`${item} (to the end): ${error.message.split("\n")[0]}`) } finally { await page.close() }
 }
 
