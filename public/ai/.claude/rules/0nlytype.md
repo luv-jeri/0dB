@@ -1,6 +1,6 @@
-# 0nlyType component kit
+# 0nlyType project rules
 
-Read intent, core design and the relevant `docs/0db/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit.
+Before building with 0nlyType, read [docs/0nlytype/AGENTS.md](../../docs/0nlytype/AGENTS.md) and [docs/0nlytype/DESIGN.md](../../docs/0nlytype/DESIGN.md) and the relevant component contracts. Preserve existing project instructions.
 
 ## Non-negotiable rules
 
@@ -28,47 +28,3 @@ Read intent, core design and the relevant `docs/0db/components/<item>.md` contra
 4. Ask where the accent is. If there are two, remove one.
 5. Use the native element. Use Radix or cmdk only when the platform can't do it (menus, floating layers, the combobox and command).
 6. When DESIGN.md and the code disagree, fix one of them in the same change. `check:drift` will catch you if you don't.
-
-## Item anatomy
-
-- One item is four files: `registry/0db/ui/<item>.tsx`, its sidecar `registry/0db/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
-- `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
-
-Use your application's component, style and example paths. The paths above describe contributions to the 0nlyType registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.
-
-## Naming
-
-- Tokens are `--db-*`. Component classes are `db-<name>`.
-- States live on native attributes (`:checked`, `:disabled`, `[aria-selected]`, `[aria-invalid]`, `[aria-current]`, `[aria-pressed]`, `[aria-busy]`). Variants live on `data-variant`, and size on `data-size`.
-- `[data-force~="hover"]` and `[data-force~="focus"]` pin a state for documentation rows.
-- Every control is built on the right native element, so the React port can use native elements or Radix without changing the look.
-- Four switches on `<html>`, all optional:
-  - `data-mode="day | nocturne"`
-  - `data-scheme="blueprint | statue | silence | riso"` (no attribute means cotton)
-  - `data-key="ultramarine | viridian | ember | violet"`, which overrides the scheme's accent and is declared last so it always wins
-  - `data-pair="press | paris | salon"` (no attribute means parma)
-- One creative move per component, and only one, drawn from the poster references (see "Where each move comes from"). Likewise one motion per component, named as an articulation (see "Motion").
-- `[hidden]` always wins over a component's `display`.
-- Copy: sentence case, active verbs. An action keeps its name through the flow (Upload, Uploading, Uploaded). Errors say what to fix and never apologise.
-
-- Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.db-ruler`.
-- Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.db-sr`.
-- Direction: logical properties, and `:is([dir="rtl"], [dir="rtl"] *)` where a stroke has a direction. Never `:dir()`: Lightning CSS, which Next and Tailwind run, lowers it to a list of `:lang()` that misses a page that only sets `dir`.
-- Variants are `data-variant` and `data-size`, never classes. There's no cva.
-- React 19: `ref` is a plain prop. `"use client"` appears only in files that need state, effects, handlers or Radix, so every other item works in a Server Component. Each root and part carries `data-slot`; `className` merges through `cn`.
-
-## Completion checklist
-
-- Check the contract's semantics, roles and accessible names; keyboard and visible focus; announcements for state changes; disabled and busy states. Keep decorative copies hidden from assistive technology.
-- Check reduced motion in CSS and JavaScript: Under `prefers-reduced-motion: reduce`, every tempo is 1ms and the arpeggio is 0: things still change but don't travel. Script-driven motion (rolls, the radio's stretch, tag removal, dusk and dawn) checks the same query and applies the change directly.
-- Check direction with logical properties and RTL where a stroke or reading order has direction. Isolate numbers inside RTL text.
-- Check the working component at desktop and phone widths, day and nocturne, and the relevant scheme, key and pair switches. Check forced colours.
-- Run the relevant tests, typecheck and lint in the consuming app. For upstream work, regenerate the registry and run its registry and drift checks.
-- Report which source paths you read, the precedent, the checks and their results, and anything unverified. Do not claim a check you did not run.
-
-## References
-
-- [Intent](INTENT.md)
-- [Core design](DESIGN-core.md)
-- [Full design (on demand)](DESIGN.md)
-- [Kit version and hashes](manifest.json)

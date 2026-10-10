@@ -1,6 +1,6 @@
 # 0nlyType project rules
 
-Before building with 0nlyType, read [docs/0db/AGENTS.md](../../docs/0db/AGENTS.md) and [docs/0db/DESIGN.md](../../docs/0db/DESIGN.md) and the relevant component contracts. Preserve existing project instructions.
+Before building with 0nlyType, read [docs/0nlytype/AGENTS.md](../../docs/0nlytype/AGENTS.md) and [docs/0nlytype/DESIGN.md](../../docs/0nlytype/DESIGN.md) and the relevant component contracts. Preserve existing project instructions.
 
 ## Non-negotiable rules
 

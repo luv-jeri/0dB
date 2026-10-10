@@ -4,7 +4,7 @@ applyTo: "**/*.tsx,**/*.css"
 
 # 0nlyType component kit
 
-Read intent, core design and the relevant `docs/0db/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit.
+Read intent, core design and the relevant `docs/0nlytype/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit.
 
 ## Non-negotiable rules
 
@@ -35,7 +35,7 @@ Read intent, core design and the relevant `docs/0db/components/<item>.md` contra
 
 ## Item anatomy
 
-- One item is four files: `registry/0db/ui/<item>.tsx`, its sidecar `registry/0db/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
+- One item is four files: `registry/0nlytype/ui/<item>.tsx`, its sidecar `registry/0nlytype/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
 
 Use your application's component, style and example paths. The paths above describe contributions to the 0nlyType registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.
@@ -72,7 +72,7 @@ Use your application's component, style and example paths. The paths above descr
 
 ## References
 
-- [Intent](../../docs/0db/INTENT.md)
-- [Core design](../../docs/0db/DESIGN-core.md)
-- [Full design (on demand)](../../docs/0db/DESIGN.md)
-- [Kit version and hashes](../../docs/0db/manifest.json)
+- [Intent](../../docs/0nlytype/INTENT.md)
+- [Core design](../../docs/0nlytype/DESIGN-core.md)
+- [Full design (on demand)](../../docs/0nlytype/DESIGN.md)
+- [Kit version and hashes](../../docs/0nlytype/manifest.json)

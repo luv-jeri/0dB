@@ -2,14 +2,14 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "13d4bada5601047bcd37e2732582d49c8cf13c04a83700186d048d9927da96ff",
-    "DESIGN.md": "928d7167a6efd424f850b4c382d4a1640d7aa22f98f570e6bacc85f121a7aaa6"
+    "DESIGN.md": "b0de2ca21cc37d223b58611345e8faed6a8b98ee06fed7f428eded00a15a5977"
   },
   "files": {
-    "AGENTS.md": "8a4c48f9d39d224419caee6c3f300314263b713a48b6d85f28d6d55758ba770f",
-    "docs/AGENTS.md": "b99b67cea5e3adf646d7bca305f9c60f900f756312a01ead6d92e7c9b500f11d",
+    "AGENTS.md": "41752dbafae26b1bc294d47cf4367cc5d333c729a5776f9c440aa3dbefc42607",
+    "docs/AGENTS.md": "7fc6ed2dc183e9afdb01e79b856742639201e98e4ea94848a08c72d1f01726f7",
     "INTENT.md": "13d4bada5601047bcd37e2732582d49c8cf13c04a83700186d048d9927da96ff",
-    "DESIGN.md": "928d7167a6efd424f850b4c382d4a1640d7aa22f98f570e6bacc85f121a7aaa6",
-    "DESIGN-core.md": "5b550b6df009e5ba51a7425fd387d248774c5ffcee3cea65cddb03688c67ac6b",
+    "DESIGN.md": "b0de2ca21cc37d223b58611345e8faed6a8b98ee06fed7f428eded00a15a5977",
+    "DESIGN-core.md": "c487b2d327e64a3347d3f8727f5c524a27375a1356d0b60552ecefdc3f728d55",
     "components/link.md": "77a58e034af3d531155b6660efac56b84a1a0063bc136f3de58b29d2f90f5c71",
     "components/meta.md": "67a0f4d3d7e91321a66db12f34c169dfe5e172e371db09bdb7ac4583fc74946f",
     "components/kbd.md": "5e5054848eb64160d749046688d500b0994125960f1959f5f54a48b04ec43698",
@@ -77,7 +77,7 @@
     "components/activity-feed.md": "9b1587d742f34f013a869eb7bb1b006f2c235ef80457b285f698172c3f9d2f30",
     "components/agent-chat.md": "e03ae381557a08501284f9df51f3144d5ccbec19b85d6713c2fdeebd4cefd8bd",
     "components/agent-state.md": "a2d288a2f47ecdf4a2d329a5c3ed86aef74584b917e869d93c39724e4a374fea",
-    "components/appearance.md": "3f146e8b359fd671e1c2448ff49af74c0a8ac7116e02e12aecc9fdc0ef33d1e6",
+    "components/appearance.md": "3d12de871a312751bf80a4fa980d06075ff810b23b519e6f5f5c76cb93e3bdef",
     "components/area-chart.md": "ccc25263e9011f8112ae3ecbe2737c49a201aa5d020ab5f380fad6614cb416c8",
     "components/calligram.md": "9b82687940b9dc61beb19518e6d16878d91bc91e2b6418e4c261319e84404b08",
     "components/command-line.md": "2396f1ee35cd47d083e49e9383548c40ff37cd6d2e391464ed55f54c6e061cc3",
@@ -115,12 +115,12 @@
     "components/wake.md": "d6e93cdbafab7dce3a942bf10ce8e57a32f3337830e1e499107090021a0396cf",
     "components/waterfall.md": "b4e111d414af3d42fdb656395bc03ddec6da766e64c267485431e57b6b54646b",
     "components/word-relay.md": "4515b8cbeff98ad2d210da421fa3f0cdf1fc979ac5c205d4d07a9c0f052b5cdd",
-    "claude/0db.md": "20d0cc27debe813a487d23e367952fa28410200621a6f3a48ff0ef5d969446c3",
-    "cursor.mdc": "e8acd399a3500de3a16d892fb18fe46f6151f58e89cc71d9edee0abfbb427575",
-    "copilot.instructions.md": "528eee7c7a112db2287685b611af2eae9631d4932b337e4f4ac9a2a7fd65d30b",
-    "devin.md": "37af10b20297f3b740df1c52e7784d9a0af45bd54766346c7633714694e321f1",
-    "claude/SKILL.md": "250c69477b7f0e62e7cb076c146951680504ecf72cddf2b9658c6a5b237d6b9b",
-    "agents/SKILL.md": "250c69477b7f0e62e7cb076c146951680504ecf72cddf2b9658c6a5b237d6b9b"
+    "claude/0nlytype.md": "1205cc758cf376e538424dfe958306084817c64bdc553e340c05eb4d6354c0c0",
+    "cursor.mdc": "798482541fada00deb6c0e50856a1fce267529f19c80bc6b0dc6e55bc9e64017",
+    "copilot.instructions.md": "83136a8f9985067357317750f3eae083880afc1991ad60402cb4871571ce7161",
+    "devin.md": "a22794499fd5d58d1d0f98072780b8ff6ab8c9b52ce422b36f91715629504726",
+    "claude/SKILL.md": "3b112a19da19a83ae15dd46266265a88113696b320038c0d43e0b22e72cd7eb4",
+    "agents/SKILL.md": "3b112a19da19a83ae15dd46266265a88113696b320038c0d43e0b22e72cd7eb4"
   },
   "components": [
     "accordion",

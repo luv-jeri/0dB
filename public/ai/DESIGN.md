@@ -3,8 +3,8 @@
 A design system for type and silence. Two typefaces, one accent, and a great deal of space. Read INTENT.md first; this file is the how.
 
 - Library: a shadcn registry. `npx shadcn@latest add https://thedirectors.agency/ui/r/<item>.json`
-- Items: `registry/0db/ui/<item>.tsx`, each with a sidecar `registry/0db/styles/<item>.css`
-- Base: `registry/0db/styles/{tokens,base,fonts}.css` (the `0db` base item)
+- Items: `registry/0nlytype/ui/<item>.tsx`, each with a sidecar `registry/0nlytype/styles/<item>.css`
+- Base: `registry/0nlytype/styles/{tokens,base,fonts}.css` (the `0nlytype` base item)
 - Specimen: `specimen/index.html`, the original static page, served at `/specimen/`. It still uses the old `f-` names; everything else uses `db-`.
 
 ## Principles
@@ -263,7 +263,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - Anatomy: `<div class="db-appearance">` holding `<p class="db-appearance-answer"><output>…</output> <button class="db-mode" data-variant="sentence">…</button></p>` and `<div class="db-appearance-picks">` with three `db-picks` (pizzicato): Scheme (cotton, blueprint, statue, silence, riso), Key ("its own", its description naming the scheme's own accent, then ultramarine, viridian, ember, violet) and Pair (parma, press, paris, salon, each with its faces as the description).
 - The move, after "Healthy habits → for creatives", where the voice runs into the italic on one line of thought: the choice is written back as one sentence over the lists, "Cotton, in ultramarine, set in Archivo and Bodoni.", and the night toggle finishes it, "Read by light." Ours in roman and graphite; yours, the three words you chose, in the italic and ink. The sentence is an `<output>` for the three lists, so a reader hears the new sentence after each choice. No key reads the scheme's own accent by name (cotton ultramarine, blueprint orange, statue gold, silence cobalt, riso magenta).
 - Layout: the lists stand two across with the pair under them, or three across once the control is 36rem wide (a container query); the answer steps up from `--db-mp` to `--db-mf` there. The picks are set at `--db-p`, closer than a standalone list. One accent in view: only the list you're in, or were last in (`data-here`, the scheme to begin with), marks its choice with the accent dot; the others set theirs in ink, and their italic titles still say what's chosen.
-- It writes only the four switches (`data-mode`, `data-scheme`, `data-key`, `data-pair`; cotton and parma are no attribute) and keeps them together as one JSON object under `0db-theme` in localStorage. `useAppearance()` reads `<html>` through a MutationObserver, so a head script, the page and every control agree. With `value` it holds nothing and writes nothing: `onValueChange(value, from)` reports.
+- It writes only the four switches (`data-mode`, `data-scheme`, `data-key`, `data-pair`; cotton and parma are no attribute) and keeps them together as one JSON object under `0nlytype-theme` in localStorage. `useAppearance()` reads `<html>` through a MutationObserver, so a head script, the page and every control agree. With `value` it holds nothing and writes nothing: `onValueChange(value, from)` reports.
 - Motion: the new appearance opens over the old as a circle from the control you touched (a view transition, andante, breath; `--db-appearance-x`, `--db-appearance-y` on `<html>`). Reduced motion, or no view transitions, changes it at once. The page restores the stored choice before first paint with a one-line script in `<head>` (the docs site's `theme-script.tsx`).
 - States: those of picks and the mode toggle. Keyboard: Tab through the toggle and the three groups; arrow keys move each choice.
 - The site's bar opens it from Tune, in a popover, beside the dimmer toggle.
@@ -1184,7 +1184,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 ### On the home page
 
-- It plays on a browser's first visit to the top of the home page, and never again. A script in the hero's own HTML decides before the hero paints: it reads one boolean, `0db-overture-seen`, in localStorage, writes it, and only then marks `<html>` with `data-overture-at` (the time it began). One key, one value, no personal data, written before the overture starts, so a reload, back navigation or second tab never replays it. If storage can't be read or written (disabled, private mode, quota) nothing plays and the page arrives settled; nothing waits on storage.
+- It plays on a browser's first visit to the top of the home page, and never again. A script in the hero's own HTML decides before the hero paints: it reads one boolean, `0nlytype-overture-seen`, in localStorage (falling back once to the older `0db-overture-seen`, so a returning visitor is not shown it again), writes the new key, and only then marks `<html>` with `data-overture-at` (the time it began). One key, one value, no personal data, written before the overture starts, so a reload, back navigation or second tab never replays it. If storage can't be read or written (disabled, private mode, quota) nothing plays and the page arrives settled; nothing waits on storage.
 - It is two things on one clock. The quiet line of "All type. No noise." exhales from heavy and narrow to light and wide (8 arpeggio steps, then `--db-adagio`, so by 1.7s). The Noise field behind it swells and hushes, fitted to the time the overture has left. Both end by one deadline, 2s after it began. That clock is the same inline script that began it, not React: it holds even if fonts, Pretext or the framework's JavaScript arrive late or never, and the field only listens for the end. The field arrives only if at least 700ms are left; otherwise it simply rests.
 - It is skippable by anything the person does: any key but Tab and the modifiers (Enter and Space on Skip intro itself are its click, so one press cannot also activate the action that focus moves to), a press, a touch, the wheel or a scroll. A real "Skip intro" bracket button, in the HTML and shown only while it plays, reaches the same end for keyboards and screen readers, before the page's JavaScript has loaded as well as after; if it had focus, focus moves on to the first action. Asking for reduced motion, before or during, ends it.
 - Later visits, a link to a part of the page, reduced motion and unavailable storage arrive settled: the quiet line at its quietest, the field drawn once at rest. A reduced-motion visit counts as seen.
@@ -1789,17 +1789,17 @@ Three rules, then one articulation per component.
 | Text ribbon (`text-ribbon`) | Carried | A 0.6em/s drift yields to drag, keys and scroll; pausable, off under reduced motion (owner-approved 2026-10-01) |
 | Day and Nocturne | Dusk and dawn | A View Transition: Nocturne falls from the top with a soft edge, and day comes up from the bottom. Schemes and keys cross-fade. |
 
-`roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0db/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
+`roll(el, apply, dist, dir)` in the specimen is the one helper for every rolling number (`dir` 1 counts up, −1 counts down). The library ships it as `roll()` in `@/lib/0nlytype/roll`. Fraction, NumberInput and Timer share one digit scheduler: each new target cancels pending carries and in-flight turns before scheduling from the displayed value; unmounting cancels the work too.
 
 ## Registry conventions
 
-- One item is four files: `registry/0db/ui/<item>.tsx`, its sidecar `registry/0db/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
+- One item is four files: `registry/0nlytype/ui/<item>.tsx`, its sidecar `registry/0nlytype/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
 - Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.db-ruler`.
 - Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.db-sr`.
 - Direction: logical properties, and `:is([dir="rtl"], [dir="rtl"] *)` where a stroke has a direction. Never `:dir()`: Lightning CSS, which Next and Tailwind run, lowers it to a list of `:lang()` that misses a page that only sets `dir`.
 - Variants are `data-variant` and `data-size`, never classes. There's no cva.
 - React 19: `ref` is a plain prop. `"use client"` appears only in files that need state, effects, handlers or Radix, so every other item works in a Server Component. Each root and part carries `data-slot`; `className` merges through `cn`.
-- Imports inside the registry are `@/registry/0db/ui/<x>`, `@/registry/0db/lib/utils` and `@/registry/0db/lib/<x>`. The build rewrites them to `@/components/ui/<x>`, `@/lib/utils` and `@/lib/0db/<x>`.
+- Imports inside the registry are `@/registry/0nlytype/ui/<x>`, `@/registry/0nlytype/lib/utils` and `@/registry/0nlytype/lib/<x>`. The build rewrites them to `@/components/ui/<x>`, `@/lib/utils` and `@/lib/0nlytype/<x>`.
 - `registryDependencies` is the base item plus every sibling an item imports or lists in its meta's `uses` (a sibling whose classes its CSS borrows). npm dependencies come from its imports.
 - The registry is held to the shadcn directory's health checks:
   - `registry.json`'s `name` equals the namespace;
@@ -1818,7 +1818,7 @@ Three rules, then one articulation per component.
 - A scripted example shows a Demonstrate control above it (see Motion, rule 4). Page titles stay still; the overture exists only on the home page.
 - Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
-- Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0db-theme` and restored by a script in `<head>` before first paint.
+- Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0nlytype-theme` and restored by a script in `<head>` before first paint. The head script reads the older `0db-theme` when the new key is missing, so a returning visitor keeps their choice; only the new key is written.
 
 ## Skipped for now
 

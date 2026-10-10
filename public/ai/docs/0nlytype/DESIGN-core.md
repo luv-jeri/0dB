@@ -156,13 +156,13 @@ A move serves more than one component only when it is the same idea on purpose. 
 
 ## Registry conventions
 
-- One item is four files: `registry/0db/ui/<item>.tsx`, its sidecar `registry/0db/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
+- One item is four files: `registry/0nlytype/ui/<item>.tsx`, its sidecar `registry/0nlytype/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
 - Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.db-ruler`.
 - Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.db-sr`.
 - Direction: logical properties, and `:is([dir="rtl"], [dir="rtl"] *)` where a stroke has a direction. Never `:dir()`: Lightning CSS, which Next and Tailwind run, lowers it to a list of `:lang()` that misses a page that only sets `dir`.
 - Variants are `data-variant` and `data-size`, never classes. There's no cva.
 - React 19: `ref` is a plain prop. `"use client"` appears only in files that need state, effects, handlers or Radix, so every other item works in a Server Component. Each root and part carries `data-slot`; `className` merges through `cn`.
-- Imports inside the registry are `@/registry/0db/ui/<x>`, `@/registry/0db/lib/utils` and `@/registry/0db/lib/<x>`. The build rewrites them to `@/components/ui/<x>`, `@/lib/utils` and `@/lib/0db/<x>`.
+- Imports inside the registry are `@/registry/0nlytype/ui/<x>`, `@/registry/0nlytype/lib/utils` and `@/registry/0nlytype/lib/<x>`. The build rewrites them to `@/components/ui/<x>`, `@/lib/utils` and `@/lib/0nlytype/<x>`.
 - `registryDependencies` is the base item plus every sibling an item imports or lists in its meta's `uses` (a sibling whose classes its CSS borrows). npm dependencies come from its imports.
 - The registry is held to the shadcn directory's health checks:
   - `registry.json`'s `name` equals the namespace;
@@ -181,4 +181,4 @@ A move serves more than one component only when it is the same idea on purpose. 
 - A scripted example shows a Demonstrate control above it (see Motion, rule 4). Page titles stay still; the overture exists only on the home page.
 - Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
-- Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0db-theme` and restored by a script in `<head>` before first paint.
+- Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0nlytype-theme` and restored by a script in `<head>` before first paint. The head script reads the older `0db-theme` when the new key is missing, so a returning visitor keeps their choice; only the new key is written.
