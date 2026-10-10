@@ -16,7 +16,7 @@ export function SearchDialog({ groups, open, onOpenChange, onCloseAutoFocus }: {
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange} onCloseAutoFocus={onCloseAutoFocus} title="Search the docs">
-      <CommandInput placeholder="A component, a page or a token" />
+      <CommandInput placeholder="Find a component" />
       <CommandList>
         <CommandEmpty>Nothing by that name. Try “menu” or “accent”.</CommandEmpty>
         {groups.map((g) => (
