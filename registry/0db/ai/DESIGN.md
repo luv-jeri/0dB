@@ -286,6 +286,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - No box, only a baseline. Focus draws the accent line outward from where the pointer touched it (script sets `--o`, a percentage) or from the left for the keyboard, and shows the counter. The placeholder steps back to half strength on focus.
 - Yours: the typed value, in the italic. The placeholder stays in the voice, in pencil.
 - Textarea: ruled like paper, with lines every `--lh` (2.25rem) that scroll with the text.
+- A search input (`type="search"`) draws no native clear mark, whose blue × belongs to no scheme; Escape clears it.
 - States: rest, focus, filled, error (`aria-invalid="true"` turns both lines crimson; the message in `.db-field-error` is linked with `aria-describedby`), disabled (dotted baseline).
 - The error is a callout, after Weingart: a crimson hairline pill hung from the baseline by a leader line, with a dot where it meets the line. A textarea's ruled lines turn crimson too. It arrives in order: the dot lands, the leader drops, then the pill and its words.
 - Error copy says what to fix: "Check the address. It needs a domain after the @, like studio.com."
@@ -487,6 +488,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `InputGroupText` takes `agree`, the forms of a unit by plural category, and agrees with the number typed: 1 night, 3 nights.
 - Variant `legend` (after the "28 December" calendar and the 14 / 08 of "the silence that heals"): your figure is set large, at `--db-ff`, and our words stand stacked beside it in two small lines, the first in ink, the second in pencil. The input comes first.
 - Variant `arrow` (after "It has to be design.": "Watch this space."): a hairline arrow (the group's `::before`, drawn by a mask) runs from your words to the action at the end. The shaft gives way as you write, inks once what you wrote is valid, and steps forward when you point at the action. It turns round right to left.
+- A search input draws no native clear mark, as in `db-field`.
 - States: rest, focus, error (`aria-invalid="true"`), disabled.
 
 ### db-code (input-otp)
@@ -627,7 +629,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 ### db-command-line (command-line)
 - Underneath: native, plus a hook that shares the runner pick between every command line and remembers it (`localStorage` key `0db-runner`).
 - Anatomy: `<figure class="db-command-line">` holding an optional `.db-command-line-runners` radio group (npm, pnpm, yarn, bun), then `.db-command-line-row`: `<code class="db-command-line-text">` and Copy.
-- One line to type, set on a baseline like a field already filled in. The runner and the address recede to pencil; the command is ink; `emphasis`, the part of an address that's the reader's, is the expression italic. A long line breaks after a slash or a dot and its turnover hangs.
+- One line to type, set on a baseline like a field already filled in. The runner and the address recede to pencil; the command is ink; `emphasis`, the part of an address that's the reader's, is the expression italic. A long line breaks after a slash or a dot and its turnover hangs; the emphasised name moves to a new line whole with what follows it, and breaks after a hyphen only when it's wider than the line.
 - The runner words are a radio group: the chosen one turns italic with the dot beneath it, and every command line on the page follows.
 - Copying draws the baseline in the accent, left to right, then lets it go; the label rolls from Copy to Copied.
 - parsed (`data-variant="parsed"`, `glosses`): the interlinear gloss, a linguist's word-by-word reading, and the dictionary entry of "the uncreative", the part of speech set small under the word. Each glossed word (`.db-command-line-word`) stands over a short rule the width of the word, its gloss (`.db-command-line-gloss`) hung beneath in small pencil type; the words keep one baseline and each column is as wide as its word or its gloss. Pointing at a word inks its rule and its gloss. The glosses are hidden from screen readers and read once after the command instead, word by word.

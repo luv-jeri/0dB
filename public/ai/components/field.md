@@ -8,6 +8,7 @@ Extracted from DESIGN.md.
 - No box, only a baseline. Focus draws the accent line outward from where the pointer touched it (script sets `--o`, a percentage) or from the left for the keyboard, and shows the counter. The placeholder steps back to half strength on focus.
 - Yours: the typed value, in the italic. The placeholder stays in the voice, in pencil.
 - Textarea: ruled like paper, with lines every `--lh` (2.25rem) that scroll with the text.
+- A search input (`type="search"`) draws no native clear mark, whose blue × belongs to no scheme; Escape clears it.
 - States: rest, focus, filled, error (`aria-invalid="true"` turns both lines crimson; the message in `.db-field-error` is linked with `aria-describedby`), disabled (dotted baseline).
 - The error is a callout, after Weingart: a crimson hairline pill hung from the baseline by a leader line, with a dot where it meets the line. A textarea's ruled lines turn crimson too. It arrives in order: the dot lands, the leader drops, then the pill and its words.
 - Error copy says what to fix: "Check the address. It needs a domain after the @, like studio.com."
