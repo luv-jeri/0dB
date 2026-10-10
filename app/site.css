@@ -155,6 +155,46 @@ body { overflow-x: clip; }
 }
 .doc-install [data-slot="tabs-content"] > p { max-width: var(--db-measure); margin-bottom: var(--db-space-6); }
 .doc-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-7); }
+/* The sign catalogue: the controls on one line, the install line for the pressed sign, then every sign, live. */
+.doc-signs { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-7); }
+.doc-signs-controls { display: flex; flex-wrap: wrap; align-items: last baseline; gap: var(--db-space-5) var(--db-space-7); }
+.doc-signs-find { flex: 1 1 16rem; max-inline-size: 22rem; }
+.doc-signs-choice { display: grid; justify-items: start; gap: var(--db-space-2); }
+.doc-signs-picked { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-3); }
+.doc-signs-count { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); font-variant-numeric: tabular-nums lining-nums; }
+.doc-signs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tile, 8.5rem), 1fr)); gap: var(--db-space-3) var(--db-space-2); }
+/* Tiles out of view skip layout and paint; each holds the height a tile has (padding, art, word and name: the art and
+   6.3rem) till then. Skipping clips a tile's paint to its box, so the clip reaches out far enough for the focus ring. */
+.doc-signs-grid > li { content-visibility: auto; contain-intrinsic-size: auto calc(var(--art, 72px) + 6.3rem); overflow-clip-margin: var(--db-space-2); }
+/* A tile not drawn yet: its word and name where the tile sets them, as one element and as tall as the tile, so Find
+   reaches it and drawing it moves nothing. */
+.doc-signs-grid > li[data-later] {
+  box-sizing: border-box; block-size: calc(var(--art, 72px) + 6.3rem); overflow: hidden;
+  padding: calc(var(--db-space-5) + var(--art, 72px) + var(--db-space-2) + var(--db-space-1)) var(--db-space-2) 0;
+  white-space: pre-line; text-align: center; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil);
+}
+.doc-signs-grid > li[data-later]::first-line { font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-ink); }
+/* The live Sign that takes a still tile's place stands at rest for its first frame, so saying the word is motion. */
+.doc-sign[data-waking] .db-sign-glyph { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--k)) translate(-50%, -54%); font-weight: var(--rest); opacity: 1; color: inherit; transition: none; }
+.doc-sign[data-waking] .db-sign-glyph[data-hush] { opacity: 0; }
+.doc-sign[data-waking] .db-sign-glyph[data-quiet] { color: var(--db-pencil); }
+.doc-sign {
+  display: grid; justify-items: center; align-content: start; gap: var(--db-space-1); inline-size: 100%;
+  padding: var(--db-space-5) var(--db-space-2) var(--db-space-3); color: var(--db-ink); text-align: center;
+}
+.doc-sign-art { display: grid; place-items: center; min-block-size: 4.5rem; margin-block-end: var(--db-space-2); }
+/* A sign at rest as one SVG (components/site/sign-still.tsx), each letter placed by its text's x, y and rotate lists:
+   left to right whatever the page's direction, or right-to-left would anchor each letter at its right edge. */
+.doc-sign-still { display: block; overflow: visible; direction: ltr; }
+.doc-sign-still text { fill: currentColor; white-space: pre; }
+.doc-sign-still text[data-quiet] { fill: var(--db-pencil); }
+.db-sign[data-face="italic"] .doc-sign-still text { font-variation-settings: var(--db-expression-text-variation, normal); }
+.doc-sign-word, .doc-sign-name { max-inline-size: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; hyphens: none; }
+.doc-sign-word { font-size: var(--db-p); line-height: var(--db-p-lh); }
+.doc-sign-name { font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil); direction: ltr; unicode-bidi: isolate; }
+.doc-sign[aria-pressed="true"] .doc-sign-word { color: var(--db-accent); }
+.doc-sign[aria-pressed="true"] .doc-sign-name { color: var(--db-graphite); }
+.doc-signs-none { font-size: var(--db-p); line-height: var(--db-p-lh); color: var(--db-graphite); }
 /* Two blocks of one kind in a section each carry a name you can see: a p-size line in ink, near what it names. */
 .doc-sub { margin-bottom: var(--db-space-3); font-size: var(--db-p); line-height: var(--db-p-lh); font-weight: 400; color: var(--db-ink); }
 /* The way on is the page's last section: it begins at a rule like the others, after the same silence. */

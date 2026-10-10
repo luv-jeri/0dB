@@ -1,0 +1,19 @@
+/* Places the signs preview; nothing here styles a sign. */
+.lab-signs { padding: var(--db-space-7) var(--db-margin) var(--db-space-9); color: var(--db-ink); }
+.lab-head { max-width: var(--db-measure); margin-block-end: var(--db-space-8); }
+.lab-lead { margin-block-start: var(--db-space-4); color: var(--db-graphite); font-size: var(--db-p); line-height: var(--db-p-lh); }
+.lab-set { margin-block-end: var(--db-space-8); }
+.lab-name { font-size: var(--db-mf); line-height: var(--db-mf-lh); }
+.lab-note { margin-block: var(--db-space-2) var(--db-space-6); color: var(--db-pencil); font-size: var(--db-pp); }
+.lab-grid { display: grid; grid-template-columns: 7rem repeat(4, 4.5rem) 10rem 7rem 10rem; align-items: center; row-gap: var(--db-space-5); overflow-x: auto; max-width: 100%; }
+.lab-row { display: contents; }
+.lab-col { color: var(--db-pencil); font-size: var(--db-pp); }
+.lab-key { color: var(--db-graphite); font-size: var(--db-pp); }
+.lab-hit { display: inline-grid; place-items: center; justify-self: start; min-width: 3rem; min-height: 3rem; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+.lab-hit[data-big] { min-height: 8rem; }
+.lab-hit:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 2px; }
+.lab-use { display: flex; flex-wrap: wrap; align-items: center; gap: var(--db-space-6); }
+.lab-sheet { display: grid; grid-template-columns: repeat(auto-fill, var(--tile)); gap: var(--db-space-4) var(--db-space-2); margin-block-start: var(--db-space-5); }
+.lab-tile { display: grid; justify-items: center; gap: var(--db-space-2); margin: 0; }
+.lab-tile .lab-key { text-align: center; font-size: 11px; line-height: 1.3; }
+.lab-variants { display: flex; gap: var(--db-space-3); }

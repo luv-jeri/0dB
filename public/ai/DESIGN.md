@@ -286,6 +286,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - No box, only a baseline. Focus draws the accent line outward from where the pointer touched it (script sets `--o`, a percentage) or from the left for the keyboard, and shows the counter. The placeholder steps back to half strength on focus.
 - Yours: the typed value, in the italic. The placeholder stays in the voice, in pencil.
 - Textarea: ruled like paper, with lines every `--lh` (2.25rem) that scroll with the text.
+- A search input (`type="search"`) draws no native clear mark, whose blue × belongs to no scheme; Escape clears it.
 - States: rest, focus, filled, error (`aria-invalid="true"` turns both lines crimson; the message in `.db-field-error` is linked with `aria-describedby`), disabled (dotted baseline).
 - The error is a callout, after Weingart: a crimson hairline pill hung from the baseline by a leader line, with a dot where it meets the line. A textarea's ruled lines turn crimson too. It arrives in order: the dot lands, the leader drops, then the pill and its words.
 - Error copy says what to fix: "Check the address. It needs a domain after the @, like studio.com."
@@ -487,6 +488,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `InputGroupText` takes `agree`, the forms of a unit by plural category, and agrees with the number typed: 1 night, 3 nights.
 - Variant `legend` (after the "28 December" calendar and the 14 / 08 of "the silence that heals"): your figure is set large, at `--db-ff`, and our words stand stacked beside it in two small lines, the first in ink, the second in pencil. The input comes first.
 - Variant `arrow` (after "It has to be design.": "Watch this space."): a hairline arrow (the group's `::before`, drawn by a mask) runs from your words to the action at the end. The shaft gives way as you write, inks once what you wrote is valid, and steps forward when you point at the action. It turns round right to left.
+- A search input draws no native clear mark, as in `db-field`.
 - States: rest, focus, error (`aria-invalid="true"`), disabled.
 
 ### db-code (input-otp)
@@ -627,7 +629,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 ### db-command-line (command-line)
 - Underneath: native, plus a hook that shares the runner pick between every command line and remembers it (`localStorage` key `0db-runner`).
 - Anatomy: `<figure class="db-command-line">` holding an optional `.db-command-line-runners` radio group (npm, pnpm, yarn, bun), then `.db-command-line-row`: `<code class="db-command-line-text">` and Copy.
-- One line to type, set on a baseline like a field already filled in. The runner and the address recede to pencil; the command is ink; `emphasis`, the part of an address that's the reader's, is the expression italic. A long line breaks after a slash or a dot and its turnover hangs.
+- One line to type, set on a baseline like a field already filled in. The runner and the address recede to pencil; the command is ink; `emphasis`, the part of an address that's the reader's, is the expression italic. A long line breaks after a slash or a dot and its turnover hangs; the emphasised name moves to a new line whole with what follows it, and breaks after a hyphen only when it's wider than the line.
 - The runner words are a radio group: the chosen one turns italic with the dot beneath it, and every command line on the page follows.
 - Copying draws the baseline in the accent, left to right, then lets it go; the label rolls from Copy to Copied.
 - parsed (`data-variant="parsed"`, `glosses`): the interlinear gloss, a linguist's word-by-word reading, and the dictionary entry of "the uncreative", the part of speech set small under the word. Each glossed word (`.db-command-line-word`) stands over a short rule the width of the word, its gloss (`.db-command-line-gloss`) hung beneath in small pencil type; the words keep one baseline and each column is as wide as its word or its gloss. Pointing at a word inks its rule and its gloss. The glosses are hidden from screen readers and read once after the command instead, word by word.
@@ -1160,6 +1162,20 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - horizon: after Eclipse, the disc standing on one line. The crop starts as a hairline across the whole measure (the horizon, drawn in `--db-rule-strong` while it's shut, and gone by a quarter open) and opens up and down from it; the caption stays full width.
 - The whole plate is in the flow and read from the start; only the view of it is cropped. Nothing to focus. Reduced motion, or no script: it stands open. It is symmetric, so right to left changes nothing. Forced colours: the marks and the horizon in CanvasText.
 
+### db-sign (sign)
+- Underneath: hook. Pretext measures the word, kerning included, and the sign is laid out from those widths.
+- Anatomy: `<span class="db-sign" data-variant="dots | words | fill" role="img" aria-label="word"><span class="db-sign-glyph">…</span>…</span>`: one element per letter or leader, placed by `--x`, `--y`, `--r` and `--k`, since each one travels on its own when the word is said. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
+- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0dB; a sign that can't be read in all three variants is left out rather than shipped.
+- Variants:
+  - `dots`: each stroke ruled in middle-dot leaders, at every size; the leaders grow more slowly than the sign, so a large one is drawn finer. The letters wait unseen at the dots and rise out of them when said.
+  - `words`: from 40px up the word is set once, whole, where it reads best: along the drawing's longest straight run (an arrow's word runs toward its head; a ring's word sits on its arc), never upside down (and a word of two letters never turned past 30°, since on end "up" reads "dn"), never kinking more than 20° between letters, tracked no wider than 0.08em and never split across strokes. Every other stroke is ruled in pencil leaders, so the drawing stays quiet and the word is the one thing in ink. Where no stroke holds the word at a size a person reads (a chevron's two short arms, a star, a user), the drawing is drawn a little smaller and the word stands straight beneath it, as a legend under a picture. Stroke words are at least 10px, legends at least 9px. Below 40px no letter can hold a stroke: the sign is drawn as `dots`, and the docs size control says so.
+  - `fill`: the word set in rows that fill the drawing's silhouette, running on from one row to the next as a paragraph runs round a picture; each run is spread to its ends so the edge of the type is the outline. A drawing's inner strokes (an eye, a keyhole, a clock's hands) are cut out of the silhouette as lines of paper, so the detail still reads.
+- Laid out on the server from a table of advances, so the first paint already shows the sign; Pretext then sets it again with the face's real kerning. The smaller the sign, the heavier its letters (800 at 16px to 500 at 128px), as a punchcutter cuts optical sizes.
+- Yours: `face="italic"` (`data-face="italic"`) sets it in the expression: a sign for something that belongs to the person (their mail, their home).
+- Said: pointing at the sign, or at the control it sits in, or focusing that control makes the drawing say its word. The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word across the middle, no wider than half again the sign (a caption's 11px floor aside); the rest sketch out in pencil and go quiet. Leaving winds them back, last letter first.
+- Right to left: a sign that points the way the reader goes (`mirror` in its shape: arrows, chevrons, send, undo) turns round, its strokes still read forwards.
+- States: rest, hover, focus. Reduced motion: the word and the drawing change places without travel. Forced colours use CanvasText.
+
 ### Globals
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
@@ -1175,6 +1191,7 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 
 | Component | Reference | Move |
 |---|---|---|
+| Sign (`sign`) | The ampersand ("et" worn down into a mark); Apollinaire, *Calligrammes*, 1918 | An icon made of its own word; pointing says the word |
 | Statement button (`button`) | "the silence that heals" corners | Corner marks close in on hover |
 | Space button (`button`) | "It has to be design." ("Watch this space."); the Renaissance top row | The words spread across the line; gathered, the silence they leave becomes the arrow |
 | Repeat button (`button`) | The score's repeat signs | The word between repeat bars; the opening dots set it to go round |
@@ -1492,6 +1509,7 @@ Three rules, then one articulation per component.
 
 | Component | Articulation | What moves |
 |---|---|---|
+| Sign (`sign`) | Said | The letters leave the drawing in reading order, one arpeggio apart, and stand up as the plain word; echoes sketch out in pencil |
 | Statement button (`button`) | Accent (a pressed note) | Hover widens it; press makes it heavier and narrower, and the corners clasp |
 | Bracket button (`button`) | Spiccato | The parentheses step apart and rebound |
 | Quiet button (`button`) | Pass-through | The line leaves to the right and redraws from the left |

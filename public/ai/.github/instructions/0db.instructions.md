@@ -18,7 +18,7 @@ Read intent, core design and the relevant `docs/0db/components/<item>.md` contra
 
 | Refused | Why |
 |---|---|
-| Icons | Words say what an icon only suggests, and an icon set brings a second visual language. Arrows appear only where there's real direction (↗ external, ↓ sort, → opens). |
+| Icons | Allowed only as signs made of their own word (owner decision 2026-10-10); no icon drawn as a picture. Words say what an icon only suggests, and an icon set brings a second visual language. Arrows appear only where there's real direction (↗ external, ↓ sort, → opens). |
 | Cards, fills and shadows | Space already separates things. A box around content says the space failed. |
 | A second accent colour | The accent means "you are here". Two accents would mean two places. Crimson is kept for errors, and the highlighter for reading marks. |
 | Motion that plays by itself | Nothing moves unless the person does, apart from the overture on the home page, which plays once, and the owner-approved marquee, text-ribbon and word-relay autoplay exceptions (2026-10-01). Each autoplay exception is pausable and off under reduced motion. |

@@ -64,8 +64,19 @@ export function checkPlan(names, registry, only = false) {
   if (!only) for (const name of names) if (src.length < Math.min(5, names.length) && !src.includes(name)) src.push(name)
   if (!only && !src.some((name) => closureFor(name, registry).some((item) => Object.keys(item.css ?? {}).some((key) => key.startsWith("@import")))))
     throw new Error("The src/app sample must include an item with CSS imports")
-  return [...names.map((name) => ({ name, layout: "root" })), ...src.map((name) => ({ name, layout: "src" }))]
+  // Sign items are one generated drawing each on the shared sign primitive: a full run installs them into
+  // consumers a batch at a time, which also proves they live side by side in one project. --only stays one each.
+  const signs = only ? [] : names.filter((name) => SIGN.test(name))
+  const batches = []
+  for (let i = 0; i < signs.length; i += SIGN_BATCH) {
+    const batch = signs.slice(i, i + SIGN_BATCH)
+    batches.push({ name: `${batch[0]} … ${batch.at(-1)} (${batch.length} signs)`, names: batch, layout: "root" })
+  }
+  return [...names.filter((name) => !signs.includes(name)).map((name) => ({ name, layout: "root" })), ...batches, ...src.map((name) => ({ name, layout: "src" }))]
 }
+
+const SIGN = /^sign-[a-z0-9-]+-(?:dots|words|fill)$/
+const SIGN_BATCH = 125
 
 export function npmClosure(items) {
   const collect = (key) => [...new Set(items.flatMap((item) => item[key] ?? []))].sort()
@@ -169,7 +180,8 @@ export async function main(args = process.argv.slice(2)) {
       dependencies: versions(["next", "react", "react-dom"]),
       devDependencies: versions(["tailwindcss", "@tailwindcss/postcss", "typescript", "@types/react", "@types/react-dom", "@types/node"]),
     })
-    console.log(`Install gate: ${names.length} root items, ${plan.length - names.length} src items. Consumers: ${root}`)
+    const src = plan.filter((entry) => entry.layout === "src").length
+    console.log(`Install gate: ${names.length} root items in ${plan.length - src} consumers, ${src} src items. Consumers: ${root}`)
     const npmArgs = ["--no-audit", "--no-fund", "--loglevel=error"]
     await run("npm", ["install", ...npmArgs], baseline, cache)
 
@@ -190,11 +202,11 @@ export async function main(args = process.argv.slice(2)) {
     base = `http://127.0.0.1:${server.address().port}`
     const templates = new Map()
     const failures = []
-    for (const { name, layout } of plan) {
+    for (const [index, { name, names: members = [name], layout }] of plan.entries()) {
       const itemStarted = performance.now()
-      const app = path.join(root, `${layout}-${name}`)
+      const app = path.join(root, `${layout}-${index}`)
       try {
-        const items = closureFor(name, registry)
+        const items = [...new Map(members.flatMap((member) => closureFor(member, registry)).map((item) => [item.name, item])).values()]
         const deps = npmClosure(items)
         const key = JSON.stringify(deps)
         if (!templates.has(key)) {
@@ -209,7 +221,7 @@ export async function main(args = process.argv.slice(2)) {
         }
         copyTemplate(templates.get(key), app)
         createConsumer(app, layout)
-        await run(process.execPath, [path.join(here, "node_modules/shadcn/dist/index.js"), "add", "--yes", "--overwrite", `${base}/r/${name}.json`], app, cache)
+        await run(process.execPath, [path.join(here, "node_modules/shadcn/dist/index.js"), "add", "--yes", "--overwrite", ...members.map((member) => `${base}/r/${member}.json`)], app, cache)
         verifyInstall(app, layout, items)
         await run(process.execPath, [path.join(app, "node_modules/typescript/bin/tsc"), "--noEmit", "-p", app], app, cache)
         console.log(`PASS ${name} (${layout === "src" ? "src/app" : "app"}): ${items.length} registry items, ${((performance.now() - itemStarted) / 1000).toFixed(1)}s`)

@@ -42,7 +42,10 @@ test("--only validates names; full plans check every built item and five src ite
   const registry = readRegistry(here)
   const all = selectItems([], registry)
   const plan = checkPlan(all, registry)
-  assert.deepEqual(plan.filter((entry) => entry.layout === "root").map((entry) => entry.name), all)
+  assert.deepEqual(plan.filter((entry) => entry.layout === "root").flatMap((entry) => entry.names ?? [entry.name]).sort(), [...all].sort())
+  // Signs install in batches; every other item has a consumer of its own.
+  assert.ok(plan.filter((entry) => entry.names).every((entry) => entry.names.every((name) => /^sign-.+-(?:dots|words|fill)$/.test(name))))
+  assert.ok(plan.filter((entry) => !entry.names && entry.layout === "root").every((entry) => !/^sign-.+-(?:dots|words|fill)$/.test(entry.name)))
   assert.equal(plan.filter((entry) => entry.layout === "src").length, 5)
   assert.ok(plan.some((entry) => entry.layout === "src" && closureFor(entry.name, registry).some((item) => Object.keys(item.css ?? {}).some((key) => key.startsWith("@import")))))
   assert.deepEqual(checkPlan(["item"], fixture, true), [{ name: "item", layout: "root" }, { name: "item", layout: "src" }])

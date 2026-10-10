@@ -29,7 +29,8 @@
     font-stretch: 94%; color: var(--db-ink);
   }
   .db-command-line-quiet { color: var(--db-pencil); }
-  .db-command-line-whole { white-space: nowrap; }
+  /* The name and its ".json" move to a new line whole; a name wider than the line itself breaks after a hyphen. */
+  .db-command-line-whole { display: inline-block; max-inline-size: 100%; text-indent: 0; }
   .db-command-line-yours {
     font-family: var(--db-expression); font-style: italic; font-weight: 400; font-stretch: 100%;
     font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; color: var(--db-ink);
