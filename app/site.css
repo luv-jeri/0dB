@@ -40,6 +40,12 @@ body { overflow-x: clip; }
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--ot-gutter);
   padding-inline: max(var(--ot-margin), calc((100% - var(--site-max)) / 2));
 }
+/* The rail's section label stands in the window's edge, 1.25rem in and one line wide. Where the margin is narrower than that (a narrow window with a mouse; a phone never shows it), the docs column leaves the label its own gutter instead of running under it. */
+@supports (animation-timeline: scroll()) {
+  @media (pointer: fine) {
+    .docs { padding-inline-end: max(var(--ot-margin), calc((100% - var(--site-max)) / 2), calc(1.25rem + var(--ot-pp) + var(--ot-space-3))); }
+  }
+}
 .principle { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
 .margin { grid-column: 1 / 4; }
 .stave { grid-column: 4 / -1; min-width: 0; }
@@ -225,7 +231,6 @@ body { overflow-x: clip; }
   .doc-ai-files code { overflow-wrap: break-word; }
   .doc-ai-files tr > td:first-of-type { color: var(--ot-pencil); }
 }
-/* A token's name is one word: the column grows for it instead of breaking after the prefix. */
 /* A token's name may wrap at its hyphens, never inside a word, and its --ot- prefix stays with the first word after it. */
 .doc-token-ref { white-space: nowrap; }
 .doc-tokens code { overflow-wrap: normal; }
