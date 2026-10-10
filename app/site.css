@@ -321,3 +321,7 @@ body { overflow-x: clip; }
   .bar-end, .bar-controls { gap: var(--ot-space-3); }
   .bar .ot-btn { font-size: inherit; min-block-size: 44px; }
 }
+/* Below 340px the wordmark, Search, Tune and Night fill the row; Feedback steps aside as Star on GitHub does, and every page still asks with its own report link. */
+@media (max-width: 340px) {
+  .bar-end > .ot-report-entry:not(.bar-star) { display: none; }
+}
