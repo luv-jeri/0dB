@@ -64,5 +64,19 @@ const toy = read("components/site/landing-toy.tsx")
 const shared = toy.slice(toy.indexOf("Opened from a shared link"), toy.indexOf("return (\n    <div\n      ref={root}"))
 if (!shared || /setQuiet|setTimeout\([^)]*,\s*\d{3,}/.test(shared)) fail("shared toy links", "a shared link must arrive settled, with no timer and no noise")
 
+// ── the clock belongs to the inline script; the component only listens ──
+const overtureScript = read("lib/site/overture.mjs")
+if (!/setTimeout\(\(\)=>end\("deadline"\)/.test(overtureScript)) fail("the home overture", "the inline script must own the deadline timer")
+const overtureView = read("components/site/landing-overture.tsx")
+if (/setTimeout|setInterval|addEventListener\((?!OVERTURE_END_EVENT)/.test(overtureView)) fail("the home overture", "landing-overture.tsx must only listen for the end; the clock lives in the inline script")
+
+// ── every engine, every time ──
+const runner = read("tests/run-motion.mjs")
+for (const engine of ["chromium", "firefox", "webkit"]) if (!runner.includes(`"${engine}"`)) fail("browser engines", `tests/run-motion.mjs must run ${engine}`)
+if (!/"check:motion":\s*"[^"]*run-motion\.mjs/.test(read("package.json"))) fail("browser engines", "check:motion must go through tests/run-motion.mjs")
+const ci = read(".github/workflows/ci.yml")
+if (!/playwright install[^\n]*chromium[^\n]*firefox[^\n]*webkit/.test(ci)) fail("browser engines", "CI must install chromium, firefox and webkit")
+for (const file of ["tests/motion.browser.mjs", "tests/demo-player.browser.mjs"]) if (/\.skip\(|test\.skip|if \(!installed/.test(read(file))) fail("browser engines", `${file} must not skip an engine`)
+
 if (failures.length) { console.error(failures.map((f) => `- ${f}`).join("\n")); process.exit(1) }
 console.log(`Motion contract holds: ${scripted.length} scripted demos wait for Demonstrate, the overture plays once under ${OVERTURE_DEADLINE}ms, docs titles and shared toy links are still.`)

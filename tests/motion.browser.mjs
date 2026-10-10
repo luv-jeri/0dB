@@ -2,22 +2,34 @@
 //   the home overture: plays once per browser, ends by one deadline under three seconds, skips by key, press and
 //   control, survives late fonts and unavailable storage, and is static under reduced motion
 //   shared toy links arrive turned down, docs titles stay still, nothing logs an error
-// Engines: Chromium only, in this wave. Nothing here depends on scroll timelines, so there is no second backend to
-// compare yet. An engine that cannot launch fails the check; it is never skipped.
+// One run is one engine in one colour scheme: MOTION_ENGINE (chromium, firefox or webkit) and MOTION_SCHEME (light is
+// day, dark is nocturne). tests/run-motion.mjs runs all six. An engine that is not installed or cannot launch fails
+// the run; nothing here skips an engine.
 import assert from "node:assert/strict"
-import { chromium } from "playwright"
+import * as playwright from "playwright"
 
 import { OVERTURE_ATTR, OVERTURE_DEADLINE, OVERTURE_KEY } from "../lib/site/overture.mjs"
 import { serveOut } from "../scripts/lib/serve-out.mjs"
 
+const engine = process.env.MOTION_ENGINE ?? "chromium"
+const scheme = process.env.MOTION_SCHEME ?? "light"
+if (!["chromium", "firefox", "webkit"].includes(engine)) throw new Error(`unknown engine "${engine}"`)
+if (!["light", "dark"].includes(scheme)) throw new Error(`unknown colour scheme "${scheme}"`)
+
 const site = await serveOut()
-const browser = await chromium.launch()
+const browser = await playwright[engine].launch()
 const failures = []
 let ran = 0
 
 /** Watches the overture attribute from before the page's own scripts: when it appeared, and when it went. */
 const spy = (attr) => {
-  window.__overture = { starts: [], ends: [] }
+  window.__overture = { starts: [], ends: [], weights: [] }
+  // The quiet line's weight, sampled from the start, so "it began heavy" does not depend on how soon a test looks.
+  const sample = setInterval(() => {
+    const line = document.querySelector('.hero-line[data-line="quiet"]')
+    if (line) window.__overture.weights.push(Number(getComputedStyle(line).fontWeight))
+    if (window.__overture.ends.length) clearInterval(sample)
+  }, 30)
   new MutationObserver(() => {
     const value = document.documentElement.getAttribute(attr)
     const log = window.__overture
@@ -27,7 +39,7 @@ const spy = (attr) => {
 }
 
 async function fresh(options = {}, init) {
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, ...options })
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: scheme, ...options })
   await context.addInitScript(spy, OVERTURE_ATTR)
   if (init) await context.addInitScript(init)
   const errors = []
@@ -38,7 +50,20 @@ async function fresh(options = {}, init) {
   return { context, errors }
 }
 const log = (page) => page.evaluate(() => window.__overture)
-const ended = (page, timeout = 6000) => page.waitForFunction(() => window.__overture.ends.length > 0, null, { timeout })
+// Polled on a timer, not on animation frames: a page that has not painted yet (WebKit holds its first paint while
+// scripts are pending) gets no frames, and the overture's clock does not need any.
+const started = (page, timeout = 10000) => page.waitForFunction(() => window.__overture?.starts.length > 0, null, { timeout, polling: 50 })
+const ended = (page, timeout = 6000) => page.waitForFunction(() => window.__overture.ends.length > 0, null, { timeout, polling: 50 })
+// Tab to Skip intro. Safari and WebKit skip buttons on Tab unless the system says otherwise; Option+Tab visits every
+// control there, so the keyboard path is walked with the key each engine uses.
+async function tabToSkip(page) {
+  const key = engine === "webkit" ? "Alt+Tab" : "Tab"
+  for (let i = 0; i < 14; i++) {
+    await page.keyboard.press(key)
+    if (await page.evaluate(() => document.activeElement?.classList.contains("hero-skip"))) return true
+  }
+  return false
+}
 const weight = (page) => page.evaluate(() => Number(getComputedStyle(document.querySelector('.hero-line[data-line="quiet"]')).fontWeight))
 
 async function check(name, fn) {
@@ -51,11 +76,12 @@ await check("first visit: plays, ends by the deadline, records itself once", asy
   const { context, errors } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
-  assert.ok(await weight(page) > 600, "the quiet line should begin heavy")
+  await started(page)
+  await page.waitForFunction(() => window.__overture.weights.length > 0, null, { polling: 30 })
   assert.ok(await page.locator(".hero-skip").isVisible(), "Skip intro should be visible while it plays")
   await ended(page)
-  const { starts, ends } = await log(page)
+  const { starts, ends, weights } = await log(page)
+  assert.ok(Math.max(...weights) > 600, `the quiet line should begin heavy (heaviest seen: ${Math.max(...weights)})`)
   const took = ends[0] - starts[0].at
   assert.ok(took <= OVERTURE_DEADLINE + 150, `title and field ended after ${Math.round(took)}ms, past the ${OVERTURE_DEADLINE}ms deadline`)
   assert.ok(took < 3000)
@@ -71,7 +97,7 @@ await check("the field arrives inside the overture and settles with it", async (
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   const arriving = await page.waitForSelector("canvas.hero-noise[data-arrival]", { timeout: 1500 }).then(() => true, () => false)
   // On a very slow start the overture may have too little left to be worth playing the field; then it simply rests.
   if (arriving) { await ended(page); assert.equal(await page.locator("canvas.hero-noise[data-arrival]").count(), 0) }
@@ -102,7 +128,7 @@ await check("Escape ends it", async () => {
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await page.keyboard.press("Escape")
   await ended(page, 500)
   assert.equal(await weight(page), 200)
@@ -113,7 +139,7 @@ await check("a press ends it", async () => {
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await page.mouse.click(700, 520)
   await ended(page, 500)
   await context.close()
@@ -123,7 +149,7 @@ await check("the wheel ends it", async () => {
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await page.mouse.move(700, 520)
   await page.mouse.wheel(0, 120)
   await ended(page, 500)
@@ -134,13 +160,8 @@ await check("Skip intro is reachable by keyboard and hands focus on to the first
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
-  let reached = false
-  for (let i = 0; i < 12 && !reached; i++) {
-    await page.keyboard.press("Tab")
-    reached = await page.evaluate(() => document.activeElement?.classList.contains("hero-skip"))
-  }
-  assert.ok(reached, "Tab never reached Skip intro")
+  await started(page)
+  assert.ok(await tabToSkip(page), "Tab never reached Skip intro")
   assert.equal((await log(page)).ends.length, 0, "Tab alone must not end the overture")
   await page.keyboard.press("Enter")
   await ended(page, 500)
@@ -152,7 +173,7 @@ await check("Skip intro by pointer", async () => {
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await page.locator(".hero-skip").click()
   await ended(page, 500)
   await context.close()
@@ -162,7 +183,7 @@ await check("Skip intro mirrors in right to left and stays on screen", async () 
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   const place = () => page.evaluate(() => { const r = document.querySelector(".hero-skip").getBoundingClientRect(); return { left: r.left, right: r.right, width: innerWidth } })
   const ltr = await place()
   await page.evaluate(() => { document.documentElement.dir = "rtl" })
@@ -177,7 +198,7 @@ await check("the deadline holds when fonts arrive late", async () => {
   await context.route("**/*.woff2", async (route) => { await new Promise((r) => setTimeout(r, 3500)); await route.continue() })
   const page = await context.newPage()
   await page.goto(site.url("/"), { waitUntil: "commit" })
-  await page.waitForFunction(() => window.__overture?.starts.length > 0, null, { timeout: 8000 })
+  await started(page, 8000)
   await ended(page, 8000)
   const { starts, ends } = await log(page)
   assert.ok(ends[0] - starts[0].at <= OVERTURE_DEADLINE + 150, "late fonts stretched the overture")
@@ -194,7 +215,7 @@ await check("slow JavaScript: the deadline still ends it, before React has loade
   await holdFrameworkJs(context, 5000)
   const page = await context.newPage()
   await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await ended(page, 3500)
   const { starts, ends } = await log(page)
   assert.ok(ends[0] - starts[0].at <= OVERTURE_DEADLINE + 150, `ended after ${Math.round(ends[0] - starts[0].at)}ms with React held back`)
@@ -210,7 +231,7 @@ await check("slow JavaScript: a key ends it before React has loaded", async () =
   await holdFrameworkJs(context, 5000)
   const page = await context.newPage()
   await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await page.keyboard.press("Escape")
   await ended(page, 500)
   assert.equal(await hydrated(page), false)
@@ -222,13 +243,8 @@ await check("slow JavaScript: Skip intro works by keyboard before React has load
   await holdFrameworkJs(context, 5000)
   const page = await context.newPage()
   await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
-  let reached = false
-  for (let i = 0; i < 12 && !reached; i++) {
-    await page.keyboard.press("Tab")
-    reached = await page.evaluate(() => document.activeElement?.classList.contains("hero-skip"))
-  }
-  assert.ok(reached, "Tab never reached Skip intro")
+  await started(page)
+  assert.ok(await tabToSkip(page), "Tab never reached Skip intro")
   assert.equal((await log(page)).ends.length, 0, "Tab alone must not end the overture")
   await page.keyboard.press("Enter")
   await ended(page, 500)
@@ -242,8 +258,12 @@ await check("slow JavaScript: Skip intro works by pointer before React has loade
   await holdFrameworkJs(context, 5000)
   const page = await context.newPage()
   await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
-  await page.locator(".hero-skip").click()
+  await started(page)
+  // A real mouse press on the control's own box. locator.click() waits for animation frames, and WebKit presents none
+  // while the framework's scripts are held, so it would wait for the very thing this case takes away.
+  const box = await page.locator(".hero-skip").boundingBox()
+  assert.ok(box && box.width > 0, "Skip intro has no box before React has loaded")
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
   await ended(page, 500)
   assert.equal(await hydrated(page), false)
   await context.close()
@@ -267,7 +287,7 @@ await check("framework scripts that fail to load: the overture still ends at the
   await context.route("**/_next/**/*.js", (route) => route.abort())
   const page = await context.newPage()
   await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await ended(page, 3500)
   const { starts, ends } = await log(page)
   assert.ok(ends[0] - starts[0].at <= OVERTURE_DEADLINE + 150)
@@ -303,7 +323,7 @@ await check("reduced motion asked for mid-way ends it", async () => {
   const { context } = await fresh()
   const page = await context.newPage()
   await page.goto(site.url("/"))
-  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await started(page)
   await page.emulateMedia({ reducedMotion: "reduce" })
   await ended(page, 500)
   assert.equal(await weight(page), 200)
@@ -342,8 +362,12 @@ await check("docs titles stay still", async () => {
   await context.close()
 })
 
+// ── phones: a touch screen, a coarse pointer ──
+// Firefox has no mobile emulation (no isMobile), but still takes a touch screen; the cases below use touch either way.
+const phone = (width, height) => ({ viewport: { width, height }, hasTouch: true, isMobile: engine !== "firefox" })
+
 await check("the home page logs no error at 375, first visit and after", async () => {
-  const { context, errors } = await fresh({ viewport: { width: 375, height: 800 }, isMobile: true, hasTouch: true })
+  const { context, errors } = await fresh(phone(375, 800))
   const page = await context.newPage()
   await page.goto(site.url("/"))
   await page.waitForTimeout(2600)
@@ -355,7 +379,64 @@ await check("the home page logs no error at 375, first visit and after", async (
   await context.close()
 })
 
+await check("667px, coarse pointer: plays, ends at the deadline, no sideways overflow", async () => {
+  const { context, errors } = await fresh(phone(667, 375))
+  const page = await context.newPage()
+  await page.goto(site.url("/"))
+  await started(page)
+  if (engine !== "firefox") assert.equal(await page.evaluate(() => matchMedia("(pointer: coarse)").matches), true, "the context should have a coarse pointer")
+  assert.ok(await page.locator(".hero-skip").isVisible(), "Skip intro should be visible while it plays")
+  await ended(page)
+  const { starts, ends } = await log(page)
+  assert.ok(ends[0] - starts[0].at <= OVERTURE_DEADLINE + 150, `ended after ${Math.round(ends[0] - starts[0].at)}ms`)
+  assert.equal(await weight(page), 200)
+  const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+  assert.ok(over <= 1, `sideways overflow of ${over}px`)
+  assert.deepEqual(errors, [])
+  await context.close()
+})
+
+await check("667px, coarse pointer: a tap on the page ends it", async () => {
+  const { context } = await fresh(phone(667, 375))
+  const page = await context.newPage()
+  await page.goto(site.url("/"))
+  await started(page)
+  await page.touchscreen.tap(333, 120)
+  await ended(page, 500)
+  assert.equal(await weight(page), 200)
+  await context.close()
+})
+
+await check("667px, coarse pointer: a tap on Skip intro ends it, and it is big enough to hit", async () => {
+  const { context } = await fresh(phone(667, 375))
+  const page = await context.newPage()
+  await page.goto(site.url("/"))
+  await started(page)
+  const box = await page.locator(".hero-skip").boundingBox()
+  assert.ok(box && box.height >= 40 && box.width >= 40, `Skip intro is ${Math.round(box?.width ?? 0)}x${Math.round(box?.height ?? 0)}px`)
+  await page.locator(".hero-skip").tap()
+  await ended(page, 500)
+  await context.close()
+})
+
+await check("667px, coarse pointer: reload and a new tab arrive settled", async () => {
+  const { context } = await fresh(phone(667, 375))
+  const first = await context.newPage()
+  await first.goto(site.url("/"))
+  await ended(first)
+  for (const how of ["reload", "tab"]) {
+    const page = how === "tab" ? await context.newPage() : first
+    if (how === "reload") await page.reload()
+    else await page.goto(site.url("/"))
+    await page.waitForSelector(".hero-title")
+    await page.waitForTimeout(400)
+    assert.equal((await log(page)).starts.length, 0, `the overture replayed after ${how}`)
+    assert.equal(await weight(page), 200)
+  }
+  await context.close()
+})
+
 await browser.close()
 await site.close()
 if (failures.length) { console.error(failures.map((f) => `- ${f}`).join("\n")); process.exit(1) }
-console.log(`Motion browser check passed: ${ran} cases (the home overture lifecycle, shared toy links, docs titles) in Chromium.`)
+console.log(`Motion browser check passed: ${ran} cases (the home overture lifecycle, shared toy links, docs titles) in ${engine}, ${scheme === "dark" ? "nocturne" : "day"}.`)

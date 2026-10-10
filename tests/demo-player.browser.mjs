@@ -9,15 +9,25 @@
 // there, other than the player's own data-demo-* attributes, is an autoplay. After Demonstrate they must see the
 // performance; after Stop the example must fall quiet and one real control must still answer a trusted click.
 // The detector is itself tested against injected fixtures that autoplay (and one that does not).
-// Engines: Chromium, Firefox and WebKit (see below). An engine that is missing or cannot launch fails the check.
+// Engines: one run is one engine, MOTION_ENGINE (chromium, firefox or webkit); tests/run-motion.mjs runs all three.
+// Chromium sweeps all of the scripted demos. Firefox and WebKit sweep one demo of every script kind (the first scripted
+// entry of each kind, in file order), because the full sweep in three engines runs well past the four minutes this
+// check is allowed; the keyboard, right-to-left, forced-colours and landing-stage cases run in all three. An engine
+// that is missing or cannot launch fails the run; nothing here skips an engine.
 import assert from "node:assert/strict"
-import { chromium } from "playwright"
+import * as playwright from "playwright"
 
 import { DEMO_SCORES } from "../components/site/demo-scores.ts"
 import { serveOut } from "../scripts/lib/serve-out.mjs"
 
 const scripted = Object.entries(DEMO_SCORES).filter(([, score]) => score.script).map(([name]) => name)
 assert.ok(scripted.length > 0, "no scripted demo found; the gate would pass on nothing")
+
+const engine = process.env.MOTION_ENGINE ?? "chromium"
+if (!["chromium", "firefox", "webkit"].includes(engine)) throw new Error(`unknown engine "${engine}"`)
+/** One demo of each script kind: every kind of choreography runs in every engine, without sweeping all of them three times. */
+const sample = [...new Set(scripted.map((name) => DEMO_SCORES[name].script))].map((kind) => scripted.find((name) => DEMO_SCORES[name].script === kind))
+assert.ok(sample.length >= 10, "the cross-engine sample should span at least ten script kinds")
 
 
 /** Examples that are allowed to move before anyone asks, by name, with the reason. Everything else must wait.
@@ -94,10 +104,10 @@ async function assertQuiet(page, when) {
 }
 
 const site = await serveOut()
-const browser = await chromium.launch()
+const browser = await playwright[engine].launch()
 const failures = []
 const only = process.env.DEMO_ONLY?.split(",")
-const items = only ?? scripted
+const items = only ?? (engine === "chromium" ? scripted : sample)
 
 /** The state the player publishes on the example, and whether a performance has begun. */
 const demoState = (page, selector) => page.evaluate((sel) => { const el = document.querySelector(sel); return { state: el?.dataset.demoState ?? null, cycle: el?.dataset.demoCycle ?? null } }, selector)
@@ -139,7 +149,16 @@ async function answers(page, rootSelector) {
       await mark(page)
       try {
         // A native select opens a popup on a click; a real reader changes it with the keyboard, so do that.
-        if (await control.evaluate((node) => node.matches("select"))) { await control.focus(); await page.keyboard.press("ArrowDown") }
+        if (await control.evaluate((node) => node.matches("select"))) {
+          // ArrowDown changes a closed select in most engines. Firefox leaves it, so type out another option's text:
+          // type-ahead picks it in every engine, from the keyboard like a reader would.
+          await control.focus()
+          await page.keyboard.press("ArrowDown")
+          if ((await signature(page, rootSelector)) === was) {
+            const text = await control.evaluate((node) => { const now = node.selectedOptions[0]?.text.trim(); return [...node.options].map((o) => o.text.trim()).find((t) => t && t !== now) ?? "" })
+            if (text) await page.keyboard.type(text)
+          }
+        }
         else await control.click({ timeout: 1000, force: true, position })
         if (await control.evaluate((node) => node.matches('input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea'))) await page.keyboard.type("1")
         else if (await control.evaluate((node) => node.matches('[role="slider"], [role="separator"]'))) await page.keyboard.press("ArrowRight")
@@ -352,4 +371,4 @@ if (!only) {
 await browser.close()
 await site.close()
 if (failures.length) { console.error(failures.map((f) => `- ${f}`).join("\n")); process.exit(1) }
-console.log(`Demo player browser check passed: ${items.length} of ${scripted.length} scripted demos stay quiet until Demonstrate, are seen to run, fall quiet on Stop and hand a real control back; the detector catches every injected autoplay${only ? "" : "; keyboard, right to left, forced colours and the landing stage hold"}.`)
+console.log(`Demo player browser check passed in ${engine}: ${items.length} of ${scripted.length} scripted demos stay quiet until Demonstrate, are seen to run, fall quiet on Stop and hand a real control back; the detector catches every injected autoplay${only ? "" : "; keyboard, right to left, forced colours and the landing stage hold"}.`)

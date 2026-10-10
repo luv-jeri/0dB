@@ -21,7 +21,7 @@
     "check:pages": "node scripts/check-pages.mjs",
     "check:headers": "node scripts/check-headers.mjs",
     "check:motion-contract": "node --import tsx scripts/check-motion-contract.mjs",
-    "check:motion": "node --import tsx tests/motion.browser.mjs && node --import tsx tests/demo-player.browser.mjs",
+    "check:motion": "node --import tsx tests/run-motion.mjs",
     "check:install": "node scripts/check-install.mjs",
     "check": "npm run typecheck && npm run lint && npm test && npm run check:registry && npm run check:drift && npm run check:examples && npm run check:motion-contract && npm run build && npm run check:pages && npm run check:headers && npm run check:motion",
     "test:reporting": "node --import tsx --test workers/reporting/test/integration.test.mjs",
