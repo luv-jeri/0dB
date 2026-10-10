@@ -184,6 +184,97 @@ await check("the deadline holds when fonts arrive late", async () => {
   await context.close()
 })
 
+// ── the clock belongs to the page's own script, not to React ──
+// The inline script ends the overture itself, so these hold while the framework's JavaScript is slow or absent.
+const hydrated = (page) => page.evaluate(() => [...document.querySelectorAll(".hero-skip, .hero-title")].some((el) => Object.keys(el).some((k) => k.startsWith("__reactFiber"))))
+const holdFrameworkJs = (context, ms) => context.route("**/_next/**/*.js", async (route) => { await new Promise((r) => setTimeout(r, ms)); await route.continue() })
+
+await check("slow JavaScript: the deadline still ends it, before React has loaded", async () => {
+  const { context, errors } = await fresh()
+  await holdFrameworkJs(context, 5000)
+  const page = await context.newPage()
+  await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
+  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await ended(page, 3500)
+  const { starts, ends } = await log(page)
+  assert.ok(ends[0] - starts[0].at <= OVERTURE_DEADLINE + 150, `ended after ${Math.round(ends[0] - starts[0].at)}ms with React held back`)
+  assert.equal(await hydrated(page), false, "React had already loaded; this case proves nothing")
+  assert.equal(await weight(page), 200)
+  assert.equal(await page.locator(".hero-skip").isVisible(), false)
+  await context.close()
+  assert.deepEqual(errors.filter((e) => !/Failed to load|net::/.test(e)), [])
+})
+
+await check("slow JavaScript: a key ends it before React has loaded", async () => {
+  const { context } = await fresh()
+  await holdFrameworkJs(context, 5000)
+  const page = await context.newPage()
+  await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
+  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await page.keyboard.press("Escape")
+  await ended(page, 500)
+  assert.equal(await hydrated(page), false)
+  await context.close()
+})
+
+await check("slow JavaScript: Skip intro works by keyboard before React has loaded", async () => {
+  const { context } = await fresh()
+  await holdFrameworkJs(context, 5000)
+  const page = await context.newPage()
+  await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
+  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  let reached = false
+  for (let i = 0; i < 12 && !reached; i++) {
+    await page.keyboard.press("Tab")
+    reached = await page.evaluate(() => document.activeElement?.classList.contains("hero-skip"))
+  }
+  assert.ok(reached, "Tab never reached Skip intro")
+  assert.equal((await log(page)).ends.length, 0, "Tab alone must not end the overture")
+  await page.keyboard.press("Enter")
+  await ended(page, 500)
+  assert.equal(await hydrated(page), false)
+  assert.equal(await page.evaluate(() => document.activeElement?.closest(".hero-cta") !== null), true, "focus should move on to the first action")
+  await context.close()
+})
+
+await check("slow JavaScript: Skip intro works by pointer before React has loaded", async () => {
+  const { context } = await fresh()
+  await holdFrameworkJs(context, 5000)
+  const page = await context.newPage()
+  await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
+  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await page.locator(".hero-skip").click()
+  await ended(page, 500)
+  assert.equal(await hydrated(page), false)
+  await context.close()
+})
+
+await check("JavaScript blocked entirely: no overture starts and the page is complete", async () => {
+  const { context } = await fresh({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto(site.url("/"))
+  await page.waitForSelector(".hero-title")
+  await page.waitForTimeout(600)
+  assert.equal(await page.evaluate(() => document.documentElement.hasAttribute("data-overture-at")), false)
+  assert.equal(await weight(page), 200)
+  assert.equal(await page.locator(".hero-skip").isVisible(), false)
+  assert.ok(await page.locator("h1").isVisible())
+  await context.close()
+})
+
+await check("framework scripts that fail to load: the overture still ends at the deadline", async () => {
+  const { context } = await fresh()
+  await context.route("**/_next/**/*.js", (route) => route.abort())
+  const page = await context.newPage()
+  await page.goto(site.url("/"), { waitUntil: "domcontentloaded" })
+  await page.waitForFunction(() => window.__overture.starts.length > 0)
+  await ended(page, 3500)
+  const { starts, ends } = await log(page)
+  assert.ok(ends[0] - starts[0].at <= OVERTURE_DEADLINE + 150)
+  assert.equal(await weight(page), 200)
+  await context.close()
+})
+
 // ── when the overture must not play ──
 const never = (name, options, init, extra) => check(name, async () => {
   const { context, errors } = await fresh(options, init)
