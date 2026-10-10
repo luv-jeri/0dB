@@ -80,7 +80,7 @@ const sheets: Record<string, string> = {
   "/docs/skeleton": "/ui/site-styles/9b43b1fbf076.css",
   "/docs/date-picker": "/ui/site-styles/386a7442debf.css",
   "/docs/activity-feed": "/ui/site-styles/f5738b8b418b.css",
-  "/docs/agent-chat": "/ui/site-styles/78cc4de1052f.css",
+  "/docs/agent-chat": "/ui/site-styles/3aa2fc7936f3.css",
   "/docs/agent-state": "/ui/site-styles/fc6597e00ef7.css",
   "/docs/appearance": "/ui/site-styles/b2634145e42e.css",
   "/docs/area-chart": "/ui/site-styles/f1a94051cde4.css",
