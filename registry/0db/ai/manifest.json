@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "2301753187f6165006fbf0a934b95e0ca62c591fb8e11e201125a0e545c80781",
-    "DESIGN.md": "855e6e284ceeca4eb21461ec621ce515bda35426361a9c8e2cd83350448b2cca"
+    "DESIGN.md": "bae25e4766b304560c355d6eadb0cad8912c866c4068bf3c040f7e5d2a969f1d"
   },
   "files": {
     "AGENTS.md": "9d0dc5d8d2eacc1009262a42f1b500667bb0e801da68a7776a13c1ae8014df17",
     "docs/AGENTS.md": "d09ea0aadb3f9058b55f0f0db28e68c494c5d4548f6bc5e47e4078175d8a691c",
     "INTENT.md": "2301753187f6165006fbf0a934b95e0ca62c591fb8e11e201125a0e545c80781",
-    "DESIGN.md": "855e6e284ceeca4eb21461ec621ce515bda35426361a9c8e2cd83350448b2cca",
+    "DESIGN.md": "bae25e4766b304560c355d6eadb0cad8912c866c4068bf3c040f7e5d2a969f1d",
     "DESIGN-core.md": "7999a4533296059b11bda4109453f452674dff3be060eec0abbfdbd46bc2f3dc",
     "components/link.md": "e85d3cc247a674b303749ced8391b9fe64314752419bcbe2df21913519a42f94",
     "components/meta.md": "0441813e76813f90762ca380347411c01737563a04ef76414f8181869c228de1",
@@ -102,7 +102,7 @@
     "components/reverb.md": "4f85510189aa8129a952ec793fbe6cb65d5e747ff4eb078858a9ccd64f4d654d",
     "components/scroll-expand.md": "560f880ac350b777130992ebbd1d70d18832731013163d91bffe69a0423bb0ca",
     "components/segue.md": "78602c44c9ca10314ce7133aeef0bb55e927251f854cb75d8d5394f76ed15e81",
-    "components/sign.md": "ed8c3337b1cbb118a8efecc7b510eb569267db9cb753e534db95e3147b883c4e",
+    "components/sign.md": "2607731cb1284a23fdd5d56b9ca14b34b8f84d3a5159f49cd13d1fdabaddfdcd",
     "components/source.md": "cc52dce228058b54bb09894ee411143c5eb7fb292e3e3b0154fbfc0429ddac60",
     "components/stat.md": "4d6b211dde3d4090189bbb4d87a51055cb18ebdd735b0b9ccd2053984e323316",
     "components/steps.md": "614ce875c37df991e00dd61fb75906d12f9fb49410649eb93c2607c8e8b6dd69",

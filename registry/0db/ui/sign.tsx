@@ -298,6 +298,8 @@ function layoutSign(shape: SignShape, variant: SignVariant, S: number, italic: b
         const a = base[i] * f
         const q = at(p, (s + a / 2) / u)
         if (Math.abs(q.r) > 95) return null
+        // A word of two letters has nothing round it to read by: turned on end, "up" reads "dn".
+        if (letters.length < 3 && Math.abs(q.r) > 30) return null
         if (i) {
           const d = turn(q.r - put[i - 1].r)
           if (Math.abs(d) > 20) return null // a kink: the word would break at a corner
