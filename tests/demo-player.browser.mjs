@@ -380,7 +380,7 @@ await context.close()
 // The landing's stage.
 if (!only) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
-  await ctx.addInitScript((key) => { try { localStorage.setItem(key, "1") } catch {} }, "0db-overture-seen")
+  await ctx.addInitScript((key) => { try { localStorage.setItem(key, "1") } catch {} }, "0nlytype-overture-seen")
   const page = await ctx.newPage()
   await page.addInitScript(watchAutoplay, { root: ".pieces-preview", ignore: null })
   try {

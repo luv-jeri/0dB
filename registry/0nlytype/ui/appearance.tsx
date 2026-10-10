@@ -10,7 +10,7 @@ import { Pick, PickDescription, Picks, PickTitle } from "@/registry/0nlytype/ui/
 type AppearanceValue = { mode?: string; scheme?: string; key?: string; pair?: string }
 
 /** Where the choice is kept: one JSON object, the four switches together. */
-const APPEARANCE_KEY = "0db-theme"
+const APPEARANCE_KEY = "0nlytype-theme"
 
 const SCHEMES = ["cotton", "blueprint", "statue", "silence", "riso"]
 /** Each scheme's own accent, by name, for the sentence. */
@@ -92,7 +92,7 @@ type AppearanceProps = Omit<React.ComponentProps<"div">, "defaultValue" | "onCha
 /**
  * Choose the look: scheme, key and pair as three lists of picks, and the answer written back above them as one
  * sentence, "Cotton, in ultramarine, set in Archivo and Bodoni.", which the night toggle finishes: "Read by light."
- * Yours in the italic. On its own it writes the four switches on <html>, keeps them under 0db-theme, and the new page
+ * Yours in the italic. On its own it writes the four switches on <html>, keeps them under 0nlytype-theme, and the new page
  * opens as a circle from whatever you touched.
  */
 function Appearance({ value, onValueChange, className, ...props }: AppearanceProps) {

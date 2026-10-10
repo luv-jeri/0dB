@@ -182,7 +182,7 @@ try {
       await context.route("https://challenges.cloudflare.com/sol-prod-csp-probe.js", (route) => route.fulfill({ contentType: "text/javascript", body: "window.__cspScriptProbe = true" }))
       await context.route("https://challenges.cloudflare.com/sol-prod-csp-probe.html", (route) => route.fulfill({ contentType: "text/html", body: "<!doctype html><title>CSP frame probe</title>" }))
       await context.addInitScript((mode) => {
-        localStorage.setItem("0db-theme", JSON.stringify({ mode }))
+        localStorage.setItem("0nlytype-theme", JSON.stringify({ mode }))
         window.__cspViolations = []
         document.addEventListener("securitypolicyviolation", (event) => {
           window.__cspViolations.push(`${event.violatedDirective}: ${event.blockedURI}`)
