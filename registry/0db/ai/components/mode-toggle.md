@@ -1,4 +1,4 @@
-# 0dB: mode-toggle
+# 0nlyType: mode-toggle
 
 Extracted from DESIGN.md.
 

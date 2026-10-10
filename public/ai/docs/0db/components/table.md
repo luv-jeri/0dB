@@ -1,4 +1,4 @@
-# 0dB: table
+# 0nlyType: table
 
 Extracted from DESIGN.md.
 

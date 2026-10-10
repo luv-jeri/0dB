@@ -1,4 +1,4 @@
-# 0dB: switch
+# 0nlyType: switch
 
 Extracted from DESIGN.md.
 

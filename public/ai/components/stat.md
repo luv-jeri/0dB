@@ -1,4 +1,4 @@
-# 0dB: stat
+# 0nlyType: stat
 
 Extracted from DESIGN.md.
 

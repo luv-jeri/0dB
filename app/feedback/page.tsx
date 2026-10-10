@@ -5,7 +5,7 @@ import { entries } from "@/lib/site/entries"
 
 export const metadata: Metadata = {
   title: "Feedback",
-  description: "Report an issue or request a component for 0dB.",
+  description: "Report an issue or request a component for 0nlyType.",
 }
 
 export default function FeedbackPage() {

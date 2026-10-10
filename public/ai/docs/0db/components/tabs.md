@@ -1,4 +1,4 @@
-# 0dB: tabs
+# 0nlyType: tabs
 
 Extracted from DESIGN.md.
 

@@ -1,4 +1,4 @@
-# 0dB: area-chart
+# 0nlyType: area-chart
 
 Extracted from DESIGN.md.
 

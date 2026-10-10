@@ -10,7 +10,7 @@ import { Prose } from "@/registry/0db/ui/typography"
 
 export const metadata: Metadata = {
   title: "Install",
-  description: "Add the 0dB base, then any item, with the shadcn CLI.",
+  description: "Add the 0nlyType base, then any item, with the shadcn CLI.",
 }
 
 const BASE = siteURL("/r")
@@ -28,7 +28,7 @@ export default function Install() {
     <>
       <header className="doc-head">
         <h1 className="doc-title">Install</h1>
-        <p className="doc-summary">0dB is a shadcn registry. You own the code it writes: every item lands in your project as a component and a small stylesheet.</p>
+        <p className="doc-summary">0nlyType is a shadcn registry. You own the code it writes: every item lands in your project as a component and a small stylesheet.</p>
       </header>
       <section className="doc-section" aria-labelledby="steps-h">
         <h2 id="steps-h" data-rail="Four steps">Four steps</h2>
@@ -41,8 +41,8 @@ export default function Install() {
           <Step>
             <StepTitle>Add the base</StepTitle>
             <p>
-              The tokens, the default font pair, the reset and the base pieces (link, key, fraction, meta, corners). It also points shadcn&apos;s own colour names at 0dB&apos;s, so
-              a stock globals.css renders 0dB.
+              The tokens, the default font pair, the reset and the base pieces (link, key, fraction, meta, corners). It also points shadcn&apos;s own colour names at 0nlyType&apos;s, so
+              a stock globals.css renders 0nlyType.
             </p>
             <CommandLine runner command={`shadcn@latest add ${BASE}/0db.json`} emphasis="0db" />
           </Step>

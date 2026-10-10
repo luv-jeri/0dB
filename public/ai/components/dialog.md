@@ -1,4 +1,4 @@
-# 0dB: dialog
+# 0nlyType: dialog
 
 Extracted from DESIGN.md.
 

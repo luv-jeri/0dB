@@ -1,4 +1,4 @@
-# 0dB: number-input
+# 0nlyType: number-input
 
 Extracted from DESIGN.md.
 

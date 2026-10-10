@@ -1,4 +1,4 @@
-# 0dB: picks
+# 0nlyType: picks
 
 Extracted from DESIGN.md.
 

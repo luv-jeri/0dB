@@ -1,4 +1,4 @@
-# 0dB: aspect-ratio
+# 0nlyType: aspect-ratio
 
 Extracted from DESIGN.md.
 

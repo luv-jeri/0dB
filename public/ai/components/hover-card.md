@@ -1,4 +1,4 @@
-# 0dB: hover-card
+# 0nlyType: hover-card
 
 Extracted from DESIGN.md.
 

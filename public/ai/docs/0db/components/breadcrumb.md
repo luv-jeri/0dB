@@ -1,4 +1,4 @@
-# 0dB: breadcrumb
+# 0nlyType: breadcrumb
 
 Extracted from DESIGN.md.
 

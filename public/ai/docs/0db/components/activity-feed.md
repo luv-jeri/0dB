@@ -1,4 +1,4 @@
-# 0dB: activity-feed
+# 0nlyType: activity-feed
 
 Extracted from DESIGN.md.
 

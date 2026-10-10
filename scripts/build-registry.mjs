@@ -32,8 +32,8 @@ const base = {
   name: "0db",
   type: "registry:base",
   extends: "none",
-  title: "0dB",
-  description: "0dB tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
+  title: "0nlyType",
+  description: "0nlyType tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
   dependencies: ["clsx", "tailwind-merge"],
   config: { registries: { "@0db": `${baseURL}/r/{name}.json` } },
   files: [

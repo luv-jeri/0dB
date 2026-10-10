@@ -21,7 +21,7 @@ export function ReportingPanel({ href, onClose }: ReportingPanelProps) {
     <SheetContent ref={dialog} className="db-report-sheet" data-reporting-chrome data-picking={picking || undefined} onCancel={(event) => { if (busy) event.preventDefault() }}>
       <SheetSpine>Feedback</SheetSpine>
       <header className="db-report-sheet-head">
-        <div className="db-report-sheet-caption"><span>0dB / Feedback</span><Button variant="quiet" disabled={busy} onClick={onClose} aria-label="Close feedback">Close</Button></div>
+        <div className="db-report-sheet-caption"><span>0nlyType / Feedback</span><Button variant="quiet" disabled={busy} onClick={onClose} aria-label="Close feedback">Close</Button></div>
         <SheetTitle tabIndex={-1} data-autofocus>Make it<br />better.</SheetTitle>
         <SheetDescription>A rough edge. A missing piece.<br />Tell us what would help.</SheetDescription>
       </header>

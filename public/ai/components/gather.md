@@ -1,4 +1,4 @@
-# 0dB: gather
+# 0nlyType: gather
 
 Extracted from DESIGN.md.
 

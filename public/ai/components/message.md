@@ -1,4 +1,4 @@
-# 0dB: message
+# 0nlyType: message
 
 Extracted from DESIGN.md.
 

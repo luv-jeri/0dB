@@ -1,4 +1,4 @@
-# 0dB: marquee
+# 0nlyType: marquee
 
 Extracted from DESIGN.md.
 

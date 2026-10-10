@@ -1,4 +1,4 @@
-# 0dB: dropzone
+# 0nlyType: dropzone
 
 Extracted from DESIGN.md.
 

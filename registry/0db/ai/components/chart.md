@@ -1,4 +1,4 @@
-# 0dB: chart
+# 0nlyType: chart
 
 Extracted from DESIGN.md.
 

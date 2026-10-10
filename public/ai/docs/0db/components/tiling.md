@@ -1,4 +1,4 @@
-# 0dB: tiling
+# 0nlyType: tiling
 
 Extracted from DESIGN.md.
 

@@ -1,4 +1,4 @@
-# 0dB: toggle
+# 0nlyType: toggle
 
 Extracted from DESIGN.md.
 

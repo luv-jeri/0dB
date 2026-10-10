@@ -187,7 +187,7 @@ export function FeedbackForms({ entries, presentation = "page", href, onPickingC
     setBusy("Opening receipt")
     setError("")
     try {
-      if (file.size > 100000) throw new Error("Choose a 0dB receipt JSON file under 100 KB.")
+      if (file.size > 100000) throw new Error("Choose a 0nlyType receipt JSON file under 100 KB.")
       const saved = JSON.parse(await file.text()) as { id?: unknown; token?: unknown }
       if (!isUUID(saved.id) || typeof saved.token !== "string" || !/^[a-f0-9]{64}$/.test(saved.token)) throw new Error("This file is not a valid receipt.")
       const receipt = await fetchReceipt(saved.id, saved.token)
@@ -240,7 +240,7 @@ export function FeedbackForms({ entries, presentation = "page", href, onPickingC
     <Root id={presentation === "page" ? "content" : undefined} className="db-report-page" data-presentation={presentation} data-reporting-chrome>
       <Toaster variant="footnote" className="db-report-toaster" />
       {presentation === "page" ? <header className="db-report-head">
-        <p className="db-report-caption">0dB / Feedback</p>
+        <p className="db-report-caption">0nlyType / Feedback</p>
         <h1>Make it<br />better.</h1>
         <div className="db-report-intro"><p>A rough edge. A missing piece.<br />Tell us what would help.</p><Link asChild><NextLink href="/requests/">Browse component requests</NextLink></Link></div>
       </header> : null}

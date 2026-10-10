@@ -1,4 +1,4 @@
-# 0dB: kbd
+# 0nlyType: kbd
 
 Extracted from DESIGN.md.
 

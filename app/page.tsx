@@ -104,7 +104,7 @@ export default function Home() {
         rail="Install"
         mark="f"
         title="One line."
-        note="0dB is a shadcn registry. Each piece arrives as source in your project, with its styles and the tokens it stands on."
+        note="0nlyType is a shadcn registry. Each piece arrives as source in your project, with its styles and the tokens it stands on."
       >
         <CommandLine runner command={`shadcn@latest add ${registryURL("button")}`} emphasis="button" className="install-line" />
         <p className="install-then">Nothing to update. Nothing to wrap. It&rsquo;s yours now.</p>
@@ -115,7 +115,7 @@ export default function Home() {
         </p>
       </Passage>
 
-      <Passage id="ask" rail="Ask" mark="mf" title="Or ask for it." note="The AI kit puts 0dB's rules and every contract in your project, so your assistant builds in type too.">
+      <Passage id="ask" rail="Ask" mark="mf" title="Or ask for it." note="The AI kit puts 0nlyType's rules and every contract in your project, so your assistant builds in type too.">
         <ol className="ask-steps">
           <li>
             <p className="ask-step">Add the kit.</p>
@@ -139,7 +139,7 @@ export default function Home() {
         mark="mp"
         className="passage-help"
         title="Help build it."
-        note="0dB is made by a small team, in the open. You don't need to write code to shape what it becomes."
+        note="0nlyType is made by a small team, in the open. You don't need to write code to shape what it becomes."
       >
         <ul className="help-list">
           <li>
@@ -155,7 +155,7 @@ export default function Home() {
             <p className="help-note">We need your support to keep working on this. A star is how we know it&rsquo;s wanted.</p>
           </li>
           <li>
-            <ShareCall url="/" text="0dB: React components, set in type" note="Send it to someone who builds interfaces. It's how a small library gets found.">
+            <ShareCall url="/" text="0nlyType: React components, set in type" note="Send it to someone who builds interfaces. It's how a small library gets found.">
               Share it
             </ShareCall>
           </li>
@@ -168,8 +168,8 @@ export default function Home() {
         </h2>
         <div className="coda-actions">
           <Cta href="/docs/">Read the docs</Cta>
-          <Share url="/" title="0dB: React components, set in type">
-            Share 0dB
+          <Share url="/" title="0nlyType: React components, set in type">
+            Share 0nlyType
           </Share>
         </div>
         <p className="fine" lang="it">
@@ -178,7 +178,7 @@ export default function Home() {
       </section>
 
       <footer className="landing-foot">
-        <p>0dB is MIT licensed. Its typefaces are under the SIL Open Font Licence.</p>
+        <p>0nlyType is MIT licensed. Its typefaces are under the SIL Open Font Licence.</p>
         <p>
           <Link href={sitePath("/requests/")}>Request a component</Link>. <Link href={sitePath("/feedback/?kind=bug")}>Report a bug</Link>.{" "}
           <Link href={REPO} external>

@@ -1,4 +1,4 @@
-# 0dB: swapy
+# 0nlyType: swapy
 
 Extracted from DESIGN.md.
 

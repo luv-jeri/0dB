@@ -1,19 +1,19 @@
-# 0dB complete AI reference
+# 0nlyType complete AI reference
 
-# 0dB: intent
+# 0nlyType: intent
 
-**0dB** is zero decibels: the quietest sound a person can hear. The library sits at that threshold. It gives an interface two typefaces, one accent, a great deal of space, and nothing else to lean on.
+**0nlyType** is a component library made of type and nothing else. Every control, every sign and every ornament is set in words. It gives an interface two typefaces, one accent, a great deal of space, and nothing else to lean on.
 
 ## Who it's for
 
-- Its makers first. 0dB is the library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's landing page at thedirectors.agency is built on it next, then the founders' portfolios.
+- Its makers first. 0nlyType is the library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's landing page at thedirectors.agency is built on it next, then the founders' portfolios.
 - Anyone who installs a component with `npx shadcn add https://thedirectors.agency/ui/r/<name>.json` and wants an interface where type carries the design.
 - Builders (people and agents) extending it. They read this page, then DESIGN.md, before writing anything.
 
 ## What success looks like
 
 1. One command installs a component into a fresh Next app. The app builds, and the component looks and behaves like the specimen.
-2. The docs site is made from 0dB's own components. If the docs need something the library doesn't have, it's built and added to the library, never borrowed.
+2. The docs site is made from 0nlyType's own components. If the docs need something the library doesn't have, it's built and added to the library, never borrowed.
 3. A stranger can tell from any one screen what the system believes: space does the layout, and type is the only ornament.
 4. `npm run check` passes, and it holds this page, DESIGN.md and the code to each other.
 5. The registry stays healthy by the shadcn directory's own measures, on every check:
@@ -38,8 +38,8 @@
 
 ## Non-goals
 
-- Being a general-purpose kit that looks like anything. 0dB looks like 0dB.
-- Being part of another product. 0dB stands on its own.
+- Being a general-purpose kit that looks like anything. 0nlyType looks like 0nlyType.
+- Being part of another product. 0nlyType stands on its own.
 - Matching every shadcn component. An item exists only where the idea can be carried by type and a line.
 - Supporting browsers without `:has()`, `color-mix()` and native `<dialog>`.
 - A theming engine. There are four switches on `<html>` (mode, scheme, key, pair), and that's all.
@@ -54,7 +54,7 @@
 6. When DESIGN.md and the code disagree, fix one of them in the same change. `check:drift` will catch you if you don't.
 
 
-# 0dB core design
+# 0nlyType core design
 
 Extracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in components/<item>.md.
 
@@ -232,13 +232,13 @@ A move serves more than one component only when it is the same idea on purpose. 
 ## Docs conventions
 
 - The site and the registry live under `/ui` (Next `basePath`), at https://thedirectors.agency/ui. Next's `Link` adds the base path itself; every other same-origin URL (a `fetch`, an `img`, CSS) is built through `lib/site/config.mjs`, never written by hand.
-- The docs are built only from 0dB items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
+- The docs are built only from 0nlyType items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
 - Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
 - Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0db-theme` and restored by a script in `<head>` before first paint.
 
 
-# 0dB: link
+# 0nlyType: link
 
 Extracted from DESIGN.md.
 
@@ -268,7 +268,7 @@ Extracted from DESIGN.md.
 | Address link (`link`) | The printed page's spelled-out address; 20(25) | Pointing writes where it goes, in parentheses, after the words |
 
 
-# 0dB: meta
+# 0nlyType: meta
 
 Extracted from DESIGN.md.
 
@@ -291,7 +291,7 @@ No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-c
 | Credits meta (`meta`) | SPECTRA credits | One rule, small columns of label over value |
 
 
-# 0dB: kbd
+# 0nlyType: kbd
 
 Extracted from DESIGN.md.
 
@@ -318,7 +318,7 @@ Extracted from DESIGN.md.
 | Chord key (`kbd`) | The figured bass | Modifiers stacked small beside the key, in one cap |
 
 
-# 0dB: corners
+# 0nlyType: corners
 
 Extracted from DESIGN.md.
 
@@ -346,7 +346,7 @@ Extracted from DESIGN.md.
 | Kagi corners (`corners`) | The Japanese corner brackets 「 」 | Two corners quote a phrase across its lines |
 
 
-# 0dB: button
+# 0nlyType: button
 
 Extracted from DESIGN.md.
 
@@ -386,7 +386,7 @@ Extracted from DESIGN.md.
 | Repeat button (`button`) | The score's repeat signs | The word between repeat bars; the opening dots set it to go round |
 
 
-# 0dB: spinner
+# 0nlyType: spinner
 
 Extracted from DESIGN.md.
 
@@ -422,7 +422,7 @@ Extracted from DESIGN.md.
 No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-core.md and the contract above.
 
 
-# 0dB: checkbox
+# 0nlyType: checkbox
 
 Extracted from DESIGN.md.
 
@@ -454,7 +454,7 @@ Extracted from DESIGN.md.
 | Circled checkbox (`checkbox`) | Collage accent rings | One pen loop round the words |
 
 
-# 0dB: fraction
+# 0nlyType: fraction
 
 Extracted from DESIGN.md.
 
@@ -486,7 +486,7 @@ Extracted from DESIGN.md.
 | Readout fraction (`fraction`) | SPECTRA's 1/3 beside 0.13 | The share hung small after the total as a decimal |
 
 
-# 0dB: radio-group
+# 0nlyType: radio-group
 
 Extracted from DESIGN.md.
 
@@ -519,7 +519,7 @@ Extracted from DESIGN.md.
 | Radio, sforzando (`radio-group`) | "It has to be design." scale contrast; the score's sfz | Heavy narrow words in a column; the chosen italic swells under the word above |
 
 
-# 0dB: dial
+# 0nlyType: dial
 
 Extracted from DESIGN.md.
 
@@ -556,7 +556,7 @@ Extracted from DESIGN.md.
 | Dial, tumbler (`dial`) | The poster's 20(25); a combination lock's wheels | Figure by figure, the one you turn held in parentheses |
 
 
-# 0dB: picks
+# 0nlyType: picks
 
 Extracted from DESIGN.md.
 
@@ -590,7 +590,7 @@ Extracted from DESIGN.md.
 | Picks, register (`picks`) | The posters' + corner signs; the printer's registration marks | Two crosses mark the chosen pick's far corners |
 
 
-# 0dB: switch
+# 0nlyType: switch
 
 Extracted from DESIGN.md.
 
@@ -620,7 +620,7 @@ Extracted from DESIGN.md.
 | Question switch (`switch`) | "It has to be design." (passion? / reason.) | The question mark's hook lifts and leaves a full stop |
 
 
-# 0dB: slider
+# 0nlyType: slider
 
 Extracted from DESIGN.md.
 
@@ -653,7 +653,7 @@ Extracted from DESIGN.md.
 | Dynamics slider (`slider`) | The score's dynamics | The label is as loud as the value |
 
 
-# 0dB: field
+# 0nlyType: field
 
 Extracted from DESIGN.md.
 
@@ -688,7 +688,7 @@ Extracted from DESIGN.md.
 | Signature field (`field`) | The printed form's signature line | A cross where you write; the label a caption under the line |
 
 
-# 0dB: select
+# 0nlyType: select
 
 Extracted from DESIGN.md.
 
@@ -719,7 +719,7 @@ Extracted from DESIGN.md.
 | Ruby select (`select`) | Japanese ruby; the small notes hung by a big italic | The other choices ride small above the word |
 
 
-# 0dB: tabs
+# 0nlyType: tabs
 
 Extracted from DESIGN.md.
 
@@ -749,7 +749,7 @@ Extracted from DESIGN.md.
 | Tabs, open (`tabs`) | "Less is more." | The rule beside the stacked words breaks at the chosen one |
 
 
-# 0dB: pagination
+# 0nlyType: pagination
 
 Extracted from DESIGN.md.
 
@@ -787,7 +787,7 @@ Extracted from DESIGN.md.
 | Thumb pager (`pagination`) | A dictionary's thumb index; "the uncreative" | The alphabet as one word, the current letter reversed out |
 
 
-# 0dB: breadcrumb
+# 0nlyType: breadcrumb
 
 Extracted from DESIGN.md.
 
@@ -816,7 +816,7 @@ Extracted from DESIGN.md.
 | Elided breadcrumbs (`breadcrumb`) | Elision in quotation (…) | A full stop for each step left out |
 
 
-# 0dB: accordion
+# 0nlyType: accordion
 
 Extracted from DESIGN.md.
 
@@ -848,7 +848,7 @@ Extracted from DESIGN.md.
 | Disclosure, horizontal (`accordion`) | "Healthy habits" narrow columns; "Less is more." hairline grid | The open column widens and its name steps up from a stack onto one line |
 
 
-# 0dB: rows
+# 0nlyType: rows
 
 Extracted from DESIGN.md.
 
@@ -878,7 +878,7 @@ Extracted from DESIGN.md.
 | Trail rows (`rows`) | "28 December" dots | A ring per row fills with ink once you've been there; where you are is the accent |
 
 
-# 0dB: calendar
+# 0nlyType: calendar
 
 Extracted from DESIGN.md.
 
@@ -919,7 +919,7 @@ Extracted from DESIGN.md.
 | Month, parenthesis (`calendar`) | "20(25)"; the typographic parenthetical | The month as a running line of figures; the wait as an aside in parentheses |
 
 
-# 0dB: badge
+# 0nlyType: badge
 
 Extracted from DESIGN.md.
 
@@ -949,7 +949,7 @@ Extracted from DESIGN.md.
 | Seal (`badge`) | A coin's legend; WOVE's numbers on an arc | The legend set round a ring, the face in the middle |
 
 
-# 0dB: note
+# 0nlyType: note
 
 Extracted from DESIGN.md.
 
@@ -982,7 +982,7 @@ Extracted from DESIGN.md.
 | Revise note (`note`) | Basquiat's struck headline; the Weingart letter's typed page | The word struck through in ink, and the right one written in after it in the italic |
 
 
-# 0dB: progress
+# 0nlyType: progress
 
 Extracted from DESIGN.md.
 
@@ -1014,7 +1014,7 @@ Extracted from DESIGN.md.
 | Tally progress (`progress`) | The hand's tally; Basquiat sheet | One stroke per item, the fifth crossing the four |
 
 
-# 0dB: toast
+# 0nlyType: toast
 
 Extracted from DESIGN.md.
 
@@ -1042,7 +1042,7 @@ Extracted from DESIGN.md.
 | Dateline toast (`toast`) | SHAPES / GRADIENTS frame row | The sentence and its time on a hairline that runs out |
 
 
-# 0dB: dialog
+# 0nlyType: dialog
 
 Extracted from DESIGN.md.
 
@@ -1071,7 +1071,7 @@ Extracted from DESIGN.md.
 | Ruled dialog (`dialog`) | "Less is more." | The question on ruled lines in a grid of hairlines |
 
 
-# 0dB: empty
+# 0nlyType: empty
 
 Extracted from DESIGN.md.
 
@@ -1100,7 +1100,7 @@ Extracted from DESIGN.md.
 | Blank empty state (`empty`) | A page left blank on purpose; "Renaissance." corners | The words at the corners, silence in the middle |
 
 
-# 0dB: toggle
+# 0nlyType: toggle
 
 Extracted from DESIGN.md.
 
@@ -1135,7 +1135,7 @@ Extracted from DESIGN.md.
 | Guides toggle (`toggle`) | Paul Rand, "design" | The held word shown on its dotted baseline and x-height |
 
 
-# 0dB: toggle-group
+# 0nlyType: toggle-group
 
 Extracted from DESIGN.md.
 
@@ -1169,7 +1169,7 @@ Extracted from DESIGN.md.
 | Margin group (`toggle-group`) | The book's side head | A held word crosses the hairline into the margin |
 
 
-# 0dB: button-group
+# 0nlyType: button-group
 
 Extracted from DESIGN.md.
 
@@ -1197,7 +1197,7 @@ Extracted from DESIGN.md.
 | Sentence group (`button-group`) | Healthy habits → (one line of thought); the written list | The actions written into the sentence |
 
 
-# 0dB: input-group
+# 0nlyType: input-group
 
 Extracted from DESIGN.md.
 
@@ -1228,7 +1228,7 @@ Extracted from DESIGN.md.
 | Arrow input group (`input-group`) | "It has to be design.": "Watch this space." | A hairline arrow from your words to the action |
 
 
-# 0dB: input-otp
+# 0nlyType: input-otp
 
 Extracted from DESIGN.md.
 
@@ -1257,7 +1257,7 @@ Extracted from DESIGN.md.
 | Lyric code (`input-otp`) | The score's lyric line; a cheque's sum in words | Each digit read back in words under it |
 
 
-# 0dB: combobox
+# 0nlyType: combobox
 
 Extracted from DESIGN.md.
 
@@ -1290,7 +1290,7 @@ Extracted from DESIGN.md.
 | Multiple combobox (`combobox`) | The written list (serial punctuation); ours roman, yours italic | The choices written on the line as one sentence; a chosen row turns italic |
 
 
-# 0dB: popover
+# 0nlyType: popover
 
 Extracted from DESIGN.md.
 
@@ -1321,7 +1321,7 @@ Extracted from DESIGN.md.
 | Cut popover (`popover`) | SPECTRA | The panel's edge cuts through the opener's words |
 
 
-# 0dB: context-menu
+# 0nlyType: context-menu
 
 Extracted from DESIGN.md.
 
@@ -1355,7 +1355,7 @@ Extracted from DESIGN.md.
 | Context menu point (`context-menu`) | "the uncreative" register crosses | A cross pins where you pressed |
 
 
-# 0dB: dropdown-menu
+# 0nlyType: dropdown-menu
 
 Extracted from DESIGN.md.
 
@@ -1388,7 +1388,7 @@ Extracted from DESIGN.md.
 | Marginalia menu (`dropdown-menu`) | "It has to be design." notes on hairline arrows | The word you point at is explained in the margin |
 
 
-# 0dB: menubar
+# 0nlyType: menubar
 
 Extracted from DESIGN.md.
 
@@ -1421,7 +1421,7 @@ Extracted from DESIGN.md.
 | Caption menubar (`menubar`) | SHAPES / GRADIENTS frame label; an editor's status line | The path to where you are, at the bar's far end |
 
 
-# 0dB: navigation-menu
+# 0nlyType: navigation-menu
 
 Extracted from DESIGN.md.
 
@@ -1451,7 +1451,7 @@ Extracted from DESIGN.md.
 | Inline navigation menu (`navigation-menu`) | "Healthy habits → for creatives" | The names open into the line of thought |
 
 
-# 0dB: command
+# 0nlyType: command
 
 Extracted from DESIGN.md.
 
@@ -1482,7 +1482,7 @@ Extracted from DESIGN.md.
 | Index command (`command`) | A book's run-in index | Each group a headword with its rows run on as a sentence |
 
 
-# 0dB: sidebar
+# 0nlyType: sidebar
 
 Extracted from DESIGN.md.
 
@@ -1515,7 +1515,7 @@ Extracted from DESIGN.md.
 | Numerals sidebar (`sidebar`) | "the silence that heals" (14 / 08) | Each group's number large, its links small beside it |
 
 
-# 0dB: card
+# 0nlyType: card
 
 Extracted from DESIGN.md.
 
@@ -1543,7 +1543,7 @@ Extracted from DESIGN.md.
 | Ledger card (`card`) | The accountant's ruled-off total | A single rule over the total and a double rule under it |
 
 
-# 0dB: hover-card
+# 0nlyType: hover-card
 
 Extracted from DESIGN.md.
 
@@ -1573,7 +1573,7 @@ Extracted from DESIGN.md.
 | Quote hover card (`hover-card`) | The pull quote; POINT crop | Their words in the italic, the opening mark hung in the margin and cut by the edge |
 
 
-# 0dB: tooltip
+# 0nlyType: tooltip
 
 Extracted from DESIGN.md.
 
@@ -1603,7 +1603,7 @@ Extracted from DESIGN.md.
 | Beside tooltip (`tooltip`) | "It has to be design." notes | The whisper on the control's line, on a hairline from it |
 
 
-# 0dB: sheet
+# 0nlyType: sheet
 
 Extracted from DESIGN.md.
 
@@ -1642,7 +1642,7 @@ Extracted from DESIGN.md.
 | Sheet panels (`sheet`) | Book spines; "It has to be design." scale contrast | The spine is the trail: the page you are in large, the way back small below it |
 
 
-# 0dB: drawer
+# 0nlyType: drawer
 
 Extracted from DESIGN.md.
 
@@ -1677,7 +1677,7 @@ Extracted from DESIGN.md.
 | Solid drawer (`drawer`) | The compositor's leads (set solid) | The pull takes out the silence first, then the drawer |
 
 
-# 0dB: collapsible
+# 0nlyType: collapsible
 
 Extracted from DESIGN.md.
 
@@ -1708,7 +1708,7 @@ Extracted from DESIGN.md.
 | Sotto collapsible (`collapsible`) | SPECTRA's fine print; the score's sotto voce | The rest is said small, never hidden; opening says it in full |
 
 
-# 0dB: resizable
+# 0nlyType: resizable
 
 Extracted from DESIGN.md.
 
@@ -1740,7 +1740,7 @@ Extracted from DESIGN.md.
 | Flow resizable (`resizable`) | The newspaper's continued column | One paragraph runs through the panes; the rule moves the break |
 
 
-# 0dB: scroll-area
+# 0nlyType: scroll-area
 
 Extracted from DESIGN.md.
 
@@ -1770,7 +1770,7 @@ Extracted from DESIGN.md.
 | Wheel scroll area (`scroll-area`) | WOVE | The rows turn on an arc, the middle one in ink |
 
 
-# 0dB: scrollbar
+# 0nlyType: scrollbar
 
 Extracted from DESIGN.md.
 
@@ -1805,7 +1805,7 @@ Extracted from DESIGN.md.
 | Leaves scrollbar (`scrollbar`) | "Less but better" calendar | A disc a screenful: read in ink, here in the accent, to come in rings |
 
 
-# 0dB: aspect-ratio
+# 0nlyType: aspect-ratio
 
 Extracted from DESIGN.md.
 
@@ -1834,7 +1834,7 @@ Extracted from DESIGN.md.
 | Square aspect ratio (`aspect-ratio`) | The book designer's square in the page | The square ruled off, the rest named by its own ratio |
 
 
-# 0dB: carousel
+# 0nlyType: carousel
 
 Extracted from DESIGN.md.
 
@@ -1863,7 +1863,7 @@ Extracted from DESIGN.md.
 | Shelf carousel (`carousel`) | Books on a shelf | Spines with the names running up them; one taken out faces you |
 
 
-# 0dB: table
+# 0nlyType: table
 
 Extracted from DESIGN.md.
 
@@ -1893,7 +1893,7 @@ Extracted from DESIGN.md.
 | Cross table (`table`) | A road atlas's distance chart; "Renaissance." two colours | The row and column you point at cross in ink, the meeting cell the accent |
 
 
-# 0dB: chart
+# 0nlyType: chart
 
 Extracted from DESIGN.md.
 
@@ -1928,7 +1928,7 @@ Extracted from DESIGN.md.
 | Horizontal chart (`chart`) | A ledger, contents-page names | Names in a column at the start, lines run out from the start edge |
 
 
-# 0dB: avatar
+# 0nlyType: avatar
 
 Extracted from DESIGN.md.
 
@@ -1956,7 +1956,7 @@ Extracted from DESIGN.md.
 | Fit avatar (`avatar`) | "Less is more."; type set to its measure | The given name set to fill one width; a group stacks between hairlines |
 
 
-# 0dB: item
+# 0nlyType: item
 
 Extracted from DESIGN.md.
 
@@ -1985,7 +1985,7 @@ Extracted from DESIGN.md.
 | Words items (`item`) | SPECTRA's small print; contents pages | The description runs along the leader and runs out before the value |
 
 
-# 0dB: typography
+# 0nlyType: typography
 
 Extracted from DESIGN.md.
 
@@ -2010,7 +2010,7 @@ No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-c
 | Run-on prose (`typography`) | The scribe's pilcrow | Paragraphs run on as one block, a ¶ where each begins |
 
 
-# 0dB: message
+# 0nlyType: message
 
 Extracted from DESIGN.md.
 
@@ -2041,7 +2041,7 @@ Extracted from DESIGN.md.
 | Typing (`message`) | The ellipsis; the busy button's periods | Only the tail and three periods where their words will be, in pencil |
 
 
-# 0dB: marker
+# 0nlyType: marker
 
 Extracted from DESIGN.md.
 
@@ -2071,7 +2071,7 @@ Extracted from DESIGN.md.
 | Rule marker (`marker`) | "Less is more." rules its rows and columns | A wordless rule, lying or standing; a word stood up reads down it like a spine |
 
 
-# 0dB: attachment
+# 0nlyType: attachment
 
 Extracted from DESIGN.md.
 
@@ -2098,7 +2098,7 @@ Extracted from DESIGN.md.
 | Enclosure attachment (`attachment`) | Weingart letter; the letter's enclosure line | "Encl. (2)", the files run on in one sentence |
 
 
-# 0dB: thread
+# 0nlyType: thread
 
 Extracted from DESIGN.md.
 
@@ -2126,7 +2126,7 @@ Extracted from DESIGN.md.
 | Running thread (`thread`) | A book's running head; SHAPES / GRADIENTS frame row | Scrolled back, the day and time ride the top edge on a hairline |
 
 
-# 0dB: questionnaire
+# 0nlyType: questionnaire
 
 Extracted from DESIGN.md.
 
@@ -2155,7 +2155,7 @@ Extracted from DESIGN.md.
 | Definition questionnaire (`questionnaire`) | "the uncreative" | The end as a dictionary entry, your headword reversed out of ink |
 
 
-# 0dB: alert
+# 0nlyType: alert
 
 Extracted from DESIGN.md.
 
@@ -2183,7 +2183,7 @@ Extracted from DESIGN.md.
 | Errata alert (`alert`) | A book's errata slip | "for *was* read *now*" |
 
 
-# 0dB: skeleton
+# 0nlyType: skeleton
 
 Extracted from DESIGN.md.
 
@@ -2212,7 +2212,7 @@ Extracted from DESIGN.md.
 | Words skeleton (`skeleton`) | A layout dummy's greeking | Lines broken at word spaces |
 
 
-# 0dB: date-picker
+# 0nlyType: date-picker
 
 Extracted from DESIGN.md.
 
@@ -2236,7 +2236,7 @@ Extracted from DESIGN.md.
 | Date picker, popover (`date-picker`, `popover`) | Weingart callouts | Hung from the opener on a leader line |
 
 
-# 0dB: activity-feed
+# 0nlyType: activity-feed
 
 Extracted from DESIGN.md.
 
@@ -2264,7 +2264,7 @@ Extracted from DESIGN.md.
 | Lapse activity feed (`activity-feed`) | Principle 1; the marker's lapse | The quiet between entries is given as silence that grows with the gap |
 
 
-# 0dB: agent-chat
+# 0nlyType: agent-chat
 
 Extracted from DESIGN.md.
 
@@ -2291,7 +2291,7 @@ Extracted from DESIGN.md.
 | Callout agent chat (`agent-chat`) | Weingart letter's callouts | The work and the receipts hang at the far side in reversed pills on leader lines that end in dots |
 
 
-# 0dB: agent-state
+# 0nlyType: agent-state
 
 Extracted from DESIGN.md.
 
@@ -2317,7 +2317,7 @@ Extracted from DESIGN.md.
 | Word agent state (`agent-state`) | The word spinner | No mark: the word is inked letter by letter while busy, and takes the accent when it's your turn |
 
 
-# 0dB: appearance
+# 0nlyType: appearance
 
 Extracted from DESIGN.md.
 
@@ -2344,7 +2344,7 @@ Extracted from DESIGN.md.
 | Appearance (`appearance`) | "Healthy habits → for creatives"; the score's pizzicato (picks) | The choice written back as one sentence, yours in the italic; the night toggle finishes it |
 
 
-# 0dB: area-chart
+# 0nlyType: area-chart
 
 Extracted from DESIGN.md.
 
@@ -2369,7 +2369,7 @@ Extracted from DESIGN.md.
 | Area chart (`area-chart`) | SPECTRA barcode | No fill: the volume is hairlines dropped at barcode rhythm; stacked bands differ by density |
 
 
-# 0dB: calligram
+# 0nlyType: calligram
 
 Extracted from DESIGN.md.
 
@@ -2377,7 +2377,7 @@ Extracted from DESIGN.md.
 - Underneath: native, plus a hook that lays the lines out with pretext.
 - Anatomy: `<p class="db-calligram" data-shape | data-variant="rain | mirror">` holding the text for readers (`.db-sr`), `.db-calligram-lines` (aria-hidden, one block per line, each carrying `--t`, how far it is from the shape's widest part) and, for `fermata`, `.db-calligram-dot`. Rain fills the lines with `.db-calligram-streak`s of one span per letter (`--j`, its place down the streak); mirror with one `.db-calligram-side` per side (`--x`, `--a` its turn), then `.db-calligram-centre`, which is read.
 - fill (the default): the paragraph fills `shape`.
-- A paragraph that fills a shape, as Apollinaire's calligrams did. Each line is as wide as the shape's chord at its height and is centred in it, spread to both sides by its gaps and a little by its letters, so the outline is only implied: nothing is drawn. `circle` is the 0 of 0dB, `fermata` a half-disc of text over one accent dot, `wave` widths that swell and narrow like a sound wave (eleven rows a swell).
+- A paragraph that fills a shape, as Apollinaire's calligrams did. Each line is as wide as the shape's chord at its height and is centred in it, spread to both sides by its gaps and a little by its letters, so the outline is only implied: nothing is drawn. `circle` is the 0 of 0nlyType, `fermata` a half-disc of text over one accent dot, `wave` widths that swell and narrow like a sound wave (eleven rows a swell).
 - The circle and the half-disc are filled exactly: the size of the type is found (it never exceeds twice the inherited size) so the last word lands in the last row, and the box has its own aspect ratio, so nothing moves when the lines arrive. `size` is the shape's width (default 34rem, never wider than its space). The wave takes the inherited size and its height follows its rows.
 - rain: after Apollinaire's "Il pleut" (1916), where the words run down the page in slanting streaks. The words fall in streaks, a letter to a drop (0.8em apart, upright, centred on the streak), each letter a sixth of an em further over than the one above, so every streak leans the same way, as rain does in wind. A word is never split unless it's longer than a streak; a space is an empty drop. The streaks stand 2.2em apart, as long as they need to be for all of them to fit the width, and each starts a few drops late by a fixed hash, so the tops are ragged and the feet fall where they fall. Read left to right, each top to bottom; right to left the streaks run from the right and lean the other way. With `data-fade` each streak darkens as it falls, the drop at its foot in ink. Its height follows its streaks.
 - mirror: after his "Cœur couronne et miroir" (1918), where the words make a mirror frame around his name. The paragraph is the frame of a square: a line to each side, clockwise from the top, each turned to face out (the right side reads downward, the foot upside down, the left side upward), each spread to its side's length by its gaps; when a ring is full the next begins a line inside it, so a long text spirals in until the words run out. The last line stays unspread, so the frame closes on a pause. What is left in the middle holds `centre` in the expression italic, as large as that room allows (at most six times the inherited size), because it is yours; it is real text, read after the paragraph. Right to left the frame runs counter-clockwise from the top right. The square's box has its own aspect ratio, so nothing moves when it's laid.
@@ -2396,7 +2396,7 @@ No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-c
 | Mirror calligram (`calligram`) | Apollinaire, "Cœur couronne et miroir" (1918); "Healthy habits →" corner notes | The paragraph is the frame; one italic word in the middle |
 
 
-# 0dB: command-line
+# 0nlyType: command-line
 
 Extracted from DESIGN.md.
 
@@ -2428,7 +2428,7 @@ Extracted from DESIGN.md.
 | Synopsis command line (`command-line`) | A manual page's synopsis | Your part is a blank you write in; Copy copies your line |
 
 
-# 0dB: contour
+# 0nlyType: contour
 
 Extracted from DESIGN.md.
 
@@ -2457,7 +2457,7 @@ Extracted from DESIGN.md.
 | Cola contour (`contour`) | *Per cola et commata*, text set to be read aloud | A line to each phrase; the edge is the rhythm of speech |
 
 
-# 0dB: data-table
+# 0nlyType: data-table
 
 Extracted from DESIGN.md.
 
@@ -2484,7 +2484,7 @@ Extracted from DESIGN.md.
 | Tail data table (`data-table`) | The collapsible's tail; "the silence that heals" captions | The table ends in the rest of itself: "and 16 more" |
 
 
-# 0dB: dropzone
+# 0nlyType: dropzone
 
 Extracted from DESIGN.md.
 
@@ -2513,7 +2513,7 @@ Extracted from DESIGN.md.
 | Ghost dropzone (`dropzone`) | "the silence that heals" ghost numerals | The number of files carried stands huge and faint behind the words |
 
 
-# 0dB: figure
+# 0nlyType: figure
 
 Extracted from DESIGN.md.
 
@@ -2540,12 +2540,12 @@ Extracted from DESIGN.md.
 | Margin figure (`figure`) | A book's side caption in the note columns | The number at the head of the margin, the caption at its foot, level with the picture |
 
 
-# 0dB: form
+# 0nlyType: form
 
 Extracted from DESIGN.md.
 
 ### db-form (form)
-- Underneath: a native `<form>` with `noValidate`, plus a hook. The browser's own constraint validation decides what's wrong; the form only says it the 0dB way.
+- Underneath: a native `<form>` with `noValidate`, plus a hook. The browser's own constraint validation decides what's wrong; the form only says it the 0nlyType way.
 - Anatomy: `<form class="db-form">` holding `db-field`s on a grid and one `FormSubmit`, a statement button.
 - On submit it checks every control. Each invalid one gets its Field's error callout (the control's `data-error`, else the browser's message), `aria-invalid` and `aria-describedby`, and focus goes to the first. Typing clears or updates that field's error.
 - Sending: `FormSubmit` goes busy and says so (`busy="Sending"`), with the breathing periods. A second submit while one runs is ignored.
@@ -2570,7 +2570,7 @@ Extracted from DESIGN.md.
 | Postmark form (`form`) | The postal hand stamp; the dot calendar's day; the collage's hand rings | Sent, the day and the time in a double ring, set askew |
 
 
-# 0dB: gather
+# 0nlyType: gather
 
 Extracted from DESIGN.md.
 
@@ -2608,7 +2608,7 @@ Extracted from DESIGN.md.
 | Scrub gather (`gather`) | The reader's own pace; a score read at sight | The settle is the scroll: it stops with you and undoes itself backwards |
 
 
-# 0dB: grid
+# 0nlyType: grid
 
 Extracted from DESIGN.md.
 
@@ -2631,7 +2631,7 @@ No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-c
 | Dots grid (`grid`) | Paul Rand's dotted construction grid and dimension letters | A fine point on each crossing, the rules left out |
 
 
-# 0dB: line-chart
+# 0nlyType: line-chart
 
 Extracted from DESIGN.md.
 
@@ -2660,7 +2660,7 @@ Extracted from DESIGN.md.
 | Step line (`line-chart`) | Paul Rand's dimension lines | Right angles only, level across each column |
 
 
-# 0dB: marquee
+# 0nlyType: marquee
 
 Extracted from DESIGN.md.
 
@@ -2691,7 +2691,7 @@ Extracted from DESIGN.md.
 | Counter marquee (`marquee`) | SPECTRA's two cropped rows | Two rows cut at head and feet, meeting on a hairline, running opposite ways |
 
 
-# 0dB: measure
+# 0nlyType: measure
 
 Extracted from DESIGN.md.
 
@@ -2723,7 +2723,7 @@ Extracted from DESIGN.md.
 | Columns measure (`measure`) | "Healthy habits →" narrow columns | Narrowing the line brings another column in |
 
 
-# 0dB: melody
+# 0nlyType: melody
 
 Extracted from DESIGN.md.
 
@@ -2757,7 +2757,7 @@ Extracted from DESIGN.md.
 | Cutaway melody (`melody`) | The cutaway score; "Less is more." | The staff is drawn only under the words |
 
 
-# 0dB: meter
+# 0nlyType: meter
 
 Extracted from DESIGN.md.
 
@@ -2782,7 +2782,7 @@ Extracted from DESIGN.md.
 | Meter (`meter`) | Paul Rand dimension lines | An italic reading above an empty measure, one index between its limits |
 
 
-# 0dB: mode-toggle
+# 0nlyType: mode-toggle
 
 Extracted from DESIGN.md.
 
@@ -2824,7 +2824,7 @@ Extracted from DESIGN.md.
 | Noon mode toggle (`mode-toggle`) | "It has to be design." (one letter carries the change) | Noon and Moon, one letter apart; the new sheet falls from the top |
 
 
-# 0dB: number-input
+# 0nlyType: number-input
 
 Extracted from DESIGN.md.
 
@@ -2853,7 +2853,7 @@ Extracted from DESIGN.md.
 | Scale number input (`number-input`) | The dial's tuner; Paul Rand dimension ticks | Your figure over the index of a ruler that hangs from the baseline |
 
 
-# 0dB: pie-chart
+# 0nlyType: pie-chart
 
 Extracted from DESIGN.md.
 
@@ -2880,7 +2880,7 @@ Extracted from DESIGN.md.
 | Horizon pie chart (`pie-chart`) | Eclipse | Half a cut ring on a horizon; the total on the line, its words below it |
 
 
-# 0dB: radar-chart
+# 0nlyType: radar-chart
 
 Extracted from DESIGN.md.
 
@@ -2906,7 +2906,7 @@ Extracted from DESIGN.md.
 | Radar chart (`radar-chart`) | Paul Rand's dotted construction grid and dimension lines | A hairline shape on a dotted sheet, the measured axis read as a ticked dimension line |
 
 
-# 0dB: radial-chart
+# 0nlyType: radial-chart
 
 Extracted from DESIGN.md.
 
@@ -2933,7 +2933,7 @@ Extracted from DESIGN.md.
 | Horizon radial chart (`radial-chart`) | Eclipse | Half rings on a horizon; the number on the line, its words below it |
 
 
-# 0dB: reading-trail
+# 0nlyType: reading-trail
 
 Extracted from DESIGN.md.
 
@@ -2960,7 +2960,7 @@ Extracted from DESIGN.md.
 | Rail reading trail (`reading-trail`) | A book's spine; Paul Rand's dimension lines | The section you are in runs down beside the page's rail like the title on a spine |
 
 
-# 0dB: reverb
+# 0nlyType: reverb
 
 Extracted from DESIGN.md.
 
@@ -2992,7 +2992,7 @@ Extracted from DESIGN.md.
 | Vowels reverb (`reverb`) | A live room, where the consonants are lost first; "the silence that heals" grid | Each echo loses its consonants in place; the vowels ring on in columns |
 
 
-# 0dB: scroll-expand
+# 0nlyType: scroll-expand
 
 Extracted from DESIGN.md.
 
@@ -3018,7 +3018,7 @@ Extracted from DESIGN.md.
 | Horizon scroll expand (`scroll-expand`) | Eclipse | The plate opens up and down from a hairline horizon |
 
 
-# 0dB: segue
+# 0nlyType: segue
 
 Extracted from DESIGN.md.
 
@@ -3049,14 +3049,14 @@ Extracted from DESIGN.md.
 | Scrub segue (`segue`) | The reader's own pace (the scrub gather) | The line stands as far across as the scroll has gone |
 
 
-# 0dB: sign
+# 0nlyType: sign
 
 Extracted from DESIGN.md.
 
 ### db-sign (sign)
 - Underneath: hook. Pretext measures the word, kerning included, and the sign is laid out from those widths.
 - Anatomy: `<span class="db-sign" data-variant="dots | words | fill" role="img" aria-label="word"><span class="db-sign-glyph">…</span>…</span>`: one element per letter or leader, placed by `--x`, `--y`, `--r` and `--k`, since each one travels on its own when the word is said. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
-- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0dB; a sign that can't be read in all three variants is left out rather than shipped.
+- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0nlyType; a sign that can't be read in all three variants is left out rather than shipped.
 - Variants:
   - `dots`: each stroke ruled in middle-dot leaders, at every size; the leaders grow more slowly than the sign, so a large one is drawn finer. The letters wait unseen at the dots and rise out of them when said.
   - `words`: from 40px up the word is set once, whole, where it reads best: along the drawing's longest straight run (an arrow's word runs toward its head; a ring's word sits on its arc), never upside down (and a word of two letters never turned past 30°, since on end "up" reads "dn"), never kinking more than 20° between letters, tracked no wider than 0.08em and never split across strokes. Every other stroke is ruled in pencil leaders, so the drawing stays quiet and the word is the one thing in ink. Where no stroke holds the word at a size a person reads (a chevron's two short arms, a star, a user), the drawing is drawn a little smaller and the word stands straight beneath it, as a legend under a picture. Stroke words are at least 10px, legends at least 9px. Below 40px no letter can hold a stroke: the sign is drawn as `dots`, and the docs size control says so.
@@ -3080,7 +3080,7 @@ Extracted from DESIGN.md.
 | Sign (`sign`) | The ampersand ("et" worn down into a mark); Apollinaire, *Calligrammes*, 1918 | An icon made of its own word; pointing says the word |
 
 
-# 0dB: source
+# 0nlyType: source
 
 Extracted from DESIGN.md.
 
@@ -3117,7 +3117,7 @@ Extracted from DESIGN.md.
 | Unwrapped source (`source`) | SPECTRA crop; the score's key signature | Lines run whole past the frame and slide under the fixed bracket; the language in small capitals |
 
 
-# 0dB: stat
+# 0nlyType: stat
 
 Extracted from DESIGN.md.
 
@@ -3144,7 +3144,7 @@ Extracted from DESIGN.md.
 | Grid stat (`stat`) | "Less is more." | A hairline grid, the name in one corner and the figure in the far one |
 
 
-# 0dB: steps
+# 0nlyType: steps
 
 Extracted from DESIGN.md.
 
@@ -3177,7 +3177,7 @@ Extracted from DESIGN.md.
 | Steps, folio (`steps`) | SPECTRA's 1/3; "Less is more." 01 | The whole sequence folded into one fraction beside the step you're on |
 
 
-# 0dB: swapy
+# 0nlyType: swapy
 
 Extracted from DESIGN.md.
 
@@ -3206,7 +3206,7 @@ Extracted from DESIGN.md.
 | Transpose swapy (`swapy`) | The proofreader's transposition mark | A loop in the margin from where the row was to where it is, the held name in italic |
 
 
-# 0dB: text-ribbon
+# 0nlyType: text-ribbon
 
 Extracted from DESIGN.md.
 
@@ -3235,7 +3235,7 @@ Extracted from DESIGN.md.
 | Wave text ribbon (`text-ribbon`) | "Less stress. More creativity." sweeping script | The phrase rides a slow wave across the measure |
 
 
-# 0dB: tiling
+# 0nlyType: tiling
 
 Extracted from DESIGN.md.
 
@@ -3272,7 +3272,7 @@ Extracted from DESIGN.md.
 | Editable tiling (`tiling`) | Paul Rand's construction sheet; "the silence that heals" corner marks | A tile lifts in ink, its landing cells dotted in the accent; a growing corner and small span figures make the geometry tangible |
 
 
-# 0dB: timer
+# 0nlyType: timer
 
 Extracted from DESIGN.md.
 
@@ -3302,7 +3302,7 @@ Extracted from DESIGN.md.
 | Horizon timer (`timer`) | Eclipse | The dot crosses a half ring like the sun over the horizon |
 
 
-# 0dB: tour
+# 0nlyType: tour
 
 Extracted from DESIGN.md.
 
@@ -3327,7 +3327,7 @@ Extracted from DESIGN.md.
 | Tour (`tour`) | Weingart letter | Ink callouts hung on leader lines that end in a dot on the thing they are about |
 
 
-# 0dB: tree
+# 0nlyType: tree
 
 Extracted from DESIGN.md.
 
@@ -3353,7 +3353,7 @@ Extracted from DESIGN.md.
 | Outline tree (`tree`) | The book's decimal contents; "the silence that heals" numbers as data | The depth is in the numbers: 1, 1.2, 1.2.3 |
 
 
-# 0dB: wake
+# 0nlyType: wake
 
 Extracted from DESIGN.md.
 
@@ -3387,7 +3387,7 @@ Extracted from DESIGN.md.
 | Weight wake (`wake`) | The letterpress impression; "It has to be design." heavy condensed roman | Letters under the hand press heavier and narrower, keeping their places |
 
 
-# 0dB: waterfall
+# 0nlyType: waterfall
 
 Extracted from DESIGN.md.
 
@@ -3415,7 +3415,7 @@ Extracted from DESIGN.md.
 | Solo waterfall (`waterfall`) | The mixing desk's solo button | Point at one size and the others fall back to a rule |
 
 
-# 0dB: word-relay
+# 0nlyType: word-relay
 
 Extracted from DESIGN.md.
 

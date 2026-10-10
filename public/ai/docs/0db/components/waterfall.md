@@ -1,4 +1,4 @@
-# 0dB: waterfall
+# 0nlyType: waterfall
 
 Extracted from DESIGN.md.
 

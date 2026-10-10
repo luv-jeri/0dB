@@ -1,4 +1,4 @@
-# 0dB: accordion
+# 0nlyType: accordion
 
 Extracted from DESIGN.md.
 

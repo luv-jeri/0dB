@@ -1,4 +1,4 @@
-# 0dB: timer
+# 0nlyType: timer
 
 Extracted from DESIGN.md.
 

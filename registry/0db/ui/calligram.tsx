@@ -14,7 +14,7 @@ type Variant = "fill" | "rain" | "mirror"
 type CalligramProps = Omit<React.ComponentProps<"p">, "children"> & {
   /** The paragraph. Plain text: pretext measures it. */
   children: string
-  /** circle is the 0 of 0dB, fermata an arc over a dot, wave a sound wave. For fill only. */
+  /** circle is the 0 of 0nlyType, fermata an arc over a dot, wave a sound wave. For fill only. */
   shape?: Shape
   /** fill: the paragraph fills the shape. rain: it falls in streaks of letters, as in Apollinaire's "Il pleut".
    *  mirror: it runs round the four sides of a frame and spirals in, around `centre`, as in his "Cœur couronne et miroir". */

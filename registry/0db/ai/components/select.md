@@ -1,4 +1,4 @@
-# 0dB: select
+# 0nlyType: select
 
 Extracted from DESIGN.md.
 

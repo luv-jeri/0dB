@@ -1,4 +1,4 @@
-# 0dB: empty
+# 0nlyType: empty
 
 Extracted from DESIGN.md.
 

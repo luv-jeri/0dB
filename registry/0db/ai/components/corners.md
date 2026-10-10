@@ -1,4 +1,4 @@
-# 0dB: corners
+# 0nlyType: corners
 
 Extracted from DESIGN.md.
 

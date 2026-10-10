@@ -1,4 +1,4 @@
-# 0dB: drawer
+# 0nlyType: drawer
 
 Extracted from DESIGN.md.
 

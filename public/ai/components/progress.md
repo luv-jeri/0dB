@@ -1,4 +1,4 @@
-# 0dB: progress
+# 0nlyType: progress
 
 Extracted from DESIGN.md.
 

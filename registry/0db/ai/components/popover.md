@@ -1,4 +1,4 @@
-# 0dB: popover
+# 0nlyType: popover
 
 Extracted from DESIGN.md.
 

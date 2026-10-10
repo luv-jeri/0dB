@@ -1,4 +1,4 @@
-# 0dB: source
+# 0nlyType: source
 
 Extracted from DESIGN.md.
 

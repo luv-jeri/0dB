@@ -1,4 +1,4 @@
-# 0dB: toast
+# 0nlyType: toast
 
 Extracted from DESIGN.md.
 

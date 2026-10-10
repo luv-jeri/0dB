@@ -1,4 +1,4 @@
-# 0dB: fraction
+# 0nlyType: fraction
 
 Extracted from DESIGN.md.
 

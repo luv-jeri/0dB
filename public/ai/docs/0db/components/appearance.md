@@ -1,4 +1,4 @@
-# 0dB: appearance
+# 0nlyType: appearance
 
 Extracted from DESIGN.md.
 

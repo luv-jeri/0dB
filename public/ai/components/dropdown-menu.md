@@ -1,4 +1,4 @@
-# 0dB: dropdown-menu
+# 0nlyType: dropdown-menu
 
 Extracted from DESIGN.md.
 

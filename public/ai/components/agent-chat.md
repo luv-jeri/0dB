@@ -1,4 +1,4 @@
-# 0dB: agent-chat
+# 0nlyType: agent-chat
 
 Extracted from DESIGN.md.
 

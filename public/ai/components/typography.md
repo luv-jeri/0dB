@@ -1,4 +1,4 @@
-# 0dB: typography
+# 0nlyType: typography
 
 Extracted from DESIGN.md.
 

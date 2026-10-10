@@ -1,6 +1,6 @@
 # Font notices
 
-0dB embeds these typefaces (Latin subset, as woff2 data URIs) in `registry/0db/styles/fonts*.css`. Each is licensed under the SIL Open Font License, Version 1.1: https://openfontlicense.org. The files come from the `@fontsource-variable` packages and are unmodified apart from subsetting done by Fontsource.
+0nlyType embeds these typefaces (Latin subset, as woff2 data URIs) in `registry/0db/styles/fonts*.css`. Each is licensed under the SIL Open Font License, Version 1.1: https://openfontlicense.org. The files come from the `@fontsource-variable` packages and are unmodified apart from subsetting done by Fontsource.
 
 - **Archivo**: Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)
 - **Bodoni Moda**: Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)

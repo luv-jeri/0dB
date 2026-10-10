@@ -1,4 +1,4 @@
-# 0dB: reverb
+# 0nlyType: reverb
 
 Extracted from DESIGN.md.
 

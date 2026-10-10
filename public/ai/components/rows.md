@@ -1,4 +1,4 @@
-# 0dB: rows
+# 0nlyType: rows
 
 Extracted from DESIGN.md.
 

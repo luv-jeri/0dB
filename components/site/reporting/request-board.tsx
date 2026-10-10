@@ -49,7 +49,7 @@ export function RequestBoard() {
   return (
     <main id="content" className="db-report-page">
       <header className="db-report-head">
-        <p className="db-report-caption">0dB / Component requests</p>
+        <p className="db-report-caption">0nlyType / Component requests</p>
         <h1>Room for<br />what’s next.</h1>
         <div className="db-report-intro">
           <p>Find an idea you need. Join it, follow its progress, or tell us what’s missing.</p>

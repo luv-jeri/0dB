@@ -1,4 +1,4 @@
-# 0dB: sidebar
+# 0nlyType: sidebar
 
 Extracted from DESIGN.md.
 

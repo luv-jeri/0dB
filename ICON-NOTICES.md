@@ -1,6 +1,6 @@
 # Icon notices
 
-0dB signs derive their geometry from the Lucide project (https://lucide.dev). The geometry comes from `lucide-static` and is licensed under the ISC License.
+0nlyType signs derive their geometry from the Lucide project (https://lucide.dev). The geometry comes from `lucide-static` and is licensed under the ISC License.
 
 ```
 ISC License

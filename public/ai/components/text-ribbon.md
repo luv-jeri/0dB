@@ -1,4 +1,4 @@
-# 0dB: text-ribbon
+# 0nlyType: text-ribbon
 
 Extracted from DESIGN.md.
 

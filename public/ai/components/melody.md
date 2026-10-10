@@ -1,4 +1,4 @@
-# 0dB: melody
+# 0nlyType: melody
 
 Extracted from DESIGN.md.
 

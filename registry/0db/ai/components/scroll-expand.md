@@ -1,4 +1,4 @@
-# 0dB: scroll-expand
+# 0nlyType: scroll-expand
 
 Extracted from DESIGN.md.
 

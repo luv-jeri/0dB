@@ -1,4 +1,4 @@
-# 0dB: scrollbar
+# 0nlyType: scrollbar
 
 Extracted from DESIGN.md.
 

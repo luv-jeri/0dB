@@ -1,4 +1,4 @@
-# 0dB core design
+# 0nlyType core design
 
 Extracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in components/<item>.md.
 
@@ -176,7 +176,7 @@ A move serves more than one component only when it is the same idea on purpose. 
 ## Docs conventions
 
 - The site and the registry live under `/ui` (Next `basePath`), at https://thedirectors.agency/ui. Next's `Link` adds the base path itself; every other same-origin URL (a `fetch`, an `img`, CSS) is built through `lib/site/config.mjs`, never written by hand.
-- The docs are built only from 0dB items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
+- The docs are built only from 0nlyType items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
 - Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
 - Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0db-theme` and restored by a script in `<head>` before first paint.

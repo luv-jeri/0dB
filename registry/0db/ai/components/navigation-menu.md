@@ -1,4 +1,4 @@
-# 0dB: navigation-menu
+# 0nlyType: navigation-menu
 
 Extracted from DESIGN.md.
 

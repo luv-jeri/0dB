@@ -1,4 +1,4 @@
-# 0dB: figure
+# 0nlyType: figure
 
 Extracted from DESIGN.md.
 

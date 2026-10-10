@@ -1,4 +1,4 @@
-/* 0dB · base: the reset, the shared articulations, the type roles and the base pieces
+/* 0nlyType · base: the reset, the shared articulations, the type roles and the base pieces
    (link, meta, kbd, corners, fraction) that other items style through. Needs tokens.css first. */
 @layer base {
   /* ── base ── */

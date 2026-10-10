@@ -1,4 +1,4 @@
-# 0dB: card
+# 0nlyType: card
 
 Extracted from DESIGN.md.
 

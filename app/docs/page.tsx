@@ -7,7 +7,7 @@ import { catalog, UNDER } from "@/lib/site/catalog"
 
 export const metadata: Metadata = {
   title: "Index",
-  description: "Every 0dB item, by movement.",
+  description: "Every 0nlyType item, by movement.",
 }
 
 export default function DocsIndexPage() {

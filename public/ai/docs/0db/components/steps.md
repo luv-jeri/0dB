@@ -1,4 +1,4 @@
-# 0dB: steps
+# 0nlyType: steps
 
 Extracted from DESIGN.md.
 

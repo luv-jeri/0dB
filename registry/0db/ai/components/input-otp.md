@@ -1,4 +1,4 @@
-# 0dB: input-otp
+# 0nlyType: input-otp
 
 Extracted from DESIGN.md.
 
