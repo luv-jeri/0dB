@@ -2,14 +2,14 @@
   "version": "0.1.0",
   "sources": {
     "INTENT.md": "13d4bada5601047bcd37e2732582d49c8cf13c04a83700186d048d9927da96ff",
-    "DESIGN.md": "fb6da5c36e20d45ad94be2a0bf3ebc9152dca131265bfa1f4ab903481af7a217"
+    "DESIGN.md": "5421b94196419feba3057560fd38008771639d8478244045c1bbda5164f76c9a"
   },
   "files": {
-    "AGENTS.md": "06ab01af8bf1f226a26917266ae82b7d2eea90f310c6ce21ce059bf4c8734fcb",
-    "docs/AGENTS.md": "bd34449465f4a7dc2bce661b027187075f73b64db6b05ddc0a96b81421c12165",
+    "AGENTS.md": "8a4c48f9d39d224419caee6c3f300314263b713a48b6d85f28d6d55758ba770f",
+    "docs/AGENTS.md": "b99b67cea5e3adf646d7bca305f9c60f900f756312a01ead6d92e7c9b500f11d",
     "INTENT.md": "13d4bada5601047bcd37e2732582d49c8cf13c04a83700186d048d9927da96ff",
-    "DESIGN.md": "fb6da5c36e20d45ad94be2a0bf3ebc9152dca131265bfa1f4ab903481af7a217",
-    "DESIGN-core.md": "030c3afb7b4cf78ed631f8e0b0f5c235dda3ed50cbd840a8b8bcb141bb6abb10",
+    "DESIGN.md": "5421b94196419feba3057560fd38008771639d8478244045c1bbda5164f76c9a",
+    "DESIGN-core.md": "5b550b6df009e5ba51a7425fd387d248774c5ffcee3cea65cddb03688c67ac6b",
     "components/link.md": "77a58e034af3d531155b6660efac56b84a1a0063bc136f3de58b29d2f90f5c71",
     "components/meta.md": "67a0f4d3d7e91321a66db12f34c169dfe5e172e371db09bdb7ac4583fc74946f",
     "components/kbd.md": "5e5054848eb64160d749046688d500b0994125960f1959f5f54a48b04ec43698",
@@ -115,12 +115,12 @@
     "components/wake.md": "d6e93cdbafab7dce3a942bf10ce8e57a32f3337830e1e499107090021a0396cf",
     "components/waterfall.md": "b4e111d414af3d42fdb656395bc03ddec6da766e64c267485431e57b6b54646b",
     "components/word-relay.md": "4515b8cbeff98ad2d210da421fa3f0cdf1fc979ac5c205d4d07a9c0f052b5cdd",
-    "claude/0db.md": "a90a31db105138dcb5e0596ba24de5e395f912c3231b4209dffbbe72470e7aea",
-    "cursor.mdc": "7768cd38c882010facd7b512dbf20787f5b340e6e9903451b8d0710b5a69ebb4",
-    "copilot.instructions.md": "d5c3059a0921e964ae3a0746be27c73f1139303da00f19dcdb3ae233d8137d34",
-    "devin.md": "58b94b732d4c750841cfd1d521bdc09e306d07e3a2dd8083c9b440a987acb498",
-    "claude/SKILL.md": "2eb9a227bcc78b72409348a9ab2ce318d3c84cf00af35338769310f417293b70",
-    "agents/SKILL.md": "2eb9a227bcc78b72409348a9ab2ce318d3c84cf00af35338769310f417293b70"
+    "claude/0db.md": "20d0cc27debe813a487d23e367952fa28410200621a6f3a48ff0ef5d969446c3",
+    "cursor.mdc": "e8acd399a3500de3a16d892fb18fe46f6151f58e89cc71d9edee0abfbb427575",
+    "copilot.instructions.md": "528eee7c7a112db2287685b611af2eae9631d4932b337e4f4ac9a2a7fd65d30b",
+    "devin.md": "37af10b20297f3b740df1c52e7784d9a0af45bd54766346c7633714694e321f1",
+    "claude/SKILL.md": "250c69477b7f0e62e7cb076c146951680504ecf72cddf2b9658c6a5b237d6b9b",
+    "agents/SKILL.md": "250c69477b7f0e62e7cb076c146951680504ecf72cddf2b9658c6a5b237d6b9b"
   },
   "components": [
     "accordion",

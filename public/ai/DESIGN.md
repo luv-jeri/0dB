@@ -13,7 +13,7 @@ A design system for type and silence. Two typefaces, one accent, and a great dea
 2. **Type is the only ornament.** Weight, width, size, tracking and order carry every level of hierarchy. No icons, fills or shadows.
 3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic: a picked option, a typed value, a switch state, a slider value, a named item they own. Display uses `--db-expression-scale`; text uses the same face in its reading grade, with more ink, a little air and a text-size optical cut where available. Musical and foreign terms are italic too (`.db-term`), by book convention.
 4. **One note of colour.** One accent marks where you are: the current page, the chosen option, focus. At most one accent mark in view. Crimson is only for errors. The highlighter is only for reading marks.
-5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
+5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once per browser, on the home page's first visit, and can be skipped. A demonstration of a component waits for a Demonstrate press. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
 
 ## Conventions
 
@@ -1180,7 +1180,17 @@ Each contract lists anatomy, states and keyboard behaviour. "Yours" marks where 
 - `mark`, `::selection`, and the link on hover: the highlighter, one thing. `--db-on-mark` on `--db-mark` is 16.5:1 in every scheme and mode (the highlighter is yellow in Nocturne too; it is the one thing that keeps its colour). `mark` overshoots the words by 0.12em like the link. Selecting inside a highlight reverses to paper on ink (11.7:1 or better), or the selection would vanish into it.
 - `:focus-visible`: an accent outline at `--db-stroke`, offset 4px.
 
-## The overture (specimen only)
+## The overture
+
+### On the home page
+
+- It plays on a browser's first visit to the top of the home page, and never again. A script in the hero's own HTML decides before the hero paints: it reads one boolean, `0db-overture-seen`, in localStorage, writes it, and only then marks `<html>` with `data-overture-at` (the time it began). One key, one value, no personal data, written before the overture starts, so a reload, back navigation or second tab never replays it. If storage can't be read or written (disabled, private mode, quota) nothing plays and the page arrives settled; nothing waits on storage.
+- It is two things on one clock. The quiet line of "All type. No noise." exhales from heavy and narrow to light and wide (8 arpeggio steps, then `--db-adagio`, so by 1.7s). The Noise field behind it swells and hushes, fitted to the time the overture has left. Both end by one deadline, 2s after it began, which holds even if fonts or Pretext arrive late. The field arrives only if at least 700ms are left; otherwise it simply rests.
+- It is skippable by anything the person does: any key but Tab and the modifiers, a press, a touch, the wheel or a scroll. A real "Skip intro" bracket button, in the HTML and shown only while it plays, reaches the same end for keyboards and screen readers; if it had focus, focus moves on to the first action. Asking for reduced motion, before or during, ends it.
+- Later visits, a link to a part of the page, reduced motion and unavailable storage arrive settled: the quiet line at its quietest, the field drawn once at rest. A reduced-motion visit counts as seen.
+- A shared toy link (`?say=`) arrives already turned down: no timer, nothing moves until the person presses Make some noise. Docs page titles are still: no motion on an information page.
+
+### The specimen
 
 - The title exhales from weight 800 and width 62% to weight 200 and width 112% over `--db-adagio`, once the fonts are in.
 - The manifesto is laid out with `@chenglou/pretext` (`prepareWithSegments` once, `layoutNextLine` per row). Rows that cross the pause's circle are split into two runs that share one cursor. Runs narrower than 160px (half the width on phones) stay empty.
@@ -1506,6 +1516,7 @@ Three rules, then one articulation per component.
 1. **Pointing sketches, choosing inks.** A hover previews in pencil: a hairline strike, a ring, a lean. A commitment draws in ink or the accent.
 2. **What's inked lands.** Dots, rings and frames arrive with `--db-spiccato`, one small rebound.
 3. **Strokes pass through.** A stroke drawn on hover leaves the way it was heading: in from the left, off to the right. This uses `background-position` with a `0s` transition, so the anchor flips at once while the size animates.
+4. **Demonstrations wait.** An item whose behaviour can be shown (58 scripted ones today, in `components/site/demo-scores.ts`) never plays on its own. Its docs example and the landing's stage offer a Demonstrate bracket button; pressed, it plays one pass from the example's defaults and the button becomes Stop. Stopping, or touching the example, hands it back. Under reduced motion the pass still runs, as instant steps, because the person asked. Discovery only looks; `npm run check:motion` proves that for every scripted entry.
 
 | Component | Articulation | What moves |
 |---|---|---|
@@ -1804,6 +1815,7 @@ Three rules, then one articulation per component.
 
 - The site and the registry live under `/ui` (Next `basePath`), at https://thedirectors.agency/ui. Next's `Link` adds the base path itself; every other same-origin URL (a `fetch`, an `img`, CSS) is built through `lib/site/config.mjs`, never written by hand.
 - The docs are built only from 0nlyType items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
+- A scripted example shows a Demonstrate control above it (see Motion, rule 4). Page titles stay still; the overture exists only on the home page.
 - Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
 - Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0db-theme` and restored by a script in `<head>` before first paint.
