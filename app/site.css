@@ -300,7 +300,8 @@ body { overflow-x: clip; }
 .doc-install [data-slot="tabs-content"] > .ot-steps > .ot-step:first-child { padding-top: 0; border-top: 0; }
 
 /* Wide tables scroll sideways inside the page, never the page itself. */
-.doc-table { overflow-x: auto; overscroll-behavior-x: contain; }
+/* Positioned so the scroller is the containing block of the hidden text and live regions inside it; otherwise they sit at the page's edge and widen the page when the table is wider than the screen. */
+.doc-table { position: relative; overflow-x: auto; overscroll-behavior-x: contain; }
 /* On a phone a prop is a small entry, not four columns: its name, type and default on one line, what it does beneath at full measure.
    The column heads go (kept for screen readers); the default says its own name. */
 @media (max-width: 560px) {
