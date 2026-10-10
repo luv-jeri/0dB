@@ -175,8 +175,9 @@ body { overflow-x: clip; }
   padding: var(--db-space-5) var(--db-space-2) var(--db-space-3); color: var(--db-ink); text-align: center;
 }
 .doc-sign-art { display: grid; place-items: center; min-block-size: 4.5rem; margin-block-end: var(--db-space-2); }
-/* A sign at rest as one SVG (components/site/sign-still.tsx), each letter placed by its text's x, y and rotate lists. */
-.doc-sign-still { display: block; overflow: visible; }
+/* A sign at rest as one SVG (components/site/sign-still.tsx), each letter placed by its text's x, y and rotate lists:
+   left to right whatever the page's direction, or right-to-left would anchor each letter at its right edge. */
+.doc-sign-still { display: block; overflow: visible; direction: ltr; }
 .doc-sign-still text { fill: currentColor; white-space: pre; }
 .db-sign[data-face="italic"] .doc-sign-still text { font-variation-settings: var(--db-expression-text-variation, normal); }
 .doc-sign-word, .doc-sign-name { max-inline-size: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; hyphens: none; }
