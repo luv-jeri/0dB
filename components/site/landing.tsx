@@ -121,7 +121,7 @@ export function CopyCommand({ command, emphasis }: { command: string; emphasis?:
 }
 
 const PROMPT = (thing: string) =>
-  `Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0nlyType. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.`
+  `Read docs/0nlytype/AGENTS.md, docs/0nlytype/INTENT.md, docs/0nlytype/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0nlyType. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.`
 
 /** Ask for it: you write what you want in the blank, in your italic, and copy a prompt that already knows the rules. */
 export function AskFor() {

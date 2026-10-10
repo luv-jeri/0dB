@@ -11,11 +11,11 @@ const here = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const fixture = new Map([
   ["base", { name: "base", dependencies: ["clsx"], files: [] }],
   ["sibling", { name: "sibling", registryDependencies: ["https://example.test/r/base.json"], dependencies: ["clsx", "npm-sibling"], files: [] }],
-  ["item", { name: "item", registryDependencies: ["base", "@0db/sibling"], devDependencies: ["npm-dev"], files: [] }],
+  ["item", { name: "item", registryDependencies: ["base", "@0nlytype/sibling"], devDependencies: ["npm-dev"], files: [] }],
   ["unrelated", { name: "unrelated", dependencies: ["must-not-install"], files: [] }],
 ])
 const temporary = (fn) => {
-  const root = mkdtempSync(path.join(tmpdir(), "0db-install-test-"))
+  const root = mkdtempSync(path.join(tmpdir(), "0nlytype-install-test-"))
   try { fn(root) } finally { rmSync(root, { recursive: true, force: true }) }
 }
 const put = (root, file, text = "") => {
@@ -59,18 +59,18 @@ for (const layout of ["root", "src"]) test(`${layout} layout checks complete ins
   const globals = `${prefix}app/globals.css`
   const items = [{ name: "item", files: [
     { type: "registry:ui", path: "registry/0nlytype/ui/item.tsx" },
-    { type: "registry:file", path: "registry/0nlytype/styles/item.css", target: "styles/0db/item.css" },
-  ], css: { '@import "../styles/0db/item.css"': {} } }]
+    { type: "registry:file", path: "registry/0nlytype/styles/item.css", target: "styles/0nlytype/item.css" },
+  ], css: { '@import "../styles/0nlytype/item.css"': {} } }]
   assert.throws(() => verifyInstall(root, layout, items), /Missing installed file/)
   for (const file of items[0].files) put(root, installedTarget(file, layout))
   assert.throws(() => verifyInstall(root, layout, items), /Missing CSS import/)
-  put(root, globals, '@import "../styles/0db/item.css";\n@import "../../styles/0db/item.css";\n')
+  put(root, globals, '@import "../styles/0nlytype/item.css";\n@import "../../styles/0nlytype/item.css";\n')
   assert.throws(() => verifyInstall(root, layout, items), /Unresolved CSS import/)
-  put(root, globals, '@import "../styles/0db/item.css";\n')
+  put(root, globals, '@import "../styles/0nlytype/item.css";\n')
   verifyInstall(root, layout, items)
-  put(root, `${prefix}styles/0db/item.css`, '@import "./missing.css";\n')
+  put(root, `${prefix}styles/0nlytype/item.css`, '@import "./missing.css";\n')
   assert.throws(() => verifyInstall(root, layout, items), /Unresolved CSS import/)
-  assert.equal(installedTarget({ target: "~/docs/0db/INTENT.md" }, layout), "docs/0db/INTENT.md")
+  assert.equal(installedTarget({ target: "~/docs/0nlytype/INTENT.md" }, layout), "docs/0nlytype/INTENT.md")
 }))
 
 test("a consumer outside the repo cannot typecheck against repository npm dependencies", () => temporary((root) => {

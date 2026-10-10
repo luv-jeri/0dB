@@ -11,7 +11,7 @@ const items = await readItems()
 const read = (root, file) => readFileSync(path.join(root, file), "utf8")
 
 test("AI kit builds complete consumer instructions and static downloads from the real sources", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "0db-ai-kit-"))
+  const root = mkdtempSync(path.join(tmpdir(), "0nlytype-ai-kit-"))
   const ownAgents = read(".", "AGENTS.md")
   try {
     const kit = buildAiKit({ items })
@@ -20,7 +20,7 @@ test("AI kit builds complete consumer instructions and static downloads from the
     assert.ok(registryItemSchema.safeParse(payload).success)
     assert.equal(payload.type, "registry:item")
     const targets = new Set(payload.files.map((f) => f.target))
-    for (const target of ["AGENTS.md", "docs/0db/AGENTS.md", "docs/0db/INTENT.md", "docs/0db/DESIGN.md", "docs/0db/DESIGN-core.md", "docs/0db/manifest.json", ".cursor/rules/0db.mdc", ".github/instructions/0db.instructions.md", ".claude/skills/0db-component/SKILL.md", ".agents/skills/0db-component/SKILL.md", ".devin/rules/0db.md"])
+    for (const target of ["AGENTS.md", "docs/0nlytype/AGENTS.md", "docs/0nlytype/INTENT.md", "docs/0nlytype/DESIGN.md", "docs/0nlytype/DESIGN-core.md", "docs/0nlytype/manifest.json", ".cursor/rules/0nlytype.mdc", ".github/instructions/0nlytype.instructions.md", ".claude/skills/0nlytype-component/SKILL.md", ".agents/skills/0nlytype-component/SKILL.md", ".devin/rules/0nlytype.md"])
       assert.ok(targets.has(`~/${target}`), target)
     assert.ok(payload.files.every((f) => f.type === "registry:file" && f.target.startsWith("~/") && !f.target.includes("..")))
     const agents = read(root, "registry/0nlytype/ai/AGENTS.md")
@@ -32,7 +32,7 @@ test("AI kit builds complete consumer instructions and static downloads from the
     for (const heading of ["Principles", "Conventions", "Tokens", "Space, line, shape", "Motion", "Shared moves"]) assert.ok(core.includes(heading), heading)
     assert.ok(!core.includes("### db-btn (button)"))
     for (const item of items) {
-      assert.ok(targets.has(`~/docs/0db/components/${item.name}.md`), item.name)
+      assert.ok(targets.has(`~/docs/0nlytype/components/${item.name}.md`), item.name)
       const contract = read(root, `registry/0nlytype/ai/components/${item.name}.md`)
       assert.ok(contract.includes(item.contract), item.name)
       assert.ok(contract.includes("## Motion"), item.name)
@@ -72,7 +72,7 @@ test("AI kit fails loudly on missing headings and contracts, and follows changed
 })
 
 test("AI kit detects stale and obsolete outputs, broken links, hashes and size budgets", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "0db-ai-drift-"))
+  const root = mkdtempSync(path.join(tmpdir(), "0nlytype-ai-drift-"))
   try {
     const kit = buildAiKit({ items })
     writeAiKit(kit, root)
@@ -82,7 +82,7 @@ test("AI kit detects stale and obsolete outputs, broken links, hashes and size b
     assert.ok(checkAiKit(kit, root).includes("registry/0nlytype/ai/components/obsolete.md (obsolete)"))
     writeAiKit(kit, root)
     assert.deepEqual(checkAiKit(kit, root), [])
-    writeFileSync(path.join(root, "registry/0nlytype/ai/AGENTS.md"), "[Broken](docs/0db/missing.md)\n" + "line\n".repeat(150))
+    writeFileSync(path.join(root, "registry/0nlytype/ai/AGENTS.md"), "[Broken](docs/0nlytype/missing.md)\n" + "line\n".repeat(150))
     writeFileSync(path.join(root, "registry/0nlytype/ai/agents/SKILL.md"), "line\n".repeat(500))
     const manifestPath = "registry/0nlytype/ai/manifest.json"
     const manifest = JSON.parse(read(root, manifestPath))

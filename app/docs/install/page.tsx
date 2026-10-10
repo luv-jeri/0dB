@@ -44,13 +44,13 @@ export default function Install() {
               The tokens, the default font pair, the reset and the base pieces (link, key, fraction, meta, corners). It also points shadcn&apos;s own colour names at 0nlyType&apos;s, so
               a stock globals.css renders 0nlyType.
             </p>
-            <CommandLine runner command={`shadcn@latest add ${BASE}/0db.json`} emphasis="0db" />
+            <CommandLine runner command={`shadcn@latest add ${BASE}/0nlytype.json`} emphasis="0nlytype" />
           </Step>
           <Step>
             <StepTitle>Add an item</StepTitle>
             <p>
               Each item brings the base and the siblings it needs. Its stylesheet is imported into your global CSS for you, by a path relative to app/globals.css. With a src/ layout,
-              shadcn puts the files in src/styles/0db/, so the same path works from src/app/globals.css.
+              shadcn puts the files in src/styles/0nlytype/, so the same path works from src/app/globals.css.
             </p>
             <CommandLine runner command={`shadcn@latest add ${BASE}/button.json ${BASE}/checkbox.json`} />
           </Step>

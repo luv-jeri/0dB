@@ -55,10 +55,10 @@ const requiredLine = (section, prefix) => {
   return line
 }
 const referenceTargets = [
-  ["Intent", "docs/0db/INTENT.md"],
-  ["Core design", "docs/0db/DESIGN-core.md"],
-  ["Full design (on demand)", "docs/0db/DESIGN.md"],
-  ["Kit version and hashes", "docs/0db/manifest.json"],
+  ["Intent", "docs/0nlytype/INTENT.md"],
+  ["Core design", "docs/0nlytype/DESIGN-core.md"],
+  ["Full design (on demand)", "docs/0nlytype/DESIGN.md"],
+  ["Kit version and hashes", "docs/0nlytype/manifest.json"],
 ]
 const references = (target) => referenceTargets.map(([title, dest]) =>
   `- [${title}](${path.posix.relative(path.posix.dirname(target), dest)})`).join("\n")
@@ -92,7 +92,7 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   const naming = `## Naming\n\n${conventions.content}\n\n${["- Item names", "- Sidecars", "- Direction", "- Variants", "- React 19"].map((prefix) => requiredLine(registry, prefix)).join("\n")}`
   const anatomy = `## Item anatomy\n\n${requiredLine(registry, "- One item")}\n${requiredLine(docs, "- \`examples/<item>.tsx\` default-exports")}\n\nUse your application's component, style and example paths. The paths above describe contributions to the 0nlyType registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.`
   const checklist = `## Completion checklist\n\n- Check the contract's semantics, roles and accessible names; keyboard and visible focus; announcements for state changes; disabled and busy states. Keep decorative copies hidden from assistive technology.\n- Check reduced motion in CSS and JavaScript: ${requiredLine(tempo, "Under \`prefers-reduced-motion")}\n- Check direction with logical properties and RTL where a stroke or reading order has direction. Isolate numbers inside RTL text.\n- Check the working component at desktop and phone widths, day and nocturne, and the relevant scheme, key and pair switches. Check forced colours.\n- Run the relevant tests, typecheck and lint in the consuming app. For upstream work, regenerate the registry and run its registry and drift checks.\n- Report which source paths you read, the precedent, the checks and their results, and anything unverified. Do not claim a check you did not run.`
-  const intro = "# 0nlyType component kit\n\nRead intent, core design and the relevant `docs/0db/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit."
+  const intro = "# 0nlyType component kit\n\nRead intent, core design and the relevant `docs/0nlytype/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit."
   const body = `${intro}\n\n${rules}\n\n${anatomy}\n\n${naming}\n\n${checklist}`
   const instructions = (target) => `${body}\n\n## References\n\n${references(target)}\n`
   const workflow = `## Workflow\n\n1. **Inspect.** Confirm the loaded paths: intent, core design and the relevant item contracts. Inspect the app's aliases, tokens, base styles and existing instructions. Establish the requested behaviour and who owns each word.\n2. **Choose a precedent.** Read an installed 0nlyType item's implementation, CSS sidecar, example and contract. Choose the native element first. Identify one creative move and one motion from its “Where” and Motion rows; read shared moves before composing items.\n3. **Implement.** Follow the item anatomy and naming below in the app's own paths. Use the existing tokens and minimal client boundary. Include the states and keyboard behaviour in the contract and show the states in an example. When contributing upstream, update the contract and its rows together with code, then regenerate.\n4. **Verify.** Run the completion checklist below. Compare the working component with the contract and precedent. Report evidence and limitations.\n`
@@ -109,11 +109,11 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
     }
   }
   add("AGENTS.md", "AGENTS.md", instructions("AGENTS.md"))
-  add("docs/AGENTS.md", "docs/0db/AGENTS.md", instructions("docs/0db/AGENTS.md"), "AGENTS.md")
-  add("INTENT.md", "docs/0db/INTENT.md", intent, "INTENT.md")
-  add("DESIGN.md", "docs/0db/DESIGN.md", design, "DESIGN.md")
+  add("docs/AGENTS.md", "docs/0nlytype/AGENTS.md", instructions("docs/0nlytype/AGENTS.md"), "AGENTS.md")
+  add("INTENT.md", "docs/0nlytype/INTENT.md", intent, "INTENT.md")
+  add("DESIGN.md", "docs/0nlytype/DESIGN.md", design, "DESIGN.md")
   const core = `# 0nlyType core design\n\nExtracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in components/<item>.md.\n\n${[principles.text, conventions.text, tokens.text, `## Motion\n\n${generalMotion}`, shared.text, registry.text, docs.text].join("\n\n")}\n`
-  add("DESIGN-core.md", "docs/0db/DESIGN-core.md", core, "DESIGN-core.md")
+  add("DESIGN-core.md", "docs/0nlytype/DESIGN-core.md", core, "DESIGN-core.md")
   const contracts = []
   for (const item of items) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.name)) throw new Error(`AI kit: invalid item name ${item.name}`)
@@ -128,24 +128,24 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
     }
     const text = `# 0nlyType: ${item.name}\n\nExtracted from DESIGN.md.\n\n${found[0].text}\n\n${rows("Motion", motionTable)}\n\n${rows("Where each move comes from", whereTable)}\n`
     contracts.push(text)
-    add(`components/${item.name}.md`, `docs/0db/components/${item.name}.md`, text, `components/${item.name}.md`)
+    add(`components/${item.name}.md`, `docs/0nlytype/components/${item.name}.md`, text, `components/${item.name}.md`)
   }
   const adapter = (frontmatter, target) => `---\n${frontmatter}\n---\n\n${instructions(target)}`
-  const claudeTarget = ".claude/rules/0db.md"
-  const claudeReferences = ["docs/0db/AGENTS.md", "docs/0db/DESIGN.md"].map((target) =>
+  const claudeTarget = ".claude/rules/0nlytype.md"
+  const claudeReferences = ["docs/0nlytype/AGENTS.md", "docs/0nlytype/DESIGN.md"].map((target) =>
     `[${target}](${path.posix.relative(path.posix.dirname(claudeTarget), target)})`).join(" and ")
-  add("claude/0db.md", claudeTarget, `# 0nlyType project rules\n\nBefore building with 0nlyType, read ${claudeReferences} and the relevant component contracts. Preserve existing project instructions.\n\n${rules}\n`, "claude.md")
-  add("cursor.mdc", ".cursor/rules/0db.mdc", adapter('description: "Create and extend type-led 0nlyType components"\nalwaysApply: true', ".cursor/rules/0db.mdc"), "cursor.md")
-  add("copilot.instructions.md", ".github/instructions/0db.instructions.md", adapter('applyTo: "**/*.tsx,**/*.css"', ".github/instructions/0db.instructions.md"), "copilot.md")
-  add("devin.md", ".devin/rules/0db.md", adapter("trigger: always_on", ".devin/rules/0db.md"), "devin.md")
-  const skill = `---\nname: 0db-component\ndescription: "Create or extend a 0nlyType component using its intent, design tokens, item anatomy and contracts. Use when building components with 0nlyType."\n---\n\n${intro}\n\n${workflow}\n${rules}\n\n${anatomy}\n\n${naming}\n\n${checklist}\n\n## References\n\n${references(".agents/skills/0db-component/SKILL.md")}\n`
-  add("claude/SKILL.md", ".claude/skills/0db-component/SKILL.md", skill)
-  add("agents/SKILL.md", ".agents/skills/0db-component/SKILL.md", skill, "SKILL.md")
+  add("claude/0nlytype.md", claudeTarget, `# 0nlyType project rules\n\nBefore building with 0nlyType, read ${claudeReferences} and the relevant component contracts. Preserve existing project instructions.\n\n${rules}\n`, "claude.md")
+  add("cursor.mdc", ".cursor/rules/0nlytype.mdc", adapter('description: "Create and extend type-led 0nlyType components"\nalwaysApply: true', ".cursor/rules/0nlytype.mdc"), "cursor.md")
+  add("copilot.instructions.md", ".github/instructions/0nlytype.instructions.md", adapter('applyTo: "**/*.tsx,**/*.css"', ".github/instructions/0nlytype.instructions.md"), "copilot.md")
+  add("devin.md", ".devin/rules/0nlytype.md", adapter("trigger: always_on", ".devin/rules/0nlytype.md"), "devin.md")
+  const skill = `---\nname: 0nlytype-component\ndescription: "Create or extend a 0nlyType component using its intent, design tokens, item anatomy and contracts. Use when building components with 0nlyType."\n---\n\n${intro}\n\n${workflow}\n${rules}\n\n${anatomy}\n\n${naming}\n\n${checklist}\n\n## References\n\n${references(".agents/skills/0nlytype-component/SKILL.md")}\n`
+  add("claude/SKILL.md", ".claude/skills/0nlytype-component/SKILL.md", skill)
+  add("agents/SKILL.md", ".agents/skills/0nlytype-component/SKILL.md", skill, "SKILL.md")
   if (lines(files.get(`${SOURCE}/AGENTS.md`)) >= 150) throw new Error("AI kit: AGENTS.md must stay under 150 lines")
   if (lines(skill) >= 500) throw new Error("AI kit: SKILL.md must stay under 500 lines")
   // Public downloads use their own relative links, not the adapter's installed directory.
   const siteForTarget = new Map([...siteEntries].map(([site, target]) => [target, site]))
-  siteForTarget.set("docs/0db/manifest.json", "public/ai/manifest.json")
+  siteForTarget.set("docs/0nlytype/manifest.json", "public/ai/manifest.json")
   for (const [file, installedTarget] of siteEntries) {
     const text = files.get(file)
     files.set(file, text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, href) => {
@@ -157,7 +157,7 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   // Publish the source filenames too (older consumers tried these URLs). Rebase
   // their links to the installed-layout copies, which preserve the payload bytes.
   const siteForInstalledTarget = new Map(entries.map((entry) => [entry.target.slice(2), `public/ai/${entry.target.slice(2)}`]))
-  siteForInstalledTarget.set("docs/0db/manifest.json", "public/ai/docs/0db/manifest.json")
+  siteForInstalledTarget.set("docs/0nlytype/manifest.json", "public/ai/docs/0nlytype/manifest.json")
   for (const entry of entries) {
     const file = `public/ai/${entry.path.slice(SOURCE.length + 1)}`
     if (files.has(file)) continue
@@ -178,8 +178,8 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
     files: Object.fromEntries(entries.map((e) => [e.path.slice(SOURCE.length + 1), hash(files.get(e.path))])),
     components: items.map((item) => item.name).sort(),
   }
-  add("manifest.json", "docs/0db/manifest.json", JSON.stringify(manifest, null, 2) + "\n", "manifest.json")
-  files.set("public/ai/docs/0db/manifest.json", files.get(`${SOURCE}/manifest.json`))
+  add("manifest.json", "docs/0nlytype/manifest.json", JSON.stringify(manifest, null, 2) + "\n", "manifest.json")
+  files.set("public/ai/docs/0nlytype/manifest.json", files.get(`${SOURCE}/manifest.json`))
   const link = (label, href, description) => `- [${label}](${baseURL}${href}): ${description}`
   const downloads = [...files.keys()].filter((f) => f.startsWith("public/ai/") && /\.(md|mdc|json)$/.test(f))
   files.set("public/llms.txt", `# 0nlyType\n\n> ${principles.content.split("\n").filter(Boolean).map((line) => line.replace(/^\d+\. /, "")).join(" ")}\n\nA type-led component registry. Read intent, core design and relevant contracts before creating a component.\n\n## Documentation\n\n${[

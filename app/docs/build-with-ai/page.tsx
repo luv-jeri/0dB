@@ -16,30 +16,30 @@ const INSTALL = `npx shadcn@latest add ${registryURL("ai")}`
 
 const FILES = [
   { paths: ["AGENTS.md"], reader: "Codex and compatible agents", purpose: "Short rules, reference pointers and a completion checklist." },
-  { paths: ["docs/0db/AGENTS.md"], reader: "Any tool, when asked", purpose: "A namespaced copy to reference from your existing project instructions." },
-  { paths: ["docs/0db/INTENT.md", "docs/0db/DESIGN-core.md"], reader: "Any tool, when asked", purpose: "The intent, principles, conventions, tokens and general motion rules." },
-  { paths: ["docs/0db/DESIGN.md"], reader: "Any tool, as a reference", purpose: "The complete design system. Read the relevant sections as needed." },
-  { paths: ["docs/0db/components/<item>.md"], reader: "Any tool, for the task at hand", purpose: "The component contract, motion and design reference." },
-  { paths: [".cursor/rules/0db.mdc"], reader: "Cursor Agent", purpose: "Short rules, always applied." },
-  { paths: [".claude/rules/0db.md"], reader: "Claude Code", purpose: "A short entry point with references to read as needed." },
-  { paths: [".github/instructions/0db.instructions.md"], reader: "GitHub Copilot", purpose: "Rules for TSX and CSS files. Support varies by feature." },
-  { paths: [".devin/rules/0db.md"], reader: "Windsurf / Cascade", purpose: "Always-on rules. Older versions use .windsurf/rules/." },
-  { paths: [".agents/skills/0db-component/SKILL.md", ".claude/skills/0db-component/SKILL.md"], reader: "Codex / Claude Code", purpose: "A workflow: inspect, choose a precedent, implement, verify." },
-  { paths: ["docs/0db/manifest.json"], reader: "You and your tool", purpose: "The kit version and hashes of its sources and contents." },
+  { paths: ["docs/0nlytype/AGENTS.md"], reader: "Any tool, when asked", purpose: "A namespaced copy to reference from your existing project instructions." },
+  { paths: ["docs/0nlytype/INTENT.md", "docs/0nlytype/DESIGN-core.md"], reader: "Any tool, when asked", purpose: "The intent, principles, conventions, tokens and general motion rules." },
+  { paths: ["docs/0nlytype/DESIGN.md"], reader: "Any tool, as a reference", purpose: "The complete design system. Read the relevant sections as needed." },
+  { paths: ["docs/0nlytype/components/<item>.md"], reader: "Any tool, for the task at hand", purpose: "The component contract, motion and design reference." },
+  { paths: [".cursor/rules/0nlytype.mdc"], reader: "Cursor Agent", purpose: "Short rules, always applied." },
+  { paths: [".claude/rules/0nlytype.md"], reader: "Claude Code", purpose: "A short entry point with references to read as needed." },
+  { paths: [".github/instructions/0nlytype.instructions.md"], reader: "GitHub Copilot", purpose: "Rules for TSX and CSS files. Support varies by feature." },
+  { paths: [".devin/rules/0nlytype.md"], reader: "Windsurf / Cascade", purpose: "Always-on rules. Older versions use .windsurf/rules/." },
+  { paths: [".agents/skills/0nlytype-component/SKILL.md", ".claude/skills/0nlytype-component/SKILL.md"], reader: "Codex / Claude Code", purpose: "A workflow: inspect, choose a precedent, implement, verify." },
+  { paths: ["docs/0nlytype/manifest.json"], reader: "You and your tool", purpose: "The kit version and hashes of its sources and contents." },
 ]
 
 const PROMPTS = [
   {
     title: "Build a component",
-    text: "Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build [component] for [behavior]. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.",
+    text: "Read docs/0nlytype/AGENTS.md, docs/0nlytype/INTENT.md, docs/0nlytype/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build [component] for [behavior]. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.",
   },
   {
     title: "Keep your project instructions",
-    text: "Preserve my existing project instructions. Add a short 0nlyType section pointing to docs/0db/AGENTS.md.",
+    text: "Preserve my existing project instructions. Add a short 0nlyType section pointing to docs/0nlytype/AGENTS.md.",
   },
   {
     title: "Refresh the kit",
-    text: "Refresh the 0nlyType AI kit. Preserve my existing project instructions and local changes. Compare the installed docs/0db/manifest.json with the latest kit, review the differences and update the generated references. Confirm which paths you loaded and report what changed.",
+    text: "Refresh the 0nlyType AI kit. Preserve my existing project instructions and local changes. Compare the installed docs/0nlytype/manifest.json with the latest kit, review the differences and update the generated references. Confirm which paths you loaded and report what changed.",
   },
 ]
 
@@ -66,7 +66,7 @@ export default function BuildWithAI() {
           </Prose>
           <CommandLine command={INSTALL} emphasis="ai" aria-label="Install the 0nlyType AI kit" />
           <Prose>
-            <p>If you already have an AGENTS.md, keep it. The installer asks before replacing a file; it does not merge Markdown. Use the prompt below to add a pointer to <code dir="ltr">docs/0db/AGENTS.md</code>.</p>
+            <p>If you already have an AGENTS.md, keep it. The installer asks before replacing a file; it does not merge Markdown. Use the prompt below to add a pointer to <code dir="ltr">docs/0nlytype/AGENTS.md</code>.</p>
           </Prose>
         </div>
       </section>
@@ -113,7 +113,7 @@ export default function BuildWithAI() {
         <h2 id="refresh-h" data-rail="Keep it current">Keep it current</h2>
         <Prose>
           <p>The installed files are copies. To refresh them, run the install command again and review the changes before replacing files. Keep your project instructions and local edits.</p>
-          <p><code dir="ltr">docs/0db/manifest.json</code> records the kit version and source hashes. Ask your tool to compare it and reload the updated references.</p>
+          <p><code dir="ltr">docs/0nlytype/manifest.json</code> records the kit version and source hashes. Ask your tool to compare it and reload the updated references.</p>
         </Prose>
       </section>
       <section className="doc-section" aria-labelledby="downloads-h">

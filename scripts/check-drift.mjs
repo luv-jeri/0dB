@@ -54,10 +54,10 @@ for (const f of scanned) {
 
 // Registry consumers receive the full project licence alongside the font notices.
 try {
-  const payload = JSON.parse(readFileSync("public/r/0db.json", "utf8"))
-  const licence = payload.files?.find((f) => f.target === "styles/0db/LICENCE-0db.md")
+  const payload = JSON.parse(readFileSync("public/r/0nlytype.json", "utf8"))
+  const licence = payload.files?.find((f) => f.target === "styles/0nlytype/LICENCE-0nlytype.md")
   if (!licence || licence.type !== "registry:file" || licence.path !== "LICENCE" || licence.content !== readFileSync("LICENCE", "utf8"))
-    fail("base licence", "public/r/0db.json must ship LICENCE to styles/0db/LICENCE-0db.md")
+    fail("base licence", "public/r/0nlytype.json must ship LICENCE to styles/0nlytype/LICENCE-0nlytype.md")
 } catch (error) {
   fail("base licence", error.message)
 }

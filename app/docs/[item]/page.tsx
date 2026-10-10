@@ -43,7 +43,7 @@ function payload(name: string) {
   return {
     npm: json.dependencies ?? [],
     files: json.files.map((f) => ({
-      target: f.target ?? f.path.replace("registry/0nlytype/ui/", "components/ui/").replace("registry/0nlytype/lib/", "lib/0db/"),
+      target: f.target ?? f.path.replace("registry/0nlytype/ui/", "components/ui/").replace("registry/0nlytype/lib/", "lib/0nlytype/"),
       content: f.path.endsWith(".css") ? f.content : rewriteImports(f.content),
     })),
   }

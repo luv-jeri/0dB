@@ -1,5 +1,5 @@
 // every example compiles with consumer aliases: lays out public/r payloads the way
-// `shadcn add` would (components/ui, lib, lib/0db), rewrites each example's imports
+// `shadcn add` would (components/ui, lib, lib/0nlytype), rewrites each example's imports
 // the same way, and type-checks the lot with tsc.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, cpSync, existsSync } from "node:fs"
 import { execFileSync } from "node:child_process"
