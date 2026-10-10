@@ -449,7 +449,8 @@ const GRID = (24 + 2 * PAD) * RES
 const cell = (v) => Math.round((v + PAD) * RES)
 const unit = (c) => c / RES - PAD
 const SWELL = 2.5 // the silhouette reaches this far past a stroke's centre: as fat as the hand-drawn five, so a row always fits
-const GAP = 0.85 // an inner stroke is cut out of the silhouette this far either side, a line of paper
+const GAP = 1 // an inner stroke is cut out of the silhouette this far either side, a line of paper a letter wide at 120px
+const DOT = 1.45 // an inner dot (an eye, a keyhole) is cut this far round, so it stays a hole the rows can't close over
 const ROW = 2.05 // the height a row aims at; a tall silhouette is set in up to 11 rows
 
 /** Cells within `r` of any segment of the polylines. */
@@ -535,9 +536,16 @@ function rows(mask, count) {
   }
   const out = []
   for (let r = 0; r < n; r++) {
-    const y0 = top + r * step, a = scan(y0 + step * 0.22), b = scan(y0 + step * 0.78), runs = []
-    // A row is inside the silhouette only where its top and its foot both are.
-    for (const [p, q] of a) for (const [s, t] of b) if (Math.min(q, t) - Math.max(p, s) >= 0.5) runs.push(r1(Math.max(p, s)), r1(Math.min(q, t)))
+    const y0 = top + r * step
+    // A row is inside the silhouette only where its top, its middle and its foot all are: a hole between two of them
+    // (an eye, a lens) still parts the row.
+    let runs = scan(y0 + step * 0.2)
+    for (const at of [0.5, 0.8]) {
+      const next = []
+      for (const [p, q] of runs) for (const [s, t] of scan(y0 + step * at)) if (Math.min(q, t) - Math.max(p, s) >= 0.5) next.push([Math.max(p, s), Math.min(q, t)])
+      runs = next
+    }
+    runs = runs.flatMap(([p, q]) => [r1(p), r1(q)])
     if (runs.length) out.push([r1(y0 + step / 2), ...runs])
   }
   return { step: Math.round(step * 100) / 100, rows: out }
@@ -561,8 +569,9 @@ function silhouette(line) {
     }
     if (run.length > 1) inner.push(run)
   }
-  const gap = near(inner, GAP)
-  for (let i = 0; i < shape.length; i++) if (gap[i]) shape[i] = 0
+  const length = (q) => q.slice(1).reduce((s, b, i) => s + Math.hypot(b[0] - q[i][0], b[1] - q[i][1]), 0)
+  const gap = near(inner.filter((q) => length(q) >= 1), GAP), dot = near(inner.filter((q) => length(q) < 1), DOT)
+  for (let i = 0; i < shape.length; i++) if (gap[i] || dot[i]) shape[i] = 0
   return rows(shape)
 }
 
