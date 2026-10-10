@@ -13,7 +13,8 @@
 // Chromium sweeps all of the scripted demos. Firefox and WebKit sweep one demo of every script kind (the first scripted
 // entry of each kind, in file order), because the full sweep in three engines runs well past the four minutes this
 // check is allowed; the keyboard, right-to-left, forced-colours and landing-stage cases run in all three. An engine
-// that is missing or cannot launch fails the run; nothing here skips an engine.
+// that is missing or cannot launch fails the run; nothing here skips an engine. MOTION_FULL=1 sweeps all of the demos
+// in any engine, for a one-off look.
 import assert from "node:assert/strict"
 import * as playwright from "playwright"
 
@@ -66,6 +67,11 @@ function watchAutoplay({ root: rootSelector, ignore }) {
     const finder = new MutationObserver(() => { if (find()) finder.disconnect() })
     finder.observe(document, { childList: true, subtree: true })
   }
+  // An example that scrolls inside itself changes no node. Page scrolling fires on the document, not on an element.
+  addEventListener("scroll", (event) => {
+    const target = event.target
+    if (target && target.nodeType === 1 && document.querySelector(rootSelector)?.contains(target)) w.mutations.push({ at: performance.now(), kind: "scroll", target: label(target), attribute: null })
+  }, true)
   const types = ["click", "dblclick", "input", "change", "pointerdown", "pointerup", "pointermove", "pointerover", "pointerenter", "mousedown", "mouseup", "mousemove", "mouseover", "mouseenter", "keydown", "keyup", "keypress", "wheel", "focusin"]
   for (const type of types) {
     addEventListener(type, (event) => {
@@ -107,7 +113,7 @@ const site = await serveOut()
 const browser = await playwright[engine].launch()
 const failures = []
 const only = process.env.DEMO_ONLY?.split(",")
-const items = only ?? (engine === "chromium" ? scripted : sample)
+const items = only ?? (engine === "chromium" || process.env.MOTION_FULL ? scripted : sample)
 
 /** The control's label follows the published state by a render; wait for it rather than reading it the instant the state changes. */
 const labelBecomes = (page, text) => page.waitForFunction((want) => document.querySelector(".doc-demo-controls button, .pieces-actions [data-demo-control]")?.textContent?.trim() === want, text, { timeout: 2000, polling: 50 })
@@ -115,6 +121,16 @@ const labelBecomes = (page, text) => page.waitForFunction((want) => document.que
 
 /** The state the player publishes on the example, and whether a performance has begun. */
 const demoState = (page, selector) => page.evaluate((sel) => { const el = document.querySelector(sel); return { state: el?.dataset.demoState ?? null, cycle: el?.dataset.demoCycle ?? null } }, selector)
+
+/** Scroll an example into view. A node that hydration or a remount has just replaced is looked up again, not given up on. */
+async function reveal(page, selector) {
+  for (let attempt = 0; ; attempt++) {
+    try { return await page.locator(selector).scrollIntoViewIfNeeded({ timeout: 4000 }) } catch (error) {
+      if (attempt >= 3 || !/not attached/.test(error.message)) throw error
+      await page.waitForTimeout(200)
+    }
+  }
+}
 
 /** Everything about an example that a reader's touch could change, including what no attribute shows. */
 const signature = (page, rootSelector) => page.evaluate((sel) => {
@@ -179,18 +195,23 @@ async function answers(page, rootSelector) {
   await mark(page)
   const box = await page.locator(rootSelector).boundingBox()
   if (box) {
-    await page.locator(rootSelector).scrollIntoViewIfNeeded()
-    const view = (await page.locator(rootSelector).boundingBox()) ?? box
-    const top = Math.max(view.y, 0), height = Math.min(view.height, 700)
-    for (const fy of [0.2, 0.5, 0.8]) for (let step = 0; step <= 12; step++) await page.mouse.move(view.x + (view.width * step) / 12, top + height * fy)
-    for (const target of await scrollables(page, rootSelector)) {
-      await page.mouse.move(target.x, target.y)
-      await page.mouse.wheel(0, 60)
-      await page.mouse.wheel(60, 0)
+    await reveal(page, rootSelector)
+    // Pointer handlers need a moment between moves, and a loaded machine can drop a fast sweep: sweep up to three times.
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const view = (await page.locator(rootSelector).boundingBox()) ?? box
+      const top = Math.max(view.y, 0), height = Math.min(view.height, 700)
+      for (const fy of [0.2, 0.5, 0.8]) {
+        for (let step = 0; step <= 12; step++) { await page.mouse.move(view.x + (view.width * step) / 12, top + height * fy, { steps: 2 }); await page.waitForTimeout(15) }
+      }
+      for (const target of await scrollables(page, rootSelector)) {
+        await page.mouse.move(target.x, target.y)
+        await page.mouse.wheel(0, 60)
+        await page.mouse.wheel(60, 0)
+      }
+      await page.waitForTimeout(150)
+      const reached = await page.evaluate(() => window.__autoplay.trusted.length > 0)
+      if (reached && ((await signature(page, rootSelector)) !== was || (await seen(page)).mutations > 0)) return
     }
-    await page.waitForTimeout(150)
-    const reached = await page.evaluate(() => window.__autoplay.trusted.length > 0)
-    if (reached && ((await signature(page, rootSelector)) !== was || (await seen(page)).mutations > 0)) return
   }
   throw new Error("it has no control, and a real pointer sweep and wheel changed nothing after Stop")
 }
@@ -206,7 +227,7 @@ async function one(context, item) {
   try {
     await page.goto(site.url(`/docs/${item}/`), { waitUntil: "load" })
     await page.waitForSelector(example, { timeout: 10000 })
-    await page.locator(example).scrollIntoViewIfNeeded()
+    await reveal(page, example)
     const control = page.locator(".doc-demo-controls button")
     assert.equal(await control.count(), 1, "no Demonstrate control on the page")
     assert.equal((await control.textContent()).trim(), "Demonstrate")
@@ -218,7 +239,7 @@ async function one(context, item) {
       const { state, cycle } = await demoState(page, example)
       assert.ok(!["playing", "finished", "stopped"].includes(state) && cycle === null, `started by itself (${state}, cycle ${cycle})`)
       if (i === 2) await page.evaluate(() => scrollTo(0, 0))
-      if (i === 4) await page.locator(example).scrollIntoViewIfNeeded()
+      if (i === 4) await reveal(page, example)
       await page.waitForTimeout(250)
     }
     if (!exempt) await assertQuiet(page, "before Demonstrate was pressed (load, idle, intersection, scrolling into view)")
@@ -240,7 +261,7 @@ async function one(context, item) {
       await assertQuiet(page, "after Stop")
     }
     await answers(page, example)
-    assert.deepEqual(errors, [])
+    assert.ok(errors.length === 0, `page error: ${errors[0]}`)
   } finally { await page.close() }
 }
 
