@@ -125,12 +125,14 @@ test("every sign reads in every variant, size and face", () => {
         const a = letters[i], b = letters[j]
         if (Math.hypot(a.x - b.x, a.y - b.y) < 0.4 * Math.min(a.k, b.k) * laid.ws) { problems.push(`${where}: ${a.ch} on ${b.ch}`); i = j = Infinity }
       }
-      // From 40px up the words variant spells its word whole along a stroke, or, where every stroke is too short to
-      // hold it (a chevron's two), is ruled in leaders throughout: never a few letters stranded among dots.
+      // From 40px up the words variant spells its word once, whole, on its best stroke or beneath the drawing, and
+      // rules the rest in quiet leaders; where the word can't be set at a size a person reads, it's dots throughout.
+      // Never a word repeated as filler, never a few letters stranded among dots.
       if (S >= 48) {
         const text = letters.map((g) => g.ch).join("")
-        if (letters.length && !text.includes(shape.word)) problems.push(`${where}: letters that don't spell the word`)
-      }
+        if (letters.length && text !== shape.word) problems.push(`${where}: letters "${text}", not its word once`)
+        if (letters.length && shown.some((g) => g.ch === "·" && !g.quiet)) problems.push(`${where}: a leader as loud as the word`)
+      } else if (letters.length) problems.push(`${where}: letters under the words variant's smallest size`)
     }
   }
   assert.deepEqual(problems, [])

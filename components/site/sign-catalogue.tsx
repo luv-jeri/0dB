@@ -14,8 +14,11 @@ import { SignStill } from "@/components/site/sign-still"
 
 const all = Object.entries(signs)
 const VARIANTS: SignVariant[] = ["dots", "words", "fill"]
-// The grid renders this many tiles at first and as many more each time its end comes near, so the page opens light.
+// The grid draws this many tiles at first and as many more each time an undrawn one comes near, so the page opens
+// light. Undrawn tiles still carry their word and name, one element each, so the browser's Find reaches every sign.
 const BATCH = 48
+// Words below this side are drawn as dots (registry/0db/ui/sign.tsx, WORDS): the size control says so.
+const WORDS_FROM = 40
 
 const watchDir = (change: () => void) => {
   const watcher = new MutationObserver(change)
@@ -63,20 +66,24 @@ export function SignCatalogue() {
   const [picked, setPicked] = React.useState("search")
   const [limit, setLimit] = React.useState(BATCH)
   const rtl = React.useSyncExternalStore(watchDir, rtlNow, () => false)
-  const end = React.useRef<HTMLDivElement>(null)
+  const grid = React.useRef<HTMLUListElement>(null)
   const q = query.trim().toLowerCase()
   const shown = q ? all.filter(([name, shape]) => name.includes(q) || shape.word.includes(q)) : all
   const item = `sign-${picked}-${variant}`
   const count = shown.length === all.length ? `${all.length} signs, each in three variants` : `${shown.length} of ${all.length} signs`
-  const more = shown.length > limit
+  const dotted = variant === "words" && Number(size) < WORDS_FROM
 
   React.useEffect(() => {
-    const el = end.current
-    if (!el || !more) return
-    const near = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setLimit((l) => l + BATCH) }, { rootMargin: "100% 0px" })
-    near.observe(el)
+    const later = grid.current?.querySelectorAll<HTMLElement>("[data-later]")
+    if (!later?.length) return
+    // Scrolled near, or jumped to by Find: draw up to that tile and a batch past it.
+    const near = new IntersectionObserver((entries) => {
+      const reached = Math.max(-1, ...entries.filter((e) => e.isIntersecting).map((e) => Number((e.target as HTMLElement).dataset.later)))
+      if (reached >= 0) setLimit((l) => Math.max(l, reached + BATCH))
+    }, { rootMargin: "100% 0px" })
+    later.forEach((el) => near.observe(el))
     return () => near.disconnect()
-  }, [more, limit])
+  }, [limit, q])
 
   return (
     <div className="doc-signs">
@@ -107,17 +114,18 @@ export function SignCatalogue() {
         </div>
       </div>
       <div className="doc-signs-picked">
-        <p className="doc-signs-count" aria-live="polite">{count}</p>
+        <p className="doc-signs-count" aria-live="polite"><bdi>{count}</bdi>{dotted ? <><br />At {size}px the words variant draws its dots: a letter needs {WORDS_FROM}px to hold a stroke.</> : null}</p>
         <CommandLine runner command={`shadcn@latest add ${registryURL(item)}`} emphasis={item} />
       </div>
       {shown.length ? (
         <>
-          <ul className="doc-signs-grid" style={{ "--tile": size === "24" ? "6.5rem" : size === "48" ? "8.5rem" : "11rem", "--art": `${Math.max(72, Number(size))}px` } as React.CSSProperties}>
-            {shown.slice(0, limit).map(([name, shape]) => (
+          <ul ref={grid} className="doc-signs-grid" style={{ "--tile": size === "24" ? "6.5rem" : size === "48" ? "8.5rem" : "11rem", "--art": `${Math.max(72, Number(size))}px` } as React.CSSProperties}>
+            {shown.map(([name, shape], i) => i < limit ? (
               <SignTile key={name} name={name} shape={shape} variant={variant} face={face} size={Number(size)} rtl={rtl} picked={picked === name} onPick={setPicked} />
+            ) : (
+              <li key={name} data-later={i}>{`${shape.word}\n${name}`}</li>
             ))}
           </ul>
-          {more ? <div ref={end} className="doc-signs-more" /> : null}
         </>
       ) : (
         <p className="doc-signs-none">No sign says “{query.trim()}” yet. <Link asChild><NextLink href="/requests/">Ask for it</NextLink></Link>.</p>

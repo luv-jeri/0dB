@@ -28,7 +28,7 @@ type SignProps = Omit<React.ComponentProps<"span">, "children"> & {
   label?: string
 }
 
-type Glyph = { ch: string; x: number; y: number; r: number; k: number; say: number; hush?: boolean }
+type Glyph = { ch: string; x: number; y: number; r: number; k: number; say: number; hush?: boolean; quiet?: boolean }
 type Laid = { glyphs: Glyph[]; ws: number; rest: number; said: number; word: { x: number; y: number }[] }
 /** Advances in ems, for letters in a weight. `wrap` adds to the last the pair it makes with the first, for a word that repeats. */
 type Metrics = { advances: (letters: string[], weight: number, wrap: boolean) => number[]; leader: (weight: number) => { advance: number; ink: number } }
@@ -98,11 +98,52 @@ function sample(path: Path): Sampled {
 
 /** The point s units along a sampled path, and the way it heads there, in degrees. */
 function at({ pts, along }: Sampled, s: number) {
-  let i = 1
-  while (i < along.length - 1 && along[i] < s) i++
+  let lo = 1, hi = along.length - 1
+  while (lo < hi) { const mid = (lo + hi) >> 1; if (along[mid] < s) lo = mid + 1; else hi = mid }
+  const i = lo
   const [ax, ay] = pts[i - 1], [bx, by] = pts[i]
   const t = along[i] === along[i - 1] ? 0 : (s - along[i - 1]) / (along[i] - along[i - 1])
   return { x: ax + (bx - ax) * t, y: ay + (by - ay) * t, r: (Math.atan2(by - ay, bx - ax) * 180) / Math.PI }
+}
+
+/** The same stroke read from its other end. */
+function backwards(p: Sampled): Sampled {
+  const n = p.pts.length
+  return { pts: p.pts.slice().reverse(), along: p.pts.map((_, i) => p.length - p.along[n - 1 - i]), length: p.length }
+}
+
+/** For each point of a sampled stroke, how long the run it lies on is between corners: where the stroke turns more
+ *  than 25° within a unit. A ring is one run all round; an arrowhead is two, one each side of its point. */
+function runs(p: Sampled): number[] {
+  const n = p.pts.length, heading = (i: number, j: number) => Math.atan2(p.pts[j][1] - p.pts[i][1], p.pts[j][0] - p.pts[i][0])
+  const corners = [0]
+  for (let i = 2; i < n - 2; i++) {
+    const d = Math.abs(((((heading(i, i + 2) - heading(i - 2, i)) * 180) / Math.PI + 540) % 360) - 180)
+    if (d > 25 && p.along[i] - p.along[corners[corners.length - 1]] > 0.5) corners.push(i)
+  }
+  corners.push(n - 1)
+  const out = new Array<number>(n)
+  for (let c = 0; c + 1 < corners.length; c++) for (let i = corners[c]; i <= corners[c + 1]; i++) out[i] = p.along[corners[c + 1]] - p.along[corners[c]]
+  return out
+}
+
+/** Where a stroke turns sharply (more than 50° within a unit), units along it: an arrowhead's point. */
+function sharp(p: Sampled): number[] {
+  const n = p.pts.length, heading = (i: number, j: number) => Math.atan2(p.pts[j][1] - p.pts[i][1], p.pts[j][0] - p.pts[i][0])
+  const out: number[] = []
+  let best = -1, most = 0
+  for (let i = 2; i < n - 2; i++) {
+    const d = Math.abs(((((heading(i, i + 2) - heading(i - 2, i)) * 180) / Math.PI + 540) % 360) - 180)
+    if (d > 50 && d > most) { best = i; most = d }
+    else if (d <= 50 && best >= 0) { out.push(p.along[best]); best = -1; most = 0 }
+  }
+  if (best >= 0) out.push(p.along[best])
+  return out
+}
+
+/** A closed stroke twice round, so a word can start anywhere on it and run on past where the drawing began. */
+function twice(p: Sampled): Sampled {
+  return { pts: [...p.pts, ...p.pts.slice(1)], along: [...p.along, ...p.along.slice(1).map((a) => a + p.length)], length: p.length * 2 }
 }
 
 /** The drawing turned round for a right-to-left page: mirrored, and every stroke read the other way, so it still reads forwards. */
@@ -174,7 +215,7 @@ function layoutSign(shape: SignShape, variant: SignVariant, S: number, italic: b
   const lines = shape.line ?? []
 
   /** Rules a stretch of a stroke in leaders at type size f, giving way where it meets letters already set. */
-  const leaders = (p: Sampled, from: number, to: number, f: number, stroke: number) => {
+  const leaders = (p: Sampled, from: number, to: number, f: number, stroke: number, quiet = false) => {
     const { advance, ink } = m.leader(rest)
     // A leader's pitch: its own advance, or half again its ink where a face sets its leaders loose (Archivo's
     // middle dot has twice its width of air either side, Bodoni's almost none), so both faces rule a stroke as dark.
@@ -186,11 +227,26 @@ function layoutSign(shape: SignShape, variant: SignVariant, S: number, italic: b
     const dot = ink * f
     // A stroke shorter than half a pitch is a dot: one leader, at its middle.
     const spots = L < pitch / 2 ? [from + L / 2] : Array.from({ length: closed ? n : n + 1 }, (_, i) => from + (i * L) / n)
-    for (const s of spots) {
+    // A sharp corner (an arrowhead's point) always takes a leader of its own, the nearest one moved onto it, and
+    // stands a little closer to another stroke than the rest may: without its point an arrow is a line.
+    const points = new Set<number>()
+    if (spots.length > 2) for (const c of sharp(p)) {
+      const s = c * u
+      if (s <= from || s >= to) continue
+      let k = 0
+      spots.forEach((v, i) => { if (Math.abs(v - s) < Math.abs(spots[k] - s)) k = i })
+      if (k > 0 && k < spots.length - 1) { spots[k] = s; points.add(k) }
+    }
+    for (const [k, s] of spots.entries()) {
       const q = at(p, s / u)
       const box: Box = { x: q.x * u, y: q.y * u, r: 0, w: dot, h: dot, stroke }
-      if (boxes.every((g) => g.stroke === stroke || reach(g, box.x, box.y) >= pitch * 0.6)) {
-        glyphs.push({ ch: LEADER, x: box.x, y: box.y, r: 0, k: f / ws, say: -1 })
+      // Another stroke's leader stands off by its box, or a pitch between centres (most of one at a sharp point), the
+      // spacing the strokes are ruled at, so a join reads as one ruling and an arrowhead keeps its point and barbs.
+      const apart = pitch * (points.has(k) ? 0.75 : 0.95)
+      const clear = (g: Box) => reach(g, box.x, box.y) >= pitch * 0.6 || Math.hypot(g.x - box.x, g.y - box.y) >= apart
+      // The word's letters (stroke -1) keep the leaders a little further off, so the word stands clear of its drawing.
+      if (boxes.every((g) => g.stroke === stroke || (g.stroke < 0 ? reach(g, box.x, box.y) >= Math.max(pitch * 0.6, g.h * 0.45) : clear(g)))) {
+        glyphs.push({ ch: LEADER, x: box.x, y: box.y, r: 0, k: f / ws, say: -1, ...(quiet ? { quiet } : null) })
         boxes.push(box)
       }
     }
@@ -208,105 +264,141 @@ function layoutSign(shape: SignShape, variant: SignVariant, S: number, italic: b
     })
   }
 
+  /** The word cut, set as a typographer would set it by hand: the word once, in ink, on the one stroke that carries
+   * it best, and the rest of the drawing ruled in pencil leaders that stop short of it. The best stroke is the one
+   * that takes the word largest and most nearly level: read from whichever end keeps it upright, slid along a curve
+   * to where it stands straightest, opened by at most 0.08em to reach a little further along a straight one, never
+   * turning more than 80° in all or kinking at a corner, never crowding its letters' tops on the inside of a bend.
+   * A drawing whose strokes are all too short to hold the word at a size a person reads (a chevron, a star's
+   * points) is drawn in leaders a little smaller, and the word set straight beneath it, as a road sign carries its
+   * legend; that wins too where it reads clearly larger than the word could on any stroke. */
+  const setWord = () => {
+    const pieces = lines.map(sample)
+    const base = m.advances(letters, rest, false)
+    const em = base.reduce((a, b) => a + b, 0)
+    const f0 = S * Math.max(0.15, Math.min(0.3, 0.3 - 0.075 * Math.log2(S / 32)))
+    const most = f0 * 1.5, least = Math.max(10, f0 * 0.7)
+    const meets = (i: number, [x, y]: [number, number]) => pieces.some((q, j) => j !== i && q.pts.some(([qx, qy]) => Math.hypot(qx - x, qy - y) < 0.75))
+    const top = (b: Box) => { const a = (b.r * Math.PI) / 180; return [b.x + (Math.sin(a) * b.h) / 2, b.y - (Math.cos(a) * b.h) / 2] }
+    const crowd = (p: Box, q: Box) => { const [px, py] = top(p), [qx, qy] = top(q); return Math.hypot(px - qx, py - qy) < 0.75 * Math.hypot(p.x - q.x, p.y - q.y) }
+    const turn = (r: number) => ((((r + 180) % 360) + 360) % 360) - 180
+    // Every stroke's points in pixels, a point a unit, for telling where the word would cover the drawing.
+    const others: [number, number, number][] = []
+    pieces.forEach((q, j) => { let last = -1; q.pts.forEach(([x, y], i) => { if (q.along[i] - last >= 1) { last = q.along[i]; others.push([x * u, y * u, j]) } }) })
+    type Take = { score: number; f: number; set: Glyph[]; put: Box[] }
+    const longest = Math.max(...pieces.map((p) => Math.max(...runs(p))))
+    let best: Take | null = null
+
+    /** The word laid along p from s, at size f with track added between letters; null where it can't read there. */
+    const place = (p: Sampled, s: number, f: number, track: number, stroke: number, straight: number[], bias: number): Take | null => {
+      const set: Glyph[] = [], put: Box[] = []
+      const from = s
+      let swing = 0, widest = 0, lean = 0
+      for (let i = 0; i < letters.length; i++) {
+        const a = base[i] * f
+        const q = at(p, (s + a / 2) / u)
+        if (Math.abs(q.r) > 95) return null
+        if (i) {
+          const d = turn(q.r - put[i - 1].r)
+          if (Math.abs(d) > 20) return null // a kink: the word would break at a corner
+          swing += d
+          widest = Math.max(widest, Math.abs(swing))
+        }
+        set.push({ ch: letters[i], x: q.x * u, y: q.y * u, r: q.r, k: f / ws, say: i })
+        put.push({ x: q.x * u, y: q.y * u, r: q.r, w: a * 0.86, h: f * HEIGHT, stroke: -1 })
+        lean += Math.abs(q.r)
+        s += a + track
+      }
+      if (widest > 120) return null
+      // Larger and more level is better, and a longer run a little better: an arrow says its word along its shaft.
+      const mid = ((from + s) / 2) / u
+      let k = 1
+      while (k < p.along.length - 1 && p.along[k] < mid) k++
+      const level = bias * f * (1 - (0.3 * lean) / letters.length / 90) * (Math.min(straight[k], pieces[stroke].length) / longest) ** 0.7
+      if (best && level <= best.score) return null // can't beat what's found: no need to look closer
+      if (put.some((b, i) => i && (touch(put[i - 1], b) || crowd(put[i - 1], b)))) return null
+      // Over another stroke the word would hide part of the drawing: allowed, but it costs.
+      let over = 0
+      const [bx0, bx1] = [Math.min(...put.map((b) => b.x)) - f, Math.max(...put.map((b) => b.x)) + f]
+      const [by0, by1] = [Math.min(...put.map((b) => b.y)) - f, Math.max(...put.map((b) => b.y)) + f]
+      for (const [x, y, j] of others) if (j !== stroke && x > bx0 && x < bx1 && y > by0 && y < by1 && put.some((b) => reach(b, x, y) < f * 0.1)) over++
+      return { score: level * (over ? Math.max(0.5, 1 - over * 0.02) : 1), f, set, put }
+    }
+
+    pieces.forEach((p0, stroke) => {
+      const [a0, a1] = [p0.pts[0], p0.pts[p0.pts.length - 1]]
+      const closed = Math.hypot(a0[0] - a1[0], a0[1] - a1[1]) < 0.01
+      const ends = [meets(stroke, a0), meets(stroke, a1)]
+      // Read from either end; where only one end meets the drawing, toward it a little rather: an arrow's word runs to its head.
+      for (const [p, start, end] of [[p0, ends[0], ends[1]], [backwards(p0), ends[1], ends[0]]] as const) {
+        const len = p.length * u
+        const path = closed ? twice(p) : p
+        const straight = runs(path)
+        for (let f = Math.min(most, (len * 0.96) / em); f >= least; f *= 0.93) {
+          const corner = f * 0.36
+          const lo = closed || !start ? 0 : corner
+          const hi = closed || !end ? len : len - corner
+          const run = em * f
+          if (!closed && run > hi - lo) continue
+          // Open a little toward the ends of a straight stroke, never past 0.08em.
+          const track = closed || letters.length < 2 ? 0 : Math.min(0.08 * f, (hi - lo - run) / (letters.length - 1) / 3)
+          const span = run + track * (letters.length - 1)
+          const room = closed ? len : hi - lo - span
+          const steps = closed ? 48 : Math.min(12, Math.ceil(room / (f * 0.25)))
+          let found = false
+          for (let i = 0; i <= steps; i++) {
+            const s = closed ? (i * len) / steps : lo + (steps ? (room * i) / steps : room / 2)
+            const take = place(path, s, f, track, stroke, straight, !start && end ? 1.03 : 1)
+            if (!take) continue
+            found = true
+            // On an open stroke the word sits best at its middle.
+            if (!closed && room > 0) take.score *= 1 - 0.08 * Math.abs((s - lo) / room - 0.5)
+            if (!best || take.score > best.score) best = take
+          }
+          if (found) break
+        }
+      }
+    })
+
+    const word = best as Take | null // set inside the loop's closures, which narrowing can't see
+    // The legend: the drawing smaller, the word straight beneath it at a size a person reads.
+    const fc = Math.min(f0 * 1.1, (S * 0.96) / em)
+    if (fc >= 9 && (!word || word.f < fc * 0.85 || fc * 0.7 > word.score)) {
+      const pts = pieces.flatMap((p) => p.pts)
+      const [x0, x1] = [Math.min(...pts.map((q) => q[0])), Math.max(...pts.map((q) => q[0]))]
+      const [y0, y1] = [Math.min(...pts.map((q) => q[1])), Math.max(...pts.map((q) => q[1]))]
+      const line = (fc * HEIGHT) / u, gap = (fc * 0.45) / u, edge = 1.5
+      const g = Math.min(1, (24 - 2 * edge) / Math.max(x1 - x0, 0.01), (24 - 2 * edge - line - gap) / Math.max(y1 - y0, 0.01))
+      const dy = (24 - (line + gap + (y1 - y0) * g)) / 2
+      const cx = (x0 + x1) / 2
+      const moved = pieces.map((p) => ({ ...p, pts: p.pts.map(([x, y]) => [12 + (x - cx) * g, dy + (y - y0) * g] as [number, number]), along: p.along.map((a) => a * g), length: p.length * g }))
+      let x = (S - em * fc) / 2
+      const y = (dy + (y1 - y0) * g + gap + line / 2) * u
+      const set: Glyph[] = [], put: Box[] = []
+      letters.forEach((ch, i) => {
+        const a = base[i] * fc
+        set.push({ ch, x: x + a / 2, y, r: 0, k: fc / ws, say: i })
+        put.push({ x: x + a / 2, y, r: 0, w: a * 0.86, h: fc * HEIGHT, stroke: -1 })
+        x += a
+      })
+      glyphs.push(...set)
+      boxes.push(...put)
+      moved.forEach((p, stroke) => leaders(p, 0, p.length * u, f0 * Math.sqrt(g), stroke, true))
+      return true
+    }
+    if (!word) return false
+    glyphs.push(...word.set)
+    boxes.push(...word.put)
+    pieces.forEach((p, stroke) => leaders(p, 0, p.length * u, f0, stroke, true))
+    return true
+  }
+
   if (mode === "dots") ruleDots()
   else if (mode === "words") {
-    // Each stroke reads the word in whole words, closed up or spread to reach both its ends, longest stroke first.
-    // Where two strokes meet at a corner both stop short of it by the same margin, so neither word runs into the
-    // other; where a stroke meets letters already set mid-way it gives way, so a crossing is never a clot of ink.
-    // A stretch too short for the word sets it smaller, down to a little over half; shorter still, or bending too
-    // tight to hold the word, it is ruled in leaders, since part of a word is no longer the word.
-    // A drawing of short strokes takes smaller type: the size steps down until most of the drawing reads as words.
-    const pieces = lines.map(sample)
-    const total = pieces.reduce((a, p) => a + p.length * u, 0)
-    const base = m.advances(letters, rest, true)
-    let best: { glyphs: Glyph[]; boxes: Box[]; covered: number } | null = null
-    for (const scale of [1, 0.86, 0.74]) {
-      glyphs.length = 0
-      boxes.length = 0
-      let covered = 0
-      const f = scale * S * Math.max(0.15, Math.min(0.3, 0.3 - 0.075 * Math.log2(S / 32)))
-      const adv = base.map((a) => a * f)
-      const cycle = adv.reduce((a, b) => a + b, 0)
-      const clearance = f * (HEIGHT / 2 + 0.08)
-      const meets = (i: number, [x, y]: [number, number]) => pieces.some((q, j) => j !== i && q.pts.some(([qx, qy]) => Math.hypot(qx - x, qy - y) < 0.75))
-      pieces.forEach((p, stroke) => {
-        const len = p.length * u, nudge = f * 0.1, corner = f * 0.36
-        const free = (s: number) => { const q = at(p, s / u); return boxes.every((b) => reach(b, q.x * u, q.y * u) >= clearance) }
-        const lo = meets(stroke, p.pts[0]) ? corner : 0, hi = len - (meets(stroke, p.pts[p.pts.length - 1]) ? corner : 0)
-        // The stretches of the stroke clear of every letter already set.
-        const stretches: [number, number][] = []
-        const steps = Math.ceil((hi - lo) / nudge)
-        let start = -1
-        for (let i = 0; i <= steps; i++) {
-          const s = Math.min(lo + i * nudge, hi), ok = free(s)
-          if (ok && start < 0) start = s
-          if (start >= 0 && (!ok || i === steps)) { stretches.push([start, ok ? s : Math.max(start, s - nudge)]); start = -1 }
-        }
-        const before = glyphs.length
-        for (let [s0, s1] of stretches) {
-          let k = 1
-          for (let tries = 0; tries < 60; tries++) {
-            const L = s1 - s0
-            if (L < f * 0.5) break
-            // How many words: the count that asks least of the type. Closing up costs less than spreading, which
-            // breaks a word into letters, and a smaller size costs least of all down to where it stops reading.
-            let words = 1, least = Infinity
-            for (let w = 1; w <= Math.ceil(L / cycle) + 1; w++) {
-              const r = L / (cycle * w), cost = r < 0.94 ? 0.94 / r - 1 : r > 1.06 ? (r - 1.06) * 2 : 0
-              if (cost < least) { least = cost; words = w }
-            }
-            const small = Math.min(k, 1, L / (cycle * 0.94 * words))
-            if (small < 0.55) { leaders(p, s0, s1, f, stroke); break }
-            const n = words * letters.length
-            const run = cycle * words * small
-            const spread = Math.min(L / run, 1.5)
-            let s = s0 + (L - run * spread) / 2
-            const set: Glyph[] = [], put: Box[] = []
-            for (let i = 0; i < n; i++) {
-              const a = adv[i % letters.length] * small
-              const q = at(p, (s + (a * spread) / 2) / u)
-              set.push({ ch: letters[i % letters.length], x: q.x * u, y: q.y * u, r: q.r, k: (f * small) / ws, say: -1 })
-              put.push({ x: q.x * u, y: q.y * u, r: q.r, w: a * 0.86, h: f * small * HEIGHT, stroke })
-              s += a * spread
-            }
-            // Never upside down: a letter turned past a right angle and a bit is a stroke the word can't read along.
-            if (set.some((g) => Math.abs(g.r) > 100)) { leaders(p, s0, s1, f, stroke); break }
-            // Letters of this word that touch each other, or crowd at their tops on the inside of a curve: the stroke
-            // bends too tight for the size. Set it smaller.
-            const top = (b: Box) => { const a = (b.r * Math.PI) / 180; return [b.x + (Math.sin(a) * b.h) / 2, b.y - (Math.cos(a) * b.h) / 2] }
-            const crowd = (p: Box, q: Box) => { const [px, py] = top(p), [qx, qy] = top(q); return Math.hypot(px - qx, py - qy) < 0.75 * Math.hypot(p.x - q.x, p.y - q.y) }
-            // A word that turns through more than eighty degrees can't be read as one, however small.
-            const turn = (from: number) => { let t = 0, most = 0; for (let i = from + 1; i < Math.min(n, from + letters.length); i++) { t += ((((put[i].r - put[i - 1].r + 180) % 360) + 360) % 360) - 180; most = Math.max(most, Math.abs(t)) } return most }
-            const bends = Array.from({ length: words }, (_, w) => turn(w * letters.length)).some((t) => t > 80)
-            if (bends || put.some((b, i) => i && (touch(put[i - 1], b) || crowd(put[i - 1], b)))) { k = small * 0.9; continue }
-            // Letters that touch ones already set: give way at that end.
-            const hit = put.findIndex((b) => boxes.some((o) => touch(o, b)))
-            if (hit >= 0) {
-              if (hit < n / 2) s0 += nudge
-              else s1 -= nudge
-              continue
-            }
-            glyphs.push(...set)
-            boxes.push(...put)
-            covered += L
-            break
-          }
-        }
-        // A stroke with nothing set on it, small or hemmed in, is still ruled, so the drawing is never missing a stroke.
-        if (glyphs.length === before && !(lo && hi < len && len < f * 1.5)) leaders(p, 0, len, f, stroke)
-      })
-      if (!best || covered > best.covered) best = { glyphs: glyphs.slice(), boxes: boxes.slice(), covered }
-      if (covered >= total * 0.7) break
-    }
-    glyphs.splice(0, glyphs.length, ...best!.glyphs)
-    // A drawing of strokes all too short to hold the word at this size, a star's points, is ruled in leaders, as
-    // dots are, but at the words' own size, so it sits in a row of words signs as one of them: a few letters
-    // scattered at its corners would be neither the word nor the drawing.
-    if (!best!.covered) {
-      glyphs.length = 0
-      boxes.length = 0
+    // A word that can't be set at a size a person reads anywhere in the drawing: the drawing in dots.
+    if (!setWord()) {
       mode = "dots"
-      ruleDots(S * Math.max(0.15, Math.min(0.3, 0.3 - 0.075 * Math.log2(S / 32))))
+      ruleDots()
     }
   } else if (shape.fill) {
     // The silhouette in rows, a little tighter than the type's own leading so it reads as one shape. The word runs
@@ -488,6 +580,7 @@ function Sign({ shape, variant = "words", face = "roman", size, label, className
           className="db-sign-glyph"
           data-say={g.say >= 0 ? "" : undefined}
           data-hush={g.hush || undefined}
+          data-quiet={g.quiet || undefined}
           style={{ "--x": `${g.x}px`, "--y": `${g.y}px`, "--r": `${g.r}deg`, "--k": g.k, ...(g.say >= 0 ? { "--n": g.say, "--m": laid.word.length - 1 - g.say, "--wx": `${laid.word[g.say].x}px`, "--wy": `${laid.word[g.say].y}px` } : null) } as React.CSSProperties}
         >
           {g.ch}

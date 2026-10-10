@@ -22,6 +22,8 @@
   .db-sign-glyph:not([data-say]) { transition-delay: calc(var(--db-arpeggio) * 2); }
   /* In the text cut the word's letters wait unseen at the leaders, and rise out of them when it's said. */
   .db-sign-glyph[data-hush] { opacity: 0; }
+  /* In the word cut the drawing round the word is ruled in pencil, so the word is the one thing in ink. */
+  .db-sign-glyph[data-quiet] { color: var(--db-pencil); }
   .db-sign[data-face="italic"] .db-sign-glyph { font-variation-settings: var(--db-expression-text-variation, normal); }
 
   /* Said: pointing at the sign, or at the control it sits in, or focusing that control, sets the word. The echoes
@@ -44,5 +46,5 @@
       opacity: 0; color: var(--db-pencil); transition-delay: 0s;
     }
   }
-  @media (forced-colors: active) { .db-sign-glyph { color: CanvasText; } }
+  @media (forced-colors: active) { .db-sign-glyph { color: CanvasText; } .db-sign-glyph[data-quiet] { color: GrayText; } }
 }
