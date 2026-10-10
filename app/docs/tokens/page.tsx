@@ -40,7 +40,7 @@ export default function Tokens() {
       {groups().map((g) => (
         <section key={g.title} className="doc-section" aria-labelledby={`t-${g.title}`}>
           <h2 id={`t-${g.title}`} data-rail={g.title}>{g.title}</h2>
-          <div className="doc-table" role="region" aria-label={`${g.title} tokens`} tabIndex={0}>
+          <div className="doc-table doc-tokens" role="region" aria-label={`${g.title} tokens`} tabIndex={0}>
             <Table>
               <TableCaption>{g.title} tokens</TableCaption>
               <TableHeader>

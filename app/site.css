@@ -123,6 +123,10 @@ body { overflow-x: clip; }
 .bar-search .ot-kbd { height: 1.7em; margin-inline-start: 0.15em; }
 
 .doc-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ot-space-5); margin-bottom: var(--ot-space-8); }
+/* The report link is a grid item, which blockifies it: without this its underline runs the full width of the column. */
+.doc-head > .ot-report-item-link { justify-self: start; }
+/* An item's head runs into its stage: one step of silence, not two (the head's and the stage's own inset). */
+.doc-head:has(+ #example) { margin-bottom: var(--ot-space-6); }
 .doc-title { overflow-wrap: anywhere; margin-inline-start: -0.04em; font-size: var(--ot-fff); line-height: var(--ot-fff-lh); letter-spacing: var(--ot-fff-tr); font-weight: 300; color: var(--ot-ink); }
 .doc-summary { max-width: 40ch; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-graphite); }
 
@@ -207,10 +211,20 @@ body { overflow-x: clip; }
 .doc-ai-prompt-head .doc-sub { margin-bottom: 0; }
 .doc-ai-prompt-head .ot-source-copy { flex-shrink: 0; margin-inline-start: auto; }
 .doc-ai-prompt { overflow-wrap: anywhere; }
+/* On a phone each kit file is a small entry like a prop: the path on its own line at full width (it breaks at a slash or a hyphen, never inside
+   a word), then who reads it and what it is for. The column heads go, kept for screen readers. */
 @media (max-width: 560px) {
   .doc-ai-files { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); }
-  .doc-ai-files :is(th, td) { padding-inline-end: var(--ot-space-3); }
+  .doc-ai-files, .doc-ai-files tbody { display: block; }
+  .doc-ai-files thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .doc-ai-files tr { display: grid; gap: var(--ot-space-1); padding-block: var(--ot-space-4); border-bottom: var(--ot-hairline) solid var(--ot-rule); }
+  .doc-ai-files :is(th, td) { display: block; width: auto; padding: 0; border: 0; overflow-wrap: normal; }
+  .doc-ai-files th:first-child { width: auto; }
+  .doc-ai-files code { overflow-wrap: break-word; }
+  .doc-ai-files tr > td:first-of-type { color: var(--ot-pencil); }
 }
+/* A token's name is one word: the column grows for it instead of breaking after the prefix. */
+.doc-tokens td:first-child code { white-space: nowrap; }
 
 /* The states sit on the example's inset, so the two read as one block. */
 .spec-states { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--ot-space-6) var(--ot-space-7); margin-top: var(--ot-space-6); padding: var(--ot-space-5) var(--ot-space-7) 0; border-top: var(--ot-hairline) dotted var(--ot-rule-strong); }
@@ -230,7 +244,9 @@ body { overflow-x: clip; }
   .flow-caption { grid-row: 3; margin-top: var(--ot-space-8); }
   .flow, .manifesto { grid-row: 4; margin-top: var(--ot-space-6); }
   .principle-note { grid-row: 2; margin-top: var(--ot-space-4); }
-  .docs-index { position: static; max-height: none; margin-bottom: var(--ot-space-6); }
+  /* The index is one word that opens a sheet here: it sits near the bar, and its hidden Fold button leaves no row gap behind. */
+  .docs { padding-top: calc(var(--bar) + var(--ot-space-5)); }
+  .docs-index { position: static; max-height: none; row-gap: 0; margin-bottom: var(--ot-space-5); }
   .docs-index-fold { display: none; }
   .docs-index-list { overflow: visible; padding: 0; background: none; }
   .docs:has(> .docs-index[data-folded]) :is(.docs-index, .docs-main) { grid-column: 1 / -1; }
@@ -241,15 +257,31 @@ body { overflow-x: clip; }
   .bar-end, .bar-controls { gap: var(--ot-space-4); }
   .bar-search kbd { display: none; }
   .doc-example { padding: var(--ot-space-6) var(--ot-space-4); }
+  /* Columns keep their words: a table in a stage closes its gaps a step before it would scroll. */
+  :is(.doc-example, .spec-states) .ot-table :is(th, td) { padding-inline-end: var(--ot-space-2); }
+  :is(.doc-example, .spec-states) .ot-table :is(th, td):last-child { padding-inline-end: 0; }
   .spec-states { padding-inline: var(--ot-space-4); }
+  /* The head's meta row can't hold three entries and their hairlines on a phone. Each entry stays whole (a class name never breaks
+     mid-token) and the row wraps between entries, with no hairline left pointing at nothing. */
+  .doc-head .ot-meta { flex-wrap: wrap; column-gap: var(--ot-space-5); }
+  .doc-head .ot-meta > hr { display: none; }
+  .doc-head .ot-meta > :not(hr) { white-space: nowrap; }
   /* Demo grids and pinned states keep their own measure; wide tabular runs scroll at their edge. */
   .docs-main :not(pre) > code { overflow-wrap: anywhere; }
   .doc-example .grid:has(> nav), .doc-example .grid:has(> .grid > .ot-table) { min-inline-size: 0; max-inline-size: 100%; grid-template-columns: minmax(0, 1fr); }
   .doc-example nav:has(> .ot-pager), .state nav:has(> .ot-pager), .doc-example :has(> .ot-table), .spec-states :has(> .ot-table), .state > :has(> .ot-tour-callout) { min-inline-size: 0; max-inline-size: 100%; overflow-x: auto; overscroll-behavior-x: contain; border-inline-end: var(--ot-hairline) solid var(--ot-rule); }
+  /* The edge line says "more this way", so it shows only while there is more: drawn by the scroller's own position, gone at the end,
+     and never beside a table that already fits (its figures would seem cut off by a rule they merely end against). Browsers
+     without scroll timelines keep the always-on line above. */
+  @supports (animation-timeline: scroll()) {
+    .doc-example nav:has(> .ot-pager), .state nav:has(> .ot-pager), .doc-example :has(> .ot-table), .spec-states :has(> .ot-table), .state > :has(> .ot-tour-callout) { border-inline-end-color: transparent; animation: doc-edge linear; animation-timeline: scroll(self inline); }
+  }
   .doc-example .ot-relay-frame, .state .ot-relay-frame { font-size: var(--ot-mf); }
   /* The margin is too narrow here for a dash to hang in without touching the edge of the screen: the list steps in. */
   .ot-prose ul { padding-inline-start: 1.1em; }
 }
+
+@keyframes doc-edge { from { border-inline-end-color: var(--ot-rule-strong); } 96% { border-inline-end-color: var(--ot-rule-strong); } to { border-inline-end-color: transparent; } }
 
 /* The tuning popover in the bar. */
 .bar-controls { display: flex; align-items: center; gap: var(--ot-space-5); }
