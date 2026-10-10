@@ -1,9 +1,8 @@
 /* The docs site's own layout. Everything it draws is a 0dB item; this file only places them.
    Ported from the specimen's page CSS: twelve columns, 1–3 the margin, 4–12 the stave. */
 
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto; }
-.lenis.lenis-stopped { overflow: hidden; }
+/* Native scrolling: it runs off the main thread and stops with the hand. A jump to a section lands below the bar. */
+html { scroll-padding-top: calc(var(--bar) + 2rem); }
 
 :root {
   --bar: 4rem;
