@@ -22,7 +22,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       # typecheck, lint, tests, registry, drift, examples, build, pages
       - run: npm run check
       - run: npm run -s check:install

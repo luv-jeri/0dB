@@ -3,10 +3,13 @@ import NextLink from "next/link"
 
 import { CopyCommand } from "@/components/site/landing"
 import { Noise } from "@/components/site/landing-noise"
+import { Overture, OvertureScript } from "@/components/site/landing-overture"
 
 // The hero, after "It has to be design.": one idea set huge, heavy condensed roman over light wide roman, the
 // accent only on the full stop. The noise around it (landing-noise) is everything 0nlyType turned down.
-// Server-rendered: the headline is plain text in the HTML and paints before any script.
+// Server-rendered: the headline is plain text in the HTML and paints before any script, settled. On a browser's
+// first visit only, the script below marks <html> before the hero paints and the headline exhales and the noise
+// swells and hushes, both ending by one deadline (landing-overture). Every later visit arrives settled.
 
 /**
  * A word of the headline, with a zero-size probe standing on its baseline for the noise to measure from. Its
@@ -53,6 +56,7 @@ export function Cta({ href, children, size, className }: { href: string; childre
 export function Hero({ count }: { count: number }) {
   return (
     <section className="hero" aria-labelledby="hero-title">
+      <OvertureScript />
       <Noise className="hero-noise" />
       <h1 className="hero-title" id="hero-title" data-noise-center>
         <span className="hero-line" data-line="loud" data-noise-glyphs>
@@ -64,6 +68,7 @@ export function Hero({ count }: { count: number }) {
           <Word text="noise" stop />
         </span>
       </h1>
+      <Overture />
       <div className="hero-foot">
         {/* The mark, as a reading: the noise swells it to 111 and the silence brings it down to where it rests. */}
         <p className="hero-level" data-hush>

@@ -124,12 +124,6 @@ body { overflow-x: clip; }
 
 .doc-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--db-space-5); margin-bottom: var(--db-space-8); }
 .doc-title { overflow-wrap: anywhere; margin-inline-start: -0.04em; font-size: var(--db-fff); line-height: var(--db-fff-lh); letter-spacing: var(--db-fff-tr); font-weight: 300; color: var(--db-ink); }
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .doc-title { animation: site-settle linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
-  }
-}
-@keyframes site-settle { from { letter-spacing: 0.03em; } }
 .doc-summary { max-width: 40ch; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
 
 /* A section begins at its rule: the heading hangs just under it, and the silence goes before the rule, never between

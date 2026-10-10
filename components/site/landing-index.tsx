@@ -5,7 +5,8 @@ import NextLink from "next/link"
 import dynamic from "next/dynamic"
 
 import { Share } from "@/components/site/landing"
-import { useDemoPlayer } from "@/components/site/demo-player"
+import { DEMO_SCORES, useDemoPlayer } from "@/components/site/demo-player"
+import { Button } from "@/registry/0db/ui/button"
 
 // The whole library at a glance: every name set as one wall of type, by movement, as a concert programme
 // runs its pieces on. Beside it, a stage plays the piece you're at, live. Pointing at or focusing a name
@@ -177,7 +178,9 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
   }
 
   const [performance, resetPerformance] = React.useReducer((n: number) => n + 1, 0)
-  useDemoPlayer({ root: frame, host: stage, item: all[playing].name, identity: `${awake}${playing}`, reset: resetPerformance })
+  // The stage holds still until the person presses Demonstrate; it is only offered where the piece has something to show.
+  const demo = useDemoPlayer({ root: frame, host: stage, item: all[playing].name, identity: `${awake}${playing}`, reset: resetPerformance })
+  const candidate = !!DEMO_SCORES[all[playing].name]?.script && playing === at
 
   let n = -1
   return (
@@ -248,10 +251,11 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
           </span>
         </p>
         <Title text={piece.title} />
-        <div className="db-corners pieces-preview" ref={frame} role="group" aria-label={`${piece.title} variations`} aria-describedby="pieces-performance">
+        <div className="db-corners pieces-preview" id="pieces-preview" ref={frame} role="group" aria-label={`${piece.title} variations`} aria-describedby="pieces-performance">
           {awake && playing === at ? <Preview key={`${piece.name}-${performance}`} name={piece.name} /> : null}
         </div>
-        <span className="db-sr" id="pieces-performance">Variations play together. Point at or focus the preview to pause and try them.</span>
+        <span className="db-sr" id="pieces-performance">{candidate ? "The variations are live. Press Demonstrate to watch them answer, or point at or focus the preview to try them yourself." : "The variations are live. Point at or focus the preview to try them."}</span>
+        <span className="db-sr" role="status" aria-live="polite" aria-atomic="true">{demo.state === "playing" ? "Demonstrating" : demo.state === "finished" ? "Demo finished" : demo.state === "stopped" ? "Demo stopped. Your turn." : ""}</span>
         <p className="pieces-summary">{piece.summary}</p>
         <p className="pieces-actions">
           <NextLink href={`/docs/${piece.name}/`} className="db-link pieces-open">
@@ -260,6 +264,11 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
           <Share url={`/docs/${piece.name}/`} title={`${piece.title}, in 0nlyType`}>
             {`Share ${piece.title}`}
           </Share>
+          {candidate ? (
+            <Button variant="bracket" data-demo-control onClick={demo.state === "playing" ? demo.stop : demo.demonstrate} disabled={!demo.interactive} aria-controls="pieces-preview">
+              {demo.state === "playing" ? "Stop" : "Demonstrate"}
+            </Button>
+          ) : null}
         </p>
       </aside>
     </div>

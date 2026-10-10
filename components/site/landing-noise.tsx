@@ -2,6 +2,8 @@
 
 import * as React from "react"
 
+import { onOvertureEnd, overtureActive, overtureLeft } from "@/components/site/landing-overture"
+
 // Noise: words set small and dense on a canvas around big type, as SPECTRA sets its metadata against huge
 // type. Pretext lays every row around the letters of each [data-noise-glyphs] element (their real boxes, cut
 // to cap, x-height and descender), around each [data-hush] box, and around a pause that follows a fine pointer.
@@ -11,6 +13,9 @@ import * as React from "react"
 // a ticker), then the silence spreads out from [data-noise-center] and turns it down until it rests, still.
 // A [data-noise-meter] beside it reads the loudness in dB as it goes. Aria-hidden: the type is the page.
 // Reduced motion: the quiet state, drawn once, with no pause and the meter at 0.
+// Left to itself (no `quiet`), it arrives only as part of the home overture, on a browser's first visit: the swell
+// and the hush are fitted to the time the overture has left, so they end with the title, and the overture's end
+// (its deadline, a key, a press, the scroll, Skip) settles the field at once. Every other visit it is drawn at rest.
 
 export const REFUSED =
   "icon 84dB  drop shadow 91dB  gradient 96dB  card 88dB  glassmorphism 102dB  glow 97dB  badge 79dB  confetti 110dB  blur 86dB  neon 104dB  emoji 83dB  bento 89dB  particles 108dB  parallax 99dB  3D tilt 101dB  hover lift 87dB  rounded-2xl 82dB  shadow-lg 93dB  ring offset 78dB  second accent 95dB  autoplay 106dB  notification dot 90dB  shimmer 92dB  pulse 85dB  bounce 94dB  ambient background 98dB  click spark 103dB  meta balls 100dB  swarm cursor 107dB  typography vortex 111dB  particle text 105dB  ghost cursor 96dB  image trail 97dB  magic rings 102dB  elastic mesh 99dB  dither dissolve 94dB  glass sculpture 101dB  orbit images 98dB  warp text 100dB  zoom words 103dB  falling text 95dB  dock 88dB  animated icon 92dB  "
@@ -24,6 +29,7 @@ const DESCENDS = /[gjpqy,;]/
 const X_ONLY = /[.]/
 const LOUD = 0.6, REST = 0.15 // the ink's alpha, at full noise and at rest
 const SWELL = 520, HUSH = 1500, SPREAD = 0.5, STREAM = 16 // ms, ms, ms per pixel from the centre, words a second
+const MIN_ARRIVAL = 700 // ms the overture must have left for the arrival to be worth playing; less, and the field simply rests
 
 /** The ink of each letter, near enough: its advance box cut to cap height, x-height and descender. */
 function glyphBoxes(el: HTMLElement, origin: DOMRect, ctx: CanvasRenderingContext2D, out: Box[]) {
@@ -111,6 +117,8 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
       let rNow = 90, rWant = 90, held = false, dx = 0, dy = 0 // the pause's radius, and the canvas's offset in the host
       let phase: Phase = { kind: "hush", at: -1e9, from: REST, meterFrom: 0 }
       let flow = 0, lastNow = 0, shown = -1
+      // The swell, the hush and its spread across the page. The overture fits them to the time it has left.
+      let swellMs = SWELL, hushMs = HUSH, spread = SPREAD
 
       function measure() {
         const b = canvas!.getBoundingClientRect()
@@ -157,20 +165,20 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
       const clamp = (n: number) => Math.min(1, Math.max(0, n))
       const ease = (n: number) => 1 - (1 - n) ** 3
       /** How far the hush has come at a distance from the centre. */
-      const hushed = (now: number, d: number) => phase.kind === "hush" ? ease(clamp((now - phase.at - d * SPREAD) / HUSH)) : 0
+      const hushed = (now: number, d: number) => phase.kind === "hush" ? ease(clamp((now - phase.at - d * spread) / hushMs)) : 0
       /** How loud the noise is at a distance from the centre: the alpha of its ink. */
       function level(now: number, d: number) {
         if (still.matches) return REST
-        if (phase.kind === "swell") { const s = clamp((now - phase.at) / SWELL); return phase.from + (LOUD - phase.from) * s * s }
+        if (phase.kind === "swell") { const s = clamp((now - phase.at) / swellMs); return phase.from + (LOUD - phase.from) * s * s }
         return phase.from - (phase.from - REST) * hushed(now, d)
       }
       /** The meter, 0 to 1: the loudness at the centre. */
       function reading(now: number) {
         if (still.matches) return 0
-        if (phase.kind === "swell") return phase.meterFrom + (1 - phase.meterFrom) * clamp((now - phase.at) / SWELL)
+        if (phase.kind === "swell") return phase.meterFrom + (1 - phase.meterFrom) * clamp((now - phase.at) / swellMs)
         return phase.meterFrom * (1 - hushed(now, 0))
       }
-      const settle = () => phase.kind === "swell" ? SWELL + 1800 : HUSH + Math.hypot(W, H) * SPREAD
+      const settle = () => phase.kind === "swell" ? swellMs + 1800 : hushMs + Math.hypot(W, H) * spread
       const busy = (now: number) => !still.matches && now - phase.at < settle() + 50
 
       function to(kind: Phase["kind"], now = performance.now()) {
@@ -198,7 +206,7 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
         // Streaming: the rows begin further into the material as the noise runs, a word at a time.
         const dt = lastNow ? Math.min(64, now - lastNow) : 0
         lastNow = now
-        const running = phase.kind === "hush" ? m : m * clamp(1 - (now - phase.at - SWELL) / 1800)
+        const running = phase.kind === "hush" ? m : m * clamp(1 - (now - phase.at - swellMs) / 1800)
         if (!still.matches) flow += (dt / 1000) * STREAM * running
         let s = Math.floor(flow) % per
         while (s < prepared.segments.length - 1 && !prepared.segments[s].trim()) s++
@@ -273,12 +281,29 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
       if (cancelled) return
       canvas!.dataset.live = ""
       const now = performance.now()
+      const left = first.current.quiet === undefined && !still.matches && overtureActive() ? overtureLeft() : 0
       if (first.current.quiet === false) to("swell", now)
-      else if (first.current.quiet === undefined && !still.matches) {
+      else if (left >= MIN_ARRIVAL) {
+        // The home overture: swell, then hush, fitted so the whole arrival ends a little before its deadline.
+        const reach = Math.hypot(W, H)
+        swellMs = left * 0.18
+        hushMs = left * 0.5
+        spread = Math.max(0, (left * 0.3 - 60) / reach)
         phase = { kind: "swell", at: now, from: 0, meterFrom: 0 }
+        canvas!.dataset.arrival = "" // for as long as the overture plays; the motion check reads it
         run()
-        const t = window.setTimeout(() => to("hush"), SWELL)
-        off.push(() => clearTimeout(t))
+        const t = window.setTimeout(() => to("hush"), swellMs)
+        const end = onOvertureEnd(() => {
+          delete canvas!.dataset.arrival
+          // The overture is over, by deadline or by the person: rest now, with the type where it has settled.
+          clearTimeout(t)
+          swellMs = SWELL; hushMs = HUSH; spread = SPREAD
+          phase = { kind: "hush", at: -1e9, from: REST, meterFrom: 0 }
+          measure()
+          draw(performance.now())
+          run()
+        })
+        off.push(() => clearTimeout(t), end)
       } else draw(now)
 
       api.current = {
