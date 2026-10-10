@@ -9,7 +9,7 @@ import { Input } from "@/registry/0db/ui/field"
 
 // Make some noise: your words, set huge, and around them the same words run small and loud, as pretext flows
 // every row around the letters. "Turn it down" spreads the silence out from your sentence until it rests,
-// set light, at 0 dB. The link it shares carries the sentence, so whoever opens it hears it turned down too.
+// set light, at 0 dB. The link it shares carries the sentence, so whoever opens it finds it already turned down.
 // A fine pointer carries a pause in the noise, drawn as a ring with one word in it: Share. Inside the ring it
 // is quiet, your words too. A click anywhere copies the link, and the ring stops and opens, and the places
 // to send it stand in the silence. Touch and keys have the same thing in "Share it".
@@ -65,19 +65,13 @@ export function Toy() {
     [show],
   )
 
-  // Opened from a shared link: the sentence arrives loud, then turns itself down.
+  // Opened from a shared link: the sentence arrives already turned down, with no timer and nothing moving. The
+  // person who opened it did nothing yet; "Make some noise" is theirs to press.
   React.useEffect(() => {
     const shared = new URLSearchParams(location.search).get("say")?.slice(0, 80)
     if (!shared) return
-    const loud = window.setTimeout(() => {
-      setText(shared)
-      setQuiet(false)
-    })
-    const hush = window.setTimeout(() => setQuiet(true), 1600)
-    return () => {
-      clearTimeout(loud)
-      clearTimeout(hush)
-    }
+    const arrive = window.setTimeout(() => setText(shared))
+    return () => clearTimeout(arrive)
   }, [])
 
   return (
