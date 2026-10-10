@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 
 import { ThemeScript } from "@/components/site/theme-script"
 import { TopRow } from "@/components/site/top-row"
-import { SmoothScroll } from "@/components/site/smooth-scroll"
 import { PageRail } from "@/components/site/page-rail"
 import { RegistryStyles } from "@/components/site/registry-styles"
 import { Toaster } from "@/registry/0db/ui/toast"
@@ -48,7 +47,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </TooltipProvider>
         <PageRail />
         <Toaster />
-        <SmoothScroll />
       </body>
     </html>
   )
