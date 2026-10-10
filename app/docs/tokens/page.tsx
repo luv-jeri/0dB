@@ -11,13 +11,15 @@ export const metadata: Metadata = {
   description: "Every --ot- token and its Day value. Copy one to use it.",
 }
 
-/** Text that names tokens, set so it can wrap at a hyphen of a token's name and nowhere else inside it: --ot- stays whole, then each word of the name may start a line. */
+/** Text that names tokens, set so it can wrap at a hyphen of a token's name and nowhere else inside it: --ot- and the first word stay whole, then each later word may start a line. */
 function Wrappable({ text }: { text: string }) {
   return (
     <>
       {text.split(/(--[\w-]+)/).map((part, i) => {
         if (i % 2 === 0) return part
-        const [first, ...rest] = part.slice(2).split("-")
+        const words = part.slice(2).split("-")
+        const first = words.slice(0, 2).join("-")
+        const rest = words.slice(2)
         return (
           <React.Fragment key={i}>
             <span className="doc-token-ref">--{first}</span>

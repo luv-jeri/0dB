@@ -226,7 +226,7 @@ body { overflow-x: clip; }
   .doc-ai-files tr > td:first-of-type { color: var(--ot-pencil); }
 }
 /* A token's name is one word: the column grows for it instead of breaking after the prefix. */
-/* A token's name may wrap at its hyphens, never inside a word, and its --ot- prefix stays with the first word. */
+/* A token's name may wrap at its hyphens, never inside a word, and its --ot- prefix stays with the first word after it. */
 .doc-token-ref { white-space: nowrap; }
 .doc-tokens code { overflow-wrap: normal; }
 
