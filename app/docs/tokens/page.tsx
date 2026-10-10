@@ -59,7 +59,7 @@ export default function Tokens() {
                       <code>{t.name}</code>
                     </TableCell>
                     <TableCell>
-                      <code>{t.value}</code>
+                      <code>{t.value.split(/(var\(--[\w-]+\))/).map((part, i) => (i % 2 ? <span key={i} className="doc-token-ref">{part}</span> : part))}</code>
                     </TableCell>
                     <TableCell>
                       <CopyButton text={`var(${t.name})`} aria-label={`Copy var(${t.name})`} />

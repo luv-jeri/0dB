@@ -227,6 +227,8 @@ body { overflow-x: clip; }
 }
 /* A token's name is one word: the column grows for it instead of breaking after the prefix. */
 .doc-tokens td:first-child code { white-space: nowrap; }
+/* A value may break between its words, never inside a token it names: var(--ot-ink) stays whole. */
+.doc-token-ref { white-space: nowrap; }
 
 /* The states sit on the example's inset, so the two read as one block. */
 .spec-states { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--ot-space-6) var(--ot-space-7); margin-top: var(--ot-space-6); padding: var(--ot-space-5) var(--ot-space-7) 0; border-top: var(--ot-hairline) dotted var(--ot-rule-strong); }
