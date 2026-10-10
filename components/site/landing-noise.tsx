@@ -290,9 +290,11 @@ export function Noise({ words = REFUSED, quiet, peak = 111, hold = null, classNa
         hushMs = left * 0.5
         spread = Math.max(0, (left * 0.3 - 60) / reach)
         phase = { kind: "swell", at: now, from: 0, meterFrom: 0 }
+        canvas!.dataset.arrival = "" // for as long as the overture plays; the motion check reads it
         run()
         const t = window.setTimeout(() => to("hush"), swellMs)
         const end = onOvertureEnd(() => {
+          delete canvas!.dataset.arrival
           // The overture is over, by deadline or by the person: rest now, with the type where it has settled.
           clearTimeout(t)
           swellMs = SWELL; hushMs = HUSH; spread = SPREAD

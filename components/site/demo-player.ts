@@ -41,7 +41,7 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
     const setState = (next: DemoState) => setShown((now) => ({ key, state: next, interactive: now.key === key && now.interactive }))
     const setInteractive = (next: boolean) => setShown((now) => ({ key, state: now.key === key ? now.state : "waiting", interactive: next }))
     const motion = matchMedia("(prefers-reduced-motion: reduce)")
-    let disposed = false, ready = false, visible = false, started = false, available = false
+    let disposed = false, ready = false, visible = false, started = false, available = false, pristine = true
     let run: AbortController | null = null, idle = 0, deferred = 0
     let choreography: typeof import("@/components/site/demo-choreography") | null = null, loading = false
     let lanes: Lane[] = [], driving = false, sheetHeight = 0
@@ -92,7 +92,8 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
     }
     const quiet = () => { if (item === "word-relay") choreography?.all(el, ".db-relay-pause").filter((b) => b.textContent?.trim() === "pause").forEach((b) => invoke(() => b.click())) }
     const remount = () => { driving = true; try { flushSync(() => resetRef.current()); quiet(); stabilize() } finally { driving = false } }
-    // Only ever called by the person's own press of Demonstrate. It starts from the example's defaults and plays once.
+    // Only ever called by the person's own press of Demonstrate. It starts from the example's defaults (remounting
+    // only when something has already happened to it) and plays once.
     const start = async () => {
       if (disposed || !available) return
       cancel(false)
@@ -101,8 +102,8 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
       run = current
       const signal = current.signal, c = conductor(signal)
       try {
-        remount()
-        await c.wait(c.tempo.moderato)
+        if (!pristine) { remount(); await c.wait(c.tempo.moderato) }
+        pristine = false
         stabilize()
         publish("playing")
         el.dataset.demoCycle = "1"
@@ -148,10 +149,16 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
       const found = choreography.compose(el, item, conductor(new AbortController().signal)).some((l) => l.steps.length)
       if (found !== available) { available = found; setInteractive(found) }
     }
+    // A page that scrolls under a still pointer (the demonstration focusing a field, say) makes the browser report the
+    // pointer entering whatever slid beneath it. That is the page moving, not the person.
+    let scrolledAt = -1e9
+    const scrolled = () => { scrolledAt = performance.now() }
+    addEventListener("scroll", scrolled, { passive: true, capture: true })
     const hands = (event: Event) => {
       // The Demonstrate and Stop control is the person asking, not the person taking over.
       if (event.target instanceof Element && event.target.closest("[data-demo-control]")) return
-      if (event.isTrusted && !driving) cancel(true)
+      if (event.type === "pointerenter" && performance.now() - scrolledAt < 600) return
+      if (event.isTrusted && !driving) { pristine = false; cancel(true) }
     }
     const events = ["pointerenter", "pointerdown", "keydown", "focusin", "click"]
     events.forEach((e) => surface.addEventListener(e, hands, true))
@@ -181,6 +188,7 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
       if (idle) window.cancelIdleCallback(idle)
       window.removeEventListener("load", afterLoad)
       events.forEach((e) => surface.removeEventListener(e, hands, true))
+      removeEventListener("scroll", scrolled, true)
       document.removeEventListener("visibilitychange", away)
       motion.removeEventListener("change", changed)
       delete el.dataset.demoState; delete el.dataset.demoCycle
