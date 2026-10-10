@@ -32,7 +32,7 @@ function browser({ store = {}, reduced = false, hash = "", scroll = 0, throwOn =
     dispatchEvent: (event) => { events.push(event) },
   }
   // The skip control is the one element the script looks up twice; make activeElement compare equal to it.
-  if (focus === "skip") { const skip = { id: "skip" }; document.querySelector = (selector) => selector === ".hero-skip" ? skip : { focus: () => focused.push("action") }; document.activeElement = skip }
+  if (focus === "skip") { const skip = { id: "skip", closest: (selector) => selector === ".hero-skip" ? skip : null }; document.querySelector = (selector) => selector === ".hero-skip" ? skip : { focus: () => focused.push("action") }; document.activeElement = skip }
   const context = vm.createContext({
     localStorage,
     matchMedia: () => media,
@@ -174,12 +174,29 @@ test("asking for reduced motion mid-way ends it", () => {
 test("ending moves focus from Skip intro to the first action, and only then", () => {
   const withFocus = browser({ focus: "skip" })
   withFocus.run()
-  withFocus.fire("document", "keydown", { key: "Enter" })
+  withFocus.fire("document", "click", { target: { closest: (selector) => selector === ".hero-skip" ? {} : null } })
   assert.deepEqual(withFocus.focused, ["action"])
   const without = browser()
   without.run()
   without.fire("document", "keydown", { key: "Enter" })
   assert.deepEqual(without.focused, [])
+})
+
+test("Enter or Space on Skip intro waits for its click, so the press cannot go on to the next action", () => {
+  for (const key of ["Enter", " "]) {
+    const b = browser({ focus: "skip" })
+    b.run()
+    b.fire("document", "keydown", { key, target: { closest: (selector) => selector === ".hero-skip" ? {} : null } })
+    assert.notEqual(b.attrs[OVERTURE_ATTR], undefined, `${JSON.stringify(key)} on Skip intro ended it before its click`)
+    assert.deepEqual(b.focused, [], "focus moved on the key, so the same press would activate the next action")
+    b.fire("document", "click", { target: { closest: (selector) => selector === ".hero-skip" ? {} : null } })
+    assert.equal(b.attrs[OVERTURE_ATTR], undefined)
+    assert.equal(b.events[0].detail, "skip")
+  }
+  const other = browser({ focus: "skip" })
+  other.run()
+  other.fire("document", "keydown", { key: "a" })
+  assert.equal(other.attrs[OVERTURE_ATTR], undefined, "another key on Skip intro should still end it")
 })
 
 test("ending twice is harmless: one event, and the timer is cleared", () => {
