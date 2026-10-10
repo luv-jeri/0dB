@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-meter (meter)
+### ot-meter (meter)
 - Underneath: native `<meter>`, named by a native `<label>`. A known reading within limits, such as storage used or a budget balance; use progress for completion and slider for input.
-- Anatomy: `.db-meter` holding `.db-meter-label`, `.db-meter-scale` (the visual reading, rule, index and two limits, all `aria-hidden`), a visually hidden native meter, and optional `.db-meter-note`. Every part carries `data-slot`.
+- Anatomy: `.ot-meter` holding `.ot-meter-label`, `.ot-meter-scale` (the visual reading, rule, index and two limits, all `aria-hidden`), a visually hidden native meter, and optional `.ot-meter-note`. Every part carries `data-slot`.
 - Creative move: Paul Rand's dimension lines. A large italic figure stands above a hairline between two end ticks; one accent index marks the exact reading. The empty measure stays empty. The space on either side of the figure shares the remaining width in proportion to the reading, keeping it inside both limits without measuring in script. Longer readings step down from ff toward mf to fit their measure, using the formatted length and container width; exceptionally long text still wraps in flow above the line rather than covering it. Labels and notes wrap too. Units and limits are roman; the reading is yours, in italic.
 - `value` is clamped to finite `min` and `max`, shared by the visible reading and native meter. Negative ranges work; non-finite values, an overflowing span and max not greater than min throw a RangeError. `format` sets all three figures and `unit` follows them as supplied. `low`, `high` and `optimum` retain the native semantics without introducing another colour.
 - The formatted reading names the value through `aria-valuetext`; callers can override it. The note joins any supplied `aria-describedby`. `id`, `ref` and other native meter props reach the meter; `className`, `style`, `hidden`, `dir` and `lang` apply to the root. It is a reading, with no tab stop or keyboard interaction.

@@ -92,17 +92,17 @@
       ],
       "cssVars": {
         "theme": {
-          "color-paper": "var(--db-paper)",
-          "color-ink": "var(--db-ink)",
-          "color-graphite": "var(--db-graphite)",
-          "color-pencil": "var(--db-pencil)",
-          "color-rule": "var(--db-rule)",
-          "color-rule-strong": "var(--db-rule-strong)",
-          "color-accent": "var(--db-accent)",
-          "color-signal": "var(--db-signal)",
-          "color-mark": "var(--db-mark)",
-          "font-voice": "var(--db-voice)",
-          "font-expression": "var(--db-expression)"
+          "color-paper": "var(--ot-paper)",
+          "color-ink": "var(--ot-ink)",
+          "color-graphite": "var(--ot-graphite)",
+          "color-pencil": "var(--ot-pencil)",
+          "color-rule": "var(--ot-rule)",
+          "color-rule-strong": "var(--ot-rule-strong)",
+          "color-accent": "var(--ot-accent)",
+          "color-signal": "var(--ot-signal)",
+          "color-mark": "var(--ot-mark)",
+          "font-voice": "var(--ot-voice)",
+          "font-expression": "var(--ot-expression)"
         }
       },
       "css": {
@@ -111,22 +111,22 @@
         "@import \"../styles/0nlytype/base.css\"": {},
         "@custom-variant dark (&:where([data-mode=\"nocturne\"], [data-mode=\"nocturne\"] *))": {},
         ":root, :root[data-mode]": {
-          "--background": "var(--db-paper)",
-          "--foreground": "var(--db-graphite)",
-          "--card": "var(--db-paper)",
-          "--card-foreground": "var(--db-graphite)",
-          "--popover": "var(--db-paper)",
-          "--popover-foreground": "var(--db-graphite)",
-          "--primary": "var(--db-ink)",
-          "--primary-foreground": "var(--db-paper)",
-          "--secondary": "var(--db-paper)",
-          "--secondary-foreground": "var(--db-ink)",
-          "--muted": "var(--db-paper)",
-          "--muted-foreground": "var(--db-pencil)",
-          "--destructive": "var(--db-signal)",
-          "--border": "var(--db-rule)",
-          "--input": "var(--db-rule-strong)",
-          "--ring": "var(--db-accent)",
+          "--background": "var(--ot-paper)",
+          "--foreground": "var(--ot-graphite)",
+          "--card": "var(--ot-paper)",
+          "--card-foreground": "var(--ot-graphite)",
+          "--popover": "var(--ot-paper)",
+          "--popover-foreground": "var(--ot-graphite)",
+          "--primary": "var(--ot-ink)",
+          "--primary-foreground": "var(--ot-paper)",
+          "--secondary": "var(--ot-paper)",
+          "--secondary-foreground": "var(--ot-ink)",
+          "--muted": "var(--ot-paper)",
+          "--muted-foreground": "var(--ot-pencil)",
+          "--destructive": "var(--ot-signal)",
+          "--border": "var(--ot-rule)",
+          "--input": "var(--ot-rule-strong)",
+          "--ring": "var(--ot-accent)",
           "--radius": "0rem"
         }
       }
@@ -208,7 +208,7 @@
       "meta": {
         "movement": "II",
         "underneath": "native",
-        "contract": "db-link"
+        "contract": "ot-link"
       }
     },
     {
@@ -228,7 +228,7 @@
       "meta": {
         "movement": "IV",
         "underneath": "native",
-        "contract": "db-meta"
+        "contract": "ot-meta"
       }
     },
     {
@@ -248,7 +248,7 @@
       "meta": {
         "movement": "II",
         "underneath": "native",
-        "contract": "db-kbd"
+        "contract": "ot-kbd"
       }
     },
     {
@@ -271,7 +271,7 @@
       "meta": {
         "movement": "IV",
         "underneath": "native",
-        "contract": "db-corners"
+        "contract": "ot-corners"
       }
     },
     {
@@ -303,7 +303,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-btn"
+        "contract": "ot-btn"
       }
     },
     {
@@ -331,7 +331,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "native",
-        "contract": "db-dots"
+        "contract": "ot-dots"
       }
     },
     {
@@ -360,7 +360,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-check"
+        "contract": "ot-check"
       }
     },
     {
@@ -380,7 +380,7 @@
       "meta": {
         "movement": "II",
         "underneath": "native",
-        "contract": "db-fraction"
+        "contract": "ot-fraction"
       }
     },
     {
@@ -408,7 +408,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-choice"
+        "contract": "ot-choice"
       }
     },
     {
@@ -436,7 +436,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "hook",
-        "contract": "db-dial"
+        "contract": "ot-dial"
       }
     },
     {
@@ -464,7 +464,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-picks"
+        "contract": "ot-picks"
       }
     },
     {
@@ -492,7 +492,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-switch"
+        "contract": "ot-switch"
       }
     },
     {
@@ -520,7 +520,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "hook",
-        "contract": "db-ruler"
+        "contract": "ot-ruler"
       }
     },
     {
@@ -548,7 +548,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-field"
+        "contract": "ot-field"
       }
     },
     {
@@ -576,7 +576,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-select"
+        "contract": "ot-select"
       }
     },
     {
@@ -607,7 +607,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "radix",
-        "contract": "db-tabs"
+        "contract": "ot-tabs"
       }
     },
     {
@@ -638,7 +638,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-pager"
+        "contract": "ot-pager"
       }
     },
     {
@@ -669,7 +669,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-crumbs"
+        "contract": "ot-crumbs"
       }
     },
     {
@@ -697,7 +697,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-disclose"
+        "contract": "ot-disclose"
       }
     },
     {
@@ -728,7 +728,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-rows"
+        "contract": "ot-rows"
       }
     },
     {
@@ -756,7 +756,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "hook",
-        "contract": "db-month"
+        "contract": "ot-month"
       }
     },
     {
@@ -784,7 +784,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-tag"
+        "contract": "ot-tag"
       }
     },
     {
@@ -812,7 +812,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-note"
+        "contract": "ot-note"
       }
     },
     {
@@ -841,7 +841,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "native",
-        "contract": "db-progress"
+        "contract": "ot-progress"
       }
     },
     {
@@ -870,7 +870,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "hook",
-        "contract": "db-toast"
+        "contract": "ot-toast"
       }
     },
     {
@@ -902,7 +902,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "hook",
-        "contract": "db-dialog"
+        "contract": "ot-dialog"
       }
     },
     {
@@ -931,7 +931,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "native",
-        "contract": "db-empty"
+        "contract": "ot-empty"
       }
     },
     {
@@ -962,7 +962,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "radix",
-        "contract": "db-toggle"
+        "contract": "ot-toggle"
       }
     },
     {
@@ -993,7 +993,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "radix",
-        "contract": "db-toggles"
+        "contract": "ot-toggles"
       }
     },
     {
@@ -1022,7 +1022,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-btn-group"
+        "contract": "ot-btn-group"
       }
     },
     {
@@ -1052,7 +1052,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-input-group"
+        "contract": "ot-input-group"
       }
     },
     {
@@ -1081,7 +1081,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "hook",
-        "contract": "db-code"
+        "contract": "ot-code"
       }
     },
     {
@@ -1113,7 +1113,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "cmdk",
-        "contract": "db-combo"
+        "contract": "ot-combo"
       }
     },
     {
@@ -1144,7 +1144,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "radix",
-        "contract": "db-pop"
+        "contract": "ot-pop"
       }
     },
     {
@@ -1177,7 +1177,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "radix",
-        "contract": "db-menu"
+        "contract": "ot-menu"
       }
     },
     {
@@ -1210,7 +1210,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "radix",
-        "contract": "db-menu"
+        "contract": "ot-menu"
       }
     },
     {
@@ -1243,7 +1243,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "radix",
-        "contract": "db-menubar"
+        "contract": "ot-menubar"
       }
     },
     {
@@ -1274,7 +1274,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "radix",
-        "contract": "db-navmenu"
+        "contract": "ot-navmenu"
       }
     },
     {
@@ -1307,7 +1307,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "cmdk",
-        "contract": "db-command"
+        "contract": "ot-command"
       }
     },
     {
@@ -1341,7 +1341,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "hook",
-        "contract": "db-sidebar"
+        "contract": "ot-sidebar"
       }
     },
     {
@@ -1373,7 +1373,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-card"
+        "contract": "ot-card"
       }
     },
     {
@@ -1404,7 +1404,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "radix",
-        "contract": "db-peek"
+        "contract": "ot-peek"
       }
     },
     {
@@ -1435,7 +1435,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "radix",
-        "contract": "db-tip"
+        "contract": "ot-tip"
       }
     },
     {
@@ -1467,7 +1467,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-sheet"
+        "contract": "ot-sheet"
       }
     },
     {
@@ -1497,7 +1497,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-drawer"
+        "contract": "ot-drawer"
       }
     },
     {
@@ -1526,7 +1526,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-collapse"
+        "contract": "ot-collapse"
       }
     },
     {
@@ -1557,7 +1557,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "hook",
-        "contract": "db-resize"
+        "contract": "ot-resize"
       }
     },
     {
@@ -1586,7 +1586,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-scroll"
+        "contract": "ot-scroll"
       }
     },
     {
@@ -1614,7 +1614,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "hook",
-        "contract": "db-scrollbar"
+        "contract": "ot-scrollbar"
       }
     },
     {
@@ -1642,7 +1642,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-ratio"
+        "contract": "ot-ratio"
       }
     },
     {
@@ -1670,7 +1670,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "hook",
-        "contract": "db-carousel"
+        "contract": "ot-carousel"
       }
     },
     {
@@ -1698,7 +1698,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-table"
+        "contract": "ot-table"
       }
     },
     {
@@ -1726,7 +1726,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-chart"
+        "contract": "ot-chart"
       }
     },
     {
@@ -1754,7 +1754,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-avatar"
+        "contract": "ot-avatar"
       }
     },
     {
@@ -1782,7 +1782,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-item"
+        "contract": "ot-item"
       }
     },
     {
@@ -1813,7 +1813,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-prose"
+        "contract": "ot-prose"
       }
     },
     {
@@ -1844,7 +1844,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-msg"
+        "contract": "ot-msg"
       }
     },
     {
@@ -1872,7 +1872,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-marker"
+        "contract": "ot-marker"
       }
     },
     {
@@ -1901,7 +1901,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-attach"
+        "contract": "ot-attach"
       }
     },
     {
@@ -1932,7 +1932,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-thread"
+        "contract": "ot-thread"
       }
     },
     {
@@ -1964,7 +1964,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-quest"
+        "contract": "ot-quest"
       }
     },
     {
@@ -1993,7 +1993,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "native",
-        "contract": "db-alert"
+        "contract": "ot-alert"
       }
     },
     {
@@ -2021,7 +2021,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "native",
-        "contract": "db-skeleton"
+        "contract": "ot-skeleton"
       }
     },
     {
@@ -2052,7 +2052,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "radix",
-        "contract": "db-date"
+        "contract": "ot-date"
       }
     },
     {
@@ -2084,7 +2084,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-feed"
+        "contract": "ot-feed"
       }
     },
     {
@@ -2122,7 +2122,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-agent-chat"
+        "contract": "ot-agent-chat"
       }
     },
     {
@@ -2152,7 +2152,7 @@
       "meta": {
         "movement": "XI",
         "underneath": "native",
-        "contract": "db-agent"
+        "contract": "ot-agent"
       }
     },
     {
@@ -2182,7 +2182,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "hook",
-        "contract": "db-appearance"
+        "contract": "ot-appearance"
       }
     },
     {
@@ -2211,7 +2211,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-area-chart"
+        "contract": "ot-area-chart"
       }
     },
     {
@@ -2242,7 +2242,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-calligram"
+        "contract": "ot-calligram"
       }
     },
     {
@@ -2272,7 +2272,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-command-line"
+        "contract": "ot-command-line"
       }
     },
     {
@@ -2303,7 +2303,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-contour"
+        "contract": "ot-contour"
       }
     },
     {
@@ -2335,7 +2335,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-data-table"
+        "contract": "ot-data-table"
       }
     },
     {
@@ -2364,7 +2364,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-drop"
+        "contract": "ot-drop"
       }
     },
     {
@@ -2394,7 +2394,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "native",
-        "contract": "db-figure"
+        "contract": "ot-figure"
       }
     },
     {
@@ -2424,7 +2424,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "hook",
-        "contract": "db-form"
+        "contract": "ot-form"
       }
     },
     {
@@ -2455,7 +2455,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-gather"
+        "contract": "ot-gather"
       }
     },
     {
@@ -2483,7 +2483,7 @@
       "meta": {
         "movement": "IV",
         "underneath": "native",
-        "contract": "db-grid"
+        "contract": "ot-grid"
       }
     },
     {
@@ -2512,7 +2512,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-line-chart"
+        "contract": "ot-line-chart"
       }
     },
     {
@@ -2540,7 +2540,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-marquee"
+        "contract": "ot-marquee"
       }
     },
     {
@@ -2571,7 +2571,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-measure"
+        "contract": "ot-measure"
       }
     },
     {
@@ -2602,7 +2602,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-melody"
+        "contract": "ot-melody"
       }
     },
     {
@@ -2630,7 +2630,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-meter"
+        "contract": "ot-meter"
       }
     },
     {
@@ -2658,7 +2658,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-mode-toggle"
+        "contract": "ot-mode-toggle"
       }
     },
     {
@@ -2688,7 +2688,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "hook",
-        "contract": "db-number"
+        "contract": "ot-number"
       }
     },
     {
@@ -2717,7 +2717,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-pie"
+        "contract": "ot-pie"
       }
     },
     {
@@ -2746,7 +2746,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-radar"
+        "contract": "ot-radar"
       }
     },
     {
@@ -2774,7 +2774,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-radial"
+        "contract": "ot-radial"
       }
     },
     {
@@ -2804,7 +2804,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "hook",
-        "contract": "db-trail"
+        "contract": "ot-trail"
       }
     },
     {
@@ -2835,7 +2835,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-reverb"
+        "contract": "ot-reverb"
       }
     },
     {
@@ -2865,7 +2865,7 @@
       "meta": {
         "movement": "IV",
         "underneath": "hook",
-        "contract": "db-expand"
+        "contract": "ot-expand"
       }
     },
     {
@@ -2893,7 +2893,7 @@
       "meta": {
         "movement": "IX",
         "underneath": "hook",
-        "contract": "db-segue"
+        "contract": "ot-segue"
       }
     },
     {
@@ -2929,7 +2929,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-sign"
+        "contract": "ot-sign"
       }
     },
     {
@@ -2961,7 +2961,7 @@
       "meta": {
         "movement": "X",
         "underneath": "hook",
-        "contract": "db-source"
+        "contract": "ot-source"
       }
     },
     {
@@ -2990,7 +2990,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-stat"
+        "contract": "ot-stat"
       }
     },
     {
@@ -3019,7 +3019,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-steps"
+        "contract": "ot-steps"
       }
     },
     {
@@ -3048,7 +3048,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-swap"
+        "contract": "ot-swap"
       }
     },
     {
@@ -3079,7 +3079,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-ribbon"
+        "contract": "ot-ribbon"
       }
     },
     {
@@ -3107,7 +3107,7 @@
       "meta": {
         "movement": "IV",
         "underneath": "native",
-        "contract": "db-tiling"
+        "contract": "ot-tiling"
       }
     },
     {
@@ -3137,7 +3137,7 @@
       "meta": {
         "movement": "VII",
         "underneath": "hook",
-        "contract": "db-timer"
+        "contract": "ot-timer"
       }
     },
     {
@@ -3166,7 +3166,7 @@
       "meta": {
         "movement": "VIII",
         "underneath": "native",
-        "contract": "db-tour"
+        "contract": "ot-tour"
       }
     },
     {
@@ -3196,7 +3196,7 @@
       "meta": {
         "movement": "X",
         "underneath": "native",
-        "contract": "db-tree"
+        "contract": "ot-tree"
       }
     },
     {
@@ -3227,7 +3227,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-wake"
+        "contract": "ot-wake"
       }
     },
     {
@@ -3258,7 +3258,7 @@
       "meta": {
         "movement": "II",
         "underneath": "hook",
-        "contract": "db-waterfall"
+        "contract": "ot-waterfall"
       }
     },
     {
@@ -3286,7 +3286,7 @@
       "meta": {
         "movement": "VI",
         "underneath": "native",
-        "contract": "db-relay"
+        "contract": "ot-relay"
       }
     },
     {

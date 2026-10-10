@@ -2,7 +2,7 @@
 
 Extracted from DESIGN.md.
 
-### db-kbd (kbd)
+### ot-kbd (kbd)
 - Underneath: native `<kbd>`. Its CSS lives in base.css, so every item may use it.
 - A key, drawn as the corners of its cap (the corner marks the statement button and the dialog wear), with room inside for its name, on the text's baseline. `data-pressed` presses it: the corners run together into the whole cap and ink in, and the key goes down a little (the specimen presses the G key along with your keyboard).
 - A key is its own left-to-right run (`direction: ltr; unicode-bidi: isolate`), so ⌘K reads ⌘K on a right-to-left page too.

@@ -2,11 +2,11 @@
 
 Extracted from DESIGN.md.
 
-### db-date (date-picker)
+### ot-date (date-picker)
 - Underneath: Radix Popover holding the calendar.
-- Anatomy: `<button class="db-date" popovertarget="id" aria-haspopup="dialog">` inside a sentence, opening an `db-pop` that holds an `db-month`. `data-set` marks a chosen date.
+- Anatomy: `<button class="ot-date" popovertarget="id" aria-haspopup="dialog">` inside a sentence, opening an `ot-pop` that holds an `ot-month`. `data-set` marks a chosen date.
 - A date inside a sentence, like the select. The month hangs from it on a leader line; choosing a day writes it into the sentence in italic and closes the popover.
-- `variant` passes to the month (dots, ruler, ghost or parenthesis); each holds at popover size (the ghost is sized to the month's width, the parenthesis line wraps to it), where `--big` steps the numeral down to `--db-ff`. Opening focuses the day that holds the month's tab stop (the chosen day, else today).
+- `variant` passes to the month (dots, ruler, ghost or parenthesis); each holds at popover size (the ghost is sized to the month's width, the parenthesis line wraps to it), where `--big` steps the numeral down to `--ot-ff`. Opening focuses the day that holds the month's tab stop (the chosen day, else today).
 - Keyboard: the month's own (arrows move by day or week, Enter chooses); Escape closes.
 
 ## Motion

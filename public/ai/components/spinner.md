@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-dots (spinner)
+### ot-dots (spinner)
 - Underneath: native.
-- Anatomy: `<span class="db-dots" data-variant="…" aria-hidden="true"><span class="db-dots-art" aria-hidden="true"><i></i>…</span></span>`. The default, `dots`, is what a busy button holds, beside its present-tense word ("Saving"). Given a `label`, the root is instead `role="status"` (polite) with the label in a `.db-sr`. Optional `data-size="l"` stands it alone at the `f` step; otherwise everything is in em and it takes the size of its line.
+- Anatomy: `<span class="ot-dots" data-variant="…" aria-hidden="true"><span class="ot-dots-art" aria-hidden="true"><i></i>…</span></span>`. The default, `dots`, is what a busy button holds, beside its present-tense word ("Saving"). Given a `label`, the root is instead `role="status"` (polite) with the label in a `.ot-sr`. Optional `data-size="l"` stands it alone at the `f` step; otherwise everything is in em and it takes the size of its line.
 - Shown only while something the person started is running: the one thing that moves by itself, so every loop is slow and eased like breathing. The art stands on the baseline in a box a capital tall, so it reads as one more glyph; strokes stay hairlines at any size.
 - The family, each a way a score or a page writes a wait:
   - dots (default): three periods on the baseline, each lifting as it brightens, in turn.

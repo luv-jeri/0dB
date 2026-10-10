@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-tip (tooltip)
+### ot-tip (tooltip)
 - Underneath: Radix Tooltip.
-- Anatomy: `<span class="db-tip">` holding the control (with `aria-describedby`) and `.db-tip-text`.
+- Anatomy: `<span class="ot-tip">` holding the control (with `aria-describedby`) and `.ot-tip-text`.
 - A whisper in parentheses above the thing it names. The parentheses are thin (200) and taller than the words, in ink, as 20(25) sets them round its figures, so the whisper reads as an aside held apart. It waits for a still pointer; focus shows it at once. Escape sets `data-hush` until the pointer or focus leaves.
 - Variants go on `data-variant` (`TooltipContent variant`): whisper (the default), initials, beside.
 - Initials, after "the uncreative" reversing part of its word: for a key or an abbreviation. The letters the control shows are marked with `<b>` in the whisper's words and reversed out of the ink (paper on ink), so the whisper shows where G, or CMYK, comes from. Screen readers hear the words whole.

@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-toggles (toggle-group)
+### ot-toggles (toggle-group)
 - Underneath: Radix ToggleGroup: `type="multiple"` is a toolbar of `aria-pressed` buttons, `type="single"` a radio group. Needs no other item's classes.
-- Anatomy: `<div class="db-toggles" data-variant="slur | bracket | fingering | margin" aria-label="Name">` of `<button class="db-toggles-item" data-value="…">`, each word in a `db-toggles-word` cell that also holds its italic copy (from `data-text`), so a word is always as wide as its wider state and nothing beside it moves when it turns. Last, an `aria-hidden` `db-toggles-marks` layer where script draws one `db-toggles-mark` per run of held neighbours from `--l`, `--r`, `--t`, `--h`.
+- Anatomy: `<div class="ot-toggles" data-variant="slur | bracket | fingering | margin" aria-label="Name">` of `<button class="ot-toggles-item" data-value="…">`, each word in a `ot-toggles-word` cell that also holds its italic copy (from `data-text`), so a word is always as wide as its wider state and nothing beside it moves when it turns. Last, an `aria-hidden` `ot-toggles-marks` layer where script draws one `ot-toggles-mark` per run of held neighbours from `--l`, `--r`, `--t`, `--h`.
 - Held, a word is yours: the roman sinks away as the italic rises into its place. Its mark stretches over the held words beside it; when two runs join, one mark stretches and the other fades where it stands. Held one at a time, the mark glides to the new word, leading edge first.
 - Marks are measured from the face you see: the held italic, or the roman at rest (which carries its own pencil sketch), never the shared cell, so a slur, a pair or a number sits even on the word.
 - slur (default): hairlines stand between the words, and the held run is tied under one engraved slur (a border on a half-ellipse, so it swells in the middle and tapers to points; it bows deeper the further it reaches). The hairline between two held words lies down under the slur, and none stands at the start of a wrapped line. Pointing sketches a pencil slur from the middle out.

@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-form (form)
+### ot-form (form)
 - Underneath: a native `<form>` with `noValidate`, plus a hook. The browser's own constraint validation decides what's wrong; the form only says it the 0nlyType way.
-- Anatomy: `<form class="db-form">` holding `db-field`s on a grid and one `FormSubmit`, a statement button.
+- Anatomy: `<form class="ot-form">` holding `ot-field`s on a grid and one `FormSubmit`, a statement button.
 - On submit it checks every control. Each invalid one gets its Field's error callout (the control's `data-error`, else the browser's message), `aria-invalid` and `aria-describedby`, and focus goes to the first. Typing clears or updates that field's error.
 - Sending: `FormSubmit` goes busy and says so (`busy="Sending"`), with the breathing periods. A second submit while one runs is ignored.
 - Copy: the button names the action (Send, Save), never Submit. Errors say what to fix.

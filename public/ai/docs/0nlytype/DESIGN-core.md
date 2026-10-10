@@ -6,13 +6,13 @@ Extracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in c
 
 1. **Silence is structure.** Space does the layout. A hairline appears only where space alone can't hold two things apart.
 2. **Type is the only ornament.** Weight, width, size, tracking and order carry every level of hierarchy. No icons, fills or shadows.
-3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic: a picked option, a typed value, a switch state, a slider value, a named item they own. Display uses `--db-expression-scale`; text uses the same face in its reading grade, with more ink, a little air and a text-size optical cut where available. Musical and foreign terms are italic too (`.db-term`), by book convention.
+3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic: a picked option, a typed value, a switch state, a slider value, a named item they own. Display uses `--ot-expression-scale`; text uses the same face in its reading grade, with more ink, a little air and a text-size optical cut where available. Musical and foreign terms are italic too (`.ot-term`), by book convention.
 4. **One note of colour.** One accent marks where you are: the current page, the chosen option, focus. At most one accent mark in view. Crimson is only for errors. The highlighter is only for reading marks.
 5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once per browser, on the home page's first visit, and can be skipped. A demonstration of a component waits for a Demonstrate press. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
 
 ## Conventions
 
-- Tokens are `--db-*`. Component classes are `db-<name>`.
+- Tokens are `--ot-*`. Component classes are `ot-<name>`.
 - States live on native attributes (`:checked`, `:disabled`, `[aria-selected]`, `[aria-invalid]`, `[aria-current]`, `[aria-pressed]`, `[aria-busy]`). Variants live on `data-variant`, and size on `data-size`.
 - `[data-force~="hover"]` and `[data-force~="focus"]` pin a state for documentation rows.
 - Every control is built on the right native element, so the React port can use native elements or Radix without changing the look.
@@ -31,18 +31,18 @@ Extracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in c
 
 | Token | Day | Nocturne | Role |
 |---|---|---|---|
-| `--db-paper` | `#f2f3f0` | `#10111c` | The page |
-| `--db-ink` | `#000` | `#e9eaec` | Display type, the statement block |
-| `--db-graphite` | `#4a4b50` | `#b4b5bc` | Body text |
-| `--db-pencil` | `#6b6c71` | `#83848c` | Placeholders, captions, done or off |
-| `--db-rule` | ink at 14% (`color-mix`) | same | Hairlines |
-| `--db-rule-strong` | ink at 42% (`color-mix`) | same | Baselines, ticks, rings |
-| `--db-accent` | `#2b2bee` | `#8c8cff` | Where you are |
-| `--db-signal` | `#c8102e` | `#ff6b7f` | Errors only |
-| `--db-mark` | `#ffe45a` | same | Selection, `<mark>`, link hover |
-| `--db-on-mark` | `#000` | same | Text on the highlighter |
+| `--ot-paper` | `#f2f3f0` | `#10111c` | The page |
+| `--ot-ink` | `#000` | `#e9eaec` | Display type, the statement block |
+| `--ot-graphite` | `#4a4b50` | `#b4b5bc` | Body text |
+| `--ot-pencil` | `#6b6c71` | `#83848c` | Placeholders, captions, done or off |
+| `--ot-rule` | ink at 14% (`color-mix`) | same | Hairlines |
+| `--ot-rule-strong` | ink at 42% (`color-mix`) | same | Baselines, ticks, rings |
+| `--ot-accent` | `#2b2bee` | `#8c8cff` | Where you are |
+| `--ot-signal` | `#c8102e` | `#ff6b7f` | Errors only |
+| `--ot-mark` | `#ffe45a` | same | Selection, `<mark>`, link hover |
+| `--ot-on-mark` | `#000` | same | Text on the highlighter |
 
-Keys (`--db-accent`, day / nocturne): ultramarine `#2b2bee` / `#8c8cff`, viridian `#0b6e4f` / `#4fd1a5`, ember `#b83d00` / `#ff8a4c`, violet `#6a1b9a` / `#c58cf2`. Every key clears 4.5:1 on every scheme's paper (lowest: ember on silence, 4.56).
+Keys (`--ot-accent`, day / nocturne): ultramarine `#2b2bee` / `#8c8cff`, viridian `#0b6e4f` / `#4fd1a5`, ember `#b83d00` / `#ff8a4c`, violet `#6a1b9a` / `#c58cf2`. Every key clears 4.5:1 on every scheme's paper (lowest: ember on silence, 4.56).
 
 Schemes move paper, ink, graphite, pencil, accent and signal together. The rules follow the ink. Values are listed as day, then Nocturne.
 
@@ -58,9 +58,9 @@ All text colours (ink, graphite, pencil, accent, signal) clear 4.5:1 on their pa
 
 ### Type
 
-- `--db-voice`: a grotesque. Everything the interface says.
-- `--db-expression`: an italic serif. Everything the person says back.
-- `--db-expression-scale`: lifts the display italic until the two x-heights meet. It's set per pair; text roles locally use the reading scale below.
+- `--ot-voice`: a grotesque. Everything the interface says.
+- `--ot-expression`: an italic serif. Everything the person says back.
+- `--ot-expression-scale`: lifts the display italic until the two x-heights meet. It's set per pair; text roles locally use the reading scale below.
 
 | Pair | Voice | Expression | Scale |
 |---|---|---|---|
@@ -69,49 +69,49 @@ All text colours (ink, graphite, pencil, accent, signal) clear 4.5:1 on their pa
 | paris | Instrument Sans (width 75–100, weight 400–700) | EB Garamond | 1.24 |
 | salon | Bricolage Grotesque (optical size, width 75–100, weight 200–800) | Cormorant | 1.26 |
 
-**The expression's reading grade.** The italic is the same family at every size. At the text steps (`pp`, `p`, `mp`), thin display strokes need more ink and small counters need room. `base.css` applies one shared grade to typed inputs and textareas, editable text, selected values, text-size personal words, prose `em` / `i` and quotations, and small italic labels. `--db-reading` is the local scale and supplies `--db-expression-scale` on the expression element itself, never on a panel. Existing leading and component geometry stay with the sidecar. `.db-reading` opts a new text-size expression into the same rule; use it on the italic, not a parent containing roman or display type.
+**The expression's reading grade.** The italic is the same family at every size. At the text steps (`pp`, `p`, `mp`), thin display strokes need more ink and small counters need room. `base.css` applies one shared grade to typed inputs and textareas, editable text, selected values, text-size personal words, prose `em` / `i` and quotations, and small italic labels. `--ot-reading` is the local scale and supplies `--ot-expression-scale` on the expression element itself, never on a panel. Existing leading and component geometry stay with the sidecar. `.ot-reading` opts a new text-size expression into the same rule; use it on the italic, not a parent containing roman or display type.
 
-| Pair | `--db-expression-text-opsz` | `--db-expression-text-weight` | `--db-expression-text-tracking` | `--db-expression-text-scale` |
+| Pair | `--ot-expression-text-opsz` | `--ot-expression-text-weight` | `--ot-expression-text-tracking` | `--ot-expression-text-scale` |
 |---|---|---|---|---|
 | parma | 6 | 500 | 0.012em | 1.18 |
 | press | 6 | 500 | 0.01em | 1.12 |
 | paris | No optical-size axis | 500 | 0.015em | 1.3 |
 | salon | No optical-size axis | 600 | 0.015em | 1.38 |
 
-For Bodoni Moda and Newsreader, `--db-expression-text-variation` pins `"opsz"` to `--db-expression-text-opsz` with automatic optical sizing off. Garamond and Cormorant use `normal` variation settings and their real weight axes. Small italic prose and labels use full `--db-ink`, rather than graphite or pencil; intentional accent states, ink reversals, invisible measurement copies, disabled controls and roman placeholders keep their own colours. On cotton paper, ink is 18.85:1 by day and 15.59:1 in nocturne; contrast is measured independently of the font's stroke quality.
+For Bodoni Moda and Newsreader, `--ot-expression-text-variation` pins `"opsz"` to `--ot-expression-text-opsz` with automatic optical sizing off. Garamond and Cormorant use `normal` variation settings and their real weight axes. Small italic prose and labels use full `--ot-ink`, rather than graphite or pencil; intentional accent states, ink reversals, invisible measurement copies, disabled controls and roman placeholders keep their own colours. On cotton paper, ink is 18.85:1 by day and 15.59:1 in nocturne; contrast is measured independently of the font's stroke quality.
 
 Display italics keep their original optical sizing, weight, tracking, scale and colour: hero lines, titles, large figures, the overprint and signature fields, sforzando choices, statement relays and fitted type. Do not apply a reading grade to a whole component to catch a small label. Cormorant remains Cormorant; if a use still cannot be read at 16px after grading, propose a text-italic companion for owner review rather than silently substituting a family.
 
 The width moves (the title's exhale, the statement button, the disclosure) only travel as far as each voice's width axis allows. Schibsted has no width axis, so under press they change weight only.
-- `--db-measure`: 62ch.
+- `--ot-measure`: 62ch.
 
 Dynamics: text steps by a fourth, headings by a fifth. Each size has `-lh` (leading) and `-tr` (tracking) companions.
 
 | Token | Size | Leading | Tracking | Use |
 |---|---|---|---|---|
-| `--db-pp` | 13px | 1.45 | 0.01em | Labels, captions |
-| `--db-p` | 17px | 1.6 | 0 | Body |
-| `--db-mp` | 22px | 1.45 | −0.005em | Lead, control text |
-| `--db-mf` | 32px | 1.15 | −0.015em | Heading in a section |
-| `--db-f` | 48px | 1.05 | −0.025em | Section heading, dialog question |
-| `--db-ff` | 72px | 0.95 | −0.035em | Page title |
-| `--db-fff` | clamp(64px, 11vw, 160px) | 0.9 | −0.045em | Movement titles |
-| `--db-ffff` | clamp(64px, 17.5vw, 272px) | 0.82 | −0.055em | The overture only |
+| `--ot-pp` | 13px | 1.45 | 0.01em | Labels, captions |
+| `--ot-p` | 17px | 1.6 | 0 | Body |
+| `--ot-mp` | 22px | 1.45 | −0.005em | Lead, control text |
+| `--ot-mf` | 32px | 1.15 | −0.015em | Heading in a section |
+| `--ot-f` | 48px | 1.05 | −0.025em | Section heading, dialog question |
+| `--ot-ff` | 72px | 0.95 | −0.035em | Page title |
+| `--ot-fff` | clamp(64px, 11vw, 160px) | 0.9 | −0.045em | Movement titles |
+| `--ot-ffff` | clamp(64px, 17.5vw, 272px) | 0.82 | −0.055em | The overture only |
 
 ### Space, line, shape
 
-- `--db-space-1` … `--db-space-10`: 4, 8, 12, 18, 27, 40, 60, 90, 135, 200 (perfect fifths).
-- `--db-hairline` 1px, `--db-stroke` 1.5px, `--db-dot` 7px, `--db-gutter` 24px, `--db-margin` clamp(20px, 5vw, 80px).
+- `--ot-space-1` … `--ot-space-10`: 4, 8, 12, 18, 27, 40, 60, 90, 135, 200 (perfect fifths).
+- `--ot-hairline` 1px, `--ot-stroke` 1.5px, `--ot-dot` 7px, `--ot-gutter` 24px, `--ot-margin` clamp(20px, 5vw, 80px).
 - Grid: 12 columns. Columns 1–3 are the margin (names, notes), 4–12 the stave (the work). One column below 860px.
 - Separation, nearest to farthest. Every boundary on a page is one of five, and each has its own space. The farther apart two things are in meaning, the more silence between them, and a nearer pair never gets more space than a farther one. Silence does the separating; a line appears only where space can't.
 
 | Boundary | Space | For example |
 |---|---|---|
-| Within one thing: a label and its value, a figure and its name, a title and its note | `--db-space-1`–`3` (4–12) | a state's label over it; a stat's name under its figure |
-| A rule and the heading hung under it | `--db-space-5` (27) on a docs page, `--db-space-6` (40) on the landing page | a section's rule, then its h2 |
-| A heading and what it names | one step more than its rule: `--db-space-6` (40), `--db-space-7` (60) on the landing page; `--db-space-3` (12) under a p-size subheading | an h2 and its lead; a table's name and the table |
-| One block and the next inside a section | `--db-space-7` (60) | a lead and its example; two tables |
-| One section and the next | `--db-space-8` (90) on a docs page, `--db-space-9` (135) on the landing page, all of it before the rule | the end of Usage, then Contract's rule |
+| Within one thing: a label and its value, a figure and its name, a title and its note | `--ot-space-1`–`3` (4–12) | a state's label over it; a stat's name under its figure |
+| A rule and the heading hung under it | `--ot-space-5` (27) on a docs page, `--ot-space-6` (40) on the landing page | a section's rule, then its h2 |
+| A heading and what it names | one step more than its rule: `--ot-space-6` (40), `--ot-space-7` (60) on the landing page; `--ot-space-3` (12) under a p-size subheading | an h2 and its lead; a table's name and the table |
+| One block and the next inside a section | `--ot-space-7` (60) | a lead and its example; two tables |
+| One section and the next | `--ot-space-8` (90) on a docs page, `--ot-space-9` (135) on the landing page, all of it before the rule | the end of Usage, then Contract's rule |
 
 - A section begins at one rule, and only one. Its heading hangs just under that rule, or stands on the rule its content opens with (a list of rows, the steps, as SPECTRA's title stands on its line); then the section draws none of its own. A heading never floats between two lines. The first section after a page's head, and the coda at the end of one, begin in silence alone.
 - Hairlines part siblings of one kind: rows, steps, the rows of a table. A boundary between two kinds of thing is silence. A line stands beside what it belongs to, not across the gutter from it.
@@ -123,14 +123,14 @@ Dynamics: text steps by a fourth, headings by a fifth. Each size has `-lh` (lead
 
 | Token | Value | Use |
 |---|---|---|
-| `--db-allegro` | 160ms | Hover, press |
-| `--db-moderato` | 320ms | A state changes |
-| `--db-andante` | 640ms | Panels, toasts, dialogs |
-| `--db-adagio` | 1400ms | The overture, once |
-| `--db-exhale` | cubic-bezier(.16, 1, .3, 1) | Arriving |
-| `--db-breath` | cubic-bezier(.65, 0, .35, 1) | Moving between states |
-| `--db-spiccato` | cubic-bezier(.34, 1.5, .5, 1) | Landing: one small rebound (about 8%) for dots, rings, frames |
-| `--db-arpeggio` | 36ms | The step between things that arrive in turn |
+| `--ot-allegro` | 160ms | Hover, press |
+| `--ot-moderato` | 320ms | A state changes |
+| `--ot-andante` | 640ms | Panels, toasts, dialogs |
+| `--ot-adagio` | 1400ms | The overture, once |
+| `--ot-exhale` | cubic-bezier(.16, 1, .3, 1) | Arriving |
+| `--ot-breath` | cubic-bezier(.65, 0, .35, 1) | Moving between states |
+| `--ot-spiccato` | cubic-bezier(.34, 1.5, .5, 1) | Landing: one small rebound (about 8%) for dots, rings, frames |
+| `--ot-arpeggio` | 36ms | The step between things that arrive in turn |
 
 Under `prefers-reduced-motion: reduce`, every tempo is 1ms and the arpeggio is 0: things still change but don't travel. Script-driven motion (rolls, the radio's stretch, tag removal, dusk and dawn) checks the same query and applies the change directly.
 
@@ -139,7 +139,7 @@ Under `prefers-reduced-motion: reduce`, every tempo is 1ms and the arpeggio is 0
 Three rules, then one articulation per component.
 
 1. **Pointing sketches, choosing inks.** A hover previews in pencil: a hairline strike, a ring, a lean. A commitment draws in ink or the accent.
-2. **What's inked lands.** Dots, rings and frames arrive with `--db-spiccato`, one small rebound.
+2. **What's inked lands.** Dots, rings and frames arrive with `--ot-spiccato`, one small rebound.
 3. **Strokes pass through.** A stroke drawn on hover leaves the way it was heading: in from the left, off to the right. This uses `background-position` with a `0s` transition, so the anchor flips at once while the size animates.
 4. **Demonstrations wait.** An item whose behaviour can be shown (58 scripted ones today, in `components/site/demo-scores.ts`) never plays on its own. Its docs example and the landing's stage offer a Demonstrate bracket button; pressed, it plays one pass from the example's defaults and the button becomes Stop. Stopping, or touching the example, hands it back. Under reduced motion the pass still runs, as instant steps, because the person asked. Discovery only looks; `npm run check:motion` proves that for every scripted entry.
 
@@ -157,8 +157,8 @@ A move serves more than one component only when it is the same idea on purpose. 
 ## Registry conventions
 
 - One item is four files: `registry/0nlytype/ui/<item>.tsx`, its sidecar `registry/0nlytype/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
-- Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.db-ruler`.
-- Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.db-sr`.
+- Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.ot-ruler`.
+- Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.ot-sr`.
 - Direction: logical properties, and `:is([dir="rtl"], [dir="rtl"] *)` where a stroke has a direction. Never `:dir()`: Lightning CSS, which Next and Tailwind run, lowers it to a list of `:lang()` that misses a page that only sets `dir`.
 - Variants are `data-variant` and `data-size`, never classes. There's no cva.
 - React 19: `ref` is a plain prop. `"use client"` appears only in files that need state, effects, handlers or Radix, so every other item works in a Server Component. Each root and part carries `data-slot`; `className` merges through `cn`.
@@ -179,6 +179,6 @@ A move serves more than one component only when it is the same idea on purpose. 
 - The site and the registry live under `/ui` (Next `basePath`), at https://thedirectors.agency/ui. Next's `Link` adds the base path itself; every other same-origin URL (a `fetch`, an `img`, CSS) is built through `lib/site/config.mjs`, never written by hand.
 - The docs are built only from 0nlyType items, plus page layout in `app/site.css`. When a page needs something the library lacks, it's built as an item first.
 - A scripted example shows a Demonstrate control above it (see Motion, rule 4). Page titles stay still; the overture exists only on the home page.
-- Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### db-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
+- Every item page is generated from `content/<item>.ts`, `examples/<item>.tsx` and this file: its contract under `### ot-<class> (<item>)`, and its rows in "Where each move comes from" and "Motion", which name it in backticks.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
 - Theme choices live on `<html>` as `data-mode`, `data-scheme`, `data-key` and `data-pair`, stored under `0nlytype-theme` and restored by a script in `<head>` before first paint. The head script reads the older `0db-theme` when the new key is missing, so a returning visitor keeps their choice; only the new key is written.

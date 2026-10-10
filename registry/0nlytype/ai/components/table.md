@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-table (table)
+### ot-table (table)
 - Underneath: native `<table>`.
-- Anatomy: `<table class="db-table">` with header `<button>`s inside `<th aria-sort>`, numeric cells marked `data-num`, `.db-table-name` for the row's name, and `<input type="checkbox" class="db-table-pick">` per row plus one to choose all.
+- Anatomy: `<table class="ot-table">` with header `<button>`s inside `<th aria-sort>`, numeric cells marked `data-num`, `.ot-table-name` for the row's name, and `<input type="checkbox" class="ot-table-pick">` per row plus one to choose all.
 - Hairline rows and tabular figures. The sorted column is set in ink (`data-sorted`). Re-sorting, the rows glide to their new places (FLIP: `TableBody` measures each row's `offsetTop` after every render and animates the difference, andante on the breath; still under reduced motion). Choosing a row fills its ring with spiccato and its name turns italic (`data-picked`); the foot counts the picks.
 - `variant` on the table (`data-variant`): `ink` (the default), `forte` or `cross`.
 - forte: SPECTRA's giant type against tiny data. The sorted column is also set loud, in large thin figures (`mf`, weight 250; `mp` below 40rem), on the same baselines as the small print of the rest. Re-sorted, the loudness passes from one column to the next (moderato, breath) as the rows glide.

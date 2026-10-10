@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-avatar (avatar)
+### ot-avatar (avatar)
 - Underneath: native.
-- Anatomy: `<span class="db-avatar" role="img" aria-label="Name">` holding an initial; `data-size="s | l"`, `data-here` for presence. A group is `<span class="db-avatars" role="group">`, ending in an optional `data-count` avatar ("+3").
+- Anatomy: `<span class="ot-avatar" role="img" aria-label="Name">` holding an initial; `data-size="s | l"`, `data-here` for presence. A group is `<span class="ot-avatars" role="group">`, ending in an optional `data-count` avatar ("+3").
 - A person is a ring and their initial, in italic, since a name is theirs. Someone here carries the accent dot. A group overlaps, and steps apart when pointed at.
 - `variant` on the avatar (`data-variant`): `ring` (the default), `monogram` or `fit`. Both drop the ring: the type is the whole mark. Each carries `dir="auto"`, so its letters follow the name's own script, not the page's.
 - monogram: "It has to be design." The given initial in the large italic (`opsz` 12, so its hairlines hold) printed over the family initial in a heavy narrow roman (800, width 62%), cut out of it by a paper outline (`paint-order: stroke fill`), as "has" crosses "It". Here now, the italic takes the accent, as "design." does, and there is no dot. Pointed at, the italic steps off the roman toward the start (spiccato) so both letters read. A group of monograms stands side by side instead of overlapping. One name gives one letter.

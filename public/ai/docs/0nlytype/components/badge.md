@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-tag (badge)
+### ot-tag (badge)
 - Underneath: native.
-- Anatomy: `<span class="db-tag" data-variant="ink | accent">`, or a removable `<button class="db-tag" data-removable aria-label="Remove X">`.
+- Anatomy: `<span class="ot-tag" data-variant="ink | accent">`, or a removable `<button class="ot-tag" data-removable aria-label="Remove X">`.
 - The label sits in a `<span>`. Pointing at or focusing a removable tag strikes the word, as the checkbox does.
 - The one rounded shape. A removed tag, already struck, closes up (its width goes to 0) while its neighbours slide into the space, and focus moves to the next.
 - The word is set as Weingart set his callouts: small, a little heavy and narrow (500, width 92%, in ink), so it holds as type inside its hairline; the ink pill knocks it out heavier and narrower still (650, 88%). Forced colours draw the pill as a CanvasText outline and the strike as a line-through.

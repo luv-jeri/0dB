@@ -2,11 +2,11 @@
 
 Extracted from DESIGN.md.
 
-### db-select (select)
+### ot-select (select)
 - Underneath: native `<select>`.
-- Anatomy: `<p class="db-select">Sort by <span class="db-select-box"><select>…</select></span></p>`.
+- Anatomy: `<p class="ot-select">Sort by <span class="ot-select-box"><select>…</select></span></p>`.
 - Yours: the chosen option, italic over a hairline. A small ↓ follows it.
-- Where `appearance: base-select` is supported, the open list is restyled: the current option has an accent dot beside it, and the hovered option is highlighted. The list drops in 6px and its options arrive in turn (`sibling-index()` × `--db-arpeggio`, where supported).
+- Where `appearance: base-select` is supported, the open list is restyled: the current option has an accent dot beside it, and the hovered option is highlighted. The list drops in 6px and its options arrive in turn (`sibling-index()` × `--ot-arpeggio`, where supported).
 - Keyboard: native select.
 - Variants go on `data-variant`: underline (the default), compose, ruby. Both drawn variants keep the native select for focus, keyboard and list; its own words are made transparent and a copy is set in the same place for script to move. The hairline moves to the box and stretches between the old word's width and the new one's.
 - Compose, after the compositor distributing type back to the case: choosing a new word resets it letter by letter. Letters the two words share slide across to their new places; the rest of the old word falls away in pencil and the new letters drop in, spiccato, as sorts set into the stick. "newest" to "oldest" keeps its *e*, *s* and *t*.

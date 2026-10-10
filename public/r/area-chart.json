@@ -15,7 +15,7 @@
     },
     {
       "path": "registry/0nlytype/styles/area-chart.css",
-      "content": "@layer components {\n  /* ── db-area-chart ── volume as a barcode: no fill, only hairlines dropped from the line to the\n     baseline at a close even rhythm, SPECTRA's barcode laid under a line. Stacked series each keep\n     their own rhythm, three, six and twelve pixels apart, so the bands read by density, not colour. */\n  .db-area-chart-drops { stroke: none; }\n  .db-area-chart .db-line-chart-draw pattern > rect { fill: var(--db-rule-strong); }\n  .db-area-chart .db-line-chart-draw > [data-series=\"0\"] pattern > rect { fill: var(--db-pencil); }\n  .db-area-chart.db-chart .db-line-chart-draw > [data-series] > .db-line-chart-line { stroke: var(--db-ink); stroke-dasharray: none; }\n  .db-area-chart.db-chart .db-chart-swatch { --c: var(--db-pencil); block-size: 0.8em; background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 3px); }\n  .db-area-chart.db-chart .db-chart-row[data-series=\"1\"] .db-chart-swatch { background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 6px); }\n  .db-area-chart.db-chart .db-chart-row[data-series=\"2\"] .db-chart-swatch { background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 12px); }\n\n  @media (forced-colors: active) {\n    .db-area-chart .db-line-chart-draw pattern > rect { fill: GrayText; }\n  }\n}\n",
+      "content": "@layer components {\n  /* ── ot-area-chart ── volume as a barcode: no fill, only hairlines dropped from the line to the\n     baseline at a close even rhythm, SPECTRA's barcode laid under a line. Stacked series each keep\n     their own rhythm, three, six and twelve pixels apart, so the bands read by density, not colour. */\n  .ot-area-chart-drops { stroke: none; }\n  .ot-area-chart .ot-line-chart-draw pattern > rect { fill: var(--ot-rule-strong); }\n  .ot-area-chart .ot-line-chart-draw > [data-series=\"0\"] pattern > rect { fill: var(--ot-pencil); }\n  .ot-area-chart.ot-chart .ot-line-chart-draw > [data-series] > .ot-line-chart-line { stroke: var(--ot-ink); stroke-dasharray: none; }\n  .ot-area-chart.ot-chart .ot-chart-swatch { --c: var(--ot-pencil); block-size: 0.8em; background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 3px); }\n  .ot-area-chart.ot-chart .ot-chart-row[data-series=\"1\"] .ot-chart-swatch { background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 6px); }\n  .ot-area-chart.ot-chart .ot-chart-row[data-series=\"2\"] .ot-chart-swatch { background: repeating-linear-gradient(to right, var(--c) 0 1px, transparent 1px 12px); }\n\n  @media (forced-colors: active) {\n    .ot-area-chart .ot-line-chart-draw pattern > rect { fill: GrayText; }\n  }\n}\n",
       "type": "registry:file",
       "target": "styles/0nlytype/area-chart.css"
     }
@@ -26,7 +26,7 @@
   "meta": {
     "movement": "X",
     "underneath": "hook",
-    "contract": "db-area-chart"
+    "contract": "ot-area-chart"
   },
   "type": "registry:ui"
 }

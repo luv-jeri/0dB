@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-item (item)
+### ot-item (item)
 - Underneath: native.
-- Anatomy: `<ul class="db-items">` of `<li class="db-item">` holding `.db-item-body` (`.db-item-title`, `.db-item-desc`), `.db-item-leader` (aria-hidden), then `.db-item-end` (a value or an action).
+- Anatomy: `<ul class="ot-items">` of `<li class="ot-item">` holding `.ot-item-body` (`.ot-item-title`, `.ot-item-desc`), `.ot-item-leader` (aria-hidden), then `.ot-item-end` (a value or an action).
 - A ledger line: what it is, a dotted leader, what you can do. As on a contents page, the title, the dots and the value share one baseline (the picture at the start centres on the line). Pointing at the line inks the leader from one end to the other.
 - `variant` on the group (`data-variant`): `leader` (the default), `lineation` or `words`.
 - lineation: a critical edition's line numbers. Every fifth line carries its number (a CSS counter, `pp`, pencil) hung in the margin on the line's baseline; the line you point at or focus shows its own, in ink. The numbers are drawn (`content: counter() / ""`), since the list already says where you are. Below 40rem the margin is too narrow, so the numbers step in and every line makes room for them.

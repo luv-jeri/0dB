@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-sign (sign)
+### ot-sign (sign)
 - Underneath: hook. Pretext measures the word, kerning included, and the sign is laid out from those widths.
-- Anatomy: `<span class="db-sign" data-variant="dots | words | fill" role="img" aria-label="word"><span class="db-sign-glyph">…</span>…</span>`: one element per letter or leader, placed by `--x`, `--y`, `--r` and `--k`, since each one travels on its own when the word is said. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
+- Anatomy: `<span class="ot-sign" data-variant="dots | words | fill" role="img" aria-label="word"><span class="ot-sign-glyph">…</span>…</span>`: one element per letter or leader, placed by `--x`, `--y`, `--r` and `--k`, since each one travels on its own when the word is said. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
 - An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0nlyType; a sign that can't be read in all three variants is left out rather than shipped.
 - Variants:
   - `dots`: each stroke ruled in middle-dot leaders, at every size; the leaders grow more slowly than the sign, so a large one is drawn finer. The letters wait unseen at the dots and rise out of them when said.

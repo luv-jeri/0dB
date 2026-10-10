@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-line-chart (line-chart)
+### ot-line-chart (line-chart)
 - Underneath: chart's frame (`ChartFrame`), plus a hook. `LineChart` and `AreaChart` share `ChartLines`, which lays an SVG under chart's points.
-- Anatomy: `<figure class="db-chart db-line-chart" data-variant="linear | smooth | step">` holding chart's `.db-chart-read`, then `.db-chart-plot` with `<svg class="db-line-chart-draw" aria-hidden>` (a `<g data-series>` per series, each a `.db-line-chart-line`) under chart's `<button class="db-chart-bar">` per point, then `.db-chart-axis`. Several series add chart's `.db-chart-mark`s and list readout.
+- Anatomy: `<figure class="ot-chart ot-line-chart" data-variant="linear | smooth | step">` holding chart's `.ot-chart-read`, then `.ot-chart-plot` with `<svg class="ot-line-chart-draw" aria-hidden>` (a `<g data-series>` per series, each a `.ot-line-chart-line`) under chart's `<button class="ot-chart-bar">` per point, then `.ot-chart-axis`. Several series add chart's `.ot-chart-mark`s and list readout.
 - POINT and SPECTRA: tiny data against one giant number. One ink hairline runs through the points, drawn in pixels (measured with a ResizeObserver) so it stays a hairline at every width, and a paper ring sits on each point like a bead on a thread; now's ring is the one accent. The number above is chart's, as large as the chart allows. Pointing at a column, or focusing it, swells its ring, inks it, and drops the bar chart's own stem from the ring to the baseline (moderato, exhale), as if the line were the tops of the stems with the stems taken away; the number rolls to it and back to now when you leave. Before the plot is measured, only the rings show.
 - Series: the second line is dotted graphite and the third dashed pencil; the readout becomes chart's short list, named roman, italic and pencil. Lines are not stacked.
 - linear (the default): straight from point to point.

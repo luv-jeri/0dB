@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-pager (pagination)
+### ot-pager (pagination)
 - Underneath: native links. The current page is a link with `aria-current="page"`; a step with nowhere to go is a `<span aria-disabled="true">`, in rule-strong.
-- Anatomy: `<nav aria-label="Pages">` holding `<ul class="db-pager" data-variant="numbers | folio | neighbours | barcode | thumb">` of `<li>`, each a page link (two-digit numbers), a step (`.db-pager-step`, the arrow drawn in CSS with empty alt text), or a gap (`.db-pager-gap`, read as "More pages").
+- Anatomy: `<nav aria-label="Pages">` holding `<ul class="ot-pager" data-variant="numbers | folio | neighbours | barcode | thumb">` of `<li>`, each a page link (two-digit numbers), a step (`.ot-pager-step`, the arrow drawn in CSS with empty alt text), or a gap (`.ot-pager-gap`, read as "More pages").
 - numbers (the default): a 3px dot sits under each number; the current page's dot is 6px and in the accent, and it lands with spiccato. Pointing at another page draws a hairline ring there.
 - Weight falls with distance (600, then 350 for the neighbours, then 200), after the WOVE poster. Colour never drops below pencil, so contrast holds at AA.
 - Long runs: `paginationRange(current, total, siblings = 1)` gives the ends, the current page and its siblings, and a gap for each run left out, always in the same number of slots (siblings * 2 + 5). A gap is two figures wide and never stands for a single page, so paging moves nothing beside the pager.

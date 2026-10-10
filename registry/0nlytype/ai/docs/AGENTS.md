@@ -6,7 +6,7 @@ Read intent, core design and the relevant `docs/0nlytype/components/<item>.md` c
 
 1. **Silence is structure.** Space does the layout. A hairline appears only where space alone can't hold two things apart.
 2. **Type is the only ornament.** Weight, width, size, tracking and order carry every level of hierarchy. No icons, fills or shadows.
-3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic: a picked option, a typed value, a switch state, a slider value, a named item they own. Display uses `--db-expression-scale`; text uses the same face in its reading grade, with more ink, a little air and a text-size optical cut where available. Musical and foreign terms are italic too (`.db-term`), by book convention.
+3. **Ours in roman, yours in italic.** Interface text is the voice, upright. Anything the person chose, typed or set turns into the expression italic: a picked option, a typed value, a switch state, a slider value, a named item they own. Display uses `--ot-expression-scale`; text uses the same face in its reading grade, with more ink, a little air and a text-size optical cut where available. Musical and foreign terms are italic too (`.ot-term`), by book convention.
 4. **One note of colour.** One accent marks where you are: the current page, the chosen option, focus. At most one accent mark in view. Crimson is only for errors. The highlighter is only for reading marks.
 5. **Nothing moves unless you do.** Motion answers an action, then rests. Pointing sketches in pencil; choosing inks it in. The overture plays once per browser, on the home page's first visit, and can be skipped. A demonstration of a component waits for a Demonstrate press. The owner-approved exceptions (2026-10-01) are marquee, text-ribbon and word-relay autoplay: each is pausable and off under reduced motion.
 
@@ -38,7 +38,7 @@ Use your application's component, style and example paths. The paths above descr
 
 ## Naming
 
-- Tokens are `--db-*`. Component classes are `db-<name>`.
+- Tokens are `--ot-*`. Component classes are `ot-<name>`.
 - States live on native attributes (`:checked`, `:disabled`, `[aria-selected]`, `[aria-invalid]`, `[aria-current]`, `[aria-pressed]`, `[aria-busy]`). Variants live on `data-variant`, and size on `data-size`.
 - `[data-force~="hover"]` and `[data-force~="focus"]` pin a state for documentation rows.
 - Every control is built on the right native element, so the React port can use native elements or Radix without changing the look.
@@ -51,8 +51,8 @@ Use your application's component, style and example paths. The paths above descr
 - `[hidden]` always wins over a component's `display`.
 - Copy: sentence case, active verbs. An action keeps its name through the flow (Upload, Uploading, Uploaded). Errors say what to fix and never apologise.
 
-- Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.db-ruler`.
-- Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.db-sr`.
+- Item names follow shadcn where shadcn has the component; the class keeps the poster's word. `slider` renders `.ot-ruler`.
+- Sidecars are wrapped in `@layer components`; base.css is in `@layer base`, so a consumer's Tailwind utilities still win. `!important` appears only on `[hidden]` and `.ot-sr`.
 - Direction: logical properties, and `:is([dir="rtl"], [dir="rtl"] *)` where a stroke has a direction. Never `:dir()`: Lightning CSS, which Next and Tailwind run, lowers it to a list of `:lang()` that misses a page that only sets `dir`.
 - Variants are `data-variant` and `data-size`, never classes. There's no cva.
 - React 19: `ref` is a plain prop. `"use client"` appears only in files that need state, effects, handlers or Radix, so every other item works in a Server Component. Each root and part carries `data-slot`; `className` merges through `cn`.

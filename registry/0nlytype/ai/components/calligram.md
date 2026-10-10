@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-calligram (calligram)
+### ot-calligram (calligram)
 - Underneath: native, plus a hook that lays the lines out with pretext.
-- Anatomy: `<p class="db-calligram" data-shape | data-variant="rain | mirror">` holding the text for readers (`.db-sr`), `.db-calligram-lines` (aria-hidden, one block per line, each carrying `--t`, how far it is from the shape's widest part) and, for `fermata`, `.db-calligram-dot`. Rain fills the lines with `.db-calligram-streak`s of one span per letter (`--j`, its place down the streak); mirror with one `.db-calligram-side` per side (`--x`, `--a` its turn), then `.db-calligram-centre`, which is read.
+- Anatomy: `<p class="ot-calligram" data-shape | data-variant="rain | mirror">` holding the text for readers (`.ot-sr`), `.ot-calligram-lines` (aria-hidden, one block per line, each carrying `--t`, how far it is from the shape's widest part) and, for `fermata`, `.ot-calligram-dot`. Rain fills the lines with `.ot-calligram-streak`s of one span per letter (`--j`, its place down the streak); mirror with one `.ot-calligram-side` per side (`--x`, `--a` its turn), then `.ot-calligram-centre`, which is read.
 - fill (the default): the paragraph fills `shape`.
 - A paragraph that fills a shape, as Apollinaire's calligrams did. Each line is as wide as the shape's chord at its height and is centred in it, spread to both sides by its gaps and a little by its letters, so the outline is only implied: nothing is drawn. `circle` is the 0 of 0nlyType, `fermata` a half-disc of text over one accent dot, `wave` widths that swell and narrow like a sound wave (eleven rows a swell).
 - The circle and the half-disc are filled exactly: the size of the type is found (it never exceeds twice the inherited size) so the last word lands in the last row, and the box has its own aspect ratio, so nothing moves when the lines arrive. `size` is the shape's width (default 34rem, never wider than its space). The wave takes the inherited size and its height follows its rows.

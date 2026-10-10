@@ -2,9 +2,9 @@
 
 Extracted from DESIGN.md.
 
-### db-stat (stat)
+### ot-stat (stat)
 - Underneath: native `<dl>`; each `Stat` is a `<div>` of `<dt>` (what it counts) and `<dd>`s (the figure, and a note).
-- Anatomy: `<dl class="db-stats" data-variant="beside | grid" style="--row-len">` of `<div class="db-stat" style="--len">` holding `.db-stat-label`, `.db-stat-figure` (a `db-fraction` with no total, set in the stat's own face: roman, thin, the cell's size; its figures turn on their own wheels and it is read whole) and `.db-stat-note`.
+- Anatomy: `<dl class="ot-stats" data-variant="beside | grid" style="--row-len">` of `<div class="ot-stat" style="--len">` holding `.ot-stat-label`, `.ot-stat-figure` (a `ot-fraction` with no total, set in the stat's own face: roman, thin, the cell's size; its figures turn on their own wheels and it is read whole) and `.ot-stat-note`.
 - crop (the default): SPECTRA's giant thin figures (weight 200), set as large as the cell allows; one hairline runs under the whole row and cuts off their feet (text-box trimmed to the cap height), the name small beneath. A row shares one size, set by its longest figure (`--row-len`), so the figures stand on one line. Numbers are grouped by a thin space, as SI sets them, since the crop would cut a comma's tail.
 - beside: WOVE's 03 and the "14/08" of "the silence that heals": the figure heavy (700) and whole, its name and a line about it set beside it, their caps on its cap line. The stats stand in a list, figures flush to one edge in tabular figures so the units line up, the words in one column.
 - grid: "Less is more.": each stat a cell of a hairline grid, the lines between cells only; the name in the cell's first corner, the figure in the far one.
