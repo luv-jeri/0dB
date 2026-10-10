@@ -8,7 +8,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 1. [INTENT.md](INTENT.md): what 0nlyType is, who it's for and what it refuses. When two rules disagree, this one wins.
 2. [DESIGN.md](DESIGN.md): the Principles, Conventions, Tokens and Motion sections, plus the contract (`### db-<name> (<item>)`) of every item you touch or compose from.
-3. The item's four files: `registry/0db/ui/<item>.tsx`, `registry/0db/styles/<item>.css`, `content/<item>.ts` and `examples/<item>.tsx`.
+3. The item's four files: `registry/0nlytype/ui/<item>.tsx`, `registry/0nlytype/styles/<item>.css`, `content/<item>.ts` and `examples/<item>.tsx`.
 4. `docs/references/`: the posters each creative move comes from. A change that passes every check but ignores the references is still rejected.
 5. The Next.js note at the end of this file.
 
@@ -16,7 +16,8 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 | Path | What it holds |
 |---|---|
-| `registry/0db/` | The library itself: items, sidecar CSS, base tokens, and the AI kit sources |
+| `registry/0nlytype/` | The library itself: items, sidecar CSS, base tokens, and the AI kit sources |
+| `styles/0nlytype/`, `lib/0nlytype/`, `docs/0nlytype/` | Not in this repo: where an install writes in a user's project (CSS, helpers, and the AI kit's docs) |
 | `content/`, `examples/` | Docs meta and the live example for each item |
 | `app/`, `components/site/` | The docs site, built only from 0nlyType items; `app/site.css` only places them |
 | `lib/site/config.mjs` | The one place where the site origin and the `/ui` base path are set |
@@ -47,7 +48,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 ## Where the project stands (2026-10-02)
 
-- **Pre-release.** The library is named 0nlyType (owner decision 2026-10-10; it was 0dB). The copy carries the new name. The `db-` and `--db-` prefixes, the `0db` base item, the `registry/0db` and `docs/0db` paths, the GitHub repository and the reporting worker keep their old names until a separate rename, which lands before any public listing because the shadcn directory ties a registry's history to its namespace.
+- **Pre-release.** The library is named 0nlyType (owner decision 2026-10-10; it was 0dB). The copy carries the new name. The machine names follow it: the `0nlytype` base item (`r/0nlytype.json`), the `registry/0nlytype` directory, the install paths `styles/0nlytype/`, `lib/0nlytype/` and `docs/0nlytype/`, the `0nlytype-theme` and `0nlytype-overture-seen` storage keys (the old keys are read once as a fallback) and the `luv-jeri/0nlyType` repository (renamed at merge). Still pending, in a separate later rename: the `db-` class and `--db-` token prefixes. They stay until the prefix is decided, and must change before any public listing because the shadcn directory ties a registry's history to its namespace. The reporting worker, its D1 and R2 names, the `0db-feedback` repository, the Cloudflare worker name `0db`, and the `0db-runner` and `0db-index-folded` browser keys keep their old names.
 - **Not listed anywhere yet:** no shadcn directory entry, no release and no announcement until the launch plan is ready. Deploys and pushes are fine.
 - **Ranking:** the directory ranks by registry health and by the number of distinct items. Only real items count toward it; never add aliases or splits to raise the count, though each sign variant (dots, words, fill) is its own item by owner decision 2026-10-10. The rules are in `docs/superpowers/reports/2026-10-01-directory-ranking.md`.
 

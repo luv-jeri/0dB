@@ -11,7 +11,7 @@ A component library for type and silence: two typefaces, one accent and a great 
 You need React 19, TypeScript, Tailwind CSS v4 and a shadcn project with the `@/` alias.
 
 ```sh
-npx shadcn@latest add https://thedirectors.agency/ui/r/0db.json
+npx shadcn@latest add https://thedirectors.agency/ui/r/0nlytype.json
 npx shadcn@latest add https://thedirectors.agency/ui/r/checkbox.json
 ```
 
@@ -41,7 +41,7 @@ npm run check    # types, lint, tests, registry, drift, examples, build, pages
 npm run check:install   # a fresh Next app installs every item (slow, uses the network)
 ```
 
-- Items live in `registry/0db/ui/<item>.tsx` with a sidecar `registry/0db/styles/<item>.css`, a demo in `examples/<item>.tsx` and docs meta in `content/<item>.ts`.
+- Items live in `registry/0nlytype/ui/<item>.tsx` with a sidecar `registry/0nlytype/styles/<item>.css`, a demo in `examples/<item>.tsx` and docs meta in `content/<item>.ts`.
 - `scripts/build-registry.mjs` writes `registry.json` and `public/r/`. Never edit those by hand.
 - The docs site is built from 0nlyType's own items. `app/site.css` only places them.
 

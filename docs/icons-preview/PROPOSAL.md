@@ -10,9 +10,9 @@ A sign is an icon made of its own word, the way the ampersand is the word "et" w
 
 | File | What it is |
 |---|---|
-| `registry/0db/ui/sign.tsx` | The `Sign` primitive: Pretext layout, optical cuts, the said word |
-| `registry/0db/styles/sign.css` | Rest and said states, all motion on 0dB tempo tokens |
-| `registry/0db/lib/sign-shapes.ts` | The shape table: word, strokes and silhouette on a 24-unit grid. Data only. |
+| `registry/0nlytype/ui/sign.tsx` | The `Sign` primitive: Pretext layout, optical cuts, the said word |
+| `registry/0nlytype/styles/sign.css` | Rest and said states, all motion on 0dB tempo tokens |
+| `registry/0nlytype/lib/sign-shapes.ts` | The shape table: word, strokes and silhouette on a 24-unit grid. Data only. |
 | `app/lab/signs/page.tsx`, `lab.css` | The preview route, `/ui/lab/signs/` (noindex) |
 
 Five signs: `search`, `arrow-right` (word "next"), `close`, `mail`, `home`.
@@ -45,7 +45,7 @@ Flag, once: AGENTS.md says the directory ranks distinct items and "never add ali
 ## How the set is generated at scale
 
 1. **One table, grown by hand and script.** `sign-shapes.ts` holds each sign as data: the word, `line` strokes (`M`, `L`, `O` arc moves on a 24-unit grid) and `fill` add/cut polygons. Adding a sign is adding a row, never layout code. Words and drawings can be drafted in batches of 50 from a word list grouped by job (navigation, actions, files, media, people, status), then reviewed at 16, 24 and 120px on the preview page.
-2. **Generated items.** `scripts/build-registry.mjs` would gain a step that reads the table and writes, per sign and variant, `registry/0db/ui/sign-<name>[-fill][-italic].tsx` (a three-line wrapper over `Sign` with the shape inlined), plus `content/sign-<name>….ts` and `examples/sign-<name>….tsx` from one template. Each item declares `registryDependencies: ["sign"]` so the primitive ships once. The generated files join the "never hand-edit" list.
+2. **Generated items.** `scripts/build-registry.mjs` would gain a step that reads the table and writes, per sign and variant, `registry/0nlytype/ui/sign-<name>[-fill][-italic].tsx` (a three-line wrapper over `Sign` with the shape inlined), plus `content/sign-<name>….ts` and `examples/sign-<name>….tsx` from one template. Each item declares `registryDependencies: ["sign"]` so the primitive ships once. The generated files join the "never hand-edit" list.
 3. **Gates.** A check renders every sign at 16, 24 and 120px in both faces and fails on: any sign that does not lay out, a line stroke left with a partial word, a fill under a minimum glyph count, and a said word wider than three times the box.
 
 ## Risks, measured where possible
