@@ -1,7 +1,7 @@
 import NextLink from "next/link"
 
-import { Empty, EmptyActions, EmptyDescription } from "@/registry/0db/ui/empty"
-import { Button } from "@/registry/0db/ui/button"
+import { Empty, EmptyActions, EmptyDescription } from "@/registry/0nlytype/ui/empty"
+import { Button } from "@/registry/0nlytype/ui/button"
 
 export default function NotFound() {
   return (

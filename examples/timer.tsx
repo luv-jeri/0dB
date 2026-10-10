@@ -1,4 +1,4 @@
-import { Timer } from "@/registry/0db/ui/timer"
+import { Timer } from "@/registry/0nlytype/ui/timer"
 import { State } from "@/components/site/state"
 
 export default function Example() {

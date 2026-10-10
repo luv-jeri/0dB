@@ -1,4 +1,4 @@
-import { ScrollExpand } from "@/registry/0db/ui/scroll-expand"
+import { ScrollExpand } from "@/registry/0nlytype/ui/scroll-expand"
 import { State } from "@/components/site/state"
 
 function Plate({ small = false }: { small?: boolean }) {

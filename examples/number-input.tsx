@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Field } from "@/registry/0db/ui/field"
-import { NumberInput } from "@/registry/0db/ui/number-input"
+import { Field } from "@/registry/0nlytype/ui/field"
+import { NumberInput } from "@/registry/0nlytype/ui/number-input"
 import { State } from "@/components/site/state"
 
 export default function Example() {

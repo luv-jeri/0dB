@@ -1,4 +1,4 @@
-import { Wake } from "@/registry/0db/ui/wake"
+import { Wake } from "@/registry/0nlytype/ui/wake"
 import { State } from "@/components/site/state"
 
 const text =

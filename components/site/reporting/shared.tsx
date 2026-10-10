@@ -1,6 +1,6 @@
 import { siteURL } from "@/lib/site/config.mjs"
 import type { ReportKind, ReportStatus, RequestTopic } from "@/lib/reporting/contracts"
-import { Link } from "@/registry/0db/ui/link"
+import { Link } from "@/registry/0nlytype/ui/link"
 
 export const STATUS_LABELS: Record<ReportStatus, string> = {
   received: "Received",

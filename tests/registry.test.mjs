@@ -6,10 +6,10 @@ import { rewriteImports, deriveDeps } from "../scripts/lib/items.mjs"
 
 test("rewrites registry imports to consumer aliases", () => {
   const src = [
-    `import { cn } from "@/registry/0db/lib/utils"`,
+    `import { cn } from "@/registry/0nlytype/lib/utils"`,
     `import { Spinner } from "./spinner"`,
-    `import { roll } from "@/registry/0db/lib/roll"`,
-    `import * as Popover from "@/registry/0db/ui/popover"`,
+    `import { roll } from "@/registry/0nlytype/lib/roll"`,
+    `import * as Popover from "@/registry/0nlytype/ui/popover"`,
     `import * as React from "react"`,
   ].join("\n")
   const out = rewriteImports(src)
@@ -18,7 +18,7 @@ test("rewrites registry imports to consumer aliases", () => {
   assert.match(out, /from "@\/lib\/0db\/roll"/)
   assert.match(out, /from "@\/components\/ui\/popover"/)
   assert.match(out, /from "react"/)
-  assert.doesNotMatch(out, /registry\/0db/)
+  assert.doesNotMatch(out, /registry\/0nlytype/)
 })
 
 test("derives npm dependencies from bare imports and siblings from ./ and @/registry imports", () => {
@@ -27,9 +27,9 @@ test("derives npm dependencies from bare imports and siblings from ./ and @/regi
     `import * as React from "react"`,
     `import * as PopoverPrimitive from "@radix-ui/react-popover"`,
     `import { Command } from "cmdk"`,
-    `import { cn } from "@/registry/0db/lib/utils"`,
+    `import { cn } from "@/registry/0nlytype/lib/utils"`,
     `import { Button } from "./button"`,
-    `import type { CalendarProps } from "@/registry/0db/ui/calendar"`,
+    `import type { CalendarProps } from "@/registry/0nlytype/ui/calendar"`,
     `import Link from "next/link"`,
   ].join("\n")
   const { npm, siblings } = deriveDeps(src)

@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Figure } from "@/registry/0db/ui/figure"
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
+import { Figure } from "@/registry/0nlytype/ui/figure"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
 import { State } from "@/components/site/state"
 
 // Two studies drawn in SVG, so the specimen needs no image files: a sea at first light and a window's light on a wall.

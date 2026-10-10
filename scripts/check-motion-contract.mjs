@@ -40,7 +40,7 @@ for (const file of ["app/docs/[item]/demo-example.tsx", "components/site/landing
 
 // ── the home overture ──
 if (!(OVERTURE_DEADLINE > 0 && OVERTURE_DEADLINE < 3000)) fail("the home overture", `deadline ${OVERTURE_DEADLINE}ms is not under three seconds`)
-const tokens = read("registry/0db/styles/tokens.css")
+const tokens = read("registry/0nlytype/styles/tokens.css")
 const ms = (token) => Number(tokens.match(new RegExp(`${token}:\\s*(\\d+)ms`))?.[1])
 const landing = read("app/landing.css")
 const exhale = landing.match(/html\[data-overture-at\] \.hero-line\[data-line="quiet"\] \{ animation: hero-exhale var\(--db-adagio\) [^ ]+ calc\((\d+) \* var\(--db-arpeggio\)\)/)

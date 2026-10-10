@@ -1,5 +1,5 @@
-import { Button } from "@/registry/0db/ui/button"
-import { Spinner, type SpinnerProps } from "@/registry/0db/ui/spinner"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Spinner, type SpinnerProps } from "@/registry/0nlytype/ui/spinner"
 import { State } from "@/components/site/state"
 
 // Each wait with the words it would stand beside. Alone, a spinner says its label to a screen reader;

@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Row, RowKind, RowMeta, RowTitle, Rows } from "@/registry/0db/ui/rows"
-import { Tabs, TabsContent, TabsCount, TabsList, TabsTrigger } from "@/registry/0db/ui/tabs"
+import { Row, RowKind, RowMeta, RowTitle, Rows } from "@/registry/0nlytype/ui/rows"
+import { Tabs, TabsContent, TabsCount, TabsList, TabsTrigger } from "@/registry/0nlytype/ui/tabs"
 import { State } from "@/components/site/state"
 
 const PROJECTS = [

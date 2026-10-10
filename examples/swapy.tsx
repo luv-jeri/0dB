@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Swapy, type SwapyItem } from "@/registry/0db/ui/swapy"
+import { Swapy, type SwapyItem } from "@/registry/0nlytype/ui/swapy"
 
 const issue: SwapyItem[] = [
   { id: "letter", label: "Editor’s letter", kind: "Opening", meta: "2 pp" },

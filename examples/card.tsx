@@ -1,4 +1,4 @@
-import { Card, CardDescription, CardFigure, CardFooter, CardLink, CardSum, CardTitle } from "@/registry/0db/ui/card"
+import { Card, CardDescription, CardFigure, CardFooter, CardLink, CardSum, CardTitle } from "@/registry/0nlytype/ui/card"
 import { State } from "@/components/site/state"
 
 const services = [

@@ -1,5 +1,5 @@
-import { Gather } from "@/registry/0db/ui/gather"
-import { Prose } from "@/registry/0db/ui/typography"
+import { Gather } from "@/registry/0nlytype/ui/gather"
+import { Prose } from "@/registry/0nlytype/ui/typography"
 import { State } from "@/components/site/state"
 
 export default function Example() {

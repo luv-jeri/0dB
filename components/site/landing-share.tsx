@@ -3,7 +3,7 @@
 import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 
-import { Link } from "@/registry/0db/ui/link"
+import { Link } from "@/registry/0nlytype/ui/link"
 
 // Pass it on: one click copies the link and says so, and the places to send it open beside it, as words. Each
 // place is a link to its own share page, in a new tab. Where the system has a share sheet (phones, mostly),

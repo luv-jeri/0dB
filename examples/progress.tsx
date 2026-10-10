@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Progress } from "@/registry/0db/ui/progress"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Progress } from "@/registry/0nlytype/ui/progress"
 import { State } from "@/components/site/state"
 
 const FILES = 12

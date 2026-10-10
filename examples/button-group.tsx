@@ -1,5 +1,5 @@
-import { Button } from "@/registry/0db/ui/button"
-import { ButtonGroup } from "@/registry/0db/ui/button-group"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { ButtonGroup } from "@/registry/0nlytype/ui/button-group"
 import { State } from "@/components/site/state"
 
 export default function Example() {

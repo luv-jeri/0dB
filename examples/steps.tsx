@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Step, StepTitle, Steps, type StepsProps } from "@/registry/0db/ui/steps"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Step, StepTitle, Steps, type StepsProps } from "@/registry/0nlytype/ui/steps"
 import { State } from "@/components/site/state"
 
 const STEPS = [

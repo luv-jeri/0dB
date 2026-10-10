@@ -1,7 +1,7 @@
 "use client"
 
 import { State } from "@/components/site/state"
-import { Questionnaire, type Answers, type Question } from "@/registry/0db/ui/questionnaire"
+import { Questionnaire, type Answers, type Question } from "@/registry/0nlytype/ui/questionnaire"
 
 const says: Record<string, Record<string, string>> = {
   make: { "An identity": "an identity", "A website": "a website", "A film": "a film" },

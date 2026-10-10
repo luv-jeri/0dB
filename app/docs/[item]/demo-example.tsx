@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Button } from "@/registry/0db/ui/button"
-import { Corners } from "@/registry/0db/ui/corners"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Corners } from "@/registry/0nlytype/ui/corners"
 import { DEMO_SCORES, useDemoPlayer } from "@/components/site/demo-player"
 
 /** Keep the generated, server-rendered Example intact. Only its own React tree resets.

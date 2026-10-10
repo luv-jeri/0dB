@@ -1,4 +1,4 @@
-import { Slider } from "@/registry/0db/ui/slider"
+import { Slider } from "@/registry/0nlytype/ui/slider"
 import { State } from "@/components/site/state"
 
 export default function Example() {

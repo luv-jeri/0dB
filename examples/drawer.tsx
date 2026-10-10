@@ -1,9 +1,9 @@
 import type { CSSProperties, ReactNode } from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@/registry/0db/ui/drawer"
-import { Fraction } from "@/registry/0db/ui/fraction"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Checkbox, CheckboxGroup } from "@/registry/0nlytype/ui/checkbox"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@/registry/0nlytype/ui/drawer"
+import { Fraction } from "@/registry/0nlytype/ui/fraction"
 import { State } from "@/components/site/state"
 
 const notes = [

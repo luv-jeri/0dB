@@ -4,7 +4,7 @@ import { createHash } from "node:crypto"
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync, existsSync } from "node:fs"
 import path from "node:path"
 
-const SOURCE = "registry/0db/ai"
+const SOURCE = "registry/0nlytype/ai"
 const ownedDirectories = [SOURCE, "public/ai"]
 const standalone = ["public/llms.txt", "public/llms-full.txt"]
 const hash = (text) => createHash("sha256").update(text).digest("hex")

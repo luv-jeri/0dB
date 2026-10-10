@@ -1,5 +1,5 @@
-import { Button } from "@/registry/0db/ui/button"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/registry/0db/ui/tooltip"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/registry/0nlytype/ui/tooltip"
 import { State } from "@/components/site/state"
 
 export default function Example() {

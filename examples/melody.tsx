@@ -1,4 +1,4 @@
-import { Melody } from "@/registry/0db/ui/melody"
+import { Melody } from "@/registry/0nlytype/ui/melody"
 import { State } from "@/components/site/state"
 
 /** The words as notes; the tune as discs with the words sung under them; and the staff drawn only under the words. */

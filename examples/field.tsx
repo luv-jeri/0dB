@@ -1,4 +1,4 @@
-import { Field, Input, Textarea } from "@/registry/0db/ui/field"
+import { Field, Input, Textarea } from "@/registry/0nlytype/ui/field"
 import { State } from "@/components/site/state"
 
 export default function Example() {

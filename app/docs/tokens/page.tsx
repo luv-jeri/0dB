@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs"
 import type { Metadata } from "next"
 
-import { CopyButton } from "@/registry/0db/ui/source"
-import { Waterfall } from "@/registry/0db/ui/waterfall"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0db/ui/table"
+import { CopyButton } from "@/registry/0nlytype/ui/source"
+import { Waterfall } from "@/registry/0nlytype/ui/waterfall"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0nlytype/ui/table"
 
 export const metadata: Metadata = {
   title: "Tokens",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 /** The first :root block of tokens.css, grouped by its own comments. */
 function groups() {
-  const css = readFileSync("registry/0db/styles/tokens.css", "utf8")
+  const css = readFileSync("registry/0nlytype/styles/tokens.css", "utf8")
   const root = css.slice(css.indexOf(":root"), css.indexOf("\n}", css.indexOf(":root")))
   const out: { title: string; tokens: { name: string; value: string }[] }[] = []
   for (const line of root.split("\n")) {

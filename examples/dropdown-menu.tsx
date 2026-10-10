@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -18,7 +18,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/registry/0db/ui/dropdown-menu"
+} from "@/registry/0nlytype/ui/dropdown-menu"
 import { State } from "@/components/site/state"
 
 function Options() {

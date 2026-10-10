@@ -1,5 +1,5 @@
 import { registryURL } from "@/lib/site/config.mjs"
-import { Source } from "@/registry/0db/ui/source"
+import { Source } from "@/registry/0nlytype/ui/source"
 import { State } from "@/components/site/state"
 
 const code = `import { Button } from "@/components/ui/button"

@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Segue, SegueScene } from "@/registry/0db/ui/segue"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Segue, SegueScene } from "@/registry/0nlytype/ui/segue"
 import { State } from "@/components/site/state"
 
 const acts = [

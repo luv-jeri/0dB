@@ -1,6 +1,6 @@
 import { registryBaseURL, sitePath } from "../lib/site/config.mjs"
 import { siteFonts } from "./lib/site-assets.mjs"
-// Builds registry.json from content/*.ts and registry/0db, runs `shadcn build`,
+// Builds registry.json from content/*.ts and registry/0nlytype, runs `shadcn build`,
 // then rewrites imports in the payloads to the consumer's aliases.
 //   node --import tsx scripts/build-registry.mjs          build
 //   node --import tsx scripts/build-registry.mjs --check  exit 1 if the committed output is stale
@@ -138,7 +138,7 @@ function collectStyles(files) {
         : ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword ? node.arguments[0] : undefined
       if (spec && ts.isStringLiteralLike(spec)) {
         const value = spec.text
-        if (value.startsWith("@/registry/0db/ui/")) item(value.slice("@/registry/0db/ui/".length))
+        if (value.startsWith("@/registry/0nlytype/ui/")) item(value.slice("@/registry/0nlytype/ui/".length))
         else if (value.startsWith("@/components/") || value.startsWith("@/examples/") || value.startsWith(".")) {
           const base = value.startsWith("@/") ? value.slice(2) : path.join(path.dirname(file), value)
           const target = [base, `${base}.tsx`, `${base}.ts`].find((f) => /\.tsx?$/.test(f) && existsSync(f))

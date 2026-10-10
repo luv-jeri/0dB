@@ -1,4 +1,4 @@
-import { TextRibbon } from "@/registry/0db/ui/text-ribbon"
+import { TextRibbon } from "@/registry/0nlytype/ui/text-ribbon"
 import { State } from "@/components/site/state"
 
 export default function Example() {

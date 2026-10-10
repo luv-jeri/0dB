@@ -1,11 +1,11 @@
 import { registryURL, sitePath } from "@/lib/site/config.mjs"
 import type { Metadata } from "next"
 
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { CopyButton } from "@/registry/0db/ui/source"
-import { Link } from "@/registry/0db/ui/link"
-import { Prose } from "@/registry/0db/ui/typography"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0db/ui/table"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { CopyButton } from "@/registry/0nlytype/ui/source"
+import { Link } from "@/registry/0nlytype/ui/link"
+import { Prose } from "@/registry/0nlytype/ui/typography"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0nlytype/ui/table"
 
 export const metadata: Metadata = {
   title: "Build with AI",

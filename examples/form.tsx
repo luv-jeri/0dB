@@ -1,9 +1,9 @@
 "use client"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Field, Input, Textarea } from "@/registry/0db/ui/field"
-import { Form, FormPostmark, FormPostscript, FormSubmit } from "@/registry/0db/ui/form"
-import { Select } from "@/registry/0db/ui/select"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Field, Input, Textarea } from "@/registry/0nlytype/ui/field"
+import { Form, FormPostmark, FormPostscript, FormSubmit } from "@/registry/0nlytype/ui/form"
+import { Select } from "@/registry/0nlytype/ui/select"
 import { State } from "@/components/site/state"
 
 const send = async (data: FormData) => {

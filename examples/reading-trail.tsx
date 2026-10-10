@@ -1,5 +1,5 @@
 import { State } from "@/components/site/state"
-import { ReadingTrail, type TrailSection } from "@/registry/0db/ui/reading-trail"
+import { ReadingTrail, type TrailSection } from "@/registry/0nlytype/ui/reading-trail"
 
 const sections: (TrailSection & { text: string[] })[] = [
   {

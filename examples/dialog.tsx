@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 import {
   Dialog,
   DialogActions,
@@ -10,7 +10,7 @@ import {
   DialogMeta,
   DialogTitle,
   DialogTrigger,
-} from "@/registry/0db/ui/dialog"
+} from "@/registry/0nlytype/ui/dialog"
 import { State } from "@/components/site/state"
 
 function Frame() {

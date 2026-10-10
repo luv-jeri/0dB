@@ -2,11 +2,11 @@ import { siteURL } from "@/lib/site/config.mjs"
 import type { Metadata } from "next"
 import NextLink from "next/link"
 
-import { Source } from "@/registry/0db/ui/source"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Steps, Step, StepTitle } from "@/registry/0db/ui/steps"
-import { Link } from "@/registry/0db/ui/link"
-import { Prose } from "@/registry/0db/ui/typography"
+import { Source } from "@/registry/0nlytype/ui/source"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Steps, Step, StepTitle } from "@/registry/0nlytype/ui/steps"
+import { Link } from "@/registry/0nlytype/ui/link"
+import { Prose } from "@/registry/0nlytype/ui/typography"
 
 export const metadata: Metadata = {
   title: "Install",

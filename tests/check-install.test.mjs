@@ -58,8 +58,8 @@ for (const layout of ["root", "src"]) test(`${layout} layout checks complete ins
   assert.deepEqual(tsconfig.compilerOptions.paths, { "@/*": [`./${prefix}*`] })
   const globals = `${prefix}app/globals.css`
   const items = [{ name: "item", files: [
-    { type: "registry:ui", path: "registry/0db/ui/item.tsx" },
-    { type: "registry:file", path: "registry/0db/styles/item.css", target: "styles/0db/item.css" },
+    { type: "registry:ui", path: "registry/0nlytype/ui/item.tsx" },
+    { type: "registry:file", path: "registry/0nlytype/styles/item.css", target: "styles/0db/item.css" },
   ], css: { '@import "../styles/0db/item.css"': {} } }]
   assert.throws(() => verifyInstall(root, layout, items), /Missing installed file/)
   for (const file of items[0].files) put(root, installedTarget(file, layout))

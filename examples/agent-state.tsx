@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { AgentState, type AgentStateValue } from "@/registry/0db/ui/agent-state"
-import { Button } from "@/registry/0db/ui/button"
+import { AgentState, type AgentStateValue } from "@/registry/0nlytype/ui/agent-state"
+import { Button } from "@/registry/0nlytype/ui/button"
 
 const order: AgentStateValue[] = ["ready", "thinking", "working", "input", "done"]
 

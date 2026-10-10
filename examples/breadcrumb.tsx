@@ -1,4 +1,4 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, type BreadcrumbProps } from "@/registry/0db/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, type BreadcrumbProps } from "@/registry/0nlytype/ui/breadcrumb"
 import { State } from "@/components/site/state"
 
 type Path = { steps: string[]; here: string; variant?: BreadcrumbProps["variant"]; force?: string; open?: boolean }

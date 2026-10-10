@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Tile, Tiling, TilingEditor, type TilingLayout } from "@/registry/0db/ui/tiling"
+import { Tile, Tiling, TilingEditor, type TilingLayout } from "@/registry/0nlytype/ui/tiling"
 import { State } from "@/components/site/state"
 
 const word = "db-fff font-medium text-(--db-ink)"

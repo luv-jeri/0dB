@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { marginaliaUnder } from "../registry/0db/lib/menu-room.ts"
+import { marginaliaUnder } from "../registry/0nlytype/lib/menu-room.ts"
 
 test("marginalia checks the logical end, including opposite viewport edges", () => {
   assert.equal(marginaliaUnder({ left: 20, right: 220 }, 1440, "rtl"), true)

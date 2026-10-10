@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TablePick, type TableProps } from "@/registry/0db/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, TablePick, type TableProps } from "@/registry/0nlytype/ui/table"
 import { State } from "@/components/site/state"
 
 const projects = [

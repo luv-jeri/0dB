@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/registry/0db/ui/popover"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@/registry/0nlytype/ui/popover"
 import { State } from "@/components/site/state"
 
 function Share() {

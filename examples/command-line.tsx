@@ -1,5 +1,5 @@
 import { registryURL } from "@/lib/site/config.mjs"
-import { CommandLine } from "@/registry/0db/ui/command-line"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
 import { State } from "@/components/site/state"
 
 const ADD = `shadcn@latest add ${registryURL("button")}`

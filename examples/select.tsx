@@ -1,4 +1,4 @@
-import { Select } from "@/registry/0db/ui/select"
+import { Select } from "@/registry/0nlytype/ui/select"
 import { State } from "@/components/site/state"
 
 export default function Example() {

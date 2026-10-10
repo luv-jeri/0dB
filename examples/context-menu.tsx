@@ -13,7 +13,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@/registry/0db/ui/context-menu"
+} from "@/registry/0nlytype/ui/context-menu"
 import { State } from "@/components/site/state"
 
 /** The area that answers a right-click: corner marks round a line of help. */

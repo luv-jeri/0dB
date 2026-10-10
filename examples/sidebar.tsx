@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Button } from "@/registry/0db/ui/button"
-import { Sidebar, SidebarGroup, SidebarHead, SidebarLink, type SidebarProps } from "@/registry/0db/ui/sidebar"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Sidebar, SidebarGroup, SidebarHead, SidebarLink, type SidebarProps } from "@/registry/0nlytype/ui/sidebar"
 
 // Folded, pointing at a tick names it and shows its line.
 const pages = {

@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { DatePicker } from "@/registry/0db/ui/date-picker"
-import { Field } from "@/registry/0db/ui/field"
+import { DatePicker } from "@/registry/0nlytype/ui/date-picker"
+import { Field } from "@/registry/0nlytype/ui/field"
 import { State } from "@/components/site/state"
 
 export default function Example() {

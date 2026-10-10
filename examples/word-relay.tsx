@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { WordRelay } from "@/registry/0db/ui/word-relay"
+import { WordRelay } from "@/registry/0nlytype/ui/word-relay"
 import { State } from "@/components/site/state"
 
 const ends = ["design.", "type.", "silence.", "yours."]

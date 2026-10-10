@@ -1,4 +1,4 @@
-import { LineChart } from "@/registry/0db/ui/line-chart"
+import { LineChart } from "@/registry/0nlytype/ui/line-chart"
 import { State } from "@/components/site/state"
 
 const visits = [

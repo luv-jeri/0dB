@@ -1,4 +1,4 @@
-import { RadialChart } from "@/registry/0db/ui/radial-chart"
+import { RadialChart } from "@/registry/0nlytype/ui/radial-chart"
 import { State } from "@/components/site/state"
 
 // Days in September each habit was kept, out of the month's 30.

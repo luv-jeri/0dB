@@ -1,4 +1,4 @@
-import { ScrollArea } from "@/registry/0db/ui/scroll-area"
+import { ScrollArea } from "@/registry/0nlytype/ui/scroll-area"
 import { State } from "@/components/site/state"
 
 const releases = [

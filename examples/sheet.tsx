@@ -2,9 +2,9 @@
 
 import { useState, type CSSProperties, type ReactNode } from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Meta } from "@/registry/0db/ui/meta"
-import { Row, RowKind, RowMeta, RowTitle, Rows } from "@/registry/0db/ui/rows"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Meta } from "@/registry/0nlytype/ui/meta"
+import { Row, RowKind, RowMeta, RowTitle, Rows } from "@/registry/0nlytype/ui/rows"
 import {
   Sheet,
   SheetActions,
@@ -17,7 +17,7 @@ import {
   SheetSpine,
   SheetTitle,
   SheetTrigger,
-} from "@/registry/0db/ui/sheet"
+} from "@/registry/0nlytype/ui/sheet"
 import { State } from "@/components/site/state"
 
 const WORK = [

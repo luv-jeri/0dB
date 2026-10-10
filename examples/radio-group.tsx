@@ -1,4 +1,4 @@
-import { RadioGroup, RadioGroupItem } from "@/registry/0db/ui/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/registry/0nlytype/ui/radio-group"
 import { State } from "@/components/site/state"
 
 export default function Example() {

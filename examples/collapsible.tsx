@@ -5,7 +5,7 @@ import {
   CollapsibleContent,
   CollapsibleList,
   CollapsibleTrigger,
-} from "@/registry/0db/ui/collapsible"
+} from "@/registry/0nlytype/ui/collapsible"
 import { State } from "@/components/site/state"
 
 const shown = ["Halden", "Northlight", "Oda Studio"]

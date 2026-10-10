@@ -3,7 +3,7 @@
 import { readFileSync, readdirSync } from "node:fs"
 import path from "node:path"
 
-const dir = "registry/0db/styles"
+const dir = "registry/0nlytype/styles"
 const allowed = { "base.css": ["[hidden]", ".db-sr"] }
 const bad = []
 

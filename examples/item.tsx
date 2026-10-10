@@ -1,6 +1,6 @@
-import { Avatar } from "@/registry/0db/ui/avatar"
-import { Button } from "@/registry/0db/ui/button"
-import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/registry/0db/ui/item"
+import { Avatar } from "@/registry/0nlytype/ui/avatar"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/registry/0nlytype/ui/item"
 import { State } from "@/components/site/state"
 
 const faces: [string, number][] = [

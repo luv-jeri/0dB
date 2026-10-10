@@ -3,7 +3,7 @@
 import * as React from "react"
 import { usePathname } from "next/navigation"
 
-import { ReadingTrail, type TrailSection } from "@/registry/0db/ui/reading-trail"
+import { ReadingTrail, type TrailSection } from "@/registry/0nlytype/ui/reading-trail"
 
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 

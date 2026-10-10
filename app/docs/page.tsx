@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 import NextLink from "next/link"
 
-import { Rows, Row, RowKind, RowMeta, RowTitle } from "@/registry/0db/ui/rows"
-import { Link } from "@/registry/0db/ui/link"
+import { Rows, Row, RowKind, RowMeta, RowTitle } from "@/registry/0nlytype/ui/rows"
+import { Link } from "@/registry/0nlytype/ui/link"
 import { catalog, UNDER } from "@/lib/site/catalog"
 
 export const metadata: Metadata = {

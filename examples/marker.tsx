@@ -3,8 +3,8 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Button } from "@/registry/0db/ui/button"
-import { Marker } from "@/registry/0db/ui/marker"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Marker } from "@/registry/0nlytype/ui/marker"
 
 /** A line of the conversation the markers sit in, set as the thread sets theirs and yours. */
 function Said({ you, children }: { you?: boolean; children: React.ReactNode }) {

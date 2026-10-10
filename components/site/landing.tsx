@@ -4,11 +4,11 @@ import { siteURL } from "@/lib/site/config.mjs"
 import * as React from "react"
 
 import { KEYS, PAIRS, SCHEMES, useTheme } from "@/components/site/theme-controls"
-import { Button } from "@/registry/0db/ui/button"
-import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
-import { Input } from "@/registry/0db/ui/field"
-import { ModeToggle } from "@/registry/0db/ui/mode-toggle"
-import { Select } from "@/registry/0db/ui/select"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Checkbox, CheckboxGroup } from "@/registry/0nlytype/ui/checkbox"
+import { Input } from "@/registry/0nlytype/ui/field"
+import { ModeToggle } from "@/registry/0nlytype/ui/mode-toggle"
+import { Select } from "@/registry/0nlytype/ui/select"
 
 // The home page's small instruments: the ones that answer a hand. Everything else on the page is a server component.
 

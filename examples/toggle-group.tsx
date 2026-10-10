@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
 import { State } from "@/components/site/state"
 
 const sizes = ["p", "mp", "mf", "f"] as const

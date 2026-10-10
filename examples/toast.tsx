@@ -2,9 +2,9 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { RadioGroup, RadioGroupItem } from "@/registry/0db/ui/radio-group"
-import { Toast, Toaster, dismiss, toast, type ToastVariant } from "@/registry/0db/ui/toast"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { RadioGroup, RadioGroupItem } from "@/registry/0nlytype/ui/radio-group"
+import { Toast, Toaster, dismiss, toast, type ToastVariant } from "@/registry/0nlytype/ui/toast"
 import { State } from "@/components/site/state"
 
 const still = () => () => {}

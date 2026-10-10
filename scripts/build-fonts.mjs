@@ -26,6 +26,6 @@ for (const [out, faces] of Object.entries(pairs)) {
       .replace(/url\([^)]+\) format\('woff2-variations'\)/, `url(data:font/woff2;base64,${data}) format("woff2")`)
       .trim() + "\n";
   }
-  writeFileSync(`registry/0db/styles/${out}.css`, css);
+  writeFileSync(`registry/0nlytype/styles/${out}.css`, css);
   console.log(out, (css.length / 1024).toFixed(0) + "K");
 }

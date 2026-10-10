@@ -1,4 +1,4 @@
-import { PieChart } from "@/registry/0db/ui/pie-chart"
+import { PieChart } from "@/registry/0nlytype/ui/pie-chart"
 import { State } from "@/components/site/state"
 
 // Where September's visits came from.

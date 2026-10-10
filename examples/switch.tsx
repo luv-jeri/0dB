@@ -1,4 +1,4 @@
-import { Switch } from "@/registry/0db/ui/switch"
+import { Switch } from "@/registry/0nlytype/ui/switch"
 import { State } from "@/components/site/state"
 
 export default function Example() {

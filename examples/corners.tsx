@@ -1,4 +1,4 @@
-import { Corners } from "@/registry/0db/ui/corners"
+import { Corners } from "@/registry/0nlytype/ui/corners"
 
 const tools = [
   ["Type", ["Roman", "Italic", "Small caps"]],

@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react"
 
-import { Scrollbar } from "@/registry/0db/ui/scrollbar"
+import { Scrollbar } from "@/registry/0nlytype/ui/scrollbar"
 import { State } from "@/components/site/state"
 
 const sections = [

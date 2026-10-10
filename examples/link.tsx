@@ -1,4 +1,4 @@
-import { Link } from "@/registry/0db/ui/link"
+import { Link } from "@/registry/0nlytype/ui/link"
 import { State } from "@/components/site/state"
 
 export default function Example() {

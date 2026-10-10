@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { useAppearance } from "@/registry/0db/ui/appearance"
-import { ModeToggle, type Mode } from "@/registry/0db/ui/mode-toggle"
+import { useAppearance } from "@/registry/0nlytype/ui/appearance"
+import { ModeToggle, type Mode } from "@/registry/0nlytype/ui/mode-toggle"
 import { State } from "@/components/site/state"
 
 // The three switches, each with the scene change it asks the page for.

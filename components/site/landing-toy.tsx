@@ -4,8 +4,8 @@ import * as React from "react"
 
 import { Noise } from "@/components/site/landing-noise"
 import { SharePlaces, useShare } from "@/components/site/landing-share"
-import { Button } from "@/registry/0db/ui/button"
-import { Input } from "@/registry/0db/ui/field"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Input } from "@/registry/0nlytype/ui/field"
 
 // Make some noise: your words, set huge, and around them the same words run small and loud, as pretext flows
 // every row around the letters. "Turn it down" spreads the silence out from your sentence until it rests,

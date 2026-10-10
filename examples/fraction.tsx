@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Fraction } from "@/registry/0db/ui/fraction"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Fraction } from "@/registry/0nlytype/ui/fraction"
 import { State } from "@/components/site/state"
 
 /** Words written, grouped by a thin space as a printer groups them: 3 466. */

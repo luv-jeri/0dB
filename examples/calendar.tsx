@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Calendar } from "@/registry/0db/ui/calendar"
+import { Calendar } from "@/registry/0nlytype/ui/calendar"
 import { State } from "@/components/site/state"
 
 const longDay = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long" })

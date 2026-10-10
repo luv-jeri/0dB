@@ -15,7 +15,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "@/registry/0db/ui/menubar"
+} from "@/registry/0nlytype/ui/menubar"
 import { State } from "@/components/site/state"
 
 function Editor({ label, variant }: { label: string; variant?: "pocket" | "leaders" | "caption" }) {

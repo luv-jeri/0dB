@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Badge } from "@/registry/0db/ui/badge"
-import { Button } from "@/registry/0db/ui/button"
+import { Badge } from "@/registry/0nlytype/ui/badge"
+import { Button } from "@/registry/0nlytype/ui/button"
 import { State } from "@/components/site/state"
 
 const all = ["Identity", "Web", "Motion", "Print"]

@@ -1,4 +1,4 @@
-import { Pick, PickDescription, Picks, PickTitle } from "@/registry/0db/ui/picks"
+import { Pick, PickDescription, Picks, PickTitle } from "@/registry/0nlytype/ui/picks"
 import { State } from "@/components/site/state"
 
 export default function Example() {

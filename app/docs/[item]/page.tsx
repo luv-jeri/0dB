@@ -3,16 +3,16 @@ import type { Metadata } from "next"
 import NextLink from "next/link"
 import { notFound } from "next/navigation"
 
-import { Meta } from "@/registry/0db/ui/meta"
-import { Prose } from "@/registry/0db/ui/typography"
-import { Source } from "@/registry/0db/ui/source"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Steps, Step, StepTitle } from "@/registry/0db/ui/steps"
-import { Scrollbar } from "@/registry/0db/ui/scrollbar"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/0db/ui/tabs"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0db/ui/table"
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/registry/0db/ui/pagination"
-import { Link } from "@/registry/0db/ui/link"
+import { Meta } from "@/registry/0nlytype/ui/meta"
+import { Prose } from "@/registry/0nlytype/ui/typography"
+import { Source } from "@/registry/0nlytype/ui/source"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Steps, Step, StepTitle } from "@/registry/0nlytype/ui/steps"
+import { Scrollbar } from "@/registry/0nlytype/ui/scrollbar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/0nlytype/ui/tabs"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/registry/0nlytype/ui/table"
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/registry/0nlytype/ui/pagination"
+import { Link } from "@/registry/0nlytype/ui/link"
 import { entries } from "@/lib/site/entries"
 import { movementName, ordered, UNDER } from "@/lib/site/catalog"
 import { contractFor, motionRows, moveRows } from "@/lib/site/design-md"
@@ -43,7 +43,7 @@ function payload(name: string) {
   return {
     npm: json.dependencies ?? [],
     files: json.files.map((f) => ({
-      target: f.target ?? f.path.replace("registry/0db/ui/", "components/ui/").replace("registry/0db/lib/", "lib/0db/"),
+      target: f.target ?? f.path.replace("registry/0nlytype/ui/", "components/ui/").replace("registry/0nlytype/lib/", "lib/0db/"),
       content: f.path.endsWith(".css") ? f.content : rewriteImports(f.content),
     })),
   }

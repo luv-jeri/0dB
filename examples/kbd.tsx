@@ -1,4 +1,4 @@
-import { Kbd } from "@/registry/0db/ui/kbd"
+import { Kbd } from "@/registry/0nlytype/ui/kbd"
 import { State } from "@/components/site/state"
 
 export default function Example() {

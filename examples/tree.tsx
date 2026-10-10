@@ -1,6 +1,6 @@
 "use client"
 
-import { Tree, type TreeNode } from "@/registry/0db/ui/tree"
+import { Tree, type TreeNode } from "@/registry/0nlytype/ui/tree"
 import { State } from "@/components/site/state"
 
 // A fictional studio's archive.

@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 import {
   Message,
   MessageAvatar,
@@ -15,7 +15,7 @@ import {
   MessageReactions,
   MessageStatus,
   MessageTyping,
-} from "@/registry/0db/ui/message"
+} from "@/registry/0nlytype/ui/message"
 
 /** Ask, and Ada writes back: the periods show only while she's writing, then her words write in. */
 function Reply() {

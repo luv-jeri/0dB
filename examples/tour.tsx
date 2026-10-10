@@ -2,10 +2,10 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
-import { Field, Input } from "@/registry/0db/ui/field"
-import { Meta } from "@/registry/0db/ui/meta"
-import { Tour, TourContent, TourStep, TourTrigger } from "@/registry/0db/ui/tour"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Field, Input } from "@/registry/0nlytype/ui/field"
+import { Meta } from "@/registry/0nlytype/ui/meta"
+import { Tour, TourContent, TourStep, TourTrigger } from "@/registry/0nlytype/ui/tour"
 import { State } from "@/components/site/state"
 
 export default function Example() {

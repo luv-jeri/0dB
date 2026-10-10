@@ -1,4 +1,4 @@
-import { Note } from "@/registry/0db/ui/note"
+import { Note } from "@/registry/0nlytype/ui/note"
 import { State } from "@/components/site/state"
 
 export default function Example() {

@@ -1,5 +1,5 @@
 import { State } from "@/components/site/state"
-import { ActivityFeed, type ActivityEntry } from "@/registry/0db/ui/activity-feed"
+import { ActivityFeed, type ActivityEntry } from "@/registry/0nlytype/ui/activity-feed"
 
 const entries: ActivityEntry[] = [
   { id: "a1", who: "Ada Lindqvist", what: <>approved <i className="db-yours">the harbour mark</i></>, detail: "It holds at stamp size. Send it to the ferry office.", at: "2026-09-30T16:40" },

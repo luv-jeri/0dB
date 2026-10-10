@@ -1,4 +1,4 @@
-import { Dial } from "@/registry/0db/ui/dial"
+import { Dial } from "@/registry/0nlytype/ui/dial"
 import { State } from "@/components/site/state"
 
 export default function Example() {

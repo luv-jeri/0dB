@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { activeIndex } from "../registry/0db/lib/chart-index.ts"
+import { activeIndex } from "../registry/0nlytype/lib/chart-index.ts"
 
 test("a removed radar axis cannot index the replacement data", () => {
   assert.equal(activeIndex(3, 4), 3)

@@ -12,11 +12,11 @@ import {
   AgentChatPermission,
   AgentChatThread,
   AgentChatWork,
-} from "@/registry/0db/ui/agent-chat"
-import { type AgentStateValue } from "@/registry/0db/ui/agent-state"
-import { Attachment, AttachmentList } from "@/registry/0db/ui/attachment"
-import { Dialog } from "@/registry/0db/ui/dialog"
-import { Message, MessageAvatar, MessageBody, MessageBubble, MessageHeader, MessageTyping } from "@/registry/0db/ui/message"
+} from "@/registry/0nlytype/ui/agent-chat"
+import { type AgentStateValue } from "@/registry/0nlytype/ui/agent-state"
+import { Attachment, AttachmentList } from "@/registry/0nlytype/ui/attachment"
+import { Dialog } from "@/registry/0nlytype/ui/dialog"
+import { Message, MessageAvatar, MessageBody, MessageBubble, MessageHeader, MessageTyping } from "@/registry/0nlytype/ui/message"
 
 type File_ = { id: string; name: string; size?: string }
 type Entry =

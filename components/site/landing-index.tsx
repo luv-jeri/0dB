@@ -6,7 +6,7 @@ import dynamic from "next/dynamic"
 
 import { Share } from "@/components/site/landing"
 import { DEMO_SCORES, useDemoPlayer } from "@/components/site/demo-player"
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 
 // The whole library at a glance: every name set as one wall of type, by movement, as a concert programme
 // runs its pieces on. Beside it, a stage plays the piece you're at, live. Pointing at or focusing a name

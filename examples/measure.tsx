@@ -1,4 +1,4 @@
-import { Measure } from "@/registry/0db/ui/measure"
+import { Measure } from "@/registry/0nlytype/ui/measure"
 import { State } from "@/components/site/state"
 
 const text =

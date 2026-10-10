@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Select } from "@/registry/0db/ui/select"
-import { Stat, Stats, type StatsProps } from "@/registry/0db/ui/stat"
+import { Select } from "@/registry/0nlytype/ui/select"
+import { Stat, Stats, type StatsProps } from "@/registry/0nlytype/ui/stat"
 import { State } from "@/components/site/state"
 
 const years = {

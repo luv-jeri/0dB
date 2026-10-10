@@ -1,5 +1,5 @@
-import { Button } from "@/registry/0db/ui/button"
-import { Empty, EmptyActions, EmptyDescription, EmptyFigure, EmptyTitle } from "@/registry/0db/ui/empty"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Empty, EmptyActions, EmptyDescription, EmptyFigure, EmptyTitle } from "@/registry/0nlytype/ui/empty"
 import { State } from "@/components/site/state"
 
 // Three ways to say there's nothing here yet, each with the one thing to do about it.

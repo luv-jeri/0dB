@@ -1,4 +1,4 @@
-import { Grid } from "@/registry/0db/ui/grid"
+import { Grid } from "@/registry/0nlytype/ui/grid"
 import { State } from "@/components/site/state"
 
 export default function Example() {

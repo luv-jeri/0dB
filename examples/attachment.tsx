@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Attachment, AttachmentList } from "@/registry/0db/ui/attachment"
-import { Button } from "@/registry/0db/ui/button"
+import { Attachment, AttachmentList } from "@/registry/0nlytype/ui/attachment"
+import { Button } from "@/registry/0nlytype/ui/button"
 import { State } from "@/components/site/state"
 
 export default function Example() {

@@ -6,9 +6,9 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { chromium } from "playwright"
 
 import { parsePath, parseSvg, pathPoints, readCurated, signShape, VARIANTS } from "../scripts/build-signs.mjs"
-import { layoutSign, tableMetrics } from "../registry/0db/ui/sign.tsx"
+import { layoutSign, tableMetrics } from "../registry/0nlytype/ui/sign.tsx"
 import { signs } from "../lib/site/signs.ts"
-import { SignSearchWords } from "../registry/0db/signs/sign-search-words.tsx"
+import { SignSearchWords } from "../registry/0nlytype/signs/sign-search-words.tsx"
 
 const curated = readCurated()
 const near = (pts, [x, y], within = 0.1) => pts.some(([px, py]) => Math.hypot(px - x, py - y) <= within)
@@ -148,7 +148,7 @@ test("a sign renders on the server, one letter to an element", () => {
 
 test("the fill and words variants carry only what they draw", () => {
   for (const variant of VARIANTS) {
-    const source = readFileSync(`registry/0db/signs/sign-search-${variant}.tsx`, "utf8")
+    const source = readFileSync(`registry/0nlytype/signs/sign-search-${variant}.tsx`, "utf8")
     assert.equal(source.includes('"fill":'), variant === "fill", `${variant} ships the fill rows only if it fills`)
     assert.equal(source.includes('"line":'), variant !== "fill", `${variant} ships the strokes only if it draws them`)
   }

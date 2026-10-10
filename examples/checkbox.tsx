@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup } from "@/registry/0db/ui/checkbox"
+import { Checkbox, CheckboxGroup } from "@/registry/0nlytype/ui/checkbox"
 import { State } from "@/components/site/state"
 
 export default function Example() {

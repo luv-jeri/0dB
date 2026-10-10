@@ -1,6 +1,6 @@
 "use client"
 
-import { DataTable, type DataTableColumn, type DataTableFilter } from "@/registry/0db/ui/data-table"
+import { DataTable, type DataTableColumn, type DataTableFilter } from "@/registry/0nlytype/ui/data-table"
 import { State } from "@/components/site/state"
 
 type Project = { name: string; kind: "web" | "identity" | "motion"; year: number; fee: number }

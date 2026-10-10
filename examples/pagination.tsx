@@ -11,7 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
   paginationRange,
-} from "@/registry/0db/ui/pagination"
+} from "@/registry/0nlytype/ui/pagination"
 import { State } from "@/components/site/state"
 
 const pad = (n: number) => String(n).padStart(2, "0")

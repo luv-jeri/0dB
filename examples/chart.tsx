@@ -1,4 +1,4 @@
-import { Chart } from "@/registry/0db/ui/chart"
+import { Chart } from "@/registry/0nlytype/ui/chart"
 import { State } from "@/components/site/state"
 
 const visits = [

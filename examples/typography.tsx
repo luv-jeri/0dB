@@ -1,4 +1,4 @@
-import { Prose, ProseLead, type ProseProps } from "@/registry/0db/ui/typography"
+import { Prose, ProseLead, type ProseProps } from "@/registry/0nlytype/ui/typography"
 import { State } from "@/components/site/state"
 
 function Passage({ variant }: { variant: ProseProps["variant"] }) {

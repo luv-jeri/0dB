@@ -1,4 +1,4 @@
-import { Contour } from "@/registry/0db/ui/contour"
+import { Contour } from "@/registry/0nlytype/ui/contour"
 import { State } from "@/components/site/state"
 
 const coda =

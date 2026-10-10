@@ -5,11 +5,11 @@ import NextLink from "next/link"
 
 import { signs } from "@/lib/site/signs"
 import { registryURL } from "@/lib/site/config.mjs"
-import { Sign, mirrored, type SignShape, type SignVariant } from "@/registry/0db/ui/sign"
-import { Field, Input } from "@/registry/0db/ui/field"
-import { ToggleGroup, ToggleGroupItem } from "@/registry/0db/ui/toggle-group"
-import { CommandLine } from "@/registry/0db/ui/command-line"
-import { Link } from "@/registry/0db/ui/link"
+import { Sign, mirrored, type SignShape, type SignVariant } from "@/registry/0nlytype/ui/sign"
+import { Field, Input } from "@/registry/0nlytype/ui/field"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/0nlytype/ui/toggle-group"
+import { CommandLine } from "@/registry/0nlytype/ui/command-line"
+import { Link } from "@/registry/0nlytype/ui/link"
 import { SignStill } from "@/components/site/sign-still"
 
 const all = Object.entries(signs)
@@ -17,7 +17,7 @@ const VARIANTS: SignVariant[] = ["dots", "words", "fill"]
 // The grid draws this many tiles at first and as many more each time an undrawn one comes near, so the page opens
 // light. Undrawn tiles still carry their word and name, one element each, so the browser's Find reaches every sign.
 const BATCH = 48
-// Words below this side are drawn as dots (registry/0db/ui/sign.tsx, WORDS): the size control says so.
+// Words below this side are drawn as dots (registry/0nlytype/ui/sign.tsx, WORDS): the size control says so.
 const WORDS_FROM = 40
 
 const watchDir = (change: () => void) => {

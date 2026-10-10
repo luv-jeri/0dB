@@ -1,4 +1,4 @@
-import { Skeleton, SkeletonLine, SkeletonRing, type SkeletonProps } from "@/registry/0db/ui/skeleton"
+import { Skeleton, SkeletonLine, SkeletonRing, type SkeletonProps } from "@/registry/0nlytype/ui/skeleton"
 import { State } from "@/components/site/state"
 
 // A headline and a paragraph that ends short, as a real one does.

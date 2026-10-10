@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { layoutSign, tableMetrics, type SignShape, type SignVariant } from "@/registry/0db/ui/sign"
+import { layoutSign, tableMetrics, type SignShape, type SignVariant } from "@/registry/0nlytype/ui/sign"
 
 const metrics = { roman: tableMetrics(false), italic: tableMetrics(true) }
 // How far the baseline sits below the middle of a line-height-1 em box: half of ascent less descent, in ems, for

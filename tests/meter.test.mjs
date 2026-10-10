@@ -2,7 +2,7 @@ import { test } from "node:test"
 import assert from "node:assert/strict"
 import * as React from "react"
 import { renderToStaticMarkup } from "react-dom/server"
-import { Meter } from "../registry/0db/ui/meter.tsx"
+import { Meter } from "../registry/0nlytype/ui/meter.tsx"
 
 const render = (props) => renderToStaticMarkup(React.createElement(Meter, { label: "Storage used", ...props }))
 const native = (html) => html.match(/<meter\b[^>]*>/)[0]

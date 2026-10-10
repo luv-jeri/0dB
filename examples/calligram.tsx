@@ -1,4 +1,4 @@
-import { Calligram } from "@/registry/0db/ui/calligram"
+import { Calligram } from "@/registry/0nlytype/ui/calligram"
 import { State } from "@/components/site/state"
 
 const text =

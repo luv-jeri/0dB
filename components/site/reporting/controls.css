@@ -1,11 +1,11 @@
-@import "../../../registry/0db/styles/attachment.css";
-@import "../../../registry/0db/styles/dropzone.css";
-@import "../../../registry/0db/styles/field.css";
-@import "../../../registry/0db/styles/form.css";
-@import "../../../registry/0db/styles/input-group.css";
-@import "../../../registry/0db/styles/marker.css";
-@import "../../../registry/0db/styles/picks.css";
-@import "../../../registry/0db/styles/questionnaire.css";
+@import "../../../registry/0nlytype/styles/attachment.css";
+@import "../../../registry/0nlytype/styles/dropzone.css";
+@import "../../../registry/0nlytype/styles/field.css";
+@import "../../../registry/0nlytype/styles/form.css";
+@import "../../../registry/0nlytype/styles/input-group.css";
+@import "../../../registry/0nlytype/styles/marker.css";
+@import "../../../registry/0nlytype/styles/picks.css";
+@import "../../../registry/0nlytype/styles/questionnaire.css";
 
 @layer components {
   .db-report-tools, .db-report-item-search, .db-report-crop { display: grid; gap: var(--db-space-4); min-inline-size: 0; }

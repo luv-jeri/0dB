@@ -1,4 +1,4 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionProps } from "@/registry/0db/ui/accordion"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionProps } from "@/registry/0nlytype/ui/accordion"
 import { State } from "@/components/site/state"
 
 const FAQ = [

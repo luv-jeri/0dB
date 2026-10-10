@@ -1,6 +1,6 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import * as rolls from "../registry/0db/lib/roll.ts"
+import * as rolls from "../registry/0nlytype/lib/roll.ts"
 
 function setup(t, initial = "100") {
   t.mock.timers.enable({ apis: ["setTimeout"] })

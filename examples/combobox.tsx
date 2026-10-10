@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Combobox } from "@/registry/0db/ui/combobox"
-import { Field } from "@/registry/0db/ui/field"
+import { Combobox } from "@/registry/0nlytype/ui/combobox"
+import { Field } from "@/registry/0nlytype/ui/field"
 import { State } from "@/components/site/state"
 
 const FACES = ["Akzidenz-Grotesk", "Archivo", "Avenir", "Baskerville", "Bodoni Moda", "Bricolage Grotesque", "Caslon", "Cormorant", "Didot", "EB Garamond", "Frutiger", "Futura", "Gill Sans", "Helvetica", "Instrument Sans", "Newsreader", "Schibsted Grotesk", "Univers"].map((name) => ({

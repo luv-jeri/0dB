@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Dropzone } from "@/registry/0db/ui/dropzone"
+import { Dropzone } from "@/registry/0nlytype/ui/dropzone"
 import { State } from "@/components/site/state"
 
 // ponytail: stand-in files of the right size, made once, so the docs can show what's held.

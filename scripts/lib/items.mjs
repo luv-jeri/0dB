@@ -5,17 +5,17 @@ import path from "node:path"
 import { pathToFileURL } from "node:url"
 import ts from "typescript"
 
-export const SOURCE = "registry/0db"
+export const SOURCE = "registry/0nlytype"
 export const MOVEMENTS = ["II", "IV", "VI", "VII", "VIII", "IX", "X", "XI"]
 const platform = /^(react|react-dom|next)(\/|$)/
 
 export function rewriteImports(source) {
   return source.replace(/((?:from\s+|import\s+|import\s*\(\s*)["'])([^"']+)(["'])/g, (_m, start, value, end) => {
     const to = value
-      .replace(/^@\/registry\/0db\/lib\/utils$/, "@/lib/utils")
-      .replace(/^@\/registry\/0db\/lib\//, "@/lib/0db/")
-      .replace(/^@\/registry\/0db\/ui\//, "@/components/ui/")
-      .replace(/^@\/registry\/0db\/signs\//, "@/components/ui/")
+      .replace(/^@\/registry\/0nlytype\/lib\/utils$/, "@/lib/utils")
+      .replace(/^@\/registry\/0nlytype\/lib\//, "@/lib/0db/")
+      .replace(/^@\/registry\/0nlytype\/ui\//, "@/components/ui/")
+      .replace(/^@\/registry\/0nlytype\/signs\//, "@/components/ui/")
       .replace(/^\.\/(?=[a-z])/, "@/components/ui/")
     return `${start}${to}${end}`
   })
@@ -28,7 +28,7 @@ export function deriveDeps(source) {
   const file = ts.createSourceFile("item.tsx", source, ts.ScriptTarget.Latest, false, ts.ScriptKind.TSX)
   function add(spec) {
     if (spec.startsWith("./")) siblings.add(spec.slice(2))
-    else if (spec.startsWith("@/registry/0db/ui/")) siblings.add(spec.slice("@/registry/0db/ui/".length))
+    else if (spec.startsWith("@/registry/0nlytype/ui/")) siblings.add(spec.slice("@/registry/0nlytype/ui/".length))
     else if (spec.startsWith("@/") || spec.startsWith(".") || platform.test(spec)) return
     else npm.add(spec.startsWith("@") ? spec.split("/").slice(0, 2).join("/") : spec.split("/")[0])
   }

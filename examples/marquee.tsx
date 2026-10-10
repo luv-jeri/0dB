@@ -1,4 +1,4 @@
-import { Marquee } from "@/registry/0db/ui/marquee"
+import { Marquee } from "@/registry/0nlytype/ui/marquee"
 import { State } from "@/components/site/state"
 
 const words = ["Silence", "Space", "Type", "Rest", "Line", "Measure"]

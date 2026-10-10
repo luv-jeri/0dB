@@ -3,9 +3,9 @@
 import * as React from "react"
 
 import { State } from "@/components/site/state"
-import { Button } from "@/registry/0db/ui/button"
-import { Message, MessageAvatar, MessageBody, MessageBubble, MessageFooter, MessageHeader, MessageStatus } from "@/registry/0db/ui/message"
-import { Thread, ThreadDay } from "@/registry/0db/ui/thread"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Message, MessageAvatar, MessageBody, MessageBubble, MessageFooter, MessageHeader, MessageStatus } from "@/registry/0nlytype/ui/message"
+import { Thread, ThreadDay } from "@/registry/0nlytype/ui/thread"
 
 const updates = [
   "The stamp size holds. The anchor is gone, the flag stays.",

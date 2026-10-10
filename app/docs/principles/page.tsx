@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 
-import { Measure } from "@/registry/0db/ui/measure"
-import { Prose } from "@/registry/0db/ui/typography"
+import { Measure } from "@/registry/0nlytype/ui/measure"
+import { Prose } from "@/registry/0nlytype/ui/typography"
 import { sectionHTML } from "@/lib/site/design-md"
 
 export const metadata: Metadata = {

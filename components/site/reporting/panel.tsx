@@ -3,11 +3,11 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { entries } from "@/lib/site/entries"
-import { Button } from "@/registry/0db/ui/button"
-import { Sheet, SheetContent, SheetDescription, SheetSpine, SheetTitle } from "@/registry/0db/ui/sheet"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Sheet, SheetContent, SheetDescription, SheetSpine, SheetTitle } from "@/registry/0nlytype/ui/sheet"
 import { FeedbackForms } from "./forms"
-import "@/registry/0db/styles/sheet.css"
-import "@/registry/0db/styles/dialog.css"
+import "@/registry/0nlytype/styles/sheet.css"
+import "@/registry/0nlytype/styles/dialog.css"
 import "./panel.css"
 
 const components = entries.map(({ meta }) => ({ name: meta.name, title: meta.title, description: meta.summary, contract: meta.contract }))

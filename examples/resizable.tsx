@@ -1,4 +1,4 @@
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup, ResizableTitle } from "@/registry/0db/ui/resizable"
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup, ResizableTitle } from "@/registry/0nlytype/ui/resizable"
 import { State } from "@/components/site/state"
 
 const story =

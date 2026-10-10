@@ -1,4 +1,4 @@
-import { AreaChart } from "@/registry/0db/ui/area-chart"
+import { AreaChart } from "@/registry/0nlytype/ui/area-chart"
 import { State } from "@/components/site/state"
 
 // Hours read on the studio's journal, by where the readers came from.

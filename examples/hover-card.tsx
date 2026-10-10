@@ -1,4 +1,4 @@
-import { HoverCard, HoverCardContent, HoverCardMeta, HoverCardName, HoverCardTrigger } from "@/registry/0db/ui/hover-card"
+import { HoverCard, HoverCardContent, HoverCardMeta, HoverCardName, HoverCardTrigger } from "@/registry/0nlytype/ui/hover-card"
 import { State } from "@/components/site/state"
 
 function Person() {

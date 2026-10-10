@@ -6,8 +6,8 @@ import { createPortal } from "react-dom"
 import { cropImage, type Crop } from "@/lib/reporting/capture"
 import { type ComponentMatch, type Pin } from "@/lib/reporting/contracts"
 import { structuralPath } from "@/lib/reporting/diagnostics"
-import { Button } from "@/registry/0db/ui/button"
-import { Field, Input } from "@/registry/0db/ui/field"
+import { Button } from "@/registry/0nlytype/ui/button"
+import { Field, Input } from "@/registry/0nlytype/ui/field"
 import { FilePreview } from "./media"
 
 export type ReportingItem = ComponentMatch & { contract?: string }

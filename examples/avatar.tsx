@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup } from "@/registry/0db/ui/avatar"
+import { Avatar, AvatarGroup } from "@/registry/0nlytype/ui/avatar"
 import { State } from "@/components/site/state"
 
 export default function Example() {

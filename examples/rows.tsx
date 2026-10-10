@@ -1,4 +1,4 @@
-import { Row, RowKind, RowMeta, RowTitle, Rows, type RowsProps } from "@/registry/0db/ui/rows"
+import { Row, RowKind, RowMeta, RowTitle, Rows, type RowsProps } from "@/registry/0nlytype/ui/rows"
 import { State } from "@/components/site/state"
 
 const work = [

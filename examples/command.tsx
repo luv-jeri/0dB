@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Button } from "@/registry/0db/ui/button"
+import { Button } from "@/registry/0nlytype/ui/button"
 import {
   Command,
   CommandDialog,
@@ -13,8 +13,8 @@ import {
   CommandItem,
   CommandList,
   CommandShortcut,
-} from "@/registry/0db/ui/command"
-import { Kbd } from "@/registry/0db/ui/kbd"
+} from "@/registry/0nlytype/ui/command"
+import { Kbd } from "@/registry/0nlytype/ui/kbd"
 import { State } from "@/components/site/state"
 
 const PROJECTS = [

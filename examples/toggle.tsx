@@ -1,4 +1,4 @@
-import { Toggle } from "@/registry/0db/ui/toggle"
+import { Toggle } from "@/registry/0nlytype/ui/toggle"
 import { State } from "@/components/site/state"
 
 export default function Example() {

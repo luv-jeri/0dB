@@ -34,7 +34,7 @@ const WIDTHS: Record<string, number> = { "calendar": 880, "agent-chat": 1000, "a
 
 async function liveExample(name: string): Promise<Example | null> {
   if (name === "word-relay") {
-    const { WordRelay } = await import("@/registry/0db/ui/word-relay")
+    const { WordRelay } = await import("@/registry/0nlytype/ui/word-relay")
     return function RelayVariations() {
       const { ref, step } = useDemoClock()
       const [own, setOwn] = React.useState<number | null>(null)
@@ -42,21 +42,21 @@ async function liveExample(name: string): Promise<Example | null> {
     }
   }
   if (name === "scroll-expand") {
-    const { ScrollExpand } = await import("@/registry/0db/ui/scroll-expand")
+    const { ScrollExpand } = await import("@/registry/0nlytype/ui/scroll-expand")
     return function ExpandVariations() {
       const { ref, step } = useDemoClock()
       return <div ref={ref} data-demo-clock className="grid">{(["mark", "horizon"] as const).map((variant) => <ScrollExpand key={variant} variant={variant} progress={[1, 0.25, 0.6, 1, 0.6][step % 5]} caption={[variant, "Space opens"]}><p className="db-f" style={{ margin: 0, paddingBlock: "var(--db-space-6)" }}>Space<br />does the<br />layout.</p></ScrollExpand>)}</div>
     }
   }
   if (name === "steps") {
-    const { Steps, Step, StepTitle } = await import("@/registry/0db/ui/steps")
+    const { Steps, Step, StepTitle } = await import("@/registry/0nlytype/ui/steps")
     return function StepVariations() {
       const { ref, step } = useDemoClock()
       return <div ref={ref} data-demo-clock className="grid">{(["margin", "rise", "cascade", "folio"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Steps variant={variant} value={step % 3 + 1}>{["Brief", "Scope", "Call"].map((title) => <Step key={title}><StepTitle>{title}</StepTitle></Step>)}</Steps></div>)}</div>
     }
   }
   if (name === "activity-feed") {
-    const { ActivityFeed } = await import("@/registry/0db/ui/activity-feed")
+    const { ActivityFeed } = await import("@/registry/0nlytype/ui/activity-feed")
     const entries = [
       { id: "proof", who: "Ada", what: "approved the proof", at: "2026-09-30T16:40" },
       { id: "mark", who: "Bruno", what: "shared the mark", at: "2026-09-30T14:12" },
@@ -67,8 +67,8 @@ async function liveExample(name: string): Promise<Example | null> {
     }
   }
   if (name === "thread") {
-    const { Thread, ThreadDay } = await import("@/registry/0db/ui/thread")
-    const { Message, MessageBody, MessageBubble, MessageHeader } = await import("@/registry/0db/ui/message")
+    const { Thread, ThreadDay } = await import("@/registry/0nlytype/ui/thread")
+    const { Message, MessageBody, MessageBubble, MessageHeader } = await import("@/registry/0nlytype/ui/message")
     return function ThreadVariations() {
       const { ref, step } = useDemoClock()
       const words = ["The proofs are back.", "The flag holds at stamp size.", "Send it to the ferry office."]
@@ -76,7 +76,7 @@ async function liveExample(name: string): Promise<Example | null> {
     }
   }
   if (name === "tiling") {
-    const { TilingEditor } = await import("@/registry/0db/ui/tiling")
+    const { TilingEditor } = await import("@/registry/0nlytype/ui/tiling")
     return function TilingVariations() {
       const { ref, step } = useDemoClock()
       const layout = [
@@ -88,20 +88,20 @@ async function liveExample(name: string): Promise<Example | null> {
     }
   }
   if (name === "mode-toggle") {
-    const { ModeToggle } = await import("@/registry/0db/ui/mode-toggle")
+    const { ModeToggle } = await import("@/registry/0nlytype/ui/mode-toggle")
     return function ModeVariations() {
       return <div className="grid">{(["stop", "dimmer", "noon", "eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const).map((variant) => <div key={variant} className="grid"><span className="db-label">{variant}</span><ModeToggle variant={variant} /></div>)}</div>
     }
   }
   if (name === "progress") {
-    const { Progress } = await import("@/registry/0db/ui/progress")
+    const { Progress } = await import("@/registry/0nlytype/ui/progress")
     return function ProgressVariations() {
       const { ref, step } = useDemoClock()
       return <div ref={ref} data-demo-clock className="grid">{(["hairline", "sentence", "count", "parentheses", "tally"] as const).map((variant) => <div key={variant} className="grid"><span className="db-label">{variant}</span><Progress variant={variant} value={(step % 5) * 25} label="Setting the type" /></div>)}</div>
     }
   }
   if (name === "agent-state") {
-    const { AgentState } = await import("@/registry/0db/ui/agent-state")
+    const { AgentState } = await import("@/registry/0nlytype/ui/agent-state")
     return function AgentVariations() {
       const { ref, step } = useDemoClock()
       const state = (["ready", "thinking", "working", "input", "done"] as const)[step % 5]
@@ -109,7 +109,7 @@ async function liveExample(name: string): Promise<Example | null> {
     }
   }
   if (name === "sheet") {
-    const { Sheet, SheetTitle, SheetDescription } = await import("@/registry/0db/ui/sheet")
+    const { Sheet, SheetTitle, SheetDescription } = await import("@/registry/0nlytype/ui/sheet")
     return function SheetVariations() {
       return <div className="grid">{(["spine", "shelf", "rag", "fold"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Sheet><dialog open className="db-sheet" data-side="end" data-variant={variant === "spine" ? undefined : variant} style={{ position: "relative", inset: "auto", translate: "none", width: "100%", height: "18rem", maxHeight: "none", transition: "none" }}><p className="db-sheet-spine" aria-hidden="true">The brief</p><SheetTitle>The brief</SheetTitle><SheetDescription>Keep the flag. Lose the anchor. Set the timetable large.</SheetDescription></dialog></Sheet></div>)}</div>
     }

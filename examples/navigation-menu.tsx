@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   type NavigationMenuProps,
-} from "@/registry/0db/ui/navigation-menu"
+} from "@/registry/0nlytype/ui/navigation-menu"
 import { State } from "@/components/site/state"
 
 const menu = {
