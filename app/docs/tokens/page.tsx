@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs"
+import * as React from "react"
 import type { Metadata } from "next"
 
 import { CopyButton } from "@/registry/0nlytype/ui/source"
@@ -8,6 +9,24 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 export const metadata: Metadata = {
   title: "Tokens",
   description: "Every --ot- token and its Day value. Copy one to use it.",
+}
+
+/** Text that names tokens, set so it can wrap at a hyphen of a token's name and nowhere else inside it: --ot- stays whole, then each word of the name may start a line. */
+function Wrappable({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(--[\w-]+)/).map((part, i) => {
+        if (i % 2 === 0) return part
+        const [first, ...rest] = part.slice(2).split("-")
+        return (
+          <React.Fragment key={i}>
+            <span className="doc-token-ref">--{first}</span>
+            {rest.map((word, j) => <React.Fragment key={j}>-<wbr />{word}</React.Fragment>)}
+          </React.Fragment>
+        )
+      })}
+    </>
+  )
 }
 
 /** The first :root block of tokens.css, grouped by its own comments. */
@@ -56,10 +75,10 @@ export default function Tokens() {
                 {g.tokens.map((t) => (
                   <TableRow key={t.name}>
                     <TableCell primary>
-                      <code>{t.name}</code>
+                      <code><Wrappable text={t.name} /></code>
                     </TableCell>
                     <TableCell>
-                      <code>{t.value.split(/(var\(--[\w-]+\))/).map((part, i) => (i % 2 ? <span key={i} className="doc-token-ref">{part}</span> : part))}</code>
+                      <code><Wrappable text={t.value} /></code>
                     </TableCell>
                     <TableCell>
                       <CopyButton text={`var(${t.name})`} aria-label={`Copy var(${t.name})`} />
