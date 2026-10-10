@@ -243,6 +243,8 @@ body { overflow-x: clip; }
 .token-list > li { break-inside: avoid; }
 
 @media (max-width: 860px) {
+  /* The longest word of the name decides the size, so a name on one line never breaks inside a word (about half an em a letter, with room to spare). */
+  .doc-title { font-size: min(var(--ot-fff), calc((100vw - 2.5rem) / (var(--doc-title-chars, 1) * 0.5))); }
   .page, .docs { grid-template-columns: minmax(0, 1fr); }
   .page > *, .margin, .stave, .overture > *, .principle > *, .docs-index, .docs-main { grid-column: 1 / -1; }
   .flow-caption { grid-row: 3; margin-top: var(--ot-space-8); }
