@@ -77,7 +77,7 @@ function arm() {
 export function Overture() {
   React.useLayoutEffect(() => { arm() }, [])
   return (
-    <Button variant="bracket" type="button" className="hero-skip" onClick={() => endOverture("skip")}>
+    <Button variant="bracket" type="button" className="hero-skip" data-hush onClick={() => endOverture("skip")}>
       Skip intro
     </Button>
   )
