@@ -60,7 +60,7 @@ const movements: Movement[] = catalog.map((m) => ({
 }))
 const count = entries.length
 
-const REPO = "https://github.com/luv-jeri/0dB"
+const REPO = "https://github.com/luv-jeri/0nlyType"
 
 export default function Home() {
   return (

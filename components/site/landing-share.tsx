@@ -11,7 +11,7 @@ import { Link } from "@/registry/0nlytype/ui/link"
 // closes it, and focus goes back where it was. The noise section sets it in the silence the pointer makes;
 // "Help build it" sets it on a line.
 
-export const REPO = "https://github.com/luv-jeri/0dB"
+export const REPO = "https://github.com/luv-jeri/0nlyType"
 
 const places = (url: string, text: string) => {
   const u = encodeURIComponent(url), t = encodeURIComponent(text)

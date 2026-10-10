@@ -32,7 +32,7 @@ export function githubIssueHref(kind: ReportKind, title: string, description: st
     title: title.trim() || (kind === "bug" ? "Issue with 0nlyType" : "Component request for 0nlyType"),
     body: `## ${kind === "bug" ? "Issue" : "Component request"}\n\n${description.trim() || "Describe what you would like to share."}\n\n---\nSent from the 0nlyType feedback form.`,
   })
-  return `https://github.com/luv-jeri/0dB/issues/new?${query}`
+  return `https://github.com/luv-jeri/0nlyType/issues/new?${query}`
 }
 
 export function GitHubFallback({ kind, title, description }: { kind: ReportKind; title: string; description: string }) {

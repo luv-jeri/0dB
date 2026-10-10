@@ -375,7 +375,7 @@ export function FeedbackForms({ entries, presentation = "page", href, onPickingC
           </>}
         </div>
       </div>
-      <noscript><p className="db-report-foot">The private forms need JavaScript. <a href="https://github.com/luv-jeri/0dB/issues/new">Open a GitHub issue</a> instead.</p></noscript>
+      <noscript><p className="db-report-foot">The private forms need JavaScript. <a href="https://github.com/luv-jeri/0nlyType/issues/new">Open a GitHub issue</a> instead.</p></noscript>
       {picking ? <PinPicker entries={entries} onSelect={selectItem} onCancel={() => { setAnnouncement("Picking cancelled. Your draft is unchanged."); finishPicking() }} /> : null}
     </Root>
   )
