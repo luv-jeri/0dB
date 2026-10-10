@@ -5,6 +5,13 @@
 // Hooked into npm run registry:build; its --check fails when any of them is stale.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from "node:fs"
 
+// V8's sin, cos, atan2 and hypot are C++ that the compiler may fuse differently on ARM and x86, so the last bit of
+// a result can differ between a Mac and the Linux CI. Snapping each one to nine places keeps every later decision,
+// and so every generated file, the same on both. Plain + - * / are exact IEEE and already agree.
+const snap = (v) => Math.round(v * 1e9) / 1e9
+const mcos = (a) => snap(Math.cos(a)), msin = (a) => snap(Math.sin(a))
+const matan2 = (y, x) => snap(Math.atan2(y, x)), mhypot = (x, y) => snap(Math.hypot(x, y))
+
 const DATA = "scripts/data/signs.json"
 const OUT = "registry/0db/signs"
 export const VARIANTS = ["dots", "words", "fill"]
@@ -12,11 +19,11 @@ export const VARIANTS = ["dots", "words", "fill"]
 // ── The five drawn by hand, as approved on 2026-10-10. Their fill silhouettes are closed polygons
 // that add to the shape and polygons cut out of it, as first drawn.
 const bar = (ax, ay, bx, by, w) => {
-  const len = Math.hypot(bx - ax, by - ay), nx = (-(by - ay) / len) * (w / 2), ny = ((bx - ax) / len) * (w / 2)
+  const len = mhypot(bx - ax, by - ay), nx = (-(by - ay) / len) * (w / 2), ny = ((bx - ax) / len) * (w / 2)
   return [[ax + nx, ay + ny], [bx + nx, by + ny], [bx - nx, by - ny], [ax - nx, ay - ny]]
 }
 const rect = (x0, y0, x1, y1) => [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]
-const disc = (cx, cy, r) => Array.from({ length: 96 }, (_, i) => [cx + r * Math.cos((i / 96) * 2 * Math.PI), cy + r * Math.sin((i / 96) * 2 * Math.PI)])
+const disc = (cx, cy, r) => Array.from({ length: 96 }, (_, i) => [cx + r * mcos((i / 96) * 2 * Math.PI), cy + r * msin((i / 96) * 2 * Math.PI)])
 
 export const HAND = {
   search: {
@@ -75,7 +82,7 @@ export function parsePath(d) {
   }
   const cubic = (x1, y1, x2, y2, ex, ey) => {
     const x0 = x, y0 = y
-    const hull = Math.hypot(x1 - x0, y1 - y0) + Math.hypot(x2 - x1, y2 - y1) + Math.hypot(ex - x2, ey - y2)
+    const hull = mhypot(x1 - x0, y1 - y0) + mhypot(x2 - x1, y2 - y1) + mhypot(ex - x2, ey - y2)
     const steps = Math.max(2, Math.ceil(hull * 4))
     for (let s = 1; s <= steps; s++) {
       const t = s / steps, m = 1 - t
@@ -88,7 +95,7 @@ export function parsePath(d) {
     rx = Math.abs(rx)
     ry = Math.abs(ry)
     if (!rx || !ry || (x0 === ex && y0 === ey)) return to(ex, ey)
-    const phi = (rot * Math.PI) / 180, cos = Math.cos(phi), sin = Math.sin(phi)
+    const phi = (rot * Math.PI) / 180, cos = mcos(phi), sin = msin(phi)
     const dx = (x0 - ex) / 2, dy = (y0 - ey) / 2
     const x1p = cos * dx + sin * dy, y1p = -sin * dx + cos * dy
     const lambda = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry)
@@ -98,7 +105,7 @@ export function parsePath(d) {
     const co = (large === sweep ? -1 : 1) * Math.sqrt(Math.max(0, num2 / den))
     const cxp = (co * rx * y1p) / ry, cyp = (-co * ry * x1p) / rx
     const cx = cos * cxp - sin * cyp + (x0 + ex) / 2, cy = sin * cxp + cos * cyp + (y0 + ey) / 2
-    const angle = (ux, uy, vx, vy) => Math.atan2(ux * vy - uy * vx, ux * vx + uy * vy)
+    const angle = (ux, uy, vx, vy) => matan2(ux * vy - uy * vx, ux * vx + uy * vy)
     const t1 = angle(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry)
     let dt = angle((x1p - cxp) / rx, (y1p - cyp) / ry, (-x1p - cxp) / rx, (-y1p - cyp) / ry)
     if (!sweep && dt > 0) dt -= 2 * Math.PI
@@ -106,7 +113,7 @@ export function parsePath(d) {
     const steps = Math.max(2, Math.ceil(Math.abs(dt) * Math.max(rx, ry) * 4))
     for (let s = 1; s <= steps; s++) {
       const t = t1 + (dt * s) / steps
-      const px = rx * Math.cos(t), py = ry * Math.sin(t)
+      const px = rx * mcos(t), py = ry * msin(t)
       if (s === steps) to(ex, ey)
       else to(cos * px - sin * py + cx, sin * px + cos * py + cy)
     }
@@ -169,7 +176,7 @@ export function parsePath(d) {
       case "Z": {
         if (cur && !cur.closed) {
           const [ax, ay] = cur.pts[cur.pts.length - 1]
-          if (Math.hypot(ax - sx, ay - sy) > 1e-6) cur.pts.push([sx, sy])
+          if (mhypot(ax - sx, ay - sy) > 1e-6) cur.pts.push([sx, sy])
           cur.closed = true
         }
         x = sx
@@ -196,7 +203,7 @@ export function parseSvg(svg) {
     } else if (tag === "ellipse") {
       const [cx, cy, rx, ry] = nums(a, "cx", "cy", "rx", "ry")
       const steps = Math.ceil(Math.max(rx, ry) * 2 * Math.PI * 4)
-      out.push({ pts: Array.from({ length: steps + 1 }, (_, i) => [cx + rx * Math.cos((i / steps) * 2 * Math.PI), cy + ry * Math.sin((i / steps) * 2 * Math.PI)]), closed: true })
+      out.push({ pts: Array.from({ length: steps + 1 }, (_, i) => [cx + rx * mcos((i / steps) * 2 * Math.PI), cy + ry * msin((i / steps) * 2 * Math.PI)]), closed: true })
     } else if (tag === "rect") {
       const [x, y, w, h] = nums(a, "x", "y", "width", "height")
       let rx = a.rx != null ? parseFloat(a.rx) : a.ry != null ? parseFloat(a.ry) : 0
@@ -225,8 +232,8 @@ export function parseSvg(svg) {
 
 // ── Polylines to strokes a word can read along ───────────────────────────────────────────────────────
 
-const len = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1])
-const heading = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0])
+const len = (a, b) => mhypot(b[0] - a[0], b[1] - a[1])
+const heading = (a, b) => matan2(b[1] - a[1], b[0] - a[0])
 const turn = (a, b, c) => {
   let t = heading(b, c) - heading(a, b)
   while (t > Math.PI) t -= 2 * Math.PI
@@ -243,10 +250,10 @@ function simplify(pts, tol) {
   while (stack.length) {
     const [a, b] = stack.pop()
     let far = -1, at = -1
-    const [ax, ay] = pts[a], [bx, by] = pts[b], L = Math.hypot(bx - ax, by - ay)
+    const [ax, ay] = pts[a], [bx, by] = pts[b], L = mhypot(bx - ax, by - ay)
     for (let i = a + 1; i < b; i++) {
       const [px, py] = pts[i]
-      const dist = L ? Math.abs((bx - ax) * (ay - py) - (ax - px) * (by - ay)) / L : Math.hypot(px - ax, py - ay)
+      const dist = L ? Math.abs((bx - ax) * (ay - py) - (ax - px) * (by - ay)) / L : mhypot(px - ax, py - ay)
       if (dist > far) { far = dist; at = i }
     }
     if (far > tol) { keep[at] = 1; stack.push([a, at], [at, b]) }
@@ -337,7 +344,7 @@ function resample(pts) {
   return out
 }
 
-const EAST = Math.cos((80 * Math.PI) / 180)
+const EAST = mcos((80 * Math.PI) / 180)
 const side = (a, b) => { const h = (b[0] - a[0]) / (len(a, b) || 1); return h > EAST ? 1 : h < -EAST ? -1 : 0 }
 
 /** Cut where a stroke turns back on itself across the vertical, so every piece runs one way across the page. */
@@ -434,7 +441,7 @@ export function pathPoints(path) {
       const [, cx, cy, r, from, sweep] = m, steps = Math.max(8, Math.ceil(((Math.abs(sweep) * Math.PI) / 180) * r * 4))
       for (let i = 0; i <= steps; i++) {
         const a = ((from + (sweep * i) / steps) * Math.PI) / 180
-        pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)])
+        pts.push([cx + r * mcos(a), cy + r * msin(a)])
       }
     }
   }
@@ -464,7 +471,7 @@ function near(lines, r) {
     for (let cy = y0; cy <= y1; cy++) for (let cx = x0; cx <= x1; cx++) {
       const px = unit(cx), py = unit(cy)
       const t = L2 ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / L2)) : 0
-      if (Math.hypot(px - ax - t * dx, py - ay - t * dy) <= r) mask[cy * GRID + cx] = 1
+      if (mhypot(px - ax - t * dx, py - ay - t * dy) <= r) mask[cy * GRID + cx] = 1
     }
   }
   return mask
@@ -569,7 +576,7 @@ function silhouette(line) {
     }
     if (run.length > 1) inner.push(run)
   }
-  const length = (q) => q.slice(1).reduce((s, b, i) => s + Math.hypot(b[0] - q[i][0], b[1] - q[i][1]), 0)
+  const length = (q) => q.slice(1).reduce((s, b, i) => s + mhypot(b[0] - q[i][0], b[1] - q[i][1]), 0)
   const gap = near(inner.filter((q) => length(q) >= 1), GAP), dot = near(inner.filter((q) => length(q) < 1), DOT)
   for (let i = 0; i < shape.length; i++) if (gap[i] || dot[i]) shape[i] = 0
   return rows(shape)
