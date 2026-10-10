@@ -1,4 +1,4 @@
-# 0dB: contour
+# 0nlyType: contour
 
 Extracted from DESIGN.md.
 

@@ -1,7 +1,7 @@
-/* 0dB · theme
+/* 0nlyType · theme
    Tailwind v4 reads the tokens through @theme inline, so utilities like
    text-ink, bg-paper and border-rule follow the scheme, key and mode. The
-   shadcn names point at 0dB tokens, so a stock shadcn globals.css renders 0dB. */
+   shadcn names point at 0nlyType tokens, so a stock shadcn globals.css renders 0nlyType. */
 @custom-variant dark (&:where([data-mode="nocturne"], [data-mode="nocturne"] *));
 
 @theme inline {

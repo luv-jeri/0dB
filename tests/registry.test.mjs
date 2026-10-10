@@ -62,7 +62,7 @@ test("registry:check detects a stale payload", () => {
   assert.ok(existsSync(file), "build the registry first")
   const original = readFileSync(file, "utf8")
   try {
-    writeFileSync(file, original.replace("0dB", "0dX"))
+    writeFileSync(file, original.replace("0nlyType", "0dX"))
     assert.throws(() => execFileSync(process.execPath, ["--import", "tsx", "scripts/build-registry.mjs", "--check"], { stdio: "pipe" }))
   } finally {
     writeFileSync(file, original)

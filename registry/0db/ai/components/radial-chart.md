@@ -1,4 +1,4 @@
-# 0dB: radial-chart
+# 0nlyType: radial-chart
 
 Extracted from DESIGN.md.
 

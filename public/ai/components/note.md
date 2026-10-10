@@ -1,4 +1,4 @@
-# 0dB: note
+# 0nlyType: note
 
 Extracted from DESIGN.md.
 

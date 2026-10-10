@@ -1,4 +1,4 @@
-# 0dB: date-picker
+# 0nlyType: date-picker
 
 Extracted from DESIGN.md.
 

@@ -1,4 +1,4 @@
-# 0dB: command
+# 0nlyType: command
 
 Extracted from DESIGN.md.
 

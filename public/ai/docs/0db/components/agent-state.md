@@ -1,4 +1,4 @@
-# 0dB: agent-state
+# 0nlyType: agent-state
 
 Extracted from DESIGN.md.
 

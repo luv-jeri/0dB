@@ -257,7 +257,7 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
           <NextLink href={`/docs/${piece.name}/`} className="db-link pieces-open">
             Open {piece.title}
           </NextLink>
-          <Share url={`/docs/${piece.name}/`} title={`${piece.title}, in 0dB`}>
+          <Share url={`/docs/${piece.name}/`} title={`${piece.title}, in 0nlyType`}>
             {`Share ${piece.title}`}
           </Share>
         </p>

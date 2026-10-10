@@ -138,7 +138,7 @@ export default async function ItemPage({ params }: Params) {
             <TabsTrigger value="manual">By hand</TabsTrigger>
           </TabsList>
           <TabsContent value="cli">
-            <p>Run it in a project that has the shadcn CLI set up. It brings {new Intl.ListFormat("en").format(["the 0dB base", ...siblings])} along.</p>
+            <p>Run it in a project that has the shadcn CLI set up. It brings {new Intl.ListFormat("en").format(["the 0nlyType base", ...siblings])} along.</p>
             <CommandLine runner command={installCommand(meta.name)} emphasis={meta.name} />
           </TabsContent>
           <TabsContent value="manual">

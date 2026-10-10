@@ -1,16 +1,16 @@
 ---
 name: 0db-component
-description: "Create or extend a 0dB component using its intent, design tokens, item anatomy and contracts. Use when building components with 0dB."
+description: "Create or extend a 0nlyType component using its intent, design tokens, item anatomy and contracts. Use when building components with 0nlyType."
 ---
 
-# 0dB component kit
+# 0nlyType component kit
 
 Read intent, core design and the relevant `docs/0db/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit.
 
 ## Workflow
 
 1. **Inspect.** Confirm the loaded paths: intent, core design and the relevant item contracts. Inspect the app's aliases, tokens, base styles and existing instructions. Establish the requested behaviour and who owns each word.
-2. **Choose a precedent.** Read an installed 0dB item's implementation, CSS sidecar, example and contract. Choose the native element first. Identify one creative move and one motion from its “Where” and Motion rows; read shared moves before composing items.
+2. **Choose a precedent.** Read an installed 0nlyType item's implementation, CSS sidecar, example and contract. Choose the native element first. Identify one creative move and one motion from its “Where” and Motion rows; read shared moves before composing items.
 3. **Implement.** Follow the item anatomy and naming below in the app's own paths. Use the existing tokens and minimal client boundary. Include the states and keyboard behaviour in the contract and show the states in an example. When contributing upstream, update the contract and its rows together with code, then regenerate.
 4. **Verify.** Run the completion checklist below. Compare the working component with the contract and precedent. Report evidence and limitations.
 
@@ -46,7 +46,7 @@ Read intent, core design and the relevant `docs/0db/components/<item>.md` contra
 - One item is four files: `registry/0db/ui/<item>.tsx`, its sidecar `registry/0db/styles/<item>.css`, the docs meta `content/<item>.ts` and the live example `examples/<item>.tsx`. The base pieces (link, kbd, fraction, meta, corners) have no sidecar; their CSS is in base.css.
 - `examples/<item>.tsx` default-exports `Example`, the specimen's demo with real copy. An optional `States` export pins each state with `data-force` on the item's root, inside `<State label>`.
 
-Use your application's component, style and example paths. The paths above describe contributions to the 0dB registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.
+Use your application's component, style and example paths. The paths above describe contributions to the 0nlyType registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.
 
 ## Naming
 

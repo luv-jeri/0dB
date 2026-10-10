@@ -5,7 +5,7 @@ import { CopyCommand } from "@/components/site/landing"
 import { Noise } from "@/components/site/landing-noise"
 
 // The hero, after "It has to be design.": one idea set huge, heavy condensed roman over light wide roman, the
-// accent only on the full stop. The noise around it (landing-noise) is everything 0dB turned down.
+// accent only on the full stop. The noise around it (landing-noise) is everything 0nlyType turned down.
 // Server-rendered: the headline is plain text in the HTML and paints before any script.
 
 /**

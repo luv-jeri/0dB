@@ -1,4 +1,4 @@
-# 0dB: segue
+# 0nlyType: segue
 
 Extracted from DESIGN.md.
 

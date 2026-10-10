@@ -1,4 +1,4 @@
-# 0dB: radio-group
+# 0nlyType: radio-group
 
 Extracted from DESIGN.md.
 

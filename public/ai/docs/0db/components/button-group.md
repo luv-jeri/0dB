@@ -1,4 +1,4 @@
-# 0dB: button-group
+# 0nlyType: button-group
 
 Extracted from DESIGN.md.
 

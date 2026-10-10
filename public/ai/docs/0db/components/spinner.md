@@ -1,4 +1,4 @@
-# 0dB: spinner
+# 0nlyType: spinner
 
 Extracted from DESIGN.md.
 

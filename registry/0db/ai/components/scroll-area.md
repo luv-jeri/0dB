@@ -1,4 +1,4 @@
-# 0dB: scroll-area
+# 0nlyType: scroll-area
 
 Extracted from DESIGN.md.
 

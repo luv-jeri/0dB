@@ -1,4 +1,4 @@
-# 0dB: sheet
+# 0nlyType: sheet
 
 Extracted from DESIGN.md.
 

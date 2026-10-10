@@ -1,4 +1,4 @@
-# 0dB: combobox
+# 0nlyType: combobox
 
 Extracted from DESIGN.md.
 

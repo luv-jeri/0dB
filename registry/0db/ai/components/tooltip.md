@@ -1,4 +1,4 @@
-# 0dB: tooltip
+# 0nlyType: tooltip
 
 Extracted from DESIGN.md.
 

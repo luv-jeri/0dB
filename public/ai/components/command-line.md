@@ -1,4 +1,4 @@
-# 0dB: command-line
+# 0nlyType: command-line
 
 Extracted from DESIGN.md.
 

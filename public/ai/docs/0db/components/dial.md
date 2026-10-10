@@ -1,4 +1,4 @@
-# 0dB: dial
+# 0nlyType: dial
 
 Extracted from DESIGN.md.
 

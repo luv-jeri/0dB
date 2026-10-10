@@ -1,4 +1,4 @@
-# 0dB: menubar
+# 0nlyType: menubar
 
 Extracted from DESIGN.md.
 

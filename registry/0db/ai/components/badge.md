@@ -1,4 +1,4 @@
-# 0dB: badge
+# 0nlyType: badge
 
 Extracted from DESIGN.md.
 

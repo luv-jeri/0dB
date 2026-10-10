@@ -1,4 +1,4 @@
-# 0dB: data-table
+# 0nlyType: data-table
 
 Extracted from DESIGN.md.
 

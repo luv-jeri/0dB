@@ -1,4 +1,4 @@
-# 0dB: context-menu
+# 0nlyType: context-menu
 
 Extracted from DESIGN.md.
 

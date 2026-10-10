@@ -9,7 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 export const metadata: Metadata = {
   title: "Build with AI",
-  description: "Give your AI tool the 0dB rules, references and component contracts before it builds.",
+  description: "Give your AI tool the 0nlyType rules, references and component contracts before it builds.",
 }
 
 const INSTALL = `npx shadcn@latest add ${registryURL("ai")}`
@@ -31,21 +31,21 @@ const FILES = [
 const PROMPTS = [
   {
     title: "Build a component",
-    text: "Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build [component] for [behavior]. Use an installed 0dB component as precedent. Run the completion checklist and report evidence.",
+    text: "Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build [component] for [behavior]. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.",
   },
   {
     title: "Keep your project instructions",
-    text: "Preserve my existing project instructions. Add a short 0dB section pointing to docs/0db/AGENTS.md.",
+    text: "Preserve my existing project instructions. Add a short 0nlyType section pointing to docs/0db/AGENTS.md.",
   },
   {
     title: "Refresh the kit",
-    text: "Refresh the 0dB AI kit. Preserve my existing project instructions and local changes. Compare the installed docs/0db/manifest.json with the latest kit, review the differences and update the generated references. Confirm which paths you loaded and report what changed.",
+    text: "Refresh the 0nlyType AI kit. Preserve my existing project instructions and local changes. Compare the installed docs/0db/manifest.json with the latest kit, review the differences and update the generated references. Confirm which paths you loaded and report what changed.",
   },
 ]
 
 const DOWNLOADS = [
   { href: "/ai/AGENTS.md", title: "AGENTS.md", note: "The short rules and completion checklist." },
-  { href: "/ai/INTENT.md", title: "INTENT.md", note: "What 0dB is for, and what it refuses." },
+  { href: "/ai/INTENT.md", title: "INTENT.md", note: "What 0nlyType is for, and what it refuses." },
   { href: "/ai/DESIGN-core.md", title: "DESIGN-core.md", note: "Principles, conventions, tokens and motion." },
   { href: "/ai/DESIGN.md", title: "DESIGN.md", note: "The complete design reference." },
   { href: "/llms.txt", title: "llms.txt", note: "A small index for browsing assistants." },
@@ -56,7 +56,7 @@ export default function BuildWithAI() {
     <>
       <header className="doc-head">
         <h1 className="doc-title">Build with AI</h1>
-        <p className="doc-summary">Give your tool the rules before it builds. The AI kit brings 0dB&apos;s intent, design system and component contracts into your project.</p>
+        <p className="doc-summary">Give your tool the rules before it builds. The AI kit brings 0nlyType&apos;s intent, design system and component contracts into your project.</p>
       </header>
       <section className="doc-section doc-ai-install" aria-labelledby="install-h">
         <h2 id="install-h" data-rail="Install the kit">Install the kit</h2>
@@ -64,7 +64,7 @@ export default function BuildWithAI() {
           <Prose>
             <p>Run this from an app that has already been initialized with shadcn.</p>
           </Prose>
-          <CommandLine command={INSTALL} emphasis="ai" aria-label="Install the 0dB AI kit" />
+          <CommandLine command={INSTALL} emphasis="ai" aria-label="Install the 0nlyType AI kit" />
           <Prose>
             <p>If you already have an AGENTS.md, keep it. The installer asks before replacing a file; it does not merge Markdown. Use the prompt below to add a pointer to <code dir="ltr">docs/0db/AGENTS.md</code>.</p>
           </Prose>

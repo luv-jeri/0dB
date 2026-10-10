@@ -1,6 +1,6 @@
-# 0dB project rules
+# 0nlyType project rules
 
-Before building with 0dB, read [docs/0db/AGENTS.md](AGENTS.md) and [docs/0db/DESIGN.md](DESIGN.md) and the relevant component contracts. Preserve existing project instructions.
+Before building with 0nlyType, read [docs/0db/AGENTS.md](AGENTS.md) and [docs/0db/DESIGN.md](DESIGN.md) and the relevant component contracts. Preserve existing project instructions.
 
 ## Non-negotiable rules
 

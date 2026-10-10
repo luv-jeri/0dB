@@ -1,4 +1,4 @@
-# 0dB: field
+# 0nlyType: field
 
 Extracted from DESIGN.md.
 

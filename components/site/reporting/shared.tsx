@@ -29,8 +29,8 @@ export function publicLink(value?: string | null) {
 
 export function githubIssueHref(kind: ReportKind, title: string, description: string) {
   const query = new URLSearchParams({
-    title: title.trim() || (kind === "bug" ? "Issue with 0dB" : "Component request for 0dB"),
-    body: `## ${kind === "bug" ? "Issue" : "Component request"}\n\n${description.trim() || "Describe what you would like to share."}\n\n---\nSent from the 0dB feedback form.`,
+    title: title.trim() || (kind === "bug" ? "Issue with 0nlyType" : "Component request for 0nlyType"),
+    body: `## ${kind === "bug" ? "Issue" : "Component request"}\n\n${description.trim() || "Describe what you would like to share."}\n\n---\nSent from the 0nlyType feedback form.`,
   })
   return `https://github.com/luv-jeri/0dB/issues/new?${query}`
 }

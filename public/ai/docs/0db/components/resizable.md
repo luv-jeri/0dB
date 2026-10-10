@@ -1,4 +1,4 @@
-# 0dB: resizable
+# 0nlyType: resizable
 
 Extracted from DESIGN.md.
 

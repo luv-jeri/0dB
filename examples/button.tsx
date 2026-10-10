@@ -10,7 +10,7 @@ export default function Example() {
         <Button variant="quiet">View the work</Button>
       </div>
       <div className="flex flex-wrap items-baseline gap-x-14 gap-y-8">
-        <Button variant="overture" size="l">Install 0dB</Button>
+        <Button variant="overture" size="l">Install 0nlyType</Button>
         <Button variant="crescendo" size="l">Turn it up</Button>
         <Button variant="stave" size="l" className="max-[380px]:[--run:1.4em]">Read the score</Button>
         <Button variant="ink" size="l" className="max-[380px]:px-3">Browse the library</Button>

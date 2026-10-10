@@ -90,12 +90,12 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   const shapeRule = requiredLine(shape, "- Shape vocabulary")
   const rules = `## Non-negotiable rules\n\n${principles.content}\n\n${shapeRule}\n\n${refused.header}\n${refusals.join("\n")}\n\n${i.required("When in doubt", 2).content}`
   const naming = `## Naming\n\n${conventions.content}\n\n${["- Item names", "- Sidecars", "- Direction", "- Variants", "- React 19"].map((prefix) => requiredLine(registry, prefix)).join("\n")}`
-  const anatomy = `## Item anatomy\n\n${requiredLine(registry, "- One item")}\n${requiredLine(docs, "- \`examples/<item>.tsx\` default-exports")}\n\nUse your application's component, style and example paths. The paths above describe contributions to the 0dB registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.`
+  const anatomy = `## Item anatomy\n\n${requiredLine(registry, "- One item")}\n${requiredLine(docs, "- \`examples/<item>.tsx\` default-exports")}\n\nUse your application's component, style and example paths. The paths above describe contributions to the 0nlyType registry. Pair each new item with a contract (anatomy, states, keyboard behaviour), a Motion row and a “Where each move comes from” row. Read one installed item's TSX, sidecar, example and contract end to end as a precedent.`
   const checklist = `## Completion checklist\n\n- Check the contract's semantics, roles and accessible names; keyboard and visible focus; announcements for state changes; disabled and busy states. Keep decorative copies hidden from assistive technology.\n- Check reduced motion in CSS and JavaScript: ${requiredLine(tempo, "Under \`prefers-reduced-motion")}\n- Check direction with logical properties and RTL where a stroke or reading order has direction. Isolate numbers inside RTL text.\n- Check the working component at desktop and phone widths, day and nocturne, and the relevant scheme, key and pair switches. Check forced colours.\n- Run the relevant tests, typecheck and lint in the consuming app. For upstream work, regenerate the registry and run its registry and drift checks.\n- Report which source paths you read, the precedent, the checks and their results, and anything unverified. Do not claim a check you did not run.`
-  const intro = "# 0dB component kit\n\nRead intent, core design and the relevant `docs/0db/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit."
+  const intro = "# 0nlyType component kit\n\nRead intent, core design and the relevant `docs/0db/components/<item>.md` contracts before implementation. Load the full design only when needed. Preserve existing project instructions when merging this kit."
   const body = `${intro}\n\n${rules}\n\n${anatomy}\n\n${naming}\n\n${checklist}`
   const instructions = (target) => `${body}\n\n## References\n\n${references(target)}\n`
-  const workflow = `## Workflow\n\n1. **Inspect.** Confirm the loaded paths: intent, core design and the relevant item contracts. Inspect the app's aliases, tokens, base styles and existing instructions. Establish the requested behaviour and who owns each word.\n2. **Choose a precedent.** Read an installed 0dB item's implementation, CSS sidecar, example and contract. Choose the native element first. Identify one creative move and one motion from its “Where” and Motion rows; read shared moves before composing items.\n3. **Implement.** Follow the item anatomy and naming below in the app's own paths. Use the existing tokens and minimal client boundary. Include the states and keyboard behaviour in the contract and show the states in an example. When contributing upstream, update the contract and its rows together with code, then regenerate.\n4. **Verify.** Run the completion checklist below. Compare the working component with the contract and precedent. Report evidence and limitations.\n`
+  const workflow = `## Workflow\n\n1. **Inspect.** Confirm the loaded paths: intent, core design and the relevant item contracts. Inspect the app's aliases, tokens, base styles and existing instructions. Establish the requested behaviour and who owns each word.\n2. **Choose a precedent.** Read an installed 0nlyType item's implementation, CSS sidecar, example and contract. Choose the native element first. Identify one creative move and one motion from its “Where” and Motion rows; read shared moves before composing items.\n3. **Implement.** Follow the item anatomy and naming below in the app's own paths. Use the existing tokens and minimal client boundary. Include the states and keyboard behaviour in the contract and show the states in an example. When contributing upstream, update the contract and its rows together with code, then regenerate.\n4. **Verify.** Run the completion checklist below. Compare the working component with the contract and precedent. Report evidence and limitations.\n`
   const files = new Map()
   const entries = []
   const siteEntries = new Map()
@@ -112,7 +112,7 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   add("docs/AGENTS.md", "docs/0db/AGENTS.md", instructions("docs/0db/AGENTS.md"), "AGENTS.md")
   add("INTENT.md", "docs/0db/INTENT.md", intent, "INTENT.md")
   add("DESIGN.md", "docs/0db/DESIGN.md", design, "DESIGN.md")
-  const core = `# 0dB core design\n\nExtracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in components/<item>.md.\n\n${[principles.text, conventions.text, tokens.text, `## Motion\n\n${generalMotion}`, shared.text, registry.text, docs.text].join("\n\n")}\n`
+  const core = `# 0nlyType core design\n\nExtracted from DESIGN.md. Read INTENT.md first. Item-specific contracts are in components/<item>.md.\n\n${[principles.text, conventions.text, tokens.text, `## Motion\n\n${generalMotion}`, shared.text, registry.text, docs.text].join("\n\n")}\n`
   add("DESIGN-core.md", "docs/0db/DESIGN-core.md", core, "DESIGN-core.md")
   const contracts = []
   for (const item of items) {
@@ -126,7 +126,7 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
       const matches = t.rows.filter((row) => row.split("|")[1].includes(`\`${item.name}\``))
       return `## ${title}\n\n${matches.length ? `${t.header}\n${matches.join("\n")}` : "No item-specific row is defined in DESIGN.md. Read the general rules in DESIGN-core.md and the contract above."}`
     }
-    const text = `# 0dB: ${item.name}\n\nExtracted from DESIGN.md.\n\n${found[0].text}\n\n${rows("Motion", motionTable)}\n\n${rows("Where each move comes from", whereTable)}\n`
+    const text = `# 0nlyType: ${item.name}\n\nExtracted from DESIGN.md.\n\n${found[0].text}\n\n${rows("Motion", motionTable)}\n\n${rows("Where each move comes from", whereTable)}\n`
     contracts.push(text)
     add(`components/${item.name}.md`, `docs/0db/components/${item.name}.md`, text, `components/${item.name}.md`)
   }
@@ -134,11 +134,11 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   const claudeTarget = ".claude/rules/0db.md"
   const claudeReferences = ["docs/0db/AGENTS.md", "docs/0db/DESIGN.md"].map((target) =>
     `[${target}](${path.posix.relative(path.posix.dirname(claudeTarget), target)})`).join(" and ")
-  add("claude/0db.md", claudeTarget, `# 0dB project rules\n\nBefore building with 0dB, read ${claudeReferences} and the relevant component contracts. Preserve existing project instructions.\n\n${rules}\n`, "claude.md")
-  add("cursor.mdc", ".cursor/rules/0db.mdc", adapter('description: "Create and extend type-led 0dB components"\nalwaysApply: true', ".cursor/rules/0db.mdc"), "cursor.md")
+  add("claude/0db.md", claudeTarget, `# 0nlyType project rules\n\nBefore building with 0nlyType, read ${claudeReferences} and the relevant component contracts. Preserve existing project instructions.\n\n${rules}\n`, "claude.md")
+  add("cursor.mdc", ".cursor/rules/0db.mdc", adapter('description: "Create and extend type-led 0nlyType components"\nalwaysApply: true', ".cursor/rules/0db.mdc"), "cursor.md")
   add("copilot.instructions.md", ".github/instructions/0db.instructions.md", adapter('applyTo: "**/*.tsx,**/*.css"', ".github/instructions/0db.instructions.md"), "copilot.md")
   add("devin.md", ".devin/rules/0db.md", adapter("trigger: always_on", ".devin/rules/0db.md"), "devin.md")
-  const skill = `---\nname: 0db-component\ndescription: "Create or extend a 0dB component using its intent, design tokens, item anatomy and contracts. Use when building components with 0dB."\n---\n\n${intro}\n\n${workflow}\n${rules}\n\n${anatomy}\n\n${naming}\n\n${checklist}\n\n## References\n\n${references(".agents/skills/0db-component/SKILL.md")}\n`
+  const skill = `---\nname: 0db-component\ndescription: "Create or extend a 0nlyType component using its intent, design tokens, item anatomy and contracts. Use when building components with 0nlyType."\n---\n\n${intro}\n\n${workflow}\n${rules}\n\n${anatomy}\n\n${naming}\n\n${checklist}\n\n## References\n\n${references(".agents/skills/0db-component/SKILL.md")}\n`
   add("claude/SKILL.md", ".claude/skills/0db-component/SKILL.md", skill)
   add("agents/SKILL.md", ".agents/skills/0db-component/SKILL.md", skill, "SKILL.md")
   if (lines(files.get(`${SOURCE}/AGENTS.md`)) >= 150) throw new Error("AI kit: AGENTS.md must stay under 150 lines")
@@ -182,16 +182,16 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   files.set("public/ai/docs/0db/manifest.json", files.get(`${SOURCE}/manifest.json`))
   const link = (label, href, description) => `- [${label}](${baseURL}${href}): ${description}`
   const downloads = [...files.keys()].filter((f) => f.startsWith("public/ai/") && /\.(md|mdc|json)$/.test(f))
-  files.set("public/llms.txt", `# 0dB\n\n> ${principles.content.split("\n").filter(Boolean).map((line) => line.replace(/^\d+\. /, "")).join(" ")}\n\nA type-led component registry. Read intent, core design and relevant contracts before creating a component.\n\n## Documentation\n\n${[
+  files.set("public/llms.txt", `# 0nlyType\n\n> ${principles.content.split("\n").filter(Boolean).map((line) => line.replace(/^\d+\. /, "")).join(" ")}\n\nA type-led component registry. Read intent, core design and relevant contracts before creating a component.\n\n## Documentation\n\n${[
     link("Install", "/docs/install/", "Install the library and its base"),
     link("Principles", "/docs/principles/", "The system's design principles"),
     link("Tokens", "/docs/tokens/", "Colour, type, space and motion tokens"),
     ...items.map((item) => link(item.title, `/docs/${item.name}/`, `${item.name} usage and examples`)),
-  ].join("\n")}\n\n## AI references\n\n${downloads.map((f) => link(f.slice("public/ai/".length), f.slice("public".length), "Downloadable 0dB instructions or reference")).join("\n")}\n\n## Optional\n\n${link("Full context", "/llms-full.txt", "Intent, core design and every item contract; load on demand")}\n${link("Install the AI kit", "/r/ai.json", "shadcn registry item with project-root destinations")}\n`)
-  files.set("public/llms-full.txt", `# 0dB complete AI reference\n\n${intent}\n\n${core}\n\n${contracts.join("\n\n")}`)
+  ].join("\n")}\n\n## AI references\n\n${downloads.map((f) => link(f.slice("public/ai/".length), f.slice("public".length), "Downloadable 0nlyType instructions or reference")).join("\n")}\n\n## Optional\n\n${link("Full context", "/llms-full.txt", "Intent, core design and every item contract; load on demand")}\n${link("Install the AI kit", "/r/ai.json", "shadcn registry item with project-root destinations")}\n`)
+  files.set("public/llms-full.txt", `# 0nlyType complete AI reference\n\n${intent}\n\n${core}\n\n${contracts.join("\n\n")}`)
   return {
     files, manifest, baseURL, items,
-    item: { name: "ai", type: "registry:item", title: "0dB AI kit", description: "Source-generated instructions and component contracts for building with 0dB.", files: entries },
+    item: { name: "ai", type: "registry:item", title: "0nlyType AI kit", description: "Source-generated instructions and component contracts for building with 0nlyType.", files: entries },
   }
 }
 

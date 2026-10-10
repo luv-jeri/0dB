@@ -1,4 +1,4 @@
-/* The home page. Everything it draws is a 0dB item or plain type; this file only places and tunes them.
+/* The home page. Everything it draws is a 0nlyType item or plain type; this file only places and tunes them.
    It arrives as noise and turns it down, then opens the whole library before anything else. */
 
 /* On a very wide screen the page keeps the site's measured width (site.css) and the hero's noise alone runs to the edges. */
@@ -147,7 +147,7 @@
 .share:hover { background-size: 100% var(--db-stroke); }
 .share[data-copied] { color: var(--db-accent); font-family: var(--db-expression); font-style: italic; }
 
-/* ── less, on purpose: what 0dB leaves out, struck through ── */
+/* ── less, on purpose: what 0nlyType leaves out, struck through ── */
 .left-out.db-checklist { display: flex; flex-wrap: wrap; column-gap: 0.55em; row-gap: 0; font-size: clamp(var(--db-ff), calc(5.2 * var(--site-vw)), 150px); line-height: 1.12; letter-spacing: var(--db-ff-tr); }
 .left-out + .db-tally { margin-top: var(--db-space-6); font-size: var(--db-mp); }
 

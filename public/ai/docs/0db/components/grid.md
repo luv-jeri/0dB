@@ -1,4 +1,4 @@
-# 0dB: grid
+# 0nlyType: grid
 
 Extracted from DESIGN.md.
 

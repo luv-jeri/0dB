@@ -1,4 +1,4 @@
-# 0dB: word-relay
+# 0nlyType: word-relay
 
 Extracted from DESIGN.md.
 

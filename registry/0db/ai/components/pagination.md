@@ -1,4 +1,4 @@
-# 0dB: pagination
+# 0nlyType: pagination
 
 Extracted from DESIGN.md.
 

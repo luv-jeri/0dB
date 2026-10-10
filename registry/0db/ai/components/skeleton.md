@@ -1,4 +1,4 @@
-# 0dB: skeleton
+# 0nlyType: skeleton
 
 Extracted from DESIGN.md.
 

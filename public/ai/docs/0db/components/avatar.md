@@ -1,4 +1,4 @@
-# 0dB: avatar
+# 0nlyType: avatar
 
 Extracted from DESIGN.md.
 

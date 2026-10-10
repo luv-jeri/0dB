@@ -1,4 +1,4 @@
-# 0dB: meter
+# 0nlyType: meter
 
 Extracted from DESIGN.md.
 

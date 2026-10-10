@@ -1,11 +1,11 @@
-# 0dB: sign
+# 0nlyType: sign
 
 Extracted from DESIGN.md.
 
 ### db-sign (sign)
 - Underneath: hook. Pretext measures the word, kerning included, and the sign is laid out from those widths.
 - Anatomy: `<span class="db-sign" data-variant="dots | words | fill" role="img" aria-label="word"><span class="db-sign-glyph">…</span>…</span>`: one element per letter or leader, placed by `--x`, `--y`, `--r` and `--k`, since each one travels on its own when the word is said. An empty label hides it (`aria-hidden="true"`), for a control that already says the word.
-- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0dB; a sign that can't be read in all three variants is left out rather than shipped.
+- An icon made of its own word, after the ampersand (the word "et" worn down into a mark) and Apollinaire's calligrams. Each sign is published three times, one registry item per variant (`sign-<name>-dots`, `-words`, `-fill`), all built on this primitive. The drawings come from Lucide (ISC) converted to strokes a word can read along, or are drawn for 0nlyType; a sign that can't be read in all three variants is left out rather than shipped.
 - Variants:
   - `dots`: each stroke ruled in middle-dot leaders, at every size; the leaders grow more slowly than the sign, so a large one is drawn finer. The letters wait unseen at the dots and rise out of them when said.
   - `words`: from 40px up the word is set once, whole, where it reads best: along the drawing's longest straight run (an arrow's word runs toward its head; a ring's word sits on its arc), never upside down (and a word of two letters never turned past 30°, since on end "up" reads "dn"), never kinking more than 20° between letters, tracked no wider than 0.08em and never split across strokes. Every other stroke is ruled in pencil leaders, so the drawing stays quiet and the word is the one thing in ink. Where no stroke holds the word at a size a person reads (a chevron's two short arms, a star, a user), the drawing is drawn a little smaller and the word stands straight beneath it, as a legend under a picture. Stroke words are at least 10px, legends at least 9px. Below 40px no letter can hold a stroke: the sign is drawn as `dots`, and the docs size control says so.

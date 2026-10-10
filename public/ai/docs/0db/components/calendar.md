@@ -1,4 +1,4 @@
-# 0dB: calendar
+# 0nlyType: calendar
 
 Extracted from DESIGN.md.
 

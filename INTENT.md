@@ -1,17 +1,17 @@
-# 0dB: intent
+# 0nlyType: intent
 
-**0dB** is zero decibels: the quietest sound a person can hear. The library sits at that threshold. It gives an interface two typefaces, one accent, a great deal of space, and nothing else to lean on.
+**0nlyType** is a component library made of type and nothing else. Every control, every sign and every ornament is set in words. It gives an interface two typefaces, one accent, a great deal of space, and nothing else to lean on.
 
 ## Who it's for
 
-- Its makers first. 0dB is the library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's landing page at thedirectors.agency is built on it next, then the founders' portfolios.
+- Its makers first. 0nlyType is the library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's landing page at thedirectors.agency is built on it next, then the founders' portfolios.
 - Anyone who installs a component with `npx shadcn add https://thedirectors.agency/ui/r/<name>.json` and wants an interface where type carries the design.
 - Builders (people and agents) extending it. They read this page, then DESIGN.md, before writing anything.
 
 ## What success looks like
 
 1. One command installs a component into a fresh Next app. The app builds, and the component looks and behaves like the specimen.
-2. The docs site is made from 0dB's own components. If the docs need something the library doesn't have, it's built and added to the library, never borrowed.
+2. The docs site is made from 0nlyType's own components. If the docs need something the library doesn't have, it's built and added to the library, never borrowed.
 3. A stranger can tell from any one screen what the system believes: space does the layout, and type is the only ornament.
 4. `npm run check` passes, and it holds this page, DESIGN.md and the code to each other.
 5. The registry stays healthy by the shadcn directory's own measures, on every check:
@@ -36,8 +36,8 @@
 
 ## Non-goals
 
-- Being a general-purpose kit that looks like anything. 0dB looks like 0dB.
-- Being part of another product. 0dB stands on its own.
+- Being a general-purpose kit that looks like anything. 0nlyType looks like 0nlyType.
+- Being part of another product. 0nlyType stands on its own.
 - Matching every shadcn component. An item exists only where the idea can be carried by type and a line.
 - Supporting browsers without `:has()`, `color-mix()` and native `<dialog>`.
 - A theming engine. There are four switches on `<html>` (mode, scheme, key, pair), and that's all.

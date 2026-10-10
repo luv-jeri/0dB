@@ -14,13 +14,13 @@ import { Select } from "@/registry/0db/ui/select"
 
 const LEFT_OUT = ["Icons", "Boxes", "Shadows", "Gradients", "Monospace", "A second colour"]
 
-/** Silence is structure: what 0dB leaves out, already struck through. Unstrike one to see it matters. */
+/** Silence is structure: what 0nlyType leaves out, already struck through. Unstrike one to see it matters. */
 export function LeftOut() {
   return (
     <CheckboxGroup
       tally
       className="left-out"
-      legend={<span className="db-sr">What 0dB leaves out</span>}
+      legend={<span className="db-sr">What 0nlyType leaves out</span>}
       done={(count, total) => (count === total ? "left out, and not missed." : "left out.")}
     >
       {LEFT_OUT.map((word) => (
@@ -121,7 +121,7 @@ export function CopyCommand({ command, emphasis }: { command: string; emphasis?:
 }
 
 const PROMPT = (thing: string) =>
-  `Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0dB. Use an installed 0dB component as precedent. Run the completion checklist and report evidence.`
+  `Read docs/0db/AGENTS.md, docs/0db/INTENT.md, docs/0db/DESIGN-core.md and the relevant component contracts. Confirm which paths you loaded. Build ${thing} with 0nlyType. Use an installed 0nlyType component as precedent. Run the completion checklist and report evidence.`
 
 /** Ask for it: you write what you want in the blank, in your italic, and copy a prompt that already knows the rules. */
 export function AskFor() {
@@ -147,7 +147,7 @@ export function AskFor() {
         <span className="ask-fill">
           <Input className="ask-what" value={what} placeholder="a pricing page" autoComplete="off" spellCheck={false} maxLength={48} onChange={(e) => setWhat(e.target.value)} />
         </span>{" "}
-        in 0dB.
+        in 0nlyType.
       </label>
       <div className="ask-foot">
         <Button variant="bracket" onClick={copy}>

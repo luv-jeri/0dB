@@ -1,4 +1,4 @@
-# 0dB: radar-chart
+# 0nlyType: radar-chart
 
 Extracted from DESIGN.md.
 

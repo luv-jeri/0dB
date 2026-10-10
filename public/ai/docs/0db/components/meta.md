@@ -1,4 +1,4 @@
-# 0dB: meta
+# 0nlyType: meta
 
 Extracted from DESIGN.md.
 

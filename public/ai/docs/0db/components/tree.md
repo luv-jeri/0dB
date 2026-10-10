@@ -1,4 +1,4 @@
-# 0dB: tree
+# 0nlyType: tree
 
 Extracted from DESIGN.md.
 

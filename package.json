@@ -2,7 +2,7 @@
   "name": "0db",
   "version": "0.1.0",
   "private": true,
-  "description": "0dB: a type-led design system. Whitespace is the design, text is the hero.",
+  "description": "0nlyType: a type-led design system. Whitespace is the design, text is the hero.",
   "license": "MIT",
   "type": "module",
   "engines": {

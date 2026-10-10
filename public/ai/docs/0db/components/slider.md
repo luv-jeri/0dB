@@ -1,4 +1,4 @@
-# 0dB: slider
+# 0nlyType: slider
 
 Extracted from DESIGN.md.
 

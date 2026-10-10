@@ -1,4 +1,4 @@
-# 0dB: toggle-group
+# 0nlyType: toggle-group
 
 Extracted from DESIGN.md.
 

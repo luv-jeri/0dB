@@ -1,4 +1,4 @@
-# 0dB: wake
+# 0nlyType: wake
 
 Extracted from DESIGN.md.
 

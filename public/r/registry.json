@@ -7,8 +7,8 @@
       "name": "0db",
       "type": "registry:base",
       "extends": "none",
-      "title": "0dB",
-      "description": "0dB tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
+      "title": "0nlyType",
+      "description": "0nlyType tokens, the default font pair, the reset and the base pieces, with a Tailwind v4 theme bridge.",
       "dependencies": [
         "clsx",
         "tailwind-merge"
@@ -15838,8 +15838,8 @@
     {
       "name": "ai",
       "type": "registry:item",
-      "title": "0dB AI kit",
-      "description": "Source-generated instructions and component contracts for building with 0dB.",
+      "title": "0nlyType AI kit",
+      "description": "Source-generated instructions and component contracts for building with 0nlyType.",
       "files": [
         {
           "path": "registry/0db/ai/AGENTS.md",

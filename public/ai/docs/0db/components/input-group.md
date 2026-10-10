@@ -1,4 +1,4 @@
-# 0dB: input-group
+# 0nlyType: input-group
 
 Extracted from DESIGN.md.
 

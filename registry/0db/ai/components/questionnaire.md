@@ -1,4 +1,4 @@
-# 0dB: questionnaire
+# 0nlyType: questionnaire
 
 Extracted from DESIGN.md.
 

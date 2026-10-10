@@ -1,4 +1,4 @@
-# 0dB: checkbox
+# 0nlyType: checkbox
 
 Extracted from DESIGN.md.
 

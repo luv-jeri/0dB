@@ -1,12 +1,12 @@
-# Working on 0dB
+# Working on 0nlyType
 
-0dB is the component library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's own landing page at thedirectors.agency is built on it first. The library is published as a shadcn registry at https://thedirectors.agency/ui. It is its own product, separate from Cojeev and 000h.
+0nlyType is the component library of The Directors, the product studio of Sanjay Kumar and Abhay Rohit. The studio's own landing page at thedirectors.agency is built on it first. The library is published as a shadcn registry at https://thedirectors.agency/ui. It is its own product, separate from Cojeev and 000h.
 
-This file is for anyone changing this repository, whether a person or an AI agent. People who build *with* 0dB get a separate AGENTS.md from the AI kit, which the build generates from INTENT.md and DESIGN.md.
+This file is for anyone changing this repository, whether a person or an AI agent. People who build *with* 0nlyType get a separate AGENTS.md from the AI kit, which the build generates from INTENT.md and DESIGN.md.
 
 ## Read first, in this order
 
-1. [INTENT.md](INTENT.md): what 0dB is, who it's for and what it refuses. When two rules disagree, this one wins.
+1. [INTENT.md](INTENT.md): what 0nlyType is, who it's for and what it refuses. When two rules disagree, this one wins.
 2. [DESIGN.md](DESIGN.md): the Principles, Conventions, Tokens and Motion sections, plus the contract (`### db-<name> (<item>)`) of every item you touch or compose from.
 3. The item's four files: `registry/0db/ui/<item>.tsx`, `registry/0db/styles/<item>.css`, `content/<item>.ts` and `examples/<item>.tsx`.
 4. `docs/references/`: the posters each creative move comes from. A change that passes every check but ignores the references is still rejected.
@@ -18,7 +18,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 |---|---|
 | `registry/0db/` | The library itself: items, sidecar CSS, base tokens, and the AI kit sources |
 | `content/`, `examples/` | Docs meta and the live example for each item |
-| `app/`, `components/site/` | The docs site, built only from 0dB items; `app/site.css` only places them |
+| `app/`, `components/site/` | The docs site, built only from 0nlyType items; `app/site.css` only places them |
 | `lib/site/config.mjs` | The one place where the site origin and the `/ui` base path are set |
 | `scripts/` | The registry build, packaging, and every check |
 | `workers/reporting/` | The feedback service behind the report and request forms |
@@ -47,7 +47,7 @@ This file is for anyone changing this repository, whether a person or an AI agen
 
 ## Where the project stands (2026-10-02)
 
-- **Pre-release.** "0dB" is a working name. A new name is being chosen, and it lands before any public listing, because the shadcn directory ties a registry's history to its namespace.
+- **Pre-release.** The library is named 0nlyType (owner decision 2026-10-10; it was 0dB). The copy carries the new name. The `db-` and `--db-` prefixes, the `0db` base item, the `registry/0db` and `docs/0db` paths, the GitHub repository and the reporting worker keep their old names until a separate rename, which lands before any public listing because the shadcn directory ties a registry's history to its namespace.
 - **Not listed anywhere yet:** no shadcn directory entry, no release and no announcement until the launch plan is ready. Deploys and pushes are fine.
 - **Ranking:** the directory ranks by registry health and by the number of distinct items. Only real items count toward it; never add aliases or splits to raise the count, though each sign variant (dots, words, fill) is its own item by owner decision 2026-10-10. The rules are in `docs/superpowers/reports/2026-10-01-directory-ranking.md`.
 

@@ -1,4 +1,4 @@
-# 0dB: reading-trail
+# 0nlyType: reading-trail
 
 Extracted from DESIGN.md.
 

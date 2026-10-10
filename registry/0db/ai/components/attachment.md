@@ -1,4 +1,4 @@
-# 0dB: attachment
+# 0nlyType: attachment
 
 Extracted from DESIGN.md.
 

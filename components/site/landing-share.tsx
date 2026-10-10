@@ -139,7 +139,7 @@ export function SharePlaces({ share, text, star = true, className, style }: Plac
         </li>
         {can ? (
           <li>
-            <button type="button" className="places-more" onClick={() => navigator.share({ title: "0dB", text, url }).catch(() => {})}>
+            <button type="button" className="places-more" onClick={() => navigator.share({ title: "0nlyType", text, url }).catch(() => {})}>
               Other apps
             </button>
           </li>

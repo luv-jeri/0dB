@@ -1,4 +1,4 @@
-# 0dB: tour
+# 0nlyType: tour
 
 Extracted from DESIGN.md.
 

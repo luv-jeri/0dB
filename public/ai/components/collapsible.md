@@ -1,4 +1,4 @@
-# 0dB: collapsible
+# 0nlyType: collapsible
 
 Extracted from DESIGN.md.
 

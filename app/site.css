@@ -1,4 +1,4 @@
-/* The docs site's own layout. Everything it draws is a 0dB item; this file only places them.
+/* The docs site's own layout. Everything it draws is a 0nlyType item; this file only places them.
    Ported from the specimen's page CSS: twelve columns, 1–3 the margin, 4–12 the stave. */
 
 /* Native scrolling: it runs off the main thread and stops with the hand. A jump to a section lands below the bar. */

@@ -8,11 +8,11 @@ import * as React from "react"
 // the pause jumps on click.
 
 export const MANIFESTO =
-  "Most interfaces talk over you. 0dB waits. It is a component library made of two typefaces, one colour and a great deal of space, for work that is read slowly and used for hours. There are no boxes to fill and no icons to decode. A checkbox is a sentence you strike through. A switch is the last word of a sentence, and you choose it. Everything the interface says is set upright in a grotesque; everything you say back arrives in an italic serif, so your words are never mistaken for ours. Colour appears once, to show where you are. Motion answers you, then rests. What remains is the quiet between the notes, and that is where the reading happens."
+  "Most interfaces talk over you. 0nlyType waits. It is a component library made of two typefaces, one colour and a great deal of space, for work that is read slowly and used for hours. There are no boxes to fill and no icons to decode. A checkbox is a sentence you strike through. A switch is the last word of a sentence, and you choose it. Everything the interface says is set upright in a grotesque; everything you say back arrives in an italic serif, so your words are never mistaken for ours. Colour appears once, to show where you are. Motion answers you, then rests. What remains is the quiet between the notes, and that is where the reading happens."
 
 type Cursor = { segmentIndex: number; graphemeIndex: number }
 
-/** The hero. `children` is the plain statement of what 0dB is, set beside the wordmark. */
+/** The hero. `children` is the plain statement of what 0nlyType is, set beside the wordmark. */
 export function Overture({ children }: { children?: React.ReactNode }) {
   const region = React.useRef<HTMLDivElement>(null)
   const linesRef = React.useRef<HTMLDivElement>(null)
@@ -153,7 +153,7 @@ export function Overture({ children }: { children?: React.ReactNode }) {
 
   return (
     <section className="overture" aria-labelledby="title">
-      <h1 className="overture-title" id="title">0dB</h1>
+      <h1 className="overture-title" id="title">0nlyType</h1>
       <p className="overture-def">
         <i className="db-term">noun, in acoustics.</i> The quietest sound a person can hear.
       </p>

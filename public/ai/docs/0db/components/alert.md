@@ -1,4 +1,4 @@
-# 0dB: alert
+# 0nlyType: alert
 
 Extracted from DESIGN.md.
 

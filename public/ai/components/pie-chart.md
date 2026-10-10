@@ -1,4 +1,4 @@
-# 0dB: pie-chart
+# 0nlyType: pie-chart
 
 Extracted from DESIGN.md.
 

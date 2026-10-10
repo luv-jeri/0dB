@@ -1,4 +1,4 @@
-# 0dB: measure
+# 0nlyType: measure
 
 Extracted from DESIGN.md.
 

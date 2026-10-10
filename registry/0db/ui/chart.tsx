@@ -61,7 +61,7 @@ function ceiling(n: number) {
 }
 
 /**
- * The frame every 0dB chart shares: the rolling readout (one giant number, or a short list for
+ * The frame every 0nlyType chart shares: the rolling readout (one giant number, or a short list for
  * several series), a plot of one button per point, and the axis. Point at or focus a point and the
  * number rolls to it; Left and Right (or Up and Down) move between points, Home and End jump.
  */

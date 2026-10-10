@@ -1,4 +1,4 @@
-# 0dB: carousel
+# 0nlyType: carousel
 
 Extracted from DESIGN.md.
 

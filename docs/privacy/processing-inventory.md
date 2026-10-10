@@ -1,10 +1,10 @@
-# 0dB reporting processing inventory
+# 0nlyType reporting processing inventory
 
 Implementation inventory, 2026-10-01. This describes the separate reporting service in this repository. Cloud resources, delivery credentials, UI consent surfaces and production behavior have not been provisioned or verified.
 
 | Data / purpose | Processor and location | Retention / removal |
 |---|---|---|
-| Unsent titles, descriptions, email, pins, diagnostics, Files, frozen submission and receipt token | Browser IndexedDB on the 0dB origin; not sent automatically | Seven days since last save. Next load deletes expired entries; closed browsers cannot run cleanup. Explicit `deleteDraft()` clears both report kinds. |
+| Unsent titles, descriptions, email, pins, diagnostics, Files, frozen submission and receipt token | Browser IndexedDB on the 0nlyType origin; not sent automatically | Seven days since last save. Next load deletes expired entries; closed browsers cannot run cleanup. Explicit `deleteDraft()` clears both report kinds. |
 | Optional diagnostic buffer: redacted warnings/errors, failed request paths, structural clicks, environment | Browser memory; Worker D1 only when reviewed and included | Buffer bounded to 40 events/group; cleanup function clears it. Submitted diagnostics/pins expire after 30 days. No automatic hook is installed by these modules. |
 | Report title, details, normalized private email, intentional references | Cloudflare Worker and private D1 `0db-reports` | Private fields scrubbed after 180 days by cron. Maintainer deletion can remove the whole record earlier. |
 | Screenshots/videos, filenames, sizes, SHA-256 manifests | Private Cloudflare R2 `0db-report-media`, metadata in D1 | Removed after 30 days from report creation, including metadata; upload window closes at that age. R2 has no public route in this implementation. |
@@ -12,7 +12,7 @@ Implementation inventory, 2026-10-01. This describes the separate reporting serv
 | IP-based abuse check | Cloudflare receives IP; Turnstile Siteverify receives remote IP | Worker stores a salted hash scoped to a ten-minute bucket, never a raw IP row. Expired buckets deleted by cron. Cloudflare's own processing is separate. |
 | Public safe title, status, component link, aggregate distinct demand | D1 and public request API | No automatic expiry. Maintainer must approve public title; submitted prose is never automatically published. Removal/review is included in the deletion procedure. |
 | Generic issue reference, signed marker, private admin URL, release link | GitHub private feedback repository selected by owner | No report prose, recipient, media or receipt secret sent. Provider copies require separate deletion and provider backup handling. |
-| Recipient, 0dB acknowledgment/release template, report UUID, component/request link | Resend; exact outgoing payload persisted in D1 | Stored payload scrubbed after 180 days. Resend acceptance is separate from signed delivery confirmation. Provider retention/deletion must be arranged separately. |
+| Recipient, 0nlyType acknowledgment/release template, report UUID, component/request link | Resend; exact outgoing payload persisted in D1 | Stored payload scrubbed after 180 days. Resend acceptance is separate from signed delivery confirmation. Provider retention/deletion must be arranged separately. |
 | Delivery jobs, attempts/quota ledger, signed webhook event IDs/status/timestamps | D1 | GitHub replay IDs expire after 30 days. Email events/attempts and delivery metadata remain until maintainer deletion. Events may precede a send response. |
 | Private D1 exports and provider recovery copies | Owner-controlled encrypted storage; Cloudflare/provider backup systems | Separate retention and deletion obligations. Keep a deletion ledger and reapply deletions after recovery; do not assume application cron erases backups. |
 

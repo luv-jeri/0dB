@@ -1,4 +1,4 @@
-# 0dB: button
+# 0nlyType: button
 
 Extracted from DESIGN.md.
 

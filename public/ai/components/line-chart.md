@@ -1,4 +1,4 @@
-# 0dB: line-chart
+# 0nlyType: line-chart
 
 Extracted from DESIGN.md.
 

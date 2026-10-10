@@ -1,4 +1,4 @@
-# 0dB: link
+# 0nlyType: link
 
 Extracted from DESIGN.md.
 

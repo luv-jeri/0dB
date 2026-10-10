@@ -1,4 +1,4 @@
-# 0dB
+# 0nlyType
 
 A component library for type and silence: two typefaces, one accent and a great deal of space. Every control is a typographic idea standing on a native element or a Radix primitive. A checkbox is a sentence you strike through, and a switch is the last word of a sentence.
 
@@ -43,7 +43,7 @@ npm run check:install   # a fresh Next app installs every item (slow, uses the n
 
 - Items live in `registry/0db/ui/<item>.tsx` with a sidecar `registry/0db/styles/<item>.css`, a demo in `examples/<item>.tsx` and docs meta in `content/<item>.ts`.
 - `scripts/build-registry.mjs` writes `registry.json` and `public/r/`. Never edit those by hand.
-- The docs site is built from 0dB's own items. `app/site.css` only places them.
+- The docs site is built from 0nlyType's own items. `app/site.css` only places them.
 
 ## Deploy
 

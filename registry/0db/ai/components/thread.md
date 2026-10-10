@@ -1,4 +1,4 @@
-# 0dB: thread
+# 0nlyType: thread
 
 Extracted from DESIGN.md.
 
