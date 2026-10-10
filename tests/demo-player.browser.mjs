@@ -122,6 +122,23 @@ const labelBecomes = (page, text) => page.waitForFunction((want) => document.que
 /** The state the player publishes on the example, and whether a performance has begun. */
 const demoState = (page, selector) => page.evaluate((sel) => { const el = document.querySelector(sel); return { state: el?.dataset.demoState ?? null, cycle: el?.dataset.demoCycle ?? null } }, selector)
 
+/** After Stop, whatever was already under way (a dial's spring finishing its last move) may settle, for a few seconds;
+ * then the example must be still, and stay still for a second. One that is still moving after the cap is not stopped. */
+async function fallsQuiet(page) {
+  const count = () => page.evaluate(() => window.__autoplay.mutations.length + window.__autoplay.synthetic.length)
+  let last = await count(), still = 0
+  for (let waited = 0; still < 2; waited += 300) {
+    if (waited >= 5000) throw new Error(`still moving ${Math.round(waited / 100) / 10}s after Stop`)
+    await page.waitForTimeout(300)
+    const now = await count()
+    still = now === last ? still + 1 : 0
+    last = now
+  }
+  await mark(page)
+  await page.waitForTimeout(1000)
+  await assertQuiet(page, "after Stop, once it had settled")
+}
+
 /** Scroll an example into view. A node that hydration or a remount has just replaced is looked up again, not given up on. */
 async function reveal(page, selector) {
   for (let attempt = 0; ; attempt++) {
@@ -255,10 +272,7 @@ async function one(context, item) {
     assert.equal((await demoState(page, example)).state, "stopped")
     // After Stop: let any settling finish, then nothing may move, and a real control must still answer.
     if (!exempt) {
-      await page.waitForTimeout(700)
-      await mark(page)
-      await page.waitForTimeout(1200)
-      await assertQuiet(page, "after Stop")
+      await fallsQuiet(page)
     }
     await answers(page, example)
     assert.ok(errors.length === 0, `page error: ${errors[0]}`)
