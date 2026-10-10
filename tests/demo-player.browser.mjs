@@ -3,7 +3,13 @@
 //   page offers Demonstrate, nothing moves until it is pressed, pressing runs it, and Stop hands it back
 //   the landing's stage does the same for the piece it shows
 //   the control works from the keyboard, mirrors in right to left, and stays legible in forced colours
-// Engines: Chromium only, in this wave (see tests/motion.browser.mjs).
+// "Nothing moves until it is pressed" is proved by a detector, not by the player's own published state: from before
+// the page's scripts run, a MutationObserver on the example root and capture listeners for synthetic (untrusted)
+// click, input, pointer and key events stay on through load, idle, intersection and scrolling into view. Any change
+// there, other than the player's own data-demo-* attributes, is an autoplay. After Demonstrate they must see the
+// performance; after Stop the example must fall quiet and one real control must still answer a trusted click.
+// The detector is itself tested against injected fixtures that autoplay (and one that does not).
+// Engines: Chromium, Firefox and WebKit (see below). An engine that is missing or cannot launch fails the check.
 import assert from "node:assert/strict"
 import { chromium } from "playwright"
 
@@ -12,6 +18,80 @@ import { serveOut } from "../scripts/lib/serve-out.mjs"
 
 const scripted = Object.entries(DEMO_SCORES).filter(([, score]) => score.script).map(([name]) => name)
 assert.ok(scripted.length > 0, "no scripted demo found; the gate would pass on nothing")
+
+
+/** Examples that are allowed to move before anyone asks, by name, with the reason. Everything else must wait.
+ * `ignore` narrows the allowance to DOM changes under a selector; without it the whole example is allowed.
+ * marquee and text-ribbon are not scripted at all (their drift is theirs, with its own pause control), so this
+ * check never reaches them; word-relay is scripted, and its relay turns by itself until paused. Owner decision
+ * 2026-10-01, recorded in DESIGN.md (Principle 5). Adding a name here needs a reason a reader would accept. */
+const AUTOPLAY_ALLOWED = {
+  "marquee": { reason: "owner-approved drift with its own pause control; not scripted, so never reached" },
+  "text-ribbon": { reason: "owner-approved drift with its own pause control; not scripted, so never reached" },
+  "word-relay": { reason: "owner-approved relay that advances by itself until paused (2026-10-01)" },
+  "resizable": { reason: "fit titles re-measure and re-set their own width when the page scrolls or resizes; layout only, nothing is performed", ignore: ".db-resize-title" },
+}
+
+/** Runs in the page before any of its scripts. Records, never judges. */
+function watchAutoplay({ root: rootSelector, ignore }) {
+  const w = (window.__autoplay = { mutations: [], synthetic: [], trusted: [], rooted: false })
+  const own = (name) => name && name.startsWith("data-demo-")
+  const label = (node) => {
+    const el = node.nodeType === 1 ? node : node.parentElement
+    return el ? `${el.localName}${el.className && typeof el.className === "string" ? "." + el.className.split(" ")[0] : ""}` : "?"
+  }
+  const observe = (root) => {
+    w.rooted = true
+    new MutationObserver((records) => {
+      for (const r of records) {
+        if (r.type === "attributes" && own(r.attributeName)) continue
+        const el = r.target.nodeType === 1 ? r.target : r.target.parentElement
+        if (ignore && el && el.closest(ignore)) continue
+        w.mutations.push({ at: performance.now(), kind: r.type, target: label(r.target), attribute: r.attributeName })
+      }
+    }).observe(root, { attributes: true, childList: true, characterData: true, subtree: true })
+  }
+  const find = () => { const root = document.querySelector(rootSelector); if (root && !w.rooted) observe(root); return w.rooted }
+  if (!find()) {
+    const finder = new MutationObserver(() => { if (find()) finder.disconnect() })
+    finder.observe(document, { childList: true, subtree: true })
+  }
+  const types = ["click", "dblclick", "input", "change", "pointerdown", "pointerup", "pointermove", "pointerover", "pointerenter", "mousedown", "mouseup", "mousemove", "mouseover", "mouseenter", "keydown", "keyup", "keypress", "wheel", "focusin"]
+  for (const type of types) {
+    addEventListener(type, (event) => {
+      const target = event.target
+      if (target && target.closest && target.closest("[data-demo-control]")) return
+      const entry = { at: performance.now(), type, target: target && target.nodeType === 1 ? label(target) : String(target) }
+      if (event.isTrusted) w.trusted.push({ ...entry, node: target })
+      else w.synthetic.push(entry)
+    }, true)
+  }
+}
+
+/** What the detector has seen since the last mark. */
+const seen = (page) => page.evaluate(() => ({ mutations: window.__autoplay.mutations.length, synthetic: window.__autoplay.synthetic.length, rooted: window.__autoplay.rooted, first: [...window.__autoplay.mutations, ...window.__autoplay.synthetic][0] ?? null }))
+/** Hydration, font loading and fitting legitimately touch the example (state attributes, input types, fitted type)
+ * for a moment after the control is offered. Wait until the example has been still for half a second, then count DOM
+ * changes from there. One that never settles is moving by itself. Synthetic events are counted from the very start,
+ * and the player's published state is checked separately, so a start during this wait is still caught. */
+async function settled(page) {
+  let last = -1
+  for (let waited = 0; waited < 3000; waited += 500) {
+    const now = await page.evaluate(() => window.__autoplay.mutations.length)
+    if (now === last) { await page.evaluate(() => { window.__autoplay.mutations.length = 0 }); return }
+    last = now
+    await page.waitForTimeout(500)
+  }
+  throw new Error("kept changing for 3s after Demonstrate was offered, so it is moving by itself")
+}
+const mark = (page) => page.evaluate(() => { const w = window.__autoplay; w.mutations.length = 0; w.synthetic.length = 0; w.trusted.length = 0 })
+const describeSeen = (r) => `${r.mutations} DOM change(s), ${r.synthetic} synthetic event(s)${r.first ? `, first: ${r.first.kind ?? r.first.type} on ${r.first.target}${r.first.attribute ? ` (${r.first.attribute})` : ""}` : ""}`
+/** Throws if anything moved or was dispatched on the example. */
+async function assertQuiet(page, when) {
+  const r = await seen(page)
+  assert.ok(r.rooted, "the detector never found the example root, so it proved nothing")
+  assert.ok(r.mutations === 0 && r.synthetic === 0, `moved by itself ${when}: ${describeSeen(r)}`)
+}
 
 const site = await serveOut()
 const browser = await chromium.launch()
@@ -22,39 +102,177 @@ const items = only ?? scripted
 /** The state the player publishes on the example, and whether a performance has begun. */
 const demoState = (page, selector) => page.evaluate((sel) => { const el = document.querySelector(sel); return { state: el?.dataset.demoState ?? null, cycle: el?.dataset.demoCycle ?? null } }, selector)
 
+/** Everything about an example that a reader's touch could change, including what no attribute shows. */
+const signature = (page, rootSelector) => page.evaluate((sel) => {
+  const root = document.querySelector(sel)
+  const fields = [...root.querySelectorAll("input, select, textarea")].map((n) => `${n.checked}/${n.value}`).join(",")
+  const scrolled = [...root.querySelectorAll("*")].filter((n) => n.scrollTop || n.scrollLeft).map((n) => `${n.scrollTop}:${n.scrollLeft}`).join(",")
+  // What the stylesheet does with the pointer or focus alone (a note revealed on hover) changes no attribute.
+  const painted = [...root.querySelectorAll("*")].slice(0, 600).map((n) => { const c = getComputedStyle(n); return `${c.opacity}${c.visibility}${c.transform}${c.fontWeight}${c.color}${c.display}${c.clipPath}` }).join(",")
+  return `${root.innerHTML}|${fields}|${scrolled}|${painted}`
+}, rootSelector)
+
+/** The middle of every part of the example that can scroll, on screen, for the wheel to be turned over. */
+const scrollables = (page, rootSelector) => page.evaluate((sel) => [...document.querySelector(sel).querySelectorAll("*")]
+  .filter((n) => n.scrollHeight > n.clientHeight + 1 || n.scrollWidth > n.clientWidth + 1)
+  .filter((n) => ["auto", "scroll"].includes(getComputedStyle(n).overflowY) || ["auto", "scroll"].includes(getComputedStyle(n).overflowX))
+  .slice(0, 4).map((n) => { const r = n.getBoundingClientRect(); return { x: r.left + r.width / 2, y: Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1) } }), rootSelector)
+
+/** After Stop the example is the reader's again: a real control must still answer a trusted click or key press
+ * (Playwright sends real input events, isTrusted true). A control that is covered, inert or swallowed by the
+ * player fails. Examples with no control of their own (reacting to the pointer, or scrolling) are swept by a real
+ * pointer and wheel instead. */
+async function answers(page, rootSelector) {
+  const candidates = page.locator(`${rootSelector} :is(label:has(input), button, [role="tab"], [role="slider"], [role="separator"], input:not(label input):not([type="hidden"]), select, textarea, summary):not([data-demo-control])`)
+  const count = Math.min(await candidates.count(), 8)
+  let tried = 0
+  for (let i = 0; i < count; i++) {
+    const control = candidates.nth(i)
+    if (!(await control.isVisible()) || !(await control.isEnabled())) continue
+    await control.scrollIntoViewIfNeeded().catch(() => {})
+    const box = await control.boundingBox()
+    if (!box) continue
+    tried++
+    // The middle first; a control whose middle is a separator or a gap (a code field's slots) is tried at its ends.
+    for (const position of [undefined, { x: 6, y: box.height / 2 }, { x: Math.max(box.width - 6, 1), y: box.height / 2 }]) {
+      const was = await signature(page, rootSelector)
+      await mark(page)
+      try {
+        // A native select opens a popup on a click; a real reader changes it with the keyboard, so do that.
+        if (await control.evaluate((node) => node.matches("select"))) { await control.focus(); await page.keyboard.press("ArrowDown") }
+        else await control.click({ timeout: 1000, force: true, position })
+        if (await control.evaluate((node) => node.matches('input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea'))) await page.keyboard.type("1")
+        else if (await control.evaluate((node) => node.matches('[role="slider"], [role="separator"]'))) await page.keyboard.press("ArrowRight")
+      } catch { continue }
+      await page.waitForTimeout(100)
+      const reached = await page.evaluate((sel) => window.__autoplay.trusted.some((t) => t.node && document.querySelector(sel)?.contains(t.node)), rootSelector)
+      if (reached && ((await signature(page, rootSelector)) !== was || (await seen(page)).mutations > 0)) return
+    }
+  }
+  // An example that has controls must answer through one of them. One with none (it reacts to the pointer, or it
+  // scrolls) is swept by a real pointer and wheel instead.
+  if (tried > 0) throw new Error(`none of its ${tried} controls answered a trusted click or key press after Stop`)
+  const was = await signature(page, rootSelector)
+  await mark(page)
+  const box = await page.locator(rootSelector).boundingBox()
+  if (box) {
+    await page.locator(rootSelector).scrollIntoViewIfNeeded()
+    const view = (await page.locator(rootSelector).boundingBox()) ?? box
+    const top = Math.max(view.y, 0), height = Math.min(view.height, 700)
+    for (const fy of [0.2, 0.5, 0.8]) for (let step = 0; step <= 12; step++) await page.mouse.move(view.x + (view.width * step) / 12, top + height * fy)
+    for (const target of await scrollables(page, rootSelector)) {
+      await page.mouse.move(target.x, target.y)
+      await page.mouse.wheel(0, 60)
+      await page.mouse.wheel(60, 0)
+    }
+    await page.waitForTimeout(150)
+    const reached = await page.evaluate(() => window.__autoplay.trusted.length > 0)
+    if (reached && ((await signature(page, rootSelector)) !== was || (await seen(page)).mutations > 0)) return
+  }
+  throw new Error("it has no control, and a real pointer sweep and wheel changed nothing after Stop")
+}
+
 async function one(context, item) {
   const page = await context.newPage()
   const errors = []
   page.on("pageerror", (error) => errors.push(error.message))
+  const example = `[data-demo-item="${item}"]`
+  const allowed = AUTOPLAY_ALLOWED[item]
+  const exempt = allowed && !allowed.ignore
+  await page.addInitScript(watchAutoplay, { root: example, ignore: allowed?.ignore ?? null })
   try {
     await page.goto(site.url(`/docs/${item}/`), { waitUntil: "load" })
-    const example = `[data-demo-item="${item}"]`
     await page.waitForSelector(example, { timeout: 10000 })
     await page.locator(example).scrollIntoViewIfNeeded()
     const control = page.locator(".doc-demo-controls button")
     assert.equal(await control.count(), 1, "no Demonstrate control on the page")
     assert.equal((await control.textContent()).trim(), "Demonstrate")
-    // Available once it has been looked at (load, idle, in view). Then give an eager player every chance to start.
+    // Available once it has been looked at (load, idle, in view). Then give an eager player every chance to start:
+    // idle, and scrolled out of view and back into it.
     await page.waitForFunction(() => { const b = document.querySelector(".doc-demo-controls button"); return b && !b.disabled }, null, { timeout: 10000 })
+    await settled(page)
     for (let i = 0; i < 8; i++) {
       const { state, cycle } = await demoState(page, example)
       assert.ok(!["playing", "finished", "stopped"].includes(state) && cycle === null, `started by itself (${state}, cycle ${cycle})`)
+      if (i === 2) await page.evaluate(() => scrollTo(0, 0))
+      if (i === 4) await page.locator(example).scrollIntoViewIfNeeded()
       await page.waitForTimeout(250)
     }
-    // Pressed, it plays; Stop hands it back and the control is Demonstrate again.
+    if (!exempt) await assertQuiet(page, "before Demonstrate was pressed (load, idle, intersection, scrolling into view)")
+    // Pressed, it plays and the detector sees it; Stop hands it back and the control is Demonstrate again.
+    await mark(page)
     await control.click()
     await page.waitForFunction((sel) => document.querySelector(sel)?.dataset.demoState === "playing", example, { timeout: 5000 })
     assert.equal((await control.textContent()).trim(), "Stop")
+    await page.waitForFunction(() => window.__autoplay.mutations.length + window.__autoplay.synthetic.length > 0, null, { timeout: 5000 }).catch(() => { throw new Error("Demonstrate played, but the detector saw no change or event on the example") })
     await control.click()
     await page.waitForFunction((sel) => document.querySelector(sel)?.dataset.demoState === "stopped", example, { timeout: 2000 })
     assert.equal((await control.textContent()).trim(), "Demonstrate")
     assert.equal((await demoState(page, example)).state, "stopped")
+    // After Stop: let any settling finish, then nothing may move, and a real control must still answer.
+    if (!exempt) {
+      await page.waitForTimeout(700)
+      await mark(page)
+      await page.waitForTimeout(1200)
+      await assertQuiet(page, "after Stop")
+    }
+    await answers(page, example)
     assert.deepEqual(errors, [])
   } finally { await page.close() }
 }
 
+/** The detector must itself be able to fail. Each fixture is a one-component page that autoplays in a different
+ * way, or does not; the same watcher, quiet window and real-control probe judge it as judge the real examples. */
+async function selfTest(browser) {
+  const fixtures = {
+    "quiet": { script: "", quiet: true },
+    "text changes on a timer": { script: "setTimeout(() => { document.getElementById('t').textContent = '1' }, 300)" },
+    "attribute changes on a timer": { script: "setTimeout(() => { document.getElementById('b').setAttribute('aria-pressed', 'true') }, 300)" },
+    "node added on a timer": { script: "setTimeout(() => { document.getElementById('r').append(document.createElement('i')) }, 300)" },
+    "synthetic click, no change": { script: "setTimeout(() => document.getElementById('b').dispatchEvent(new MouseEvent('click', { bubbles: true })), 300)" },
+    "synthetic input event": { script: "setTimeout(() => { const i = document.getElementById('i'); i.dispatchEvent(new Event('input', { bubbles: true })) }, 300)" },
+    "synthetic pointer move": { script: "setTimeout(() => document.getElementById('b').dispatchEvent(new PointerEvent('pointermove', { bubbles: true })), 300)" },
+    "synthetic key": { script: "setTimeout(() => document.getElementById('i').dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true })), 300)" },
+    "late, only after the first second": { script: "setTimeout(() => { document.getElementById('t').textContent = '2' }, 1300)" },
+    "on a repeating timer": { script: "setInterval(() => { document.getElementById('t').textContent = String(Math.random()) }, 400)" },
+    "starts when scrolled into view": { script: "new IntersectionObserver((e) => { if (e[0].isIntersecting) document.getElementById('t').textContent = 'seen' }).observe(document.getElementById('r'))" },
+  }
+  const html = (script, cover) => `<!doctype html><title>fixture</title><body style="margin:0"><div id="r" data-demo-item="fixture" style="padding:40px"><span id="t">0</span> <button id="b">Do</button> <input id="i"></div>${cover ? '<div style="position:fixed;inset:0"></div>' : ""}<script>${script}</script></body>`
+  const context = await browser.newContext({ viewport: { width: 800, height: 600 } })
+  const problems = []
+  for (const [name, fixture] of Object.entries(fixtures)) {
+    const page = await context.newPage()
+    try {
+      await page.route("**/fixture", (route) => route.fulfill({ contentType: "text/html", body: html(fixture.script) }))
+      await page.addInitScript(watchAutoplay, { root: '[data-demo-item="fixture"]', ignore: null })
+      await page.goto("http://fixture.test/fixture")
+      await page.waitForTimeout(1800)
+      let caught = null
+      await assertQuiet(page, "(fixture)").catch((error) => { caught = error })
+      if (fixture.quiet && caught) problems.push(`self-test: the quiet fixture was reported as moving: ${caught.message}`)
+      if (!fixture.quiet && !caught) problems.push(`self-test: the detector did not catch an autoplay that was ${name}`)
+    } catch (error) { problems.push(`self-test (${name}): ${error.message.split("\n")[0]}`) } finally { await page.close() }
+  }
+  // The real-control probe must fail on a covered example, and pass on an ordinary one.
+  for (const [name, cover] of [["a covered example", true], ["an open example", false]]) {
+    const page = await context.newPage()
+    try {
+      await page.route("**/fixture", (route) => route.fulfill({ contentType: "text/html", body: html("document.getElementById('b').onclick = () => { document.getElementById('t').textContent = 'x' }", cover) }))
+      await page.addInitScript(watchAutoplay, { root: '[data-demo-item="fixture"]', ignore: null })
+      await page.goto("http://fixture.test/fixture")
+      let caught = null
+      await answers(page, '[data-demo-item="fixture"]').catch((error) => { caught = error })
+      if (cover && !caught) problems.push(`self-test: the real-control probe passed on ${name}`)
+      if (!cover && caught) problems.push(`self-test: the real-control probe failed on ${name}: ${caught.message}`)
+    } catch (error) { problems.push(`self-test (${name}): ${error.message.split("\n")[0]}`) } finally { await page.close() }
+  }
+  await context.close()
+  return problems
+}
+
 // Docs pages, a few at a time (each is a full page; the laptop is small).
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+failures.push(...(await selfTest(browser)))
 const queue = [...items]
 await Promise.all(Array.from({ length: 3 }, async () => {
   for (let item = queue.shift(); item; item = queue.shift()) {
@@ -106,6 +324,7 @@ if (!only) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
   await ctx.addInitScript((key) => { try { localStorage.setItem(key, "1") } catch {} }, "0db-overture-seen")
   const page = await ctx.newPage()
+  await page.addInitScript(watchAutoplay, { root: ".pieces-preview", ignore: null })
   try {
     await page.goto(site.url("/"))
     await page.locator(".pieces-stage").scrollIntoViewIfNeeded()
@@ -116,11 +335,13 @@ if (!only) {
     const control = page.locator(".pieces-actions [data-demo-control]")
     await control.waitFor({ timeout: 5000 })
     await page.waitForFunction(() => { const b = document.querySelector(".pieces-actions [data-demo-control]"); return b && !b.disabled }, null, { timeout: 15000 })
+    await settled(page)
     for (let i = 0; i < 8; i++) {
       const { state } = await demoState(page, ".pieces-preview")
       assert.ok(!["playing", "finished", "stopped"].includes(state), `the landing stage started by itself (${state})`)
       await page.waitForTimeout(250)
     }
+    await assertQuiet(page, "on the landing stage before Demonstrate was pressed")
     await control.click()
     await page.waitForFunction(() => document.querySelector(".pieces-preview")?.dataset.demoState === "playing", null, { timeout: 5000 })
     await control.click()
@@ -131,4 +352,4 @@ if (!only) {
 await browser.close()
 await site.close()
 if (failures.length) { console.error(failures.map((f) => `- ${f}`).join("\n")); process.exit(1) }
-console.log(`Demo player browser check passed: ${items.length} of ${scripted.length} scripted demos wait for Demonstrate, run, and stop on request${only ? "" : "; keyboard, right to left, forced colours and the landing stage hold"}.`)
+console.log(`Demo player browser check passed: ${items.length} of ${scripted.length} scripted demos stay quiet until Demonstrate, are seen to run, fall quiet on Stop and hand a real control back; the detector catches every injected autoplay${only ? "" : "; keyboard, right to left, forced colours and the landing stage hold"}.`)
