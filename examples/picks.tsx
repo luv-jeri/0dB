@@ -3,7 +3,7 @@ import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
-    <div className="grid items-start gap-x-(--db-space-8) gap-y-(--db-space-7) md:grid-cols-2">
+    <div className="grid items-start gap-x-(--ot-space-8) gap-y-(--ot-space-7) md:grid-cols-2">
       <Picks legend="Pair" defaultValue="press">
         <Pick value="parma">
           <PickTitle>Parma</PickTitle>

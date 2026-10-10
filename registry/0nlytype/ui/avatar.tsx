@@ -71,8 +71,8 @@ function Avatar({ alt, src, fallback, size = "m", variant = "ring", here, count,
     const family = rest.at(-1)
     face = (
       <>
-        <span className="db-avatar-given">{(fallback ?? given).charAt(0).toUpperCase()}</span>
-        {family && <span className="db-avatar-family">{family.charAt(0).toUpperCase()}</span>}
+        <span className="ot-avatar-given">{(fallback ?? given).charAt(0).toUpperCase()}</span>
+        {family && <span className="ot-avatar-family">{family.charAt(0).toUpperCase()}</span>}
       </>
     )
   }
@@ -89,7 +89,7 @@ function Avatar({ alt, src, fallback, size = "m", variant = "ring", here, count,
       dir={variant === "ring" ? undefined : "auto"} // the letters follow the name's own script, not the page's
       data-here={here || undefined}
       data-count={count || undefined}
-      className={cn("db-avatar", className)}
+      className={cn("ot-avatar", className)}
       {...props}
     >
       {face}
@@ -99,7 +99,7 @@ function Avatar({ alt, src, fallback, size = "m", variant = "ring", here, count,
 
 /** Avatars overlap, and step apart when pointed at; monograms stand side by side, and fitted names stack between hairlines. Its label says who the group is. */
 function AvatarGroup({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="avatar-group" role="group" className={cn("db-avatars", className)} {...props} />
+  return <span data-slot="avatar-group" role="group" className={cn("ot-avatars", className)} {...props} />
 }
 
 export { Avatar, AvatarGroup, type AvatarProps }

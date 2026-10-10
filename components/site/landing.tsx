@@ -20,7 +20,7 @@ export function LeftOut() {
     <CheckboxGroup
       tally
       className="left-out"
-      legend={<span className="db-sr">What 0nlyType leaves out</span>}
+      legend={<span className="ot-sr">What 0nlyType leaves out</span>}
       done={(count, total) => (count === total ? "left out, and not missed." : "left out.")}
     >
       {LEFT_OUT.map((word) => (
@@ -113,7 +113,7 @@ export function CopyCommand({ command, emphasis }: { command: string; emphasis?:
           <span>{copied ? "Copied" : "Copy"}</span>
         </span>
       </button>
-      <span className="db-sr" aria-live="polite">
+      <span className="ot-sr" aria-live="polite">
         {copied ? "Copied to the clipboard." : ""}
       </span>
     </>
@@ -153,7 +153,7 @@ export function AskFor() {
         <Button variant="bracket" onClick={copy}>
           {copied ? "Copied" : "Copy the prompt"}
         </Button>
-        <span className="db-sr" aria-live="polite">
+        <span className="ot-sr" aria-live="polite">
           {copied ? "The prompt is on the clipboard." : ""}
         </span>
       </div>
@@ -191,7 +191,7 @@ export function Share({ url, title, children }: { url: string; title: string; ch
       <button type="button" className="share" data-copied={copied || undefined} onClick={share}>
         {copied ? "Link copied" : children}
       </button>
-      <span className="db-sr" aria-live="polite">
+      <span className="ot-sr" aria-live="polite">
         {copied ? "Link copied" : ""}
       </span>
     </>

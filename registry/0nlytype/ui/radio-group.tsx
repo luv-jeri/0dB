@@ -25,9 +25,9 @@ function useRadioGroup() {
 type Pt = { x: number; y: number }
 type Flight = { a: Pt; c: Pt; b: Pt; anim: Animation }
 
-const BREATH = "cubic-bezier(.65,0,.35,1)" // --db-breath
-const EXHALE = "cubic-bezier(.16,1,.3,1)" // --db-exhale
-const SPICCATO = "cubic-bezier(.34,1.5,.5,1)" // --db-spiccato
+const BREATH = "cubic-bezier(.65,0,.35,1)" // --ot-breath
+const EXHALE = "cubic-bezier(.16,1,.3,1)" // --ot-exhale
+const SPICCATO = "cubic-bezier(.34,1.5,.5,1)" // --ot-spiccato
 const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
 // Registered lengths come back from getComputedStyle resolved to px.
 const length = (el: Element, prop: string) => parseFloat(getComputedStyle(el).getPropertyValue(prop)) || 0
@@ -71,14 +71,14 @@ function pen(path: SVGPathElement, from: number, to: number, duration: number, e
 
 // Glissando's lens: the stretch of the line of words where the italic shows, in px along that line.
 function setLens(el: HTMLElement, [a, b]: [number, number]) {
-  el.style.setProperty("--db-choice-a", `${a}px`)
-  el.style.setProperty("--db-choice-b", `${b}px`)
+  el.style.setProperty("--ot-choice-a", `${a}px`)
+  el.style.setProperty("--ot-choice-b", `${b}px`)
 }
 // Sets the lens without its transition (a resize, the first place), then lets it move again.
 function quiet(el: HTMLElement, span: [number, number]) {
   el.setAttribute("data-still", "")
   setLens(el, span)
-  getComputedStyle(el).getPropertyValue("--db-choice-a")
+  getComputedStyle(el).getPropertyValue("--ot-choice-a")
   el.removeAttribute("data-still")
 }
 const NOWHERE: [number, number] = [-1e5, -1e5]
@@ -87,7 +87,7 @@ const NOWHERE: [number, number] = [-1e5, -1e5]
 // the first into the second): a short one down to the right, then a longer one, set off higher, that bows and runs
 // past it, in a 20 × 20 box.
 const BALLOT = "M3.4 5.2C7.2 8.1 11.6 12.3 16.4 17.6M18.1 0.9C13.6 6.2 9.4 11.4 4.2 19.3"
-const crossOf = (l: Element | null | undefined) => l?.querySelector<SVGPathElement>(":scope > .db-choice-ballot > path") ?? null
+const crossOf = (l: Element | null | undefined) => l?.querySelector<SVGPathElement>(":scope > .ot-choice-ballot > path") ?? null
 // Runs a pen mark from one dash offset to another (1 not yet drawn, 0 drawn, -1 passed through, which looks the same as 1).
 // It ends on the stylesheet's own value unless held; a held sketch stays drawn until the next trace cancels it.
 function trace(path: SVGPathElement | null, from: number, to: number, duration: number, hold = false) {
@@ -165,30 +165,30 @@ function RadioGroup({
     // so the seat is taken back by the slur's own corner, which stands where the dot's origin does.
     const r = el.getBoundingClientRect()
     const k = r.width / (el.offsetWidth || r.width) || 1
-    const s = el.querySelector(":scope > .db-choice-slur")?.getBoundingClientRect()
+    const s = el.querySelector(":scope > .ot-choice-slur")?.getBoundingClientRect()
     const o = s ? { x: (s.left - r.left) / k, y: (s.top - r.top) / k } : { x: 0, y: 0 }
     const at = (l: HTMLElement) => {
-      const p = seat(l, column, rtl, length(el, "--db-choice-drop"), length(el, "--db-choice-nudge"))
+      const p = seat(l, column, rtl, length(el, "--ot-choice-drop"), length(el, "--ot-choice-nudge"))
       return { x: p.x - o.x, y: p.y - o.y }
     }
     return { el, labels, chosen: labels.find((l) => l.querySelector("input:checked")) ?? null, em, out, at }
   }, [orientation])
 
   // Glissando lays the words end to end on one line of reading, so the italic can slide from word to word
-  // whichever row or column they sit in. Each word learns its start on that line (--db-choice-s) and the width
-  // of its italic and its roman (--db-choice-w, -r: where the full stop lands, and the room it keeps);
-  // the lens (--db-choice-a to -b) is where the italic shows.
+  // whichever row or column they sit in. Each word learns its start on that line (--ot-choice-s) and the width
+  // of its italic and its roman (--ot-choice-w, -r: where the full stop lands, and the room it keeps);
+  // the lens (--ot-choice-a to -b) is where the italic shows.
   const measure = React.useCallback((g: ReturnType<typeof read>) => {
-    const f = length(g.el, "--db-choice-f")
+    const f = length(g.el, "--ot-choice-f")
     const width = (l: HTMLElement, part: string) => `${l.querySelector<HTMLElement>(part)?.offsetWidth ?? 0}px`
     g.labels.forEach((l) => {
-      l.style.setProperty("--db-choice-w", width(l, ".db-choice-yours"))
-      l.style.setProperty("--db-choice-r", width(l, ".db-choice-word"))
+      l.style.setProperty("--ot-choice-w", width(l, ".ot-choice-yours"))
+      l.style.setProperty("--ot-choice-r", width(l, ".ot-choice-word"))
     })
     let s = 0
     let span: [number, number] | null = null
     for (const l of g.labels) {
-      l.style.setProperty("--db-choice-s", `${s}px`)
+      l.style.setProperty("--ot-choice-s", `${s}px`)
       if (l === g.chosen) span = [s, s + l.offsetWidth]
       s += l.offsetWidth + f * 2 // two feathers apart, so a word's soft edge never reaches its neighbour
     }
@@ -205,8 +205,8 @@ function RadioGroup({
     } else {
       where.current = g.chosen ? g.at(g.chosen) : null
       if (where.current) {
-        g.el.style.setProperty("--db-choice-x", `${where.current.x}px`)
-        g.el.style.setProperty("--db-choice-y", `${where.current.y}px`)
+        g.el.style.setProperty("--ot-choice-x", `${where.current.x}px`)
+        g.el.style.setProperty("--ot-choice-y", `${where.current.y}px`)
       }
       // The docs pin a word as pointed at; it shows its pencil slur without a pointer.
       const pinned = g.labels.find((l) => l !== g.chosen && l.matches('[data-force~="hover"]'))
@@ -231,10 +231,10 @@ function RadioGroup({
       const g = read()
       const b = g.at(l)
       path.setAttribute("d", slurPath(a, bow(a, b, g.out, g.em), b, dot.current?.offsetWidth || 7))
-      return pen(path, 1, 0, 320, EXHALE) // --db-moderato
+      return pen(path, 1, 0, 320, EXHALE) // --ot-moderato
     }
     const now = parseFloat(getComputedStyle(path).strokeDashoffset) || 0
-    pen(path, Math.abs(now) < 1 ? now : -1, -1, 160, EXHALE) // --db-allegro
+    pen(path, Math.abs(now) < 1 ? now : -1, -1, 160, EXHALE) // --ot-allegro
   }
 
   // Ballot: pointing sketches the cross in pencil after the word; leaving, the pen runs on and the cross passes through.
@@ -242,7 +242,7 @@ function RadioGroup({
     if (l === sketched.current) return
     const left = sketched.current
     sketched.current = l
-    if (left && !left.querySelector("input:checked")) trace(crossOf(left), 0, -1, 160) // --db-allegro
+    if (left && !left.querySelector("input:checked")) trace(crossOf(left), 0, -1, 160) // --ot-allegro
     if (l && !l.querySelector("input:checked, input:disabled")) trace(crossOf(l), 1, 0, 480, true) // between moderato and andante
   }
 
@@ -258,7 +258,7 @@ function RadioGroup({
       // The old cross runs on and passes through; the new one is written after its word, or, if the pencil already
       // sketched it there, only inks (a sketch still being written runs on to the end in the accent).
       const old = g.labels.find((l) => l.querySelector<HTMLInputElement>("input")?.value === before)
-      if (old) trace(crossOf(old), 0, -1, 320) // --db-moderato
+      if (old) trace(crossOf(old), 0, -1, 320) // --ot-moderato
       const path = crossOf(g.chosen)
       if (g.chosen && sketched.current !== g.chosen) trace(path, 1, 0, 480)
       return
@@ -272,7 +272,7 @@ function RadioGroup({
       // The italic travels leading edge first, then gathers itself in: a longer slide takes a little longer.
       g.el.setAttribute("data-moved", "") // from now on the full stop lands each time; the first render's never does
       g.el.setAttribute("data-heading", from && to[0] < from[0] ? "start" : "end")
-      g.el.style.setProperty("--db-choice-far", `${from ? Math.min(Math.abs(to[0] - from[0]) / 480, 1) : 0}`)
+      g.el.style.setProperty("--ot-choice-far", `${from ? Math.min(Math.abs(to[0] - from[0]) / 480, 1) : 0}`)
       // With nothing chosen before, the italic opens out of the middle of the word.
       if (!from) quiet(g.el, [(to[0] + to[1]) / 2, (to[0] + to[1]) / 2])
       return setLens(g.el, to)
@@ -292,13 +292,13 @@ function RadioGroup({
       if (path) pen(path, -1, -1, 0, "")
       sketched.current = null
       // The first choice has nowhere to glide from: the dot lands where it is.
-      if (to && !from && !still()) dot.current.animate({ scale: ["0", "1"] }, { duration: 320, easing: SPICCATO }) // --db-moderato
+      if (to && !from && !still()) dot.current.animate({ scale: ["0", "1"] }, { duration: 320, easing: SPICCATO }) // --ot-moderato
       return
     }
     // The dot glides along the slur like a drop of ink: drawn out along its path at mid-flight, round again as it lands.
     const c = bow(from, to, g.out, g.em)
     const pull = Math.min(far, 240) / 110
-    const duration = 320 + Math.min(far, 320) // --db-moderato, a little longer the further it goes, never past --db-andante
+    const duration = 320 + Math.min(far, 320) // --ot-moderato, a little longer the further it goes, never past --ot-andante
     const frames = Array.from({ length: 17 }, (_, i) => {
       const t = i / 16
       const p = blossom(from, c, to, t, t)
@@ -335,7 +335,7 @@ function RadioGroup({
         data-slot="radio-group"
         data-variant={variant}
         data-orientation={orientation}
-        className={cn("db-choice", className)}
+        className={cn("ot-choice", className)}
         onPointerOver={(e) => {
           onPointerOver?.(e)
           if (variant === "legato" || variant === "ballot") sketch((e.target as Element).closest("label"))
@@ -346,14 +346,14 @@ function RadioGroup({
         }}
         {...props}
       >
-        {legend ? <legend className="db-label">{legend}</legend> : null}
+        {legend ? <legend className="ot-label">{legend}</legend> : null}
         {children}
         {variant === "legato" ? (
           <>
-            <svg data-slot="radio-group-slur" className="db-choice-slur" aria-hidden="true">
+            <svg data-slot="radio-group-slur" className="ot-choice-slur" aria-hidden="true">
               <path ref={slur} pathLength={1} />
             </svg>
-            <span ref={dot} data-slot="radio-group-dot" className="db-choice-dot" aria-hidden="true" />
+            <span ref={dot} data-slot="radio-group-dot" className="ot-choice-dot" aria-hidden="true" />
           </>
         ) : null}
       </fieldset>
@@ -387,13 +387,13 @@ function RadioGroupItem({ value, children, className, labelClassName, "data-forc
         }}
         {...props}
       />
-      <span className="db-choice-word">{children}</span>
+      <span className="ot-choice-word">{children}</span>
       {/* The same word in the expression italic, laid in the same cell. The radio's name comes from the roman. */}
-      <span data-slot="radio-group-yours" className="db-choice-yours" aria-hidden="true">
+      <span data-slot="radio-group-yours" className="ot-choice-yours" aria-hidden="true">
         {children}
       </span>
       {group.variant === "ballot" ? (
-        <svg data-slot="radio-group-ballot" className="db-choice-ballot" viewBox="0 0 20 20" aria-hidden="true">
+        <svg data-slot="radio-group-ballot" className="ot-choice-ballot" viewBox="0 0 20 20" aria-hidden="true">
           <path d={BALLOT} pathLength={1} />
         </svg>
       ) : null}

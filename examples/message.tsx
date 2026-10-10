@@ -49,7 +49,7 @@ function Reply() {
 
 export default function Example() {
   return (
-    <div className="grid gap-(--db-space-6)">
+    <div className="grid gap-(--ot-space-6)">
       <Message>
         <MessageAvatar alt="Ada Lindqvist" />
         <MessageHeader name="Ada Lindqvist" time="09:40" dateTime="2026-09-30T09:40" />
@@ -74,7 +74,7 @@ export default function Example() {
         </MessageFooter>
       </Message>
       <Reply />
-      <div className="grid gap-(--db-space-4) pt-(--db-space-6)">
+      <div className="grid gap-(--ot-space-4) pt-(--ot-space-6)">
         <Message variant="script">
           <MessageHeader name="Ada" time="09:46" dateTime="2026-09-30T09:46" />
           <MessageBody><MessageBubble>At stamp size the anchor fills in. The flag holds.</MessageBubble></MessageBody>
@@ -84,7 +84,7 @@ export default function Example() {
           <MessageBody><MessageBubble align="end">Then let the anchor go.</MessageBubble></MessageBody>
         </Message>
       </div>
-      <div className="grid gap-(--db-space-6) pt-(--db-space-6)">
+      <div className="grid gap-(--ot-space-6) pt-(--ot-space-6)">
         <Message variant="quote">
           <MessageHeader name="Ada Lindqvist" time="10:02" dateTime="2026-09-30T10:02" />
           <MessageBody><MessageBubble>A harbour is where the arc comes to rest.</MessageBubble></MessageBody>
@@ -102,7 +102,7 @@ export function States() {
   return (
     <>
       <State label="Tail"><MessageBubble>Ready for review.</MessageBubble></State>
-      <State label="Tail, yours"><MessageBubble align="end" className="db-yours">Looking now.</MessageBubble></State>
+      <State label="Tail, yours"><MessageBubble align="end" className="ot-yours">Looking now.</MessageBubble></State>
       <State label="Reversed"><MessageBubble variant="ink">Published.</MessageBubble></State>
       <State label="Marked"><MessageBubble variant="mark">Read this first.</MessageBubble></State>
       <State label="Typing"><MessageTyping writing label="Ada is writing" /></State>

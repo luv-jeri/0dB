@@ -58,7 +58,7 @@ function DrawerHandle({ label, thirds }: { label: string; thirds?: Thirds }) {
       type="button"
       data-slot="drawer-handle"
       aria-label={label}
-      className="db-drawer-handle"
+      className="ot-drawer-handle"
       {...(thirds && {
         role: "slider",
         "aria-orientation": "vertical" as const,
@@ -140,17 +140,17 @@ function DrawerContent({ className, children, handleLabel, variant = "arc", styl
     <DialogSurface
       data-slot="drawer-content"
       data-variant={variant === "arc" ? undefined : variant}
-      className={cn("db-drawer", className)}
+      className={cn("ot-drawer", className)}
       style={thirds ? ({ "--third": third, ...style } as React.CSSProperties) : style}
       {...props}
     >
       <DrawerHandle label={handleLabel ?? (thirds ? "Height of the drawer" : "Put this away")} thirds={thirds} />
       {thirds && (
-        <span className="db-drawer-share" aria-hidden="true">
+        <span className="ot-drawer-share" aria-hidden="true">
           <Fraction count={third} total={3} />
         </span>
       )}
-      <div data-slot="drawer-body" className="db-drawer-body">
+      <div data-slot="drawer-body" className="ot-drawer-body">
         {children}
       </div>
     </DialogSurface>
@@ -159,7 +159,7 @@ function DrawerContent({ className, children, handleLabel, variant = "arc", styl
 
 function DrawerTitle({ className, ...props }: React.ComponentProps<"h2">) {
   const { titleId } = useDialog()
-  return <h2 data-slot="drawer-title" id={titleId} className={cn("db-drawer-title", className)} {...props} />
+  return <h2 data-slot="drawer-title" id={titleId} className={cn("ot-drawer-title", className)} {...props} />
 }
 
 function DrawerDescription({ className, ...props }: React.ComponentProps<"p">) {

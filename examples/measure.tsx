@@ -7,7 +7,7 @@ const text =
 /** The track; a ruler of alphabets; and columns, which narrowing the line multiplies. */
 export default function Example() {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-y-(--db-space-8)">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-y-(--ot-space-8)">
       <Measure>{text}</Measure>
       <Measure variant="alphabets" defaultMeasure={56}>{text}</Measure>
       <Measure variant="columns" defaultMeasure={34}>{text}</Measure>

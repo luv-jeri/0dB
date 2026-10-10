@@ -80,7 +80,7 @@ function Combobox(props: ComboboxProps) {
   const control = { ...props, id: own ? undefined : id }
   const node = control.variant === "pencil" ? <ComboboxPencil {...control} /> : <ComboboxControl {...control} />
   return own ? (
-    <Field label={label} id={id} className="db-combo-field">
+    <Field label={label} id={id} className="ot-combo-field">
       {node}
     </Field>
   ) : (
@@ -138,7 +138,7 @@ function ComboboxControl({
   }
 
   // The concordance's glide: each row's words were somewhere before the query changed; they slide to the new axis.
-  const starts = () => new Map(Array.from(list.current?.querySelectorAll<HTMLElement>("[cmdk-item]") ?? [], (row) => [row.dataset.value ?? "", row.querySelector(".db-combo-pre > span")?.getBoundingClientRect().left ?? 0]))
+  const starts = () => new Map(Array.from(list.current?.querySelectorAll<HTMLElement>("[cmdk-item]") ?? [], (row) => [row.dataset.value ?? "", row.querySelector(".ot-combo-pre > span")?.getBoundingClientRect().left ?? 0]))
   React.useLayoutEffect(() => {
     const before = was.current
     was.current = null
@@ -149,7 +149,7 @@ function ComboboxControl({
       const from = before.get(row.dataset.value ?? "")
       const to = now.get(row.dataset.value ?? "")
       if (from === undefined || to === undefined || Math.abs(from - to) < 0.5) return
-      row.animate([{ translate: `${from - to}px 0` }, { translate: "0 0" }], { duration: ms(css.getPropertyValue("--db-moderato"), 320), easing: css.getPropertyValue("--db-breath").trim() || "ease" })
+      row.animate([{ translate: `${from - to}px 0` }, { translate: "0 0" }], { duration: ms(css.getPropertyValue("--ot-moderato"), 320), easing: css.getPropertyValue("--ot-breath").trim() || "ease" })
     })
   }, [query])
 
@@ -163,7 +163,7 @@ function ComboboxControl({
         aria-controls={listId}
         data-slot="combobox"
         data-placeholder={picked.length ? undefined : ""}
-        className={cn("db-combo", !multiple && className)}
+        className={cn("ot-combo", !multiple && className)}
         name={multiple ? undefined : name}
         {...props}
         id={id ?? field.id}
@@ -178,8 +178,8 @@ function ComboboxControl({
           }
         }}
       >
-        <span data-slot="combobox-value" className="db-combo-value">
-          {multiple ? picked.length ? <span className="db-sr">{picked.length} chosen</span> : placeholder : (chosen?.label ?? placeholder)}
+        <span data-slot="combobox-value" className="ot-combo-value">
+          {multiple ? picked.length ? <span className="ot-sr">{picked.length} chosen</span> : placeholder : (chosen?.label ?? placeholder)}
         </span>
       </button>
     </PopoverTrigger>
@@ -197,7 +197,7 @@ function ComboboxControl({
         // The line holds the sentence of what you chose, then the rest of the line opens the list. The words are
         // series tags, siblings of the trigger, so taking out the last one hands focus on to it.
         <PopoverAnchor asChild>
-          <div data-slot="combobox-line" className={cn("db-combo-many", className)} data-disabled={props.disabled || undefined}>
+          <div data-slot="combobox-line" className={cn("ot-combo-many", className)} data-disabled={props.disabled || undefined}>
             {picked.map((v) => (
               <Badge
                 key={v}
@@ -218,7 +218,7 @@ function ComboboxControl({
         data-slot="combobox-content"
         data-variant={concordance ? "concordance" : undefined}
         data-multiple={multiple ? "" : undefined}
-        className="db-combo-pop"
+        className="ot-combo-pop"
         aria-label={label ?? placeholder}
       >
         <Command id={listId} loop label={label ?? placeholder} defaultValue={chosen?.label}>
@@ -238,11 +238,11 @@ function ComboboxControl({
                 <CommandItem key={o.value} value={o.label} keywords={o.hint ? [o.hint] : undefined} data-chosen={on ? "" : undefined} aria-checked={multiple ? on : undefined} onSelect={() => pick(o.value)}>
                   {concordance ? (
                     <>
-                      <span className="db-combo-pre">
+                      <span className="ot-combo-pre">
                         <span>{pre}</span>
                       </span>
-                      <span className="db-combo-hit">{hit ? <mark>{hit}</mark> : null}</span>
-                      <span className="db-combo-post">
+                      <span className="ot-combo-hit">{hit ? <mark>{hit}</mark> : null}</span>
+                      <span className="ot-combo-post">
                         {post}
                         {o.hint ? <CommandHint>{o.hint}</CommandHint> : null}
                       </span>
@@ -265,7 +265,7 @@ function ComboboxControl({
 function Marked({ text, query }: { text: string; query: string }) {
   const [pre, hit, post] = split(text, query)
   return (
-    <span className="db-combo-name">
+    <span className="ot-combo-name">
       {pre}
       {hit ? <mark>{hit}</mark> : null}
       {post}
@@ -318,7 +318,7 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
     const el = input.current
     if (el && !still()) {
       const css = getComputedStyle(el)
-      el.animate([{ color: css.getPropertyValue("--db-pencil").trim() }, { color: css.color }], { duration: ms(css.getPropertyValue("--db-moderato"), 320), easing: css.getPropertyValue("--db-exhale").trim() || "ease-out" })
+      el.animate([{ color: css.getPropertyValue("--ot-pencil").trim() }, { color: css.color }], { duration: ms(css.getPropertyValue("--ot-moderato"), 320), easing: css.getPropertyValue("--ot-exhale").trim() || "ease-out" })
     }
   }
 
@@ -346,8 +346,8 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
   }
 
   return (
-    <div data-slot="combobox" data-variant="pencil" data-force={force} className={cn("db-combo-pencil", className)}>
-      <span className="db-combo-line">
+    <div data-slot="combobox" data-variant="pencil" data-force={force} className={cn("ot-combo-pencil", className)}>
+      <span className="ot-combo-line">
         <input
           {...props}
           ref={composedRef}
@@ -368,7 +368,7 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
           readOnly={readOnly}
           placeholder={placeholder}
           value={text}
-          className="db-input"
+          className="ot-input"
           onChange={(e) => {
             onChange?.(e)
             if (e.defaultPrevented) return
@@ -391,12 +391,12 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
           }}
           {...origin}
         />
-        <span className="db-combo-ghost" dir={dir} aria-hidden="true">
+        <span className="ot-combo-ghost" dir={dir} aria-hidden="true">
           {text}
           <span>{rest}</span>
         </span>
       </span>
-      <ul id={listId} role="listbox" aria-label={label ?? placeholder} hidden={!open || !shown.length} className="db-combo-list">
+      <ul id={listId} role="listbox" aria-label={label ?? placeholder} hidden={!open || !shown.length} className="ot-combo-list">
         {shown.map((o, i) => (
           <li
             key={o.value}
@@ -409,12 +409,12 @@ function ComboboxPencil({ options, value: valueProp, defaultValue, onValueChange
             onClick={() => choose(o)}
           >
             <Marked text={o.label} query={q} />
-            {o.hint ? <span className="db-command-hint">{o.hint}</span> : null}
+            {o.hint ? <span className="ot-command-hint">{o.hint}</span> : null}
           </li>
         ))}
       </ul>
       {open && !shown.length ? (
-        <p className="db-combo-empty" role="status">
+        <p className="ot-combo-empty" role="status">
           {empty}
         </p>
       ) : null}

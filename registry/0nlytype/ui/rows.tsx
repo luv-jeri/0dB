@@ -35,7 +35,7 @@ function Rows({ className, variant = "reverse", ref, ...props }: RowsProps) {
       above = here
     }
   })
-  return <ul ref={composedRef} data-slot="rows" data-variant={variant === "reverse" ? undefined : variant} className={cn("db-rows", className)} {...props} />
+  return <ul ref={composedRef} data-slot="rows" data-variant={variant === "reverse" ? undefined : variant} className={cn("ot-rows", className)} {...props} />
 }
 
 type RowProps = Omit<React.ComponentProps<"li">, "onClick"> & {
@@ -66,7 +66,7 @@ function Row({ href, asChild = false, className, children, onClick, "data-force"
         data-slot="rows-row"
         data-force={force}
         aria-current={current}
-        className={cn("db-rows-link", className)}
+        className={cn("ot-rows-link", className)}
         {...(href !== undefined ? { href } : {})}
         onClick={onClick}
         onPointerEnter={edge}
@@ -79,16 +79,16 @@ function Row({ href, asChild = false, className, children, onClick, "data-force"
 }
 
 function RowTitle({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="rows-title" className={cn("db-rows-title", className)} {...props} />
+  return <span data-slot="rows-title" className={cn("ot-rows-title", className)} {...props} />
 }
 
 function RowKind({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="rows-kind" className={cn("db-rows-kind", className)} {...props} />
+  return <span data-slot="rows-kind" className={cn("ot-rows-kind", className)} {...props} />
 }
 
 /** The quiet fact at the end: a year, a count. */
 function RowMeta({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="rows-meta" className={cn("db-rows-meta", className)} {...props} />
+  return <span data-slot="rows-meta" className={cn("ot-rows-meta", className)} {...props} />
 }
 
 export { Rows, Row, RowTitle, RowKind, RowMeta, type RowsProps, type RowProps }

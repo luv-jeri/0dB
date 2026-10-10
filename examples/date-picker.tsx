@@ -10,7 +10,7 @@ export default function Example() {
   const [due, setDue] = React.useState<Date>()
   return (
     <div className="grid w-full max-w-md gap-10">
-      <p className="db-mp">
+      <p className="ot-mp">
         The call is on <DatePicker aria-label="Day of the call" disablePast />.
       </p>
       <Field label="Deliver the brief by" hint={due ? "We'll send the reminder the day before." : "Pick the day Halden's brief is due."}>

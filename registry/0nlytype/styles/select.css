@@ -1,82 +1,82 @@
 @layer components {
-  /* ── db-select ── a choice inside a sentence */
-  .db-select { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.25em; font-size: var(--db-mp); line-height: var(--db-mp-lh); color: var(--db-graphite); }
-  .db-select-box { position: relative; display: inline-flex; align-items: baseline; }
-  .db-select-box::after {
+  /* ── ot-select ── a choice inside a sentence */
+  .ot-select { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.25em; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); color: var(--ot-graphite); }
+  .ot-select-box { position: relative; display: inline-flex; align-items: baseline; }
+  .ot-select-box::after {
     content: "↓" / ""; position: absolute; inset-inline-end: 0; bottom: 0.3em;
-    font-family: var(--db-voice); font-size: 0.72em; line-height: 1; color: var(--db-pencil); pointer-events: none;
-    transition: translate var(--db-moderato) var(--db-exhale), color var(--db-allegro);
+    font-family: var(--ot-voice); font-size: 0.72em; line-height: 1; color: var(--ot-pencil); pointer-events: none;
+    transition: translate var(--ot-moderato) var(--ot-exhale), color var(--ot-allegro);
   }
-  :is(.db-select-box:hover, .db-select[data-force~="hover"] .db-select-box)::after { translate: 0 2px; color: var(--db-ink); }
-  .db-select select {
+  :is(.ot-select-box:hover, .ot-select[data-force~="hover"] .ot-select-box)::after { translate: 0 2px; color: var(--ot-ink); }
+  .ot-select select {
     -webkit-appearance: none; appearance: none; field-sizing: content;
     margin: 0; border: 0; border-radius: 0; padding: 0 0.6em 0.1em 0; /* the arrow sits in the padding */
-    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / calc(100% - 0.6em) var(--db-hairline);
-    color: var(--db-ink); cursor: pointer;
-    font-family: var(--db-expression); font-style: italic; font-weight: 400;
-    font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.2;
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0 100% / calc(100% - 0.6em) var(--ot-hairline);
+    color: var(--ot-ink); cursor: pointer;
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400;
+    font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1.2;
   }
-  .db-select select:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 0.6em; background-position: 100% 100%; }
-  .db-select select:focus-visible { outline-offset: 4px; }
-  .db-select select:disabled { color: var(--db-pencil); cursor: not-allowed; }
+  .ot-select select:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 0.6em; background-position: 100% 100%; }
+  .ot-select select:focus-visible { outline-offset: 4px; }
+  .ot-select select:disabled { color: var(--ot-pencil); cursor: not-allowed; }
   @supports (appearance: base-select) {
-    .db-select select, .db-select select::picker(select) { appearance: base-select; }
-    .db-select select { display: inline-flex; min-block-size: 0; }
-    .db-select select::picker-icon { display: none; }
-    .db-select select::picker(select) {
-      margin-top: var(--db-space-2); padding: var(--db-space-2) 0; border: 0;
-      background: var(--db-paper); box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule);
-      color: var(--db-graphite); scrollbar-width: none; /* the picker is the browser's own: it takes no rail, and only a very long list scrolls */
+    .ot-select select, .ot-select select::picker(select) { appearance: base-select; }
+    .ot-select select { display: inline-flex; min-block-size: 0; }
+    .ot-select select::picker-icon { display: none; }
+    .ot-select select::picker(select) {
+      margin-top: var(--ot-space-2); padding: var(--ot-space-2) 0; border: 0;
+      background: var(--ot-paper); box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule);
+      color: var(--ot-graphite); scrollbar-width: none; /* the picker is the browser's own: it takes no rail, and only a very long list scrolls */
     }
-    .db-select option { padding: 0.3em 1.1em; }
-    .db-select option::checkmark { display: none; }
-    .db-select option { position: relative; padding-inline-start: 1.6em; }
-    .db-select option:checked { color: var(--db-ink); }
-    .db-select option:checked::before { content: ""; position: absolute; inset-inline-start: 0.7em; top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%; background: var(--db-accent); }
-    .db-select option:is(:hover, :focus-visible) { background: var(--db-mark); color: var(--db-on-mark); outline: 0; }
-    .db-select select::picker(select) { transition: opacity var(--db-moderato) var(--db-exhale), translate var(--db-moderato) var(--db-exhale), overlay var(--db-moderato) allow-discrete, display var(--db-moderato) allow-discrete; }
-    @starting-style { .db-select select:open::picker(select) { opacity: 0; translate: 0 -6px; } }
-    .db-select select:open option { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc((sibling-index() - 1) * var(--db-arpeggio)); }
+    .ot-select option { padding: 0.3em 1.1em; }
+    .ot-select option::checkmark { display: none; }
+    .ot-select option { position: relative; padding-inline-start: 1.6em; }
+    .ot-select option:checked { color: var(--ot-ink); }
+    .ot-select option:checked::before { content: ""; position: absolute; inset-inline-start: 0.7em; top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%; background: var(--ot-accent); }
+    .ot-select option:is(:hover, :focus-visible) { background: var(--ot-mark); color: var(--ot-on-mark); outline: 0; }
+    .ot-select select::picker(select) { transition: opacity var(--ot-moderato) var(--ot-exhale), translate var(--ot-moderato) var(--ot-exhale), overlay var(--ot-moderato) allow-discrete, display var(--ot-moderato) allow-discrete; }
+    @starting-style { .ot-select select:open::picker(select) { opacity: 0; translate: 0 -6px; } }
+    .ot-select select:open option { animation: ot-arrive var(--ot-moderato) var(--ot-exhale) backwards; animation-delay: calc((sibling-index() - 1) * var(--ot-arpeggio)); }
   }
 
   /* ── The drawn variants: the select keeps the focus, the keyboard and the list, but its own words
      are made invisible and a copy is set in the same place that script can move. The hairline moves
      to the box, so it can stretch between the old word's width and the new one's. */
-  .db-select[data-variant] .db-select-box { display: inline-grid; background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / calc(100% - 0.6em) var(--db-hairline); }
-  .db-select[data-variant] .db-select-box:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% 100%; }
-  .db-select[data-variant] .db-select-box > * { grid-area: 1 / 1; }
-  .db-select[data-variant] select { color: transparent; background: none; }
-  .db-select[data-variant] option { color: var(--db-ink); } /* a native list would take the select's colour */
-  .db-select-word, .db-select-ghosts {
-    padding: 0 0.6em 0.1em 0; white-space: pre; pointer-events: none; color: var(--db-ink);
-    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1.2;
+  .ot-select[data-variant] .ot-select-box { display: inline-grid; background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0 100% / calc(100% - 0.6em) var(--ot-hairline); }
+  .ot-select[data-variant] .ot-select-box:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% 100%; }
+  .ot-select[data-variant] .ot-select-box > * { grid-area: 1 / 1; }
+  .ot-select[data-variant] select { color: transparent; background: none; }
+  .ot-select[data-variant] option { color: var(--ot-ink); } /* a native list would take the select's colour */
+  .ot-select-word, .ot-select-ghosts {
+    padding: 0 0.6em 0.1em 0; white-space: pre; pointer-events: none; color: var(--ot-ink);
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1.2;
   }
-  .db-select-word:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 0.6em; }
-  .db-select-word > span { display: inline-block; }
-  .db-select-ghosts { position: relative; }
-  .db-select-ghosts > span { position: absolute; top: 0; color: var(--db-pencil); }
-  .db-select:has(select:disabled) :is(.db-select-word, .db-select-ruby) { color: var(--db-pencil); pointer-events: none; }
-  .db-select[data-variant] select:disabled + .db-select-word { cursor: not-allowed; }
+  .ot-select-word:is([dir="rtl"], [dir="rtl"] *) { padding: 0 0 0.1em 0.6em; }
+  .ot-select-word > span { display: inline-block; }
+  .ot-select-ghosts { position: relative; }
+  .ot-select-ghosts > span { position: absolute; top: 0; color: var(--ot-pencil); }
+  .ot-select:has(select:disabled) :is(.ot-select-word, .ot-select-ruby) { color: var(--ot-pencil); pointer-events: none; }
+  .ot-select[data-variant] select:disabled + .ot-select-word { cursor: not-allowed; }
 
   /* ruby: the other choices set small above the word, as ruby rides over a line of Japanese.
      Ours (roman, pencil) over yours (italic, ink). They hang from the word's start and may overhang
      the words after it, so the sentence gives them a line of their own above. */
-  .db-select[data-variant="ruby"] .db-select-box { margin-block-start: calc(var(--db-pp) * var(--db-pp-lh)); }
-  .db-select-ruby {
+  .ot-select[data-variant="ruby"] .ot-select-box { margin-block-start: calc(var(--ot-pp) * var(--ot-pp-lh)); }
+  .ot-select-ruby {
     position: absolute; inset-inline-start: 0; bottom: 100%; display: flex; gap: 0 0.9em; white-space: nowrap;
-    font-family: var(--db-voice); font-style: normal; font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-pencil);
+    font-family: var(--ot-voice); font-style: normal; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-pencil);
   }
-  .db-select-ruby > span {
+  .ot-select-ruby > span {
     padding-block: 0.3em 0.15em; cursor: pointer;
-    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% var(--db-hairline);
-    transition: color var(--db-allegro), background-size var(--db-moderato) var(--db-exhale);
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% var(--ot-hairline);
+    transition: color var(--ot-allegro), background-size var(--ot-moderato) var(--ot-exhale);
   }
-  .db-select-ruby > span:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% 100%; }
-  .db-select-ruby > span:hover, .db-select[data-force~="hover"] .db-select-ruby > span:first-child { color: var(--db-ink); background-size: 100% var(--db-hairline); }
+  .ot-select-ruby > span:is([dir="rtl"], [dir="rtl"] *) { background-position: 100% 100%; }
+  .ot-select-ruby > span:hover, .ot-select[data-force~="hover"] .ot-select-ruby > span:first-child { color: var(--ot-ink); background-size: 100% var(--ot-hairline); }
 
   @media (forced-colors: active) {
-    .db-select[data-variant] select { color: CanvasText; }
-    .db-select-word, .db-select-ghosts { display: none; }
-    .db-select-ruby > span:hover { color: LinkText; }
+    .ot-select[data-variant] select { color: CanvasText; }
+    .ot-select-word, .ot-select-ghosts { display: none; }
+    .ot-select-ruby > span:hover { color: LinkText; }
   }
 }

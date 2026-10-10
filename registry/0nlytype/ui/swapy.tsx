@@ -124,8 +124,8 @@ function Swapy({
     if (!ul) return
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches
     const cs = getComputedStyle(ul)
-    const glide = { duration: parseFloat(cs.getPropertyValue("--db-moderato")) || 320, easing: cs.getPropertyValue("--db-breath").trim() || "ease" }
-    const turn = { duration: glide.duration, easing: cs.getPropertyValue("--db-exhale").trim() || "ease-out" }
+    const glide = { duration: parseFloat(cs.getPropertyValue("--ot-moderato")) || 320, easing: cs.getPropertyValue("--ot-breath").trim() || "ease" }
+    const turn = { duration: glide.duration, easing: cs.getPropertyValue("--ot-exhale").trim() || "ease-out" }
     const seen = new Map<string, { top: number; at: number }>()
     Array.from(ul.children).forEach((li, at) => {
       if (!(li instanceof HTMLElement)) return
@@ -135,7 +135,7 @@ function Swapy({
       if (still || !before) return
       if (before.top !== li.offsetTop) li.animate([{ translate: `0 ${before.top - li.offsetTop}px` }, { translate: "0 0" }], glide)
       // ponytail: only the new figure turns in; the old one isn't kept to turn out, since React has already written the new one.
-      const fig = li.querySelector<HTMLElement>(".db-swap-n")
+      const fig = li.querySelector<HTMLElement>(".ot-swap-n")
       if (fig && before.at !== at) fig.animate([{ opacity: 0, translate: `0 ${at > before.at ? "0.6em" : "-0.6em"}` }, { opacity: 1, translate: "0 0" }], turn)
     })
     was.current = seen
@@ -153,7 +153,7 @@ function Swapy({
     svg.querySelector("path")?.setAttribute("d", `M ${w} ${y0} C ${-w * 0.33} ${y0} ${-w * 0.33} ${y1} ${w} ${y1}`)
     svg.querySelector("circle")?.setAttribute("cx", String(w))
     svg.querySelector("circle")?.setAttribute("cy", String(y1))
-    root.current?.style.setProperty("--db-swap-mid", `${(y0 + y1) / 2}px`)
+    root.current?.style.setProperty("--ot-swap-mid", `${(y0 + y1) / 2}px`)
   })
 
   const looped = variant === "transpose" && held !== null && origin >= 0 && ids.indexOf(held) !== origin
@@ -166,7 +166,7 @@ function Swapy({
       data-holding={held ? "" : undefined}
       data-dragging={dragging || undefined}
       data-disabled={disabled || undefined}
-      className={cn("db-swap", className)}
+      className={cn("ot-swap", className)}
       {...props}
     >
       <Rows ref={list} aria-label={label}>
@@ -176,14 +176,14 @@ function Swapy({
           const mine = held === id
           return (
             <Row key={id} data-id={id} data-held={mine || undefined}>
-              <span className="db-swap-n" aria-hidden="true">{place(at)}</span>
+              <span className="ot-swap-n" aria-hidden="true">{place(at)}</span>
               <RowTitle>{item.label}</RowTitle>
               {item.kind != null ? <RowKind>{item.kind}</RowKind> : null}
               {item.meta != null ? <RowMeta>{item.meta}</RowMeta> : null}
               <button
                 type="button"
                 data-slot="swapy-move"
-                className="db-swap-move"
+                className="ot-swap-move"
                 aria-label={`Move ${item.label}, ${at + 1} of ${n}`}
                 aria-pressed={mine}
                 aria-describedby={hint}
@@ -241,7 +241,7 @@ function Swapy({
               >
                 <span data-word="move">move</span>
                 <span data-word="moving">moving</span>
-                <span className="db-swap-arrow" aria-hidden="true">↕</span>
+                <span className="ot-swap-arrow" aria-hidden="true">↕</span>
               </button>
             </Row>
           )
@@ -249,15 +249,15 @@ function Swapy({
       </Rows>
       {variant === "transpose" ? (
         <>
-          <svg ref={arc} className="db-swap-arc" data-shown={looped || undefined} aria-hidden="true">
+          <svg ref={arc} className="ot-swap-arc" data-shown={looped || undefined} aria-hidden="true">
             <path />
             <circle r="3.5" />
           </svg>
-          <span className="db-swap-tr" data-shown={looped || undefined} aria-hidden="true">tr</span>
+          <span className="ot-swap-tr" data-shown={looped || undefined} aria-hidden="true">tr</span>
         </>
       ) : null}
-      <p id={hint} className="db-sr">Press to pick the row up, then the arrow keys to move it, and press again to set it down. Escape puts it back.</p>
-      <p role="status" className="db-sr">{said}</p>
+      <p id={hint} className="ot-sr">Press to pick the row up, then the arrow keys to move it, and press again to set it down. Escape puts it back.</p>
+      <p role="status" className="ot-sr">{said}</p>
     </div>
   )
 }

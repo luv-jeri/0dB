@@ -170,21 +170,21 @@ function Measure({ children: text, defaultMeasure = 62, min = 20, max = 110, var
     <div
       data-slot="measure"
       data-variant={variant}
-      className={cn("db-measure", className)}
+      className={cn("ot-measure", className)}
       style={{ "--n": n, "--ch": engine ? `${engine.ch}px` : undefined, "--cols": cols, "--gap": `${gap}px`, ...style } as React.CSSProperties}
       {...props}
     >
-      <p className="db-measure-read" aria-hidden="true">
+      <p className="ot-measure-read" aria-hidden="true">
         {/* The readout is the library's English: each part is its own left-to-right run, so a right-to-left page keeps "30 characters a line" in order. */}
-        <span className="db-measure-count" dir="ltr">
-          <span className="db-measure-n">{said.split(" ")[0]}</span> {said.split(" ").slice(1).join(" ")}
+        <span className="ot-measure-count" dir="ltr">
+          <span className="ot-measure-n">{said.split(" ")[0]}</span> {said.split(" ").slice(1).join(" ")}
         </span>
-        <span className="db-measure-verdict" dir="ltr">{judged}</span>
+        <span className="ot-measure-verdict" dir="ltr">{judged}</span>
       </p>
-      <div ref={stage} className="db-measure-stage">
-        <div className="db-measure-track" aria-hidden="true" {...handlers}>
+      <div ref={stage} className="ot-measure-stage">
+        <div className="ot-measure-track" aria-hidden="true" {...handlers}>
           {variant === "alphabets" ? (
-            <span className="db-measure-abc">
+            <span className="ot-measure-abc">
               {ALPHABET.repeat(engine ? (engine.abc.length - 1) / 26 : Math.ceil(max / 26) + 1)
                 .split("")
                 .map((c, i) => (
@@ -194,11 +194,11 @@ function Measure({ children: text, defaultMeasure = 62, min = 20, max = 110, var
                 ))}
             </span>
           ) : null}
-          <span className="db-measure-good" />
+          <span className="ot-measure-good" />
           {/* The comfortable range's ends, as figures under the track, where the page is wide enough to hold them. */}
           {[COMFORT_FROM, COMFORT_TO].map((at) =>
             engine && at <= room ? (
-              <span key={at} className="db-measure-at" style={{ "--at": at } as React.CSSProperties}>
+              <span key={at} className="ot-measure-at" style={{ "--at": at } as React.CSSProperties}>
                 {at}
               </span>
             ) : null,
@@ -213,16 +213,16 @@ function Measure({ children: text, defaultMeasure = 62, min = 20, max = 110, var
           aria-valuemax={room}
           aria-valuenow={n}
           aria-valuetext={`${n} characters a line${variant === "alphabets" ? `, ${inAlphabets(abcs)}` : ""}, ${judged}`}
-          className="db-measure-handle"
+          className="ot-measure-handle"
           onKeyDown={keys}
           {...handlers}
         >
-          <span className="db-measure-ring" />
+          <span className="ot-measure-ring" />
         </div>
-        <p ref={body} className="db-measure-body">
-          <span className="db-sr">{text}</span>
+        <p ref={body} className="ot-measure-body">
+          <span className="ot-sr">{text}</span>
           {lines ? (
-            <span aria-hidden="true" className="db-measure-lines">
+            <span aria-hidden="true" className="ot-measure-lines">
               {lines.map((line, i) => (
                 <span key={i}>{line}</span>
               ))}

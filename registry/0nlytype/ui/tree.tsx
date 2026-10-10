@@ -40,7 +40,7 @@ type TreeProps = Omit<React.ComponentProps<"div">, "children"> & {
 type Ctx = { selected: string | null; select: (id: string) => void; open: Set<string>; toggle: (id: string, open: boolean) => void; limit: number; touched: React.RefObject<boolean> }
 const TreeCtx = React.createContext<Ctx | null>(null)
 
-const CONTROLS = "summary, .db-tree-name"
+const CONTROLS = "summary, .ot-tree-name"
 
 /**
  * A hierarchy you open a folder at a time: native disclosures, so every folder opens with Enter or Space and Tab
@@ -102,7 +102,7 @@ function Tree({ nodes, variant = "branch", selected, defaultSelected = null, onS
       <div
         data-slot="tree"
         data-variant={variant === "branch" ? undefined : variant}
-        className={cn("db-tree", className)}
+        className={cn("ot-tree", className)}
         onKeyDown={walk}
         onPointerDownCapture={() => void (touched.current = true)}
         onKeyDownCapture={() => void (touched.current = true)}
@@ -119,12 +119,12 @@ function Branch({ nodes }: { nodes: TreeNode[] }) {
   const cut = nodes.length > limit ? Math.max(1, limit) : nodes.length
   const rest = nodes.slice(cut)
   return (
-    <ul className="db-tree-list">
+    <ul className="ot-tree-list">
       {nodes.slice(0, cut).map((n) => (
         <Node key={n.id} node={n} />
       ))}
       {rest.length ? (
-        <li className="db-tree-tail">
+        <li className="ot-tree-tail">
           <Collapsible>
             <CollapsibleTrigger openLabel={`Hide these ${rest.length}`}>and {rest.length} more</CollapsibleTrigger>
             <CollapsibleContent>
@@ -150,13 +150,13 @@ function Node({ node }: { node: TreeNode }) {
     const current = selected === node.id
     const name = <ItemTitle>{node.label}</ItemTitle>
     return (
-      <Item className="db-tree-node db-tree-row" data-kind="leaf" data-selected={current ? "" : undefined}>
+      <Item className="ot-tree-node ot-tree-row" data-kind="leaf" data-selected={current ? "" : undefined}>
         {node.href ? (
-          <a className="db-tree-name" href={node.href} aria-current={current ? "page" : undefined} onClick={() => select(node.id)}>
+          <a className="ot-tree-name" href={node.href} aria-current={current ? "page" : undefined} onClick={() => select(node.id)}>
             {name}
           </a>
         ) : (
-          <button type="button" className="db-tree-name" aria-current={current ? "true" : undefined} onClick={() => select(node.id)}>
+          <button type="button" className="ot-tree-name" aria-current={current ? "true" : undefined} onClick={() => select(node.id)}>
             {name}
           </button>
         )}
@@ -167,9 +167,9 @@ function Node({ node }: { node: TreeNode }) {
 
   const n = node.children.length
   return (
-    <li className="db-tree-node" data-kind="folder">
+    <li className="ot-tree-node" data-kind="folder">
       <details
-        className="db-tree-folder"
+        className="ot-tree-folder"
         open={open.has(node.id)}
         data-arriving={arriving ? "" : undefined}
         onToggle={(e) => {
@@ -179,15 +179,15 @@ function Node({ node }: { node: TreeNode }) {
           toggle(node.id, now)
         }}
       >
-        <summary className="db-tree-row">
+        <summary className="ot-tree-row">
           <ItemTitle>
             {node.label}
-            <sup className="db-tree-count" aria-hidden="true">{n}</sup>
-            <span className="db-sr">, {n === 1 ? "1 item" : `${n} items`}</span>
+            <sup className="ot-tree-count" aria-hidden="true">{n}</sup>
+            <span className="ot-sr">, {n === 1 ? "1 item" : `${n} items`}</span>
           </ItemTitle>
           {end}
         </summary>
-        {n ? <Branch nodes={node.children} /> : <p className="db-tree-empty">Empty</p>}
+        {n ? <Branch nodes={node.children} /> : <p className="ot-tree-empty">Empty</p>}
       </details>
     </li>
   )

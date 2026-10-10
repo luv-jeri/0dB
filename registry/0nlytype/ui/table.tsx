@@ -16,7 +16,7 @@ type TableProps = React.ComponentProps<"table"> & {
 
 /** Hairline rows in tabular figures. The column you sort by is set in ink. */
 function Table({ className, variant = "ink", ...props }: TableProps) {
-  return <table data-slot="table" data-variant={variant === "ink" ? undefined : variant} className={cn("db-table", className)} {...props} />
+  return <table data-slot="table" data-variant={variant === "ink" ? undefined : variant} className={cn("ot-table", className)} {...props} />
 }
 
 function TableHeader(props: React.ComponentProps<"thead">) {
@@ -32,7 +32,7 @@ function TableBody({ ref, ...props }: React.ComponentProps<"tbody">) {
     if (!body) return
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches
     const cs = getComputedStyle(body)
-    const tempo = { duration: parseFloat(cs.getPropertyValue("--db-andante")) || 640, easing: cs.getPropertyValue("--db-breath").trim() || "ease" }
+    const tempo = { duration: parseFloat(cs.getPropertyValue("--ot-andante")) || 640, easing: cs.getPropertyValue("--ot-breath").trim() || "ease" }
     for (const row of body.rows) {
       const from = was.current.get(row)
       was.current.set(row, row.offsetTop) // offsetTop, not the viewport: scrolling between renders isn't a move
@@ -88,7 +88,7 @@ function TableCell({ numeric, sorted, primary, className, ...props }: TableCellP
       data-slot="table-cell"
       data-num={numeric || undefined}
       data-sorted={sorted || undefined}
-      className={cn(primary && "db-table-name", className)}
+      className={cn(primary && "ot-table-name", className)}
       {...props}
     />
   )
@@ -96,12 +96,12 @@ function TableCell({ numeric, sorted, primary, className, ...props }: TableCellP
 
 /** Names the table for screen readers; visually hidden. */
 function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
-  return <caption data-slot="table-caption" className={cn("db-sr", className)} {...props} />
+  return <caption data-slot="table-caption" className={cn("ot-sr", className)} {...props} />
 }
 
 /** A ring that fills when the row is chosen. Give it an aria-label naming the row. */
 function TablePick({ className, ...props }: Omit<React.ComponentProps<"input">, "type">) {
-  return <input type="checkbox" data-slot="table-pick" className={cn("db-table-pick", className)} {...props} />
+  return <input type="checkbox" data-slot="table-pick" className={cn("ot-table-pick", className)} {...props} />
 }
 
 export { type TableProps, Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TablePick }

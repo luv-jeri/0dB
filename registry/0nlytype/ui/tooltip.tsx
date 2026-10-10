@@ -50,7 +50,7 @@ function Placed({ className, variant = "whisper", side, sideOffset = variant ===
       data-variant={variant === "whisper" ? undefined : variant}
       side={side ?? (variant === "beside" ? (rtl ? "left" : "right") : "top")}
       sideOffset={sideOffset}
-      className={cn("db-tip-text", className)}
+      className={cn("ot-tip-text", className)}
       {...props}
     />
   )

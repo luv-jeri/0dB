@@ -4,7 +4,7 @@ export default defineComponent({
   name: "spinner",
   title: "Spinner",
   movement: "VII",
-  contract: "db-dots",
+  contract: "ot-dots",
   summary: "The wait, written the way a score writes it: periods, a round, a metronome, a fermata, a breath, a rising chord, or the word itself being inked.",
   underneath: "native",
   props: [

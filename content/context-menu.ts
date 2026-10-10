@@ -4,7 +4,7 @@ export default defineComponent({
   name: "context-menu",
   title: "Context menu",
   movement: "IX",
-  contract: "db-menu",
+  contract: "ot-menu",
   summary: "The same list of words, opened where you pressed and spreading from that point like ink.",
   underneath: "radix",
   uses: ["dropdown-menu", "popover"],

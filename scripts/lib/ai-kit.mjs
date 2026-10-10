@@ -118,7 +118,7 @@ export function buildAiKit({ root = ".", items, baseURL = registryBaseURL(), int
   for (const item of items) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.name)) throw new Error(`AI kit: invalid item name ${item.name}`)
     const found = d.found.filter((h) => {
-      const match = h.title.match(/^((?:db-[a-z-]+, )*db-[a-z-]+) \(([^)]+)\)$/)
+      const match = h.title.match(/^((?:ot-[a-z-]+, )*ot-[a-z-]+) \(([^)]+)\)$/)
       return h.depth === 3 && match?.[1].split(", ").includes(item.contract) && match[2].split(",").map((s) => s.trim()).includes(item.name)
     })
     if (found.length !== 1 || !found[0].content) throw new Error(`AI kit: ${item.name} required contract ${item.contract} is missing, empty or ambiguous`)

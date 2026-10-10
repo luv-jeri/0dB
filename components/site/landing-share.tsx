@@ -152,7 +152,7 @@ export function SharePlaces({ share, text, star = true, className, style }: Plac
           </Link>
         </p>
       ) : null}
-      <span className="db-sr" aria-live="polite">
+      <span className="ot-sr" aria-live="polite">
         {open && copied ? "Link copied. Or choose where to send it." : ""}
       </span>
     </div>
@@ -171,7 +171,7 @@ export function ShareCall({ url, text, children, note }: { url: string; text: st
         aria-expanded={share.open}
         onClick={(e) => (share.open ? share.close() : share.show(e.currentTarget))}
       >
-        <span className="db-sr">{children}</span>
+        <span className="ot-sr">{children}</span>
         <span className="cta-word" aria-hidden="true" data-text={children}>
           <span className="cta-letters">
             {Array.from(children).map((c, i) => (

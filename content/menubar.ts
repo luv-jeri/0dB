@@ -4,7 +4,7 @@ export default defineComponent({
   name: "menubar",
   title: "Menubar",
   movement: "IX",
-  contract: "db-menubar",
+  contract: "ot-menubar",
   summary: "A frame row of words on a hairline; opening a word folds the line down into a pocket that holds its menu.",
   underneath: "radix",
   uses: ["dropdown-menu", "popover"],

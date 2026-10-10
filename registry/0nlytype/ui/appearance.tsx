@@ -45,11 +45,11 @@ function applyAppearance(next: AppearanceValue, from?: Element | null) {
   const at = from ?? (document.activeElement === document.body ? null : document.activeElement)
   if (at) {
     const r = at.getBoundingClientRect()
-    root.style.setProperty("--db-appearance-x", `${r.left + r.width / 2}px`)
-    root.style.setProperty("--db-appearance-y", `${r.top + r.height / 2}px`)
+    root.style.setProperty("--ot-appearance-x", `${r.left + r.width / 2}px`)
+    root.style.setProperty("--ot-appearance-y", `${r.top + r.height / 2}px`)
   } else {
-    root.style.removeProperty("--db-appearance-x")
-    root.style.removeProperty("--db-appearance-y")
+    root.style.removeProperty("--ot-appearance-x")
+    root.style.removeProperty("--ot-appearance-y")
   }
   const apply = () => {
     for (const k of ["mode", "scheme", "key", "pair"] as const) {
@@ -110,14 +110,14 @@ function Appearance({ value, onValueChange, className, ...props }: AppearancePro
   const here = (list: typeof at) => ({ "data-here": at === list ? "" : undefined, onFocus: () => setAt(list) })
 
   return (
-    <div data-slot="appearance" className={cn("db-appearance", className)} {...props}>
-      <p className="db-appearance-answer">
+    <div data-slot="appearance" className={cn("ot-appearance", className)} {...props}>
+      <p className="ot-appearance-answer">
         <output htmlFor={`${id}-scheme ${id}-key ${id}-pair`}>
-          <span className="db-yours">{said.scheme}</span>, in <span className="db-yours">{said.key}</span>, set in <span className="db-yours">{said.pair}</span>.
+          <span className="ot-yours">{said.scheme}</span>, in <span className="ot-yours">{said.key}</span>, set in <span className="ot-yours">{said.pair}</span>.
         </output>{" "}
         <ModeToggle variant="sentence" mode={now.mode === "nocturne" ? "nocturne" : "day"} onModeChange={(mode, e) => change({ mode }, e.currentTarget)} />
       </p>
-      <div className="db-appearance-picks">
+      <div className="ot-appearance-picks">
         <Picks id={`${id}-scheme`} {...here("scheme")} legend="Scheme" value={scheme} onValueChange={(v) => change({ scheme: v })}>
           {SCHEMES.map((s) => <Pick key={s} value={s}>{s}</Pick>)}
         </Picks>

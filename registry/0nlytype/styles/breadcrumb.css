@@ -1,65 +1,65 @@
 @layer components {
-  /* ── db-crumbs ── steps divided by drawn hairlines, leaning like slashes.
+  /* ── ot-crumbs ── steps divided by drawn hairlines, leaning like slashes.
      Point at a step and the hairlines either side lean in (14deg and -14deg) to hold it.
      Each hairline runs the whole line, descender to cap, so it reads as drawn, not typed. */
-  .db-crumbs { font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); }
-  .db-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.8em; }
-  .db-crumbs [data-slot="breadcrumb-separator"] {
-    align-self: center; inline-size: var(--db-hairline); block-size: 1.4em; margin-inline: 0.1em;
-    background: var(--db-rule-strong); rotate: 24deg;
-    transition: rotate var(--db-andante) var(--db-spiccato), background-color var(--db-allegro);
+  .ot-crumbs { font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); }
+  .ot-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.8em; }
+  .ot-crumbs [data-slot="breadcrumb-separator"] {
+    align-self: center; inline-size: var(--ot-hairline); block-size: 1.4em; margin-inline: 0.1em;
+    background: var(--ot-rule-strong); rotate: 24deg;
+    transition: rotate var(--ot-andante) var(--ot-spiccato), background-color var(--ot-allegro);
   }
-  .db-crumbs [data-slot="breadcrumb-separator"]:has(+ li > a:is(:hover, :focus-visible, [data-force~="hover"])) { rotate: 14deg; background-color: var(--db-ink); }
-  .db-crumbs li:has(> a:is(:hover, :focus-visible, [data-force~="hover"])) + [data-slot="breadcrumb-separator"] { rotate: -14deg; background-color: var(--db-ink); }
-  :is([dir="rtl"], [dir="rtl"] *) .db-crumbs [data-slot="breadcrumb-separator"] { rotate: -24deg; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-crumbs [data-slot="breadcrumb-separator"]:has(+ li > a:is(:hover, :focus-visible, [data-force~="hover"])) { rotate: -14deg; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-crumbs li:has(> a:is(:hover, :focus-visible, [data-force~="hover"])) + [data-slot="breadcrumb-separator"] { rotate: 14deg; }
-  .db-crumbs a { color: var(--db-graphite); text-decoration: none; transition: color var(--db-allegro); }
-  .db-crumbs a:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
-  .db-crumbs [aria-current="page"] { color: var(--db-ink); }
+  .ot-crumbs [data-slot="breadcrumb-separator"]:has(+ li > a:is(:hover, :focus-visible, [data-force~="hover"])) { rotate: 14deg; background-color: var(--ot-ink); }
+  .ot-crumbs li:has(> a:is(:hover, :focus-visible, [data-force~="hover"])) + [data-slot="breadcrumb-separator"] { rotate: -14deg; background-color: var(--ot-ink); }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-crumbs [data-slot="breadcrumb-separator"] { rotate: -24deg; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-crumbs [data-slot="breadcrumb-separator"]:has(+ li > a:is(:hover, :focus-visible, [data-force~="hover"])) { rotate: -14deg; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-crumbs li:has(> a:is(:hover, :focus-visible, [data-force~="hover"])) + [data-slot="breadcrumb-separator"] { rotate: 14deg; }
+  .ot-crumbs a { color: var(--ot-graphite); text-decoration: none; transition: color var(--ot-allegro); }
+  .ot-crumbs a:is(:hover, [data-force~="hover"]) { color: var(--ot-ink); }
+  .ot-crumbs [aria-current="page"] { color: var(--ot-ink); }
 
   /* stack: "It / has / to be / design." A stair, one step a line, each a little further in; heavy narrow roman
      for the way here, and where you are is the large italic at the foot. Pointing at a step sets what you would
      leave (every step below it) back in pencil. */
-  .db-crumbs[data-variant="stack"] ol { display: grid; justify-items: start; }
-  .db-crumbs[data-variant="stack"] [data-slot="breadcrumb-separator"] { display: none; }
-  .db-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"] { --d: 0; margin-inline-start: calc(var(--d) * 1.2em); transition: color var(--db-moderato) var(--db-breath); }
-  .db-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(3) { --d: 1; }
-  .db-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(5) { --d: 2; }
-  .db-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(7) { --d: 3; }
-  .db-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(n + 9) { --d: 4; }
-  .db-crumbs[data-variant="stack"] a { font-weight: 700; font-stretch: 75%; letter-spacing: -0.02em; line-height: 1.1; }
-  .db-crumbs[data-variant="stack"] [aria-current="page"] { font-size: calc(var(--db-f) * var(--db-expression-scale)); line-height: 0.95; margin-block-start: 0.04em; transition: color var(--db-moderato) var(--db-breath); }
-  .db-crumbs[data-variant="stack"] li:has(> a:is(:hover, :focus-visible, [data-force~="hover"])) ~ li :is(a, [aria-current="page"]) { color: var(--db-pencil); }
-  .db-crumbs[data-variant="stack"] a:is(:hover, :focus-visible, [data-force~="hover"]) { color: var(--db-ink); }
+  .ot-crumbs[data-variant="stack"] ol { display: grid; justify-items: start; }
+  .ot-crumbs[data-variant="stack"] [data-slot="breadcrumb-separator"] { display: none; }
+  .ot-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"] { --d: 0; margin-inline-start: calc(var(--d) * 1.2em); transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(3) { --d: 1; }
+  .ot-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(5) { --d: 2; }
+  .ot-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(7) { --d: 3; }
+  .ot-crumbs[data-variant="stack"] [data-slot="breadcrumb-item"]:nth-child(n + 9) { --d: 4; }
+  .ot-crumbs[data-variant="stack"] a { font-weight: 700; font-stretch: 75%; letter-spacing: -0.02em; line-height: 1.1; }
+  .ot-crumbs[data-variant="stack"] [aria-current="page"] { font-size: calc(var(--ot-f) * var(--ot-expression-scale)); line-height: 0.95; margin-block-start: 0.04em; transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-crumbs[data-variant="stack"] li:has(> a:is(:hover, :focus-visible, [data-force~="hover"])) ~ li :is(a, [aria-current="page"]) { color: var(--ot-pencil); }
+  .ot-crumbs[data-variant="stack"] a:is(:hover, :focus-visible, [data-force~="hover"]) { color: var(--ot-ink); }
 
   /* elide: a long path keeps its first step and the last two; each step between is elided to a full stop, so the
      ellipsis counts what it holds. For a still pointer, or focus, each stop opens back into its word, in turn. */
-  .db-crumbs[data-variant="elide"] ol { column-gap: 0; }
-  .db-crumbs[data-variant="elide"] [data-slot="breadcrumb-separator"] { margin-inline: 0.6em; }
-  .db-crumbs[data-variant="elide"] li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) {
-    --open: 0s; transition: margin-inline var(--db-andante) var(--db-exhale) var(--open), opacity var(--db-moderato) var(--open);
+  .ot-crumbs[data-variant="elide"] ol { column-gap: 0; }
+  .ot-crumbs[data-variant="elide"] [data-slot="breadcrumb-separator"] { margin-inline: 0.6em; }
+  .ot-crumbs[data-variant="elide"] li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) {
+    --open: 0s; transition: margin-inline var(--ot-andante) var(--ot-exhale) var(--open), opacity var(--ot-moderato) var(--open);
   }
-  .db-crumbs[data-variant="elide"] li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) > a {
+  .ot-crumbs[data-variant="elide"] li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) > a {
     display: inline-block; overflow: clip; vertical-align: bottom; white-space: nowrap;
-    transition: inline-size var(--db-andante) var(--db-exhale) var(--open), opacity var(--db-moderato) var(--open);
+    transition: inline-size var(--ot-andante) var(--ot-exhale) var(--open), opacity var(--ot-moderato) var(--open);
   }
-  .db-crumbs[data-variant="elide"] li[data-slot="breadcrumb-item"]:not(:nth-child(-n + 2), :nth-last-child(-n + 4))::before {
-    content: "." / ""; display: inline-block; overflow: clip; inline-size: 0.36em; color: var(--db-pencil); vertical-align: bottom;
-    transition: inline-size var(--db-andante) var(--db-exhale) var(--open), opacity var(--db-allegro) var(--open);
+  .ot-crumbs[data-variant="elide"] li[data-slot="breadcrumb-item"]:not(:nth-child(-n + 2), :nth-last-child(-n + 4))::before {
+    content: "." / ""; display: inline-block; overflow: clip; inline-size: 0.36em; color: var(--ot-pencil); vertical-align: bottom;
+    transition: inline-size var(--ot-andante) var(--ot-exhale) var(--open), opacity var(--ot-allegro) var(--open);
   }
   /* Elided: the words and the hairlines between them close to nothing; only the stops stay. */
-  .db-crumbs[data-variant="elide"] ol:not(:hover, :focus-within, [data-force~="hover"]) li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) > a { inline-size: 0; opacity: 0; }
-  .db-crumbs[data-variant="elide"] ol:not(:hover, :focus-within, [data-force~="hover"]) li[data-slot="breadcrumb-separator"]:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) { margin-inline: 0; opacity: 0; block-size: 0; inline-size: 0; }
+  .ot-crumbs[data-variant="elide"] ol:not(:hover, :focus-within, [data-force~="hover"]) li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) > a { inline-size: 0; opacity: 0; }
+  .ot-crumbs[data-variant="elide"] ol:not(:hover, :focus-within, [data-force~="hover"]) li[data-slot="breadcrumb-separator"]:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) { margin-inline: 0; opacity: 0; block-size: 0; inline-size: 0; }
   /* Open: the stops give way to their words. A pointer has to rest first; focus opens at once. */
-  .db-crumbs[data-variant="elide"] ol:is(:hover, :focus-within, [data-force~="hover"]) li[data-slot="breadcrumb-item"]:not(:nth-child(-n + 2), :nth-last-child(-n + 4))::before { inline-size: 0; opacity: 0; }
-  .db-crumbs[data-variant="elide"] ol:hover li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) { --open: calc(240ms + var(--i, 0) * var(--db-arpeggio) * 2); }
-  .db-crumbs[data-variant="elide"] li:nth-child(4) { --i: 1; }
-  .db-crumbs[data-variant="elide"] li:nth-child(5) { --i: 2; }
-  .db-crumbs[data-variant="elide"] li:nth-child(6) { --i: 3; }
-  .db-crumbs[data-variant="elide"] li:nth-child(n + 7) { --i: 4; }
+  .ot-crumbs[data-variant="elide"] ol:is(:hover, :focus-within, [data-force~="hover"]) li[data-slot="breadcrumb-item"]:not(:nth-child(-n + 2), :nth-last-child(-n + 4))::before { inline-size: 0; opacity: 0; }
+  .ot-crumbs[data-variant="elide"] ol:hover li:not(:nth-child(-n + 2), :nth-last-child(-n + 4)) { --open: calc(240ms + var(--i, 0) * var(--ot-arpeggio) * 2); }
+  .ot-crumbs[data-variant="elide"] li:nth-child(4) { --i: 1; }
+  .ot-crumbs[data-variant="elide"] li:nth-child(5) { --i: 2; }
+  .ot-crumbs[data-variant="elide"] li:nth-child(6) { --i: 3; }
+  .ot-crumbs[data-variant="elide"] li:nth-child(n + 7) { --i: 4; }
 
   @media (forced-colors: active) {
-    .db-crumbs [data-slot="breadcrumb-separator"] { forced-color-adjust: none; background-color: CanvasText; }
+    .ot-crumbs [data-slot="breadcrumb-separator"] { forced-color-adjust: none; background-color: CanvasText; }
   }
 }

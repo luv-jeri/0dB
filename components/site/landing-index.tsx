@@ -55,7 +55,7 @@ export function PassageTitle({ children, ...props }: React.ComponentProps<"h2"> 
         else lines.push({ text: word[0], x: rect.left - box.left, y: rect.top - box.top, height: rect.height })
       }
       const ms = (token: string) => parseFloat(css.getPropertyValue(token)) || 0
-      const duration = ms("--db-moderato"), stagger = ms("--db-arpeggio"), easing = css.getPropertyValue("--db-exhale").trim()
+      const duration = ms("--ot-moderato"), stagger = ms("--ot-arpeggio"), easing = css.getPropertyValue("--ot-exhale").trim()
       layers = lines.map((line, i) => {
         const mask = document.createElement("span"), ink = document.createElement("span")
         mask.className = "passage-line"
@@ -225,11 +225,11 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
         ))}
         <p className="pieces-more">
           Missing one?{" "}
-          <NextLink href="/requests/" className="db-link">
+          <NextLink href="/requests/" className="ot-link">
             Request a component
           </NextLink>
           . Found a fault?{" "}
-          <NextLink href="/feedback/?kind=bug" className="db-link">
+          <NextLink href="/feedback/?kind=bug" className="ot-link">
             Report a bug
           </NextLink>
           .
@@ -251,14 +251,14 @@ export function PieceIndex({ movements, total }: { movements: Movement[]; total:
           </span>
         </p>
         <Title text={piece.title} />
-        <div className="db-corners pieces-preview" id="pieces-preview" ref={frame} role="group" aria-label={`${piece.title} variations`} aria-describedby="pieces-performance">
+        <div className="ot-corners pieces-preview" id="pieces-preview" ref={frame} role="group" aria-label={`${piece.title} variations`} aria-describedby="pieces-performance">
           {awake && playing === at ? <Preview key={`${piece.name}-${performance}`} name={piece.name} /> : null}
         </div>
-        <span className="db-sr" id="pieces-performance">{candidate ? "The variations are live. Press Demonstrate to watch them answer, or point at or focus the preview to try them yourself." : "The variations are live. Point at or focus the preview to try them."}</span>
-        <span className="db-sr" role="status" aria-live="polite" aria-atomic="true">{demo.state === "playing" ? "Demonstrating" : demo.state === "finished" ? "Demo finished" : demo.state === "stopped" ? "Demo stopped. Your turn." : ""}</span>
+        <span className="ot-sr" id="pieces-performance">{candidate ? "The variations are live. Press Demonstrate to watch them answer, or point at or focus the preview to try them yourself." : "The variations are live. Point at or focus the preview to try them."}</span>
+        <span className="ot-sr" role="status" aria-live="polite" aria-atomic="true">{demo.state === "playing" ? "Demonstrating" : demo.state === "finished" ? "Demo finished" : demo.state === "stopped" ? "Demo stopped. Your turn." : ""}</span>
         <p className="pieces-summary">{piece.summary}</p>
         <p className="pieces-actions">
-          <NextLink href={`/docs/${piece.name}/`} className="db-link pieces-open">
+          <NextLink href={`/docs/${piece.name}/`} className="ot-link pieces-open">
             Open {piece.title}
           </NextLink>
           <Share url={`/docs/${piece.name}/`} title={`${piece.title}, in 0nlyType`}>

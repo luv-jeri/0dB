@@ -21,7 +21,7 @@ type ProgressProps = Omit<React.ComponentProps<"div">, "children"> & {
 
 /**
  * How far something the person started has got. Native <progress> underneath, named by a native <label>.
- * One number, --db-progress-p (0–1), is eased in CSS, so the fill, the numeral and the ink glide together.
+ * One number, --ot-progress-p (0–1), is eased in CSS, so the fill, the numeral and the ink glide together.
  */
 function Progress({ variant = "hairline", value = null, max = 100, label, className, style, ...props }: ProgressProps) {
   const id = React.useId()
@@ -42,33 +42,33 @@ function Progress({ variant = "hairline", value = null, max = 100, label, classN
       data-slot="progress"
       data-variant={variant}
       data-state={state}
-      className={cn("db-progress", className)}
-      style={{ "--db-progress-p": p, ...style } as React.CSSProperties}
+      className={cn("ot-progress", className)}
+      style={{ "--ot-progress-p": p, ...style } as React.CSSProperties}
       {...props}
     >
       {paren ? (
         <>
-          <span className="db-progress-paren" aria-hidden="true">(</span>
-          <i className="db-progress-rest" aria-hidden="true" />
+          <span className="ot-progress-paren" aria-hidden="true">(</span>
+          <i className="ot-progress-rest" aria-hidden="true" />
         </>
       ) : null}
       {label != null ? (
-        <label data-slot="progress-label" className="db-progress-label" htmlFor={id}>
+        <label data-slot="progress-label" className="ot-progress-label" htmlFor={id}>
           <span>{label}</span>
         </label>
       ) : null}
       {paren ? (
         <>
-          <i className="db-progress-rest" aria-hidden="true" />
-          <span className="db-progress-paren" aria-hidden="true">)</span>
+          <i className="ot-progress-rest" aria-hidden="true" />
+          <span className="ot-progress-paren" aria-hidden="true">)</span>
         </>
       ) : null}
       {variant === "hairline" ? (
-        <p data-slot="progress-value" className="db-progress-value" aria-hidden="true">
+        <p data-slot="progress-value" className="ot-progress-value" aria-hidden="true">
           <small>%</small>
         </p>
       ) : null}
-      {counted ? <Fraction data-slot="progress-count" className="db-progress-count" aria-hidden="true" count={Math.floor(done)} total={max} /> : null}
+      {counted ? <Fraction data-slot="progress-count" className="ot-progress-count" aria-hidden="true" count={Math.floor(done)} total={max} /> : null}
       <progress
         id={id}
         value={known ? done : undefined}
@@ -76,14 +76,14 @@ function Progress({ variant = "hairline", value = null, max = 100, label, classN
         aria-label={label == null ? "Progress" : undefined}
         aria-valuetext={counted && known ? `${Math.floor(done)} of ${max}` : undefined}
       />
-      {variant === "hairline" ? <span data-slot="progress-stop" className="db-progress-stop" aria-hidden="true" /> : null}
+      {variant === "hairline" ? <span data-slot="progress-stop" className="ot-progress-stop" aria-hidden="true" /> : null}
       {units > 0 && variant === "count" ? (
-        <span data-slot="progress-units" className="db-progress-units" aria-hidden="true" style={{ "--n": units } as React.CSSProperties}>
+        <span data-slot="progress-units" className="ot-progress-units" aria-hidden="true" style={{ "--n": units } as React.CSSProperties}>
           {Array.from({ length: units }, (_, i) => mark(i))}
         </span>
       ) : null}
       {units > 0 && variant === "tally" ? (
-        <span data-slot="progress-tally" className="db-progress-tally" aria-hidden="true" style={{ "--n": units } as React.CSSProperties}>
+        <span data-slot="progress-tally" className="ot-progress-tally" aria-hidden="true" style={{ "--n": units } as React.CSSProperties}>
           {/* Gates of five: four strokes stand, the fifth crosses them. */}
           {Array.from({ length: Math.ceil(units / 5) }, (_, g) => (
             <b key={g}>{Array.from({ length: Math.min(5, units - g * 5) }, (_, k) => mark(g * 5 + k))}</b>

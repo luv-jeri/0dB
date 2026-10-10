@@ -7,7 +7,7 @@ export type ComponentMeta = {
   name: string
   title: string
   movement: Movement
-  /** The class that heads this item's contract in DESIGN.md, e.g. "db-btn". */
+  /** The class that heads this item's contract in DESIGN.md, e.g. "ot-btn". */
   contract: string
   /** One sentence: the item's idea. */
   summary: string

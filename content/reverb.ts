@@ -4,7 +4,7 @@ export default defineComponent({
   name: "reverb",
   title: "Reverb",
   movement: "II",
-  contract: "db-reverb",
+  contract: "ot-reverb",
   summary: "A phrase that echoes into silence: each line quieter, more open and a dynamic smaller, drifting right like a canon, answering from either wall, or losing its consonants first; it ends on a rest.",
   underneath: "hook",
   props: [

@@ -43,10 +43,10 @@ if (!(OVERTURE_DEADLINE > 0 && OVERTURE_DEADLINE < 3000)) fail("the home overtur
 const tokens = read("registry/0nlytype/styles/tokens.css")
 const ms = (token) => Number(tokens.match(new RegExp(`${token}:\\s*(\\d+)ms`))?.[1])
 const landing = read("app/landing.css")
-const exhale = landing.match(/html\[data-overture-at\] \.hero-line\[data-line="quiet"\] \{ animation: hero-exhale var\(--db-adagio\) [^ ]+ calc\((\d+) \* var\(--db-arpeggio\)\)/)
+const exhale = landing.match(/html\[data-overture-at\] \.hero-line\[data-line="quiet"\] \{ animation: hero-exhale var\(--ot-adagio\) [^ ]+ calc\((\d+) \* var\(--ot-arpeggio\)\)/)
 if (!exhale) fail("the home overture", "the headline's exhale must be gated by html[data-overture-at] and keep its adagio, delay and arpeggio form")
 else {
-  const title = ms("--db-adagio") + Number(exhale[1]) * ms("--db-arpeggio")
+  const title = ms("--ot-adagio") + Number(exhale[1]) * ms("--ot-arpeggio")
   if (!(title <= OVERTURE_DEADLINE)) fail("the home overture", `the headline takes ${title}ms, past the ${OVERTURE_DEADLINE}ms deadline`)
 }
 if (/^\.hero-line\[data-line="quiet"\] \{[^}]*animation/m.test(landing)) fail("the home overture", "the quiet line must not animate outside the overture: later visits arrive settled")

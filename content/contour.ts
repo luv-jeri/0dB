@@ -4,7 +4,7 @@ export default defineComponent({
   name: "contour",
   title: "Contour",
   movement: "II",
-  contract: "db-contour",
+  contract: "ot-contour",
   summary: "A paragraph set to a contour, the way a score draws a swell: each line laid to its own width, so the words taper, open or swell and close.",
   underneath: "hook",
   props: [

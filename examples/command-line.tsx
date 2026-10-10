@@ -9,11 +9,11 @@ export default function Example() {
     <div className="grid gap-y-16">
       <CommandLine runner command={ADD} emphasis="button" />
       <div className="grid gap-y-4">
-        <span className="db-label">parsed</span>
+        <span className="ot-label">parsed</span>
         <CommandLine variant="parsed" command={ADD} emphasis="button" glosses={["the shadcn tool", "copies an item in", "where the item lives"]} />
       </div>
       <div className="grid gap-y-4">
-        <span className="db-label">synopsis</span>
+        <span className="ot-label">synopsis</span>
         <CommandLine variant="synopsis" runner command={ADD} emphasis="button" blank="Item name" />
       </div>
     </div>

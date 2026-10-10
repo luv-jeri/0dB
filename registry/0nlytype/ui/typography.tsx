@@ -20,12 +20,12 @@ type ProseProps = React.ComponentProps<"article"> & {
  */
 function Prose({ asChild = false, variant = "swiss", className, ...props }: ProseProps) {
   const Comp = asChild ? Slot : "article"
-  return <Comp data-slot="typography" data-variant={variant} className={cn("db-prose", className)} {...props} />
+  return <Comp data-slot="typography" data-variant={variant} className={cn("ot-prose", className)} {...props} />
 }
 
 /** An opening paragraph, set at the lead size in ink. */
 function ProseLead({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="typography-lead" className={cn("db-prose-lead", className)} {...props} />
+  return <p data-slot="typography-lead" className={cn("ot-prose-lead", className)} {...props} />
 }
 
 export { Prose, ProseLead, type ProseProps }

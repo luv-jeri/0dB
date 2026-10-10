@@ -4,7 +4,7 @@ export default defineComponent({
   name: "typography",
   title: "Typography",
   movement: "X",
-  contract: "db-prose",
+  contract: "ot-prose",
   summary: "Long text, set to be read: it styles plain HTML by element, and punctuation hangs in the margin.",
   underneath: "native",
   props: [

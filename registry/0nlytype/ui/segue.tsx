@@ -15,7 +15,7 @@ type SegueSceneProps = React.ComponentProps<"div"> & {
 
 /** One scene. Direct children of Segue only. */
 function SegueScene({ label, className, ...props }: SegueSceneProps) {
-  return <div data-slot="segue-scene" role={label ? "group" : undefined} aria-label={label} className={cn("db-segue-body", className)} {...props} />
+  return <div data-slot="segue-scene" role={label ? "group" : undefined} aria-label={label} className={cn("ot-segue-body", className)} {...props} />
 }
 
 type SegueProps = Omit<React.ComponentProps<"div">, "defaultValue"> & {
@@ -61,7 +61,7 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
           saved.delete(control)
         }
       }
-      el.querySelectorAll<HTMLElement>(":scope > .db-segue-scene:not([data-current])").forEach((scene) => {
+      el.querySelectorAll<HTMLElement>(":scope > .ot-segue-scene:not([data-current])").forEach((scene) => {
         scene.querySelectorAll<HTMLElement>('a[href], area[href], button, input, select, textarea, iframe, object, embed, audio[controls], video[controls], summary, [contenteditable]:not([contenteditable="false"]), [tabindex]').forEach((control) => {
           const tab = control.getAttribute("tabindex")
           if (!saved.has(control) || tab !== "-1") saved.set(control, tab)
@@ -93,19 +93,19 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
 
   // The crossing, for one scene: `from` ahead of the line, `to` behind it, `p` how far across (0 to 1).
   const cross = React.useCallback((el: HTMLDivElement, from: number, to: number, back: boolean) => {
-    const parts = el.querySelectorAll<HTMLElement>(":scope > .db-segue-scene")
+    const parts = el.querySelectorAll<HTMLElement>(":scope > .ot-segue-scene")
     parts.forEach((s, i) => (i === from ? (s.dataset.part = "from") : i === to ? (s.dataset.part = "to") : delete s.dataset.part))
     const rtl = getComputedStyle(el).direction === "rtl"
     el.dataset.edge = variant === "horizon" ? (back ? "top" : "bottom") : rtl !== back ? "right" : "left"
-    const caption = el.querySelector<HTMLElement>(".db-segue-caption")!
+    const caption = el.querySelector<HTMLElement>(".ot-segue-caption")!
     caption.firstElementChild!.textContent = pad(to + 1)
     caption.lastElementChild!.textContent = parts[to]?.dataset.label ?? ""
   }, [variant])
   const rest = (el: HTMLDivElement) => {
     delete el.dataset.phase
     delete el.dataset.edge
-    el.style.removeProperty("--db-segue-p")
-    el.querySelectorAll<HTMLElement>(":scope > .db-segue-scene").forEach((s) => delete s.dataset.part)
+    el.style.removeProperty("--ot-segue-p")
+    el.querySelectorAll<HTMLElement>(":scope > .ot-segue-scene").forEach((s) => delete s.dataset.part)
   }
 
   // Pressed: set before the new scene paints, so it never shows whole before the line has crossed.
@@ -115,11 +115,11 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
     if (!el || scrub || from === current || still()) return
     cross(el, from, current, current < from)
     el.dataset.phase = "set"
-    el.style.setProperty("--db-segue-p", "0")
+    el.style.setProperty("--ot-segue-p", "0")
     void el.offsetWidth // drawn at the edge once, so it can travel
     el.dataset.phase = "cross"
-    el.style.setProperty("--db-segue-p", "1")
-    const done = (e: TransitionEvent) => e.target === el && e.propertyName === "--db-segue-p" && rest(el)
+    el.style.setProperty("--ot-segue-p", "1")
+    const done = (e: TransitionEvent) => e.target === el && e.propertyName === "--ot-segue-p" && rest(el)
     el.addEventListener("transitionend", done)
     el.addEventListener("transitioncancel", done)
     return () => {
@@ -145,7 +145,7 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
       if (still() || f <= 0 || f >= 1) return rest(el) // under reduced motion the scene changes halfway and nothing travels
       if (el.dataset.phase !== "scrub" || el.querySelector(":scope > [data-part='from']") !== el.children[k]) cross(el, k, k + 1, false)
       el.dataset.phase = "scrub"
-      el.style.setProperty("--db-segue-p", String(f))
+      el.style.setProperty("--ot-segue-p", String(f))
     }
     const onScroll = () => {
       cancelAnimationFrame(frame)
@@ -163,7 +163,7 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
   }, [scrub, n, cross])
 
   return (
-    <div ref={composedRef} data-slot="segue" data-variant={variant === "wipe" ? undefined : variant} data-scrub={scrub || undefined} className={cn("db-segue", className)} {...props}>
+    <div ref={composedRef} data-slot="segue" data-variant={variant === "wipe" ? undefined : variant} data-scrub={scrub || undefined} className={cn("ot-segue", className)} {...props}>
       {scenes.map((scene, i) => {
         const on = i === current
         // A scrub is read in order, so every scene stays with readers; pressed, only the one showing does.
@@ -171,7 +171,7 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
         return (
           <div
             key={scene.key ?? i}
-            className="db-segue-scene"
+            className="ot-segue-scene"
             data-current={on || undefined}
             data-label={labels[i] || undefined}
             inert={hide}
@@ -191,14 +191,14 @@ function Segue({ value, defaultValue = 0, onValueChange, variant = "wipe", scrub
           </div>
         )
       })}
-      <span className="db-segue-line" aria-hidden="true">
-        <span className="db-segue-caption">
+      <span className="ot-segue-line" aria-hidden="true">
+        <span className="ot-segue-caption">
           <span />
           <span />
         </span>
       </span>
       {!scrub && (
-        <span className="db-sr" aria-live="polite">
+        <span className="ot-sr" aria-live="polite">
           {`${current + 1} of ${n}${labels[current] ? `: ${labels[current]}` : ""}`}
         </span>
       )}

@@ -45,7 +45,7 @@ function Form({ onSubmit, onInput, variant = "grid", className, children, ...pro
             data-variant={variant === "grid" ? undefined : variant}
             noValidate
             aria-busy={busy || undefined}
-            className={cn("db-form", className)}
+            className={cn("ot-form", className)}
             onInput={(e) => {
               onInput?.(e)
               setSent(null) // changed after sending: it's a draft again
@@ -116,14 +116,14 @@ function FormPostscript({ errors, className, ...props }: React.ComponentProps<"d
   const entries = Object.entries(errors)
   if (!entries.length) return null
   return (
-    <div data-slot="form-postscript" className={cn("db-form-ps", className)} {...props}>
-      <span className="db-form-ps-mark">P.S.</span>{" "}
+    <div data-slot="form-postscript" className={cn("ot-form-ps", className)} {...props}>
+      <span className="ot-form-ps-mark">P.S.</span>{" "}
       {entries.map(([id, message], i) => (
         <React.Fragment key={id}>
           {i ? " " : null}
           <a
             href={`#${id}`}
-            className="db-form-ps-fix"
+            className="ot-form-ps-fix"
             onClick={(e) => {
               e.preventDefault()
               document.getElementById(id)?.focus()
@@ -151,10 +151,10 @@ function FormPostmark({
 }: React.ComponentProps<"p"> & { date: Date; locale?: string; timeZone?: string }) {
   const f = (o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat(locale, { ...o, timeZone }).format(date)
   return (
-    <p data-slot="form-postmark" role="status" className={cn("db-form-postmark", className)} {...props}>
+    <p data-slot="form-postmark" role="status" className={cn("ot-form-postmark", className)} {...props}>
       <span>Sent</span>{" "}
       <time dateTime={date.toISOString()}>
-        <span className="db-form-postmark-day">{f({ day: "numeric" })}</span> <span>{f({ month: "short", year: "numeric" })}</span>{" "}
+        <span className="ot-form-postmark-day">{f({ day: "numeric" })}</span> <span>{f({ month: "short", year: "numeric" })}</span>{" "}
         <span>{f({ hour: "numeric", minute: "2-digit" })}</span>
       </time>
     </p>

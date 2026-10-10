@@ -4,7 +4,7 @@ export default defineComponent({
   name: "input-group",
   title: "Input group",
   movement: "VI",
-  contract: "db-input-group",
+  contract: "ot-input-group",
   summary: "Ours in roman, yours in italic, on one line. The accent draws only under the part you type. Or your figure stands large with our words stacked beside it, or an arrow leads from your words to the action.",
   underneath: "native",
   props: [

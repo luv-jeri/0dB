@@ -13,7 +13,7 @@ type ItemGroupProps = React.ComponentProps<"ul"> & {
 
 /** A ledger of items. */
 function ItemGroup({ className, variant = "leader", ...props }: ItemGroupProps) {
-  return <ul data-slot="item-group" data-variant={variant === "leader" ? undefined : variant} className={cn("db-items", className)} {...props} />
+  return <ul data-slot="item-group" data-variant={variant === "leader" ? undefined : variant} className={cn("ot-items", className)} {...props} />
 }
 
 type ItemProps = React.ComponentProps<"li"> & {
@@ -23,32 +23,32 @@ type ItemProps = React.ComponentProps<"li"> & {
 
 /** A ledger line: what it is, a dotted leader, what you can do. Point at it and the leader inks across. */
 function Item({ className, ...props }: ItemProps) {
-  return <li data-slot="item" className={cn("db-item", className)} {...props} />
+  return <li data-slot="item" className={cn("ot-item", className)} {...props} />
 }
 
 /** An avatar or other small picture at the start of the line. */
 function ItemMedia({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="item-media" className={cn("db-item-media", className)} {...props} />
+  return <span data-slot="item-media" className={cn("ot-item-media", className)} {...props} />
 }
 
 function ItemContent({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="item-content" className={cn("db-item-body", className)} {...props} />
+  return <span data-slot="item-content" className={cn("ot-item-body", className)} {...props} />
 }
 
 function ItemTitle({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="item-title" className={cn("db-item-title", className)} {...props} />
+  return <span data-slot="item-title" className={cn("ot-item-title", className)} {...props} />
 }
 
 function ItemDescription({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="item-description" className={cn("db-item-desc", className)} {...props} />
+  return <span data-slot="item-description" className={cn("ot-item-desc", className)} {...props} />
 }
 
 /** A value or an action at the end of the line, joined to the content by the leader. */
 function ItemActions({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <>
-      <span data-slot="item-leader" className="db-item-leader" aria-hidden="true" />
-      <span data-slot="item-actions" className={cn("db-item-end", className)} {...props} />
+      <span data-slot="item-leader" className="ot-item-leader" aria-hidden="true" />
+      <span data-slot="item-actions" className={cn("ot-item-end", className)} {...props} />
     </>
   )
 }

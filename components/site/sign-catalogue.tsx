@@ -92,13 +92,13 @@ export function SignCatalogue() {
           <Input type="search" value={query} placeholder="A name or a word" onChange={(event) => { setQuery(event.target.value); setLimit(BATCH) }} />
         </Field>
         <div className="doc-signs-choice">
-          <span className="db-label" id="doc-signs-variant">Variant</span>
+          <span className="ot-label" id="doc-signs-variant">Variant</span>
           <ToggleGroup variant="bracket" type="single" value={variant} onValueChange={(v) => v && setVariant(v as SignVariant)} aria-labelledby="doc-signs-variant">
             {VARIANTS.map((v) => <ToggleGroupItem key={v} value={v}>{v}</ToggleGroupItem>)}
           </ToggleGroup>
         </div>
         <div className="doc-signs-choice">
-          <span className="db-label" id="doc-signs-size">Size</span>
+          <span className="ot-label" id="doc-signs-size">Size</span>
           <ToggleGroup variant="bracket" type="single" value={size} onValueChange={(v) => v && setSize(v)} aria-labelledby="doc-signs-size">
             <ToggleGroupItem value="24">24</ToggleGroupItem>
             <ToggleGroupItem value="48">48</ToggleGroupItem>
@@ -106,7 +106,7 @@ export function SignCatalogue() {
           </ToggleGroup>
         </div>
         <div className="doc-signs-choice">
-          <span className="db-label" id="doc-signs-face">Face</span>
+          <span className="ot-label" id="doc-signs-face">Face</span>
           <ToggleGroup variant="bracket" type="single" value={face} onValueChange={(v) => v && setFace(v as "roman" | "italic")} aria-labelledby="doc-signs-face">
             <ToggleGroupItem value="roman">roman</ToggleGroupItem>
             <ToggleGroupItem value="italic">italic</ToggleGroupItem>

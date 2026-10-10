@@ -1,133 +1,133 @@
 @layer components {
-  /* ── db-pager ── numbers; a dot under each, the current one in accent.
+  /* ── ot-pager ── numbers; a dot under each, the current one in accent.
      The list is the pager; Previous and Next are words with a drawn arrow and no dot. */
-  .db-pager { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--db-space-5); font-size: var(--db-mp); line-height: var(--db-mp-lh); font-variant-numeric: tabular-nums; }
-  .db-pager a[data-slot="pagination-link"] {
-    position: relative; display: inline-block; padding: 0 0 var(--db-space-3); color: var(--db-pencil); text-decoration: none; cursor: pointer;
-    font-weight: 200; transition: color var(--db-allegro), font-weight var(--db-moderato) var(--db-breath);
+  .ot-pager { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--ot-space-5); font-size: var(--ot-mp); line-height: var(--ot-mp-lh); font-variant-numeric: tabular-nums; }
+  .ot-pager a[data-slot="pagination-link"] {
+    position: relative; display: inline-block; padding: 0 0 var(--ot-space-3); color: var(--ot-pencil); text-decoration: none; cursor: pointer;
+    font-weight: 200; transition: color var(--ot-allegro), font-weight var(--ot-moderato) var(--ot-breath);
   }
-  .db-pager a[data-slot="pagination-link"]::after {
+  .ot-pager a[data-slot="pagination-link"]::after {
     content: ""; position: absolute; inset-inline-start: 50%; inset-block-end: 0; translate: -50% 0;
-    width: 3px; height: 3px; border-radius: 50%; background: var(--db-rule-strong);
-    transition: width var(--db-moderato) var(--db-spiccato), height var(--db-moderato) var(--db-spiccato), background-color var(--db-moderato), box-shadow var(--db-allegro);
+    width: 3px; height: 3px; border-radius: 50%; background: var(--ot-rule-strong);
+    transition: width var(--ot-moderato) var(--ot-spiccato), height var(--ot-moderato) var(--ot-spiccato), background-color var(--ot-moderato), box-shadow var(--ot-allegro);
   }
-  :is([dir="rtl"], [dir="rtl"] *) .db-pager a[data-slot="pagination-link"]::after { translate: 50% 0; }
-  .db-pager a[data-slot="pagination-link"]:is(:hover, [data-force~="hover"]) { color: var(--db-graphite); }
-  .db-pager a[data-slot="pagination-link"]:is(:hover, [data-force~="hover"]):not([aria-current="page"])::after { width: 6px; height: 6px; background-color: transparent; box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-pager a[data-slot="pagination-link"]::after { translate: 50% 0; }
+  .ot-pager a[data-slot="pagination-link"]:is(:hover, [data-force~="hover"]) { color: var(--ot-graphite); }
+  .ot-pager a[data-slot="pagination-link"]:is(:hover, [data-force~="hover"]):not([aria-current="page"])::after { width: 6px; height: 6px; background-color: transparent; box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong); }
   /* Weight falls with distance from the current page: 600, then 350 beside it, then 200. */
-  .db-pager > :is(li:has(> [aria-current="page"]) + li, li:has(+ li > [aria-current="page"])) > a[data-slot="pagination-link"] { font-weight: 350; color: var(--db-graphite); }
-  .db-pager a[data-slot="pagination-link"][aria-current="page"] { color: var(--db-ink); font-weight: 600; }
-  .db-pager a[data-slot="pagination-link"][aria-current="page"]::after { width: 6px; height: 6px; background: var(--db-accent); }
+  .ot-pager > :is(li:has(> [aria-current="page"]) + li, li:has(+ li > [aria-current="page"])) > a[data-slot="pagination-link"] { font-weight: 350; color: var(--ot-graphite); }
+  .ot-pager a[data-slot="pagination-link"][aria-current="page"] { color: var(--ot-ink); font-weight: 600; }
+  .ot-pager a[data-slot="pagination-link"][aria-current="page"]::after { width: 6px; height: 6px; background: var(--ot-accent); }
 
-  .db-pager-step { display: inline-block; padding: 0 0 var(--db-space-3); color: var(--db-graphite); font-weight: 300; text-decoration: none; cursor: pointer; transition: color var(--db-allegro); }
-  a.db-pager-step:is(:hover, [data-force~="hover"]) { color: var(--db-ink); }
-  .db-pager-step[aria-disabled="true"] { color: var(--db-rule-strong); cursor: default; }
+  .ot-pager-step { display: inline-block; padding: 0 0 var(--ot-space-3); color: var(--ot-graphite); font-weight: 300; text-decoration: none; cursor: pointer; transition: color var(--ot-allegro); }
+  a.ot-pager-step:is(:hover, [data-force~="hover"]) { color: var(--ot-ink); }
+  .ot-pager-step[aria-disabled="true"] { color: var(--ot-rule-strong); cursor: default; }
   [data-slot="pagination-previous"]::before { content: "← " / ""; }
   [data-slot="pagination-next"]::after { content: " →" / ""; }
   :is([dir="rtl"], [dir="rtl"] *) [data-slot="pagination-previous"]::before { content: "→ " / ""; }
   :is([dir="rtl"], [dir="rtl"] *) [data-slot="pagination-next"]::after { content: " ←" / ""; }
   /* As wide as a two-digit page, so paging past a gap moves nothing beside it. */
-  .db-pager-gap { display: inline-block; min-width: 2ch; padding: 0 0 var(--db-space-3); text-align: center; color: var(--db-pencil); font-weight: 200; }
+  .ot-pager-gap { display: inline-block; min-width: 2ch; padding: 0 0 var(--ot-space-3); text-align: center; color: var(--ot-pencil); font-weight: 200; }
 
   /* ── folio ── the current page over the total, as a book sets its folio: the number stands in ink on its accent dot,
      a leaning hairline, then the total small and upright, a little wide. The steps are arrows alone; their words stay for screen readers. */
-  .db-pager[data-variant="folio"] { gap: var(--db-space-3); }
-  .db-pager[data-variant="folio"] > li:has(> [aria-current="page"]) + li:not(:has(> *)) {
-    display: inline-flex; align-items: baseline; font-size: var(--db-p); font-weight: 300; font-stretch: 112%; letter-spacing: 0.02em; color: var(--db-graphite);
+  .ot-pager[data-variant="folio"] { gap: var(--ot-space-3); }
+  .ot-pager[data-variant="folio"] > li:has(> [aria-current="page"]) + li:not(:has(> *)) {
+    display: inline-flex; align-items: baseline; font-size: var(--ot-p); font-weight: 300; font-stretch: 112%; letter-spacing: 0.02em; color: var(--ot-graphite);
   }
-  .db-pager[data-variant="folio"] > li:has(> [aria-current="page"]) + li:not(:has(> *))::before {
-    content: ""; align-self: stretch; width: var(--db-hairline); margin-block-start: -0.75em; margin-inline: calc(0.3em - var(--db-space-3)) 0.3em; rotate: 24deg;
-    background: linear-gradient(transparent, var(--db-rule-strong) 22%, var(--db-rule-strong) 78%, transparent);
+  .ot-pager[data-variant="folio"] > li:has(> [aria-current="page"]) + li:not(:has(> *))::before {
+    content: ""; align-self: stretch; width: var(--ot-hairline); margin-block-start: -0.75em; margin-inline: calc(0.3em - var(--ot-space-3)) 0.3em; rotate: 24deg;
+    background: linear-gradient(transparent, var(--ot-rule-strong) 22%, var(--ot-rule-strong) 78%, transparent);
   }
-  :is([dir="rtl"], [dir="rtl"] *) .db-pager[data-variant="folio"] > li:has(> [aria-current="page"]) + li:not(:has(> *))::before { rotate: -24deg; }
-  .db-pager[data-variant="folio"] .db-pager-step { font-size: 0; padding-inline: var(--db-space-2); }
-  .db-pager[data-variant="folio"] .db-pager-step::before, .db-pager[data-variant="folio"] .db-pager-step::after { font-size: var(--db-mp); }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-pager[data-variant="folio"] > li:has(> [aria-current="page"]) + li:not(:has(> *))::before { rotate: -24deg; }
+  .ot-pager[data-variant="folio"] .ot-pager-step { font-size: 0; padding-inline: var(--ot-space-2); }
+  .ot-pager[data-variant="folio"] .ot-pager-step::before, .ot-pager[data-variant="folio"] .ot-pager-step::after { font-size: var(--ot-mp); }
   /* On a phone the numbers keep one line: a size down, closer, and the steps give up their words as the folio's do. */
   @media (max-width: 40rem) {
-    .db-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) { gap: var(--db-space-3); font-size: var(--db-p); line-height: var(--db-p-lh); }
-    .db-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) .db-pager-step { font-size: 0; padding-inline: var(--db-space-1); }
-    .db-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) .db-pager-step::before, .db-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) .db-pager-step::after { font-size: var(--db-p); }
+    .ot-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) { gap: var(--ot-space-3); font-size: var(--ot-p); line-height: var(--ot-p-lh); }
+    .ot-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) .ot-pager-step { font-size: 0; padding-inline: var(--ot-space-1); }
+    .ot-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) .ot-pager-step::before, .ot-pager[data-variant="numbers"]:has([data-slot="pagination-link"]) .ot-pager-step::after { font-size: var(--ot-p); }
   }
 
   /* ── neighbours ── the pages either side, by name, set at the two ends of the measure: a small word over the name, hung on
      a hairline arrow as the notes are in "It has to be design.". Pointing thickens the name, as nearness does in the numbers,
      inks the word and steps the arrow the way it points. */
-  .db-pager[data-variant="neighbours"] { justify-content: space-between; align-items: end; gap: var(--db-space-6); }
-  .db-pager[data-variant="neighbours"] > li:has(> [data-slot="pagination-next"]) { margin-inline-start: auto; text-align: end; }
-  .db-pager[data-variant="neighbours"] .db-pager-step {
-    display: grid; gap: var(--db-space-1); padding: 0; font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); color: var(--db-ink); font-weight: 300;
-    transition: font-weight var(--db-moderato) var(--db-breath);
+  .ot-pager[data-variant="neighbours"] { justify-content: space-between; align-items: end; gap: var(--ot-space-6); }
+  .ot-pager[data-variant="neighbours"] > li:has(> [data-slot="pagination-next"]) { margin-inline-start: auto; text-align: end; }
+  .ot-pager[data-variant="neighbours"] .ot-pager-step {
+    display: grid; gap: var(--ot-space-1); padding: 0; font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); color: var(--ot-ink); font-weight: 300;
+    transition: font-weight var(--ot-moderato) var(--ot-breath);
   }
-  .db-pager[data-variant="neighbours"] .db-pager-step::before { font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); font-weight: 500; color: var(--db-graphite); transition: color var(--db-allegro); }
-  .db-pager[data-variant="neighbours"] .db-pager-step::after {
-    order: -1; content: ""; width: var(--db-space-6); height: 9px; margin-block-end: calc(var(--db-space-1) * -1);
-    background: var(--db-graphite); /* the input group's arrow: a hairline shaft and an open head, drawn by the mask */
+  .ot-pager[data-variant="neighbours"] .ot-pager-step::before { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); font-weight: 500; color: var(--ot-graphite); transition: color var(--ot-allegro); }
+  .ot-pager[data-variant="neighbours"] .ot-pager-step::after {
+    order: -1; content: ""; width: var(--ot-space-6); height: 9px; margin-block-end: calc(var(--ot-space-1) * -1);
+    background: var(--ot-graphite); /* the input group's arrow: a hairline shaft and an open head, drawn by the mask */
     mask:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 9'%3E%3Cpath d='M3.5 1l4 3.5-4 3.5M0 4.5h7.5' fill='none' stroke='%23000'/%3E%3C/svg%3E") no-repeat 100% 50% / var(--db-space-2) 9px,
-      linear-gradient(#000, #000) no-repeat 0 50% / calc(100% - 2px) var(--db-hairline);
-    transition: background-color var(--db-allegro), translate var(--db-allegro) var(--db-spiccato);
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 9'%3E%3Cpath d='M3.5 1l4 3.5-4 3.5M0 4.5h7.5' fill='none' stroke='%23000'/%3E%3C/svg%3E") no-repeat 100% 50% / var(--ot-space-2) 9px,
+      linear-gradient(#000, #000) no-repeat 0 50% / calc(100% - 2px) var(--ot-hairline);
+    transition: background-color var(--ot-allegro), translate var(--ot-allegro) var(--ot-spiccato);
   }
-  .db-pager[data-variant="neighbours"] [data-slot="pagination-previous"]::after { scale: -1 1; }
-  .db-pager[data-variant="neighbours"] [data-slot="pagination-next"]::after { justify-self: end; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-pager[data-variant="neighbours"] [data-slot="pagination-previous"]::after { scale: 1 1; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-pager[data-variant="neighbours"] [data-slot="pagination-next"]::after { scale: -1 1; }
-  .db-pager[data-variant="neighbours"] a.db-pager-step:is(:hover, [data-force~="hover"]) { font-weight: 450; }
-  .db-pager[data-variant="neighbours"] a.db-pager-step:is(:hover, [data-force~="hover"])::before { color: var(--db-ink); }
-  .db-pager[data-variant="neighbours"] a.db-pager-step:is(:hover, [data-force~="hover"])::after { background-color: var(--db-ink); translate: calc(var(--db-space-1) * -1) 0; }
-  .db-pager[data-variant="neighbours"] a[data-slot="pagination-next"]:is(:hover, [data-force~="hover"])::after { translate: var(--db-space-1) 0; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-pager[data-variant="neighbours"] a[data-slot="pagination-previous"]:is(:hover, [data-force~="hover"])::after { translate: var(--db-space-1) 0; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-pager[data-variant="neighbours"] a[data-slot="pagination-next"]:is(:hover, [data-force~="hover"])::after { translate: calc(var(--db-space-1) * -1) 0; }
-  .db-pager[data-variant="neighbours"] [data-slot="pagination-previous"]::before { content: "Previous" / ""; }
-  .db-pager[data-variant="neighbours"] [data-slot="pagination-next"]::before { content: "Next" / ""; }
+  .ot-pager[data-variant="neighbours"] [data-slot="pagination-previous"]::after { scale: -1 1; }
+  .ot-pager[data-variant="neighbours"] [data-slot="pagination-next"]::after { justify-self: end; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-pager[data-variant="neighbours"] [data-slot="pagination-previous"]::after { scale: 1 1; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-pager[data-variant="neighbours"] [data-slot="pagination-next"]::after { scale: -1 1; }
+  .ot-pager[data-variant="neighbours"] a.ot-pager-step:is(:hover, [data-force~="hover"]) { font-weight: 450; }
+  .ot-pager[data-variant="neighbours"] a.ot-pager-step:is(:hover, [data-force~="hover"])::before { color: var(--ot-ink); }
+  .ot-pager[data-variant="neighbours"] a.ot-pager-step:is(:hover, [data-force~="hover"])::after { background-color: var(--ot-ink); translate: calc(var(--ot-space-1) * -1) 0; }
+  .ot-pager[data-variant="neighbours"] a[data-slot="pagination-next"]:is(:hover, [data-force~="hover"])::after { translate: var(--ot-space-1) 0; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-pager[data-variant="neighbours"] a[data-slot="pagination-previous"]:is(:hover, [data-force~="hover"])::after { translate: var(--ot-space-1) 0; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-pager[data-variant="neighbours"] a[data-slot="pagination-next"]:is(:hover, [data-force~="hover"])::after { translate: calc(var(--ot-space-1) * -1) 0; }
+  .ot-pager[data-variant="neighbours"] [data-slot="pagination-previous"]::before { content: "Previous" / ""; }
+  .ot-pager[data-variant="neighbours"] [data-slot="pagination-next"]::before { content: "Next" / ""; }
 
   /* ── barcode ── every page a hairline, the rhythm of SPECTRA's barcode, read as the dot calendar reads its days: the pages
      behind you in ink, the pages ahead in pencil, yours the tall line in the accent with its number set small above it.
      Pointing lifts a line and shows its number in its place; the steps are arrows alone. */
-  .db-pager[data-variant="barcode"] { flex-wrap: nowrap; align-items: end; gap: 0; }
-  .db-pager[data-variant="barcode"] > li:has(> [data-slot="pagination-link"]) { flex: 0 1 var(--db-space-4); min-width: var(--db-space-2); contain: inline-size; } /* the hidden numbers don't widen the run */
-  .db-pager[data-variant="barcode"] > li:has(> [data-slot="pagination-previous"]) { margin-inline-end: var(--db-space-3); }
-  .db-pager[data-variant="barcode"] > li:has(> [data-slot="pagination-next"]) { margin-inline-start: var(--db-space-3); }
-  .db-pager[data-variant="barcode"] a[data-slot="pagination-link"] {
-    display: flex; justify-content: center; width: 100%; height: calc(var(--db-pp) * 1.45 + var(--db-space-1) + 26px); padding: 0;
-    font-size: var(--db-pp); line-height: var(--db-pp-lh); font-weight: 500; white-space: nowrap; color: transparent;
+  .ot-pager[data-variant="barcode"] { flex-wrap: nowrap; align-items: end; gap: 0; }
+  .ot-pager[data-variant="barcode"] > li:has(> [data-slot="pagination-link"]) { flex: 0 1 var(--ot-space-4); min-width: var(--ot-space-2); contain: inline-size; } /* the hidden numbers don't widen the run */
+  .ot-pager[data-variant="barcode"] > li:has(> [data-slot="pagination-previous"]) { margin-inline-end: var(--ot-space-3); }
+  .ot-pager[data-variant="barcode"] > li:has(> [data-slot="pagination-next"]) { margin-inline-start: var(--ot-space-3); }
+  .ot-pager[data-variant="barcode"] a[data-slot="pagination-link"] {
+    display: flex; justify-content: center; width: 100%; height: calc(var(--ot-pp) * 1.45 + var(--ot-space-1) + 26px); padding: 0;
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); font-weight: 500; white-space: nowrap; color: transparent;
   }
-  .db-pager[data-variant="barcode"] a[data-slot="pagination-link"]::after {
-    inset-inline: 0; margin-inline: auto; translate: none; width: var(--db-hairline); height: 16px; border-radius: 0; background: var(--db-pencil);
-    transition: height var(--db-moderato) var(--db-spiccato), background-color var(--db-moderato);
+  .ot-pager[data-variant="barcode"] a[data-slot="pagination-link"]::after {
+    inset-inline: 0; margin-inline: auto; translate: none; width: var(--ot-hairline); height: 16px; border-radius: 0; background: var(--ot-pencil);
+    transition: height var(--ot-moderato) var(--ot-spiccato), background-color var(--ot-moderato);
   }
-  .db-pager[data-variant="barcode"] > li:has(~ li > [aria-current="page"]) > a[data-slot="pagination-link"]::after { background: var(--db-ink); }
-  .db-pager[data-variant="barcode"] a[data-slot="pagination-link"][aria-current="page"] { color: var(--db-ink); font-weight: 600; }
-  .db-pager[data-variant="barcode"] a[data-slot="pagination-link"][aria-current="page"]::after { width: calc(var(--db-stroke) * 2); height: 26px; background: var(--db-accent); }
-  .db-pager[data-variant="barcode"] a[data-slot="pagination-link"]:is(:hover, :focus-visible, [data-force~="hover"]):not([aria-current="page"]) { color: var(--db-graphite); }
-  .db-pager[data-variant="barcode"] a[data-slot="pagination-link"]:is(:hover, :focus-visible, [data-force~="hover"]):not([aria-current="page"])::after { width: var(--db-hairline); height: 22px; box-shadow: none; background-color: var(--db-graphite); }
-  .db-pager[data-variant="barcode"]:has(a[data-slot="pagination-link"]:is(:hover, :focus-visible, [data-force~="hover"]):not([aria-current="page"])) [aria-current="page"] { color: transparent; }
-  .db-pager[data-variant="barcode"] .db-pager-step { font-size: 0; line-height: 1; white-space: nowrap; padding: 0 var(--db-space-1); }
-  .db-pager[data-variant="barcode"] .db-pager-step::before, .db-pager[data-variant="barcode"] .db-pager-step::after { font-size: var(--db-mp); line-height: 1; }
+  .ot-pager[data-variant="barcode"] > li:has(~ li > [aria-current="page"]) > a[data-slot="pagination-link"]::after { background: var(--ot-ink); }
+  .ot-pager[data-variant="barcode"] a[data-slot="pagination-link"][aria-current="page"] { color: var(--ot-ink); font-weight: 600; }
+  .ot-pager[data-variant="barcode"] a[data-slot="pagination-link"][aria-current="page"]::after { width: calc(var(--ot-stroke) * 2); height: 26px; background: var(--ot-accent); }
+  .ot-pager[data-variant="barcode"] a[data-slot="pagination-link"]:is(:hover, :focus-visible, [data-force~="hover"]):not([aria-current="page"]) { color: var(--ot-graphite); }
+  .ot-pager[data-variant="barcode"] a[data-slot="pagination-link"]:is(:hover, :focus-visible, [data-force~="hover"]):not([aria-current="page"])::after { width: var(--ot-hairline); height: 22px; box-shadow: none; background-color: var(--ot-graphite); }
+  .ot-pager[data-variant="barcode"]:has(a[data-slot="pagination-link"]:is(:hover, :focus-visible, [data-force~="hover"]):not([aria-current="page"])) [aria-current="page"] { color: transparent; }
+  .ot-pager[data-variant="barcode"] .ot-pager-step { font-size: 0; line-height: 1; white-space: nowrap; padding: 0 var(--ot-space-1); }
+  .ot-pager[data-variant="barcode"] .ot-pager-step::before, .ot-pager[data-variant="barcode"] .ot-pager-step::after { font-size: var(--ot-mp); line-height: 1; }
   /* The weight-by-distance rule of the numbers doesn't apply: there is only one number. */
-  .db-pager[data-variant="barcode"] > li > a[data-slot="pagination-link"]:not([aria-current="page"]) { font-weight: 500; color: transparent; }
+  .ot-pager[data-variant="barcode"] > li > a[data-slot="pagination-link"]:not([aria-current="page"]) { font-weight: 500; color: transparent; }
 
   /* ── thumb ── a dictionary's thumb index, set as "the uncreative" sets its word: the alphabet as one heavy, tight word,
      the current letter reversed out of an accent block. Letters with nothing under them stay in the word, thin and pencil,
      and aren't links. Pointing sketches the block in rule; choosing inks it. On a phone the word breaks in two, 13 and 13,
      so every letter is a wide enough target. */
-  .db-pager[data-variant="thumb"] { flex-wrap: nowrap; gap: 0; font-size: var(--db-mf); line-height: 1; letter-spacing: var(--db-mf-tr); font-weight: 700; font-variant-numeric: normal; }
-  .db-pager[data-variant="thumb"] > li { min-width: 24px; text-align: center; }
-  .db-pager[data-variant="thumb"] > li:not(:has(> *)) { padding-block: 0.08em; color: var(--db-pencil); font-weight: 200; }
-  .db-pager[data-variant="thumb"] a[data-slot="pagination-link"] { display: block; padding: 0.08em 0.03em; color: var(--db-ink); font-weight: 700; transition: background-color var(--db-allegro), color var(--db-allegro); }
-  .db-pager[data-variant="thumb"] a[data-slot="pagination-link"]::after { content: none; }
-  .db-pager[data-variant="thumb"] > li > a[data-slot="pagination-link"][href] { font-weight: 700; color: var(--db-ink); }
-  .db-pager[data-variant="thumb"] a[data-slot="pagination-link"]:is(:hover, [data-force~="hover"]):not([aria-current="page"]) { background-color: var(--db-rule); color: var(--db-ink); }
-  .db-pager[data-variant="thumb"] > li > a[data-slot="pagination-link"][aria-current="page"] { background-color: var(--db-accent); color: var(--db-paper); font-weight: 700; transition-duration: var(--db-moderato); }
+  .ot-pager[data-variant="thumb"] { flex-wrap: nowrap; gap: 0; font-size: var(--ot-mf); line-height: 1; letter-spacing: var(--ot-mf-tr); font-weight: 700; font-variant-numeric: normal; }
+  .ot-pager[data-variant="thumb"] > li { min-width: 24px; text-align: center; }
+  .ot-pager[data-variant="thumb"] > li:not(:has(> *)) { padding-block: 0.08em; color: var(--ot-pencil); font-weight: 200; }
+  .ot-pager[data-variant="thumb"] a[data-slot="pagination-link"] { display: block; padding: 0.08em 0.03em; color: var(--ot-ink); font-weight: 700; transition: background-color var(--ot-allegro), color var(--ot-allegro); }
+  .ot-pager[data-variant="thumb"] a[data-slot="pagination-link"]::after { content: none; }
+  .ot-pager[data-variant="thumb"] > li > a[data-slot="pagination-link"][href] { font-weight: 700; color: var(--ot-ink); }
+  .ot-pager[data-variant="thumb"] a[data-slot="pagination-link"]:is(:hover, [data-force~="hover"]):not([aria-current="page"]) { background-color: var(--ot-rule); color: var(--ot-ink); }
+  .ot-pager[data-variant="thumb"] > li > a[data-slot="pagination-link"][aria-current="page"] { background-color: var(--ot-accent); color: var(--ot-paper); font-weight: 700; transition-duration: var(--ot-moderato); }
   @media (max-width: 40rem) {
-    .db-pager[data-variant="thumb"] { display: grid; grid-template-columns: repeat(13, minmax(24px, 1fr)); row-gap: var(--db-space-2); }
+    .ot-pager[data-variant="thumb"] { display: grid; grid-template-columns: repeat(13, minmax(24px, 1fr)); row-gap: var(--ot-space-2); }
   }
 
   @media (forced-colors: active) {
-    .db-pager[data-variant="barcode"] { forced-color-adjust: none; color: CanvasText; --db-ink: CanvasText; --db-graphite: CanvasText; --db-pencil: GrayText; --db-rule-strong: GrayText; --db-accent: Highlight; }
-    .db-pager a[data-slot="pagination-link"]::after { forced-color-adjust: none; background-color: GrayText; }
-    .db-pager[data-variant="barcode"] > li:has(~ li > [aria-current="page"]) > a[data-slot="pagination-link"]::after { background-color: CanvasText; }
-    .db-pager:is([data-variant]) > li > a[data-slot="pagination-link"][aria-current="page"]::after { background-color: Highlight; }
-    .db-pager[data-variant="neighbours"] .db-pager-step::after { forced-color-adjust: none; background-color: CanvasText; }
-    .db-pager[data-variant="thumb"] > li > a[data-slot="pagination-link"][aria-current="page"] { forced-color-adjust: none; background-color: Highlight; color: HighlightText; }
+    .ot-pager[data-variant="barcode"] { forced-color-adjust: none; color: CanvasText; --ot-ink: CanvasText; --ot-graphite: CanvasText; --ot-pencil: GrayText; --ot-rule-strong: GrayText; --ot-accent: Highlight; }
+    .ot-pager a[data-slot="pagination-link"]::after { forced-color-adjust: none; background-color: GrayText; }
+    .ot-pager[data-variant="barcode"] > li:has(~ li > [aria-current="page"]) > a[data-slot="pagination-link"]::after { background-color: CanvasText; }
+    .ot-pager:is([data-variant]) > li > a[data-slot="pagination-link"][aria-current="page"]::after { background-color: Highlight; }
+    .ot-pager[data-variant="neighbours"] .ot-pager-step::after { forced-color-adjust: none; background-color: CanvasText; }
+    .ot-pager[data-variant="thumb"] > li > a[data-slot="pagination-link"][aria-current="page"] { forced-color-adjust: none; background-color: Highlight; color: HighlightText; }
   }
 }

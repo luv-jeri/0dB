@@ -4,7 +4,7 @@ export default defineComponent({
   name: "steps",
   title: "Steps",
   movement: "VIII",
-  contract: "db-steps",
+  contract: "ot-steps",
   summary: "A real sequence. Numbered in large thin figures in the margin; or the figures stand on one line and rise out of it as you reach them; or the titles step across the page like a broken headline; or, compact, the whole sequence folded into one fraction beside the step you're on.",
   underneath: "native",
   props: [

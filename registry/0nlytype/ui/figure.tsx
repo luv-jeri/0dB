@@ -37,8 +37,8 @@ function Figure({ src, alt, srcSet, sizes, ratio = 3 / 2, position, number, capt
   const mark = (on: boolean) => (e: React.SyntheticEvent<HTMLImageElement>) => e.currentTarget.closest("figure")?.toggleAttribute("data-missing", on)
 
   return (
-    <figure data-slot="figure" data-variant={variant} className={cn("db-figure", className)} {...props}>
-      <AspectRatio ratio={ratio} className="db-figure-frame">
+    <figure data-slot="figure" data-variant={variant} className={cn("ot-figure", className)} {...props}>
+      <AspectRatio ratio={ratio} className="ot-figure-frame">
         {/* eslint-disable-next-line @next/next/no-img-element -- a registry item is framework-agnostic */}
         <img
           ref={img}
@@ -48,28 +48,28 @@ function Figure({ src, alt, srcSet, sizes, ratio = 3 / 2, position, number, capt
           alt={alt}
           loading={loading}
           decoding="async"
-          className="db-figure-img"
+          className="ot-figure-img"
           style={position ? { objectPosition: position } : undefined}
           onLoad={mark(false)}
           onError={mark(true)}
         />
         {alt ? (
-          <span className="db-figure-alt" aria-hidden="true">
+          <span className="ot-figure-alt" aria-hidden="true">
             {alt}
           </span>
         ) : null}
       </AspectRatio>
       {number != null || caption || credit ? (
-        <figcaption className="db-figure-caption">
+        <figcaption className="ot-figure-caption">
           {number != null ? (
-            <span className="db-figure-number">
-              <span className="db-sr">Figure </span>
+            <span className="ot-figure-number">
+              <span className="ot-sr">Figure </span>
               {number}
             </span>
           ) : null}
-          <Meta className="db-figure-lines">
-            {caption ? <span className="db-figure-text">{caption}</span> : null}
-            {credit ? <span className="db-figure-credit">{credit}</span> : null}
+          <Meta className="ot-figure-lines">
+            {caption ? <span className="ot-figure-text">{caption}</span> : null}
+            {credit ? <span className="ot-figure-credit">{credit}</span> : null}
           </Meta>
         </figcaption>
       ) : null}

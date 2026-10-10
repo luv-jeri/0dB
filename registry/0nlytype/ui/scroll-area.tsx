@@ -99,11 +99,11 @@ function ScrollArea({ className, children, sections, variant = "ruled", ref: for
   const composedRef = useComposedRefs(box, forwardedRef)
   useCatchword(box, variant === "catchword")
   return (
-    <div ref={composedRef} data-slot="scroll-area" data-variant={variant} tabIndex={0} role={named ? "region" : undefined} className={cn("db-scroll", className)} {...props}>
+    <div ref={composedRef} data-slot="scroll-area" data-variant={variant} tabIndex={0} role={named ? "region" : undefined} className={cn("ot-scroll", className)} {...props}>
       {children}
       {variant === "catchword" && (
-        <div className="db-scroll-foot" aria-hidden="true">
-          <span data-slot="scroll-catchword" data-idle="" className="db-scroll-catchword" />
+        <div className="ot-scroll-foot" aria-hidden="true">
+          <span data-slot="scroll-catchword" data-idle="" className="ot-scroll-catchword" />
         </div>
       )}
       <Scrollbar sections={sections} />

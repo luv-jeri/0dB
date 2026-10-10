@@ -32,15 +32,15 @@ function Meter({ label, value, min = 0, max = 100, unit = "", format = (n) => nu
   const noteId = note != null ? `${meterId}-note` : undefined
   const description = [describedBy, noteId].filter(Boolean).join(" ") || undefined
   return (
-    <div data-slot="meter" className={cn("db-meter", className)} style={{ "--db-meter-p": p, "--db-meter-length": Math.max(1, [...figure].length), "--db-meter-unit-length": [...unit].length, ...style } as React.CSSProperties} hidden={hidden} dir={dir} lang={lang}>
-      <label data-slot="meter-label" className="db-meter-label" htmlFor={meterId}>{label}</label>
-      <div data-slot="meter-scale" className="db-meter-scale" aria-hidden="true">
-        <span data-slot="meter-reading" className="db-meter-reading"><bdi dir="ltr"><span className="db-yours">{figure}</span><small>{unit}</small></bdi></span>
-        <span data-slot="meter-rule" className="db-meter-rule"><i data-slot="meter-index" className="db-meter-index" /></span>
-        <span data-slot="meter-limits" className="db-meter-ends"><bdi dir="ltr" data-slot="meter-min">{format(min)}{unit}</bdi><bdi dir="ltr" data-slot="meter-max">{format(max)}{unit}</bdi></span>
+    <div data-slot="meter" className={cn("ot-meter", className)} style={{ "--ot-meter-p": p, "--ot-meter-length": Math.max(1, [...figure].length), "--ot-meter-unit-length": [...unit].length, ...style } as React.CSSProperties} hidden={hidden} dir={dir} lang={lang}>
+      <label data-slot="meter-label" className="ot-meter-label" htmlFor={meterId}>{label}</label>
+      <div data-slot="meter-scale" className="ot-meter-scale" aria-hidden="true">
+        <span data-slot="meter-reading" className="ot-meter-reading"><bdi dir="ltr"><span className="ot-yours">{figure}</span><small>{unit}</small></bdi></span>
+        <span data-slot="meter-rule" className="ot-meter-rule"><i data-slot="meter-index" className="ot-meter-index" /></span>
+        <span data-slot="meter-limits" className="ot-meter-ends"><bdi dir="ltr" data-slot="meter-min">{format(min)}{unit}</bdi><bdi dir="ltr" data-slot="meter-max">{format(max)}{unit}</bdi></span>
       </div>
-      <meter {...props} data-slot="meter-native" className="db-sr" id={meterId} value={reading} min={min} max={max} aria-valuetext={valueText ?? text} aria-describedby={description} />
-      {note != null ? <p data-slot="meter-note" className="db-meter-note" id={noteId}>{note}</p> : null}
+      <meter {...props} data-slot="meter-native" className="ot-sr" id={meterId} value={reading} min={min} max={max} aria-valuetext={valueText ?? text} aria-describedby={description} />
+      {note != null ? <p data-slot="meter-note" className="ot-meter-note" id={noteId}>{note}</p> : null}
     </div>
   )
 }

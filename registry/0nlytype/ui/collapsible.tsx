@@ -25,7 +25,7 @@ type CollapsibleProps = React.ComponentProps<"details"> & {
 function Collapsible({ className, variant = "tail", ...props }: CollapsibleProps) {
   return (
     <Kind.Provider value={variant}>
-      <details data-slot="collapsible" data-variant={variant === "tail" ? undefined : variant} className={cn("db-collapse", className)} {...props} />
+      <details data-slot="collapsible" data-variant={variant === "tail" ? undefined : variant} className={cn("ot-collapse", className)} {...props} />
     </Kind.Provider>
   )
 }
@@ -41,7 +41,7 @@ function CollapsibleTrigger({ children, openLabel, className, ...props }: Collap
     <summary
       data-slot="collapsible-trigger"
       data-variant={variant === "tail" ? "quiet" : undefined}
-      className={cn(variant === "tail" ? "db-btn" : "db-collapse-cue", className)}
+      className={cn(variant === "tail" ? "ot-btn" : "ot-collapse-cue", className)}
       {...props}
     >
       <span>{children}</span>
@@ -56,7 +56,7 @@ function CollapsibleContent({ className, ...props }: React.ComponentProps<"div">
 
 /** Rows ruled off with hairlines. Its rows arrive in turn when the rest opens. */
 function CollapsibleList({ className, ...props }: React.ComponentProps<"ul">) {
-  return <ul data-slot="collapsible-list" className={cn("db-collapse-list", className)} {...props} />
+  return <ul data-slot="collapsible-list" className={cn("ot-collapse-list", className)} {...props} />
 }
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleList, type CollapsibleProps, type CollapsibleTriggerProps }

@@ -36,8 +36,8 @@ function marked(text: string, query: string): React.ReactNode {
   const at = Math.max(q ? text.toLowerCase().indexOf(q) : 0, 0)
   return (
     <>
-      <span className="db-command-before">{text.slice(0, at)}</span>
-      <span className="db-command-key">{marks(text.slice(at), q)}</span>
+      <span className="ot-command-before">{text.slice(0, at)}</span>
+      <span className="ot-command-key">{marks(text.slice(at), q)}</span>
     </>
   )
 }
@@ -55,7 +55,7 @@ function Command({ className, filter = contains, variant = "headline", defaultSe
   return (
     <SearchContext.Provider value={search}>
       <SearchSetter.Provider value={setSearch}>
-        <CommandPrimitive data-slot="command" data-variant={variant} filter={filter} className={cn("db-command", className)} {...props} />
+        <CommandPrimitive data-slot="command" data-variant={variant} filter={filter} className={cn("ot-command", className)} {...props} />
       </SearchSetter.Provider>
     </SearchContext.Provider>
   )
@@ -73,7 +73,7 @@ function CommandInput({ className, onValueChange, ...props }: React.ComponentPro
         setSearch(next)
         onValueChange?.(next)
       }}
-      className={cn("db-command-input", className)}
+      className={cn("ot-command-input", className)}
       {...props}
     />
   )
@@ -82,7 +82,7 @@ function CommandInput({ className, onValueChange, ...props }: React.ComponentPro
 /** The rows, on the scrollbar's rail when there are more than fit. */
 function CommandList({ className, children, ...props }: React.ComponentProps<typeof CommandPrimitive.List>) {
   return (
-    <CommandPrimitive.List data-slot="command-list" className={cn("db-command-list", className)} {...props}>
+    <CommandPrimitive.List data-slot="command-list" className={cn("ot-command-list", className)} {...props}>
       {children}
       <Scrollbar />
     </CommandPrimitive.List>
@@ -93,40 +93,40 @@ function CommandList({ className, children, ...props }: React.ComponentProps<typ
 function CommandEmpty({ className, children, ...props }: React.ComponentProps<typeof CommandPrimitive.Empty>) {
   const search = React.useContext(SearchContext)
   return (
-    <CommandPrimitive.Empty data-slot="command-empty" className={cn("db-command-empty", className)} {...props}>
+    <CommandPrimitive.Empty data-slot="command-empty" className={cn("ot-command-empty", className)} {...props}>
       {children ?? <>Nothing matches “{search}”.</>}
     </CommandPrimitive.Empty>
   )
 }
 
 function CommandGroup({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Group>) {
-  return <CommandPrimitive.Group data-slot="command-group" className={cn("db-command-group", className)} {...props} />
+  return <CommandPrimitive.Group data-slot="command-group" className={cn("ot-command-group", className)} {...props} />
 }
 
 function CommandSeparator({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Separator>) {
-  return <CommandPrimitive.Separator data-slot="command-separator" className={cn("db-command-separator", className)} {...props} />
+  return <CommandPrimitive.Separator data-slot="command-separator" className={cn("ot-command-separator", className)} {...props} />
 }
 
 /** A row. Words in it are set as the name and marked where they match; other parts (CommandHint, CommandShortcut) sit at the end. */
 function CommandItem({ className, children, ...props }: React.ComponentProps<typeof CommandPrimitive.Item>) {
   const search = React.useContext(SearchContext)
   return (
-    <CommandPrimitive.Item data-slot="command-item" className={cn("db-command-option", className)} {...props}>
+    <CommandPrimitive.Item data-slot="command-item" className={cn("ot-command-option", className)} {...props}>
       {React.Children.map(children, (child) =>
-        typeof child === "string" ? <span className="db-command-name">{marked(child, search)}</span> : child,
+        typeof child === "string" ? <span className="ot-command-name">{marked(child, search)}</span> : child,
       )}
     </CommandPrimitive.Item>
   )
 }
 
-/** A key that runs the row, drawn as a cap (base db-kbd). */
+/** A key that runs the row, drawn as a cap (base ot-kbd). */
 function CommandShortcut({ className, ...props }: React.ComponentProps<"kbd">) {
-  return <kbd data-slot="command-shortcut" className={cn("db-kbd", className)} {...props} />
+  return <kbd data-slot="command-shortcut" className={cn("ot-kbd", className)} {...props} />
 }
 
 /** A quiet word at the end of a row, when it isn't a key: a year, a kind. */
 function CommandHint({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="command-hint" className={cn("db-command-hint", className)} {...props} />
+  return <span data-slot="command-hint" className={cn("ot-command-hint", className)} {...props} />
 }
 
 type CommandDialogProps = CommandProps & {
@@ -141,9 +141,9 @@ function CommandDialog({ open, onOpenChange, title = "Search", children, ...prop
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay data-slot="command-overlay" className="db-command-overlay" />
-        <DialogPrimitive.Content data-slot="command-dialog" aria-describedby={undefined} className="db-command-dialog db-corners">
-          <DialogPrimitive.Title className="db-sr">{title}</DialogPrimitive.Title>
+        <DialogPrimitive.Overlay data-slot="command-overlay" className="ot-command-overlay" />
+        <DialogPrimitive.Content data-slot="command-dialog" aria-describedby={undefined} className="ot-command-dialog ot-corners">
+          <DialogPrimitive.Title className="ot-sr">{title}</DialogPrimitive.Title>
           <Command {...props}>{children}</Command>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>

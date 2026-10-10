@@ -1,79 +1,79 @@
 @layer components {
-  /* ── db-tree ── a hierarchy set as a contents page: names on hairline branches. Each open folder's branch hangs from under the
+  /* ── ot-tree ── a hierarchy set as a contents page: names on hairline branches. Each open folder's branch hangs from under the
      first letter of its name, and every name sits on it at a dot, so the depth is read off the lines, not from boxes or icons.
      A leaf is a small graphite dot, a closed folder a ring, an open one a filled dot; the chosen leaf is the one accent and
      its name turns italic. A value (a size, a folio) is joined to its name by the item's leader. */
-  .db-tree {
-    --db-tree-pad: var(--db-space-2); /* a row's padding above and below its name */
-    --db-tree-indent: var(--db-space-5); /* from a dot to its name, and so from a branch to the next one in */
+  .ot-tree {
+    --ot-tree-pad: var(--ot-space-2); /* a row's padding above and below its name */
+    --ot-tree-indent: var(--ot-space-5); /* from a dot to its name, and so from a branch to the next one in */
     --d: 7px;
     padding-inline-start: calc(var(--d) / 2); min-width: 0;
-    font-size: var(--db-p); line-height: var(--db-p-lh); letter-spacing: var(--db-p-tr);
+    font-size: var(--ot-p); line-height: var(--ot-p-lh); letter-spacing: var(--ot-p-tr);
   }
-  .db-tree-list { list-style: none; margin: 0; padding: 0; }
-  .db-tree-list .db-tree-list { padding-inline-start: var(--db-tree-indent); }
+  .ot-tree-list { list-style: none; margin: 0; padding: 0; }
+  .ot-tree-list .ot-tree-list { padding-inline-start: var(--ot-tree-indent); }
 
-  .db-tree .db-tree-node { position: relative; padding: 0; border: 0; }
-  .db-tree .db-tree-row { position: relative; display: flex; align-items: baseline; gap: var(--db-space-4); padding-block: var(--db-tree-pad); padding-inline-start: var(--db-tree-indent); border: 0; }
-  .db-tree-folder > summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-  .db-tree-folder > summary::-webkit-details-marker { display: none; }
+  .ot-tree .ot-tree-node { position: relative; padding: 0; border: 0; }
+  .ot-tree .ot-tree-row { position: relative; display: flex; align-items: baseline; gap: var(--ot-space-4); padding-block: var(--ot-tree-pad); padding-inline-start: var(--ot-tree-indent); border: 0; }
+  .ot-tree-folder > summary { list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .ot-tree-folder > summary::-webkit-details-marker { display: none; }
 
   /* The branch: each row carries its own length of it, the last one stopping at its dot. */
-  .db-tree-node::before, .db-tree-tail::before {
-    content: ""; position: absolute; inset-block: 0; inset-inline-start: calc(var(--db-hairline) / -2); inline-size: var(--db-hairline);
-    background: var(--db-rule-strong); transform-origin: top;
+  .ot-tree-node::before, .ot-tree-tail::before {
+    content: ""; position: absolute; inset-block: 0; inset-inline-start: calc(var(--ot-hairline) / -2); inline-size: var(--ot-hairline);
+    background: var(--ot-rule-strong); transform-origin: top;
   }
-  :is(.db-tree-list, .db-tree .db-collapse-list) > :is(.db-tree-node, .db-tree-tail):last-child::before { inset-block-end: auto; block-size: calc(var(--db-tree-pad) + 0.5lh); }
-  .db-tree > .db-tree-list > :first-child::before { inset-block-start: calc(var(--db-tree-pad) + 0.5lh); } /* the root's branch starts at its first name */
-  .db-tree > .db-tree-list > :only-child::before { content: none; }
-  .db-tree-list > .db-tree-tail:has(> .db-collapse[open])::before { block-size: calc(2 * var(--db-tree-pad) + 1lh); }
+  :is(.ot-tree-list, .ot-tree .ot-collapse-list) > :is(.ot-tree-node, .ot-tree-tail):last-child::before { inset-block-end: auto; block-size: calc(var(--ot-tree-pad) + 0.5lh); }
+  .ot-tree > .ot-tree-list > :first-child::before { inset-block-start: calc(var(--ot-tree-pad) + 0.5lh); } /* the root's branch starts at its first name */
+  .ot-tree > .ot-tree-list > :only-child::before { content: none; }
+  .ot-tree-list > .ot-tree-tail:has(> .ot-collapse[open])::before { block-size: calc(2 * var(--ot-tree-pad) + 1lh); }
 
   /* The dots */
-  .db-tree-row::after {
-    content: ""; position: absolute; box-sizing: border-box; inset-inline-start: calc(var(--d) / -2); inset-block-start: calc(var(--db-tree-pad) + 0.5lh - var(--d) / 2);
-    inline-size: var(--d); block-size: var(--d); border-radius: 50%; border: var(--db-hairline) solid var(--c, var(--db-graphite)); background: var(--c, var(--db-graphite));
-    scale: 0.6; transition: scale var(--db-moderato) var(--db-spiccato), background-color var(--db-allegro), border-color var(--db-allegro);
+  .ot-tree-row::after {
+    content: ""; position: absolute; box-sizing: border-box; inset-inline-start: calc(var(--d) / -2); inset-block-start: calc(var(--ot-tree-pad) + 0.5lh - var(--d) / 2);
+    inline-size: var(--d); block-size: var(--d); border-radius: 50%; border: var(--ot-hairline) solid var(--c, var(--ot-graphite)); background: var(--c, var(--ot-graphite));
+    scale: 0.6; transition: scale var(--ot-moderato) var(--ot-spiccato), background-color var(--ot-allegro), border-color var(--ot-allegro);
   }
-  .db-tree-folder > .db-tree-row::after { --c: var(--db-ink); scale: 1; background: var(--db-paper); }
-  .db-tree-folder[open] > .db-tree-row::after { background: var(--db-ink); }
-  .db-tree-row[data-selected]::after { --c: var(--db-accent); scale: 1; }
+  .ot-tree-folder > .ot-tree-row::after { --c: var(--ot-ink); scale: 1; background: var(--ot-paper); }
+  .ot-tree-folder[open] > .ot-tree-row::after { background: var(--ot-ink); }
+  .ot-tree-row[data-selected]::after { --c: var(--ot-accent); scale: 1; }
 
   /* The names: folders set firm, leaves in graphite that inks as you point; the chosen one italic, as yours. */
-  .db-tree-name { appearance: none; margin: 0; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; color: var(--db-graphite); text-align: start; text-decoration: none; cursor: pointer; transition: color var(--db-allegro); }
-  .db-tree-row:is(:hover, :focus-within, [data-force~="hover"]) .db-tree-name, .db-tree-name[aria-current] { color: var(--db-ink); }
-  .db-tree-name[aria-current] .db-item-title { font-style: italic; }
-  .db-tree-folder > summary .db-item-title { font-weight: 500; }
-  .db-tree-count { margin-inline-start: 0.2em; font-size: var(--db-pp); font-weight: 400; font-variant-numeric: tabular-nums; color: var(--db-pencil); }
-  .db-tree .db-item-end { color: var(--db-graphite); }
-  .db-tree-folder > summary:is(:hover, :focus-visible, [data-force~="hover"]) .db-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
-  .db-tree-empty { margin: 0; padding-block: var(--db-tree-pad); padding-inline-start: calc(2 * var(--db-tree-indent)); font-size: var(--db-pp); color: var(--db-pencil); }
+  .ot-tree-name { appearance: none; margin: 0; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; color: var(--ot-graphite); text-align: start; text-decoration: none; cursor: pointer; transition: color var(--ot-allegro); }
+  .ot-tree-row:is(:hover, :focus-within, [data-force~="hover"]) .ot-tree-name, .ot-tree-name[aria-current] { color: var(--ot-ink); }
+  .ot-tree-name[aria-current] .ot-item-title { font-style: italic; }
+  .ot-tree-folder > summary .ot-item-title { font-weight: 500; }
+  .ot-tree-count { margin-inline-start: 0.2em; font-size: var(--ot-pp); font-weight: 400; font-variant-numeric: tabular-nums; color: var(--ot-pencil); }
+  .ot-tree .ot-item-end { color: var(--ot-graphite); }
+  .ot-tree-folder > summary:is(:hover, :focus-visible, [data-force~="hover"]) .ot-item-leader::after { mask-position: 0 0; mask-size: 100% 100%; }
+  .ot-tree-empty { margin: 0; padding-block: var(--ot-tree-pad); padding-inline-start: calc(2 * var(--ot-tree-indent)); font-size: var(--ot-pp); color: var(--ot-pencil); }
 
   /* A long folder ends in the rest of itself, as the collapsible does: "and 6 more" stands on the branch's end. */
-  .db-tree-tail { position: relative; }
-  .db-tree .db-tree-tail > .db-collapse:is(*, [open]) > summary { --py: var(--db-tree-pad); display: flex; inline-size: fit-content; margin-block: 0; margin-inline: var(--db-tree-indent) 0; line-height: inherit; }
-  .db-tree .db-collapse-list > li { padding-block: 0; border: 0; }
-  .db-tree .db-tree-tail > .db-collapse::details-content { overflow-clip-margin: var(--d); } /* the rest's dots and branch stand on its edge */
-  .db-tree .db-collapse-list > .db-tree-row { padding-block: var(--db-tree-pad); }
+  .ot-tree-tail { position: relative; }
+  .ot-tree .ot-tree-tail > .ot-collapse:is(*, [open]) > summary { --py: var(--ot-tree-pad); display: flex; inline-size: fit-content; margin-block: 0; margin-inline: var(--ot-tree-indent) 0; line-height: inherit; }
+  .ot-tree .ot-collapse-list > li { padding-block: 0; border: 0; }
+  .ot-tree .ot-tree-tail > .ot-collapse::details-content { overflow-clip-margin: var(--d); } /* the rest's dots and branch stand on its edge */
+  .ot-tree .ot-collapse-list > .ot-tree-row { padding-block: var(--ot-tree-pad); }
 
   /* Opening a folder: its branch draws down and its names arrive in turn under it. Not for folders open from the start. */
-  .db-tree-folder::details-content { block-size: 0; overflow: clip; transition: block-size var(--db-andante) var(--db-exhale), content-visibility var(--db-andante) allow-discrete; }
-  .db-tree-folder[open]::details-content { block-size: auto; }
-  .db-tree-folder[data-arriving][open] > .db-tree-list > li { animation: db-arrive var(--db-moderato) var(--db-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--db-arpeggio)); }
-  .db-tree-folder[data-arriving][open] > .db-tree-list > li::before { animation: db-draw-y var(--db-andante) var(--db-exhale) backwards; animation-delay: calc((sibling-index() - 1) * 2 * var(--db-arpeggio)); }
+  .ot-tree-folder::details-content { block-size: 0; overflow: clip; transition: block-size var(--ot-andante) var(--ot-exhale), content-visibility var(--ot-andante) allow-discrete; }
+  .ot-tree-folder[open]::details-content { block-size: auto; }
+  .ot-tree-folder[data-arriving][open] > .ot-tree-list > li { animation: ot-arrive var(--ot-moderato) var(--ot-exhale) backwards; animation-delay: calc(sibling-index() * 2 * var(--ot-arpeggio)); }
+  .ot-tree-folder[data-arriving][open] > .ot-tree-list > li::before { animation: ot-draw-y var(--ot-andante) var(--ot-exhale) backwards; animation-delay: calc((sibling-index() - 1) * 2 * var(--ot-arpeggio)); }
 
   /* ── outline ── the book's decimal contents: every name numbered by its place (1, 1.2, 1.2.3) in a pencil column, flush to one
      edge at every depth, and no lines; the depth is in the numbers. An open folder's number inks; the chosen leaf's is the accent. */
-  .db-tree[data-variant="outline"] { --db-tree-indent: calc(3em + var(--db-space-4)); padding-inline-start: 0; }
-  .db-tree[data-variant="outline"] .db-tree-list { padding-inline-start: 0; counter-reset: db-tree; }
-  .db-tree[data-variant="outline"] .db-tree-node { counter-increment: db-tree; }
-  .db-tree[data-variant="outline"] :is(.db-tree-node, .db-tree-tail)::before { content: none; }
-  .db-tree[data-variant="outline"] .db-tree-row { padding-inline-start: 0; }
-  .db-tree[data-variant="outline"] .db-tree-row::after {
-    content: counters(db-tree, ".") / ""; position: static; order: -1; flex: none; inline-size: 3em; block-size: auto; scale: 1;
-    border: 0; border-radius: 0; background: none; font-variant-numeric: tabular-nums; color: var(--c, var(--db-pencil)); transition: color var(--db-allegro);
+  .ot-tree[data-variant="outline"] { --ot-tree-indent: calc(3em + var(--ot-space-4)); padding-inline-start: 0; }
+  .ot-tree[data-variant="outline"] .ot-tree-list { padding-inline-start: 0; counter-reset: ot-tree; }
+  .ot-tree[data-variant="outline"] .ot-tree-node { counter-increment: ot-tree; }
+  .ot-tree[data-variant="outline"] :is(.ot-tree-node, .ot-tree-tail)::before { content: none; }
+  .ot-tree[data-variant="outline"] .ot-tree-row { padding-inline-start: 0; }
+  .ot-tree[data-variant="outline"] .ot-tree-row::after {
+    content: counters(ot-tree, ".") / ""; position: static; order: -1; flex: none; inline-size: 3em; block-size: auto; scale: 1;
+    border: 0; border-radius: 0; background: none; font-variant-numeric: tabular-nums; color: var(--c, var(--ot-pencil)); transition: color var(--ot-allegro);
   }
-  .db-tree[data-variant="outline"] .db-tree-folder[open] > .db-tree-row::after { --c: var(--db-ink); }
-  .db-tree[data-variant="outline"] .db-tree-row[data-selected]::after { --c: var(--db-accent); }
-  .db-tree[data-variant="outline"] .db-tree-list .db-tree-list .db-tree-folder > summary .db-item-title { font-weight: 400; }
-  .db-tree[data-variant="outline"] > .db-tree-list > .db-tree-node > .db-tree-folder > summary .db-item-title { font-weight: 600; }
+  .ot-tree[data-variant="outline"] .ot-tree-folder[open] > .ot-tree-row::after { --c: var(--ot-ink); }
+  .ot-tree[data-variant="outline"] .ot-tree-row[data-selected]::after { --c: var(--ot-accent); }
+  .ot-tree[data-variant="outline"] .ot-tree-list .ot-tree-list .ot-tree-folder > summary .ot-item-title { font-weight: 400; }
+  .ot-tree[data-variant="outline"] > .ot-tree-list > .ot-tree-node > .ot-tree-folder > summary .ot-item-title { font-weight: 600; }
 }

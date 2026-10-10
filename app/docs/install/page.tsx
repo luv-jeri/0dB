@@ -72,7 +72,7 @@ export default function Install() {
               <code>fonts-salon</code>.
             </li>
             <li>
-              Every item&apos;s CSS sits in <code>@layer components</code> and reads only <code>--db-*</code> tokens, so your Tailwind utilities still win where you use them.
+              Every item&apos;s CSS sits in <code>@layer components</code> and reads only <code>--ot-*</code> tokens, so your Tailwind utilities still win where you use them.
             </li>
             <li>Reduced motion is handled in the tokens: every tempo becomes 1ms. Nothing else to set.</li>
             <li>

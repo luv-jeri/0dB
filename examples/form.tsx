@@ -16,7 +16,7 @@ export default function Example() {
   return (
     <div className="grid w-full gap-16">
       <div className="grid gap-6">
-        <span className="db-label">grid</span>
+        <span className="ot-label">grid</span>
         <Form className="w-full max-w-md" onSubmit={send}>
           <Field label="Your name">
             <Input name="name" required data-error="Add your name so we know who to answer." autoComplete="name" />
@@ -37,7 +37,7 @@ export default function Example() {
       </div>
 
       <div className="grid gap-6">
-        <span className="db-label">letter</span>
+        <span className="ot-label">letter</span>
         <Form variant="letter" onSubmit={send}>
           <div>Dear Studio,</div>
           <div>
@@ -65,7 +65,7 @@ export default function Example() {
       </div>
 
       <div className="grid gap-6">
-        <span className="db-label">postmark</span>
+        <span className="ot-label">postmark</span>
         <Form variant="postmark" className="w-full max-w-md" onSubmit={send}>
           <Field label="Email">
             <Input name="email" type="email" required data-error="Check the address. It needs a domain after the @, like studio.com." autoComplete="email" />

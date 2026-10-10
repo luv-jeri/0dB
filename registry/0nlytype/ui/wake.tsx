@@ -178,10 +178,10 @@ function Wake({ children: text, radius = 3.2, mark = false, variant = "circle", 
   useWeight(ref, lines, ring, text, radius, variant === "weight")
 
   return (
-    <p ref={composedRef} data-slot="wake" data-variant={variant === "circle" ? undefined : variant} className={cn("db-wake", className)} {...props}>
-      <span className="db-wake-plain">{text}</span>
-      <span ref={lines} aria-hidden="true" hidden className="db-wake-lines" />
-      {mark ? <span ref={ring} aria-hidden="true" hidden className="db-wake-ring" /> : null}
+    <p ref={composedRef} data-slot="wake" data-variant={variant === "circle" ? undefined : variant} className={cn("ot-wake", className)} {...props}>
+      <span className="ot-wake-plain">{text}</span>
+      <span ref={lines} aria-hidden="true" hidden className="ot-wake-lines" />
+      {mark ? <span ref={ring} aria-hidden="true" hidden className="ot-wake-ring" /> : null}
     </p>
   )
 }
@@ -216,8 +216,8 @@ function useWeight(
       const style = getComputedStyle(el!)
       R = radius * parseFloat(style.fontSize)
       const w0 = parseFloat(style.fontWeight) || 400, s0 = parseFloat(style.fontStretch) || 100
-      el!.style.setProperty("--db-wake-w0", String(w0))
-      el!.style.setProperty("--db-wake-s0", String(s0))
+      el!.style.setProperty("--ot-wake-w0", String(w0))
+      el!.style.setProperty("--ot-wake-s0", String(s0))
       // How far the width axis must close for the heaviest letters to keep their set width (none without one).
       const probe = layer!.appendChild(document.createElement("span"))
       probe.style.cssText = "visibility:hidden;white-space:pre;translate:none"
@@ -226,7 +226,7 @@ function useWeight(
       const rest = wide(w0, s0)
       let lo = 50, hi = s0
       if (wide(800, s0) > rest + 0.5) for (let i = 0; i < 7; i++) { const mid = (lo + hi) / 2; if (wide(800, mid) > rest) hi = mid; else lo = mid }
-      el!.style.setProperty("--db-wake-s1", String(Math.round(hi)))
+      el!.style.setProperty("--ot-wake-s1", String(Math.round(hi)))
       probe.remove()
 
       const box = el!.getBoundingClientRect()

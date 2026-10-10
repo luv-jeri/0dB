@@ -111,8 +111,8 @@ function ContextMenuContent({
         data-variant={variant}
         avoidCollisions={false}
         collisionPadding={collisionPadding}
-        style={{ translate: `${shift.x}px ${shift.y}px`, "--db-at-x": `${-shift.x}px`, "--db-at-y": `${-shift.y}px`, ...style } as React.CSSProperties}
-        className={cn("db-pop db-menu", className)}
+        style={{ translate: `${shift.x}px ${shift.y}px`, "--ot-at-x": `${-shift.x}px`, "--ot-at-y": `${-shift.y}px`, ...style } as React.CSSProperties}
+        className={cn("ot-pop ot-menu", className)}
         {...props}
       >
         <MenuLook.Provider value={variant}>{children}</MenuLook.Provider>
@@ -127,34 +127,34 @@ function ContextMenuItem({
   variant = "default",
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Item> & { variant?: "default" | "destructive" }) {
-  return <MenuPrimitive.Item data-slot="context-menu-item" data-variant={variant} className={cn("db-menu-item", className)} {...props} />
+  return <MenuPrimitive.Item data-slot="context-menu-item" data-variant={variant} className={cn("ot-menu-item", className)} {...props} />
 }
 
 /** Checked, the sentence turns to the expression italic. Screen readers get aria-checked. */
 function ContextMenuCheckboxItem({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.CheckboxItem>) {
-  return <MenuPrimitive.CheckboxItem data-slot="context-menu-checkbox-item" className={cn("db-menu-item", className)} {...props} />
+  return <MenuPrimitive.CheckboxItem data-slot="context-menu-checkbox-item" className={cn("ot-menu-item", className)} {...props} />
 }
 
 function ContextMenuRadioItem({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.RadioItem>) {
-  return <MenuPrimitive.RadioItem data-slot="context-menu-radio-item" className={cn("db-menu-item", className)} {...props} />
+  return <MenuPrimitive.RadioItem data-slot="context-menu-radio-item" className={cn("ot-menu-item", className)} {...props} />
 }
 
 function ContextMenuLabel({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Label>) {
-  return <MenuPrimitive.Label data-slot="context-menu-label" className={cn("db-menu-label", className)} {...props} />
+  return <MenuPrimitive.Label data-slot="context-menu-label" className={cn("ot-menu-label", className)} {...props} />
 }
 
 function ContextMenuSeparator({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Separator>) {
-  return <MenuPrimitive.Separator data-slot="context-menu-separator" className={cn("db-menu-sep", className)} {...props} />
+  return <MenuPrimitive.Separator data-slot="context-menu-separator" className={cn("ot-menu-sep", className)} {...props} />
 }
 
-/** Shortcut keys, each a base `db-kbd` cap; it is the dropdown menu's, under this slot. */
+/** Shortcut keys, each a base `ot-kbd` cap; it is the dropdown menu's, under this slot. */
 function ContextMenuShortcut(props: React.ComponentProps<typeof DropdownMenuShortcut>) {
   return <DropdownMenuShortcut data-slot="context-menu-shortcut" {...props} />
 }
 
 /** Opens something, so it carries the one → glyph. */
 function ContextMenuSubTrigger({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.SubTrigger>) {
-  return <MenuPrimitive.SubTrigger data-slot="context-menu-sub-trigger" className={cn("db-menu-item db-menu-sub", className)} {...props} />
+  return <MenuPrimitive.SubTrigger data-slot="context-menu-sub-trigger" className={cn("ot-menu-item ot-menu-sub", className)} {...props} />
 }
 
 /** Beside its item, or on a narrow screen dropped open under it (the dropdown menu's useSubmenuPlace). */
@@ -162,7 +162,7 @@ function ContextMenuSubContent({ className, ref, sideOffset, alignOffset, collis
   const place = useSubmenuPlace({ ref, sideOffset, alignOffset, collisionPadding, style })
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.SubContent data-slot="context-menu-sub-content" className={cn("db-pop db-menu", className)} {...props} {...place} />
+      <MenuPrimitive.SubContent data-slot="context-menu-sub-content" className={cn("ot-pop ot-menu", className)} {...props} {...place} />
     </MenuPrimitive.Portal>
   )
 }

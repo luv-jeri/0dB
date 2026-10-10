@@ -1,121 +1,121 @@
 @layer components {
-  /* ── db-sheet ── a page slid in from the edge; its title runs up the spine.
+  /* ── ot-sheet ── a page slid in from the edge; its title runs up the spine.
      The backdrop lives in dialog.css. Sides are logical: start and end follow
      the reading direction, so the sheet meets the right edge in right-to-left. */
-  .db-sheet {
+  .ot-sheet {
     --from: 100% 0; /* where it waits, off the edge it comes from */
-    position: fixed; inset-block: 0; inset-inline: auto 0; margin: 0; width: min(32rem, calc(100vw - var(--db-space-6))); height: 100dvh; max-width: none; max-height: none;
-    padding-block: var(--db-space-7) var(--db-space-6); padding-inline: var(--db-space-8) var(--db-space-6); overflow: auto;
-    border: 0; border-inline-start: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite);
+    position: fixed; inset-block: 0; inset-inline: auto 0; margin: 0; width: min(32rem, calc(100vw - var(--ot-space-6))); height: 100dvh; max-width: none; max-height: none;
+    padding-block: var(--ot-space-7) var(--ot-space-6); padding-inline: var(--ot-space-8) var(--ot-space-6); overflow: auto;
+    border: 0; border-inline-start: var(--ot-hairline) solid var(--ot-ink); background: var(--ot-paper); color: var(--ot-graphite);
     translate: var(--from);
-    transition: translate var(--db-andante) var(--db-exhale), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+    transition: translate var(--ot-andante) var(--ot-exhale), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
   }
-  .db-sheet[open] { translate: 0 0; }
-  @starting-style { .db-sheet[open] { translate: var(--from); } }
-  .db-sheet:is([dir="rtl"], [dir="rtl"] *) { --from: -100% 0; }
-  .db-sheet[data-side="start"] { --from: -100% 0; inset-inline: 0 auto; border-inline-start: 0; border-inline-end: var(--db-hairline) solid var(--db-ink); }
-  .db-sheet[data-side="start"]:is([dir="rtl"], [dir="rtl"] *) { --from: 100% 0; }
+  .ot-sheet[open] { translate: 0 0; }
+  @starting-style { .ot-sheet[open] { translate: var(--from); } }
+  .ot-sheet:is([dir="rtl"], [dir="rtl"] *) { --from: -100% 0; }
+  .ot-sheet[data-side="start"] { --from: -100% 0; inset-inline: 0 auto; border-inline-start: 0; border-inline-end: var(--ot-hairline) solid var(--ot-ink); }
+  .ot-sheet[data-side="start"]:is([dir="rtl"], [dir="rtl"] *) { --from: 100% 0; }
   /* A start sheet's edge is on the same side as its scrollbar: the edge is the rail, and the thumb is that edge thickening where you are, not a second line beside it. */
-  .db-sheet[data-side="start"] > .db-scrollbar { --line: 0px; }
-  .db-sheet[data-side="start"] > .db-scrollbar::before { content: none; }
-  .db-sheet:is([data-side="top"], [data-side="bottom"]) { inset-inline: 0; width: 100%; height: auto; max-height: 85dvh; border-inline-start: 0; }
-  .db-sheet[data-side="top"] { --from: 0 -100%; inset-block: 0 auto; border-block-end: var(--db-hairline) solid var(--db-ink); }
-  .db-sheet[data-side="bottom"] { --from: 0 100%; inset-block: auto 0; border-block-start: var(--db-hairline) solid var(--db-ink); }
+  .ot-sheet[data-side="start"] > .ot-scrollbar { --line: 0px; }
+  .ot-sheet[data-side="start"] > .ot-scrollbar::before { content: none; }
+  .ot-sheet:is([data-side="top"], [data-side="bottom"]) { inset-inline: 0; width: 100%; height: auto; max-height: 85dvh; border-inline-start: 0; }
+  .ot-sheet[data-side="top"] { --from: 0 -100%; inset-block: 0 auto; border-block-end: var(--ot-hairline) solid var(--ot-ink); }
+  .ot-sheet[data-side="bottom"] { --from: 0 100%; inset-block: auto 0; border-block-start: var(--ot-hairline) solid var(--ot-ink); }
   /* left and right, not inset-inline-start: in the spine's own vertical writing mode that means top,
      and the spine fell into the text. The sheet's space-8 inline-start padding is its column. */
-  .db-sheet-spine {
-    position: absolute; left: var(--db-space-4); bottom: var(--db-space-6);
+  .ot-sheet-spine {
+    position: absolute; left: var(--ot-space-4); bottom: var(--ot-space-6);
     writing-mode: vertical-rl; rotate: 180deg; white-space: nowrap;
-    font-size: var(--db-f); line-height: 1; letter-spacing: var(--db-f-tr); font-weight: 200; color: var(--db-ink);
+    font-size: var(--ot-f); line-height: 1; letter-spacing: var(--ot-f-tr); font-weight: 200; color: var(--ot-ink);
   }
-  .db-sheet-spine:is([dir="rtl"], [dir="rtl"] *) { left: auto; right: var(--db-space-4); }
-  .db-sheet[open] .db-sheet-spine { animation: db-spine var(--db-andante) var(--db-exhale) 240ms backwards; }
-  @keyframes db-spine { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
-  .db-sheet > * + *:not(.db-scrollbar) { margin-block-start: var(--db-space-6); }
-  .db-sheet-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
-  .db-sheet-body { max-width: 40ch; }
+  .ot-sheet-spine:is([dir="rtl"], [dir="rtl"] *) { left: auto; right: var(--ot-space-4); }
+  .ot-sheet[open] .ot-sheet-spine { animation: ot-spine var(--ot-andante) var(--ot-exhale) 240ms backwards; }
+  @keyframes ot-spine { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+  .ot-sheet > * + *:not(.ot-scrollbar) { margin-block-start: var(--ot-space-6); }
+  .ot-sheet-title { font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 300; color: var(--ot-ink); }
+  .ot-sheet-body { max-width: 40ch; }
 
   /* Shelf (books on a shelf): a sheet opened from inside a shelf sheet stands in front of it, one spine column
      narrower, so the spine below stays in view, set back to pencil, and pointing there puts the front one away.
      Only the front sheet blurs the page; the ones behind it are the shelf. */
-  .db-sheet[data-variant="shelf"] { --col: var(--db-space-8); --wide: min(32rem, calc(100vw - var(--db-space-6))); }
-  .db-sheet[data-variant="shelf"] .db-sheet { width: calc(var(--wide) - var(--col)); }
-  .db-sheet[data-variant="shelf"] .db-sheet .db-sheet { width: calc(var(--wide) - 2 * var(--col)); }
-  .db-sheet[data-variant="shelf"] .db-sheet::backdrop { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .db-sheet[data-variant="shelf"] .db-sheet-spine { transition: color var(--db-moderato) var(--db-breath); }
-  .db-sheet[data-variant="shelf"]:has(.db-sheet[open]) > .db-sheet-spine,
-  .db-sheet[data-variant="shelf"] .db-sheet:has(.db-sheet[open]) > .db-sheet-spine { color: var(--db-pencil); }
+  .ot-sheet[data-variant="shelf"] { --col: var(--ot-space-8); --wide: min(32rem, calc(100vw - var(--ot-space-6))); }
+  .ot-sheet[data-variant="shelf"] .ot-sheet { width: calc(var(--wide) - var(--col)); }
+  .ot-sheet[data-variant="shelf"] .ot-sheet .ot-sheet { width: calc(var(--wide) - 2 * var(--col)); }
+  .ot-sheet[data-variant="shelf"] .ot-sheet::backdrop { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .ot-sheet[data-variant="shelf"] .ot-sheet-spine { transition: color var(--ot-moderato) var(--ot-breath); }
+  .ot-sheet[data-variant="shelf"]:has(.ot-sheet[open]) > .ot-sheet-spine,
+  .ot-sheet[data-variant="shelf"] .ot-sheet:has(.ot-sheet[open]) > .ot-sheet-spine { color: var(--ot-pencil); }
   @media (max-width: 40rem) {
-    .db-sheet[data-variant="shelf"] { --col: var(--db-space-7); }
-    .db-sheet[data-variant="shelf"], .db-sheet[data-variant="shelf"] .db-sheet { padding-inline-start: var(--col); }
-    .db-sheet[data-variant="shelf"] .db-sheet-spine { left: var(--db-space-3); font-size: var(--db-mf); }
-    .db-sheet[data-variant="shelf"] .db-sheet-spine:is([dir="rtl"], [dir="rtl"] *) { left: auto; right: var(--db-space-3); }
+    .ot-sheet[data-variant="shelf"] { --col: var(--ot-space-7); }
+    .ot-sheet[data-variant="shelf"], .ot-sheet[data-variant="shelf"] .ot-sheet { padding-inline-start: var(--col); }
+    .ot-sheet[data-variant="shelf"] .ot-sheet-spine { left: var(--ot-space-3); font-size: var(--ot-mf); }
+    .ot-sheet[data-variant="shelf"] .ot-sheet-spine:is([dir="rtl"], [dir="rtl"] *) { left: auto; right: var(--ot-space-3); }
   }
 
   /* Rag ("Healthy habits" cut from its paper; "Less is more." set flush right): the words stand flush to the
      window's edge and rag toward the page, and the paper is cut to that rag, a step for every line, with a
      hairline along the cut that draws down as it arrives. The script measures the line boxes and draws the
-     paper (.db-sheet-rag); until it has, the sheet is plain paper. Its box hangs from the top, only as tall
+     paper (.ot-sheet-rag); until it has, the sheet is plain paper. Its box hangs from the top, only as tall
      as its words, and a click on the bare part of the box is a click outside. */
-  .db-sheet[data-variant="rag"] { height: auto; max-height: 100dvh; inset-block: 0 auto; isolation: isolate; padding-inline: var(--db-space-6); text-align: end; }
-  .db-sheet[data-variant="rag"][data-laid] { background: none; border: 0; }
-  .db-sheet[data-variant="rag"] > :not(.db-scrollbar, .db-sheet-rag) { margin-inline-start: auto; }
-  .db-sheet[data-variant="rag"] .db-sheet-title { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); text-wrap: balance; }
-  .db-sheet[data-variant="rag"] .db-sheet-body { max-width: 30ch; }
-  .db-sheet[data-variant="rag"][data-laid] > .db-scrollbar { --line: 0px; }
-  .db-sheet[data-variant="rag"][data-laid] > .db-scrollbar::before { content: none; }
-  .db-sheet > .db-sheet-rag { position: absolute; z-index: -1; top: 0; margin: 0; left: 0; overflow: visible; pointer-events: none; }
-  .db-sheet-rag-paper { fill: var(--db-paper); pointer-events: visiblePainted; }
-  .db-sheet-rag-edge { fill: none; stroke: var(--db-ink); stroke-width: var(--db-hairline); stroke-dasharray: 1; shape-rendering: crispEdges; }
-  .db-sheet[open] .db-sheet-rag-edge { animation: db-rag var(--db-andante) var(--db-exhale) 200ms backwards; }
-  @keyframes db-rag { from { stroke-dashoffset: 1; } }
+  .ot-sheet[data-variant="rag"] { height: auto; max-height: 100dvh; inset-block: 0 auto; isolation: isolate; padding-inline: var(--ot-space-6); text-align: end; }
+  .ot-sheet[data-variant="rag"][data-laid] { background: none; border: 0; }
+  .ot-sheet[data-variant="rag"] > :not(.ot-scrollbar, .ot-sheet-rag) { margin-inline-start: auto; }
+  .ot-sheet[data-variant="rag"] .ot-sheet-title { font-size: var(--ot-f); line-height: var(--ot-f-lh); letter-spacing: var(--ot-f-tr); text-wrap: balance; }
+  .ot-sheet[data-variant="rag"] .ot-sheet-body { max-width: 30ch; }
+  .ot-sheet[data-variant="rag"][data-laid] > .ot-scrollbar { --line: 0px; }
+  .ot-sheet[data-variant="rag"][data-laid] > .ot-scrollbar::before { content: none; }
+  .ot-sheet > .ot-sheet-rag { position: absolute; z-index: -1; top: 0; margin: 0; left: 0; overflow: visible; pointer-events: none; }
+  .ot-sheet-rag-paper { fill: var(--ot-paper); pointer-events: visiblePainted; }
+  .ot-sheet-rag-edge { fill: none; stroke: var(--ot-ink); stroke-width: var(--ot-hairline); stroke-dasharray: 1; shape-rendering: crispEdges; }
+  .ot-sheet[open] .ot-sheet-rag-edge { animation: ot-rag var(--ot-andante) var(--ot-exhale) 200ms backwards; }
+  @keyframes ot-rag { from { stroke-dashoffset: 1; } }
   /* Panels: pages inside one sheet, the chapters of the book on its spine ("It has to be design.": the scale is the
      drama). The spine is the trail, read up from the foot: the names you came through small in the pencil, the one
      you are in large in ink. Stepping in, the name you left shrinks into the trail and the new one writes up the
      spine; the page slides in from the edge the sheet came from while the old one goes the other way. The small
      names are the way back. Panels share one cell, so the two pages cross in place. */
-  .db-sheet-panels { --lr: 1; display: grid; }
-  .db-sheet-panels:is([dir="rtl"], [dir="rtl"] *) { --lr: -1; }
-  .db-sheet-panels[data-step="out"] { --lr-step: -1; }
-  .db-sheet-panel {
+  .ot-sheet-panels { --lr: 1; display: grid; }
+  .ot-sheet-panels:is([dir="rtl"], [dir="rtl"] *) { --lr: -1; }
+  .ot-sheet-panels[data-step="out"] { --lr-step: -1; }
+  .ot-sheet-panel {
     grid-area: 1 / 1; min-inline-size: 0;
-    transition: opacity var(--db-andante) var(--db-exhale), translate var(--db-andante) var(--db-exhale), display var(--db-andante) allow-discrete;
+    transition: opacity var(--ot-andante) var(--ot-exhale), translate var(--ot-andante) var(--ot-exhale), display var(--ot-andante) allow-discrete;
   }
-  .db-sheet-panel[hidden] { opacity: 0; translate: calc(-1.5em * var(--lr) * var(--lr-step, 1)) 0; pointer-events: none; }
-  @starting-style { .db-sheet-panel:not([hidden]) { opacity: 0; translate: calc(1.5em * var(--lr) * var(--lr-step, 1)) 0; } }
-  .db-sheet-panel > * + * { margin-block-start: var(--db-space-6); }
-  .db-sheet-panel-title { inline-size: fit-content; }
-  .db-sheet-panel-title:focus { outline: none; }
-  .db-sheet-panel-title:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 6px; }
+  .ot-sheet-panel[hidden] { opacity: 0; translate: calc(-1.5em * var(--lr) * var(--lr-step, 1)) 0; pointer-events: none; }
+  @starting-style { .ot-sheet-panel:not([hidden]) { opacity: 0; translate: calc(1.5em * var(--lr) * var(--lr-step, 1)) 0; } }
+  .ot-sheet-panel > * + * { margin-block-start: var(--ot-space-6); }
+  .ot-sheet-panel-title { inline-size: fit-content; }
+  .ot-sheet-panel-title:focus { outline: none; }
+  .ot-sheet-panel-title:focus-visible { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 6px; }
 
-  .db-sheet-trail { display: flex; align-items: baseline; gap: var(--db-space-4); }
-  .db-sheet-trail:is([dir="rtl"], [dir="rtl"] *) { flex-direction: row-reverse; } /* the root stays at the foot */
-  .db-sheet-trail-step {
+  .ot-sheet-trail { display: flex; align-items: baseline; gap: var(--ot-space-4); }
+  .ot-sheet-trail:is([dir="rtl"], [dir="rtl"] *) { flex-direction: row-reverse; } /* the root stays at the foot */
+  .ot-sheet-trail-step {
     appearance: none; border: 0; padding: 0; background: none; font: inherit; letter-spacing: 0; cursor: pointer;
-    font-size: var(--db-mp); font-weight: 400; color: var(--db-pencil);
-    transition: font-size var(--db-andante) var(--db-exhale), font-weight var(--db-andante) var(--db-exhale), color var(--db-allegro);
+    font-size: var(--ot-mp); font-weight: 400; color: var(--ot-pencil);
+    transition: font-size var(--ot-andante) var(--ot-exhale), font-weight var(--ot-andante) var(--ot-exhale), color var(--ot-allegro);
   }
-  .db-sheet-trail-step:hover { color: var(--db-ink); }
-  .db-sheet-trail-step[aria-current] { font-size: var(--db-f); font-weight: 200; letter-spacing: var(--db-f-tr); color: var(--db-ink); cursor: default; }
-  .db-sheet-trail-step[aria-current]:last-child:not(:first-child) { animation: db-spine var(--db-andante) var(--db-exhale) backwards; }
-  .db-sheet-trail-step:focus-visible { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 4px; }
+  .ot-sheet-trail-step:hover { color: var(--ot-ink); }
+  .ot-sheet-trail-step[aria-current] { font-size: var(--ot-f); font-weight: 200; letter-spacing: var(--ot-f-tr); color: var(--ot-ink); cursor: default; }
+  .ot-sheet-trail-step[aria-current]:last-child:not(:first-child) { animation: ot-spine var(--ot-andante) var(--ot-exhale) backwards; }
+  .ot-sheet-trail-step:focus-visible { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 4px; }
 
-  .db-sheet-panel-link {
-    appearance: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--db-space-4); inline-size: 100%;
-    border: 0; border-block-end: var(--db-hairline) solid var(--db-rule); background: none; padding: var(--db-space-3) 0; text-align: start; cursor: pointer;
-    font: inherit; font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); color: var(--db-ink);
+  .ot-sheet-panel-link {
+    appearance: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--ot-space-4); inline-size: 100%;
+    border: 0; border-block-end: var(--ot-hairline) solid var(--ot-rule); background: none; padding: var(--ot-space-3) 0; text-align: start; cursor: pointer;
+    font: inherit; font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); color: var(--ot-ink);
   }
-  .db-sheet-panel-link + .db-sheet-panel-link { margin-block-start: 0; }
-  .db-sheet-panel-arrow { color: var(--db-pencil); transition: translate var(--db-allegro) var(--db-exhale), color var(--db-allegro); }
-  .db-sheet-panel-arrow:is([dir="rtl"], [dir="rtl"] *) { scale: -1 1; }
-  .db-sheet-panel-link:is(:hover, :focus-visible, [data-force~="hover"]) .db-sheet-panel-arrow { color: var(--db-ink); translate: calc(0.25em * var(--lr)) 0; }
+  .ot-sheet-panel-link + .ot-sheet-panel-link { margin-block-start: 0; }
+  .ot-sheet-panel-arrow { color: var(--ot-pencil); transition: translate var(--ot-allegro) var(--ot-exhale), color var(--ot-allegro); }
+  .ot-sheet-panel-arrow:is([dir="rtl"], [dir="rtl"] *) { scale: -1 1; }
+  .ot-sheet-panel-link:is(:hover, :focus-visible, [data-force~="hover"]) .ot-sheet-panel-arrow { color: var(--ot-ink); translate: calc(0.25em * var(--lr)) 0; }
   @media (max-width: 40rem) {
-    .db-sheet-trail-step[aria-current] { font-size: var(--db-mf); letter-spacing: var(--db-mf-tr); }
-    .db-sheet-trail-step { font-size: var(--db-p); }
+    .ot-sheet-trail-step[aria-current] { font-size: var(--ot-mf); letter-spacing: var(--ot-mf-tr); }
+    .ot-sheet-trail-step { font-size: var(--ot-p); }
   }
   @media (forced-colors: active) {
-    .db-sheet-rag-paper { fill: Canvas; }
-    .db-sheet-rag-edge { stroke: CanvasText; }
+    .ot-sheet-rag-paper { fill: Canvas; }
+    .ot-sheet-rag-edge { stroke: CanvasText; }
   }
 
   /* Fold (the index entry that opens to its page; "Less is more." set between hairlines): the row that opened it
@@ -123,45 +123,45 @@
      the clip opens from that band to the window, the row's two hairlines part with its edges to the top and the
      foot, and the row's name grows into the title (a transform, in the script). The rest arrives once there is
      room for it. Put away, it all folds back into the row. With no opener, a line at the middle parts. */
-  .db-sheet[data-variant="fold"] {
+  .ot-sheet[data-variant="fold"] {
     --fold: inset(var(--fold-t, 50%) var(--fold-r, 0px) var(--fold-b, 50%) var(--fold-l, 0px));
     inset: 0; width: 100%; max-width: none; height: 100dvh; border: 0; translate: none; overscroll-behavior: contain;
-    padding-block: var(--db-space-8) var(--db-space-7); padding-inline: var(--db-margin);
+    padding-block: var(--ot-space-8) var(--ot-space-7); padding-inline: var(--ot-margin);
     clip-path: var(--fold);
-    transition: clip-path var(--db-andante) var(--db-exhale), background-color var(--db-allegro) var(--db-breath), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+    transition: clip-path var(--ot-andante) var(--ot-exhale), background-color var(--ot-allegro) var(--ot-breath), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
   }
-  .db-sheet[data-variant="fold"][open] { translate: none; clip-path: inset(0); }
+  .ot-sheet[data-variant="fold"][open] { translate: none; clip-path: inset(0); }
   @starting-style {
-    .db-sheet[data-variant="fold"][open] { translate: none; clip-path: var(--fold); }
-    .db-sheet[data-variant="fold"][data-from-ink][open] { background-color: var(--db-ink); }
+    .ot-sheet[data-variant="fold"][open] { translate: none; clip-path: var(--fold); }
+    .ot-sheet[data-variant="fold"][data-from-ink][open] { background-color: var(--ot-ink); }
   }
   /* The row's hairlines, riding the clip's edges. Fixed, so they hold to the window while the page scrolls. */
-  .db-sheet[data-variant="fold"]::before, .db-sheet[data-variant="fold"]::after {
-    content: ""; position: fixed; z-index: 4; left: var(--fold-l, 0px); right: var(--fold-r, 0px); height: var(--db-hairline); background: var(--db-ink); pointer-events: none;
-    transition: top var(--db-andante) var(--db-exhale), bottom var(--db-andante) var(--db-exhale), left var(--db-andante) var(--db-exhale), right var(--db-andante) var(--db-exhale);
+  .ot-sheet[data-variant="fold"]::before, .ot-sheet[data-variant="fold"]::after {
+    content: ""; position: fixed; z-index: 4; left: var(--fold-l, 0px); right: var(--fold-r, 0px); height: var(--ot-hairline); background: var(--ot-ink); pointer-events: none;
+    transition: top var(--ot-andante) var(--ot-exhale), bottom var(--ot-andante) var(--ot-exhale), left var(--ot-andante) var(--ot-exhale), right var(--ot-andante) var(--ot-exhale);
   }
-  .db-sheet[data-variant="fold"]::before { top: var(--fold-t, 50%); }
-  .db-sheet[data-variant="fold"]::after { bottom: var(--fold-b, 50%); }
-  .db-sheet[data-variant="fold"][open]::before { top: 0; left: 0; right: 0; }
-  .db-sheet[data-variant="fold"][open]::after { bottom: 0; left: 0; right: 0; }
+  .ot-sheet[data-variant="fold"]::before { top: var(--fold-t, 50%); }
+  .ot-sheet[data-variant="fold"]::after { bottom: var(--fold-b, 50%); }
+  .ot-sheet[data-variant="fold"][open]::before { top: 0; left: 0; right: 0; }
+  .ot-sheet[data-variant="fold"][open]::after { bottom: 0; left: 0; right: 0; }
   @starting-style {
-    .db-sheet[data-variant="fold"][open]::before { top: var(--fold-t, 50%); left: var(--fold-l, 0px); right: var(--fold-r, 0px); }
-    .db-sheet[data-variant="fold"][open]::after { bottom: var(--fold-b, 50%); left: var(--fold-l, 0px); right: var(--fold-r, 0px); }
+    .ot-sheet[data-variant="fold"][open]::before { top: var(--fold-t, 50%); left: var(--fold-l, 0px); right: var(--fold-r, 0px); }
+    .ot-sheet[data-variant="fold"][open]::after { bottom: var(--fold-b, 50%); left: var(--fold-l, 0px); right: var(--fold-r, 0px); }
   }
-  .db-sheet[data-variant="fold"] .db-sheet-spine { display: none; }
-  .db-sheet[data-variant="fold"] .db-sheet-title { max-inline-size: 14ch; font-size: var(--db-ff); line-height: var(--db-ff-lh); letter-spacing: var(--db-ff-tr); font-weight: 300; text-wrap: balance; transition: color var(--db-allegro) var(--db-breath); }
-  @starting-style { .db-sheet[data-variant="fold"][data-from-ink][open] .db-sheet-title { color: var(--db-paper); } }
-  .db-sheet[data-variant="fold"] > :not(.db-sheet-title, .db-scrollbar) { opacity: 0; transition: opacity var(--db-allegro) var(--db-breath); }
-  .db-sheet[data-variant="fold"][open] > :not(.db-sheet-title, .db-scrollbar) { opacity: 1; transition: opacity var(--db-moderato) var(--db-exhale) calc(var(--db-andante) / 2); }
-  @starting-style { .db-sheet[data-variant="fold"][open] > :not(.db-sheet-title, .db-scrollbar) { opacity: 0; } }
-  .db-sheet[data-variant="fold"] .db-sheet-body { max-inline-size: var(--db-measure); font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); }
-  .db-sheet[data-variant="fold"] .db-dialog-actions { justify-content: flex-start; }
+  .ot-sheet[data-variant="fold"] .ot-sheet-spine { display: none; }
+  .ot-sheet[data-variant="fold"] .ot-sheet-title { max-inline-size: 14ch; font-size: var(--ot-ff); line-height: var(--ot-ff-lh); letter-spacing: var(--ot-ff-tr); font-weight: 300; text-wrap: balance; transition: color var(--ot-allegro) var(--ot-breath); }
+  @starting-style { .ot-sheet[data-variant="fold"][data-from-ink][open] .ot-sheet-title { color: var(--ot-paper); } }
+  .ot-sheet[data-variant="fold"] > :not(.ot-sheet-title, .ot-scrollbar) { opacity: 0; transition: opacity var(--ot-allegro) var(--ot-breath); }
+  .ot-sheet[data-variant="fold"][open] > :not(.ot-sheet-title, .ot-scrollbar) { opacity: 1; transition: opacity var(--ot-moderato) var(--ot-exhale) calc(var(--ot-andante) / 2); }
+  @starting-style { .ot-sheet[data-variant="fold"][open] > :not(.ot-sheet-title, .ot-scrollbar) { opacity: 0; } }
+  .ot-sheet[data-variant="fold"] .ot-sheet-body { max-inline-size: var(--ot-measure); font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); }
+  .ot-sheet[data-variant="fold"] .ot-dialog-actions { justify-content: flex-start; }
   @media (max-width: 40rem) {
-    .db-sheet[data-variant="fold"] { padding-block: var(--db-space-7) var(--db-space-6); }
-    .db-sheet[data-variant="fold"] .db-sheet-title { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); }
-    .db-sheet[data-variant="fold"] .db-sheet-body { font-size: var(--db-p); line-height: var(--db-p-lh); }
+    .ot-sheet[data-variant="fold"] { padding-block: var(--ot-space-7) var(--ot-space-6); }
+    .ot-sheet[data-variant="fold"] .ot-sheet-title { font-size: var(--ot-f); line-height: var(--ot-f-lh); letter-spacing: var(--ot-f-tr); }
+    .ot-sheet[data-variant="fold"] .ot-sheet-body { font-size: var(--ot-p); line-height: var(--ot-p-lh); }
   }
   @media (forced-colors: active) {
-    .db-sheet[data-variant="fold"]::before, .db-sheet[data-variant="fold"]::after { forced-color-adjust: none; background: CanvasText; }
+    .ot-sheet[data-variant="fold"]::before, .ot-sheet[data-variant="fold"]::after { forced-color-adjust: none; background: CanvasText; }
   }
 }

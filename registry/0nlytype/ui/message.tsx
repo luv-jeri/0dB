@@ -27,7 +27,7 @@ function Message({ className, from = "them", arriving, variant = "default", ...p
       data-from={from}
       data-arriving={arriving || undefined}
       data-variant={variant === "default" ? undefined : variant}
-      className={cn("db-msg", className)}
+      className={cn("ot-msg", className)}
       {...props}
     />
   )
@@ -49,7 +49,7 @@ type MessageHeaderProps = Omit<React.ComponentProps<"header">, "children"> & {
 /** The name and the time. Yours flips them, time first, so the name stays beside your avatar. */
 function MessageHeader({ name, time, dateTime, className, ...props }: MessageHeaderProps) {
   return (
-    <header data-slot="message-header" className={cn("db-msg-head", className)} {...props}>
+    <header data-slot="message-header" className={cn("ot-msg-head", className)} {...props}>
       <b>{name}</b>
       <time dateTime={dateTime}>{time}</time>
     </header>
@@ -57,7 +57,7 @@ function MessageHeader({ name, time, dateTime, className, ...props }: MessageHea
 }
 
 function MessageBody({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="message-body" className={cn("db-msg-body", className)} {...props} />
+  return <div data-slot="message-body" className={cn("ot-msg-body", className)} {...props} />
 }
 
 type MessageBubbleProps = React.ComponentProps<"p"> & {
@@ -77,13 +77,13 @@ function MessageBubble({ align = "start", variant = "default", className, childr
   // The highlighter needs an inline paragraph inside the block, so the marker wraps.
   if (variant === "mark") {
     return (
-      <div {...shared} className={cn("db-bubble", className)} {...(props as React.ComponentProps<"div">)}>
+      <div {...shared} className={cn("ot-bubble", className)} {...(props as React.ComponentProps<"div">)}>
         <p>{children}</p>
       </div>
     )
   }
   return (
-    <p {...shared} className={cn("db-bubble", className)} {...props}>
+    <p {...shared} className={cn("ot-bubble", className)} {...props}>
       {children}
     </p>
   )
@@ -109,13 +109,13 @@ function MessageTyping({ writing, label = "Writing", align = "start", className,
       data-writing={writing || undefined}
       data-align={align === "end" ? "end" : undefined}
       role="status"
-      className={cn("db-bubble db-typing", !writing && "db-sr", className)}
+      className={cn("ot-bubble ot-typing", !writing && "ot-sr", className)}
       {...props}
     >
       {writing ? (
         <>
           <Spinner />
-          <span className="db-sr">{label}</span>
+          <span className="ot-sr">{label}</span>
         </>
       ) : null}
     </p>
@@ -123,7 +123,7 @@ function MessageTyping({ writing, label = "Writing", align = "start", className,
 }
 
 function MessageFooter({ className, ...props }: React.ComponentProps<"footer">) {
-  return <footer data-slot="message-footer" className={cn("db-msg-foot", className)} {...props} />
+  return <footer data-slot="message-footer" className={cn("ot-msg-foot", className)} {...props} />
 }
 
 type MessageStatusProps = Omit<React.ComponentProps<"span">, "children"> & {
@@ -138,13 +138,13 @@ function MessageStatus({ read, children, className, ...props }: MessageStatusPro
   return (
     <>
       <span>{children ?? (read ? "Read" : "Sent")}</span>
-      <span data-slot="message-status" data-read={read || undefined} aria-hidden="true" className={cn("db-msg-status", className)} {...props} />
+      <span data-slot="message-status" data-read={read || undefined} aria-hidden="true" className={cn("ot-msg-status", className)} {...props} />
     </>
   )
 }
 
 function MessageReactions({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="message-reactions" role="group" aria-label="Reactions" className={cn("db-reactions", className)} {...props} />
+  return <span data-slot="message-reactions" role="group" aria-label="Reactions" className={cn("ot-reactions", className)} {...props} />
 }
 
 type MessageReactionProps = Omit<React.ComponentProps<"button">, "onClick"> & {
@@ -172,9 +172,9 @@ function MessageReaction({ defaultPressed = false, defaultCount = 0, onPressedCh
   }
 
   return (
-    <button type="button" data-slot="message-reaction" aria-pressed={pressed} className={cn("db-tag", className)} onClick={toggle} {...props}>
+    <button type="button" data-slot="message-reaction" aria-pressed={pressed} className={cn("ot-tag", className)} onClick={toggle} {...props}>
       <span>{children}</span>
-      <span ref={counter} className="db-reaction-count">{count}</span>
+      <span ref={counter} className="ot-reaction-count">{count}</span>
     </button>
   )
 }

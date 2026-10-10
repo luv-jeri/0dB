@@ -5,9 +5,9 @@ import { State } from "@/components/site/state"
 // Three ways to say there's nothing here yet, each with the one thing to do about it.
 export default function Example() {
   return (
-    <div className="grid w-full gap-(--db-space-9)">
+    <div className="grid w-full gap-(--ot-space-9)">
       <div className="grid gap-4">
-        <span className="db-label">arc</span>
+        <span className="ot-label">arc</span>
         <Empty>
           <EmptyFigure />
           <EmptyTitle>Nothing archived yet.</EmptyTitle>
@@ -20,7 +20,7 @@ export default function Example() {
         </Empty>
       </div>
       <div className="grid gap-4">
-        <span className="db-label">tacet</span>
+        <span className="ot-label">tacet</span>
         <Empty variant="tacet">
           <EmptyFigure>Tacet</EmptyFigure>
           <EmptyTitle>No replies yet.</EmptyTitle>
@@ -31,7 +31,7 @@ export default function Example() {
         </Empty>
       </div>
       <div className="grid gap-4">
-        <span className="db-label">blank</span>
+        <span className="ot-label">blank</span>
         <Empty variant="blank">
           <EmptyFigure>This space is left blank on purpose.</EmptyFigure>
           <EmptyTitle>No drafts yet.</EmptyTitle>
@@ -54,7 +54,7 @@ export function States() {
         <State key={`arc-${reach}`} label={reach ? "Arc, reaching for the action" : "Arc, at rest"}>
           <Empty style={small}>
             <EmptyFigure style={{ fontSize: "7rem" }} />
-            <EmptyTitle style={{ fontSize: "var(--db-mp)" }}>Nothing archived yet.</EmptyTitle>
+            <EmptyTitle style={{ fontSize: "var(--ot-mp)" }}>Nothing archived yet.</EmptyTitle>
             <EmptyActions>
               <Button data-force={reach ? "hover" : undefined}>Archive a note</Button>
             </EmptyActions>
@@ -64,8 +64,8 @@ export function States() {
       {([false, true] as const).map((reach) => (
         <State key={`tacet-${reach}`} label={reach ? "Tacet, reaching for the action" : "Tacet, at rest"}>
           <Empty variant="tacet" style={small}>
-            <EmptyFigure style={{ fontSize: "calc(var(--db-expression-scale) * var(--db-ff))" }}>Tacet</EmptyFigure>
-            <EmptyTitle style={{ fontSize: "var(--db-mp)" }}>No replies yet.</EmptyTitle>
+            <EmptyFigure style={{ fontSize: "calc(var(--ot-expression-scale) * var(--ot-ff))" }}>Tacet</EmptyFigure>
+            <EmptyTitle style={{ fontSize: "var(--ot-mp)" }}>No replies yet.</EmptyTitle>
             <EmptyActions>
               <Button data-force={reach ? "hover" : undefined}>Ask a question</Button>
             </EmptyActions>

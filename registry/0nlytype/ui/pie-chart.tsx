@@ -56,7 +56,7 @@ function PieChart({ data, label, unit, format = figures.format, variant = "ring"
 
   // The arc under the pointer, read by its angle; off the ring (the middle included) the number rolls back to the total.
   function pick(e: React.PointerEvent) {
-    const ring = face.current?.querySelector<HTMLElement>(".db-ring")
+    const ring = face.current?.querySelector<HTMLElement>(".ot-ring")
     if (!ring || total <= 0) return
     const box = ring.getBoundingClientRect()
     const r = box.width / 2
@@ -84,12 +84,12 @@ function PieChart({ data, label, unit, format = figures.format, variant = "ring"
       data-variant={variant}
       data-pointed={shown >= 0 || undefined}
       aria-label={label}
-      className={cn("db-pie", className)}
+      className={cn("ot-pie", className)}
       style={{ "--n": data.length, ...style } as React.CSSProperties}
       {...props}
     >
-      <div ref={face} data-slot="pie-chart-face" className="db-pie-face" aria-hidden="true" onPointerMove={pick} onPointerLeave={rest}>
-        <div className="db-pie-arcs">
+      <div ref={face} data-slot="pie-chart-face" className="ot-pie-face" aria-hidden="true" onPointerMove={pick} onPointerLeave={rest}>
+        <div className="ot-pie-arcs">
           {total > 0 ? (
             data.map((d, i) => {
               if (!shares[i]) return null
@@ -104,28 +104,28 @@ function PieChart({ data, label, unit, format = figures.format, variant = "ring"
         {many
           ? data.map((d, i) =>
               shares[i] ? (
-                <span key={d.label} className="db-pie-tick" data-shown={i === shown || undefined} style={{ "--t": starts[i] + shares[i] / 2 } as React.CSSProperties}>
+                <span key={d.label} className="ot-pie-tick" data-shown={i === shown || undefined} style={{ "--t": starts[i] + shares[i] / 2 } as React.CSSProperties}>
                   {place(i)}
                 </span>
               ) : null,
             )
           : null}
       </div>
-      <figcaption data-slot="pie-chart-read" className="db-pie-read">
-        <span ref={value} className="db-pie-value">
+      <figcaption data-slot="pie-chart-read" className="ot-pie-read">
+        <span ref={value} className="ot-pie-value">
           {at ? (
             <>
               {percent}
-              <span className="db-pie-unit">%</span>
+              <span className="ot-pie-unit">%</span>
             </>
           ) : (
             format(total)
           )}
         </span>
-        <span className="db-pie-words">
-          <span className="db-pie-name">{at ? at.label : unit ? `${unit} in all` : "In all"}</span>
+        <span className="ot-pie-words">
+          <span className="ot-pie-name">{at ? at.label : unit ? `${unit} in all` : "In all"}</span>
           {/* At rest the line is held open, so the number doesn't move when an arc is pointed at. */}
-          <span className="db-pie-of">{at ? `${format(values[shown])} of ${all}` : "\u00a0"}</span>
+          <span className="ot-pie-of">{at ? `${format(values[shown])} of ${all}` : "\u00a0"}</span>
         </span>
       </figcaption>
       <ul
@@ -133,7 +133,7 @@ function PieChart({ data, label, unit, format = figures.format, variant = "ring"
         role="group"
         aria-label={label}
         data-slot="pie-chart-key"
-        className="db-pie-key"
+        className="ot-pie-key"
         onKeyDown={(e) => rove(e, "button", true)}
         onPointerLeave={rest}
         onBlur={(e) => !key.current?.contains(e.relatedTarget) && show(-1)}
@@ -147,10 +147,10 @@ function PieChart({ data, label, unit, format = figures.format, variant = "ring"
               onPointerEnter={() => show(i)}
               onFocus={() => show(i)}
             >
-              <span className="db-pie-place" aria-hidden="true">{place(i)}</span>
-              <span className="db-pie-key-name">{d.label}</span>
-              <span className="db-pie-key-value">{format(values[i])}</span>
-              <span className="db-sr">{`, ${Math.round(shares[i] * 100)}% of ${all}`}</span>
+              <span className="ot-pie-place" aria-hidden="true">{place(i)}</span>
+              <span className="ot-pie-key-name">{d.label}</span>
+              <span className="ot-pie-key-value">{format(values[i])}</span>
+              <span className="ot-sr">{`, ${Math.round(shares[i] * 100)}% of ${all}`}</span>
             </button>
           </li>
         ))}

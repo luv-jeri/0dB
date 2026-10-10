@@ -96,8 +96,8 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
 
   if (n < 3) {
     return (
-      <figure data-slot="radar-chart" aria-label={label} className={cn("db-radar", className)} style={style} {...props}>
-        <p className="db-radar-note">A radar needs three measures or more; this one has {n}.</p>
+      <figure data-slot="radar-chart" aria-label={label} className={cn("ot-radar", className)} style={style} {...props}>
+        <p className="ot-radar-note">A radar needs three measures or more; this one has {n}.</p>
       </figure>
     )
   }
@@ -108,27 +108,27 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
     <figure
       data-slot="radar-chart"
       data-pointed={shown >= 0 || undefined}
-      className={cn("db-radar", className)}
+      className={cn("ot-radar", className)}
       style={{ "--n": n, "--m": list.length, ...style } as React.CSSProperties}
       {...props}
     >
-      <Grid variant="dots" cell={cell} className="db-radar-sheet">
+      <Grid variant="dots" cell={cell} className="ot-radar-sheet">
         <div
           ref={plot}
           role="group"
           aria-label={label}
           data-slot="radar-chart-plot"
-          className="db-radar-plot"
+          className="ot-radar-plot"
           style={w ? ({ "--r": `${R}px` } as React.CSSProperties) : undefined}
           onKeyDown={(e) => rove(e, "button", true)}
           onPointerMove={pick}
           onPointerLeave={rest}
           onBlur={(e) => !plot.current?.contains(e.relatedTarget) && setShown(-1)}
         >
-          <svg ref={observe} data-slot="radar-chart-draw" className="db-radar-draw" aria-hidden="true">
+          <svg ref={observe} data-slot="radar-chart-draw" className="ot-radar-draw" aria-hidden="true">
             {w ? (
               <g transform={`translate(${w / 2} ${w / 2})`}>
-                <g className="db-radar-build">
+                <g className="ot-radar-build">
                   {[0.25, 0.5, 0.75, 1].map((q) => (
                     <path key={q} data-rim={q === 1 || undefined} d={poly(data.map((_, i) => at(R * q, angle(i))))} />
                   ))}
@@ -140,17 +140,17 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
                 {list.map((s, k) => {
                   const p = data.map((d, i) => at((R * Math.min(read(d, s.key), top)) / top, angle(i)))
                   return (
-                    <g key={s.key} data-series={k} className="db-radar-series">
-                      <path className="db-radar-line" d={poly(p)} />
+                    <g key={s.key} data-series={k} className="ot-radar-series">
+                      <path className="ot-radar-line" d={poly(p)} />
                       {p.map(([x, y], i) => (
-                        <circle key={i} className="db-radar-bead" data-shown={i === shown || undefined} cx={x} cy={y} r={3} />
+                        <circle key={i} className="ot-radar-bead" data-shown={i === shown || undefined} cx={x} cy={y} r={3} />
                       ))}
                     </g>
                   )
                 })}
                 {shown >= 0 ? (
                   // The dimension lines: one per series, stepped off the spoke, from the centre to the point, a tick at each end.
-                  <g key={shown} className="db-radar-dims">
+                  <g key={shown} className="ot-radar-dims">
                     {list.map((s, k) => {
                       const a = angle(shown)
                       const r = (R * Math.min(read(data[shown], s.key), top)) / top
@@ -159,7 +159,7 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
                       const [ex, ey] = at(r, a)
                       const [x0, y0, x1, y1] = [nx * off, ny * off, ex + nx * off, ey + ny * off]
                       return (
-                        <g key={s.key} data-series={k} className="db-radar-dim">
+                        <g key={s.key} data-series={k} className="ot-radar-dim">
                           <path d={`M${x0},${y0}L${x1},${y1}M${x0 - nx * TICK},${y0 - ny * TICK}L${x0 + nx * TICK},${y0 + ny * TICK}M${x1 - nx * TICK},${y1 - ny * TICK}L${x1 + nx * TICK},${y1 + ny * TICK}`} />
                         </g>
                       )
@@ -181,12 +181,12 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
                   <span
                     key={`${shown}-${s.key}`}
                     data-series={k}
-                    className="db-radar-figure"
+                    className="ot-radar-figure"
                     aria-hidden="true"
                     style={{ "--x": `${mx + Math.cos(a) * off}px`, "--y": `${my + Math.sin(a) * off}px` } as React.CSSProperties}
                   >
                     {format(v)}
-                    <span className="db-radar-of">/{format(top)}</span>
+                    <span className="ot-radar-of">/{format(top)}</span>
                   </span>
                 )
               })
@@ -199,7 +199,7 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
                 type="button"
                 tabIndex={i === (shown >= 0 ? shown : activeIndex(now, n, 0)) ? 0 : -1}
                 data-slot="radar-chart-axis"
-                className="db-radar-axis"
+                className="ot-radar-axis"
                 data-shown={i === shown || undefined}
                 style={{ "--c": Math.sin(a).toFixed(4), "--s": (-Math.cos(a)).toFixed(4) } as React.CSSProperties}
                 aria-label={`${d.label}: ${says(d)} of ${format(top)}`}
@@ -213,12 +213,12 @@ function RadarChart({ data, series, label, max, format = figures.format, now = 0
         </div>
       </Grid>
       {list.length > 1 ? (
-        <figcaption data-slot="radar-chart-key" className="db-radar-key">
+        <figcaption data-slot="radar-chart-key" className="ot-radar-key">
           {list.map((s, k) => (
-            <span key={s.key} data-series={k} className="db-radar-name">
-              <svg className="db-radar-swatch" aria-hidden="true"><line x1="0" y1="50%" x2="100%" y2="50%" /></svg>
+            <span key={s.key} data-series={k} className="ot-radar-name">
+              <svg className="ot-radar-swatch" aria-hidden="true"><line x1="0" y1="50%" x2="100%" y2="50%" /></svg>
               {s.label}
-              {shown >= 0 ? <span className="db-radar-key-value"> {format(read(data[shown], s.key))}</span> : null}
+              {shown >= 0 ? <span className="ot-radar-key-value"> {format(read(data[shown], s.key))}</span> : null}
             </span>
           ))}
         </figcaption>

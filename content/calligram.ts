@@ -4,7 +4,7 @@ export default defineComponent({
   name: "calligram",
   title: "Calligram",
   movement: "II",
-  contract: "db-calligram",
+  contract: "ot-calligram",
   summary: "A paragraph that fills a shape, as Apollinaire's calligrams did: each line is as wide as the shape is at that height, so the outline is only implied. Or it falls as rain, or runs round a frame about one word.",
   underneath: "hook",
   props: [

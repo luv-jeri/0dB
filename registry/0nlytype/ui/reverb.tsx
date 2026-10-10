@@ -66,9 +66,9 @@ function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", cl
     // The vowels keep the phrase's own size and spacing, so every echo lies letter for letter under it.
     const d = DYNAMICS[variant === "vowels" ? first : Math.min(first + k, DYNAMICS.length - 1)]
     return {
-      "--size": `var(--db-${d})`,
-      "--lh": `var(--db-${d}-lh)`,
-      "--tr": `var(--db-${d}-tr)`,
+      "--size": `var(--ot-${d})`,
+      "--lh": `var(--ot-${d}-lh)`,
+      "--tr": `var(--ot-${d}-tr)`,
       "--open": variant === "vowels" ? 0 : k * 0.02, // the letters open a little more each time, in em
       "--k": k,
       "--o": k <= 2 ? 1 : 1 - (0.7 * (k - 2)) / Math.max(1, n - 2), // ink, graphite, pencil, then it fades
@@ -97,7 +97,7 @@ function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", cl
 
       async function lay() {
         if (cancelled || !el!.isConnected) return
-        const lines = [...el!.querySelectorAll<HTMLElement>(".db-reverb-line")]
+        const lines = [...el!.querySelectorAll<HTMLElement>(".ot-reverb-line")]
         const styles = lines.map((l) => getComputedStyle(l))
         const fonts = styles.map((s) => `${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily}`)
         await document.fonts.load(fonts[0], text)
@@ -116,7 +116,7 @@ function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", cl
         // If the canon would run out of the page, close it up so it fits, with room to breathe out.
         const fit = Math.max(0, Math.min(1, ...room.map((r, k) => (k ? r / (BREATH * drift[k]) : 1))))
         lines.forEach((l, k) => k && l.style.setProperty("--x", `${drift[k] * fit}px`))
-        el!.querySelector<HTMLElement>(".db-reverb-rest")?.style.setProperty("--x", `${drift[lines.length] * fit}px`)
+        el!.querySelector<HTMLElement>(".ot-reverb-rest")?.style.setProperty("--x", `${drift[lines.length] * fit}px`)
         // Only now may the shift ease, so that arriving isn't a move.
         if (!frame) frame = requestAnimationFrame(() => (el!.dataset.ready = ""))
       }
@@ -143,17 +143,17 @@ function Reverb({ children: text, echoes = 5, from = "mf", variant = "canon", cl
   }, [text, n, from, variant])
 
   return (
-    <p ref={composedRef} data-slot="reverb" data-variant={variant} className={cn("db-reverb", className)} {...props}>
-      <span className="db-reverb-line" style={line(0)}>
+    <p ref={composedRef} data-slot="reverb" data-variant={variant} className={cn("ot-reverb", className)} {...props}>
+      <span className="ot-reverb-line" style={line(0)}>
         {text}
       </span>
-      <span aria-hidden="true" className="db-reverb-echoes">
+      <span aria-hidden="true" className="ot-reverb-echoes">
         {Array.from({ length: n }, (_, i) => i + 1).map((k) => (
-          <span key={k} className="db-reverb-line db-reverb-echo" data-tone={k === 1 ? "graphite" : "pencil"} data-side={variant === "antiphon" ? (k % 2 ? "end" : "start") : undefined} style={line(k)}>
-            {letters ? letters.map(({ g, lost }, i) => (lost <= k ? <span key={i} className="db-reverb-lost">{g}</span> : g)) : text}
+          <span key={k} className="ot-reverb-line ot-reverb-echo" data-tone={k === 1 ? "graphite" : "pencil"} data-side={variant === "antiphon" ? (k % 2 ? "end" : "start") : undefined} style={line(k)}>
+            {letters ? letters.map(({ g, lost }, i) => (lost <= k ? <span key={i} className="ot-reverb-lost">{g}</span> : g)) : text}
           </span>
         ))}
-        <i className="db-reverb-rest" data-side={variant === "antiphon" ? ((n + 1) % 2 ? "end" : "start") : undefined} style={line(n + 1)} />
+        <i className="ot-reverb-rest" data-side={variant === "antiphon" ? ((n + 1) % 2 ? "end" : "start") : undefined} style={line(n + 1)} />
       </span>
     </p>
   )

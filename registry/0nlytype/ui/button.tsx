@@ -45,11 +45,11 @@ function textOf(node: React.ReactNode) {
 function Spread({ text }: { text: string }) {
   const words = text.trim().split(/\s+/)
   return (
-    <span className="db-btn-label">
-      <span className="db-btn-lead" aria-hidden="true" />
+    <span className="ot-btn-label">
+      <span className="ot-btn-lead" aria-hidden="true" />
       {words.map((w, i) => (
         <React.Fragment key={i}>
-          {i > 0 ? <span className="db-btn-gap"> </span> : null}
+          {i > 0 ? <span className="ot-btn-gap"> </span> : null}
           <span>{w}</span>
         </React.Fragment>
       ))}
@@ -64,7 +64,7 @@ function Spread({ text }: { text: string }) {
  */
 function Label({ children }: { children?: React.ReactNode }) {
   return (
-    <span className="db-btn-label" data-text={textOf(children) ?? undefined}>
+    <span className="ot-btn-label" data-text={textOf(children) ?? undefined}>
       <span>{children}</span>
     </span>
   )
@@ -97,7 +97,7 @@ function Button({ className, variant = "bracket", size = "m", asChild = false, b
       data-variant={variant}
       data-size={size === "m" ? undefined : size}
       aria-busy={busy ? true : undefined}
-      className={cn("db-btn", className)}
+      className={cn("ot-btn", className)}
       {...(asChild ? {} : { type: "button" as const })}
       {...(variant === "ink"
         ? {

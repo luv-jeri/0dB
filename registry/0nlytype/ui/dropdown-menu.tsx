@@ -76,7 +76,7 @@ function useMarginalia(on: boolean) {
     setNote({ hint: item.dataset.hint, y: item.offsetTop + item.offsetHeight / 2, under })
   }
   const el = on ? (
-    <div className="db-menu-note" aria-hidden data-under={note.under ? "" : undefined} data-empty={note.hint ? undefined : ""} style={{ "--db-note-y": `${note.y}px` } as React.CSSProperties}>
+    <div className="ot-menu-note" aria-hidden data-under={note.under ? "" : undefined} data-empty={note.hint ? undefined : ""} style={{ "--ot-note-y": `${note.y}px` } as React.CSSProperties}>
       {note.hint}
     </div>
   ) : null
@@ -90,7 +90,7 @@ function useMarginalia(on: boolean) {
 function DropdownMenuContent({
   className,
   align = "start",
-  sideOffset = 27, /* --db-space-5: the leader is this long */
+  sideOffset = 27, /* --ot-space-5: the leader is this long */
   collisionPadding = 20,
   variant = "list",
   style,
@@ -107,8 +107,8 @@ function DropdownMenuContent({
         align={align}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        style={{ "--db-pop-gap": `${sideOffset}px`, ...style } as React.CSSProperties}
-        className={cn("db-pop db-menu", className)}
+        style={{ "--ot-pop-gap": `${sideOffset}px`, ...style } as React.CSSProperties}
+        className={cn("ot-pop ot-menu", className)}
         onFocus={(event) => (onFocus?.(event), margin.onFocus(event))}
         {...props}
       >
@@ -129,48 +129,48 @@ function DropdownMenuItem({
   hint,
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Item> & { variant?: "default" | "destructive"; hint?: string }) {
-  return <MenuPrimitive.Item data-slot="dropdown-menu-item" data-variant={variant} className={cn("db-menu-item", className)} {...hinted(hint)} {...props} />
+  return <MenuPrimitive.Item data-slot="dropdown-menu-item" data-variant={variant} className={cn("ot-menu-item", className)} {...hinted(hint)} {...props} />
 }
 
 /** Checked, the sentence turns to the expression italic. Screen readers get aria-checked. */
 function DropdownMenuCheckboxItem({ className, hint, ...props }: React.ComponentProps<typeof MenuPrimitive.CheckboxItem> & { hint?: string }) {
-  return <MenuPrimitive.CheckboxItem data-slot="dropdown-menu-checkbox-item" className={cn("db-menu-item", className)} {...hinted(hint)} {...props} />
+  return <MenuPrimitive.CheckboxItem data-slot="dropdown-menu-checkbox-item" className={cn("ot-menu-item", className)} {...hinted(hint)} {...props} />
 }
 
 function DropdownMenuRadioItem({ className, hint, ...props }: React.ComponentProps<typeof MenuPrimitive.RadioItem> & { hint?: string }) {
-  return <MenuPrimitive.RadioItem data-slot="dropdown-menu-radio-item" className={cn("db-menu-item", className)} {...hinted(hint)} {...props} />
+  return <MenuPrimitive.RadioItem data-slot="dropdown-menu-radio-item" className={cn("ot-menu-item", className)} {...hinted(hint)} {...props} />
 }
 
 function DropdownMenuLabel({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Label>) {
-  return <MenuPrimitive.Label data-slot="dropdown-menu-label" className={cn("db-menu-label", className)} {...props} />
+  return <MenuPrimitive.Label data-slot="dropdown-menu-label" className={cn("ot-menu-label", className)} {...props} />
 }
 
 function DropdownMenuSeparator({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Separator>) {
-  return <MenuPrimitive.Separator data-slot="dropdown-menu-separator" className={cn("db-menu-sep", className)} {...props} />
+  return <MenuPrimitive.Separator data-slot="dropdown-menu-separator" className={cn("ot-menu-sep", className)} {...props} />
 }
 
 /**
- * Shortcut keys, each drawn as a base `db-kbd` cap. A string of one word splits into
+ * Shortcut keys, each drawn as a base `ot-kbd` cap. A string of one word splits into
  * its characters ("⌘D" is two keys); a string with spaces splits on them ("Shift Tab").
  * A shortcut is a Latin key sequence, so it reads ⌘D left to right on a right-to-left page too.
  */
 function DropdownMenuShortcut({ className, children, ...props }: React.ComponentProps<"span">) {
   const keys = typeof children === "string" ? (children.includes(" ") ? children.split(" ") : [...children]) : null
   return (
-    <span data-slot="dropdown-menu-shortcut" dir="ltr" className={cn("db-menu-keys", className)} {...props}>
-      {keys ? keys.map((k, i) => <kbd key={i} className="db-kbd">{k}</kbd>) : children}
+    <span data-slot="dropdown-menu-shortcut" dir="ltr" className={cn("ot-menu-keys", className)} {...props}>
+      {keys ? keys.map((k, i) => <kbd key={i} className="ot-kbd">{k}</kbd>) : children}
     </span>
   )
 }
 
 /** Opens something, so it carries the one → glyph. */
 function DropdownMenuSubTrigger({ className, hint, ...props }: React.ComponentProps<typeof MenuPrimitive.SubTrigger> & { hint?: string }) {
-  return <MenuPrimitive.SubTrigger data-slot="dropdown-menu-sub-trigger" className={cn("db-menu-item db-menu-sub", className)} {...hinted(hint)} {...props} />
+  return <MenuPrimitive.SubTrigger data-slot="dropdown-menu-sub-trigger" className={cn("ot-menu-item ot-menu-sub", className)} {...hinted(hint)} {...props} />
 }
 
 type SubPlace = Pick<React.ComponentProps<typeof MenuPrimitive.SubContent>, "ref" | "sideOffset" | "alignOffset" | "collisionPadding" | "style">
 
-/** The leader a dropped submenu hangs on: --db-space-4. */
+/** The leader a dropped submenu hangs on: --ot-space-4. */
 const DROP = 18
 
 /**
@@ -202,7 +202,7 @@ function useSubmenuPlace({ ref, sideOffset = 2, alignOffset = -8, collisionPaddi
     sideOffset: drop ? drop.side : sideOffset,
     alignOffset: drop ? drop.align : alignOffset,
     collisionPadding,
-    style: drop ? ({ "--db-pop-gap": `${DROP}px`, ...style } as React.CSSProperties) : style,
+    style: drop ? ({ "--ot-pop-gap": `${DROP}px`, ...style } as React.CSSProperties) : style,
     "data-drop": drop ? "" : undefined,
     "data-variant": look === "leaders" ? look : undefined, // a submenu keeps the contents page's leaders
   }
@@ -212,7 +212,7 @@ function DropdownMenuSubContent({ className, ref, sideOffset, alignOffset, colli
   const place = useSubmenuPlace({ ref, sideOffset, alignOffset, collisionPadding, style })
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.SubContent data-slot="dropdown-menu-sub-content" className={cn("db-pop db-menu", className)} {...props} {...place} />
+      <MenuPrimitive.SubContent data-slot="dropdown-menu-sub-content" className={cn("ot-pop ot-menu", className)} {...props} {...place} />
     </MenuPrimitive.Portal>
   )
 }

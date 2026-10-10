@@ -4,7 +4,7 @@ export default defineComponent({
   name: "word-relay",
   title: "Word relay",
   movement: "VI",
-  contract: "db-relay",
+  contract: "ot-relay",
   summary: "A sentence whose last word rolls on every 2.4 seconds, in the italic. Press or use the keys to take over, or pause to hold a word.",
   underneath: "native",
   props: [
@@ -19,6 +19,6 @@ export default defineComponent({
     { name: "defaultIndex", type: "number", default: "0", description: "The word to start on, when the relay holds it." },
     { name: "onIndexChange", type: "(index: number) => void", description: "Called with the next index, for both person-driven and automatic changes. A controlled relay moves only when its owner updates index." },
     { name: "variant", type: '"sentence" | "statement"', default: '"sentence"', description: "sentence: after mode-toggle's sentence; the word stands in the italic on a hairline that hugs it at the end of the line. statement: after \"It has to be design.\"; the sentence heavy and narrow in ink, and the word half again as large under it, in the italic and the accent, rising into the line above with a halo of the paper so it cuts the roman where they cross." },
-    { name: "--db-relay-ground", type: "CSS colour", default: "var(--db-paper)", description: "The halo round the statement's word, if it sits on something other than the paper." },
+    { name: "--ot-relay-ground", type: "CSS colour", default: "var(--ot-paper)", description: "The halo round the statement's word, if it sits on something other than the paper." },
   ],
 })

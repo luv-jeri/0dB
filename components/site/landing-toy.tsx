@@ -117,7 +117,7 @@ export function Toy() {
           <span className="toy-meter" dir="ltr" aria-hidden="true" data-noise-meter=" dB">
             0 dB
           </span>
-          <span className="db-sr">{quiet ? "0 dB" : `${db} dB`}</span>
+          <span className="ot-sr">{quiet ? "0 dB" : `${db} dB`}</span>
         </p>
         <div className="toy-actions">
           <Button variant="bracket" onClick={() => setQuiet((q) => !q)}>

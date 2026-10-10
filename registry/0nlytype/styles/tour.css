@@ -1,55 +1,55 @@
 @layer components {
-  /* ── db-tour ── a tour of callouts, after Weingart's letter: an ink callout hung on a long leader line that ends
+  /* ── ot-tour ── a tour of callouts, after Weingart's letter: an ink callout hung on a long leader line that ends
      in a dot on the thing it is about. One step at a time, on Next or Back; it never plays by itself.
      The dialog is the whole window and see-through: the page stays in view, and only the callout takes a hand.
      Each step arrives as the note does: the dot lands, the leader draws out, the callout spreads from its tip. */
-  .db-tour {
+  .ot-tour {
     position: fixed; inset: 0; margin: 0; padding: 0; border: 0; width: 100%; height: 100%; max-width: none; max-height: none;
-    overflow: hidden; background: none; color: var(--db-paper);
-    opacity: 0; transition: opacity var(--db-moderato) var(--db-exhale), overlay var(--db-moderato) allow-discrete, display var(--db-moderato) allow-discrete;
+    overflow: hidden; background: none; color: var(--ot-paper);
+    opacity: 0; transition: opacity var(--ot-moderato) var(--ot-exhale), overlay var(--ot-moderato) allow-discrete, display var(--ot-moderato) allow-discrete;
   }
-  .db-tour[open] { opacity: 1; }
-  @starting-style { .db-tour[open] { opacity: 0; } }
-  .db-tour::backdrop { background: none; }
-  .db-tour > .db-scrollbar { display: none; }
+  .ot-tour[open] { opacity: 1; }
+  @starting-style { .ot-tour[open] { opacity: 0; } }
+  .ot-tour::backdrop { background: none; }
+  .ot-tour > .ot-scrollbar { display: none; }
 
-  .db-tour-lead { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-  .db-tour-lead[data-alone] { display: none; }
-  .db-tour-line { stroke: var(--db-ink); stroke-width: var(--db-hairline); stroke-dasharray: 1; animation: db-tour-draw var(--db-moderato) var(--db-breath) calc(2 * var(--db-arpeggio)) backwards; }
-  .db-tour-dot { fill: var(--db-accent); transform-box: fill-box; transform-origin: center; animation: db-tour-land var(--db-moderato) var(--db-spiccato) backwards; }
-  @keyframes db-tour-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-  @keyframes db-tour-land { from { scale: 0; } }
+  .ot-tour-lead { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .ot-tour-lead[data-alone] { display: none; }
+  .ot-tour-line { stroke: var(--ot-ink); stroke-width: var(--ot-hairline); stroke-dasharray: 1; animation: ot-tour-draw var(--ot-moderato) var(--ot-breath) calc(2 * var(--ot-arpeggio)) backwards; }
+  .ot-tour-dot { fill: var(--ot-accent); transform-box: fill-box; transform-origin: center; animation: ot-tour-land var(--ot-moderato) var(--ot-spiccato) backwards; }
+  @keyframes ot-tour-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes ot-tour-land { from { scale: 0; } }
 
   /* The callout: Weingart's ink pill, small bold head, the count at the far end of it as a corner note. */
-  .db-tour-callout {
+  .ot-tour-callout {
     position: absolute; left: 0; top: 0; box-sizing: border-box; inline-size: max-content; max-inline-size: min(36ch, calc(100vw - 2.5rem));
-    padding: 0.85em 1.15em 0.8em; border-radius: 1em; background: var(--db-ink); color: var(--db-paper);
-    font-family: var(--db-voice); font-style: normal; font-weight: 450; font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr);
+    padding: 0.85em 1.15em 0.8em; border-radius: 1em; background: var(--ot-ink); color: var(--ot-paper);
+    font-family: var(--ot-voice); font-style: normal; font-weight: 450; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr);
     visibility: hidden;
   }
-  .db-tour-callout[data-laid] { visibility: visible; animation: db-tour-spread var(--db-andante) var(--db-exhale) calc(5 * var(--db-arpeggio)) backwards; }
-  @keyframes db-tour-spread { from { clip-path: circle(0 at var(--db-tour-tip, 1.4em 0)); } to { clip-path: circle(150% at var(--db-tour-tip, 1.4em 0)); } }
-  .db-tour-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1.4em; }
-  .db-tour-title { margin: 0; font: inherit; font-weight: 700; color: var(--db-paper); text-wrap: balance; }
-  .db-tour-count { flex: none; font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--db-paper) 62%, var(--db-ink)); }
-  .db-tour-text { margin: 0.2em 0 0; color: color-mix(in srgb, var(--db-paper) 84%, var(--db-ink)); text-wrap: pretty; }
-  .db-tour-actions { display: flex; align-items: baseline; gap: 1.2em; margin-block-start: 0.9em; }
-  .db-tour-actions > button {
-    appearance: none; border: 0; margin: 0; padding: 0; background: none; cursor: pointer; font: inherit; font-weight: 700; color: var(--db-paper);
-    text-decoration: underline transparent var(--db-hairline); text-underline-offset: 0.28em; transition: text-decoration-color var(--db-allegro);
+  .ot-tour-callout[data-laid] { visibility: visible; animation: ot-tour-spread var(--ot-andante) var(--ot-exhale) calc(5 * var(--ot-arpeggio)) backwards; }
+  @keyframes ot-tour-spread { from { clip-path: circle(0 at var(--ot-tour-tip, 1.4em 0)); } to { clip-path: circle(150% at var(--ot-tour-tip, 1.4em 0)); } }
+  .ot-tour-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1.4em; }
+  .ot-tour-title { margin: 0; font: inherit; font-weight: 700; color: var(--ot-paper); text-wrap: balance; }
+  .ot-tour-count { flex: none; font-variant-numeric: tabular-nums; color: color-mix(in srgb, var(--ot-paper) 62%, var(--ot-ink)); }
+  .ot-tour-text { margin: 0.2em 0 0; color: color-mix(in srgb, var(--ot-paper) 84%, var(--ot-ink)); text-wrap: pretty; }
+  .ot-tour-actions { display: flex; align-items: baseline; gap: 1.2em; margin-block-start: 0.9em; }
+  .ot-tour-actions > button {
+    appearance: none; border: 0; margin: 0; padding: 0; background: none; cursor: pointer; font: inherit; font-weight: 700; color: var(--ot-paper);
+    text-decoration: underline transparent var(--ot-hairline); text-underline-offset: 0.28em; transition: text-decoration-color var(--ot-allegro);
   }
-  .db-tour-actions > button:is(:hover, [data-force~="hover"]) { text-decoration-color: currentColor; }
-  .db-tour-actions > .db-tour-end { margin-inline-end: auto; font-weight: 450; color: color-mix(in srgb, var(--db-paper) 62%, var(--db-ink)); }
-  .db-tour-actions > [data-go="next"]:not([data-last])::after { content: "\2009\2192" / ""; }
-  :is([dir="rtl"], [dir="rtl"] *) .db-tour-actions > [data-go="next"]:not([data-last])::after { content: "\2009\2190" / ""; }
-  .db-tour-actions > [data-go="next"][data-last]::after { content: "." / ""; }
+  .ot-tour-actions > button:is(:hover, [data-force~="hover"]) { text-decoration-color: currentColor; }
+  .ot-tour-actions > .ot-tour-end { margin-inline-end: auto; font-weight: 450; color: color-mix(in srgb, var(--ot-paper) 62%, var(--ot-ink)); }
+  .ot-tour-actions > [data-go="next"]:not([data-last])::after { content: "\2009\2192" / ""; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-tour-actions > [data-go="next"]:not([data-last])::after { content: "\2009\2190" / ""; }
+  .ot-tour-actions > [data-go="next"][data-last]::after { content: "." / ""; }
   /* On the ink the accent would sink: focus is a stroke under the word in the paper's colour, as a link's is. */
-  .db-tour-actions > button:is(:focus-visible, [data-force~="focus"]) { outline: none; text-decoration: underline var(--db-stroke) var(--db-paper); }
-  @media (forced-colors: active) { .db-tour-actions > button:is(:focus-visible, [data-force~="focus"]) { outline: var(--db-stroke) solid CanvasText; } }
+  .ot-tour-actions > button:is(:focus-visible, [data-force~="focus"]) { outline: none; text-decoration: underline var(--ot-stroke) var(--ot-paper); }
+  @media (forced-colors: active) { .ot-tour-actions > button:is(:focus-visible, [data-force~="focus"]) { outline: var(--ot-stroke) solid CanvasText; } }
 
   @media (forced-colors: active) {
-    .db-tour-callout { border: var(--db-hairline) solid CanvasText; }
-    .db-tour-line { stroke: CanvasText; }
-    .db-tour-dot { fill: Highlight; }
+    .ot-tour-callout { border: var(--ot-hairline) solid CanvasText; }
+    .ot-tour-line { stroke: CanvasText; }
+    .ot-tour-dot { fill: Highlight; }
   }
 }

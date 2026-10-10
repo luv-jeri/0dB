@@ -53,7 +53,7 @@ function Menubar({ className, dir, ref, variant = "pocket", children, onFocus, o
       data-slot="menubar"
       data-variant={variant}
       dir={dir ?? around}
-      className={cn("db-menubar", className)}
+      className={cn("ot-menubar", className)}
       // Focus in the menus bubbles here through React, from their portals too.
       onFocus={(event) => {
         onFocus?.(event)
@@ -69,7 +69,7 @@ function Menubar({ className, dir, ref, variant = "pocket", children, onFocus, o
     >
       <Look.Provider value={variant}>{children}</Look.Provider>
       {caption ? (
-        <span className="db-menubar-caption" aria-hidden data-rest={path ? undefined : ""}>
+        <span className="ot-menubar-caption" aria-hidden data-rest={path ? undefined : ""}>
           {(path ?? (rest ? [rest] : [])).map((w, i) => (
             <span key={`${i}-${w}`}>{w}</span>
           ))}
@@ -84,7 +84,7 @@ function MenubarMenu(props: React.ComponentProps<typeof MenuPrimitive.Menu>) {
 }
 
 function MenubarTrigger({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Trigger>) {
-  return <MenuPrimitive.Trigger data-slot="menubar-trigger" className={cn("db-menubar-trigger", className)} {...props} />
+  return <MenuPrimitive.Trigger data-slot="menubar-trigger" className={cn("ot-menubar-trigger", className)} {...props} />
 }
 
 function MenubarGroup(props: React.ComponentProps<typeof MenuPrimitive.Group>) {
@@ -110,7 +110,7 @@ function MenubarContent({
   className,
   align = "start",
   sideOffset = -1.5, /* over the rule by more than its width, whatever pixel it rounds to */
-  alignOffset = -27, /* --db-space-5, the items' inset: their words line up under the word */
+  alignOffset = -27, /* --ot-space-5, the items' inset: their words line up under the word */
   collisionPadding = 20,
   ref,
   onFocusOutside,
@@ -130,7 +130,7 @@ function MenubarContent({
         sideOffset={sideOffset}
         alignOffset={alignOffset}
         collisionPadding={collisionPadding}
-        className={cn("db-pop db-menu", className)}
+        className={cn("ot-pop ot-menu", className)}
         onFocusOutside={(event) => {
           onFocusOutside?.(event)
           // A menu still rolling up must not dismiss the next one: moving between menus
@@ -151,34 +151,34 @@ function MenubarItem({
   variant = "default",
   ...props
 }: React.ComponentProps<typeof MenuPrimitive.Item> & { variant?: "default" | "destructive" }) {
-  return <MenuPrimitive.Item data-slot="menubar-item" data-variant={variant} className={cn("db-menu-item", className)} {...props} />
+  return <MenuPrimitive.Item data-slot="menubar-item" data-variant={variant} className={cn("ot-menu-item", className)} {...props} />
 }
 
 /** Checked, the sentence turns to the expression italic. Screen readers get aria-checked. */
 function MenubarCheckboxItem({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.CheckboxItem>) {
-  return <MenuPrimitive.CheckboxItem data-slot="menubar-checkbox-item" className={cn("db-menu-item", className)} {...props} />
+  return <MenuPrimitive.CheckboxItem data-slot="menubar-checkbox-item" className={cn("ot-menu-item", className)} {...props} />
 }
 
 function MenubarRadioItem({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.RadioItem>) {
-  return <MenuPrimitive.RadioItem data-slot="menubar-radio-item" className={cn("db-menu-item", className)} {...props} />
+  return <MenuPrimitive.RadioItem data-slot="menubar-radio-item" className={cn("ot-menu-item", className)} {...props} />
 }
 
 function MenubarLabel({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Label>) {
-  return <MenuPrimitive.Label data-slot="menubar-label" className={cn("db-menu-label", className)} {...props} />
+  return <MenuPrimitive.Label data-slot="menubar-label" className={cn("ot-menu-label", className)} {...props} />
 }
 
 function MenubarSeparator({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.Separator>) {
-  return <MenuPrimitive.Separator data-slot="menubar-separator" className={cn("db-menu-sep", className)} {...props} />
+  return <MenuPrimitive.Separator data-slot="menubar-separator" className={cn("ot-menu-sep", className)} {...props} />
 }
 
-/** Shortcut keys, each a base `db-kbd` cap; it is the dropdown menu's, under this slot. */
+/** Shortcut keys, each a base `ot-kbd` cap; it is the dropdown menu's, under this slot. */
 function MenubarShortcut(props: React.ComponentProps<typeof DropdownMenuShortcut>) {
   return <DropdownMenuShortcut data-slot="menubar-shortcut" {...props} />
 }
 
 /** Opens something, so it carries the one → glyph. */
 function MenubarSubTrigger({ className, ...props }: React.ComponentProps<typeof MenuPrimitive.SubTrigger>) {
-  return <MenuPrimitive.SubTrigger data-slot="menubar-sub-trigger" className={cn("db-menu-item db-menu-sub", className)} {...props} />
+  return <MenuPrimitive.SubTrigger data-slot="menubar-sub-trigger" className={cn("ot-menu-item ot-menu-sub", className)} {...props} />
 }
 
 /** Beside its item, or on a narrow screen dropped open under it (the dropdown menu's useSubmenuPlace). */
@@ -186,7 +186,7 @@ function MenubarSubContent({ className, ref, sideOffset, alignOffset, collisionP
   const place = useSubmenuPlace({ ref, sideOffset, alignOffset, collisionPadding, style })
   return (
     <MenuPrimitive.Portal>
-      <MenuPrimitive.SubContent data-slot="menubar-sub-content" className={cn("db-pop db-menu", className)} {...props} {...place} />
+      <MenuPrimitive.SubContent data-slot="menubar-sub-content" className={cn("ot-pop ot-menu", className)} {...props} {...place} />
     </MenuPrimitive.Portal>
   )
 }

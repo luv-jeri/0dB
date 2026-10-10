@@ -15,10 +15,10 @@ const weight =
 export default function Example() {
   return (
     <div className="grid gap-y-8">
-      <Wake className="db-mp max-w-[36rem]">{text}</Wake>
-      <Wake variant="river" mark className="db-p max-w-[36rem]">{river}</Wake>
-      <Wake variant="caesura" mark className="db-p max-w-[36rem]">{caesura}</Wake>
-      <Wake variant="weight" className="db-mf max-w-[36rem] font-light">{weight}</Wake>
+      <Wake className="ot-mp max-w-[36rem]">{text}</Wake>
+      <Wake variant="river" mark className="ot-p max-w-[36rem]">{river}</Wake>
+      <Wake variant="caesura" mark className="ot-p max-w-[36rem]">{caesura}</Wake>
+      <Wake variant="weight" className="ot-mf max-w-[36rem] font-light">{weight}</Wake>
     </div>
   )
 }
@@ -27,19 +27,19 @@ export function States() {
   return (
     <>
       <State label="Unmarked, at rest">
-        <Wake className="db-p max-w-[24rem]">{text}</Wake>
+        <Wake className="ot-p max-w-[24rem]">{text}</Wake>
       </State>
       <State label="Marked, at rest">
-        <Wake mark radius={2.4} className="db-p max-w-[24rem]">{text}</Wake>
+        <Wake mark radius={2.4} className="ot-p max-w-[24rem]">{text}</Wake>
       </State>
       <State label="River, at rest">
-        <Wake variant="river" className="db-p max-w-[24rem]">{river}</Wake>
+        <Wake variant="river" className="ot-p max-w-[24rem]">{river}</Wake>
       </State>
       <State label="Weight, at rest">
-        <Wake variant="weight" className="db-mp max-w-[24rem]">{weight}</Wake>
+        <Wake variant="weight" className="ot-mp max-w-[24rem]">{weight}</Wake>
       </State>
       <State label="Caesura, at rest">
-        <Wake variant="caesura" className="db-p max-w-[24rem]">{caesura}</Wake>
+        <Wake variant="caesura" className="ot-p max-w-[24rem]">{caesura}</Wake>
       </State>
     </>
   )

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "field",
   title: "Field",
   movement: "VI",
-  contract: "db-field",
+  contract: "ot-field",
   summary: "No box, only a baseline. Your words arrive in italic, focus draws the accent from where you touched, and an error hangs from the line as a callout. Or your words are overprinted on a heavy label, or signed on a form's line.",
   underneath: "native",
   props: [

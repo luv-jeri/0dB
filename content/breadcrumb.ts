@@ -4,7 +4,7 @@ export default defineComponent({
   name: "breadcrumb",
   title: "Breadcrumb",
   movement: "VIII",
-  contract: "db-crumbs",
+  contract: "ot-crumbs",
   summary: "The path, divided by drawn hairlines leaning like slashes; or a stair that ends in the large italic of where you are; or a long path with a full stop for each step left out.",
   underneath: "native",
   props: [

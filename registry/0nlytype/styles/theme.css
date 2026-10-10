@@ -5,35 +5,35 @@
 @custom-variant dark (&:where([data-mode="nocturne"], [data-mode="nocturne"] *));
 
 @theme inline {
-  --color-paper: var(--db-paper);
-  --color-ink: var(--db-ink);
-  --color-graphite: var(--db-graphite);
-  --color-pencil: var(--db-pencil);
-  --color-rule: var(--db-rule);
-  --color-rule-strong: var(--db-rule-strong);
-  --color-accent: var(--db-accent);
-  --color-signal: var(--db-signal);
-  --color-mark: var(--db-mark);
-  --font-voice: var(--db-voice);
-  --font-expression: var(--db-expression);
+  --color-paper: var(--ot-paper);
+  --color-ink: var(--ot-ink);
+  --color-graphite: var(--ot-graphite);
+  --color-pencil: var(--ot-pencil);
+  --color-rule: var(--ot-rule);
+  --color-rule-strong: var(--ot-rule-strong);
+  --color-accent: var(--ot-accent);
+  --color-signal: var(--ot-signal);
+  --color-mark: var(--ot-mark);
+  --font-voice: var(--ot-voice);
+  --font-expression: var(--ot-expression);
 }
 
 :root {
-  --background: var(--db-paper);
-  --foreground: var(--db-graphite);
-  --card: var(--db-paper);
-  --card-foreground: var(--db-graphite);
-  --popover: var(--db-paper);
-  --popover-foreground: var(--db-graphite);
-  --primary: var(--db-ink);
-  --primary-foreground: var(--db-paper);
-  --secondary: var(--db-paper);
-  --secondary-foreground: var(--db-ink);
-  --muted: var(--db-paper);
-  --muted-foreground: var(--db-pencil);
-  --destructive: var(--db-signal);
-  --border: var(--db-rule);
-  --input: var(--db-rule-strong);
-  --ring: var(--db-accent);
+  --background: var(--ot-paper);
+  --foreground: var(--ot-graphite);
+  --card: var(--ot-paper);
+  --card-foreground: var(--ot-graphite);
+  --popover: var(--ot-paper);
+  --popover-foreground: var(--ot-graphite);
+  --primary: var(--ot-ink);
+  --primary-foreground: var(--ot-paper);
+  --secondary: var(--ot-paper);
+  --secondary-foreground: var(--ot-ink);
+  --muted: var(--ot-paper);
+  --muted-foreground: var(--ot-pencil);
+  --destructive: var(--ot-signal);
+  --border: var(--ot-rule);
+  --input: var(--ot-rule-strong);
+  --ring: var(--ot-accent);
   --radius: 0rem;
 }

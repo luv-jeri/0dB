@@ -4,7 +4,7 @@ export default defineComponent({
   name: "progress",
   title: "Progress",
   movement: "VII",
-  contract: "db-progress",
+  contract: "ot-progress",
   summary: "How far something you started has got: a hairline and an italic percentage, the words themselves inking in, one ring per item, a pair of parentheses closing on the words, or a tally. Done, a full stop lands.",
   underneath: "native",
   props: [

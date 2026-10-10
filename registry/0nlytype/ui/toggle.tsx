@@ -22,7 +22,7 @@ type ToggleProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, "asCh
 
 /**
  * The word and its italic copy start at the same edge but aren't the same width, so a mark centred on
- * the button would sit off the word you see. This reads both widths (--db-toggle-r, --db-toggle-i) and
+ * the button would sit off the word you see. This reads both widths (--ot-toggle-r, --ot-toggle-i) and
  * the stylesheet centres or ends the marks on whichever face is showing. Fonts arriving and resizes put
  * the marks straight there (data-still); only a press moves them.
  */
@@ -38,8 +38,8 @@ function useFaces(variant: string, children: React.ReactNode) {
       `${parseFloat(cs.width) - (cs.boxSizing === "border-box" ? parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) : 0)}px`
     const read = () => {
       button.setAttribute("data-still", "")
-      button.style.setProperty("--db-toggle-r", width(getComputedStyle(roman)))
-      button.style.setProperty("--db-toggle-i", width(getComputedStyle(label, "::after")))
+      button.style.setProperty("--ot-toggle-r", width(getComputedStyle(roman)))
+      button.style.setProperty("--ot-toggle-i", width(getComputedStyle(label, "::after")))
       void button.offsetWidth
       button.removeAttribute("data-still")
     }
@@ -65,14 +65,14 @@ function Toggle({ className, variant = "fermata", note = "on", children, ref, ..
       ref={composedRef}
       data-slot="toggle"
       data-variant={variant}
-      className={cn("db-toggle", className)}
+      className={cn("ot-toggle", className)}
       {...props}
     >
-      <span className="db-toggle-label" data-text={typeof children === "string" ? children : undefined}>
+      <span className="ot-toggle-label" data-text={typeof children === "string" ? children : undefined}>
         <span>{children}</span>
         {variant === "aside" ? (
-          <small className="db-toggle-note" aria-hidden="true">
-            <span className="db-toggle-arrow" />
+          <small className="ot-toggle-note" aria-hidden="true">
+            <span className="ot-toggle-arrow" />
             {note}
           </small>
         ) : null}

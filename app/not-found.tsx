@@ -5,7 +5,7 @@ import { Button } from "@/registry/0nlytype/ui/button"
 
 export default function NotFound() {
   return (
-    <main id="content" className="page" style={{ paddingTop: "calc(var(--bar) + var(--db-space-9))" }}>
+    <main id="content" className="page" style={{ paddingTop: "calc(var(--bar) + var(--ot-space-9))" }}>
       <div className="stave">
         <Empty>
           <h1 className="doc-title">Nothing here.</h1>

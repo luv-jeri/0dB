@@ -38,21 +38,21 @@ async function liveExample(name: string): Promise<Example | null> {
     return function RelayVariations() {
       const { ref, step } = useDemoClock()
       const [own, setOwn] = React.useState<number | null>(null)
-      return <div ref={ref} data-demo-clock className="grid">{(["statement", "sentence"] as const).map((variant) => <p className={variant === "statement" ? "db-f" : "db-mp"} style={{ margin: 0 }} key={variant}><WordRelay variant={variant} autoplay={false} index={(own ?? step) % 4} onIndexChange={setOwn} words={["design.", "type.", "silence.", "yours."]}>It has to be</WordRelay></p>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["statement", "sentence"] as const).map((variant) => <p className={variant === "statement" ? "ot-f" : "ot-mp"} style={{ margin: 0 }} key={variant}><WordRelay variant={variant} autoplay={false} index={(own ?? step) % 4} onIndexChange={setOwn} words={["design.", "type.", "silence.", "yours."]}>It has to be</WordRelay></p>)}</div>
     }
   }
   if (name === "scroll-expand") {
     const { ScrollExpand } = await import("@/registry/0nlytype/ui/scroll-expand")
     return function ExpandVariations() {
       const { ref, step } = useDemoClock()
-      return <div ref={ref} data-demo-clock className="grid">{(["mark", "horizon"] as const).map((variant) => <ScrollExpand key={variant} variant={variant} progress={[1, 0.25, 0.6, 1, 0.6][step % 5]} caption={[variant, "Space opens"]}><p className="db-f" style={{ margin: 0, paddingBlock: "var(--db-space-6)" }}>Space<br />does the<br />layout.</p></ScrollExpand>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["mark", "horizon"] as const).map((variant) => <ScrollExpand key={variant} variant={variant} progress={[1, 0.25, 0.6, 1, 0.6][step % 5]} caption={[variant, "Space opens"]}><p className="ot-f" style={{ margin: 0, paddingBlock: "var(--ot-space-6)" }}>Space<br />does the<br />layout.</p></ScrollExpand>)}</div>
     }
   }
   if (name === "steps") {
     const { Steps, Step, StepTitle } = await import("@/registry/0nlytype/ui/steps")
     return function StepVariations() {
       const { ref, step } = useDemoClock()
-      return <div ref={ref} data-demo-clock className="grid">{(["margin", "rise", "cascade", "folio"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Steps variant={variant} value={step % 3 + 1}>{["Brief", "Scope", "Call"].map((title) => <Step key={title}><StepTitle>{title}</StepTitle></Step>)}</Steps></div>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["margin", "rise", "cascade", "folio"] as const).map((variant) => <div className="grid" key={variant}><span className="ot-label">{variant}</span><Steps variant={variant} value={step % 3 + 1}>{["Brief", "Scope", "Call"].map((title) => <Step key={title}><StepTitle>{title}</StepTitle></Step>)}</Steps></div>)}</div>
     }
   }
   if (name === "activity-feed") {
@@ -63,7 +63,7 @@ async function liveExample(name: string): Promise<Example | null> {
       { id: "brief", what: "The brief was agreed", at: "2026-09-30T14:02" },
     ]
     return function FeedVariations() {
-      return <div className="grid">{(["ledger", "almanac", "lapse"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><ActivityFeed variant={variant} entries={entries} initial={2} days={{ "2026-09-30": "Today" }} /></div>)}</div>
+      return <div className="grid">{(["ledger", "almanac", "lapse"] as const).map((variant) => <div className="grid" key={variant}><span className="ot-label">{variant}</span><ActivityFeed variant={variant} entries={entries} initial={2} days={{ "2026-09-30": "Today" }} /></div>)}</div>
     }
   }
   if (name === "thread") {
@@ -72,7 +72,7 @@ async function liveExample(name: string): Promise<Example | null> {
     return function ThreadVariations() {
       const { ref, step } = useDemoClock()
       const words = ["The proofs are back.", "The flag holds at stamp size.", "Send it to the ferry office."]
-      return <div ref={ref} data-demo-clock className="grid">{(["default", "rests", "running"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Thread variant={variant} label={`${variant} thread`} style={{ height: "15rem" }}><ThreadDay>Today</ThreadDay><Message><MessageHeader name="Ada" time="09:40" dateTime="2026-09-30T09:40" /><MessageBody><MessageBubble>The harbour mark is ready.</MessageBubble></MessageBody></Message><Message key={step % 3} arriving={step > 0}><MessageHeader name="Bruno" time="10:40" dateTime="2026-09-30T10:40" /><MessageBody><MessageBubble>{words[step % 3]}</MessageBubble></MessageBody></Message></Thread></div>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["default", "rests", "running"] as const).map((variant) => <div className="grid" key={variant}><span className="ot-label">{variant}</span><Thread variant={variant} label={`${variant} thread`} style={{ height: "15rem" }}><ThreadDay>Today</ThreadDay><Message><MessageHeader name="Ada" time="09:40" dateTime="2026-09-30T09:40" /><MessageBody><MessageBubble>The harbour mark is ready.</MessageBubble></MessageBody></Message><Message key={step % 3} arriving={step > 0}><MessageHeader name="Bruno" time="10:40" dateTime="2026-09-30T10:40" /><MessageBody><MessageBubble>{words[step % 3]}</MessageBubble></MessageBody></Message></Thread></div>)}</div>
     }
   }
   if (name === "tiling") {
@@ -84,20 +84,20 @@ async function liveExample(name: string): Promise<Example | null> {
         { id: "type", label: "Type", column: step % 2 ? 1 : 7, row: 2, span: 6, rows: 1 },
       ]
       const [own, setOwn] = React.useState<typeof layout | null>(null)
-      return <div ref={ref} data-demo-clock className="grid">{(["rules", "crosses"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><TilingEditor variant={variant} label="Make room for the words" value={own ?? layout} onValueChange={setOwn} /></div>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["rules", "crosses"] as const).map((variant) => <div className="grid" key={variant}><span className="ot-label">{variant}</span><TilingEditor variant={variant} label="Make room for the words" value={own ?? layout} onValueChange={setOwn} /></div>)}</div>
     }
   }
   if (name === "mode-toggle") {
     const { ModeToggle } = await import("@/registry/0nlytype/ui/mode-toggle")
     return function ModeVariations() {
-      return <div className="grid">{(["stop", "dimmer", "noon", "eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const).map((variant) => <div key={variant} className="grid"><span className="db-label">{variant}</span><ModeToggle variant={variant} /></div>)}</div>
+      return <div className="grid">{(["stop", "dimmer", "noon", "eclipse", "horizon", "words", "fermata", "sentence", "knockout", "hour"] as const).map((variant) => <div key={variant} className="grid"><span className="ot-label">{variant}</span><ModeToggle variant={variant} /></div>)}</div>
     }
   }
   if (name === "progress") {
     const { Progress } = await import("@/registry/0nlytype/ui/progress")
     return function ProgressVariations() {
       const { ref, step } = useDemoClock()
-      return <div ref={ref} data-demo-clock className="grid">{(["hairline", "sentence", "count", "parentheses", "tally"] as const).map((variant) => <div key={variant} className="grid"><span className="db-label">{variant}</span><Progress variant={variant} value={(step % 5) * 25} label="Setting the type" /></div>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["hairline", "sentence", "count", "parentheses", "tally"] as const).map((variant) => <div key={variant} className="grid"><span className="ot-label">{variant}</span><Progress variant={variant} value={(step % 5) * 25} label="Setting the type" /></div>)}</div>
     }
   }
   if (name === "agent-state") {
@@ -105,13 +105,13 @@ async function liveExample(name: string): Promise<Example | null> {
     return function AgentVariations() {
       const { ref, step } = useDemoClock()
       const state = (["ready", "thinking", "working", "input", "done"] as const)[step % 5]
-      return <div ref={ref} data-demo-clock className="grid">{(["dot", "word"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><AgentState variant={variant} state={state} /></div>)}</div>
+      return <div ref={ref} data-demo-clock className="grid">{(["dot", "word"] as const).map((variant) => <div className="grid" key={variant}><span className="ot-label">{variant}</span><AgentState variant={variant} state={state} /></div>)}</div>
     }
   }
   if (name === "sheet") {
     const { Sheet, SheetTitle, SheetDescription } = await import("@/registry/0nlytype/ui/sheet")
     return function SheetVariations() {
-      return <div className="grid">{(["spine", "shelf", "rag", "fold"] as const).map((variant) => <div className="grid" key={variant}><span className="db-label">{variant}</span><Sheet><dialog open className="db-sheet" data-side="end" data-variant={variant === "spine" ? undefined : variant} style={{ position: "relative", inset: "auto", translate: "none", width: "100%", height: "18rem", maxHeight: "none", transition: "none" }}><p className="db-sheet-spine" aria-hidden="true">The brief</p><SheetTitle>The brief</SheetTitle><SheetDescription>Keep the flag. Lose the anchor. Set the timetable large.</SheetDescription></dialog></Sheet></div>)}</div>
+      return <div className="grid">{(["spine", "shelf", "rag", "fold"] as const).map((variant) => <div className="grid" key={variant}><span className="ot-label">{variant}</span><Sheet><dialog open className="ot-sheet" data-side="end" data-variant={variant === "spine" ? undefined : variant} style={{ position: "relative", inset: "auto", translate: "none", width: "100%", height: "18rem", maxHeight: "none", transition: "none" }}><p className="ot-sheet-spine" aria-hidden="true">The brief</p><SheetTitle>The brief</SheetTitle><SheetDescription>Keep the flag. Lose the anchor. Set the timetable large.</SheetDescription></dialog></Sheet></div>)}</div>
     }
   }
   return null

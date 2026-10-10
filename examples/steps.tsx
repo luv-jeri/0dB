@@ -35,7 +35,7 @@ export default function Example() {
       </div>
       {(["margin", "rise", "cascade", "folio"] as const).map((v) => (
         <div key={v} className="grid gap-y-4">
-          <span className="db-label">{v}</span>
+          <span className="ot-label">{v}</span>
           <Sequence variant={v} at={at} go={setAt} />
         </div>
       ))}

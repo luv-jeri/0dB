@@ -49,22 +49,22 @@ function AgentState({ state, variant = "dot", children, className, ...props }: A
       role="status"
       aria-live="polite"
       aria-busy={busy || undefined}
-      className={cn("db-agent", className)}
+      className={cn("ot-agent", className)}
       {...props}
     >
       {variant === "dot" ? (
-        <span key={state} className="db-agent-mark" aria-hidden="true">
+        <span key={state} className="ot-agent-mark" aria-hidden="true">
           {state === "thinking" ? <Spinner variant="breath" /> : state === "working" ? <Spinner variant="round" /> : null}
         </span>
       ) : null}
       {variant === "word" && busy ? (
         <>
-          <span className="db-sr">{word}</span>
+          <span className="ot-sr">{word}</span>
           {/* The word spinner is always a status; here the line is, so its own role and voice are taken off. */}
           <Spinner variant="word" label={word} role={undefined} aria-live={undefined} aria-hidden="true" />
         </>
       ) : (
-        <span className="db-agent-word">{word}</span>
+        <span className="ot-agent-word">{word}</span>
       )}
     </Marker>
   )

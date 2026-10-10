@@ -4,7 +4,7 @@ export default defineComponent({
   name: "picks",
   title: "Picks",
   movement: "VI",
-  contract: "db-picks",
+  contract: "ot-picks",
   summary: "A list of choices that carry their own content. The one you took turns italic, and either a dot slides to it along a plucked string its initial hangs in the margin like a rubricated capital, its name lies faint behind the list, or two registration crosses mark its corners.",
   underneath: "native",
   props: [

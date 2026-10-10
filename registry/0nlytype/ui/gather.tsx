@@ -11,7 +11,7 @@ const FACE = ["data-pair", "data-scheme", "data-mode", "data-key"]
 type GatherProps = Omit<React.ComponentProps<"p">, "children"> & {
   /** The line, as plain text: pretext measures where each letter belongs. */
   children: string
-  /** The element. Pass a dynamic class (`db-f`, `db-mf`…) for the size. */
+  /** The element. Pass a dynamic class (`ot-f`, `ot-mf`…) for the size. */
   as?: "h2" | "h3" | "p"
   /** Where the letters start: dust scattered round their places, the forme (the line mirrored, as type stands before it is printed), or a coil (the line wound up at its start). */
   variant?: "dust" | "forme" | "coil"
@@ -54,7 +54,7 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
     el.dataset.phase = "wait"
     const layer = document.createElement("span")
     layer.setAttribute("aria-hidden", "true")
-    layer.className = "db-gather-glyphs"
+    layer.className = "ot-gather-glyphs"
     el.append(layer)
     off.push(() => {
       layer.remove()
@@ -224,8 +224,8 @@ function Gather({ children: text, as = "p", variant = "dust", by = "letter", scr
   }, [text, variant, by, scrub])
 
   return (
-    <Tag ref={composedRef} data-slot="gather" data-variant={variant === "dust" ? undefined : variant} data-by={by === "letter" ? undefined : by} className={cn("db-gather", className)} {...props}>
-      <span className="db-gather-text">{text}</span>
+    <Tag ref={composedRef} data-slot="gather" data-variant={variant === "dust" ? undefined : variant} data-by={by === "letter" ? undefined : by} className={cn("ot-gather", className)} {...props}>
+      <span className="ot-gather-text">{text}</span>
     </Tag>
   )
 }

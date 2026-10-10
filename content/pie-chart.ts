@@ -4,7 +4,7 @@ export default defineComponent({
   name: "pie-chart",
   title: "Pie chart",
   movement: "X",
-  contract: "db-pie",
+  contract: "ot-pie",
   summary: "Shares of a whole: one hairline ring cut into arcs with paper between them, numbered round the rim, and the total as one very large number inside that rolls to the share of the arc you point at.",
   underneath: "hook",
   props: [

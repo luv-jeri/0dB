@@ -90,7 +90,7 @@ export function useDemoPlayer({ root, host = root, item, identity = item, reset 
       lanes = []
       if (running) publish("stopped")
     }
-    const quiet = () => { if (item === "word-relay") choreography?.all(el, ".db-relay-pause").filter((b) => b.textContent?.trim() === "pause").forEach((b) => invoke(() => b.click())) }
+    const quiet = () => { if (item === "word-relay") choreography?.all(el, ".ot-relay-pause").filter((b) => b.textContent?.trim() === "pause").forEach((b) => invoke(() => b.click())) }
     const remount = () => { driving = true; try { flushSync(() => resetRef.current()); quiet(); stabilize() } finally { driving = false } }
     // Only ever called by the person's own press of Demonstrate. It starts from the example's defaults (remounting
     // only when something has already happened to it) and plays once.

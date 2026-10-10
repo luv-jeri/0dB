@@ -4,7 +4,7 @@ export default defineComponent({
   name: "dial",
   title: "Dial",
   movement: "VI",
-  contract: "db-dial",
+  contract: "ot-dial",
   summary: "A number you turn to. The arc sets a few on a half circle and rolls to your choice; the tuner is a long scale on the rim of a wheel you turn by hand, by scroll or by key, and your number reads above it in italic. Dynamics sets the number at the size of its loudness, from niente to fff; the tumbler sets a whole number figure by figure, like the wheels of a lock.",
   underneath: "hook",
   props: [

@@ -65,8 +65,8 @@ for (const width of [375, 1440]) {
   const page = await browser.newPage()
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto(`${base}${sitePath("/")}`)
-  const andante = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--db-andante").trim())
-  if (andante !== "1ms") failures.push(`reduced motion collapses tempo: --db-andante is "${andante}"`)
+  const andante = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--ot-andante").trim())
+  if (andante !== "1ms") failures.push(`reduced motion collapses tempo: --ot-andante is "${andante}"`)
   await page.close()
 }
 

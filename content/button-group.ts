@@ -4,7 +4,7 @@ export default defineComponent({
   name: "button-group",
   title: "Button group",
   movement: "VI",
-  contract: "db-btn-group",
+  contract: "ot-btn-group",
   summary: "A set of actions, drawn three ways: one pair of parentheses with hairlines between, a narrow column with a dash hung in the margin, or a list written into the sentence around it.",
   underneath: "native",
   uses: ["button"],

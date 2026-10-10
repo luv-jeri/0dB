@@ -4,7 +4,7 @@ export default defineComponent({
   name: "checkbox",
   title: "Checkbox",
   movement: "VI",
-  contract: "db-check",
+  contract: "ot-check",
   summary: "No box. The words are the control, and checking strikes them through in the accent.",
   underneath: "native",
   props: [

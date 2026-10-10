@@ -35,7 +35,7 @@ function HoverCardContent({
         align={align}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        className={cn("db-peek", className)}
+        className={cn("ot-peek", className)}
         {...props}
       />
     </HoverCardPrimitive.Portal>
@@ -50,12 +50,12 @@ function HoverCardContent({
 function HoverCardName({ className, children, ...props }: React.ComponentProps<"span">) {
   const syllables = typeof children === "string" && /[·ˈ]/.test(children) ? children.split("·") : null
   return (
-    <span data-slot="hover-card-name" aria-hidden="true" className={cn("db-peek-name", className)} {...props}>
+    <span data-slot="hover-card-name" aria-hidden="true" className={cn("ot-peek-name", className)} {...props}>
       {syllables
         ? syllables.map((s, i) => (
             <React.Fragment key={i}>
-              {i > 0 && <span className="db-peek-point" style={{ "--i": i } as React.CSSProperties} />}
-              {s.startsWith("ˈ") ? <span className="db-peek-stress">{s.slice(1)}</span> : s}
+              {i > 0 && <span className="ot-peek-point" style={{ "--i": i } as React.CSSProperties} />}
+              {s.startsWith("ˈ") ? <span className="ot-peek-stress">{s.slice(1)}</span> : s}
             </React.Fragment>
           ))
         : children}
@@ -64,7 +64,7 @@ function HoverCardName({ className, children, ...props }: React.ComponentProps<"
 }
 
 function HoverCardMeta({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="hover-card-meta" className={cn("db-peek-meta", className)} {...props} />
+  return <span data-slot="hover-card-meta" className={cn("ot-peek-meta", className)} {...props} />
 }
 
 export { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardName, HoverCardMeta }

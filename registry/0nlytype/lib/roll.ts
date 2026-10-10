@@ -97,7 +97,7 @@ export function createDigitRoll(initial: ReactNode, publish: (value: ReactNode) 
       if (!el) { put(); continue }
       pending.push(setTimeout(() => {
         if (mine === generation) turns.push(roll(el, put, distance, dir))
-      }, n++ * 36)) // --db-arpeggio, units first
+      }, n++ * 36)) // --ot-arpeggio, units first
     }
   }
   return { update, cancel }

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "scroll-area",
   title: "Scroll area",
   movement: "IX",
-  contract: "db-scroll",
+  contract: "ot-scroll",
   summary: "A rule appears at an edge only while there's more beyond it, and leaves when you reach the end.",
   underneath: "native",
   props: [

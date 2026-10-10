@@ -68,12 +68,12 @@ export async function readItems(root = ".") {
   return metas.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
 }
 
-/** db-<name> to the line its f-<name> fence starts on in the specimen. */
+/** ot-<name> to the line its f-<name> fence starts on in the specimen. */
 function fenceLines(root) {
   const map = new Map()
   readFileSync(path.join(root, "specimen/fermata.css"), "utf8").split("\n").forEach((line, i) => {
     const m = line.match(/^\/\* ── f-([a-z-]+)/)
-    if (m && !map.has(`db-${m[1]}`)) map.set(`db-${m[1]}`, i)
+    if (m && !map.has(`ot-${m[1]}`)) map.set(`ot-${m[1]}`, i)
   })
   return map
 }

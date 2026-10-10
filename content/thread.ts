@@ -4,7 +4,7 @@ export default defineComponent({
   name: "thread",
   title: "Thread",
   movement: "XI",
-  contract: "db-thread",
+  contract: "ot-thread",
   summary: "A message scroller that keeps to the latest while you are at the end. Scrolled back, it stays put and counts what is new in an ink pill.",
   underneath: "native",
   uses: ["scroll-area"],

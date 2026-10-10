@@ -33,7 +33,7 @@ function InputGroup({ className, variant = "line", onInput, onPointerDown, child
       data-slot="input-group"
       data-variant={variant}
       data-filled={value ? "" : undefined}
-      className={cn("db-input-group", className)}
+      className={cn("ot-input-group", className)}
       onInput={(e) => {
         onInput?.(e)
         if (e.target instanceof HTMLInputElement) setValue(e.target.value)
@@ -66,7 +66,7 @@ function InputGroupText({ className, agree, children, ...props }: InputGroupText
   const form = value ? new Intl.PluralRules().select(Number(value.replace(/[^\d.-]/g, "")) || 0) : "other"
   const unit = agree ? (agree[form] ?? agree.other) : null
   return (
-    <span data-slot="input-group-text" className={cn("db-input-group-text", className)} {...props}>
+    <span data-slot="input-group-text" className={cn("ot-input-group-text", className)} {...props}>
       {unit}
       {unit && children ? " " : null}
       {children}
@@ -77,11 +77,11 @@ function InputGroupText({ className, agree, children, ...props }: InputGroupText
 /** What you type, in italic. Takes the Field's id, hint and error when there is one. */
 function InputGroupInput({ className, ...props }: React.ComponentProps<"input">) {
   const field = useFieldControl()
-  const origin = useLineOrigin<HTMLInputElement>((el) => el.closest<HTMLElement>(".db-input-group") ?? el, props)
+  const origin = useLineOrigin<HTMLInputElement>((el) => el.closest<HTMLElement>(".ot-input-group") ?? el, props)
   return (
     <input
       data-slot="input-group-input"
-      className={cn("db-input-group-input", className)}
+      className={cn("ot-input-group-input", className)}
       {...props}
       id={props.id ?? field.id}
       maxLength={props.maxLength ?? field.maxLength}
@@ -94,7 +94,7 @@ function InputGroupInput({ className, ...props }: React.ComponentProps<"input">)
 
 /** An action at the end of the line, set as a quiet Button. */
 function InputGroupButton({ className, variant = "quiet", ...props }: React.ComponentProps<typeof Button>) {
-  return <Button data-slot="input-group-button" variant={variant} className={cn("db-input-group-button", className)} {...props} />
+  return <Button data-slot="input-group-button" variant={variant} className={cn("ot-input-group-button", className)} {...props} />
 }
 
 export { InputGroup, InputGroupText, InputGroupInput, InputGroupButton, type InputGroupProps, type InputGroupTextProps }

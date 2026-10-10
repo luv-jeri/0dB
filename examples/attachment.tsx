@@ -15,13 +15,13 @@ export default function Example() {
   const [sent, setSent] = React.useState(0.25)
   const done = sent >= 1
   return (
-    <div className="grid gap-(--db-space-8)">
+    <div className="grid gap-(--ot-space-8)">
       <AttachmentList className="max-w-[40rem]">
         {files.map((f) => (
           <Attachment key={f.name} {...f} onRemove={() => setFiles((all) => all.filter((x) => x !== f))} />
         ))}
       </AttachmentList>
-      <div className="grid max-w-[40rem] justify-items-start gap-(--db-space-5)">
+      <div className="grid max-w-[40rem] justify-items-start gap-(--ot-space-5)">
         <AttachmentList variant="reverse" className="w-full">
           <Attachment name="Timetable grid.svg" size="0.8 MB" />
           <Attachment
@@ -33,7 +33,7 @@ export default function Example() {
         </AttachmentList>
         <Button variant="bracket" disabled={done} onClick={() => setSent((p) => p + 0.25)}>Send the next part</Button>
       </div>
-      <div className="grid max-w-[40rem] gap-(--db-space-3)">
+      <div className="grid max-w-[40rem] gap-(--ot-space-3)">
         <p>With the second round of marks, as promised.</p>
         <AttachmentList variant="enclosure">
           <Attachment name="Halden brief, second round.pdf" size="2.4 MB" />
@@ -56,12 +56,12 @@ export function States() {
       <State label="Reverse, done"><AttachmentList variant="reverse" className="w-68"><Attachment name="Stamps.png" size="3.6 MB" /></AttachmentList></State>
       <State label="Reverse, failed"><AttachmentList variant="reverse" className="w-68"><Attachment name="Marks, final.ai" status="The connection dropped." state="error" progress={0.7} /></AttachmentList></State>
       <State label="Enclosure">
-        <AttachmentList variant="enclosure" className="w-[min(24rem,calc(100vw-2*var(--db-margin)))] max-w-full">
+        <AttachmentList variant="enclosure" className="w-[min(24rem,calc(100vw-2*var(--ot-margin)))] max-w-full">
           <Attachment name="Brief.pdf" size="2.4 MB" />
           <Attachment name="Stamps.png" status="1.4 of 3.6 MB" state="uploading" progress={0.4} />
         </AttachmentList>
       </State>
-      <State label="Failed"><AttachmentList className="w-[min(24rem,calc(100vw-2*var(--db-margin)))] max-w-full"><Attachment name="Marks, final.ai" status="The connection dropped." state="error" progress={0.7} onRemove={() => {}} /></AttachmentList></State>
+      <State label="Failed"><AttachmentList className="w-[min(24rem,calc(100vw-2*var(--ot-margin)))] max-w-full"><Attachment name="Marks, final.ai" status="The connection dropped." state="error" progress={0.7} onRemove={() => {}} /></AttachmentList></State>
       <State label="Translated enclosure">
         <AttachmentList variant="enclosure" enclosureLabel="Anl." aria-label="Anlagen" lang="de" className="w-68 max-w-full">
           <Attachment name="Brief.pdf" size="2.4 MB" removeLabel="Entfernen" onRemove={() => {}} />

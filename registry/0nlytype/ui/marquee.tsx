@@ -43,7 +43,7 @@ function Marquee({ children, variant = "band", speed = 0.4, reverse = false, lab
 
   React.useEffect(() => {
     const el = ref.current
-    const run = el?.querySelector<HTMLElement>(".db-marquee-words")
+    const run = el?.querySelector<HTMLElement>(".ot-marquee-words")
     if (!el || !run) return
     const reduced = matchMedia("(prefers-reduced-motion: reduce)")
     let period = 0, frame = 0, carried = 0
@@ -155,15 +155,15 @@ function Marquee({ children, variant = "band", speed = 0.4, reverse = false, lab
 
   const rows = variant === "counter" ? 2 : 1
   return (
-    <div ref={composedRef} data-slot="marquee" data-force={force} data-variant={variant === "band" ? undefined : variant} className={cn("db-marquee", className)} {...props}>
-      <div className="db-marquee-frame">
+    <div ref={composedRef} data-slot="marquee" data-force={force} data-variant={variant === "band" ? undefined : variant} className={cn("ot-marquee", className)} {...props}>
+      <div className="ot-marquee-frame">
         {Array.from({ length: rows }, (_, row) => (
-          <div key={row} className="db-marquee-row" data-back={reverse !== (row === 1) || undefined}>
-            <div className="db-marquee-track">
+          <div key={row} className="ot-marquee-row" data-back={reverse !== (row === 1) || undefined}>
+            <div className="ot-marquee-track">
               {Array.from({ length: copies }, (_, copy) => {
                 const read = row === 0 && copy === 0
                 return (
-                  <ul key={copy} className="db-marquee-words" aria-label={read ? label : undefined} aria-hidden={read ? undefined : true} inert={!read}>
+                  <ul key={copy} className="ot-marquee-words" aria-label={read ? label : undefined} aria-hidden={read ? undefined : true} inert={!read}>
                     {words.map((word, i) => (
                       <li key={i}>{word}</li>
                     ))}
@@ -174,7 +174,7 @@ function Marquee({ children, variant = "band", speed = 0.4, reverse = false, lab
           </div>
         ))}
       </div>
-      {autoplay && <button type="button" className="db-marquee-pause" onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
+      {autoplay && <button type="button" className="ot-marquee-pause" onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
     </div>
   )
 }

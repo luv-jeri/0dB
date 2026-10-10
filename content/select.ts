@@ -4,7 +4,7 @@ export default defineComponent({
   name: "select",
   title: "Select",
   movement: "VI",
-  contract: "db-select",
+  contract: "ot-select",
   summary: "A choice set inside a sentence: the chosen word is yours, italic over a hairline. It can be reset from the last word's letters, or wear the other choices above it as ruby.",
   underneath: "native",
   props: [

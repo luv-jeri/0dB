@@ -30,7 +30,7 @@ function useMarks(single: boolean, fingering: boolean, seed: readonly string[]) 
   const first = React.useRef(seed)
   React.useLayoutEffect(() => {
     const root = ref.current
-    const layer = root?.querySelector<HTMLElement>(":scope > .db-toggles-marks")
+    const layer = root?.querySelector<HTMLElement>(":scope > .ot-toggles-marks")
     if (!root || !layer) return
     let marks: Mark[] = []
     const all = () => [...root.querySelectorAll<HTMLElement>('[data-slot="toggle-group-item"]')]
@@ -39,7 +39,7 @@ function useMarks(single: boolean, fingering: boolean, seed: readonly string[]) 
     // The face you see, left and right in px: held, the italic copy; otherwise the roman. They share
     // one cell (start-aligned on the first word of a line, centred elsewhere) but not one width.
     const face = (item: HTMLElement, k: number, rtl: boolean) => {
-      const word = item.querySelector<HTMLElement>(":scope > .db-toggles-word")
+      const word = item.querySelector<HTMLElement>(":scope > .ot-toggles-word")
       if (!word) {
         const r = item.getBoundingClientRect()
         const cs = getComputedStyle(item)
@@ -139,7 +139,7 @@ function useMarks(single: boolean, fingering: boolean, seed: readonly string[]) 
           continue
         }
         const el = document.createElement("i")
-        el.className = "db-toggles-mark"
+        el.className = "ot-toggles-mark"
         el.setAttribute("data-enter", "")
         layer.append(el)
         entering.push(el)
@@ -211,11 +211,11 @@ function ToggleGroup({ className, variant = "slur", dir, children, ref, ...props
       data-slot="toggle-group"
       data-variant={variant}
       dir={dir ?? around}
-      className={cn("db-toggles", className)}
+      className={cn("ot-toggles", className)}
       {...props}
     >
       {children}
-      <span data-slot="toggle-group-marks" className="db-toggles-marks" aria-hidden="true" />
+      <span data-slot="toggle-group-marks" className="ot-toggles-marks" aria-hidden="true" />
     </ToggleGroupPrimitive.Root>
   )
 }
@@ -232,9 +232,9 @@ type ToggleGroupItemProps = React.ComponentProps<typeof ToggleGroupPrimitive.Ite
  */
 function ToggleGroupItem({ className, children, ...props }: ToggleGroupItemProps) {
   return (
-    <ToggleGroupPrimitive.Item data-slot="toggle-group-item" data-value={props.value} className={cn("db-toggles-item", className)} {...props}>
+    <ToggleGroupPrimitive.Item data-slot="toggle-group-item" data-value={props.value} className={cn("ot-toggles-item", className)} {...props}>
       {typeof children === "string" ? (
-        <span className="db-toggles-word" data-text={children}>
+        <span className="ot-toggles-word" data-text={children}>
           <span>{children}</span>
         </span>
       ) : (

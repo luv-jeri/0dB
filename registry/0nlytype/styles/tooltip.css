@@ -1,52 +1,52 @@
 @layer components {
-  /* ── db-tip ── tooltip: a whisper in parentheses above the thing it names. The parentheses are set
+  /* ── ot-tip ── tooltip: a whisper in parentheses above the thing it names. The parentheses are set
      thin and taller than the words, as 20(25) sets them round its figures, so the whisper reads as
      an aside held apart from the page. Radix positions it (side top, 8px off) and holds it for a
      still pointer; focus shows it at once and Escape puts it away. */
-  .db-tip-text {
-    z-index: 50; width: max-content; max-width: 32ch; padding: 0.1em 0.35em; background: var(--db-paper);
-    font-family: var(--db-voice); font-size: var(--db-pp); line-height: var(--db-pp-lh); color: var(--db-graphite); text-align: center; white-space: normal;
-    animation: db-tip-in var(--db-moderato) var(--db-exhale);
+  .ot-tip-text {
+    z-index: 50; width: max-content; max-width: 32ch; padding: 0.1em 0.35em; background: var(--ot-paper);
+    font-family: var(--ot-voice); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); color: var(--ot-graphite); text-align: center; white-space: normal;
+    animation: ot-tip-in var(--ot-moderato) var(--ot-exhale);
   }
-  .db-tip-text::before { content: "(" / ""; }
-  .db-tip-text::after { content: ")" / ""; }
-  .db-tip-text::before, .db-tip-text::after { font-size: 1.6em; font-weight: 200; line-height: 0; vertical-align: -0.12em; color: var(--db-ink); }
-  .db-tip-text::before { margin-inline-end: 0.08em; }
-  .db-tip-text::after { margin-inline-start: 0.08em; }
-  .db-tip-text[data-state="closed"] { animation: db-tip-out var(--db-allegro) var(--db-breath) forwards; }
-  @keyframes db-tip-in { from { opacity: 0; translate: 0 0.3em; } }
-  @keyframes db-tip-out { to { opacity: 0; } }
+  .ot-tip-text::before { content: "(" / ""; }
+  .ot-tip-text::after { content: ")" / ""; }
+  .ot-tip-text::before, .ot-tip-text::after { font-size: 1.6em; font-weight: 200; line-height: 0; vertical-align: -0.12em; color: var(--ot-ink); }
+  .ot-tip-text::before { margin-inline-end: 0.08em; }
+  .ot-tip-text::after { margin-inline-start: 0.08em; }
+  .ot-tip-text[data-state="closed"] { animation: ot-tip-out var(--ot-allegro) var(--ot-breath) forwards; }
+  @keyframes ot-tip-in { from { opacity: 0; translate: 0 0.3em; } }
+  @keyframes ot-tip-out { to { opacity: 0; } }
 
   /* ── initials ── for a key or an abbreviation: the letters the control shows are found in the
      whisper's words and reversed out of the ink, as "the uncreative" reverses part of its word, so
      you can see where G, or CMYK, comes from. Mark each with <b>. The initials land first and the
      words are written in around them. */
-  .db-tip-text[data-variant="initials"] b { display: inline-block; padding-inline: 0.1em; font-weight: 700; background: var(--db-ink); color: var(--db-paper); }
-  .db-tip-text[data-variant="initials"][data-state="delayed-open"],
-  .db-tip-text[data-variant="initials"][data-state="instant-open"] { animation: db-tip-write var(--db-moderato) var(--db-exhale) var(--db-allegro) backwards; }
-  .db-tip-text[data-variant="initials"]:is([data-state="delayed-open"], [data-state="instant-open"]) b { animation: db-tip-land var(--db-moderato) var(--db-spiccato) backwards; }
-  @keyframes db-tip-write { from { color: transparent; } }
-  @keyframes db-tip-land { from { opacity: 0; scale: 0.4; } }
+  .ot-tip-text[data-variant="initials"] b { display: inline-block; padding-inline: 0.1em; font-weight: 700; background: var(--ot-ink); color: var(--ot-paper); }
+  .ot-tip-text[data-variant="initials"][data-state="delayed-open"],
+  .ot-tip-text[data-variant="initials"][data-state="instant-open"] { animation: ot-tip-write var(--ot-moderato) var(--ot-exhale) var(--ot-allegro) backwards; }
+  .ot-tip-text[data-variant="initials"]:is([data-state="delayed-open"], [data-state="instant-open"]) b { animation: ot-tip-land var(--ot-moderato) var(--ot-spiccato) backwards; }
+  @keyframes ot-tip-write { from { color: transparent; } }
+  @keyframes ot-tip-land { from { opacity: 0; scale: 0.4; } }
 
   /* ── beside ── the whisper on the control's own line, after it, on a hairline that runs from the
      control: the small notes of "It has to be design." hung beside the headline. No parentheses: the
      line holds it apart. The line always faces the control, whichever side Radix settles on. */
-  .db-tip-text[data-variant="beside"] { display: flex; align-items: center; gap: var(--db-space-2); max-width: 28ch; padding-inline: 0 0.35em; text-align: start; }
-  .db-tip-text[data-variant="beside"]::after { content: none; }
-  .db-tip-text[data-variant="beside"]::before { content: ""; flex: none; width: var(--db-space-5); height: var(--db-hairline); margin: 0; background: var(--db-ink); }
-  .db-tip-text[data-variant="beside"][data-side="left"] { flex-direction: row-reverse; padding-inline: 0.35em 0; }
-  .db-tip-text[data-variant="beside"][data-side="left"]:is([dir="rtl"], [dir="rtl"] *) { flex-direction: row; padding-inline: 0.35em 0; }
-  .db-tip-text[data-variant="beside"][data-side="right"]:is([dir="rtl"], [dir="rtl"] *) { flex-direction: row-reverse; padding-inline: 0 0.35em; }
-  .db-tip-text[data-variant="beside"]:is([data-side="top"], [data-side="bottom"])::before { display: none; } /* flipped above or below: no line to run along */
+  .ot-tip-text[data-variant="beside"] { display: flex; align-items: center; gap: var(--ot-space-2); max-width: 28ch; padding-inline: 0 0.35em; text-align: start; }
+  .ot-tip-text[data-variant="beside"]::after { content: none; }
+  .ot-tip-text[data-variant="beside"]::before { content: ""; flex: none; width: var(--ot-space-5); height: var(--ot-hairline); margin: 0; background: var(--ot-ink); }
+  .ot-tip-text[data-variant="beside"][data-side="left"] { flex-direction: row-reverse; padding-inline: 0.35em 0; }
+  .ot-tip-text[data-variant="beside"][data-side="left"]:is([dir="rtl"], [dir="rtl"] *) { flex-direction: row; padding-inline: 0.35em 0; }
+  .ot-tip-text[data-variant="beside"][data-side="right"]:is([dir="rtl"], [dir="rtl"] *) { flex-direction: row-reverse; padding-inline: 0 0.35em; }
+  .ot-tip-text[data-variant="beside"]:is([data-side="top"], [data-side="bottom"])::before { display: none; } /* flipped above or below: no line to run along */
   /* Reach: the hairline draws out from the control, then the words arrive at its end. */
-  .db-tip-text[data-variant="beside"]:is([data-state="delayed-open"], [data-state="instant-open"]) { animation: db-tip-write var(--db-moderato) var(--db-exhale) var(--db-allegro) backwards; }
-  .db-tip-text[data-variant="beside"]:is([data-state="delayed-open"], [data-state="instant-open"])::before { animation: db-tip-reach var(--db-moderato) var(--db-exhale) backwards; }
-  .db-tip-text[data-variant="beside"][data-side="right"]::before { transform-origin: 0 50%; }
-  .db-tip-text[data-variant="beside"][data-side="left"]::before { transform-origin: 100% 50%; }
-  @keyframes db-tip-reach { from { scale: 0 1; } }
+  .ot-tip-text[data-variant="beside"]:is([data-state="delayed-open"], [data-state="instant-open"]) { animation: ot-tip-write var(--ot-moderato) var(--ot-exhale) var(--ot-allegro) backwards; }
+  .ot-tip-text[data-variant="beside"]:is([data-state="delayed-open"], [data-state="instant-open"])::before { animation: ot-tip-reach var(--ot-moderato) var(--ot-exhale) backwards; }
+  .ot-tip-text[data-variant="beside"][data-side="right"]::before { transform-origin: 0 50%; }
+  .ot-tip-text[data-variant="beside"][data-side="left"]::before { transform-origin: 100% 50%; }
+  @keyframes ot-tip-reach { from { scale: 0 1; } }
 
   @media (forced-colors: active) {
-    .db-tip-text[data-variant="beside"]::before { forced-color-adjust: none; background: CanvasText; }
-    .db-tip-text[data-variant="initials"] b { forced-color-adjust: none; background: CanvasText; color: Canvas; }
+    .ot-tip-text[data-variant="beside"]::before { forced-color-adjust: none; background: CanvasText; }
+    .ot-tip-text[data-variant="initials"] b { forced-color-adjust: none; background: CanvasText; color: Canvas; }
   }
 }

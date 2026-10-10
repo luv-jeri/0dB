@@ -21,24 +21,24 @@ function Alert({ className, variant = "default", arriving, ...props }: AlertProp
       data-variant={variant === "default" ? undefined : variant}
       data-arriving={arriving || undefined}
       role={variant === "error" ? "alert" : "status"}
-      className={cn("db-alert", className)}
+      className={cn("ot-alert", className)}
       {...props}
     />
   )
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="alert-title" className={cn("db-alert-title", className)} {...props} />
+  return <p data-slot="alert-title" className={cn("ot-alert-title", className)} {...props} />
 }
 
 function AlertDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="alert-description" className={cn("db-alert-description", className)} {...props} />
+  return <p data-slot="alert-description" className={cn("ot-alert-description", className)} {...props} />
 }
 
 /** The errata slip's formula: for what was printed, read what is true. The words are marked del and ins, so they're heard as a change. */
 function AlertCorrection({ was, now, className, ...props }: React.ComponentProps<"p"> & { was: React.ReactNode; now: React.ReactNode }) {
   return (
-    <p data-slot="alert-correction" className={cn("db-alert-correction", className)} {...props}>
+    <p data-slot="alert-correction" className={cn("ot-alert-correction", className)} {...props}>
       <span>
         <span>for</span>&nbsp;<del>{was}</del>
       </span>{" "}
@@ -50,7 +50,7 @@ function AlertCorrection({ was, now, className, ...props }: React.ComponentProps
 }
 
 function AlertActions({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="alert-actions" className={cn("db-alert-actions", className)} {...props} />
+  return <div data-slot="alert-actions" className={cn("ot-alert-actions", className)} {...props} />
 }
 
 export { Alert, AlertTitle, AlertDescription, AlertCorrection, AlertActions, type AlertProps }

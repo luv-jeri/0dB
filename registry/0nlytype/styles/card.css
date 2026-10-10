@@ -1,61 +1,61 @@
 @layer components {
-  /* ── db-card ── a column under a rule, not a box */
-  .db-card {
-    position: relative; display: grid; align-content: start; gap: var(--db-space-3); padding-top: var(--db-space-4);
+  /* ── ot-card ── a column under a rule, not a box */
+  .ot-card {
+    position: relative; display: grid; align-content: start; gap: var(--ot-space-3); padding-top: var(--ot-space-4);
     background:
-      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 100% 0 / 0% var(--db-stroke),
-      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 0 0 / 100% var(--db-hairline);
-    transition: background-size var(--db-andante) var(--db-exhale), background-position 0s;
+      linear-gradient(var(--ot-ink), var(--ot-ink)) no-repeat 100% 0 / 0% var(--ot-stroke),
+      linear-gradient(var(--ot-ink), var(--ot-ink)) no-repeat 0 0 / 100% var(--ot-hairline);
+    transition: background-size var(--ot-andante) var(--ot-exhale), background-position 0s;
   }
-  .db-card:is(:has(.db-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 0 0, 0 0; background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
-  .db-card:is([dir="rtl"], [dir="rtl"] *) { background-position: 0 0, 0 0; }
-  .db-card:is([dir="rtl"], [dir="rtl"] *):is(:has(.db-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 100% 0, 0 0; }
+  .ot-card:is(:has(.ot-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 0 0, 0 0; background-size: 100% var(--ot-stroke), 100% var(--ot-hairline); }
+  .ot-card:is([dir="rtl"], [dir="rtl"] *) { background-position: 0 0, 0 0; }
+  .ot-card:is([dir="rtl"], [dir="rtl"] *):is(:has(.ot-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) { background-position: 100% 0, 0 0; }
   /* The letter hangs from the rule, its top cut off by it, the way SPECTRA's line cuts its word. */
-  .db-card:has(> .db-card-figure:first-child) { padding-top: 0; }
-  .db-card-figure { display: flex; align-items: flex-end; height: 0.5em; margin-bottom: var(--db-space-2); overflow: clip; font-size: clamp(6rem, 11vw, 9rem); font-weight: 100; font-stretch: 125%; line-height: 0.76; color: var(--db-ink); user-select: none; }
-  .db-card-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
-  .db-card-link { color: inherit; text-decoration: none; outline: 0; }
-  .db-card-link::after { content: ""; position: absolute; inset: 0; }
-  .db-card:has(.db-card-link:focus-visible) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 8px; }
-  .db-card-body { max-width: 34ch; }
-  .db-card-foot { margin-top: var(--db-space-3); }
+  .ot-card:has(> .ot-card-figure:first-child) { padding-top: 0; }
+  .ot-card-figure { display: flex; align-items: flex-end; height: 0.5em; margin-bottom: var(--ot-space-2); overflow: clip; font-size: clamp(6rem, 11vw, 9rem); font-weight: 100; font-stretch: 125%; line-height: 0.76; color: var(--ot-ink); user-select: none; }
+  .ot-card-title { font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 300; color: var(--ot-ink); }
+  .ot-card-link { color: inherit; text-decoration: none; outline: 0; }
+  .ot-card-link::after { content: ""; position: absolute; inset: 0; }
+  .ot-card:has(.ot-card-link:focus-visible) { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 8px; }
+  .ot-card-body { max-width: 34ch; }
+  .ot-card-foot { margin-top: var(--ot-space-3); }
 
   /* Epigraph: their words set before the name, indented to the end of the column, in the italic
      a book gives a quotation before a chapter. The rule moves down to open the chapter: the title. */
-  .db-card[data-variant="epigraph"] { background: none; padding-top: 0; }
-  .db-card[data-variant="epigraph"] .db-card-body {
+  .ot-card[data-variant="epigraph"] { background: none; padding-top: 0; }
+  .ot-card[data-variant="epigraph"] .ot-card-body {
     justify-self: end; max-width: min(22ch, 84%);
-    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.3; color: var(--db-ink);
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-mp) * var(--ot-expression-scale)); line-height: 1.3; color: var(--ot-ink);
   }
-  .db-card[data-variant="epigraph"] .db-card-foot { justify-self: end; flex-wrap: nowrap; gap: var(--db-space-3); margin-top: 0; }
-  .db-card[data-variant="epigraph"] .db-card-foot::before { content: ""; flex: none; width: var(--db-space-5); border-top: var(--db-hairline) solid var(--db-rule-strong); }
-  .db-card[data-variant="epigraph"] .db-card-title {
-    margin-top: var(--db-space-6); padding-top: var(--db-space-4);
+  .ot-card[data-variant="epigraph"] .ot-card-foot { justify-self: end; flex-wrap: nowrap; gap: var(--ot-space-3); margin-top: 0; }
+  .ot-card[data-variant="epigraph"] .ot-card-foot::before { content: ""; flex: none; width: var(--ot-space-5); border-top: var(--ot-hairline) solid var(--ot-rule-strong); }
+  .ot-card[data-variant="epigraph"] .ot-card-title {
+    margin-top: var(--ot-space-6); padding-top: var(--ot-space-4);
     background:
-      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 100% 0 / 0% var(--db-stroke),
-      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 0 0 / 100% var(--db-hairline);
-    transition: background-size var(--db-andante) var(--db-exhale), background-position 0s;
+      linear-gradient(var(--ot-ink), var(--ot-ink)) no-repeat 100% 0 / 0% var(--ot-stroke),
+      linear-gradient(var(--ot-ink), var(--ot-ink)) no-repeat 0 0 / 100% var(--ot-hairline);
+    transition: background-size var(--ot-andante) var(--ot-exhale), background-position 0s;
   }
-  .db-card[data-variant="epigraph"]:is(:has(.db-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) .db-card-title { background-position: 0 0, 0 0; background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
-  .db-card[data-variant="epigraph"]:is([dir="rtl"], [dir="rtl"] *) .db-card-title { background-position: 0 0, 0 0; }
-  .db-card[data-variant="epigraph"]:is([dir="rtl"], [dir="rtl"] *):is(:has(.db-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) .db-card-title { background-position: 100% 0, 0 0; }
+  .ot-card[data-variant="epigraph"]:is(:has(.ot-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) .ot-card-title { background-position: 0 0, 0 0; background-size: 100% var(--ot-stroke), 100% var(--ot-hairline); }
+  .ot-card[data-variant="epigraph"]:is([dir="rtl"], [dir="rtl"] *) .ot-card-title { background-position: 0 0, 0 0; }
+  .ot-card[data-variant="epigraph"]:is([dir="rtl"], [dir="rtl"] *):is(:has(.ot-card-link:is(:hover, :focus-visible)), [data-force~="hover"]) .ot-card-title { background-position: 100% 0, 0 0; }
 
   /* Ledger: the figures add up in a column that is as wide as the total; the total is ruled off
      the way an account is, a single rule over it and a double rule under it, both only as wide as the figures. */
-  .db-card[data-variant="ledger"] .db-card-sum { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--db-space-1) var(--db-space-5); margin: var(--db-space-3) 0 0; font-variant-numeric: tabular-nums lining-nums; }
-  .db-card[data-variant="ledger"] .db-card-sum > div { display: contents; }
-  .db-card[data-variant="ledger"] .db-card-sum dt { color: var(--db-graphite); }
-  .db-card[data-variant="ledger"] .db-card-sum dd { margin: 0; text-align: end; color: var(--db-ink); }
-  .db-card[data-variant="ledger"] .db-card-sum > div:last-child > * { margin-top: var(--db-space-3); color: var(--db-ink); }
-  .db-card[data-variant="ledger"] .db-card-sum > div:last-child > dd {
-    padding: var(--db-space-2) 0 var(--db-space-1);
-    font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 200;
-    border-top: var(--db-hairline) solid var(--db-ink); border-bottom: calc(3 * var(--db-hairline)) double var(--db-ink);
+  .ot-card[data-variant="ledger"] .ot-card-sum { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--ot-space-1) var(--ot-space-5); margin: var(--ot-space-3) 0 0; font-variant-numeric: tabular-nums lining-nums; }
+  .ot-card[data-variant="ledger"] .ot-card-sum > div { display: contents; }
+  .ot-card[data-variant="ledger"] .ot-card-sum dt { color: var(--ot-graphite); }
+  .ot-card[data-variant="ledger"] .ot-card-sum dd { margin: 0; text-align: end; color: var(--ot-ink); }
+  .ot-card[data-variant="ledger"] .ot-card-sum > div:last-child > * { margin-top: var(--ot-space-3); color: var(--ot-ink); }
+  .ot-card[data-variant="ledger"] .ot-card-sum > div:last-child > dd {
+    padding: var(--ot-space-2) 0 var(--ot-space-1);
+    font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 200;
+    border-top: var(--ot-hairline) solid var(--ot-ink); border-bottom: calc(3 * var(--ot-hairline)) double var(--ot-ink);
   }
 
   /* Forced colours drop background images, so the rule becomes a border. */
   @media (forced-colors: active) {
-    .db-card, .db-card[data-variant="epigraph"] .db-card-title { background: none; border-top: var(--db-hairline) solid CanvasText; }
-    .db-card[data-variant="epigraph"] { border-top: 0; }
+    .ot-card, .ot-card[data-variant="epigraph"] .ot-card-title { background: none; border-top: var(--ot-hairline) solid CanvasText; }
+    .ot-card[data-variant="epigraph"] { border-top: 0; }
   }
 }

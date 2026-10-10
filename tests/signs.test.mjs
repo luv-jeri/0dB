@@ -142,7 +142,7 @@ test("a sign renders on the server, one letter to an element", () => {
   const html = renderToStaticMarkup(React.createElement(SignSearchWords, { size: 48 }))
   const laid = layoutSign(signs.search, "words", 48, false, tableMetrics(false))
   assert.match(html, /role="img" aria-label="search"/)
-  assert.equal(html.match(/class="db-sign-glyph"/g)?.length, laid.glyphs.length)
+  assert.equal(html.match(/class="ot-sign-glyph"/g)?.length, laid.glyphs.length)
   assert.ok(laid.glyphs.length > 10)
 })
 

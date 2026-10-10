@@ -66,14 +66,14 @@ function ScrollExpand({ children, caption, variant = "mark", progress, className
   }, [progress])
 
   return (
-    <figure ref={composedRef} data-slot="scroll-expand" data-variant={variant === "mark" ? undefined : variant} className={cn("db-expand", className)} {...props}>
-      <Corners className="db-expand-frame">
-        <div className="db-expand-plate">{children}</div>
+    <figure ref={composedRef} data-slot="scroll-expand" data-variant={variant === "mark" ? undefined : variant} className={cn("ot-expand", className)} {...props}>
+      <Corners className="ot-expand-frame">
+        <div className="ot-expand-plate">{children}</div>
       </Corners>
-      <figcaption className="db-expand-caption">
+      <figcaption className="ot-expand-caption">
         <Meta>
           {React.Children.toArray(caption)}
-          <span ref={share} className="db-expand-share" aria-hidden="true">1.00</span>
+          <span ref={share} className="ot-expand-share" aria-hidden="true">1.00</span>
         </Meta>
       </figcaption>
     </figure>

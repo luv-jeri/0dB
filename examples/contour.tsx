@@ -10,10 +10,10 @@ const tale =
 export default function Example() {
   return (
     <div className="grid gap-16">
-      <Contour fade className="db-mp max-w-[36rem]">{coda}</Contour>
+      <Contour fade className="ot-mp max-w-[36rem]">{coda}</Contour>
       <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-12 sm:grid-cols-2">
-        <Contour variant="tale" fade least={0.4} className="db-mp">{tale}</Contour>
-        <Contour variant="cola" className="db-mp">{coda}</Contour>
+        <Contour variant="tale" fade least={0.4} className="ot-mp">{tale}</Contour>
+        <Contour variant="cola" className="ot-mp">{coda}</Contour>
       </div>
     </div>
   )

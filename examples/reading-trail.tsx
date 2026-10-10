@@ -47,7 +47,7 @@ export default function Example() {
   return (
     <div className="grid w-full grid-cols-[minmax(0,1fr)] items-start gap-x-16 gap-y-10 md:grid-cols-[minmax(0,1fr)_15rem]">
       <ReadingTrail sections={sections} className="md:sticky md:top-24 md:col-start-2 md:row-start-1" />
-      <article className="db-prose md:col-start-1 md:row-start-1">
+      <article className="ot-prose md:col-start-1 md:row-start-1">
         {sections.map((s) => (
           <section key={s.id}>
             <h3 id={s.id}>{s.name}</h3>

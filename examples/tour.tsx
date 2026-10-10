@@ -44,19 +44,19 @@ export default function Example() {
 function Still({ at, of, last, force }: { at: number; of: number; last?: boolean; force?: string }) {
   return (
     <div style={{ position: "relative", width: "20rem", height: "13rem" }}>
-      <span style={{ position: "absolute", left: 0, top: 0, color: "var(--db-ink)" }}>Send the draft</span>
-      <svg className="db-tour-lead" aria-hidden="true">
-        <line className="db-tour-line" x1="56" y1="26" x2="130" y2="84" pathLength={1} />
-        <circle className="db-tour-dot" cx="56" cy="26" r={3.5} />
+      <span style={{ position: "absolute", left: 0, top: 0, color: "var(--ot-ink)" }}>Send the draft</span>
+      <svg className="ot-tour-lead" aria-hidden="true">
+        <line className="ot-tour-line" x1="56" y1="26" x2="130" y2="84" pathLength={1} />
+        <circle className="ot-tour-dot" cx="56" cy="26" r={3.5} />
       </svg>
-      <div className="db-tour-callout" data-laid="" style={{ left: 112, top: 84, animation: "none", maxInlineSize: "13rem" }}>
-        <div className="db-tour-head">
-          <p className="db-tour-title">Send it</p>
-          <span className="db-tour-count">0{at}/0{of}</span>
+      <div className="ot-tour-callout" data-laid="" style={{ left: 112, top: 84, animation: "none", maxInlineSize: "13rem" }}>
+        <div className="ot-tour-head">
+          <p className="ot-tour-title">Send it</p>
+          <span className="ot-tour-count">0{at}/0{of}</span>
         </div>
-        <p className="db-tour-text">Nothing leaves until you press this.</p>
-        <div className="db-tour-actions">
-          <button type="button" className="db-tour-end">End</button>
+        <p className="ot-tour-text">Nothing leaves until you press this.</p>
+        <div className="ot-tour-actions">
+          <button type="button" className="ot-tour-end">End</button>
           <button type="button" data-go="back">Back</button>
           <button type="button" data-go="next" data-last={last ? "" : undefined} data-force={force}>{last ? "Done" : "Next"}</button>
         </div>

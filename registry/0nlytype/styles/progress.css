@@ -1,142 +1,142 @@
 @layer components {
-  /* ── db-progress ── how far something you started has got, said five ways with one ending: when it's done, a full stop lands.
-     One number drives every variant: --db-progress-p (0–1), set by the component and eased here, so the fill, the ticking
+  /* ── ot-progress ── how far something you started has got, said five ways with one ending: when it's done, a full stop lands.
+     One number drives every variant: --ot-progress-p (0–1), set by the component and eased here, so the fill, the ticking
      numeral and the inked words glide together. Under reduced motion the tempo is 1ms, so they simply change. */
-  @property --db-progress-p { syntax: "<number>"; inherits: true; initial-value: 0; }
-  @property --db-progress-n { syntax: "<integer>"; inherits: false; initial-value: 0; }
-  .db-progress {
-    --db-progress-p: 0;
-    position: relative; display: grid; inline-size: 100%; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: var(--db-space-5); row-gap: var(--db-space-3);
-    transition: --db-progress-p var(--db-andante) var(--db-exhale);
+  @property --ot-progress-p { syntax: "<number>"; inherits: true; initial-value: 0; }
+  @property --ot-progress-n { syntax: "<integer>"; inherits: false; initial-value: 0; }
+  .ot-progress {
+    --ot-progress-p: 0;
+    position: relative; display: grid; inline-size: 100%; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: var(--ot-space-5); row-gap: var(--ot-space-3);
+    transition: --ot-progress-p var(--ot-andante) var(--ot-exhale);
   }
-  .db-progress-label { grid-column: 1; color: var(--db-graphite); }
+  .ot-progress-label { grid-column: 1; color: var(--ot-graphite); }
 
   /* Hairline. The percentage is set in the italic and ticks through every number on its way: a counter on a registered
      integer that follows the eased value, rounded down, so it never says 100 before the work is done. */
-  .db-progress-value {
+  .ot-progress-value {
     grid-column: 2; justify-self: end; white-space: nowrap;
-    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * var(--db-f)); font-weight: 400; line-height: 0.9; letter-spacing: 0;
-    color: var(--db-ink); font-variant-numeric: lining-nums tabular-nums;
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * var(--ot-f)); font-weight: 400; line-height: 0.9; letter-spacing: 0;
+    color: var(--ot-ink); font-variant-numeric: lining-nums tabular-nums;
   }
-  .db-progress-value::before { --db-progress-n: round(down, var(--db-progress-p) * 100, 1); counter-reset: db-progress var(--db-progress-n); content: counter(db-progress); }
-  .db-progress-value small { margin-inline-start: 0.08em; font-family: var(--db-voice); font-size: 0.42em; font-style: normal; font-weight: 400; letter-spacing: 0; color: var(--db-pencil); }
+  .ot-progress-value::before { --ot-progress-n: round(down, var(--ot-progress-p) * 100, 1); counter-reset: ot-progress var(--ot-progress-n); content: counter(ot-progress); }
+  .ot-progress-value small { margin-inline-start: 0.08em; font-family: var(--ot-voice); font-size: 0.42em; font-style: normal; font-weight: 400; letter-spacing: 0; color: var(--ot-pencil); }
   /* The line draws its own track and fill from the eased number, so every engine glides the same way; the native bar is emptied. */
-  .db-progress > progress {
+  .ot-progress > progress {
     grid-row: 2; grid-column: 1 / -1; justify-self: stretch; align-self: center; display: block;
-    -webkit-appearance: none; appearance: none; inline-size: auto; block-size: var(--db-dot); margin: 0; margin-inline-end: calc(9px + var(--db-space-2)); border: 0; color: var(--db-ink);
+    -webkit-appearance: none; appearance: none; inline-size: auto; block-size: var(--ot-dot); margin: 0; margin-inline-end: calc(9px + var(--ot-space-2)); border: 0; color: var(--ot-ink);
     background:
-      linear-gradient(var(--db-ink), var(--db-ink)) 0 50% / calc(var(--db-progress-p) * 100%) var(--db-stroke) no-repeat,
-      linear-gradient(var(--db-rule), var(--db-rule)) 0 50% / 100% var(--db-hairline) no-repeat;
+      linear-gradient(var(--ot-ink), var(--ot-ink)) 0 50% / calc(var(--ot-progress-p) * 100%) var(--ot-stroke) no-repeat,
+      linear-gradient(var(--ot-rule), var(--ot-rule)) 0 50% / 100% var(--ot-hairline) no-repeat;
   }
-  .db-progress > progress::-webkit-progress-bar { background: transparent; }
-  .db-progress > progress::-webkit-progress-value { background: transparent; }
-  .db-progress > progress::-moz-progress-bar { background: transparent; }
+  .ot-progress > progress::-webkit-progress-bar { background: transparent; }
+  .ot-progress > progress::-webkit-progress-value { background: transparent; }
+  .ot-progress > progress::-moz-progress-bar { background: transparent; }
   /* The line runs toward a ring, the way the calendar marks a day to come. Done, the ring fills into a full stop and lands. */
-  .db-progress-stop {
+  .ot-progress-stop {
     grid-row: 2; grid-column: 2; justify-self: end; align-self: center;
     inline-size: 9px; block-size: 9px; border-radius: 50%; scale: 0.78;
-    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
-    transition: box-shadow var(--db-moderato) var(--db-exhale), scale var(--db-moderato) var(--db-spiccato);
+    box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong);
+    transition: box-shadow var(--ot-moderato) var(--ot-exhale), scale var(--ot-moderato) var(--ot-spiccato);
   }
-  .db-progress[data-state="complete"] .db-progress-stop { box-shadow: inset 0 0 0 5px var(--db-ink); scale: 1; transition-delay: var(--db-moderato); }
+  .ot-progress[data-state="complete"] .ot-progress-stop { box-shadow: inset 0 0 0 5px var(--ot-ink); scale: 1; transition-delay: var(--ot-moderato); }
 
   /* Sentence. The words are the bar: they stand in pencil and ink in, in reading order, with a soft wet edge. The gradient
      is laid along one inline and sliced across its lines, so a sentence that wraps still inks line after line. */
-  .db-progress[data-variant="sentence"] { display: block; }
-  .db-progress[data-variant="sentence"] > .db-progress-label { display: block; font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); text-wrap: pretty; }
-  .db-progress[data-variant="sentence"] > .db-progress-label > span {
-    --db-progress-soak: 1.4em;
-    background-image: linear-gradient(to right, var(--db-ink) calc(var(--db-progress-p) * (100% + var(--db-progress-soak)) - var(--db-progress-soak)), var(--db-rule-strong) calc(var(--db-progress-p) * (100% + var(--db-progress-soak))));
+  .ot-progress[data-variant="sentence"] { display: block; }
+  .ot-progress[data-variant="sentence"] > .ot-progress-label { display: block; font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 300; color: var(--ot-ink); text-wrap: pretty; }
+  .ot-progress[data-variant="sentence"] > .ot-progress-label > span {
+    --ot-progress-soak: 1.4em;
+    background-image: linear-gradient(to right, var(--ot-ink) calc(var(--ot-progress-p) * (100% + var(--ot-progress-soak)) - var(--ot-progress-soak)), var(--ot-rule-strong) calc(var(--ot-progress-p) * (100% + var(--ot-progress-soak))));
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     -webkit-box-decoration-break: slice; box-decoration-break: slice;
   }
-  .db-progress[data-variant="sentence"]:is([dir="rtl"], [dir="rtl"] *) > .db-progress-label > span {
-    background-image: linear-gradient(to left, var(--db-ink) calc(var(--db-progress-p) * (100% + var(--db-progress-soak)) - var(--db-progress-soak)), var(--db-rule-strong) calc(var(--db-progress-p) * (100% + var(--db-progress-soak))));
+  .ot-progress[data-variant="sentence"]:is([dir="rtl"], [dir="rtl"] *) > .ot-progress-label > span {
+    background-image: linear-gradient(to left, var(--ot-ink) calc(var(--ot-progress-p) * (100% + var(--ot-progress-soak)) - var(--ot-progress-soak)), var(--ot-rule-strong) calc(var(--ot-progress-p) * (100% + var(--ot-progress-soak))));
   }
   /* Its full stop is always in the line, unseen, so nothing reflows; done, it drops onto the baseline with one small rebound. */
-  .db-progress:is([data-variant="sentence"], [data-variant="parentheses"]) > .db-progress-label::after {
-    content: "."; position: relative; inset-block-start: -0.4em; opacity: 0; color: var(--db-ink);
-    transition: opacity var(--db-allegro) var(--db-exhale), inset-block-start var(--db-moderato) var(--db-spiccato);
+  .ot-progress:is([data-variant="sentence"], [data-variant="parentheses"]) > .ot-progress-label::after {
+    content: "."; position: relative; inset-block-start: -0.4em; opacity: 0; color: var(--ot-ink);
+    transition: opacity var(--ot-allegro) var(--ot-exhale), inset-block-start var(--ot-moderato) var(--ot-spiccato);
   }
-  .db-progress:is([data-variant="sentence"], [data-variant="parentheses"])[data-state="complete"] > .db-progress-label::after { inset-block-start: 0; opacity: 1; transition-delay: var(--db-moderato); }
+  .ot-progress:is([data-variant="sentence"], [data-variant="parentheses"])[data-state="complete"] > .ot-progress-label::after { inset-block-start: 0; opacity: 1; transition-delay: var(--ot-moderato); }
 
   /* Count. For things you can count: the fraction's count rolls as each item lands, and below it one ring per item, like days
      on the calendar. Done is a dot that lands, the one under way is an ink ring, and the rest are pencil rings. The rings share
      the whole measure, first at the start and last at the end; past one row they fall into columns, a calendar's grid. */
-  .db-progress-count { grid-column: 2; justify-self: end; }
-  .db-progress-units { grid-row: 2; grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, 9px); justify-content: space-between; gap: var(--db-space-2) 6px; padding-block-start: var(--db-space-2); }
-  .db-progress-units > i {
+  .ot-progress-count { grid-column: 2; justify-self: end; }
+  .ot-progress-units { grid-row: 2; grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, 9px); justify-content: space-between; gap: var(--ot-space-2) 6px; padding-block-start: var(--ot-space-2); }
+  .ot-progress-units > i {
     inline-size: 9px; block-size: 9px; border-radius: 50%; scale: 0.78;
-    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong);
-    transition: box-shadow var(--db-moderato) var(--db-exhale), scale var(--db-moderato) var(--db-spiccato);
+    box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong);
+    transition: box-shadow var(--ot-moderato) var(--ot-exhale), scale var(--ot-moderato) var(--ot-spiccato);
   }
-  .db-progress-units > i[data-now] { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); }
-  .db-progress-units > i[data-done] { box-shadow: inset 0 0 0 5px var(--db-ink); scale: 1; }
+  .ot-progress-units > i[data-now] { box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-ink); }
+  .ot-progress-units > i[data-done] { box-shadow: inset 0 0 0 5px var(--ot-ink); scale: 1; }
   /* Parentheses. From 20(25): the words stand in the middle of the measure between a pair of thin parentheses, and the work
      still to do is the silence inside them. Two rests share the free space by (1 − p), so as the work goes the parentheses
      close on the words from both ends, and done, they hold them and the full stop lands inside. Flex, so right to left
      simply mirrors, and the glyphs mirror themselves. */
-  .db-progress[data-variant="parentheses"] { display: flex; justify-content: center; align-items: baseline; column-gap: 0; font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); }
-  .db-progress[data-variant="parentheses"] > .db-progress-label { flex: 0 1 auto; min-inline-size: 0; padding-inline: 0.14em; font-weight: 300; color: var(--db-ink); text-align: center; text-wrap: balance; }
-  .db-progress-paren { flex: none; font-weight: 100; font-stretch: 88%; line-height: 1; color: var(--db-ink); user-select: none; }
-  .db-progress-rest { flex: calc((1 - var(--db-progress-p)) / 2) 1 0; min-inline-size: 0; }
+  .ot-progress[data-variant="parentheses"] { display: flex; justify-content: center; align-items: baseline; column-gap: 0; font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); }
+  .ot-progress[data-variant="parentheses"] > .ot-progress-label { flex: 0 1 auto; min-inline-size: 0; padding-inline: 0.14em; font-weight: 300; color: var(--ot-ink); text-align: center; text-wrap: balance; }
+  .ot-progress-paren { flex: none; font-weight: 100; font-stretch: 88%; line-height: 1; color: var(--ot-ink); user-select: none; }
+  .ot-progress-rest { flex: calc((1 - var(--ot-progress-p)) / 2) 1 0; min-inline-size: 0; }
   /* Unknown, the parentheses listen: they draw a little way in and back, slowly, only while it runs. */
-  .db-progress[data-variant="parentheses"][data-state="indeterminate"] { animation: db-progress-listen 2800ms var(--db-breath) infinite alternate both; }
-  @keyframes db-progress-listen { from { --db-progress-p: 0; } to { --db-progress-p: 0.34; } }
+  .ot-progress[data-variant="parentheses"][data-state="indeterminate"] { animation: ot-progress-listen 2800ms var(--ot-breath) infinite alternate both; }
+  @keyframes ot-progress-listen { from { --ot-progress-p: 0; } to { --ot-progress-p: 0.34; } }
 
   /* Tally. How a hand counts: one stroke per item, and every fifth crosses the four before it, so the count reads in fives
      at a glance. To come, each stroke is a pencil hairline; as its item lands, ink draws down it (the fifth, across it), and
      the next one waits in ink. Done, a full stop lands after the last gate. */
-  .db-progress-tally { grid-row: 2; grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: end; gap: var(--db-space-4) 0.66em; padding-block-start: var(--db-space-2); font-size: var(--db-mf); }
-  .db-progress-tally > b { position: relative; display: flex; gap: 0.2em; block-size: 0.78em; }
-  .db-progress-tally i {
-    position: relative; inline-size: var(--db-stroke);
-    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) 50% 0 / var(--db-hairline) 100% no-repeat;
+  .ot-progress-tally { grid-row: 2; grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: end; gap: var(--ot-space-4) 0.66em; padding-block-start: var(--ot-space-2); font-size: var(--ot-mf); }
+  .ot-progress-tally > b { position: relative; display: flex; gap: 0.2em; block-size: 0.78em; }
+  .ot-progress-tally i {
+    position: relative; inline-size: var(--ot-stroke);
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) 50% 0 / var(--ot-hairline) 100% no-repeat;
   }
-  .db-progress-tally i::after { content: ""; position: absolute; inset: 0; background: var(--db-ink); clip-path: inset(0 0 100% 0); transition: clip-path var(--db-moderato) var(--db-exhale); }
-  .db-progress-tally i[data-now] { background-image: linear-gradient(var(--db-ink), var(--db-ink)); }
-  .db-progress-tally i[data-done]::after { clip-path: inset(0); }
-  .db-progress-tally > b > i:nth-child(5) { position: absolute; inset-inline: -0.2em; inset-block-start: calc(50% - var(--db-stroke) / 2); inline-size: auto; block-size: var(--db-stroke); rotate: -30deg; background-position: 0 50%; background-size: 100% var(--db-hairline); }
-  .db-progress-tally > b > i:nth-child(5)::after { clip-path: inset(0 100% 0 0); }
-  .db-progress-tally > b > i:nth-child(5)[data-done]::after { clip-path: inset(0); }
-  .db-progress-tally:is([dir="rtl"], [dir="rtl"] *) > b { scale: -1 1; }
-  .db-progress-tally::after { content: ""; inline-size: var(--db-dot); block-size: var(--db-dot); border-radius: 50%; background: var(--db-ink); scale: 0; transition: scale var(--db-moderato) var(--db-spiccato); }
-  .db-progress[data-state="complete"] .db-progress-tally::after { scale: 1; transition-delay: var(--db-moderato); }
-  .db-progress[data-state="indeterminate"] .db-progress-tally i { animation: db-progress-tick 1600ms var(--db-breath) infinite; animation-delay: calc(var(--i) / var(--n) * 960ms); }
-  @keyframes db-progress-tick { 0%, 100% { opacity: 0.5; } 25% { opacity: 1; } }
+  .ot-progress-tally i::after { content: ""; position: absolute; inset: 0; background: var(--ot-ink); clip-path: inset(0 0 100% 0); transition: clip-path var(--ot-moderato) var(--ot-exhale); }
+  .ot-progress-tally i[data-now] { background-image: linear-gradient(var(--ot-ink), var(--ot-ink)); }
+  .ot-progress-tally i[data-done]::after { clip-path: inset(0); }
+  .ot-progress-tally > b > i:nth-child(5) { position: absolute; inset-inline: -0.2em; inset-block-start: calc(50% - var(--ot-stroke) / 2); inline-size: auto; block-size: var(--ot-stroke); rotate: -30deg; background-position: 0 50%; background-size: 100% var(--ot-hairline); }
+  .ot-progress-tally > b > i:nth-child(5)::after { clip-path: inset(0 100% 0 0); }
+  .ot-progress-tally > b > i:nth-child(5)[data-done]::after { clip-path: inset(0); }
+  .ot-progress-tally:is([dir="rtl"], [dir="rtl"] *) > b { scale: -1 1; }
+  .ot-progress-tally::after { content: ""; inline-size: var(--ot-dot); block-size: var(--ot-dot); border-radius: 50%; background: var(--ot-ink); scale: 0; transition: scale var(--ot-moderato) var(--ot-spiccato); }
+  .ot-progress[data-state="complete"] .ot-progress-tally::after { scale: 1; transition-delay: var(--ot-moderato); }
+  .ot-progress[data-state="indeterminate"] .ot-progress-tally i { animation: ot-progress-tick 1600ms var(--ot-breath) infinite; animation-delay: calc(var(--i) / var(--n) * 960ms); }
+  @keyframes ot-progress-tick { 0%, 100% { opacity: 0.5; } 25% { opacity: 1; } }
 
-  .db-progress:is([data-variant="sentence"], [data-variant="count"], [data-variant="parentheses"], [data-variant="tally"]) > progress { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+  .ot-progress:is([data-variant="sentence"], [data-variant="count"], [data-variant="parentheses"], [data-variant="tally"]) > progress { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
 
   /* Indeterminate: nobody knows how far yet, so the number stands back and a stroke reads along, again and again, only
      while it runs: a segment passes along the line, a band of ink passes through the words, the rings ink in turn. */
-  .db-progress[data-state="indeterminate"] :is(.db-progress-value, .db-progress-count) { visibility: hidden; }
-  .db-progress[data-state="indeterminate"] > progress {
+  .ot-progress[data-state="indeterminate"] :is(.ot-progress-value, .ot-progress-count) { visibility: hidden; }
+  .ot-progress[data-state="indeterminate"] > progress {
     background:
-      linear-gradient(var(--db-ink), var(--db-ink)) -60% 50% / 30% var(--db-stroke) no-repeat,
-      linear-gradient(var(--db-rule), var(--db-rule)) 0 50% / 100% var(--db-hairline) no-repeat;
-    animation: db-progress-read 1600ms var(--db-breath) infinite;
+      linear-gradient(var(--ot-ink), var(--ot-ink)) -60% 50% / 30% var(--ot-stroke) no-repeat,
+      linear-gradient(var(--ot-rule), var(--ot-rule)) 0 50% / 100% var(--ot-hairline) no-repeat;
+    animation: ot-progress-read 1600ms var(--ot-breath) infinite;
   }
-  .db-progress[data-variant="sentence"][data-state="indeterminate"] > .db-progress-label > span {
-    background: linear-gradient(to right, var(--db-rule-strong) 40%, var(--db-ink) 50%, var(--db-rule-strong) 60%) 100% 0 / 300% 100% no-repeat;
+  .ot-progress[data-variant="sentence"][data-state="indeterminate"] > .ot-progress-label > span {
+    background: linear-gradient(to right, var(--ot-rule-strong) 40%, var(--ot-ink) 50%, var(--ot-rule-strong) 60%) 100% 0 / 300% 100% no-repeat;
     -webkit-background-clip: text; background-clip: text;
-    animation: db-progress-read-words 2400ms var(--db-breath) infinite;
+    animation: ot-progress-read-words 2400ms var(--ot-breath) infinite;
   }
-  .db-progress[data-state="indeterminate"] .db-progress-units > i { animation: db-progress-wave 1600ms var(--db-breath) infinite; animation-delay: calc(var(--i) / var(--n) * 960ms); }
-  .db-progress[data-state="indeterminate"]:is([dir="rtl"], [dir="rtl"] *) :is(progress, .db-progress-label > span) { animation-direction: reverse; }
-  @keyframes db-progress-read { to { background-position: 160% 50%, 0 50%; } }
-  @keyframes db-progress-read-words { to { background-position: 0 0; } }
-  @keyframes db-progress-wave { 25% { box-shadow: inset 0 0 0 var(--db-hairline) var(--db-ink); scale: 1; } }
+  .ot-progress[data-state="indeterminate"] .ot-progress-units > i { animation: ot-progress-wave 1600ms var(--ot-breath) infinite; animation-delay: calc(var(--i) / var(--n) * 960ms); }
+  .ot-progress[data-state="indeterminate"]:is([dir="rtl"], [dir="rtl"] *) :is(progress, .ot-progress-label > span) { animation-direction: reverse; }
+  @keyframes ot-progress-read { to { background-position: 160% 50%, 0 50%; } }
+  @keyframes ot-progress-read-words { to { background-position: 0 0; } }
+  @keyframes ot-progress-wave { 25% { box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-ink); scale: 1; } }
 
   /* Right to left the line fills from the right; the rest follows the grid and the flex row. */
-  .db-progress:is([dir="rtl"], [dir="rtl"] *) > progress { background-position: 100% 50%, 0 50%; }
+  .ot-progress:is([dir="rtl"], [dir="rtl"] *) > progress { background-position: 100% 50%, 0 50%; }
 
   @media (prefers-reduced-motion: reduce) {
-    .db-progress[data-state="indeterminate"] > progress { animation: none; background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) 0 50% / 100% var(--db-hairline) no-repeat; }
-    .db-progress[data-variant="sentence"][data-state="indeterminate"] > .db-progress-label > span { animation: none; background: none; -webkit-text-fill-color: var(--db-pencil); }
-    .db-progress[data-state="indeterminate"] :is(.db-progress-units > i, .db-progress-tally i) { animation: none; }
-    .db-progress[data-variant="parentheses"][data-state="indeterminate"] { animation: none; }
+    .ot-progress[data-state="indeterminate"] > progress { animation: none; background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) 0 50% / 100% var(--ot-hairline) no-repeat; }
+    .ot-progress[data-variant="sentence"][data-state="indeterminate"] > .ot-progress-label > span { animation: none; background: none; -webkit-text-fill-color: var(--ot-pencil); }
+    .ot-progress[data-state="indeterminate"] :is(.ot-progress-units > i, .ot-progress-tally i) { animation: none; }
+    .ot-progress[data-variant="parentheses"][data-state="indeterminate"] { animation: none; }
   }
   @media (forced-colors: active) {
-    .db-progress { forced-color-adjust: none; --db-ink: CanvasText; --db-graphite: CanvasText; --db-pencil: GrayText; --db-rule: GrayText; --db-rule-strong: GrayText; }
+    .ot-progress { forced-color-adjust: none; --ot-ink: CanvasText; --ot-graphite: CanvasText; --ot-pencil: GrayText; --ot-rule: GrayText; --ot-rule-strong: GrayText; }
   }
 }

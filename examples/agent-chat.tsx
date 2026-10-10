@@ -207,7 +207,7 @@ function Callouts({ className, dir, lang }: { className?: string; dir?: "rtl"; l
       <AgentChatThread label="Finished conversation with Ada">
         <Say from="you" time="09:41" text="Draft the winter timetable for Halden." files={[{ id: "f0", name: "winter-routes.pdf", size: "1.2 MB" }]} />
         <AgentChatNote data-decision="allowed">
-          Read last season&rsquo;s timetable? <span className="db-yours">Allowed once.</span>
+          Read last season&rsquo;s timetable? <span className="ot-yours">Allowed once.</span>
         </AgentChatNote>
         <AgentChatWork value={1} max={1} label="Read timetable-2025.pdf, 14 pages" />
         <Say from="them" time="09:43" text="The winter boats leave from three harbours. Which way should it read?" />
@@ -222,10 +222,10 @@ function Callouts({ className, dir, lang }: { className?: string; dir?: "rtl"; l
 
 export default function Example() {
   return (
-    <div className="grid w-full max-w-[72rem] gap-(--db-space-8) lg:grid-cols-2">
-      <div className="grid gap-(--db-space-4)">
+    <div className="grid w-full max-w-[72rem] gap-(--ot-space-8) lg:grid-cols-2">
+      <div className="grid gap-(--ot-space-4)">
         <Live />
-        <p className="db-pp text-(--db-pencil)">Send it: Ada writes back, asks before she opens anything, reads, and asks you to choose.</p>
+        <p className="ot-pp text-(--ot-pencil)">Send it: Ada writes back, asks before she opens anything, reads, and asks you to choose.</p>
       </div>
       <Callouts />
     </div>
@@ -250,11 +250,11 @@ export function States() {
       <State label="Permission, asked">
         {/* Pinned open in place: a plain, non-modal <dialog open>, as the dialog's own states are. */}
         <Dialog>
-          <dialog open className="db-dialog" data-variant="reply" style={{ position: "static", maxWidth: "100%" }}>
-            <div className="db-meta db-dialog-meta"><span>Permission</span><hr /><span>Halden folder, read only</span></div>
-            <h2 className="db-dialog-title">Read last season&rsquo;s timetable?</h2>
-            <p className="db-dialog-body">Ada opens timetable-2025.pdf in the Halden folder and reads it. Nothing is changed or sent.</p>
-            <div className="db-dialog-actions">
+          <dialog open className="ot-dialog" data-variant="reply" style={{ position: "static", maxWidth: "100%" }}>
+            <div className="ot-meta ot-dialog-meta"><span>Permission</span><hr /><span>Halden folder, read only</span></div>
+            <h2 className="ot-dialog-title">Read last season&rsquo;s timetable?</h2>
+            <p className="ot-dialog-body">Ada opens timetable-2025.pdf in the Halden folder and reads it. Nothing is changed or sent.</p>
+            <div className="ot-dialog-actions">
               <button type="button">Allow once</button>
               <button type="button" data-force="hover">Deny</button>
             </div>
@@ -262,10 +262,10 @@ export function States() {
         </Dialog>
       </State>
       <State label="Permission, receipts">
-        <div className={`${w} grid gap-(--db-space-4)`}>
+        <div className={`${w} grid gap-(--ot-space-4)`}>
           <AgentChatNote data-decision="pending" dot={false}>Read last season&rsquo;s timetable? <span>Waiting for your answer.</span></AgentChatNote>
-          <AgentChatNote data-decision="allowed">Read last season&rsquo;s timetable? <span className="db-yours">Allowed once.</span></AgentChatNote>
-          <AgentChatNote data-decision="denied">Read last season&rsquo;s timetable? <span className="db-yours">Denied.</span></AgentChatNote>
+          <AgentChatNote data-decision="allowed">Read last season&rsquo;s timetable? <span className="ot-yours">Allowed once.</span></AgentChatNote>
+          <AgentChatNote data-decision="denied">Read last season&rsquo;s timetable? <span className="ot-yours">Denied.</span></AgentChatNote>
         </div>
       </State>
       <State label="Working">

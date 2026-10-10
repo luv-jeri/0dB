@@ -42,7 +42,7 @@ function Steps({ className, variant = "margin", value, defaultValue, onValueChan
       }
     : undefined
   const list = (
-    <ol data-slot="steps" data-variant={variant} className={cn("db-steps", className)} {...props}>
+    <ol data-slot="steps" data-variant={variant} className={cn("ot-steps", className)} {...props}>
       <Sequence.Provider value={{ at, go, shown }}>
         {kids.map((kid, i) => (
           <Place.Provider key={kid.key ?? i} value={i + 1}>
@@ -55,7 +55,7 @@ function Steps({ className, variant = "margin", value, defaultValue, onValueChan
   if (variant !== "folio") return list
   // The list stays whole for a screen reader; only the step shown beside the figure is seen.
   return (
-    <div className="db-steps-folio">
+    <div className="ot-steps-folio">
       <Fraction count={String(here).padStart(2, "0")} total={String(kids.length).padStart(2, "0")} aria-hidden="true" />
       {list}
     </div>
@@ -81,7 +81,7 @@ function Step({ className, current, done, ...props }: StepProps) {
         data-done={behind || undefined}
         data-shown={n === shown || undefined}
         aria-current={here ? "step" : undefined}
-        className={cn("db-step", className)}
+        className={cn("ot-step", className)}
         {...props}
       />
     </Reached.Provider>
@@ -93,11 +93,11 @@ function StepTitle({ className, children, ...props }: React.ComponentProps<"h3">
   const { go, shown } = React.useContext(Sequence)
   const { n, done } = React.useContext(Reached)
   return (
-    <h3 data-slot="step-title" className={cn("db-step-title", className)} {...props}>
+    <h3 data-slot="step-title" className={cn("ot-step-title", className)} {...props}>
       {go && done && shown === undefined ? ( // ponytail: the folio hides the steps behind you, so it offers no way back; pair it with your own Back button
-        <button type="button" className="db-step-back" onClick={() => go(n)}>
+        <button type="button" className="ot-step-back" onClick={() => go(n)}>
           {children}
-          <span className="db-sr">, done. Go back to this step.</span>
+          <span className="ot-sr">, done. Go back to this step.</span>
         </button>
       ) : (
         children

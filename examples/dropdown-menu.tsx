@@ -120,15 +120,15 @@ export default function Example() {
   return (
     <div className="flex w-full flex-wrap items-start gap-x-16 gap-y-10">
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">List</span>
+        <span className="ot-label">List</span>
         <Options />
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Leaders</span>
+        <span className="ot-label">Leaders</span>
         <Arrange />
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Marginalia</span>
+        <span className="ot-label">Marginalia</span>
         <Share />
       </div>
     </div>
@@ -138,7 +138,7 @@ export default function Example() {
 /** A list, pinned open with one item pointed at. The docs' states row is inert, so this is the look alone. */
 function Pinned({ variant, children, note }: { variant: string; children: React.ReactNode; note?: React.ReactNode }) {
   return (
-    <div className="db-pop db-menu" data-variant={variant} data-state="open" style={{ position: "relative" }}>
+    <div className="ot-pop ot-menu" data-variant={variant} data-state="open" style={{ position: "relative" }}>
       {children}
       {note}
     </div>
@@ -155,24 +155,24 @@ export function States() {
     <>
       <State label="List, pointed at">
         <Pinned variant="list">
-          <div className="db-menu-item">Rename</div>
-          <div className="db-menu-item" data-force="hover">Duplicate <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">D</kbd></span></div>
-          <div className="db-menu-item">Archive</div>
+          <div className="ot-menu-item">Rename</div>
+          <div className="ot-menu-item" data-force="hover">Duplicate <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">D</kbd></span></div>
+          <div className="ot-menu-item">Archive</div>
         </Pinned>
       </State>
       <State label="Leaders, pointed at">
         <Pinned variant="leaders">
-          <div className="db-menu-item">Bring forward <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">]</kbd></span></div>
-          <div className="db-menu-item" data-force="hover">Group <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">G</kbd></span></div>
-          <div className="db-menu-item db-menu-sub">Align</div>
+          <div className="ot-menu-item">Bring forward <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">]</kbd></span></div>
+          <div className="ot-menu-item" data-force="hover">Group <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">G</kbd></span></div>
+          <div className="ot-menu-item ot-menu-sub">Align</div>
         </Pinned>
       </State>
       <State label="Marginalia, pointed at">
         <div style={{ paddingInlineEnd: under ? 0 : "15rem", paddingBlockEnd: under ? "4rem" : 0 }}>
-          <Pinned variant="marginalia" note={<div className="db-menu-note" data-under={under ? "" : undefined} style={{ "--db-note-y": "4.3em" } as React.CSSProperties}>They get a note from you and can change anything.</div>}>
-            <div className="db-menu-item">Copy the link</div>
-            <div className="db-menu-item" data-force="hover">Invite to edit</div>
-            <div className="db-menu-item">Publish to the web</div>
+          <Pinned variant="marginalia" note={<div className="ot-menu-note" data-under={under ? "" : undefined} style={{ "--ot-note-y": "4.3em" } as React.CSSProperties}>They get a note from you and can change anything.</div>}>
+            <div className="ot-menu-item">Copy the link</div>
+            <div className="ot-menu-item" data-force="hover">Invite to edit</div>
+            <div className="ot-menu-item">Publish to the web</div>
           </Pinned>
         </div>
       </State>

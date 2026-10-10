@@ -36,11 +36,11 @@ function Marker({ variant = "status", dot, minutes, arriving, orientation = "hor
       data-arriving={arriving || undefined}
       role={bare ? "separator" : undefined}
       aria-orientation={bare && upright ? "vertical" : undefined}
-      className={cn("db-marker", className)}
+      className={cn("ot-marker", className)}
       style={variant === "lapse" ? ({ "--lapse": lapseOf(minutes).toFixed(3), ...style } as React.CSSProperties) : style}
       {...props}
     >
-      {dot ? <span className="db-marker-dot" aria-hidden="true" /> : null}
+      {dot ? <span className="ot-marker-dot" aria-hidden="true" /> : null}
       {children}
     </p>
   )

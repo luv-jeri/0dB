@@ -48,9 +48,9 @@ function Dial({ variant = "arc", ...props }: DialProps) {
 function Arc({ name, legend, options = [], value, defaultValue, onValueChange, unit, className, style, ...props }: Omit<DialProps, "variant">) {
   const generated = React.useId()
   return (
-    <fieldset data-slot="dial" data-variant="arc" className={cn("db-dial", className)} style={{ "--n": options.length, ...style } as React.CSSProperties} {...props}>
-      <legend className="db-label">{legend}</legend>
-      <div data-slot="dial-face" className="db-dial-face">
+    <fieldset data-slot="dial" data-variant="arc" className={cn("ot-dial", className)} style={{ "--n": options.length, ...style } as React.CSSProperties} {...props}>
+      <legend className="ot-label">{legend}</legend>
+      <div data-slot="dial-face" className="ot-dial-face">
         {options.map((option, i) => {
           const v = valueOf(option)
           const text = labelOf(option)
@@ -69,10 +69,10 @@ function Arc({ name, legend, options = [], value, defaultValue, onValueChange, u
             </label>
           )
         })}
-        <span className="db-dial-arc" aria-hidden="true" />
-        <span className="db-dial-dot" aria-hidden="true" />
+        <span className="ot-dial-arc" aria-hidden="true" />
+        <span className="ot-dial-dot" aria-hidden="true" />
         {unit ? (
-          <span className="db-dial-unit" aria-hidden="true">
+          <span className="ot-dial-unit" aria-hidden="true">
             {unit}
           </span>
         ) : null}
@@ -159,7 +159,7 @@ function createTurn(start: number) {
     const wheel = live.wheel
     if (!wheel) return
     const cs = getComputedStyle(wheel)
-    pitch = parseFloat(cs.getPropertyValue("--db-dial-pitch")) || 24
+    pitch = parseFloat(cs.getPropertyValue("--ot-dial-pitch")) || 24
     k = parseFloat(cs.getPropertyValue("--k")) || 1
     dir = cs.direction === "rtl" ? -1 : 1
     still = matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -420,13 +420,13 @@ function Turning({
   const jump = major
 
   return (
-    <fieldset data-slot="dial" data-variant={variant} className={cn("db-dial", className)} {...props}>
-      <legend id={legendId} className="db-label">
+    <fieldset data-slot="dial" data-variant={variant} className={cn("ot-dial", className)} {...props}>
+      <legend id={legendId} className="ot-label">
         {legend}
       </legend>
       <div
         data-slot="dial-face"
-        className="db-dial-face"
+        className="ot-dial-face"
         aria-hidden="true"
         style={{ "--pos": start, "--chars": chars } as React.CSSProperties}
         onPointerDown={turn.down}
@@ -434,26 +434,26 @@ function Turning({
         onPointerUp={turn.up}
         onPointerCancel={turn.up}
       >
-        <span className="db-dial-read">
-          <span ref={drum} className="db-dial-drum" data-a={scale.label(start)} data-b={scale.label(start + 1)} />
-          {unit ? <span className="db-dial-unit">{unit}</span> : null}
+        <span className="ot-dial-read">
+          <span ref={drum} className="ot-dial-drum" data-a={scale.label(start)} data-b={scale.label(start + 1)} />
+          {unit ? <span className="ot-dial-unit">{unit}</span> : null}
         </span>
-        <span ref={wheel} className="db-dial-scale">
+        <span ref={wheel} className="ot-dial-scale">
           {marks.map((i) => {
             const kind = scale.kind(i)
             return (
-              <span key={i} className="db-dial-tick" data-kind={kind} style={{ "--v": i } as React.CSSProperties}>
+              <span key={i} className="ot-dial-tick" data-kind={kind} style={{ "--v": i } as React.CSSProperties}>
                 {kind === "major" ? <span>{scale.mark(i)}</span> : null}
               </span>
             )
           })}
-          <span className="db-dial-index" />
+          <span className="ot-dial-index" />
         </span>
       </div>
       <input
         ref={input}
         type="range"
-        className="db-sr"
+        className="ot-sr"
         name={scale.numeric ? name : undefined}
         min={scale.numeric ? min : 0}
         max={scale.numeric ? Number(scale.valueAt(last)) : last}
@@ -474,11 +474,11 @@ function Turning({
   )
 }
 
-const EXHALE = "cubic-bezier(.16,1,.3,1)" // --db-exhale
+const EXHALE = "cubic-bezier(.16,1,.3,1)" // --ot-exhale
 const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
 const clampTo = (lo: number, hi: number, n: number) => Math.min(hi, Math.max(lo, n))
 
-// The score's dynamics, quietest first. The type scale is named after them already (--db-pp … --db-fff), so the dial
+// The score's dynamics, quietest first. The type scale is named after them already (--ot-pp … --ot-fff), so the dial
 // sets its number at the size its loudness would be printed.
 const DYNAMICS = [
   ["ppp", "pianississimo"],
@@ -535,14 +535,14 @@ function Dynamics({ name, legend, min = 0, max = 100, step = 1, value, defaultVa
   // The whole range is a short drag: about 260px, right or up for louder.
   const travel = 260 / Math.max(1, (max - min) / step)
   return (
-    <fieldset data-slot="dial" data-variant="dynamics" className={cn("db-dial", className)} style={{ "--u": u.toFixed(4), "--chars": Math.max(String(min).length, String(max).length), ...style } as React.CSSProperties} {...props}>
-      <legend id={legendId} className="db-label">
+    <fieldset data-slot="dial" data-variant="dynamics" className={cn("ot-dial", className)} style={{ "--u": u.toFixed(4), "--chars": Math.max(String(min).length, String(max).length), ...style } as React.CSSProperties} {...props}>
+      <legend id={legendId} className="ot-label">
         {legend}
       </legend>
       <div
         ref={face}
         data-slot="dial-face"
-        className="db-dial-face"
+        className="ot-dial-face"
         aria-hidden="true"
         onPointerDown={(e) => {
           if (e.button !== 0 || !input.current || input.current.disabled) return
@@ -567,18 +567,18 @@ function Dynamics({ name, legend, min = 0, max = 100, step = 1, value, defaultVa
           e.currentTarget.closest("fieldset")?.removeAttribute("data-held")
         }}
       >
-        <span className="db-dial-loud">
-          <span className="db-dial-numeral">{v}</span>
-          {unit ? <span className="db-dial-unit">{unit}</span> : null}
+        <span className="ot-dial-loud">
+          <span className="ot-dial-numeral">{v}</span>
+          {unit ? <span className="ot-dial-unit">{unit}</span> : null}
         </span>
-        <span className="db-dial-marking" data-mark={mark}>
+        <span className="ot-dial-marking" data-mark={mark}>
           {mark}
         </span>
       </div>
       <input
         ref={input}
         type="range"
-        className="db-sr"
+        className="ot-sr"
         name={name}
         min={min}
         max={max}
@@ -635,7 +635,7 @@ function Tumbler({ name, legend, min = 0, max = 100, value, defaultValue, onValu
     let order = 0
     for (let k = n - 1; k >= 0; k--) {
       if (before[k] === text[k]) continue
-      figs.current[k]?.animate([{ translate: `0 ${dir * 0.45}em`, opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: 320, easing: EXHALE, delay: order++ * 36, fill: "backwards" }) // --db-moderato, --db-arpeggio
+      figs.current[k]?.animate([{ translate: `0 ${dir * 0.45}em`, opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: 320, easing: EXHALE, delay: order++ * 36, fill: "backwards" }) // --ot-moderato, --ot-arpeggio
     }
   }, [text, n])
 
@@ -667,14 +667,14 @@ function Tumbler({ name, legend, min = 0, max = 100, value, defaultValue, onValu
   }
 
   return (
-    <fieldset data-slot="dial" data-variant="tumbler" className={cn("db-dial", className)} {...props}>
-      <legend id={legendId} className="db-label">
+    <fieldset data-slot="dial" data-variant="tumbler" className={cn("ot-dial", className)} {...props}>
+      <legend id={legendId} className="ot-label">
         {legend}
       </legend>
       <div
         ref={face}
         data-slot="dial-face"
-        className="db-dial-face"
+        className="ot-dial-face"
         aria-hidden="true"
         dir="ltr"
         onPointerDown={(e) => {
@@ -702,21 +702,21 @@ function Tumbler({ name, legend, min = 0, max = 100, value, defaultValue, onValu
           e.currentTarget.closest("fieldset")?.removeAttribute("data-held")
         }}
       >
-        <span className="db-dial-figures" style={{ "--at": at } as React.CSSProperties}>
+        <span className="ot-dial-figures" style={{ "--at": at } as React.CSSProperties}>
           {[...text].map((f, k) => (
-            <span key={k} ref={(el) => void (figs.current[k] = el)} data-k={k} data-lead={k < lead && k < n - 1 ? "" : undefined} className="db-dial-figure">
+            <span key={k} ref={(el) => void (figs.current[k] = el)} data-k={k} data-lead={k < lead && k < n - 1 ? "" : undefined} className="ot-dial-figure">
               {f}
             </span>
           ))}
-          <span className="db-dial-cursor" />
+          <span className="ot-dial-cursor" />
         </span>
-        {unit ? <span className="db-dial-unit">{unit}</span> : null}
+        {unit ? <span className="ot-dial-unit">{unit}</span> : null}
       </div>
       <input
         ref={input}
         type="number"
         role="spinbutton"
-        className="db-sr"
+        className="ot-sr"
         name={name}
         min={lo}
         max={hi}
@@ -729,7 +729,7 @@ function Tumbler({ name, legend, min = 0, max = 100, value, defaultValue, onValu
         onChange={(e) => e.target.value !== "" && set(Number(e.target.value))}
         onKeyDown={keys}
       />
-      <span id={hintId} className="db-sr">
+      <span id={hintId} className="ot-sr">
         Up and down turn the figure in parentheses; left and right choose another.
       </span>
     </fieldset>

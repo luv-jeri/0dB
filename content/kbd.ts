@@ -4,7 +4,7 @@ export default defineComponent({
   name: "kbd",
   title: "Kbd",
   movement: "II",
-  contract: "db-kbd",
+  contract: "ot-kbd",
   summary: "A key, drawn as the corners of its cap. Pressed, the corners close into the whole cap and it goes down a little.",
   underneath: "native",
   props: [

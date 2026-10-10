@@ -24,15 +24,15 @@ function Grid({ variant = "rules", cell, className, style, children, ...props }:
     <div
       data-slot="grid"
       data-variant={variant}
-      className={cn("db-grid", className)}
-      style={size ? ({ "--db-grid-cell": size, ...style } as React.CSSProperties) : style}
+      className={cn("ot-grid", className)}
+      style={size ? ({ "--ot-grid-cell": size, ...style } as React.CSSProperties) : style}
       {...props}
     >
-      {CORNERS.map((c) => <span key={c} className="db-grid-cross" data-corner={c} aria-hidden="true" />)}
-      <span className="db-grid-ticks" data-axis="columns" aria-hidden="true">
+      {CORNERS.map((c) => <span key={c} className="ot-grid-cross" data-corner={c} aria-hidden="true" />)}
+      <span className="ot-grid-ticks" data-axis="columns" aria-hidden="true">
         {COLUMNS.map((n) => <span key={n}>{n}</span>)}
       </span>
-      <span className="db-grid-ticks" data-axis="rows" aria-hidden="true">
+      <span className="ot-grid-ticks" data-axis="rows" aria-hidden="true">
         {ROWS.map((n) => <span key={n}>{n}</span>)}
       </span>
       {children}

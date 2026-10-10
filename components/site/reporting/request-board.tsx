@@ -47,17 +47,17 @@ export function RequestBoard() {
   }, [load, reload])
 
   return (
-    <main id="content" className="db-report-page">
-      <header className="db-report-head">
-        <p className="db-report-caption">0nlyType / Component requests</p>
+    <main id="content" className="ot-report-page">
+      <header className="ot-report-head">
+        <p className="ot-report-caption">0nlyType / Component requests</p>
         <h1>Room for<br />what’s next.</h1>
-        <div className="db-report-intro">
+        <div className="ot-report-intro">
           <p>Find an idea you need. Join it, follow its progress, or tell us what’s missing.</p>
           <Link asChild><NextLink href={requestHref()}>Request a component</NextLink></Link>
         </div>
       </header>
-      <section className="db-report-board" aria-labelledby="requests-heading">
-        <div className="db-report-board-head">
+      <section className="ot-report-board" aria-labelledby="requests-heading">
+        <div className="ot-report-board-head">
           <h2 id="requests-heading">The request board</h2>
           <Field label="Search requests">
             <InputGroup>
@@ -74,14 +74,14 @@ export function RequestBoard() {
             </InputGroup>
           </Field>
         </div>
-        <Marker role="status">{busy ? "Looking for requests…" : error ? "Requests are unavailable right now." : <><bdi className="db-report-number">{rows.length}</bdi> {rows.length === 1 ? "request" : "requests"} shown</>}</Marker>
-        {error ? <div className="db-report-empty">
+        <Marker role="status">{busy ? "Looking for requests…" : error ? "Requests are unavailable right now." : <><bdi className="ot-report-number">{rows.length}</bdi> {rows.length === 1 ? "request" : "requests"} shown</>}</Marker>
+        {error ? <div className="ot-report-empty">
           <h3>The board couldn’t be reached.</h3>
           <p>You can still prepare a request. Try the board again in a moment, or open your idea on GitHub.</p>
           <Button variant="quiet" onClick={() => setReload((n) => n + 1)}>Try again</Button>
           <GitHubFallback kind="request" title={query} description={query ? `I would like a component for ${query}.` : ""} />
         </div> : null}
-        {!busy && !error && !rows.length ? <div className="db-report-empty">
+        {!busy && !error && !rows.length ? <div className="ot-report-empty">
           <h3>{query ? "Nothing here by that name." : "The next idea could be yours."}</h3>
           <p>{query ? "Try another word, or start a request for the component you need." : "No public requests yet. Tell us what would help you build."}</p>
           <Link asChild><NextLink href={requestHref(undefined, query)}>Start a request</NextLink></Link>
@@ -91,17 +91,17 @@ export function RequestBoard() {
             const component = topic.status === "resolved" ? publicLink(topic.componentUrl) : undefined
             return <Row key={topic.id} asChild>
               <NextLink href={component || requestHref(topic)}>
-                <RowTitle className="db-yours" dir="auto">{topic.title}</RowTitle>
+                <RowTitle className="ot-yours" dir="auto">{topic.title}</RowTitle>
                 <RowKind>{STATUS_LABELS[topic.status]}</RowKind>
-                <RowMeta><bdi className="db-report-number">{topic.demand}</bdi> {topic.demand === 1 ? "person" : "people"}</RowMeta>
-                <span className="db-report-row-action">{component ? "See component" : "Join request"}</span>
+                <RowMeta><bdi className="ot-report-number">{topic.demand}</bdi> {topic.demand === 1 ? "person" : "people"}</RowMeta>
+                <span className="ot-report-row-action">{component ? "See component" : "Join request"}</span>
               </NextLink>
             </Row>
           })}
         </Rows> : null}
         {hasMore ? <Button variant="bracket" busy={busy && "Loading"} disabled={busy} onClick={() => void load(rows.length)}>More requests</Button> : null}
       </section>
-      <footer className="db-report-foot">
+      <footer className="ot-report-foot">
         <p>Each email counts once. Titles appear here after review; your email, details and attachments stay private.</p>
         <Link asChild><NextLink href="/docs/">Back to the library</NextLink></Link>
       </footer>

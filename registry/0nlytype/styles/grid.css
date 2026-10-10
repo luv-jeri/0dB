@@ -1,49 +1,49 @@
 @layer components {
-  /* ── db-grid ── a quiet structure behind a section, drawn once and never moved: a faint square grid, as "the silence that
+  /* ── ot-grid ── a quiet structure behind a section, drawn once and never moved: a faint square grid, as "the silence that
      heals" and "Less is more." lay theirs under the words, or a fine point at each crossing, as Paul Rand's sheet is
      dotted. A registration cross stands on each corner, and the first row and column are the sheet's border: the columns
      numbered along the top, the rows lettered down the start edge, each label hugging the corner where its line begins.
      The content stands one cell in, on a line. */
-  .db-grid {
-    --cell: var(--db-grid-cell, var(--db-space-7));
-    --line: var(--db-rule);
-    --cross: calc(var(--db-space-3) + var(--db-hairline));
+  .ot-grid {
+    --cell: var(--ot-grid-cell, var(--ot-space-7));
+    --line: var(--ot-rule);
+    --cross: calc(var(--ot-space-3) + var(--ot-hairline));
     position: relative; isolation: isolate; padding: var(--cell); min-width: 0;
-    background-image: linear-gradient(to right, var(--line) var(--db-hairline), transparent var(--db-hairline)), linear-gradient(to bottom, var(--line) var(--db-hairline), transparent var(--db-hairline));
+    background-image: linear-gradient(to right, var(--line) var(--ot-hairline), transparent var(--ot-hairline)), linear-gradient(to bottom, var(--line) var(--ot-hairline), transparent var(--ot-hairline));
     background-size: var(--cell) var(--cell);
     background-position: left top;
   }
-  .db-grid:is([dir="rtl"], [dir="rtl"] *) {
-    background-image: linear-gradient(to left, var(--line) var(--db-hairline), transparent var(--db-hairline)), linear-gradient(to bottom, var(--line) var(--db-hairline), transparent var(--db-hairline));
+  .ot-grid:is([dir="rtl"], [dir="rtl"] *) {
+    background-image: linear-gradient(to left, var(--line) var(--ot-hairline), transparent var(--ot-hairline)), linear-gradient(to bottom, var(--line) var(--ot-hairline), transparent var(--ot-hairline));
     background-position: right top;
   }
   /* dots: one fine point on each crossing, the rules left out. */
-  .db-grid[data-variant="dots"] {
-    --line: var(--db-rule-strong);
-    background-image: radial-gradient(circle, var(--line) 0 var(--db-hairline), transparent calc(var(--db-hairline) + 0.5px));
+  .ot-grid[data-variant="dots"] {
+    --line: var(--ot-rule-strong);
+    background-image: radial-gradient(circle, var(--line) 0 var(--ot-hairline), transparent calc(var(--ot-hairline) + 0.5px));
     background-position: calc(var(--cell) / -2) calc(var(--cell) / -2);
   }
-  .db-grid[data-variant="dots"]:is([dir="rtl"], [dir="rtl"] *) { background-position: right calc(var(--cell) / -2) top calc(var(--cell) / -2); }
+  .ot-grid[data-variant="dots"]:is([dir="rtl"], [dir="rtl"] *) { background-position: right calc(var(--cell) / -2) top calc(var(--cell) / -2); }
 
   /* The crosses: two hairlines centred on each corner of the sheet. */
-  .db-grid-cross {
+  .ot-grid-cross {
     position: absolute; z-index: -1; width: var(--cross); height: var(--cross); pointer-events: none;
-    background: linear-gradient(var(--db-pencil), var(--db-pencil)) center / 100% var(--db-hairline) no-repeat, linear-gradient(var(--db-pencil), var(--db-pencil)) center / var(--db-hairline) 100% no-repeat;
+    background: linear-gradient(var(--ot-pencil), var(--ot-pencil)) center / 100% var(--ot-hairline) no-repeat, linear-gradient(var(--ot-pencil), var(--ot-pencil)) center / var(--ot-hairline) 100% no-repeat;
   }
-  .db-grid-cross[data-corner^="start"] { inset-inline-start: calc(var(--cross) / -2); }
-  .db-grid-cross[data-corner^="end"] { inset-inline-end: calc(var(--cross) / -2); }
-  .db-grid-cross[data-corner$="top"] { top: calc(var(--cross) / -2); }
-  .db-grid-cross[data-corner$="foot"] { bottom: calc(var(--cross) / -2); }
+  .ot-grid-cross[data-corner^="start"] { inset-inline-start: calc(var(--cross) / -2); }
+  .ot-grid-cross[data-corner^="end"] { inset-inline-end: calc(var(--cross) / -2); }
+  .ot-grid-cross[data-corner$="top"] { top: calc(var(--cross) / -2); }
+  .ot-grid-cross[data-corner$="foot"] { bottom: calc(var(--cross) / -2); }
 
   /* The border's labels: ours, so upright, small and in the pencil, in tabular figures. Only whole cells are labelled: a
      label with no room wraps onto the next line, which the strip clips away. */
-  .db-grid-ticks {
+  .ot-grid-ticks {
     position: absolute; z-index: -1; display: flex; flex-wrap: wrap; overflow: hidden; pointer-events: none;
-    font-size: var(--db-pp); line-height: 1; letter-spacing: var(--db-pp-tr); font-variant-numeric: tabular-nums lining-nums; color: var(--db-pencil);
+    font-size: var(--ot-pp); line-height: 1; letter-spacing: var(--ot-pp-tr); font-variant-numeric: tabular-nums lining-nums; color: var(--ot-pencil);
   }
-  .db-grid-ticks > span { flex: none; display: flex; box-sizing: border-box; width: var(--cell); height: var(--cell); padding: var(--db-space-1) var(--db-space-2); }
-  .db-grid-ticks[data-axis="columns"] { top: 0; inset-inline: var(--cell) 0; height: var(--cell); }
-  .db-grid-ticks[data-axis="columns"] > span { align-items: flex-end; }
-  .db-grid-ticks[data-axis="rows"] { flex-direction: column; top: var(--cell); bottom: 0; inset-inline-start: 0; width: var(--cell); }
-  .db-grid-ticks[data-axis="rows"] > span { justify-content: flex-end; }
+  .ot-grid-ticks > span { flex: none; display: flex; box-sizing: border-box; width: var(--cell); height: var(--cell); padding: var(--ot-space-1) var(--ot-space-2); }
+  .ot-grid-ticks[data-axis="columns"] { top: 0; inset-inline: var(--cell) 0; height: var(--cell); }
+  .ot-grid-ticks[data-axis="columns"] > span { align-items: flex-end; }
+  .ot-grid-ticks[data-axis="rows"] { flex-direction: column; top: var(--cell); bottom: 0; inset-inline-start: 0; width: var(--cell); }
+  .ot-grid-ticks[data-axis="rows"] > span { justify-content: flex-end; }
 }

@@ -24,7 +24,7 @@ type AgentChatProps = React.ComponentProps<"section"> & {
 
 /** Talk to an agent. A header, a thread and a composer, stacked; give it a height and the thread takes what's left. */
 function AgentChat({ variant = "default", className, ...props }: AgentChatProps) {
-  return <section data-slot="agent-chat" data-variant={variant === "default" ? undefined : variant} className={cn("db-agent-chat", className)} {...props} />
+  return <section data-slot="agent-chat" data-variant={variant === "default" ? undefined : variant} className={cn("ot-agent-chat", className)} {...props} />
 }
 
 type AgentChatHeaderProps = Omit<React.ComponentProps<"header">, "title" | "children"> & {
@@ -38,7 +38,7 @@ type AgentChatHeaderProps = Omit<React.ComponentProps<"header">, "title" | "chil
 /** The agent's name, and where it is. */
 function AgentChatHeader({ title, state, status, className, ...props }: AgentChatHeaderProps) {
   return (
-    <header data-slot="agent-chat-header" className={cn("db-agent-chat-head", className)} {...props}>
+    <header data-slot="agent-chat-header" className={cn("ot-agent-chat-head", className)} {...props}>
       <h2>{title}</h2>
       <AgentState state={state}>{status}</AgentState>
     </header>
@@ -47,13 +47,13 @@ function AgentChatHeader({ title, state, status, className, ...props }: AgentCha
 
 /** The conversation: a Thread that takes the room the header and the composer leave. */
 function AgentChatThread({ className, ...props }: ThreadProps) {
-  return <Thread data-slot="agent-chat-thread" className={cn("db-agent-chat-thread", className)} {...props} />
+  return <Thread data-slot="agent-chat-thread" className={cn("ot-agent-chat-thread", className)} {...props} />
 }
 
 /** A quiet line from the agent's side of things: "Opened the Halden folder." Hangs as a callout in that variant. */
 function AgentChatNote({ dot = true, className, ...props }: MarkerProps) {
   return (
-    <div data-slot="agent-chat-note" className={cn("db-agent-note", className)}>
+    <div data-slot="agent-chat-note" className={cn("ot-agent-note", className)}>
       <Marker dot={dot} {...props} />
     </div>
   )
@@ -62,7 +62,7 @@ function AgentChatNote({ dot = true, className, ...props }: MarkerProps) {
 /** What the agent is doing, as a sentence that inks in as it goes. */
 function AgentChatWork({ className, ...props }: Omit<ProgressProps, "variant">) {
   return (
-    <div data-slot="agent-chat-work" className={cn("db-agent-note", className)}>
+    <div data-slot="agent-chat-work" className={cn("ot-agent-note", className)}>
       <Progress variant="sentence" {...props} />
     </div>
   )
@@ -133,7 +133,7 @@ function AgentChatPermission({
       </Dialog>
       <AgentChatNote data-slot="agent-chat-receipt" data-decision={decision} dot={decision !== "pending"}>
         {title}{" "}
-        {decision === "pending" ? <span>{pendingLabel}</span> : <span className="db-yours">{decision === "allowed" ? allowedLabel : deniedLabel}.</span>}
+        {decision === "pending" ? <span>{pendingLabel}</span> : <span className="ot-yours">{decision === "allowed" ? allowedLabel : deniedLabel}.</span>}
       </AgentChatNote>
     </>
   )
@@ -157,7 +157,7 @@ function AgentChatChoice({ question, options, value, defaultValue, onValueChange
   const [local, setLocal] = React.useState(defaultValue)
   const chosen = answer ?? value ?? local
   return (
-    <div data-slot="agent-chat-choice" data-answered={answer !== undefined || undefined} className={cn("db-agent-choice", className)} {...props}>
+    <div data-slot="agent-chat-choice" data-answered={answer !== undefined || undefined} className={cn("ot-agent-choice", className)} {...props}>
       <RadioGroup
         legend={question}
         value={chosen}
@@ -269,7 +269,7 @@ function AgentChatComposer({
     <form
       data-slot="agent-chat-composer"
       data-over={incoming > 0 || undefined}
-      className={cn("db-agent-compose", className)}
+      className={cn("ot-agent-compose", className)}
       onSubmit={(e) => {
         e.preventDefault()
         send()
@@ -307,7 +307,7 @@ function AgentChatComposer({
         />
       </Field>
       {shown > 0 ? (
-        <AttachmentList variant="enclosure" data-count={shown} className="db-agent-encl">
+        <AttachmentList variant="enclosure" data-count={shown} className="ot-agent-encl">
           {attachments.map((a) => (
             <Attachment
               key={a.id}
@@ -319,10 +319,10 @@ function AgentChatComposer({
               onRemove={onRemoveAttachment && !disabled ? () => onRemoveAttachment(a.id) : undefined}
             />
           ))}
-          {incoming > 0 ? <li className="db-agent-drop">{dropLabel(incoming)}</li> : null}
+          {incoming > 0 ? <li className="ot-agent-drop">{dropLabel(incoming)}</li> : null}
         </AttachmentList>
       ) : null}
-      <div className="db-agent-compose-actions">
+      <div className="ot-agent-compose-actions">
         {onAttach ? (
           <>
             <Button variant="bracket" type="button" disabled={disabled} onClick={() => picker.current?.click()}>
@@ -343,7 +343,7 @@ function AgentChatComposer({
             />
           </>
         ) : null}
-        <p className="db-agent-compose-hint">
+        <p className="ot-agent-compose-hint">
           <Kbd>{mod}</Kbd> <Kbd>Enter</Kbd> {sendsLabel}
         </p>
         {busy && onStop ? (

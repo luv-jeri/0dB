@@ -37,12 +37,12 @@ function Side({ value, className, hidden }: { value: React.ReactNode; className?
         <>
           <span aria-hidden="true">
             {[...text].map((f, k) => (
-              <span key={text.length - k} ref={(el) => void (figs.current[k] = el)} className={digit.test(f) ? "db-fraction-figure" : undefined}>
+              <span key={text.length - k} ref={(el) => void (figs.current[k] = el)} className={digit.test(f) ? "ot-fraction-figure" : undefined}>
                 {f}
               </span>
             ))}
           </span>
-          <span className="db-sr">{text}</span>
+          <span className="ot-sr">{text}</span>
         </>
       ) : (
         (text ?? value)
@@ -66,7 +66,7 @@ function Fraction({ count, total, variant = "solidus", className, style, ...prop
     was.current = [count, total]
     if (!moved || variant !== "solidus" || !slash.current?.animate || still()) return
     const lean = amount(moved[1] as string | number) < amount(moved[0] as string | number) ? -1 : 1
-    slash.current.animate([{ rotate: "24deg" }, { rotate: `${24 + lean * 9}deg`, offset: 0.3 }, { rotate: "24deg" }], { duration: 560, easing: "cubic-bezier(0.34, 1.5, 0.5, 1)" }) // --db-spiccato
+    slash.current.animate([{ rotate: "24deg" }, { rotate: `${24 + lean * 9}deg`, offset: 0.3 }, { rotate: "24deg" }], { duration: 560, easing: "cubic-bezier(0.34, 1.5, 0.5, 1)" }) // --ot-spiccato
   }, [count, total, variant])
 
   const share = plain(count) && plain(total) && Number(total) > 0 ? Math.min(1, Math.max(0, Number(count) / Number(total))) : null
@@ -74,16 +74,16 @@ function Fraction({ count, total, variant = "solidus", className, style, ...prop
     <span
       data-slot="fraction"
       data-variant={variant === "solidus" ? undefined : variant}
-      className={cn("db-fraction", className)}
+      className={cn("ot-fraction", className)}
       style={variant === "vinculum" && share !== null ? ({ "--share": share, ...style } as React.CSSProperties) : style}
       {...props}
     >
-      {variant === "readout" && share !== null ? <Side value={share.toFixed(2)} className="db-fraction-readout" hidden /> : null}
-      <Side value={count} className="db-yours" />
+      {variant === "readout" && share !== null ? <Side value={share.toFixed(2)} className="ot-fraction-readout" hidden /> : null}
+      <Side value={count} className="ot-yours" />
       {total === undefined ? null : (
         <>
           <i ref={slash}>
-            <span className="db-sr"> of </span>
+            <span className="ot-sr"> of </span>
           </i>
           <Side value={total} />
         </>

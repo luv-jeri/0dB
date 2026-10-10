@@ -52,15 +52,15 @@ export default function Example() {
   return (
     <div className="grid w-full gap-12">
       <div className="grid content-start gap-3" style={{ minHeight: "17rem" }}>
-        <span className="db-label">Names</span>
+        <span className="ot-label">Names</span>
         <Studio label="Studio" />
       </div>
       <div className="grid content-start gap-3" style={{ minHeight: "19rem" }}>
-        <span className="db-label">Lead</span>
+        <span className="ot-label">Lead</span>
         <Studio label="Studio, as contents" variant="lead" />
       </div>
       <div className="grid content-start gap-3">
-        <span className="db-label">Inline, press a word</span>
+        <span className="ot-label">Inline, press a word</span>
         <Studio label="Studio, in a line" variant="inline" />
       </div>
     </div>

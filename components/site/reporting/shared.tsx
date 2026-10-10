@@ -37,10 +37,10 @@ export function githubIssueHref(kind: ReportKind, title: string, description: st
 
 export function GitHubFallback({ kind, title, description }: { kind: ReportKind; title: string; description: string }) {
   return (
-    <div className="db-report-fallback">
+    <div className="ot-report-fallback">
       <p>You can also open this on GitHub. Your title and details are filled in; add any files there.</p>
       <Link href={githubIssueHref(kind, title, description)} target="_blank" rel="noopener noreferrer">Open a GitHub issue</Link>
-      <p className="db-report-note">GitHub issues are public. Your email and browser details are not included. Review the text before posting.</p>
+      <p className="ot-report-note">GitHub issues are public. Your email and browser details are not included. Review the text before posting.</p>
     </div>
   )
 }

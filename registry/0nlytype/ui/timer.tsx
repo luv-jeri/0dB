@@ -49,7 +49,7 @@ function Figures({ text }: { text: string }) {
   const { shown: valueShown, figs } = useDigitRoll(text, { order: text, distance: "0.4em" })
   const shown = String(valueShown)
   return (
-    <span className="db-timer-figures" dir="ltr" aria-hidden="true">
+    <span className="ot-timer-figures" dir="ltr" aria-hidden="true">
       {[...shown].map((f, k) => (
         <span key={shown.length - k} ref={(el) => void (figs.current[k] = el)} data-colon={f === ":" || undefined}>
           {f}
@@ -94,8 +94,8 @@ function Timer({ duration = 1500, defaultElapsed = 0, label, variant = "ring", o
     const smooth = !still()
     // The ring follows the clock every frame (under reduced motion, once a second); it is written here, not by React.
     const draw = (p: number) => {
-      ring.current?.style.setProperty("--db-ring-p", String(p))
-      ring.current?.style.setProperty("--db-ring-from", String(1 - p))
+      ring.current?.style.setProperty("--ot-ring-p", String(p))
+      ring.current?.style.setProperty("--ot-ring-from", String(1 - p))
     }
     const tick = () => {
       const s = Math.max(0, Math.ceil((ends - Date.now()) / 1000))
@@ -162,24 +162,24 @@ function Timer({ duration = 1500, defaultElapsed = 0, label, variant = "ring", o
       data-slot="timer"
       data-variant={variant}
       data-state={now}
-      className={cn("db-timer", className)}
-      style={{ "--db-timer-chars": clock(total).length, ...style } as React.CSSProperties}
+      className={cn("ot-timer", className)}
+      style={{ "--ot-timer-chars": clock(total).length, ...style } as React.CSSProperties}
       {...props}
     >
-      <div data-slot="timer-face" className="db-timer-face" aria-hidden="true">
-        <Ring ref={ring} value={p} from={1 - p} head="start" style={drawn ? ({ "--db-ring-p": undefined, "--db-ring-from": undefined } as React.CSSProperties) : undefined} />
+      <div data-slot="timer-face" className="ot-timer-face" aria-hidden="true">
+        <Ring ref={ring} value={p} from={1 - p} head="start" style={drawn ? ({ "--ot-ring-p": undefined, "--ot-ring-from": undefined } as React.CSSProperties) : undefined} />
       </div>
-      <div data-slot="timer-read" className="db-timer-read">
-        <span role="timer" className="db-timer-time">
+      <div data-slot="timer-read" className="ot-timer-read">
+        <span role="timer" className="ot-timer-time">
           <Figures text={clock(shown)} />
-          <span className="db-sr">{spoken(shown)}</span>
+          <span className="ot-sr">{spoken(shown)}</span>
         </span>
-        <span className="db-timer-words">
-          {label != null ? <span className="db-timer-label">{label}</span> : null}
-          <span className="db-timer-note">{note}</span>
+        <span className="ot-timer-words">
+          {label != null ? <span className="ot-timer-label">{label}</span> : null}
+          <span className="ot-timer-note">{note}</span>
         </span>
       </div>
-      <div data-slot="timer-actions" className="db-timer-actions">
+      <div data-slot="timer-actions" className="ot-timer-actions">
         <Button variant="bracket" onClick={go}>
           {now === "running" ? "Pause" : now === "paused" ? "Resume" : now === "done" ? "Start again" : "Start"}
         </Button>
@@ -187,7 +187,7 @@ function Timer({ duration = 1500, defaultElapsed = 0, label, variant = "ring", o
           Reset
         </Button>
       </div>
-      <p className="db-sr" aria-live="polite">
+      <p className="ot-sr" aria-live="polite">
         {said}
       </p>
     </div>

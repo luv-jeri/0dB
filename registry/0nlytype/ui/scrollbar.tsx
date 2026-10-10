@@ -26,7 +26,7 @@ type ScrollbarOptions = {
   still?: boolean
 }
 
-/** One leaf's step down the rail, in px: .db-scrollbar-leaf is 1.125rem tall. */
+/** One leaf's step down the rail, in px: .ot-scrollbar-leaf is 1.125rem tall. */
 const LEAF = 18 // ponytail: assumes a 16px root; read it from the first leaf if a page ever sets its own
 
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -137,7 +137,7 @@ function useScrollbar({ variant = "inner", axis = "y", min = 24, sections = [], 
           const leaf = document.createElement("span")
           leaf.setAttribute("data-slot", "scrollbar-leaf")
           leaf.setAttribute("data-leaf", `${j + 1}/${count}`)
-          leaf.className = "db-scrollbar-leaf"
+          leaf.className = "ot-scrollbar-leaf"
           return leaf
         }))
       }
@@ -244,11 +244,11 @@ function Scrollbar({ variant = "inner", axis = "y", min = variant === "page" ? 4
   const rail = useScrollbar({ variant, axis, min, sections, still: force !== undefined })
   const composedRef = useComposedRefs(rail, forwardedRef)
   return (
-    <div ref={composedRef} data-force={force} data-slot="scrollbar" data-variant={variant} data-axis={variant === "inner" && axis === "x" ? "x" : undefined} aria-hidden="true" className={cn("db-scrollbar", className)} {...props}>
-      <span data-slot="scrollbar-thumb" className="db-scrollbar-thumb" />
-      {variant === "leaves" && <span data-slot="scrollbar-leaves" className="db-scrollbar-leaves" />}
+    <div ref={composedRef} data-force={force} data-slot="scrollbar" data-variant={variant} data-axis={variant === "inner" && axis === "x" ? "x" : undefined} aria-hidden="true" className={cn("ot-scrollbar", className)} {...props}>
+      <span data-slot="scrollbar-thumb" className="ot-scrollbar-thumb" />
+      {variant === "leaves" && <span data-slot="scrollbar-leaves" className="ot-scrollbar-leaves" />}
       {sections?.map((s, i) => (
-        <span key={s.id} data-slot="scrollbar-mark" data-num={s.num} data-name={s.name} style={{ "--i": i, "--at": s.at } as React.CSSProperties} className="db-scrollbar-mark" />
+        <span key={s.id} data-slot="scrollbar-mark" data-num={s.num} data-name={s.name} style={{ "--i": i, "--at": s.at } as React.CSSProperties} className="ot-scrollbar-mark" />
       ))}
     </div>
   )

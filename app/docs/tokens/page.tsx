@@ -7,7 +7,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 export const metadata: Metadata = {
   title: "Tokens",
-  description: "Every --db- token and its Day value. Copy one to use it.",
+  description: "Every --ot- token and its Day value. Copy one to use it.",
 }
 
 /** The first :root block of tokens.css, grouped by its own comments. */
@@ -18,7 +18,7 @@ function groups() {
   for (const line of root.split("\n")) {
     const heading = line.match(/^\s*\/\* ([^:*]+?)[:.*]/)
     if (heading) out.push({ title: heading[1].trim(), tokens: [] })
-    for (const [, name, value] of line.matchAll(/(--db-[a-z0-9-]+)\s*:\s*([^;]+);/g)) {
+    for (const [, name, value] of line.matchAll(/(--ot-[a-z0-9-]+)\s*:\s*([^;]+);/g)) {
       if (!out.length) out.push({ title: "Tokens", tokens: [] })
       out[out.length - 1].tokens.push({ name, value: value.trim() })
     }
@@ -48,7 +48,7 @@ export default function Tokens() {
                   <TableHead>Token</TableHead>
                   <TableHead>Day value</TableHead>
                   <TableHead>
-                    <span className="db-sr">Copy</span>
+                    <span className="ot-sr">Copy</span>
                   </TableHead>
                 </TableRow>
               </TableHeader>

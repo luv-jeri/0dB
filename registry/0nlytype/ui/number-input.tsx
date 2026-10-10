@@ -44,9 +44,9 @@ function Figures({ text, value, instant }: { text: string; value: number | null;
   const shown = String(valueShown)
 
   return (
-    <span ref={whole} className="db-number-figures" aria-hidden="true">
+    <span ref={whole} className="ot-number-figures" aria-hidden="true">
       {[...shown].map((c, k) => (
-        <span key={shown.length - k} ref={(el) => void (figs.current[k] = el)} className="db-number-figure">
+        <span key={shown.length - k} ref={(el) => void (figs.current[k] = el)} className="ot-number-figure">
           {c}
         </span>
       ))}
@@ -91,7 +91,7 @@ function NumberInput({
   const input = React.useRef<HTMLInputElement>(null)
   const composedRef = useComposedRefs(input, forwardedRef)
   const read = React.useMemo(() => reader(locale), [locale])
-  const origin = useLineOrigin<HTMLInputElement>((el) => el.closest<HTMLElement>(".db-number") ?? el, { onPointerDown, onFocus } as React.ComponentProps<"input">)
+  const origin = useLineOrigin<HTMLInputElement>((el) => el.closest<HTMLElement>(".ot-number") ?? el, { onPointerDown, onFocus } as React.ComponentProps<"input">)
 
   // While you type, the input holds what you typed; otherwise the plain figures of the value, whoever changed it.
   const draft = editing ? typed : raw(current, locale)
@@ -128,7 +128,7 @@ function NumberInput({
 
   // scale: the ruler follows the hand, one step per tick, and the number with it.
   const drag = React.useRef<{ x: number; from: number | null } | null>(null)
-  const pitch = 10 // px per step, as --db-number-pitch
+  const pitch = 10 // px per step, as --ot-number-pitch
   const tape = {
     onPointerDown(e: React.PointerEvent<HTMLElement>) {
       if (disabled || readOnly || e.button !== 0) return
@@ -159,16 +159,16 @@ function NumberInput({
       data-held={held ? "" : undefined}
       data-empty={current === null ? "" : undefined}
       data-force={force}
-      className={cn("db-number", className)}
+      className={cn("ot-number", className)}
       style={{ "--at": ((current ?? 0) / step) % 100000 } as React.CSSProperties}
     >
-      <span className="db-number-reading">
-        <span className="db-number-cell">
+      <span className="ot-number-reading">
+        <span className="ot-number-cell">
           <input
             data-slot="number-input-control"
             {...props}
             ref={composedRef}
-            className="db-number-input"
+            className="ot-number-input"
             type="text"
             inputMode={(min ?? -1) >= 0 && Number.isInteger(step) ? "numeric" : "decimal"}
             role="spinbutton"
@@ -230,18 +230,18 @@ function NumberInput({
           <Figures text={text} value={current} instant={held} />
         </span>
         {said ? (
-          <span className="db-number-unit" aria-hidden="true">
+          <span className="ot-number-unit" aria-hidden="true">
             {said}
           </span>
         ) : null}
       </span>
-      <Button variant="bracket" className="db-number-less" aria-label="Less" {...press(-1)}>
+      <Button variant="bracket" className="ot-number-less" aria-label="Less" {...press(-1)}>
         less
       </Button>
-      <Button variant="bracket" className="db-number-more" aria-label="More" {...press(1)}>
+      <Button variant="bracket" className="ot-number-more" aria-label="More" {...press(1)}>
         more
       </Button>
-      {variant === "scale" ? <span className="db-number-tape" aria-hidden="true" {...tape} /> : null}
+      {variant === "scale" ? <span className="ot-number-tape" aria-hidden="true" {...tape} /> : null}
       {name ? <input type="hidden" name={name} value={current ?? ""} disabled={disabled} /> : null}
     </div>
   )

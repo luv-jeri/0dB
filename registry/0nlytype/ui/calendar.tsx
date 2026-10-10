@@ -239,27 +239,27 @@ function Calendar({
   const p = headDay ? (headDay.getDate() - 0.5) / last : 0
 
   return (
-    <div data-slot="calendar" data-variant={variant} className={cn("db-month", className)} {...props}>
-      <div data-slot="calendar-head" className="db-month-head">
+    <div data-slot="calendar" data-variant={variant} className={cn("ot-month", className)} {...props}>
+      <div data-slot="calendar-head" className="ot-month-head">
         <div
           // The ghost is set afresh for each day, so it surfaces anew.
           key={ghost ? target : undefined}
-          className="db-month-at"
+          className="ot-month-at"
           aria-hidden="true"
           data-yours={yours ? "" : undefined}
           data-acted={ghost && (acted || turn) ? "" : undefined}
           data-side={p > 0.5 ? "start" : "end"}
           style={{ "--p": p } as React.CSSProperties}
         >
-          <span ref={date} className="db-month-date">{numeral}</span>
-          <span ref={name} className="db-month-dayname">{dayName}</span>
-          {ghost ? <span className="db-month-mo">{monthNo}</span> : null}
+          <span ref={date} className="ot-month-date">{numeral}</span>
+          <span ref={name} className="ot-month-dayname">{dayName}</span>
+          {ghost ? <span className="ot-month-mo">{monthNo}</span> : null}
         </div>
-        <p id={titleId} className="db-month-title" aria-live="polite">
-          <span className="db-month-name">{monthName}</span>
-          <span className="db-month-year">{view ? ` ${view.getFullYear()}` : null}</span>
+        <p id={titleId} className="ot-month-title" aria-live="polite">
+          <span className="ot-month-name">{monthName}</span>
+          <span className="ot-month-year">{view ? ` ${view.getFullYear()}` : null}</span>
         </p>
-        <div className="db-month-nav">
+        <div className="ot-month-nav">
           <button type="button" aria-label="Previous month" disabled={!view} onClick={() => step(-1)}>
             <span aria-hidden="true" />
           </button>
@@ -277,11 +277,11 @@ function Calendar({
         data-acted={acted ? "" : undefined}
         data-scrub={scrub ? "" : undefined}
         style={{ "--days": last } as React.CSSProperties}
-        className="db-month-grid"
+        className="ot-month-grid"
         onKeyDown={onKeyDown}
         {...scrubbing}
       >
-        <div role="row" className="db-month-week">
+        <div role="row" className="ot-month-week">
           {Array.from({ length: 7 }, (_, i) => {
             const day = addDays(monday, i)
             return (
@@ -293,11 +293,11 @@ function Calendar({
         </div>
         <React.Fragment key={view ? +view : "unset"}>
           {weeks.map((week, w) => (
-            <div key={w} role="row" className="db-month-week">
+            <div key={w} role="row" className="ot-month-week">
               {week.map((day, i) => {
                 // --d is the cell's place in reading order: turning the month, the days sweep in by it.
                 const d = w * 7 + i
-                if (!day) return <span key={i} role="gridcell" aria-hidden="true" className="db-month-gap" />
+                if (!day) return <span key={i} role="gridcell" aria-hidden="true" className="ot-month-gap" />
                 const when = today ? (day < today ? "past" : sameDay(day, today) ? "today" : "future") : undefined
                 const inWait = waits(day)
                 const off = disabled(day)
@@ -317,13 +317,13 @@ function Calendar({
                     data-paren={paren(day)}
                     data-label={(i === 0 || day.getDate() === 1) && !near(day) ? "" : undefined}
                     style={{ "--d": d, "--k": inWait ? wait++ : undefined } as React.CSSProperties}
-                    className="db-month-day"
+                    className="ot-month-day"
                     // A pointer on the ruler chooses by letting go (above); a key's click has no detail.
                     onClick={(e) => (!ruler || e.detail === 0) && pick(day)}
                     onFocus={() => setFocus(day)}
                   >
-                    <span className="db-month-disc" aria-hidden="true">
-                      <span className="db-month-n">{day.getDate()}</span>
+                    <span className="ot-month-disc" aria-hidden="true">
+                      <span className="ot-month-n">{day.getDate()}</span>
                     </span>
                   </button>
                 )
@@ -333,7 +333,7 @@ function Calendar({
         </React.Fragment>
       </div>
       {ruler ? (
-        <div className="db-month-span" aria-hidden="true">
+        <div className="ot-month-span" aria-hidden="true">
           {span ? (
             <span data-open={span.open || undefined} style={{ "--a": span.a / last, "--b": span.b / last } as React.CSSProperties}>
               <span>{Math.abs(gap!)}</span>
@@ -341,7 +341,7 @@ function Calendar({
           ) : null}
         </div>
       ) : null}
-      {captionProp === null ? null : <p className="db-month-foot">{captionProp ?? told ?? "\u00a0"}</p>}
+      {captionProp === null ? null : <p className="ot-month-foot">{captionProp ?? told ?? "\u00a0"}</p>}
     </div>
   )
 }

@@ -53,7 +53,7 @@ export default function Example() {
         <Button variant="quiet" aria-expanded={!folded} aria-controls="studio-app" onClick={() => setFolded((f) => !f)}>
           {folded ? "Unfold the sidebar" : "Fold the sidebar"}
         </Button>
-        <p className="db-mf">{current}</p>
+        <p className="ot-mf">{current}</p>
         <p>Seven projects, three of them live. Choose a page on the left, or fold the column to a ruler and point at a tick.</p>
       </div>
     </div>

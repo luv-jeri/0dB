@@ -4,7 +4,7 @@ export default defineComponent({
   name: "resizable",
   title: "Resizable",
   movement: "IX",
-  contract: "db-resize",
+  contract: "ot-resize",
   summary: "Panes and the rule between them. Take the rule and it inks; while you hold it, each pane's share is drawn as a dimension.",
   underneath: "hook",
   props: [

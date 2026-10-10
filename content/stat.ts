@@ -4,7 +4,7 @@ export default defineComponent({
   name: "stat",
   title: "Stat",
   movement: "X",
-  contract: "db-stat",
+  contract: "ot-stat",
   summary: "A named value: a giant thin figure whose feet sink under one hairline, the name small beneath; a changed figure turns over like a counter's wheels.",
   underneath: "native",
   props: [

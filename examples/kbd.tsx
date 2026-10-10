@@ -4,10 +4,10 @@ import { State } from "@/components/site/state"
 export default function Example() {
   return (
     <div className="grid gap-8">
-      <p className="db-mp">
+      <p className="ot-mp">
         Press <Kbd>G</Kbd> anywhere to lay the grid over the page, or <Kbd>⌘K</Kbd> to find another.
       </p>
-      <p className="db-mp">
+      <p className="ot-mp">
         Type the note in, <Kbd variant="typewriter">A</Kbd> to <Kbd variant="typewriter">G</Kbd>, then <Kbd variant="chord">⌘⇧S</Kbd> to
         save it under a new name.
       </p>

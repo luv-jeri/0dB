@@ -79,7 +79,7 @@ function ResizablePanelGroup({ direction, variant = "rule", text = "", className
   return (
     <Group.Provider value={{ id, direction, sizes, mins, resize, variant, flow }}>
       <FlowText.Provider value={text}>
-      <div ref={composedRef} data-slot="resizable" data-direction={direction} data-variant={variant === "rule" ? undefined : variant} className={cn("db-resize", className)} {...props}>
+      <div ref={composedRef} data-slot="resizable" data-direction={direction} data-variant={variant === "rule" ? undefined : variant} className={cn("ot-resize", className)} {...props}>
         {nodes.map((node, at) => (
           <Index.Provider key={at} value={Math.floor(at / 2)}>
             {node}
@@ -114,7 +114,7 @@ function useFlow(group: React.RefObject<HTMLDivElement | null>, text: string) {
       let font = ""
       let prepared: ReturnType<typeof lib.prepareWithSegments> | undefined
       const lay = async () => {
-        const columns = [...el.querySelectorAll<HTMLElement>(":scope > [data-slot=resizable-panel] > .db-resize-flow")]
+        const columns = [...el.querySelectorAll<HTMLElement>(":scope > [data-slot=resizable-panel] > .ot-resize-flow")]
         if (!columns.length) return
         const style = getComputedStyle(columns[0])
         const next = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
@@ -164,13 +164,13 @@ function useFlow(group: React.RefObject<HTMLDivElement | null>, text: string) {
 function Flow({ lines, first }: { lines?: string[]; first: boolean }) {
   const { flow } = useGroup()
   const text = React.useContext(FlowText)
-  if (!flow) return first ? <p className="db-resize-flow">{text}</p> : <p className="db-resize-flow" aria-hidden="true" />
+  if (!flow) return first ? <p className="ot-resize-flow">{text}</p> : <p className="ot-resize-flow" aria-hidden="true" />
   return (
-    <p className="db-resize-flow">
-      {first && <span className="db-sr">{text}</span>}
+    <p className="ot-resize-flow">
+      {first && <span className="ot-sr">{text}</span>}
       <span aria-hidden="true">
         {lines?.map((l, at) => (
-          <span key={at} className="db-resize-line">
+          <span key={at} className="ot-resize-line">
             {l}
           </span>
         ))}
@@ -191,12 +191,12 @@ function ResizablePanel({ defaultSize, minSize, className, children, style, ...p
       id={`${id}-panel-${i}`}
       data-slot="resizable-panel"
       style={{ flex: `0 1 ${sizes[i]}%`, ...style }}
-      className={cn("db-resize-pane", className)}
+      className={cn("ot-resize-pane", className)}
       {...props}
     >
       {children}
       {variant === "flow" && <Flow lines={flow?.[i]} first={i === 0} />}
-      <div className="db-resize-dim" aria-hidden="true">
+      <div className="ot-resize-dim" aria-hidden="true">
         <span>{Math.round(sizes[i])}%</span>
       </div>
     </div>
@@ -226,7 +226,7 @@ function ResizableHandle({ className, onKeyDown, ...props }: React.ComponentProp
       aria-valuemax={max}
       aria-controls={`${id}-panel-${i}`}
       aria-label="Resize"
-      className={cn("db-resize-handle", className)}
+      className={cn("ot-resize-handle", className)}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId)
         setHeld(true)
@@ -311,7 +311,7 @@ function ResizableTitle({ className, children, ref: forwardedRef, ...props }: Re
     }
   }, [variant])
   return (
-    <h3 ref={composedRef} data-slot="resizable-title" className={cn("db-resize-title", className)} {...props}>
+    <h3 ref={composedRef} data-slot="resizable-title" className={cn("ot-resize-title", className)} {...props}>
       <span>{children}</span>
     </h3>
   )

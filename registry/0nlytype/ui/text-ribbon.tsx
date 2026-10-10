@@ -56,10 +56,10 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
       if (cancelled) return
       const graphemes = new Intl.Segmenter(undefined, { granularity: "grapheme" })
       const layer = document.createElement("span")
-      layer.className = "db-ribbon-letters"
+      layer.className = "ot-ribbon-letters"
       layer.setAttribute("aria-hidden", "true")
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-      svg.setAttribute("class", "db-ribbon-guide")
+      svg.setAttribute("class", "ot-ribbon-guide")
       svg.setAttribute("aria-hidden", "true")
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path")
       svg.append(path)
@@ -131,7 +131,7 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
         for (let c = 0; c < copies; c++)
           for (const p of one) {
             const el = document.createElement("span")
-            if (p.dot) el.className = "db-ribbon-dot"
+            if (p.dot) el.className = "ot-ribbon-dot"
             else el.textContent = p.g
             glyphs.push({ el, x: (c - 1) * period + p.x, dot: p.dot })
           }
@@ -326,11 +326,11 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
   }, [autoplay, paused, force])
 
   return (
-    <div ref={ref} data-slot="text-ribbon" data-force={force} data-variant={variant === "arc" ? undefined : variant} className={cn("db-ribbon", className)} {...props}>
-      <span className="db-sr">{text}</span>
+    <div ref={ref} data-slot="text-ribbon" data-force={force} data-variant={variant === "arc" ? undefined : variant} className={cn("ot-ribbon", className)} {...props}>
+      <span className="ot-sr">{text}</span>
       <div
         ref={stage}
-        className="db-ribbon-stage"
+        className="ot-ribbon-stage"
         role="slider"
         tabIndex={0}
         aria-label={label}
@@ -340,9 +340,9 @@ function TextRibbon({ children: text, variant = "arc", label = "Move the phrase"
         aria-valuenow={0}
         aria-keyshortcuts="ArrowLeft ArrowRight PageUp PageDown Home"
       >
-        <span className="db-ribbon-plain" aria-hidden="true">{text}</span>
+        <span className="ot-ribbon-plain" aria-hidden="true">{text}</span>
       </div>
-      {autoplay && <button type="button" className="db-ribbon-pause" onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
+      {autoplay && <button type="button" className="ot-ribbon-pause" onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
     </div>
   )
 }

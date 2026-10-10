@@ -19,11 +19,11 @@ export default function Example() {
   return (
     <div className="grid w-full grid-cols-[minmax(0,1fr)] justify-items-start gap-12">
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Leader</span>
+        <span className="ot-label">Leader</span>
         <Leader />
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Lineation</span>
+        <span className="ot-label">Lineation</span>
         <ItemGroup variant="lineation" aria-label="Typefaces in the studio" className="w-full max-w-[40rem]">
           {faces.map(([name, year]) => (
             <Item key={name}>
@@ -34,7 +34,7 @@ export default function Example() {
         </ItemGroup>
       </div>
       <div className="grid w-full justify-items-start gap-3">
-        <span className="db-label">Words</span>
+        <span className="ot-label">Words</span>
         <ItemGroup variant="words" aria-label="Projects" className="w-full max-w-[40rem]">
           {projects.map(([name, about, year]) => (
             <Item key={name}>

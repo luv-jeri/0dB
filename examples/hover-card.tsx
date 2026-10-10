@@ -15,12 +15,12 @@ function Entry() {
   return (
     <>
       <HoverCardName>gro·ˈtesque</HoverCardName>
-      <p className="db-term">noun</p>
+      <p className="ot-term">noun</p>
       <ol>
         <li>A sans serif of the nineteenth century, heavier and less even than the ones that came after.</li>
         <li>The voice of this page.</li>
       </ol>
-      <HoverCardMeta>From the Italian <span className="db-term">grottesca</span>, the painting found on the walls of grottoes</HoverCardMeta>
+      <HoverCardMeta>From the Italian <span className="ot-term">grottesca</span>, the painting found on the walls of grottoes</HoverCardMeta>
     </>
   )
 }
@@ -41,7 +41,7 @@ export default function Example() {
         The work is led by{" "}
         <HoverCard>
           <HoverCardTrigger asChild>
-            <a className="db-link" href="#hover-card">Ada Lindqvist</a>
+            <a className="ot-link" href="#hover-card">Ada Lindqvist</a>
           </HoverCardTrigger>
           <HoverCardContent>
             <Person />
@@ -53,7 +53,7 @@ export default function Example() {
         Everything the page says is set in a{" "}
         <HoverCard>
           <HoverCardTrigger asChild>
-            <a className="db-link" href="#hover-card">grotesque</a>
+            <a className="ot-link" href="#hover-card">grotesque</a>
           </HoverCardTrigger>
           <HoverCardContent variant="entry">
             <Entry />
@@ -65,7 +65,7 @@ export default function Example() {
         The two faces were{" "}
         <HoverCard>
           <HoverCardTrigger asChild>
-            <a className="db-link" href="#hover-card">her choice</a>
+            <a className="ot-link" href="#hover-card">her choice</a>
           </HoverCardTrigger>
           <HoverCardContent variant="quote">
             <Quote />
@@ -83,7 +83,7 @@ export function States() {
     <>
       {([["name", Person], ["entry", Entry], ["quote", Quote]] as const).map(([variant, Body]) => (
         <State key={variant} label={`${variant}, open`}>
-          <div className="db-peek" data-state="open" data-side="bottom" data-align="start" data-variant={variant === "name" ? undefined : variant}>
+          <div className="ot-peek" data-state="open" data-side="bottom" data-align="start" data-variant={variant === "name" ? undefined : variant}>
             <Body />
           </div>
         </State>

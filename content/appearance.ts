@@ -4,7 +4,7 @@ export default defineComponent({
   name: "appearance",
   title: "Appearance",
   movement: "VI",
-  contract: "db-appearance",
+  contract: "ot-appearance",
   summary: "Choose the look: scheme, key and type pair as three lists of picks, and the answer written back as one sentence, “Cotton, in ultramarine, set in Archivo and Bodoni.”, which the night toggle finishes. The new page opens as a circle from whatever you touched.",
   underneath: "hook",
   props: [

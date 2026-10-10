@@ -42,8 +42,8 @@ function fold(node: React.ReactNode): React.ReactNode {
     // bdi: the two halves are inline-blocks, which bidi treats as neutral, so in a right-to-left page "Start" read
     // "tartS". Isolated, they take their order from the word's own letters.
     <bdi>
-      <span className="db-sidebar-i">{mark}</span>
-      <span className="db-sidebar-rest">{rest}</span>
+      <span className="ot-sidebar-i">{mark}</span>
+      <span className="ot-sidebar-rest">{rest}</span>
     </bdi>
   )
 }
@@ -151,7 +151,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, variant = "word
     <nav
       data-slot="sidebar"
       aria-label={label}
-      className={cn("db-sidebar db-scroll", className)}
+      className={cn("ot-sidebar ot-scroll", className)}
       onScroll={(e) => {
         onScroll?.(e)
         if (target.current) look(target.current) // the tick moved under the pointer
@@ -166,7 +166,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, variant = "word
             data-folded={folded || undefined}
             data-compact={compact || undefined}
             data-variant={variant}
-            className="db-sidebar-list"
+            className="ot-sidebar-list"
             onPointerOver={(e) => {
               if (e.pointerType === "touch") return
               setHushed(false)
@@ -189,12 +189,12 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, variant = "word
               data-slot="sidebar-callout"
               data-rtl={peek.rtl || undefined}
               aria-hidden="true"
-              className="db-sidebar-callout"
+              className="ot-sidebar-callout"
               style={peek.rtl ? { right: innerWidth - peek.edge } : { left: peek.edge }}
             >
-              <p data-slot="sidebar-callout-name" className="db-sidebar-callout-name">{peek.name}</p>
-              {peek.group ? <p className="db-sidebar-callout-group">{peek.group}</p> : null}
-              <div ref={setSlot} className="db-sidebar-callout-preview" />
+              <p data-slot="sidebar-callout-name" className="ot-sidebar-callout-name">{peek.name}</p>
+              {peek.group ? <p className="ot-sidebar-callout-group">{peek.group}</p> : null}
+              <div ref={setSlot} className="ot-sidebar-callout-preview" />
             </div>
           )}
         </PeekContext.Provider>
@@ -206,14 +206,14 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, variant = "word
           </SheetTrigger>
         )}
         {wide === false && (
-          <SheetContent side="start" className="db-sidebar-sheet">
+          <SheetContent side="start" className="ot-sidebar-sheet">
             <SheetSpine>{sheetLabel}</SheetSpine>
-            <SheetTitle className="db-sr">{sheetLabel}</SheetTitle>
+            <SheetTitle className="ot-sr">{sheetLabel}</SheetTitle>
             <div
               data-slot="sidebar-list"
               data-compact={compact || undefined}
               data-variant={variant}
-              className="db-sidebar-list"
+              className="ot-sidebar-list"
               onClick={(e) => {
                 if ((e.target as Element).closest("a[href]")) setOpen(false)
               }}
@@ -231,7 +231,7 @@ function Sidebar({ label, sheetLabel = "Index", folded, compact, variant = "word
 /** The column's own name, at the top. Folded, it too keeps its initial. */
 function SidebarHead({ className, children, ...props }: React.ComponentProps<"p">) {
   return (
-    <p data-slot="sidebar-head" className={cn("db-sidebar-head", className)} {...props}>
+    <p data-slot="sidebar-head" className={cn("ot-sidebar-head", className)} {...props}>
       {fold(children)}
     </p>
   )
@@ -246,15 +246,15 @@ function SidebarGroup({ label, className, children, ...props }: SidebarGroupProp
   const id = React.useId()
   const { mark, rest, numeral } = split(label)
   return (
-    <div data-slot="sidebar-group" data-name={label} className={cn("db-sidebar-group", className)} {...props}>
-      <p id={id} data-slot="sidebar-label" data-name={label} className="db-sidebar-label">
+    <div data-slot="sidebar-group" data-name={label} className={cn("ot-sidebar-group", className)} {...props}>
+      <p id={id} data-slot="sidebar-label" data-name={label} className="ot-sidebar-label">
         <bdi>
-          <span className="db-sidebar-i">{mark}</span>
+          <span className="ot-sidebar-i">{mark}</span>
           {numeral ? " " : null}
-          <span className="db-sidebar-rest" data-numeral={numeral || undefined}>{rest}</span>
+          <span className="ot-sidebar-rest" data-numeral={numeral || undefined}>{rest}</span>
         </bdi>
       </p>
-      <ul aria-labelledby={id} className="db-sidebar-links">{children}</ul>
+      <ul aria-labelledby={id} className="ot-sidebar-links">{children}</ul>
     </div>
   )
 }
@@ -273,11 +273,11 @@ function SidebarLink({ current, asChild = false, preview, className, children, .
   const id = React.useId()
   const { peek, slot } = React.useContext(PeekContext)
   // The word sits in its own box so folding can take it away and leave the name for assistive technology.
-  const word = (node: React.ReactNode) => <span className="db-sidebar-text">{node}</span>
+  const word = (node: React.ReactNode) => <span className="ot-sidebar-text">{node}</span>
   const label = asChild && React.isValidElement<{ children?: React.ReactNode }>(children) ? React.cloneElement(children, undefined, word(children.props.children)) : word(children)
   return (
-    <li data-slot="sidebar-item" className="db-sidebar-item">
-      <Comp data-slot="sidebar-link" data-peek-id={id} data-peeked={peek?.key === id || undefined} aria-current={current ? "page" : undefined} className={cn("db-sidebar-link", className)} {...props}>
+    <li data-slot="sidebar-item" className="ot-sidebar-item">
+      <Comp data-slot="sidebar-link" data-peek-id={id} data-peeked={peek?.key === id || undefined} aria-current={current ? "page" : undefined} className={cn("ot-sidebar-link", className)} {...props}>
         {label}
       </Comp>
       {preview && slot && peek?.key === id ? createPortal(preview, slot) : null}

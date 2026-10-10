@@ -1,103 +1,103 @@
 @layer components {
-  /* ── db-note ── marginalia: a leader line draws out to the note */
-  .db-note:not([data-variant]) {
+  /* ── ot-note ── marginalia: a leader line draws out to the note */
+  .ot-note:not([data-variant]) {
     position: relative; display: inline; appearance: none; border: 0; background: none; margin: 0; padding: 0;
     font: inherit; color: inherit; cursor: help;
-    text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--db-hairline);
-    text-decoration-color: var(--db-pencil); text-underline-offset: 0.24em;
+    text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--ot-hairline);
+    text-decoration-color: var(--ot-pencil); text-underline-offset: 0.24em;
   }
-  .db-note:not([data-variant]) {
+  .ot-note:not([data-variant]) {
     padding-inline: 0.12em; margin-inline: -0.12em; box-decoration-break: clone; -webkit-box-decoration-break: clone;
-    background: linear-gradient(var(--db-mark), var(--db-mark)) no-repeat 100% 0 / 0% 100%;
-    transition: background-size var(--db-moderato) var(--db-exhale) 180ms, background-position 0s, color 0s linear calc(180ms + var(--db-allegro));
+    background: linear-gradient(var(--ot-mark), var(--ot-mark)) no-repeat 100% 0 / 0% 100%;
+    transition: background-size var(--ot-moderato) var(--ot-exhale) 180ms, background-position 0s, color 0s linear calc(180ms + var(--ot-allegro));
   }
   /* In: mark, anchor, line, note. Out: the same, backwards. */
-  .db-note:not([data-variant])::before {
+  .ot-note:not([data-variant])::before {
     content: ""; position: absolute; inset-inline-start: calc(0.6em - 2px); inset-block-start: calc(100% + 0.15em - 2px); z-index: 1;
-    inline-size: 5px; block-size: 5px; border-radius: 50%; background: var(--db-ink);
-    scale: 0; transition: scale var(--db-moderato) var(--db-spiccato) 140ms;
+    inline-size: 5px; block-size: 5px; border-radius: 50%; background: var(--ot-ink);
+    scale: 0; transition: scale var(--ot-moderato) var(--ot-spiccato) 140ms;
   }
-  .db-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"]) { background-position: 0 0; background-size: 100% 100%; color: var(--db-on-mark); text-decoration-color: transparent; transition-delay: 0s; }
-  .db-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"])::before { scale: 1; transition-delay: 60ms; }
-  .db-note:not([data-variant])::after {
+  .ot-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"]) { background-position: 0 0; background-size: 100% 100%; color: var(--ot-on-mark); text-decoration-color: transparent; transition-delay: 0s; }
+  .ot-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"])::before { scale: 1; transition-delay: 60ms; }
+  .ot-note:not([data-variant])::after {
     content: ""; position: absolute; inset-inline-start: 0.6em; inset-block-start: calc(100% + 0.15em);
-    inline-size: var(--db-hairline); block-size: 2em; background: var(--db-ink);
-    scale: 1 0; transform-origin: top; transition: scale var(--db-moderato) var(--db-exhale) 60ms;
+    inline-size: var(--ot-hairline); block-size: 2em; background: var(--ot-ink);
+    scale: 1 0; transform-origin: top; transition: scale var(--ot-moderato) var(--ot-exhale) 60ms;
   }
-  .db-note:not([data-variant]) > .db-note-text {
+  .ot-note:not([data-variant]) > .ot-note-text {
     position: absolute; z-index: 5; inset-inline-start: 0; inset-block-start: calc(100% + 2.1em);
     inline-size: max-content; max-inline-size: min(28ch, calc(100vw - 2.5rem)); padding: 0.55em 0.95em 0.6em; border-radius: 1em;
-    background: var(--db-ink); color: var(--db-paper);
-    font-family: var(--db-voice); font-style: normal; font-weight: 450; font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr);
+    background: var(--ot-ink); color: var(--ot-paper);
+    font-family: var(--ot-voice); font-style: normal; font-weight: 450; font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr);
     text-align: start; white-space: normal; text-wrap: balance;
     clip-path: circle(0 at 0.6em 0); pointer-events: none;
     /* Hidden, the note leaves layout: one near the page's edge must not make the page scroll sideways. */
     display: none;
-    transition: clip-path var(--db-moderato) var(--db-breath), display var(--db-moderato) allow-discrete;
+    transition: clip-path var(--ot-moderato) var(--ot-breath), display var(--ot-moderato) allow-discrete;
   }
-  .db-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"])::after { scale: 1 1; transition-delay: 120ms; }
-  .db-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"]) > .db-note-text {
+  .ot-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"])::after { scale: 1 1; transition-delay: 120ms; }
+  .ot-note:not([data-variant]):is(:hover, :focus-visible, [data-force~="hover"]) > .ot-note-text {
     display: block; clip-path: circle(150% at 0.6em 0); pointer-events: auto;
-    transition: clip-path var(--db-andante) var(--db-exhale) 300ms, display 0s allow-discrete;
+    transition: clip-path var(--ot-andante) var(--ot-exhale) 300ms, display 0s allow-discrete;
     @starting-style { clip-path: circle(0 at 0.6em 0); }
   }
 
   /* ossia: the note is always there, small, in the line space above the term, as a score prints an ossia bar over the staff.
      The term's line opens to make room; the note starts where the term starts, as an ossia starts with its bar, and may run on past its end. Pointing inks it. */
-  .db-note[data-variant="ossia"] { position: relative; color: var(--db-ink); display: inline-block; padding-block-start: calc(var(--db-pp) * 1.25); }
-  .db-note[data-variant="ossia"] > .db-note-text {
+  .ot-note[data-variant="ossia"] { position: relative; color: var(--ot-ink); display: inline-block; padding-block-start: calc(var(--ot-pp) * 1.25); }
+  .ot-note[data-variant="ossia"] > .ot-note-text {
     position: absolute; inset-block-start: 0; inset-inline-start: 0; white-space: nowrap;
-    font-family: var(--db-voice); font-style: normal; font-weight: 450; font-size: var(--db-pp); line-height: 1; letter-spacing: var(--db-pp-tr);
-    color: var(--db-pencil); transition: color var(--db-allegro);
+    font-family: var(--ot-voice); font-style: normal; font-weight: 450; font-size: var(--ot-pp); line-height: 1; letter-spacing: var(--ot-pp-tr);
+    color: var(--ot-pencil); transition: color var(--ot-allegro);
   }
-  .db-note[data-variant="ossia"]:is(:hover, [data-force~="hover"]) > .db-note-text { color: var(--db-ink); }
+  .ot-note[data-variant="ossia"]:is(:hover, [data-force~="hover"]) > .ot-note-text { color: var(--ot-ink); }
 
   /* expand: an abbreviation that opens into its words. Pressed, the letters move apart and each word grows out of its initial;
      a word with none ("and") grows whole. The initials stay in ink, the rest arrives in graphite. */
-  .db-note[data-variant="expand"] {
-    cursor: pointer; interpolate-size: allow-keywords; color: var(--db-ink);
-    text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--db-hairline);
-    text-decoration-color: var(--db-pencil); text-underline-offset: 0.24em; transition: text-decoration-color var(--db-allegro);
+  .ot-note[data-variant="expand"] {
+    cursor: pointer; interpolate-size: allow-keywords; color: var(--ot-ink);
+    text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--ot-hairline);
+    text-decoration-color: var(--ot-pencil); text-underline-offset: 0.24em; transition: text-decoration-color var(--ot-allegro);
   }
-  .db-note[data-variant="expand"]:is(:hover, [data-force~="hover"]) { text-decoration-color: var(--db-ink); }
-  .db-note[data-variant="expand"]:is([aria-expanded="true"], [data-force~="open"]) { text-decoration-color: transparent; }
-  .db-note-word { white-space: nowrap; }
-  .db-note-grow {
-    display: inline-block; inline-size: 0; overflow-x: clip; vertical-align: top; white-space: pre; color: var(--db-graphite); opacity: 0;
-    transition: inline-size var(--db-moderato) var(--db-exhale), opacity var(--db-moderato) var(--db-exhale);
+  .ot-note[data-variant="expand"]:is(:hover, [data-force~="hover"]) { text-decoration-color: var(--ot-ink); }
+  .ot-note[data-variant="expand"]:is([aria-expanded="true"], [data-force~="open"]) { text-decoration-color: transparent; }
+  .ot-note-word { white-space: nowrap; }
+  .ot-note-grow {
+    display: inline-block; inline-size: 0; overflow-x: clip; vertical-align: top; white-space: pre; color: var(--ot-graphite); opacity: 0;
+    transition: inline-size var(--ot-moderato) var(--ot-exhale), opacity var(--ot-moderato) var(--ot-exhale);
   }
-  .db-note[data-variant="expand"]:is([aria-expanded="true"], [data-force~="open"]) .db-note-grow { inline-size: auto; opacity: 1; }
+  .ot-note[data-variant="expand"]:is([aria-expanded="true"], [data-force~="open"]) .ot-note-grow { inline-size: auto; opacity: 1; }
 
   /* revise: the editor's correction, after the Basquiat sheet's struck headline and the Weingart letter's typed page. At rest
      the term is dotted like the others; pointing sketches the strike in pencil, as the checkbox does. Pressed, the pen
      strikes it in ink, running past the words as a hand does, the struck words step back to pencil, and the replacement
      is written in after them in the italic, its box opening from the start as a pen moves. Pressed again, both lift. */
-  .db-note[data-variant="revise"] { cursor: pointer; interpolate-size: allow-keywords; color: var(--db-ink); }
-  .db-note-was {
+  .ot-note[data-variant="revise"] { cursor: pointer; interpolate-size: allow-keywords; color: var(--ot-ink); }
+  .ot-note-was {
     --y: 60%;
     padding-inline: 0.1em; margin-inline: -0.1em; /* the pen runs a little past the words, short of the word before */
-    text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--db-hairline);
-    text-decoration-color: var(--db-pencil); text-underline-offset: 0.24em;
+    text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: var(--ot-hairline);
+    text-decoration-color: var(--ot-pencil); text-underline-offset: 0.24em;
     background:
-      linear-gradient(var(--db-ink), var(--db-ink)) no-repeat 100% var(--y) / 0% var(--db-stroke),
-      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 100% var(--y) / 0% var(--db-hairline);
+      linear-gradient(var(--ot-ink), var(--ot-ink)) no-repeat 100% var(--y) / 0% var(--ot-stroke),
+      linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 100% var(--y) / 0% var(--ot-hairline);
     -webkit-box-decoration-break: clone; box-decoration-break: clone;
-    transition: background-size var(--db-moderato) var(--db-breath), background-position 0s, color var(--db-moderato) var(--db-breath), text-decoration-color var(--db-allegro);
+    transition: background-size var(--ot-moderato) var(--ot-breath), background-position 0s, color var(--ot-moderato) var(--ot-breath), text-decoration-color var(--ot-allegro);
   }
-  .db-note[data-variant="revise"]:is(:hover, [data-force~="hover"]):not([aria-expanded="true"], [data-force~="open"]) > .db-note-was { text-decoration-color: var(--db-ink); background-position: 100% var(--y), 0 var(--y); background-size: 0% var(--db-stroke), 100% var(--db-hairline); }
-  .db-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .db-note-was { color: var(--db-pencil); text-decoration-color: transparent; background-position: 0 var(--y), 100% var(--y); background-size: 100% var(--db-stroke), 0% var(--db-hairline); }
-  :is([dir="rtl"], [dir="rtl"] *).db-note[data-variant="revise"] > .db-note-was { background-position: 0 var(--y), 0 var(--y); }
-  :is([dir="rtl"], [dir="rtl"] *).db-note[data-variant="revise"]:is(:hover, [data-force~="hover"]):not([aria-expanded="true"], [data-force~="open"]) > .db-note-was { background-position: 0 var(--y), 100% var(--y); }
-  :is([dir="rtl"], [dir="rtl"] *).db-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .db-note-was { background-position: 100% var(--y), 0 var(--y); }
-  .db-note-now {
+  .ot-note[data-variant="revise"]:is(:hover, [data-force~="hover"]):not([aria-expanded="true"], [data-force~="open"]) > .ot-note-was { text-decoration-color: var(--ot-ink); background-position: 100% var(--y), 0 var(--y); background-size: 0% var(--ot-stroke), 100% var(--ot-hairline); }
+  .ot-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .ot-note-was { color: var(--ot-pencil); text-decoration-color: transparent; background-position: 0 var(--y), 100% var(--y); background-size: 100% var(--ot-stroke), 0% var(--ot-hairline); }
+  :is([dir="rtl"], [dir="rtl"] *).ot-note[data-variant="revise"] > .ot-note-was { background-position: 0 var(--y), 0 var(--y); }
+  :is([dir="rtl"], [dir="rtl"] *).ot-note[data-variant="revise"]:is(:hover, [data-force~="hover"]):not([aria-expanded="true"], [data-force~="open"]) > .ot-note-was { background-position: 0 var(--y), 100% var(--y); }
+  :is([dir="rtl"], [dir="rtl"] *).ot-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .ot-note-was { background-position: 100% var(--y), 0 var(--y); }
+  .ot-note-now {
     display: inline-block; inline-size: 0; overflow-x: clip; overflow-clip-margin: 0.2em; white-space: pre; opacity: 0;
-    font-family: var(--db-expression); font-style: italic; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;
-    transition: inline-size var(--db-moderato) var(--db-exhale), opacity var(--db-allegro);
+    font-family: var(--ot-expression); font-style: italic; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1;
+    transition: inline-size var(--ot-moderato) var(--ot-exhale), opacity var(--ot-allegro);
   }
   /* The strike draws first; the word is written in once the pen has crossed. */
-  .db-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .db-note-now { inline-size: auto; opacity: 1; transition-delay: var(--db-allegro); }
+  .ot-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .ot-note-now { inline-size: auto; opacity: 1; transition-delay: var(--ot-allegro); }
   @media (forced-colors: active) {
     /* Forced colours drop the gradients that draw the strike; the plain line-through says it instead. */
-    .db-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .db-note-was { text-decoration: line-through CanvasText; }
+    .ot-note[data-variant="revise"]:is([aria-expanded="true"], [data-force~="open"]) > .ot-note-was { text-decoration: line-through CanvasText; }
   }
 }

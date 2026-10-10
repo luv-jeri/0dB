@@ -13,7 +13,7 @@ type EmptyProps = React.ComponentProps<"div"> & {
 
 /** An invitation to act, not a mood. Say what is missing and what to do about it. */
 function Empty({ variant = "arc", className, ...props }: EmptyProps) {
-  return <div data-slot="empty" data-variant={variant} className={cn("db-empty", className)} {...props} />
+  return <div data-slot="empty" data-variant={variant} className={cn("ot-empty", className)} {...props} />
 }
 
 /**
@@ -22,22 +22,22 @@ function Empty({ variant = "arc", className, ...props }: EmptyProps) {
  */
 function EmptyFigure({ className, children = "0", ...props }: React.ComponentProps<"p">) {
   return (
-    <p data-slot="empty-figure" aria-hidden="true" className={cn("db-empty-figure", className)} {...props}>
+    <p data-slot="empty-figure" aria-hidden="true" className={cn("ot-empty-figure", className)} {...props}>
       <span>{children}</span>
     </p>
   )
 }
 
 function EmptyTitle({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="empty-title" className={cn("db-empty-title", className)} {...props} />
+  return <p data-slot="empty-title" className={cn("ot-empty-title", className)} {...props} />
 }
 
 function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="empty-description" className={cn("db-empty-description", className)} {...props} />
+  return <p data-slot="empty-description" className={cn("ot-empty-description", className)} {...props} />
 }
 
 function EmptyActions({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="empty-actions" className={cn("db-empty-actions", className)} {...props} />
+  return <div data-slot="empty-actions" className={cn("ot-empty-actions", className)} {...props} />
 }
 
 export { Empty, EmptyFigure, EmptyTitle, EmptyDescription, EmptyActions, type EmptyProps }

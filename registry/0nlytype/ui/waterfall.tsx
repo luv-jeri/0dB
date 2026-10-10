@@ -52,7 +52,7 @@ function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, v
       } catch {
         return // the clipped plain lines stay
       }
-      const cells = [...el.querySelectorAll<HTMLElement>(".db-waterfall-text")]
+      const cells = [...el.querySelectorAll<HTMLElement>(".ot-waterfall-text")]
       const decay = variant === "decay"
 
       async function lay() {
@@ -113,17 +113,17 @@ function Waterfall({ children: text, from = "ffff", to = "pp", italic = false, v
   }, [text, from, to, italic, variant])
 
   return (
-    <div ref={composedRef} data-slot="waterfall" data-variant={variant === "specimen" ? undefined : variant} data-italic={italic || undefined} className={cn("db-waterfall", className)} {...props}>
-      <span className="db-sr">{text}</span>
+    <div ref={composedRef} data-slot="waterfall" data-variant={variant === "specimen" ? undefined : variant} data-italic={italic || undefined} className={cn("ot-waterfall", className)} {...props}>
+      <span className="ot-sr">{text}</span>
       {shown.map((d, i) => {
         const row = rows?.[i]
         return (
-          <div key={d} aria-hidden="true" hidden={row && !row.text ? true : undefined} data-rest={row?.rest || undefined} className="db-waterfall-row" style={{ "--s": `var(--db-${d})`, "--lh": `var(--db-${d}-lh)`, "--tr": `var(--db-${d}-tr)` } as React.CSSProperties}>
-            <span className="db-waterfall-mark">{d}</span>
-            <span className="db-waterfall-text">
+          <div key={d} aria-hidden="true" hidden={row && !row.text ? true : undefined} data-rest={row?.rest || undefined} className="ot-waterfall-row" style={{ "--s": `var(--ot-${d})`, "--lh": `var(--ot-${d}-lh)`, "--tr": `var(--ot-${d}-tr)` } as React.CSSProperties}>
+            <span className="ot-waterfall-mark">{d}</span>
+            <span className="ot-waterfall-text">
               {row ? <span style={{ letterSpacing: `${row.spacing}px`, fontSize: row.scale < 1 ? `${row.scale}em` : undefined }}>{row.text}</span> : text}
             </span>
-            <span className="db-waterfall-px">{row ? `${row.px} px` : ""}</span>
+            <span className="ot-waterfall-px">{row ? `${row.px} px` : ""}</span>
           </div>
         )
       })}

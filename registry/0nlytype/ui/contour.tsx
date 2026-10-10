@@ -187,14 +187,14 @@ function Contour({ children: text, shape = "diminuendo", least = 0.3, variant = 
   )
 
   return (
-    <p ref={composedRef} data-slot="contour" data-shape={shape} data-variant={variant === "edge" ? undefined : variant} data-fade={fade || undefined} className={cn("db-contour", className)} {...props}>
+    <p ref={composedRef} data-slot="contour" data-shape={shape} data-variant={variant === "edge" ? undefined : variant} data-fade={fade || undefined} className={cn("ot-contour", className)} {...props}>
       {lines ? (
         <>
-          <span className="db-sr">{text}</span>
-          <span aria-hidden="true" className="db-contour-lines">
+          <span className="ot-sr">{text}</span>
+          <span aria-hidden="true" className="ot-contour-lines">
             {variant === "cola"
               ? Array.from(new Set(lines.map((l) => l.colon))).map((colon) => (
-                  <span key={colon} className="db-contour-colon">
+                  <span key={colon} className="ot-contour-colon">
                     {lines.map((l, i) => (l.colon === colon ? line(l, i) : null))}
                   </span>
                 ))

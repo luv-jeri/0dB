@@ -1,10 +1,10 @@
 // Fails on any !important in the registry CSS, except the two base.css rules
-// that must beat a component's own display and position: [hidden] and .db-sr.
+// that must beat a component's own display and position: [hidden] and .ot-sr.
 import { readFileSync, readdirSync } from "node:fs"
 import path from "node:path"
 
 const dir = "registry/0nlytype/styles"
-const allowed = { "base.css": ["[hidden]", ".db-sr"] }
+const allowed = { "base.css": ["[hidden]", ".ot-sr"] }
 const bad = []
 
 for (const file of readdirSync(dir).filter((f) => f.endsWith(".css"))) {
@@ -23,6 +23,6 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith(".css"))) {
 }
 
 if (bad.length) {
-  console.error(`Registry CSS rules: !important only on [hidden] and .db-sr in base.css; no :dir().\n  ${bad.join("\n  ")}`)
+  console.error(`Registry CSS rules: !important only on [hidden] and .ot-sr in base.css; no :dir().\n  ${bad.join("\n  ")}`)
   process.exit(1)
 }

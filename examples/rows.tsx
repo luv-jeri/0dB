@@ -33,14 +33,14 @@ function Index({ variant, label, here, rows = work }: { variant?: RowsProps["var
 
 export default function Example() {
   return (
-    <div className="grid w-full" style={{ gap: "var(--db-space-7)" }}>
+    <div className="grid w-full" style={{ gap: "var(--ot-space-7)" }}>
       <Index label="Projects" />
       <div className="grid gap-3">
-        <span className="db-label">Ditto</span>
+        <span className="ot-label">Ditto</span>
         <Index variant="ditto" label="Projects by year" rows={byYear} />
       </div>
       <div className="grid gap-3">
-        <span className="db-label">Trail: open one, and its ring fills</span>
+        <span className="ot-label">Trail: open one, and its ring fills</span>
         <Index variant="trail" label="Projects you have seen" here="Oda Studio" />
       </div>
     </div>

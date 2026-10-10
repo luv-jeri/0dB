@@ -4,7 +4,7 @@ export default defineComponent({
   name: "fraction",
   title: "Fraction",
   movement: "II",
-  contract: "db-fraction",
+  contract: "ot-fraction",
   summary: "A count set as a display fraction: yours large in italic, the total small beside it, a pen stroke between. A changed number turns over.",
   underneath: "native",
   props: [

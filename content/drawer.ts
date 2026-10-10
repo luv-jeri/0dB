@@ -4,7 +4,7 @@ export default defineComponent({
   name: "drawer",
   title: "Drawer",
   movement: "IX",
-  contract: "db-drawer",
+  contract: "ot-drawer",
   summary: "A sheet from below, lifted by the fermata's arc. Drag the arc down to put it away.",
   underneath: "native",
   props: [

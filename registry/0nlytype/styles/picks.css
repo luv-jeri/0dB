@@ -1,103 +1,103 @@
 @layer components {
-  /* ── db-picks ── choices that carry their own content. The chosen title crosses into the italic, because it's yours.
+  /* ── ot-picks ── choices that carry their own content. The chosen title crosses into the italic, because it's yours.
      Two ways to mark it: pizzicato hangs one accent dot in the margin, and rubric hangs the chosen initial in the margin, two lines deep. */
-  @property --db-picks-y { syntax: "<length>"; inherits: true; initial-value: 0px; }
-  @property --db-picks-d { syntax: "<length>"; inherits: true; initial-value: 0px; }
-  .db-picks {
-    --db-picks-y: 0px;   /* the dot's top; script sets it from the chosen pick */
-    --db-picks-d: 0px;   /* how far the string is pulled toward the words; the pluck animates it */
-    --db-picks-top: 0px; /* where the string starts (the first pick's top) */
-    --db-picks-len: 0px; /* and how long it runs (to the last pick's foot) */
+  @property --ot-picks-y { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  @property --ot-picks-d { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  .ot-picks {
+    --ot-picks-y: 0px;   /* the dot's top; script sets it from the chosen pick */
+    --ot-picks-d: 0px;   /* how far the string is pulled toward the words; the pluck animates it */
+    --ot-picks-top: 0px; /* where the string starts (the first pick's top) */
+    --ot-picks-len: 0px; /* and how long it runs (to the last pick's foot) */
     --dir: 1;
     position: relative; border: 0; margin: 0; padding: 0; min-width: 0;
-    display: grid; justify-items: start; gap: var(--db-space-5);
+    display: grid; justify-items: start; gap: var(--ot-space-5);
   }
-  .db-picks:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
+  .ot-picks:is([dir="rtl"], [dir="rtl"] *) { --dir: -1; }
   /* A pick written in the other direction carries its own dir; the nearest one sets which way things hang. */
-  .db-picks [dir="ltr"] { --dir: 1; }
-  .db-picks [dir="rtl"] { --dir: -1; }
-  .db-picks > legend { padding: 0; margin-bottom: var(--db-space-4); }
-  .db-picks > label {
+  .ot-picks [dir="ltr"] { --dir: 1; }
+  .ot-picks [dir="rtl"] { --dir: -1; }
+  .ot-picks > legend { padding: 0; margin-bottom: var(--ot-space-4); }
+  .ot-picks > label {
     position: relative; display: block; max-width: 100%; cursor: pointer;
-    font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr);
-    color: var(--db-graphite); -webkit-tap-highlight-color: transparent;
-    transition: color var(--db-allegro);
+    font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr);
+    color: var(--ot-graphite); -webkit-tap-highlight-color: transparent;
+    transition: color var(--ot-allegro);
   }
-  .db-picks > label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
-  .db-picks > label:is(:hover, [data-force~="hover"], :has(input:checked)):not(:has(input:disabled)) { color: var(--db-ink); }
-  .db-picks > label:is(:has(input:focus-visible), [data-force~="focus"]) { outline: var(--db-stroke) solid var(--db-accent); outline-offset: 6px; }
-  .db-picks > label:has(input:disabled) { color: var(--db-pencil); opacity: 0.55; cursor: not-allowed; }
+  .ot-picks > label > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+  .ot-picks > label:is(:hover, [data-force~="hover"], :has(input:checked)):not(:has(input:disabled)) { color: var(--ot-ink); }
+  .ot-picks > label:is(:has(input:focus-visible), [data-force~="focus"]) { outline: var(--ot-stroke) solid var(--ot-accent); outline-offset: 6px; }
+  .ot-picks > label:has(input:disabled) { color: var(--ot-pencil); opacity: 0.55; cursor: not-allowed; }
 
   /* The title. Plain text carries an italic copy in the same grid cell, so the two cross-fade without moving anything. */
-  .db-pick-title { display: grid; justify-items: start; align-items: baseline; }
-  .db-pick-title > [aria-hidden],
-  .db-pick-title[data-text]::after {
+  .ot-pick-title { display: grid; justify-items: start; align-items: baseline; }
+  .ot-pick-title > [aria-hidden],
+  .ot-pick-title[data-text]::after {
     grid-area: 1 / 1;
-    transition: opacity var(--db-moderato) var(--db-breath), translate var(--db-moderato) var(--db-exhale);
+    transition: opacity var(--ot-moderato) var(--ot-breath), translate var(--ot-moderato) var(--ot-exhale);
   }
-  .db-pick-title[data-text]::after {
+  .ot-pick-title[data-text]::after {
     content: attr(data-text) / "";
-    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; letter-spacing: 0;
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; letter-spacing: 0;
     opacity: 0; translate: 0 0.12em;
   }
-  .db-pick-description {
+  .ot-pick-description {
     display: block; max-width: 44ch;
-    font-size: var(--db-p); line-height: var(--db-p-lh); letter-spacing: var(--db-p-tr);
-    color: var(--db-pencil); transition: color var(--db-allegro);
+    font-size: var(--ot-p); line-height: var(--ot-p-lh); letter-spacing: var(--ot-p-tr);
+    color: var(--ot-pencil); transition: color var(--ot-allegro);
   }
-  .db-picks > label:has(input:checked) .db-pick-description { color: var(--db-graphite); }
+  .ot-picks > label:has(input:checked) .ot-pick-description { color: var(--ot-graphite); }
 
   /* pizzicato: the dot hangs in the margin. Pointing sketches a ring where it would land (and a press tightens it, a finger
      on the string). Choosing slides the dot there along a hairline string, pulling it aside as it goes; on arrival the
      string is let go and rings, and fades back to silence as it settles. The title turns italic as the dot lands. */
-  .db-picks[data-variant="pizzicato"] > label { margin-inline-start: var(--db-space-5); }
-  .db-picks[data-variant="pizzicato"] > label::before {
-    content: ""; position: absolute; inset-inline-start: calc(-1 * var(--db-space-5)); top: calc(0.5lh + 0.03em - var(--db-dot) / 2);
-    width: var(--db-dot); height: var(--db-dot); border-radius: 50%;
-    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-rule-strong); scale: 0; pointer-events: none;
-    transition: scale var(--db-moderato) var(--db-spiccato);
+  .ot-picks[data-variant="pizzicato"] > label { margin-inline-start: var(--ot-space-5); }
+  .ot-picks[data-variant="pizzicato"] > label::before {
+    content: ""; position: absolute; inset-inline-start: calc(-1 * var(--ot-space-5)); top: calc(0.5lh + 0.03em - var(--ot-dot) / 2);
+    width: var(--ot-dot); height: var(--ot-dot); border-radius: 50%;
+    box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-rule-strong); scale: 0; pointer-events: none;
+    transition: scale var(--ot-moderato) var(--ot-spiccato);
   }
-  .db-picks[data-variant="pizzicato"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::before { scale: 1; }
-  .db-picks[data-variant="pizzicato"] > label:active:not(:has(input:checked, input:disabled))::before { scale: 0.6; transition-duration: var(--db-allegro); }
-  .db-picks:is([data-variant="pizzicato"], [data-variant="watermark"], [data-variant="register"]) > label:has(input:checked) .db-pick-title > [aria-hidden] { opacity: 0; translate: 0 -0.12em; }
-  .db-picks:is([data-variant="pizzicato"], [data-variant="watermark"], [data-variant="register"]) > label:has(input:checked) .db-pick-title::after { opacity: 1; translate: 0 0; }
-  .db-picks[data-variant="pizzicato"][data-ready] > label:has(input:checked) .db-pick-title > [aria-hidden],
-  .db-picks[data-variant="pizzicato"][data-ready] > label:has(input:checked) .db-pick-title::after { transition-delay: calc(var(--db-moderato) * 0.7); }
-  .db-picks-dot, .db-picks-string { position: absolute; top: 0; pointer-events: none; }
-  .db-picks-dot {
-    inset-inline-start: 0; width: var(--db-dot); height: var(--db-dot); border-radius: 50%; background: var(--db-accent);
-    translate: calc(var(--db-picks-d) * var(--dir)) var(--db-picks-y);
-    transition: opacity var(--db-allegro), scale var(--db-moderato) var(--db-spiccato);
+  .ot-picks[data-variant="pizzicato"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::before { scale: 1; }
+  .ot-picks[data-variant="pizzicato"] > label:active:not(:has(input:checked, input:disabled))::before { scale: 0.6; transition-duration: var(--ot-allegro); }
+  .ot-picks:is([data-variant="pizzicato"], [data-variant="watermark"], [data-variant="register"]) > label:has(input:checked) .ot-pick-title > [aria-hidden] { opacity: 0; translate: 0 -0.12em; }
+  .ot-picks:is([data-variant="pizzicato"], [data-variant="watermark"], [data-variant="register"]) > label:has(input:checked) .ot-pick-title::after { opacity: 1; translate: 0 0; }
+  .ot-picks[data-variant="pizzicato"][data-ready] > label:has(input:checked) .ot-pick-title > [aria-hidden],
+  .ot-picks[data-variant="pizzicato"][data-ready] > label:has(input:checked) .ot-pick-title::after { transition-delay: calc(var(--ot-moderato) * 0.7); }
+  .ot-picks-dot, .ot-picks-string { position: absolute; top: 0; pointer-events: none; }
+  .ot-picks-dot {
+    inset-inline-start: 0; width: var(--ot-dot); height: var(--ot-dot); border-radius: 50%; background: var(--ot-accent);
+    translate: calc(var(--ot-picks-d) * var(--dir)) var(--ot-picks-y);
+    transition: opacity var(--ot-allegro), scale var(--ot-moderato) var(--ot-spiccato);
   }
-  .db-picks:not(:has(input:checked)) > .db-picks-dot { opacity: 0; scale: 0; }
+  .ot-picks:not(:has(input:checked)) > .ot-picks-dot { opacity: 0; scale: 0; }
   /* Until script has measured (before hydration, or without script), the chosen pick's own ring stands in for the dot. */
-  .db-picks:not([data-placed]) > :is(.db-picks-dot, .db-picks-string) { display: none; }
-  .db-picks[data-variant="pizzicato"]:not([data-placed]) > label:has(input:checked)::before { scale: 1; background: var(--db-accent); box-shadow: none; }
+  .ot-picks:not([data-placed]) > :is(.ot-picks-dot, .ot-picks-string) { display: none; }
+  .ot-picks[data-variant="pizzicato"]:not([data-placed]) > label:has(input:checked)::before { scale: 1; background: var(--ot-accent); box-shadow: none; }
   /* The string is a hairline bent at the dot: a thin strip clipped out of a wider box, so it stays one hairline at any pull. */
-  .db-picks-string {
-    --apex: calc(var(--db-picks-y) + var(--db-dot) / 2 - var(--db-picks-top));
-    --x: calc(var(--db-picks-d) * var(--dir));
-    top: var(--db-picks-top); height: var(--db-picks-len); inset-inline-start: calc(var(--db-dot) / 2 - 1em); width: 2em;
-    background: var(--db-rule-strong); opacity: 0;
+  .ot-picks-string {
+    --apex: calc(var(--ot-picks-y) + var(--ot-dot) / 2 - var(--ot-picks-top));
+    --x: calc(var(--ot-picks-d) * var(--dir));
+    top: var(--ot-picks-top); height: var(--ot-picks-len); inset-inline-start: calc(var(--ot-dot) / 2 - 1em); width: 2em;
+    background: var(--ot-rule-strong); opacity: 0;
     clip-path: polygon(
       calc(50% - 0.5px) 0, calc(50% - 0.5px + var(--x)) var(--apex), calc(50% - 0.5px) 100%,
       calc(50% + 0.5px) 100%, calc(50% + 0.5px + var(--x)) var(--apex), calc(50% + 0.5px) 0
     );
   }
-  .db-picks[data-ready] { transition: --db-picks-y var(--db-moderato) var(--db-breath); }
-  .db-picks[data-plucked] { animation: db-picks-pluck calc(var(--db-moderato) + var(--db-andante)) linear; }
-  .db-picks[data-plucked] > .db-picks-string { animation: db-picks-ring calc(var(--db-moderato) + var(--db-andante)) linear; }
+  .ot-picks[data-ready] { transition: --ot-picks-y var(--ot-moderato) var(--ot-breath); }
+  .ot-picks[data-plucked] { animation: ot-picks-pluck calc(var(--ot-moderato) + var(--ot-andante)) linear; }
+  .ot-picks[data-plucked] > .ot-picks-string { animation: ot-picks-ring calc(var(--ot-moderato) + var(--ot-andante)) linear; }
   /* A third of the time the pull (while the dot slides), then five half-swings, each smaller, each eased like a pendulum. */
-  @keyframes db-picks-pluck {
-    0% { --db-picks-d: 0px; animation-timing-function: var(--db-breath); }
-    33% { --db-picks-d: -0.45em; animation-timing-function: var(--db-breath); }
-    47% { --db-picks-d: 0.3em; animation-timing-function: var(--db-breath); }
-    60% { --db-picks-d: -0.18em; animation-timing-function: var(--db-breath); }
-    73% { --db-picks-d: 0.1em; animation-timing-function: var(--db-breath); }
-    86% { --db-picks-d: -0.04em; animation-timing-function: var(--db-breath); }
-    100% { --db-picks-d: 0px; }
+  @keyframes ot-picks-pluck {
+    0% { --ot-picks-d: 0px; animation-timing-function: var(--ot-breath); }
+    33% { --ot-picks-d: -0.45em; animation-timing-function: var(--ot-breath); }
+    47% { --ot-picks-d: 0.3em; animation-timing-function: var(--ot-breath); }
+    60% { --ot-picks-d: -0.18em; animation-timing-function: var(--ot-breath); }
+    73% { --ot-picks-d: 0.1em; animation-timing-function: var(--ot-breath); }
+    86% { --ot-picks-d: -0.04em; animation-timing-function: var(--ot-breath); }
+    100% { --ot-picks-d: 0px; }
   }
-  @keyframes db-picks-ring {
+  @keyframes ot-picks-ring {
     0% { opacity: 0; }
     14%, 33% { opacity: 1; }
     100% { opacity: 0; }
@@ -109,139 +109,139 @@
      and a ghost of the small letter narrows to nothing so the rest of the name closes up to the edge and turns italic.
      Its foot sits on the first line under the title, so a pick without a description keeps that line free.
      Pointing leans the initial italic, in place. */
-  .db-picks[data-variant="rubric"] { --db-picks-cap: 2.3; interpolate-size: allow-keywords; }
-  .db-picks[data-variant="rubric"] > label { padding-inline-start: var(--db-space-7); } /* inside the label, so focus and the pointer take the capital in */
-  .db-picks[data-variant="rubric"] > label:not(:has(.db-pick-description)) { padding-block-end: calc(var(--db-p) * var(--db-p-lh)); }
-  .db-picks[data-variant="rubric"] .db-pick-title { display: block; position: relative; }
-  .db-picks[data-variant="rubric"] .db-pick-title::after { content: none; }
+  .ot-picks[data-variant="rubric"] { --ot-picks-cap: 2.3; interpolate-size: allow-keywords; }
+  .ot-picks[data-variant="rubric"] > label { padding-inline-start: var(--ot-space-7); } /* inside the label, so focus and the pointer take the capital in */
+  .ot-picks[data-variant="rubric"] > label:not(:has(.ot-pick-description)) { padding-block-end: calc(var(--ot-p) * var(--ot-p-lh)); }
+  .ot-picks[data-variant="rubric"] .ot-pick-title { display: block; position: relative; }
+  .ot-picks[data-variant="rubric"] .ot-pick-title::after { content: none; }
   /* The ghost: the small roman letter, holding the initial's place in the word until it is chosen. */
-  .db-picks[data-variant="rubric"] .db-pick-title > [data-initial]::before {
+  .ot-picks[data-variant="rubric"] .ot-pick-title > [data-initial]::before {
     content: attr(data-initial) / ""; display: inline-block; width: max-content; overflow: hidden; white-space: nowrap; vertical-align: top; visibility: hidden;
-    transition: width var(--db-andante) var(--db-exhale);
+    transition: width var(--ot-andante) var(--ot-exhale);
   }
-  .db-picks[data-variant="rubric"] > label:has(input:checked) .db-pick-title > [data-initial]::before { width: 0; }
-  .db-picks[data-variant="rubric"] .db-pick-initial {
+  .ot-picks[data-variant="rubric"] > label:has(input:checked) .ot-pick-title > [data-initial]::before { width: 0; }
+  .ot-picks[data-variant="rubric"] .ot-pick-initial {
     position: absolute; top: 0; inset-inline-start: 0; display: grid; justify-items: start; align-items: baseline;
     font-size: 1em; translate: 0 0;
-    transition: font-size var(--db-andante) var(--db-exhale), line-height var(--db-andante) var(--db-exhale), translate var(--db-andante) var(--db-exhale), color var(--db-moderato);
+    transition: font-size var(--ot-andante) var(--ot-exhale), line-height var(--ot-andante) var(--ot-exhale), translate var(--ot-andante) var(--ot-exhale), color var(--ot-moderato);
   }
-  .db-picks[data-variant="rubric"] :is(.db-pick-initial, .db-pick-rest) > span,
-  .db-picks[data-variant="rubric"] :is(.db-pick-initial, .db-pick-rest)::after { grid-area: 1 / 1; transition: opacity var(--db-moderato) var(--db-breath), translate var(--db-moderato) var(--db-exhale); }
-  .db-picks[data-variant="rubric"] :is(.db-pick-initial, .db-pick-rest)::after {
+  .ot-picks[data-variant="rubric"] :is(.ot-pick-initial, .ot-pick-rest) > span,
+  .ot-picks[data-variant="rubric"] :is(.ot-pick-initial, .ot-pick-rest)::after { grid-area: 1 / 1; transition: opacity var(--ot-moderato) var(--ot-breath), translate var(--ot-moderato) var(--ot-exhale); }
+  .ot-picks[data-variant="rubric"] :is(.ot-pick-initial, .ot-pick-rest)::after {
     content: attr(data-text) / "";
-    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * 1em); line-height: 1; letter-spacing: 0;
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1; letter-spacing: 0;
     opacity: 0;
   }
   /* The rest of the name cross-fades into the italic in place, the way pizzicato's whole title does. */
-  .db-picks[data-variant="rubric"] .db-pick-rest { display: inline-grid; justify-items: start; align-items: baseline; }
-  .db-picks[data-variant="rubric"] .db-pick-rest::after { translate: 0 0.12em; }
-  .db-picks[data-variant="rubric"] > label:has(input:checked) .db-pick-rest > span { opacity: 0; translate: 0 -0.12em; }
-  .db-picks[data-variant="rubric"] > label:has(input:checked) .db-pick-rest::after { opacity: 1; translate: 0 0; }
-  .db-picks[data-variant="rubric"] > label:is(:hover, [data-force~="hover"], :has(input:checked)):not(:has(input:disabled)) .db-pick-initial > span { opacity: 0; }
-  .db-picks[data-variant="rubric"] > label:is(:hover, [data-force~="hover"], :has(input:checked)):not(:has(input:disabled)) .db-pick-initial::after { opacity: 1; }
+  .ot-picks[data-variant="rubric"] .ot-pick-rest { display: inline-grid; justify-items: start; align-items: baseline; }
+  .ot-picks[data-variant="rubric"] .ot-pick-rest::after { translate: 0 0.12em; }
+  .ot-picks[data-variant="rubric"] > label:has(input:checked) .ot-pick-rest > span { opacity: 0; translate: 0 -0.12em; }
+  .ot-picks[data-variant="rubric"] > label:has(input:checked) .ot-pick-rest::after { opacity: 1; translate: 0 0; }
+  .ot-picks[data-variant="rubric"] > label:is(:hover, [data-force~="hover"], :has(input:checked)):not(:has(input:disabled)) .ot-pick-initial > span { opacity: 0; }
+  .ot-picks[data-variant="rubric"] > label:is(:hover, [data-force~="hover"], :has(input:checked)):not(:has(input:disabled)) .ot-pick-initial::after { opacity: 1; }
   /* Hung: its own width back into the margin, plus a gap the italic's overhang can lean into. */
-  .db-picks[data-variant="rubric"] > label:has(input:checked) .db-pick-initial {
-    font-size: calc(var(--db-picks-cap) * 1em); line-height: 1; color: var(--db-accent);
+  .ot-picks[data-variant="rubric"] > label:has(input:checked) .ot-pick-initial {
+    font-size: calc(var(--ot-picks-cap) * 1em); line-height: 1; color: var(--ot-accent);
     translate: calc(-1 * var(--dir) * (100% + 0.2em)) 0.02em;
   }
 
   /* A name without capitals (a script without case, or one that opens on a figure) has no initial to lift, and lifting
      one would break a joined word apart. The name stays whole and turns italic, and the rubricator's other mark, the
      pilcrow, is painted in the margin in its place: unseen until chosen, then grown into the margin the same way. */
-  .db-picks[data-variant="rubric"] [data-caseless] .db-pick-initial { opacity: 0; transition: opacity var(--db-allegro), font-size var(--db-andante) var(--db-exhale), line-height var(--db-andante) var(--db-exhale), translate var(--db-andante) var(--db-exhale), color var(--db-moderato); }
-  .db-picks[data-variant="rubric"] [data-caseless] .db-pick-initial::after { scale: var(--dir) 1; }
-  .db-picks[data-variant="rubric"] > label:has(input:checked) [data-caseless] .db-pick-initial { opacity: 1; font-size: calc(var(--db-picks-cap) * 0.8em); }
+  .ot-picks[data-variant="rubric"] [data-caseless] .ot-pick-initial { opacity: 0; transition: opacity var(--ot-allegro), font-size var(--ot-andante) var(--ot-exhale), line-height var(--ot-andante) var(--ot-exhale), translate var(--ot-andante) var(--ot-exhale), color var(--ot-moderato); }
+  .ot-picks[data-variant="rubric"] [data-caseless] .ot-pick-initial::after { scale: var(--dir) 1; }
+  .ot-picks[data-variant="rubric"] > label:has(input:checked) [data-caseless] .ot-pick-initial { opacity: 1; font-size: calc(var(--ot-picks-cap) * 0.8em); }
 
   /* A cased name on a right-to-left page (a Latin name among Arabic) begins at the end away from the page's margin, so its
      initial has nowhere to hang: lifted, the word would read "ressP". The name stays whole in its own order (an isolated
      left-to-right run), and the pilcrow hangs in the margin instead, as for a name without capitals. A pick or a title
      given dir="ltr" is a left-to-right block with its margin on the left, and hangs its capital there as usual.
      ponytail: reads direction from the dir attribute, as the rest of the library does; a dir="ltr" wrapper between the page and the picks isn't seen. */
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .db-pick-title:not([data-caseless], [dir="ltr"]) > [data-initial] { direction: ltr; unicode-bidi: isolate; }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .db-pick-title:not([data-caseless], [dir="ltr"]) > [data-initial]::before { content: none; }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .db-pick-title:not([data-caseless], [dir="ltr"]) .db-pick-initial { position: relative; display: inline-grid; }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .db-pick-title:not([data-caseless], [dir="ltr"]) .db-pick-rest { position: relative; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .ot-pick-title:not([data-caseless], [dir="ltr"]) > [data-initial] { direction: ltr; unicode-bidi: isolate; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .ot-pick-title:not([data-caseless], [dir="ltr"]) > [data-initial]::before { content: none; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .ot-pick-title:not([data-caseless], [dir="ltr"]) .ot-pick-initial { position: relative; display: inline-grid; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .ot-pick-title:not([data-caseless], [dir="ltr"]) .ot-pick-rest { position: relative; }
   /* Whichever face is showing sets the word's room, so it neither gaps nor stops short of the page's edge. */
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .db-pick-title:not([data-caseless], [dir="ltr"]) :is(.db-pick-initial, .db-pick-rest)::after,
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .db-pick-title:not([data-caseless], [dir="ltr"]) :is(.db-pick-initial, .db-pick-rest) > span { position: absolute; inset-inline-start: 0; bottom: 0; white-space: nowrap; }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .db-pick-title:not([data-caseless], [dir="ltr"]) :is(.db-pick-initial, .db-pick-rest)::after { position: static; }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .db-pick-title:not([data-caseless], [dir="ltr"]) .db-pick-initial { font-size: 1em; line-height: inherit; color: inherit; translate: none; }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .db-pick-title:not([data-caseless], [dir="ltr"])::before {
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .ot-pick-title:not([data-caseless], [dir="ltr"]) :is(.ot-pick-initial, .ot-pick-rest)::after,
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .ot-pick-title:not([data-caseless], [dir="ltr"]) :is(.ot-pick-initial, .ot-pick-rest) > span { position: absolute; inset-inline-start: 0; bottom: 0; white-space: nowrap; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .ot-pick-title:not([data-caseless], [dir="ltr"]) :is(.ot-pick-initial, .ot-pick-rest)::after { position: static; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .ot-pick-title:not([data-caseless], [dir="ltr"]) .ot-pick-initial { font-size: 1em; line-height: inherit; color: inherit; translate: none; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]) .ot-pick-title:not([data-caseless], [dir="ltr"])::before {
     content: "\00b6" / ""; position: absolute; top: 0; inset-inline-start: 0; pointer-events: none;
-    font-family: var(--db-expression); font-style: italic; font-weight: 400; line-height: 1; letter-spacing: 0; color: var(--db-accent);
-    font-size: calc(var(--db-expression-scale) * 1em); scale: -1 1; opacity: 0; translate: 0 0;
-    transition: opacity var(--db-allegro), font-size var(--db-andante) var(--db-exhale), translate var(--db-andante) var(--db-exhale);
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; line-height: 1; letter-spacing: 0; color: var(--ot-accent);
+    font-size: calc(var(--ot-expression-scale) * 1em); scale: -1 1; opacity: 0; translate: 0 0;
+    transition: opacity var(--ot-allegro), font-size var(--ot-andante) var(--ot-exhale), translate var(--ot-andante) var(--ot-exhale);
   }
-  .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .db-pick-title:not([data-caseless], [dir="ltr"])::before { opacity: 1; font-size: calc(var(--db-picks-cap) * 0.8em * var(--db-expression-scale)); translate: calc(100% + 0.2em) 0.02em; }
+  .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .ot-pick-title:not([data-caseless], [dir="ltr"])::before { opacity: 1; font-size: calc(var(--ot-picks-cap) * 0.8em * var(--ot-expression-scale)); translate: calc(100% + 0.2em) 0.02em; }
 
   /* watermark: the chosen title lies behind the list, huge and faint in the italic, set off its foot and its end edge
      and cropped by them, the way a sheet shows its mould's mark when held to the light (and the ghost numerals stand
      behind "the silence that heals"). Choosing another lets one mark fade and the next come up out of the paper;
      nothing travels. The title itself crosses into the italic, as pizzicato's does. */
-  .db-picks[data-variant="watermark"] { isolation: isolate; padding-block-end: var(--db-space-6); }
+  .ot-picks[data-variant="watermark"] { isolation: isolate; padding-block-end: var(--ot-space-6); }
   /* Each title carries its own mark, set against the fieldset (the picks stand unpositioned for it), so one fades
      while the next comes up. The box is shorter than the line and no wider than the list, so the list's foot and end edge crop it. */
-  .db-picks[data-variant="watermark"] > label { position: static; }
-  .db-picks[data-variant="watermark"] .db-pick-title[data-text]::before {
+  .ot-picks[data-variant="watermark"] > label { position: static; }
+  .ot-picks[data-variant="watermark"] .ot-pick-title[data-text]::before {
     content: attr(data-text) / ""; position: absolute; inset-block-end: 0; inset-inline-end: 0; z-index: -1;
     max-inline-size: 100%; block-size: min(0.66em, 100%); overflow: hidden; pointer-events: none; user-select: none;
-    font-family: var(--db-expression); font-style: italic; font-weight: 400; font-size: calc(var(--db-expression-scale) * var(--db-fff));
-    line-height: 0.8; letter-spacing: -0.02em; white-space: nowrap; color: color-mix(in srgb, var(--db-ink) 8%, transparent);
-    opacity: 0; translate: 0 0.06em; transition: opacity var(--db-moderato) var(--db-breath), translate var(--db-moderato) var(--db-breath);
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400; font-size: calc(var(--ot-expression-scale) * var(--ot-fff));
+    line-height: 0.8; letter-spacing: -0.02em; white-space: nowrap; color: color-mix(in srgb, var(--ot-ink) 8%, transparent);
+    opacity: 0; translate: 0 0.06em; transition: opacity var(--ot-moderato) var(--ot-breath), translate var(--ot-moderato) var(--ot-breath);
   }
-  .db-picks[data-variant="watermark"] > label:has(input:checked) .db-pick-title[data-text]::before {
-    opacity: 1; translate: 0 0; transition: opacity var(--db-andante) var(--db-exhale) var(--db-allegro), translate var(--db-andante) var(--db-exhale) var(--db-allegro);
+  .ot-picks[data-variant="watermark"] > label:has(input:checked) .ot-pick-title[data-text]::before {
+    opacity: 1; translate: 0 0; transition: opacity var(--ot-andante) var(--ot-exhale) var(--ot-allegro), translate var(--ot-andante) var(--ot-exhale) var(--ot-allegro);
   }
 
   /* register: the printer's registration crosses, one off the top of the chosen pick's start side and one off the foot
      of its end side, as "the uncreative" marks its corners with two + signs. Pointing sketches the pair in pencil at
      that pick; choosing sends the accent pair there, each turning a quarter the way it goes (a cross turned a quarter
      is the same cross, so it only reads as turning while it moves), the far one a beat behind. */
-  @property --db-picks-out { syntax: "<length>"; inherits: true; initial-value: 0px; }
-  .db-picks[data-variant="register"] { --db-picks-out: var(--db-space-3); --db-picks-cross: 0.62em; --db-picks-ink: var(--db-accent); }
-  .db-picks[data-variant="register"] > label { margin-inline: var(--db-space-5); max-width: calc(100% - 2 * var(--db-space-5)); }
-  .db-picks[data-variant="register"] > label::before,
-  .db-picks[data-variant="register"] > label::after,
-  .db-picks-cross {
-    content: ""; position: absolute; width: var(--db-picks-cross); height: var(--db-picks-cross); pointer-events: none;
+  @property --ot-picks-out { syntax: "<length>"; inherits: true; initial-value: 0px; }
+  .ot-picks[data-variant="register"] { --ot-picks-out: var(--ot-space-3); --ot-picks-cross: 0.62em; --ot-picks-ink: var(--ot-accent); }
+  .ot-picks[data-variant="register"] > label { margin-inline: var(--ot-space-5); max-width: calc(100% - 2 * var(--ot-space-5)); }
+  .ot-picks[data-variant="register"] > label::before,
+  .ot-picks[data-variant="register"] > label::after,
+  .ot-picks-cross {
+    content: ""; position: absolute; width: var(--ot-picks-cross); height: var(--ot-picks-cross); pointer-events: none;
     background:
-      linear-gradient(var(--db-picks-ink) 0 0) center / 100% var(--db-stroke) no-repeat,
-      linear-gradient(var(--db-picks-ink) 0 0) center / var(--db-stroke) 100% no-repeat;
+      linear-gradient(var(--ot-picks-ink) 0 0) center / 100% var(--ot-stroke) no-repeat,
+      linear-gradient(var(--ot-picks-ink) 0 0) center / var(--ot-stroke) 100% no-repeat;
   }
-  .db-picks[data-variant="register"] > label::before,
-  .db-picks[data-variant="register"] > label::after {
-    --db-picks-ink: var(--db-rule-strong); scale: 0; transition: scale var(--db-allegro) var(--db-exhale);
+  .ot-picks[data-variant="register"] > label::before,
+  .ot-picks[data-variant="register"] > label::after {
+    --ot-picks-ink: var(--ot-rule-strong); scale: 0; transition: scale var(--ot-allegro) var(--ot-exhale);
   }
-  .db-picks[data-variant="register"] > label::before { inset-inline-start: calc(-1 * (var(--db-picks-out) + var(--db-picks-cross) / 2)); top: calc(-1 * (var(--db-picks-out) + var(--db-picks-cross) / 2)); }
-  .db-picks[data-variant="register"] > label::after { inset-inline-end: calc(-1 * (var(--db-picks-out) + var(--db-picks-cross) / 2)); bottom: calc(-1 * (var(--db-picks-out) + var(--db-picks-cross) / 2)); }
-  .db-picks[data-variant="register"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::before,
-  .db-picks[data-variant="register"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::after { scale: 1; transition: scale var(--db-moderato) var(--db-spiccato); }
+  .ot-picks[data-variant="register"] > label::before { inset-inline-start: calc(-1 * (var(--ot-picks-out) + var(--ot-picks-cross) / 2)); top: calc(-1 * (var(--ot-picks-out) + var(--ot-picks-cross) / 2)); }
+  .ot-picks[data-variant="register"] > label::after { inset-inline-end: calc(-1 * (var(--ot-picks-out) + var(--ot-picks-cross) / 2)); bottom: calc(-1 * (var(--ot-picks-out) + var(--ot-picks-cross) / 2)); }
+  .ot-picks[data-variant="register"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::before,
+  .ot-picks[data-variant="register"] > label:is(:hover, [data-force~="hover"]):not(:has(input:checked, input:disabled))::after { scale: 1; transition: scale var(--ot-moderato) var(--ot-spiccato); }
   /* Until script has measured, the chosen pick's own pair stands in, inked. */
-  .db-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::before,
-  .db-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::after { --db-picks-ink: var(--db-accent); scale: 1; }
-  .db-picks-origin { position: absolute; top: 0; left: 0; width: 0; height: 0; }
-  .db-picks-cross {
-    top: 0; left: 0; rotate: var(--db-picks-turn, 0deg);
-    translate: calc(var(--db-picks-x0, 0px) - 50%) calc(var(--db-picks-y0, 0px) - 50%);
+  .ot-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::before,
+  .ot-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::after { --ot-picks-ink: var(--ot-accent); scale: 1; }
+  .ot-picks-origin { position: absolute; top: 0; left: 0; width: 0; height: 0; }
+  .ot-picks-cross {
+    top: 0; left: 0; rotate: var(--ot-picks-turn, 0deg);
+    translate: calc(var(--ot-picks-x0, 0px) - 50%) calc(var(--ot-picks-y0, 0px) - 50%);
   }
-  .db-picks-cross[data-corner="end"] { translate: calc(var(--db-picks-x1, 0px) - 50%) calc(var(--db-picks-y1, 0px) - 50%); }
-  .db-picks:is(:not([data-placed]), :not(:has(input:checked))) > .db-picks-cross { opacity: 0; }
-  .db-picks[data-variant="register"][data-ready]:not([data-still]) > .db-picks-cross { transition: translate var(--db-moderato) var(--db-breath), rotate var(--db-moderato) var(--db-breath), opacity var(--db-allegro); }
-  .db-picks[data-variant="register"][data-ready]:not([data-still]) > .db-picks-cross[data-corner="end"] { transition-delay: calc(var(--db-arpeggio) * 2); }
+  .ot-picks-cross[data-corner="end"] { translate: calc(var(--ot-picks-x1, 0px) - 50%) calc(var(--ot-picks-y1, 0px) - 50%); }
+  .ot-picks:is(:not([data-placed]), :not(:has(input:checked))) > .ot-picks-cross { opacity: 0; }
+  .ot-picks[data-variant="register"][data-ready]:not([data-still]) > .ot-picks-cross { transition: translate var(--ot-moderato) var(--ot-breath), rotate var(--ot-moderato) var(--ot-breath), opacity var(--ot-allegro); }
+  .ot-picks[data-variant="register"][data-ready]:not([data-still]) > .ot-picks-cross[data-corner="end"] { transition-delay: calc(var(--ot-arpeggio) * 2); }
 
   @media (forced-colors: active) {
-    .db-picks > label:is(:has(input:focus-visible), [data-force~="focus"]) { outline-color: Highlight; }
-    .db-picks[data-variant="pizzicato"] > label::before { box-shadow: none; border: var(--db-hairline) solid CanvasText; }
-    .db-picks-dot, .db-picks-string { forced-color-adjust: none; }
-    .db-picks-dot { background: Highlight; }
-    .db-picks-string { background: CanvasText; }
-    .db-picks[data-variant="rubric"] > label:has(input:checked) .db-pick-initial { forced-color-adjust: none; color: Highlight; }
-    .db-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .db-pick-title:not([data-caseless], [dir="ltr"])::before { forced-color-adjust: none; color: Highlight; }
-    .db-picks[data-variant="register"] > label::before, .db-picks[data-variant="register"] > label::after, .db-picks-cross { forced-color-adjust: none; }
-    .db-picks[data-variant="register"] { --db-picks-ink: Highlight; }
-    .db-picks[data-variant="watermark"] .db-pick-title[data-text]::before { content: none; } /* no faint ink to hold to the light */
-    .db-picks[data-variant="register"] > label::before, .db-picks[data-variant="register"] > label::after { --db-picks-ink: CanvasText; }
-    .db-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::before,
-    .db-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::after { --db-picks-ink: Highlight; }
+    .ot-picks > label:is(:has(input:focus-visible), [data-force~="focus"]) { outline-color: Highlight; }
+    .ot-picks[data-variant="pizzicato"] > label::before { box-shadow: none; border: var(--ot-hairline) solid CanvasText; }
+    .ot-picks-dot, .ot-picks-string { forced-color-adjust: none; }
+    .ot-picks-dot { background: Highlight; }
+    .ot-picks-string { background: CanvasText; }
+    .ot-picks[data-variant="rubric"] > label:has(input:checked) .ot-pick-initial { forced-color-adjust: none; color: Highlight; }
+    .ot-picks[data-variant="rubric"]:is([dir="rtl"], [dir="rtl"] *):not([dir="ltr"]) > label:not([dir="ltr"]):has(input:checked) .ot-pick-title:not([data-caseless], [dir="ltr"])::before { forced-color-adjust: none; color: Highlight; }
+    .ot-picks[data-variant="register"] > label::before, .ot-picks[data-variant="register"] > label::after, .ot-picks-cross { forced-color-adjust: none; }
+    .ot-picks[data-variant="register"] { --ot-picks-ink: Highlight; }
+    .ot-picks[data-variant="watermark"] .ot-pick-title[data-text]::before { content: none; } /* no faint ink to hold to the light */
+    .ot-picks[data-variant="register"] > label::before, .ot-picks[data-variant="register"] > label::after { --ot-picks-ink: CanvasText; }
+    .ot-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::before,
+    .ot-picks[data-variant="register"]:not([data-placed]) > label:has(input:checked)::after { --ot-picks-ink: Highlight; }
   }
 }

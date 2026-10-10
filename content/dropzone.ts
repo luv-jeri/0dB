@@ -4,7 +4,7 @@ export default defineComponent({
   name: "dropzone",
   title: "Dropzone",
   movement: "VI",
-  contract: "db-drop",
+  contract: "ot-drop",
   summary: "Files, dropped or chosen. The area is only its corner marks, and files carried over it close them in; the sentence is a real file input, and what you hold is listed as attachments.",
   underneath: "native",
   props: [

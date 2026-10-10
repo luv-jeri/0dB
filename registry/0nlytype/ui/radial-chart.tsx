@@ -19,8 +19,8 @@ type RingProps = Omit<React.ComponentProps<"span">, "children"> & {
 /**
  * One hairline ring with an arc drawn on it at stroke width, and a dot at one end of the arc: the calendar's ring
  * for what's to come, inked for what was had. Absolutely placed in a positioned box, square unless the box says
- * otherwise. The parent sets how much of a turn the ring spans (--db-ring-sweep, 1 by default) and where it
- * starts (--db-ring-start, 0deg is the top); --db-ring-inset steps it in, --db-ring-ink and --db-ring-head colour it.
+ * otherwise. The parent sets how much of a turn the ring spans (--ot-ring-sweep, 1 by default) and where it
+ * starts (--ot-ring-start, 0deg is the top); --ot-ring-inset steps it in, --ot-ring-ink and --ot-ring-head colour it.
  * The arc glides between values at andante. Decorative: the words that say its value live elsewhere.
  */
 function Ring({ value, from = 0, head = "end", className, style, ...props }: RingProps) {
@@ -29,11 +29,11 @@ function Ring({ value, from = 0, head = "end", className, style, ...props }: Rin
       data-slot="ring"
       data-head={head === "none" ? undefined : head}
       aria-hidden="true"
-      className={cn("db-ring", className)}
-      style={{ "--db-ring-p": share(value), "--db-ring-from": share(from), ...style } as React.CSSProperties}
+      className={cn("ot-ring", className)}
+      style={{ "--ot-ring-p": share(value), "--ot-ring-from": share(from), ...style } as React.CSSProperties}
       {...props}
     >
-      {head === "none" ? null : <i className="db-ring-head" />}
+      {head === "none" ? null : <i className="ot-ring-head" />}
     </span>
   )
 }
@@ -83,7 +83,7 @@ function RadialChart({ data, label, max = 100, unit, now = 0, format = figures.f
 
   // The ring nearest the pointer, by radius; the middle, where the number stands, keeps what's shown.
   function pick(e: React.PointerEvent) {
-    const rings = face.current?.querySelectorAll<HTMLElement>(".db-ring")
+    const rings = face.current?.querySelectorAll<HTMLElement>(".ot-ring")
     if (!rings?.length) return
     const box = rings[0].getBoundingClientRect()
     const d = Math.hypot(e.clientX - (box.left + box.width / 2), e.clientY - (box.top + box.height / 2))
@@ -105,14 +105,14 @@ function RadialChart({ data, label, max = 100, unit, now = 0, format = figures.f
       data-variant={variant}
       data-pointed={pointed || undefined}
       aria-label={label}
-      className={cn("db-radial", className)}
+      className={cn("ot-radial", className)}
       style={{ "--n": data.length, ...style } as React.CSSProperties}
       {...props}
     >
       <div
         ref={face}
         data-slot="radial-chart-face"
-        className="db-radial-face"
+        className="ot-radial-face"
         aria-hidden="true"
         onPointerMove={many ? pick : undefined}
         onPointerLeave={many ? () => !key.current?.contains(document.activeElement) && show(now, false) : undefined}
@@ -121,28 +121,28 @@ function RadialChart({ data, label, max = 100, unit, now = 0, format = figures.f
           <Ring key={d.label} value={d.value / top} data-shown={i === shown || undefined} style={{ "--i": i } as React.CSSProperties} />
         ))}
       </div>
-      <figcaption data-slot="radial-chart-read" className="db-radial-read">
-        <span ref={value} className="db-radial-value">
+      <figcaption data-slot="radial-chart-read" className="ot-radial-read">
+        <span ref={value} className="ot-radial-value">
           {at ? format(at.value) : ""}
         </span>
-        <span className="db-radial-words">
-          <span className="db-radial-name">{at?.label}</span>
-          <span className="db-radial-of">{of}</span>
+        <span className="ot-radial-words">
+          <span className="ot-radial-name">{at?.label}</span>
+          <span className="ot-radial-of">{of}</span>
         </span>
       </figcaption>
       {many ? (
         <ul
           ref={key}
           data-slot="radial-chart-key"
-          className="db-radial-key"
+          className="ot-radial-key"
           onPointerLeave={() => !key.current?.contains(document.activeElement) && show(now, false)}
           onBlur={(e) => !key.current?.contains(e.relatedTarget) && show(now, false)}
         >
           {data.map((d, i) => (
             <li key={d.label}>
               <button type="button" data-shown={i === shown || undefined} onPointerEnter={() => show(i)} onFocus={() => show(i)}>
-                <span>{d.label}</span> <span className="db-radial-key-value">{format(d.value)}</span>
-                <span className="db-sr"> {of}</span>
+                <span>{d.label}</span> <span className="ot-radial-key-value">{format(d.value)}</span>
+                <span className="ot-sr"> {of}</span>
               </button>
             </li>
           ))}

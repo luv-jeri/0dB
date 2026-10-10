@@ -135,11 +135,11 @@ function Dropzone({
       data-over={over ? "" : undefined}
       data-disabled={disabled ? "" : undefined}
       data-force={force}
-      className={cn("db-drop", className)}
+      className={cn("ot-drop", className)}
       {...props}
     >
       <label
-        className="db-drop-zone db-corners"
+        className="ot-drop-zone ot-corners"
         onDragEnter={(e) => {
           if (disabled || !e.dataTransfer.types.includes("Files")) return
           e.preventDefault()
@@ -168,7 +168,7 @@ function Dropzone({
         <input
           ref={input}
           type="file"
-          className="db-sr"
+          className="ot-sr"
           accept={accept}
           multiple={multiple}
           disabled={disabled}
@@ -179,24 +179,24 @@ function Dropzone({
           onChange={(e) => take(Array.from(e.currentTarget.files ?? []))}
         />
         {variant === "ghost" ? (
-          <span ref={ghost} className="db-drop-ghost" aria-hidden="true" data-none={count === 0 ? "" : undefined}>
+          <span ref={ghost} className="ot-drop-ghost" aria-hidden="true" data-none={count === 0 ? "" : undefined}>
             {String(count).padStart(2, "0")}
           </span>
         ) : null}
-        <span className="db-drop-words">
+        <span className="ot-drop-words">
           {prompt}, or{" "}
-          <span className="db-link" data-state={focused || force?.includes("focus") ? "open" : undefined}>
+          <span className="ot-link" data-state={focused || force?.includes("focus") ? "open" : undefined}>
             choose
           </span>
         </span>
         {hint ? (
-          <span id={`${id}-hint`} className="db-drop-hint">
+          <span id={`${id}-hint`} className="ot-drop-hint">
             {hint}
           </span>
         ) : null}
       </label>
       {list && (files.length || refused.length) ? (
-        <AttachmentList className="db-drop-list" aria-live="polite">
+        <AttachmentList className="ot-drop-list" aria-live="polite">
           {files.map((f) => (
             <Attachment key={`${f.name}${f.size}${f.lastModified}`} name={f.name} size={megabytes(f.size)} state="idle" onRemove={() => hold(files.filter((x) => x !== f))} />
           ))}

@@ -66,20 +66,20 @@ function Toast({ id = "", message, action, duration = 5000, leaving = false, n =
     <div
       data-slot="toast"
       data-leaving={leaving || undefined}
-      className={cn("db-toast", className)}
+      className={cn("ot-toast", className)}
       style={{ "--life": `${duration}ms`, ...style } as React.CSSProperties}
       onAnimationEnd={(e) => {
         if (leaving && e.target === e.currentTarget) remove(id)
       }}
       {...props}
     >
-      {variant === "footnote" ? <sup className="db-toast-n" aria-hidden="true">{n}</sup> : null}
+      {variant === "footnote" ? <sup className="ot-toast-n" aria-hidden="true">{n}</sup> : null}
       <p data-slot="toast-message">{message}</p>
       {/* The timer is a fermata held over the sentence's last note: its arc empties, and when it's gone so is the toast.
           The footnote and the dateline keep it, unseen, as their clock. */}
       <svg
         data-slot="toast-timer"
-        className="db-toast-timer"
+        className="ot-toast-timer"
         viewBox="0 0 22 14"
         aria-hidden="true"
         onAnimationEnd={() => dismiss(id)}
@@ -89,8 +89,8 @@ function Toast({ id = "", message, action, duration = 5000, leaving = false, n =
       </svg>
       {variant === "dateline" ? (
         <>
-          <span className="db-toast-rule" aria-hidden="true" />
-          <time className="db-toast-time" suppressHydrationWarning dateTime={new Date(at ?? 0).toISOString()}>{at === undefined ? "" : clock(at)}</time>
+          <span className="ot-toast-rule" aria-hidden="true" />
+          <time className="ot-toast-time" suppressHydrationWarning dateTime={new Date(at ?? 0).toISOString()}>{at === undefined ? "" : clock(at)}</time>
         </>
       ) : null}
       {action ? (
@@ -138,7 +138,7 @@ function Toaster({ className, variant = "fermata", ...props }: ToasterProps) {
       role="status"
       aria-live="polite"
       aria-label="Notifications"
-      className={cn("db-toaster", className)}
+      className={cn("ot-toaster", className)}
       {...props}
     >
       {list.map((item) => (

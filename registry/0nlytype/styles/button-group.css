@@ -1,56 +1,56 @@
 @layer components {
-  /* ── db-btn-group ── one pair of parentheses holds the set */
-  .db-btn-group { display: inline-flex; align-items: baseline; flex-wrap: wrap; color: var(--db-ink); }
-  .db-btn-group::before, .db-btn-group::after { font-weight: 200; font-size: 1.2em; line-height: 0; }
-  .db-btn-group::before { content: "(" / ""; margin-inline-end: 0.1em; }
-  .db-btn-group::after { content: ")" / ""; margin-inline-start: 0.1em; }
+  /* ── ot-btn-group ── one pair of parentheses holds the set */
+  .ot-btn-group { display: inline-flex; align-items: baseline; flex-wrap: wrap; color: var(--ot-ink); }
+  .ot-btn-group::before, .ot-btn-group::after { font-weight: 200; font-size: 1.2em; line-height: 0; }
+  .ot-btn-group::before { content: "(" / ""; margin-inline-end: 0.1em; }
+  .ot-btn-group::after { content: ")" / ""; margin-inline-start: 0.1em; }
   /* The set has its own brackets, so its Buttons drop theirs (and any redraw) whatever variant they carry. */
-  .db-btn-group > .db-btn[data-slot="button"] {
+  .ot-btn-group > .ot-btn[data-slot="button"] {
     padding: 0 0.6em 0.16em; animation: none;
-    background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--db-hairline);
+    background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--ot-hairline);
     background-origin: content-box; background-clip: content-box;
-    transition: background-size var(--db-moderato) var(--db-exhale), background-position 0s;
+    transition: background-size var(--ot-moderato) var(--ot-exhale), background-position 0s;
   }
-  .db-btn-group > .db-btn[data-slot="button"]::before,
-  .db-btn-group > .db-btn[data-slot="button"]::after { content: none; }
-  .db-btn-group > .db-btn[data-slot="button"] + .db-btn { border-inline-start: var(--db-hairline) solid var(--db-rule-strong); }
-  .db-btn-group > .db-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 0 100%; background-size: 100% var(--db-hairline); animation: none; }
+  .ot-btn-group > .ot-btn[data-slot="button"]::before,
+  .ot-btn-group > .ot-btn[data-slot="button"]::after { content: none; }
+  .ot-btn-group > .ot-btn[data-slot="button"] + .ot-btn { border-inline-start: var(--ot-hairline) solid var(--ot-rule-strong); }
+  .ot-btn-group > .ot-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 0 100%; background-size: 100% var(--ot-hairline); animation: none; }
   /* Right to left, the line enters from the other side. */
-  .db-btn-group:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"] { background-position: 0 100%; }
-  .db-btn-group:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 100% 100%; }
+  .ot-btn-group:is([dir="rtl"], [dir="rtl"] *) > .ot-btn[data-slot="button"] { background-position: 0 100%; }
+  .ot-btn-group:is([dir="rtl"], [dir="rtl"] *) > .ot-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 100% 100%; }
 
   /* column: after "Less is more." and Healthy habits, the actions stacked as a narrow ragged column at tight leading, no rules between.
      Pointing hangs the poster's short heavy dash in the margin beside the action; it grows out from the word and goes back into it. */
-  .db-btn-group[data-variant="column"] { display: inline-flex; flex-direction: column; align-items: flex-start; flex-wrap: nowrap; }
-  .db-btn-group:is([data-variant="column"], [data-variant="sentence"])::before, .db-btn-group:is([data-variant="column"], [data-variant="sentence"])::after { content: none; }
-  .db-btn-group[data-variant="column"] > .db-btn[data-slot="button"] { padding: 0.2em 0; line-height: 1.25; background: none; }
-  .db-btn-group[data-variant="column"] > .db-btn[data-slot="button"] + .db-btn { border: 0; }
-  .db-btn-group[data-variant="column"] > .db-btn[data-slot="button"]::before {
-    content: ""; position: absolute; inset-inline: auto calc(100% + 0.5em); inset-block: calc(50% - 0.05em) auto; font-size: 1em; inline-size: 0.9em; block-size: max(var(--db-stroke), 0.15em);
-    background: currentColor; scale: 0 1; transform-origin: 100% 50%; transition: scale var(--db-moderato) var(--db-exhale);
+  .ot-btn-group[data-variant="column"] { display: inline-flex; flex-direction: column; align-items: flex-start; flex-wrap: nowrap; }
+  .ot-btn-group:is([data-variant="column"], [data-variant="sentence"])::before, .ot-btn-group:is([data-variant="column"], [data-variant="sentence"])::after { content: none; }
+  .ot-btn-group[data-variant="column"] > .ot-btn[data-slot="button"] { padding: 0.2em 0; line-height: 1.25; background: none; }
+  .ot-btn-group[data-variant="column"] > .ot-btn[data-slot="button"] + .ot-btn { border: 0; }
+  .ot-btn-group[data-variant="column"] > .ot-btn[data-slot="button"]::before {
+    content: ""; position: absolute; inset-inline: auto calc(100% + 0.5em); inset-block: calc(50% - 0.05em) auto; font-size: 1em; inline-size: 0.9em; block-size: max(var(--ot-stroke), 0.15em);
+    background: currentColor; scale: 0 1; transform-origin: 100% 50%; transition: scale var(--ot-moderato) var(--ot-exhale);
   }
-  .db-btn-group[data-variant="column"]:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"]::before { transform-origin: 0 50%; }
-  .db-btn-group[data-variant="column"] > .db-btn[data-slot="button"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled)::before { scale: 1 1; }
-  .db-btn-group[data-variant="column"] > .db-btn[data-slot="button"]:active:not(:disabled)::before { scale: 1.4 1; transition-duration: var(--db-allegro); }
+  .ot-btn-group[data-variant="column"]:is([dir="rtl"], [dir="rtl"] *) > .ot-btn[data-slot="button"]::before { transform-origin: 0 50%; }
+  .ot-btn-group[data-variant="column"] > .ot-btn[data-slot="button"]:is(:hover, :focus-visible, [data-force~="hover"]):not(:disabled)::before { scale: 1 1; }
+  .ot-btn-group[data-variant="column"] > .ot-btn[data-slot="button"]:active:not(:disabled)::before { scale: 1.4 1; transition-duration: var(--ot-allegro); }
 
   /* sentence: the actions written as a list in running text (copy the link, email it, or export a PDF), the way prose names choices.
      Each action stands on a pencil hairline; pointing passes an ink line through it, the group's own motion. The group takes the text's size. */
-  .db-btn-group[data-variant="sentence"] { display: inline; color: inherit; }
-  .db-btn-group[data-variant="sentence"] > .db-btn[data-slot="button"] {
-    vertical-align: baseline; padding: 0 0 0.12em; font-size: inherit; line-height: inherit; letter-spacing: inherit; color: var(--db-ink);
+  .ot-btn-group[data-variant="sentence"] { display: inline; color: inherit; }
+  .ot-btn-group[data-variant="sentence"] > .ot-btn[data-slot="button"] {
+    vertical-align: baseline; padding: 0 0 0.12em; font-size: inherit; line-height: inherit; letter-spacing: inherit; color: var(--ot-ink);
     background:
-      linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--db-hairline),
-      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
+      linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% var(--ot-hairline),
+      linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0 100% / 100% var(--ot-hairline);
     background-origin: border-box; background-clip: border-box;
   }
-  .db-btn-group[data-variant="sentence"] > .db-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 0 100%, 0 100%; background-size: 100% var(--db-hairline), 100% var(--db-hairline); }
-  .db-btn-group[data-variant="sentence"]:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"] { background-position: 0 100%, 0 100%; }
-  .db-btn-group[data-variant="sentence"]:is([dir="rtl"], [dir="rtl"] *) > .db-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 100% 100%, 0 100%; }
-  .db-btn-group[data-variant="sentence"] > .db-btn[data-slot="button"]:disabled { background-image: none; }
-  .db-btn-group-sep { white-space: pre-wrap; }
+  .ot-btn-group[data-variant="sentence"] > .ot-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 0 100%, 0 100%; background-size: 100% var(--ot-hairline), 100% var(--ot-hairline); }
+  .ot-btn-group[data-variant="sentence"]:is([dir="rtl"], [dir="rtl"] *) > .ot-btn[data-slot="button"] { background-position: 0 100%, 0 100%; }
+  .ot-btn-group[data-variant="sentence"]:is([dir="rtl"], [dir="rtl"] *) > .ot-btn[data-slot="button"]:is(:hover, [data-force~="hover"]):not(:disabled) { background-position: 100% 100%, 0 100%; }
+  .ot-btn-group[data-variant="sentence"] > .ot-btn[data-slot="button"]:disabled { background-image: none; }
+  .ot-btn-group-sep { white-space: pre-wrap; }
 
   @media (forced-colors: active) {
-    .db-btn-group[data-variant="column"] > .db-btn[data-slot="button"]::before { forced-color-adjust: none; background: ButtonText; }
-    .db-btn-group[data-variant="sentence"] > .db-btn[data-slot="button"] { text-decoration: underline; text-decoration-thickness: 1px; }
+    .ot-btn-group[data-variant="column"] > .ot-btn[data-slot="button"]::before { forced-color-adjust: none; background: ButtonText; }
+    .ot-btn-group[data-variant="sentence"] > .ot-btn[data-slot="button"] { text-decoration: underline; text-decoration-thickness: 1px; }
   }
 }

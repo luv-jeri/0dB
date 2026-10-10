@@ -83,10 +83,10 @@ function Select({ label, variant = "underline", className, rootClassName, "data-
     before.current = null
     if (!from || !box.current || !word.current || still()) return
     const css = getComputedStyle(box.current)
-    const moderato = ms(css.getPropertyValue("--db-moderato"), 320)
-    const allegro = ms(css.getPropertyValue("--db-allegro"), 160)
-    const breath = css.getPropertyValue("--db-breath").trim() || "ease"
-    const spiccato = css.getPropertyValue("--db-spiccato").trim() || "ease-out"
+    const moderato = ms(css.getPropertyValue("--ot-moderato"), 320)
+    const allegro = ms(css.getPropertyValue("--ot-allegro"), 160)
+    const breath = css.getPropertyValue("--ot-breath").trim() || "ease"
+    const spiccato = css.getPropertyValue("--ot-spiccato").trim() || "ease-out"
     const width = box.current.offsetWidth
     if (width !== from.width) box.current.animate([{ width: `${from.width}px` }, { width: `${width}px` }], { duration: moderato, easing: breath })
 
@@ -169,21 +169,21 @@ function Select({ label, variant = "underline", className, rootClassName, "data-
   }
 
   return (
-    <Root data-slot="select" data-variant={drawn ? variant : undefined} data-force={force} className={cn("db-select", rootClassName)}>
+    <Root data-slot="select" data-variant={drawn ? variant : undefined} data-force={force} className={cn("ot-select", rootClassName)}>
       {label ? <span>{label}</span> : null}
-      <span ref={box} className="db-select-box">
+      <span ref={box} className="ot-select-box">
         <select ref={composedRef} data-slot="select-input" className={className} onChange={change} {...props}>
           {children}
         </select>
         {drawn ? (
-          <span ref={word} className="db-select-word" dir="auto" aria-hidden="true">
+          <span ref={word} className="ot-select-word" dir="auto" aria-hidden="true">
             {variant === "compose" ? graphemes(chosen).map((g, i) => <span key={i}>{g}</span>) : chosen}
           </span>
         ) : null}
-        {variant === "compose" ? <span ref={ghosts} className="db-select-ghosts" aria-hidden="true" /> : null}
+        {variant === "compose" ? <span ref={ghosts} className="ot-select-ghosts" aria-hidden="true" /> : null}
         {variant === "ruby" ? (
           // A shortcut for the pointer only: the select below holds the same choices for the keyboard and screen readers.
-          <span ref={ruby} className="db-select-ruby" aria-hidden="true">
+          <span ref={ruby} className="ot-select-ruby" aria-hidden="true">
             {choices
               .filter((c) => c.value !== current)
               .map((c) => (

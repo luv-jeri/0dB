@@ -44,7 +44,7 @@ function indent(html: string, code: string, variant: SourceProps["variant"], pas
     // gloss: a line that is only a comment becomes a note; its slashes are dropped where it stands in the margin.
     const note = variant === "gloss" ? src[n]?.match(/^\s*\/\/\s?(.*)$/) : null
     if (note)
-      return `<span class="sh__line" data-gloss><span class="sh__token--comment"><span class="db-source-slashes">// </span>${escape(note[1])}</span></span>`
+      return `<span class="sh__line" data-gloss><span class="sh__token--comment"><span class="ot-source-slashes">// </span>${escape(note[1])}</span></span>`
     let out = ""
     let i = 0
     while (i < line.length && drop > 0) {
@@ -66,7 +66,7 @@ function indent(html: string, code: string, variant: SourceProps["variant"], pas
   lines.forEach((l, n) => {
     const gloss = l.includes("data-gloss")
     const was = n > 0 && lines[n - 1].includes("data-gloss")
-    if (gloss && !was) joined += `<span class="db-source-gloss">`
+    if (gloss && !was) joined += `<span class="ot-source-gloss">`
     if (!gloss && was) joined += `</span>`
     joined += l
   })
@@ -91,10 +91,10 @@ function Source({ code, title, noCopy = false, variant = "system", passage, wrap
   React.useLayoutEffect(() => {
     const el = pre.current
     if (variant !== "gloss" || !el) return
-    const notes = [...el.querySelectorAll<HTMLElement>(".db-source-gloss")]
+    const notes = [...el.querySelectorAll<HTMLElement>(".ot-source-gloss")]
     const lay = () => {
       notes.forEach((n) => (n.style.translate = ""))
-      el.style.removeProperty("--db-source-tail")
+      el.style.removeProperty("--ot-source-tail")
       if (getComputedStyle(notes[0] ?? el).position !== "absolute") return
       let floor = -Infinity
       for (const n of notes) {
@@ -104,7 +104,7 @@ function Source({ code, title, noCopy = false, variant = "system", passage, wrap
         floor = r.bottom + push + 4
       }
       const over = floor - el.getBoundingClientRect().bottom
-      if (over > 0) el.style.setProperty("--db-source-tail", `${over}px`)
+      if (over > 0) el.style.setProperty("--ot-source-tail", `${over}px`)
     }
     lay()
     const ro = new ResizeObserver(lay)
@@ -113,18 +113,18 @@ function Source({ code, title, noCopy = false, variant = "system", passage, wrap
   }, [variant, html, copied])
 
   return (
-    <figure data-slot="source" data-variant={variant} data-wrap={wrap ? undefined : "off"} data-copied={copied || undefined} className={cn("db-source", className)} {...props}>
-      <div className="db-source-frame">
+    <figure data-slot="source" data-variant={variant} data-wrap={wrap ? undefined : "off"} data-copied={copied || undefined} className={cn("ot-source", className)} {...props}>
+      <div className="ot-source-frame">
         {title || language || !noCopy ? (
-          <figcaption data-slot="source-meta" className="db-source-meta">
-            {title ? <span className="db-source-name">{typeof title === "string" ? named(title) : title}</span> : null}
-            {language ? <span className="db-source-lang">{language}</span> : null}
+          <figcaption data-slot="source-meta" className="ot-source-meta">
+            {title ? <span className="ot-source-name">{typeof title === "string" ? named(title) : title}</span> : null}
+            {language ? <span className="ot-source-lang">{language}</span> : null}
             {noCopy ? null : <CopyButton text={code} onCopied={() => setCopied((c) => c + 1)} />}
           </figcaption>
         ) : null}
         {/* Code reads left to right on any page. Keyed by the copy count, so each copy replays the run down the bracket. */}
         {/* Unwrapped, the lines scroll inside <code> while the numbers and the bracket stay on the <pre>; the scroller takes focus, so the arrows scroll it. */}
-        <pre ref={pre} key={copied} className="db-source-code" dir="ltr" tabIndex={wrap ? 0 : undefined} data-lines={text.split("\n").length}>
+        <pre ref={pre} key={copied} className="ot-source-code" dir="ltr" tabIndex={wrap ? 0 : undefined} data-lines={text.split("\n").length}>
           <code tabIndex={wrap ? undefined : 0} dangerouslySetInnerHTML={{ __html: html }} />
         </pre>
       </div>
@@ -147,7 +147,7 @@ function named(title: string) {
             {part}
           </React.Fragment>
         ))}
-      {cut < title.length ? <span className="db-source-ext">{title.slice(cut)}</span> : null}
+      {cut < title.length ? <span className="ot-source-ext">{title.slice(cut)}</span> : null}
     </>
   )
 }
@@ -175,7 +175,7 @@ function CopyButton({ text, onCopied, variant = "quiet", className, ...props }: 
     <Button
       variant={variant}
       data-slot="source-copy"
-      className={cn("db-source-copy", className)}
+      className={cn("ot-source-copy", className)}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(text)

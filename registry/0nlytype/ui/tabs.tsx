@@ -33,7 +33,7 @@ function Tabs({ className, variant = "line", orientation, dir, ref, ...props }: 
       data-slot="tabs"
       data-variant={variant}
       orientation={orientation ?? (variant === "open" ? "vertical" : "horizontal")}
-      className={cn("db-tabs-root", className)}
+      className={cn("ot-tabs-root", className)}
       {...props}
     />
   )
@@ -98,11 +98,11 @@ function TabsList({ className, children, ref, ...props }: React.ComponentProps<t
     <TabsPrimitive.List
       ref={composedRef}
       data-slot="tabs-list"
-      className={cn("db-tabs", className)}
+      className={cn("ot-tabs", className)}
       {...props}
     >
       {children}
-      <span data-slot="tabs-line" className="db-tabs-line" aria-hidden="true" />
+      <span data-slot="tabs-line" className="ot-tabs-line" aria-hidden="true" />
     </TabsPrimitive.List>
   )
 }
@@ -133,7 +133,7 @@ function TabsCount({ children, className, ...props }: Omit<React.ComponentProps<
     roll(el, () => setShown(text), "100%", +text > +shown ? 1 : -1)
   }, [text, shown])
   return (
-    <span data-slot="tabs-count" aria-hidden="true" className={cn("db-tabs-count", className)} {...props}>
+    <span data-slot="tabs-count" aria-hidden="true" className={cn("ot-tabs-count", className)} {...props}>
       <span ref={inner}>{shown}</span>
     </span>
   )

@@ -25,7 +25,7 @@ export function TopRow({ places, groups }: { places: Record<string, Place>; grou
     const order = Object.values(places).map((p) => p.name)
     const dir = order.indexOf(place.name) >= order.indexOf(last.current) ? 1 : -1
     last.current = place.name
-    el.animate([{ translate: `0 ${0.7 * dir}em`, opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: tempo("--db-moderato", el), easing: "cubic-bezier(.16,1,.3,1)" })
+    el.animate([{ translate: `0 ${0.7 * dir}em`, opacity: 0 }, { translate: "0 0", opacity: 1 }], { duration: tempo("--ot-moderato", el), easing: "cubic-bezier(.16,1,.3,1)" })
   }, [place.name, places])
 
   return (
@@ -38,7 +38,7 @@ export function TopRow({ places, groups }: { places: Record<string, Place>; grou
         <span className="bar-num">{place.num}</span> <span>{place.name}</span>
       </p>
       <div className="bar-end">
-        <a className="db-link db-report-entry bar-star" href="https://github.com/luv-jeri/0nlyType">Star on GitHub</a>
+        <a className="ot-link ot-report-entry bar-star" href="https://github.com/luv-jeri/0nlyType">Star on GitHub</a>
         {/* Its one rule travels with it: the row is too narrow for it on a phone, where the page asks instead. */}
         <style href="bar-star" precedence="default">{"@media (max-width: 700px) { .bar-star { display: none } }"}</style>
         <FeedbackLink />

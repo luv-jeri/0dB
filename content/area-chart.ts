@@ -4,7 +4,7 @@ export default defineComponent({
   name: "area-chart",
   title: "Area chart",
   movement: "X",
-  contract: "db-area-chart",
+  contract: "ot-area-chart",
   summary: "Volume as a barcode: no fill, only hairlines dropped from the line to the baseline at a close, even rhythm.",
   underneath: "hook",
   props: [

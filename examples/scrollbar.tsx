@@ -25,26 +25,26 @@ const passage = [
 /** Boxes that scroll, each with a rail as its last child: the ruler (its sections are the headings inside), the numeral and the leaves. */
 export default function Example() {
   return (
-    <div className="grid items-start gap-x-(--db-space-8) gap-y-(--db-space-7) md:grid-cols-2">
+    <div className="grid items-start gap-x-(--ot-space-8) gap-y-(--ot-space-7) md:grid-cols-2">
       <div className="relative h-56 overflow-auto md:col-span-2">
-        <div className="grid max-w-xl gap-[var(--db-space-4)] pe-[var(--db-space-6)]">
-          <h4 id="overture" className="db-label">Overture</h4>
+        <div className="grid max-w-xl gap-[var(--ot-space-4)] pe-[var(--ot-space-6)]">
+          <h4 id="overture" className="ot-label">Overture</h4>
           {lines.slice(0, 6).map((l) => <p key={l}>{l}</p>)}
-          <h4 id="notes" className="db-label">Notes</h4>
+          <h4 id="notes" className="ot-label">Notes</h4>
           {lines.slice(6, 12).map((l) => <p key={l}>{l}</p>)}
-          <h4 id="close" className="db-label">Close</h4>
+          <h4 id="close" className="ot-label">Close</h4>
           {lines.slice(12).map((l) => <p key={l}>{l}</p>)}
         </div>
         <Scrollbar sections={sections} />
       </div>
       <div className="relative h-56 overflow-auto" tabIndex={0} role="region" aria-label="The threshold, with the numeral rail">
-        <div className="grid gap-[var(--db-space-4)] pe-[var(--db-space-8)]">
+        <div className="grid gap-[var(--ot-space-4)] pe-[var(--ot-space-8)]">
           {passage.concat(passage).map((l, i) => <p key={i}>{l}</p>)}
         </div>
         <Scrollbar variant="numeral" />
       </div>
       <div className="relative h-56 overflow-auto" tabIndex={0} role="region" aria-label="The threshold, with the leaves rail">
-        <div className="grid gap-[var(--db-space-4)] pe-[var(--db-space-7)]">
+        <div className="grid gap-[var(--ot-space-4)] pe-[var(--ot-space-7)]">
           {passage.concat(passage, passage).map((l, i) => <p key={i}>{l}</p>)}
         </div>
         <Scrollbar variant="leaves" />
@@ -71,7 +71,7 @@ function Rail({ force, variant }: { force?: string; variant?: "numeral" }) {
 function Leaves({ label, times }: { label: string; times: number }) {
   return (
     <div className="relative h-40 w-56 overflow-auto" tabIndex={0} role="region" aria-label={label}>
-      <div className="grid gap-[var(--db-space-3)] pe-[var(--db-space-6)]">
+      <div className="grid gap-[var(--ot-space-3)] pe-[var(--ot-space-6)]">
         {Array.from({ length: times }, () => passage).flat().map((l, i) => <p key={i}>{l}</p>)}
       </div>
       <Scrollbar variant="leaves" />

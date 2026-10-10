@@ -83,15 +83,15 @@ export default function Example() {
   return (
     <div className="grid w-full gap-10">
       <div className="grid gap-3">
-        <span className="db-label">Pocket</span>
+        <span className="ot-label">Pocket</span>
         <Editor label="Editor" />
       </div>
       <div className="grid gap-3">
-        <span className="db-label">Leaders</span>
+        <span className="ot-label">Leaders</span>
         <Editor label="Editor, as contents" variant="leaders" />
       </div>
       <div className="grid gap-3">
-        <span className="db-label">Caption</span>
+        <span className="ot-label">Caption</span>
         <Editor label="Spring notes" variant="caption" />
       </div>
     </div>
@@ -125,24 +125,24 @@ export function States() {
       <State label="Caption, rest"><Words label="Spring notes" variant="caption" /></State>
       <State label="Caption, pointed at">
         {/* The caption follows focus, so its pointed look is pinned by hand. */}
-        <div className="db-menubar" data-variant="caption" style={{ width: "min(26rem, 80vw)" }}>
-          <button type="button" className="db-menubar-trigger" data-state="open">File</button>
-          <button type="button" className="db-menubar-trigger">Edit</button>
-          <button type="button" className="db-menubar-trigger">View</button>
-          <span className="db-menubar-caption" aria-hidden><span>File</span><span>Export</span><span>As PDF</span></span>
+        <div className="ot-menubar" data-variant="caption" style={{ width: "min(26rem, 80vw)" }}>
+          <button type="button" className="ot-menubar-trigger" data-state="open">File</button>
+          <button type="button" className="ot-menubar-trigger">Edit</button>
+          <button type="button" className="ot-menubar-trigger">View</button>
+          <span className="ot-menubar-caption" aria-hidden><span>File</span><span>Export</span><span>As PDF</span></span>
         </div>
       </State>
       <State label="Leaders, pointed at">
         <div style={{ width: "min(26rem, 80vw)" }}>
-          <div className="db-menubar">
-            <button type="button" className="db-menubar-trigger" data-state="open">File</button>
-            <button type="button" className="db-menubar-trigger">Edit</button>
-            <button type="button" className="db-menubar-trigger">View</button>
+          <div className="ot-menubar">
+            <button type="button" className="ot-menubar-trigger" data-state="open">File</button>
+            <button type="button" className="ot-menubar-trigger">Edit</button>
+            <button type="button" className="ot-menubar-trigger">View</button>
           </div>
-          <div className="db-pop db-menu" data-slot="menubar-content" data-variant="leaders" data-state="open" style={{ marginTop: -1.5, width: "max-content" }}>
-            <div className="db-menu-item">New note <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">N</kbd></span></div>
-            <div className="db-menu-item" data-force="hover">Open <span className="db-menu-keys" dir="ltr"><kbd className="db-kbd">⌘</kbd><kbd className="db-kbd">O</kbd></span></div>
-            <div className="db-menu-item db-menu-sub">Export</div>
+          <div className="ot-pop ot-menu" data-slot="menubar-content" data-variant="leaders" data-state="open" style={{ marginTop: -1.5, width: "max-content" }}>
+            <div className="ot-menu-item">New note <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">N</kbd></span></div>
+            <div className="ot-menu-item" data-force="hover">Open <span className="ot-menu-keys" dir="ltr"><kbd className="ot-kbd">⌘</kbd><kbd className="ot-kbd">O</kbd></span></div>
+            <div className="ot-menu-item ot-menu-sub">Export</div>
           </div>
         </div>
       </State>

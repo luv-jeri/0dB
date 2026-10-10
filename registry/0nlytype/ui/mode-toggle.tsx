@@ -7,7 +7,7 @@ import { cn } from "@/registry/0nlytype/lib/utils"
 type Mode = "day" | "nocturne"
 
 /** The three variants that are a real switch, each with the scene change it asks the page for (a View Transition type). */
-const SCENES = { stop: "db-dissolve", dimmer: "db-dim", noon: "db-fall" } as const
+const SCENES = { stop: "ot-dissolve", dimmer: "ot-dim", noon: "ot-fall" } as const
 
 type ModeToggleProps = Omit<React.ComponentProps<"button">, "children" | "onChange"> & {
   /**
@@ -63,7 +63,7 @@ function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChan
       aria-checked={scene ? now === "nocturne" : undefined}
       aria-pressed={scene ? undefined : now === "nocturne"}
       aria-label={label ?? "Night mode"}
-      className={cn("db-mode", className)}
+      className={cn("ot-mode", className)}
       onClick={(e) => {
         onClick?.(e)
         if (e.defaultPrevented) return
@@ -74,7 +74,7 @@ function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChan
       }}
       {...props}
     >
-      <span className="db-mode-art" aria-hidden="true">
+      <span className="ot-mode-art" aria-hidden="true">
         {variant === "stop" ? (
           <>
             <span data-for="day">Day</span>
@@ -84,35 +84,35 @@ function ModeToggle({ variant = "eclipse", mode, defaultMode = "day", onModeChan
           Array.from("Night", (letter, i) => <span key={i} style={{ "--i": i } as React.CSSProperties}>{letter}</span>)
         ) : variant === "noon" ? (
           <>
-            <span className="db-mode-initial"><span>N</span><span>M</span></span>oon
+            <span className="ot-mode-initial"><span>N</span><span>M</span></span>oon
           </>
         ) : variant === "words" ? (
-          <span className="db-mode-roll">
+          <span className="ot-mode-roll">
             <span>day</span>
             <span>night</span>
           </span>
         ) : variant === "sentence" ? (
           <>
             Read by{" "}
-            <span className="db-mode-state">
+            <span className="ot-mode-state">
               <span>light</span>
               <span>night</span>
             </span>
-            <span className="db-mode-stop" />
+            <span className="ot-mode-stop" />
           </>
         ) : variant === "knockout" ? (
           <>
-            <span className="db-mode-mid">mid</span>
-            <span className="db-mode-block">
+            <span className="ot-mode-mid">mid</span>
+            <span className="ot-mode-block">
               <span>day</span>
               <span>night</span>
             </span>
           </>
         ) : variant === "hour" ? (
-          <span className="db-mode-hour">
-            <span className="db-mode-digit"><span>1</span><span>0</span></span>
-            <span className="db-mode-digit"><span>2</span><span>0</span></span>
-            <span className="db-mode-min">:00</span>
+          <span className="ot-mode-hour">
+            <span className="ot-mode-digit"><span>1</span><span>0</span></span>
+            <span className="ot-mode-digit"><span>2</span><span>0</span></span>
+            <span className="ot-mode-min">:00</span>
           </span>
         ) : null}
       </span>

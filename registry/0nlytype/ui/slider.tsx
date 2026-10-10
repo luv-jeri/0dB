@@ -80,31 +80,31 @@ function Slider({
   }, [shape, value])
 
   return (
-    <div data-slot="slider" data-variant={shape} data-force={force} className={cn("db-ruler", className)} style={{ "--p": p } as React.CSSProperties}>
-      <label className={word ? "db-sr" : "db-label"} htmlFor={inputId}>
+    <div data-slot="slider" data-variant={shape} data-force={force} className={cn("ot-ruler", className)} style={{ "--p": p } as React.CSSProperties}>
+      <label className={word ? "ot-sr" : "ot-label"} htmlFor={inputId}>
         {label}
       </label>
       {shape === "dynamics" ? (
-        <output className="db-ruler-loud" htmlFor={inputId} style={{ "--chars": word?.length } as React.CSSProperties}>
+        <output className="ot-ruler-loud" htmlFor={inputId} style={{ "--chars": word?.length } as React.CSSProperties}>
           <span aria-hidden="true">{word}</span>{" "}
-          <span className="db-ruler-yours">
+          <span className="ot-ruler-yours">
             {`${value}${unit}`}
           </span>
         </output>
       ) : shape === "spread" ? (
-        <output className="db-ruler-yours db-ruler-corner" htmlFor={inputId}>
+        <output className="ot-ruler-yours ot-ruler-corner" htmlFor={inputId}>
           {`${value}${unit}`}
         </output>
       ) : (
-        <output ref={out} className="db-ruler-value" htmlFor={inputId}>
+        <output ref={out} className="ot-ruler-value" htmlFor={inputId}>
           <span ref={figure}>
             {`${value}${unit}`}
           </span>
         </output>
       )}
-      <div className="db-ruler-hand">
+      <div className="ot-ruler-hand">
         {shape === "spread" ? (
-          <span className="db-ruler-letters" aria-hidden="true">
+          <span className="ot-ruler-letters" aria-hidden="true">
             {[...(word ?? "")].map((l, i) => (
               <span key={i}>{l === " " ? " " : l}</span>
             ))}
@@ -126,10 +126,10 @@ function Slider({
           {...props}
         />
       </div>
-      <div className="db-ruler-scale" aria-hidden="true">
+      <div className="ot-ruler-scale" aria-hidden="true">
         {shape === "dynamics"
           ? dynamics.map((d, i) => (
-              <span key={d} className="db-term" style={{ "--n": i / 5 } as React.CSSProperties} data-on={Math.round(p * 5) === i || undefined}>
+              <span key={d} className="ot-term" style={{ "--n": i / 5 } as React.CSSProperties} data-on={Math.round(p * 5) === i || undefined}>
                 {d}
               </span>
             ))

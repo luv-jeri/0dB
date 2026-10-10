@@ -108,7 +108,7 @@ function Questionnaire({
       data-slot="questionnaire"
       noValidate
       data-variant={variant}
-      className={cn("db-quest", className)}
+      className={cn("ot-quest", className)}
       onSubmit={(e) => {
         e.preventDefault()
         if (done) return
@@ -118,26 +118,26 @@ function Questionnaire({
       }}
       {...props}
     >
-      <div data-slot="questionnaire-head" className="db-quest-head">
+      <div data-slot="questionnaire-head" className="ot-quest-head">
         <Fraction aria-hidden="true" count={n} total={total} />
         <progress max={total} value={n} aria-label={done ? `All ${total} answered` : `Question ${n} of ${total}`} />
       </div>
 
       {variant === "interview" && at > 0 ? (
-        <ol data-slot="questionnaire-log" className="db-quest-log">
+        <ol data-slot="questionnaire-log" className="ot-quest-log">
           {questions.slice(0, at).map((p, i) => {
             const a = answers[p.id]?.trim()
             return (
               <li key={p.id}>
-                <p id={`${base}-log-${p.id}`} className="db-quest-log-q">
-                  <span className="db-quest-hang" aria-hidden="true">Q</span>
+                <p id={`${base}-log-${p.id}`} className="ot-quest-log-q">
+                  <span className="ot-quest-hang" aria-hidden="true">Q</span>
                   {p.question}
                 </p>
-                <p className="db-quest-log-a">
-                  <span className="db-quest-hang" aria-hidden="true">A</span>
+                <p className="ot-quest-log-a">
+                  <span className="ot-quest-hang" aria-hidden="true">A</span>
                   <button type="button" aria-describedby={`${base}-log-${p.id}`} onClick={() => go(i, -1)}>
-                    {a ? <span className="db-yours">{a}</span> : "Skipped"}
-                    <span className="db-sr">, change</span>
+                    {a ? <span className="ot-yours">{a}</span> : "Skipped"}
+                    <span className="ot-sr">, change</span>
                   </button>
                 </p>
               </li>
@@ -152,10 +152,10 @@ function Questionnaire({
           ref={step}
           data-slot="questionnaire-step"
           data-arriving={turned ? "" : undefined}
-          className="db-quest-step"
+          className="ot-quest-step"
           style={{ "--from": dir * 3 } as React.CSSProperties}
         >
-          <p id={`${base}-${q.id}`} data-slot="questionnaire-question" className="db-quest-q">
+          <p id={`${base}-${q.id}`} data-slot="questionnaire-question" className="ot-quest-q">
             {q.question}
           </p>
           {q.options ? (
@@ -182,22 +182,22 @@ function Questionnaire({
       ) : null}
 
       {/* Always mounted, so the sentence is announced when it arrives. */}
-      <div data-slot="questionnaire-end" data-done={done ? "" : undefined} className="db-quest-step">
-        <div data-slot="questionnaire-said" className="db-quest-said" aria-live="polite">
+      <div data-slot="questionnaire-end" data-done={done ? "" : undefined} className="ot-quest-step">
+        <div data-slot="questionnaire-said" className="ot-quest-said" aria-live="polite">
           {said ? (
-            <p data-slot="questionnaire-entry" className="db-quest-entry">
-              <span className="db-quest-word db-yours">{said.word}</span>
-              <span className="db-quest-kind">{said.kind}</span>
+            <p data-slot="questionnaire-entry" className="ot-quest-entry">
+              <span className="ot-quest-word ot-yours">{said.word}</span>
+              <span className="ot-quest-kind">{said.kind}</span>
             </p>
           ) : null}
           {done ? (
-            <p data-slot="questionnaire-sentence" className="db-quest-sentence">
+            <p data-slot="questionnaire-sentence" className="ot-quest-sentence">
               {sentence(clean())
                 .split(" ")
                 .map((w, i) => (
                   <React.Fragment key={i}>
                     {i ? " " : null}
-                    <span className="db-yours" style={{ "--i": i } as React.CSSProperties}>
+                    <span className="ot-yours" style={{ "--i": i } as React.CSSProperties}>
                       {w}
                     </span>
                   </React.Fragment>
@@ -222,7 +222,7 @@ function Questionnaire({
       {missing ? <FieldError role="alert">{error}</FieldError> : null}
 
       {done ? null : (
-        <div data-slot="questionnaire-actions" className="db-quest-actions">
+        <div data-slot="questionnaire-actions" className="ot-quest-actions">
           {at > 0 ? (
             <Button variant="quiet" onClick={() => go(at - 1, -1)}>
               Back

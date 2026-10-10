@@ -4,7 +4,7 @@ export default defineComponent({
   name: "alert",
   title: "Alert",
   movement: "VII",
-  contract: "db-alert",
+  contract: "ot-alert",
   summary: "A double bar: in a score, the sign that something changes here.",
   underneath: "native",
   uses: ["button"],

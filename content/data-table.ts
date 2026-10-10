@@ -4,7 +4,7 @@ export default defineComponent({
   name: "data-table",
   title: "Data table",
   movement: "X",
-  contract: "db-data-table",
+  contract: "ot-data-table",
   summary: "Records you narrow with a sentence, sort by pressing a heading (the column turns ink and the rows glide), and page at a folio, or read on as the table ends in the rest of itself.",
   underneath: "native",
   props: [

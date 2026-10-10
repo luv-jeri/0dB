@@ -33,15 +33,15 @@ export default function Example() {
         {Object.keys(years).map((y) => <option key={y}>{y}</option>)}
       </Select>
       <div className="grid w-full gap-3">
-        <span className="db-label">Crop</span>
+        <span className="ot-label">Crop</span>
         <Year year={year} />
       </div>
       <div className="grid w-full gap-3">
-        <span className="db-label">Beside</span>
+        <span className="ot-label">Beside</span>
         <Year year={year} variant="beside" />
       </div>
       <div className="grid w-full gap-3">
-        <span className="db-label">Grid</span>
+        <span className="ot-label">Grid</span>
         <Year year={year} variant="grid" />
       </div>
     </div>

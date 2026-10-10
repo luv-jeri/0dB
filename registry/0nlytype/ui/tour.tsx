@@ -113,7 +113,7 @@ function TourContent({ className, children, labels, onKeyDown, ...props }: TourC
     const dot = svg.querySelector("circle")
     const margin = 20
     const lay = () => {
-      const space = getComputedStyle(d).getPropertyValue("--db-space-7").trim() // 3.75rem, as the tokens are written
+      const space = getComputedStyle(d).getPropertyValue("--ot-space-7").trim() // 3.75rem, as the tokens are written
       const gap = parseFloat(space) * (space.endsWith("rem") ? parseFloat(getComputedStyle(document.documentElement).fontSize) : 1) || 60
       const vw = d.clientWidth
       const vh = d.clientHeight
@@ -139,7 +139,7 @@ function TourContent({ className, children, labels, onKeyDown, ...props }: TourC
         line.setAttribute("y2", String(ty))
         dot.setAttribute("cx", String(px))
         dot.setAttribute("cy", String(py))
-        box.style.setProperty("--db-tour-tip", `${tx - x}px ${down ? 0 : ch}px`)
+        box.style.setProperty("--ot-tour-tip", `${tx - x}px ${down ? 0 : ch}px`)
       }
       box.style.left = `${Math.round(x)}px`
       box.style.top = `${Math.round(y)}px`
@@ -180,7 +180,7 @@ function TourContent({ className, children, labels, onKeyDown, ...props }: TourC
   return (
     <DialogSurface
       data-slot="tour-content"
-      className={cn("db-tour", className)}
+      className={cn("ot-tour", className)}
       onKeyDown={(e) => {
         onKeyDown?.(e)
         if (e.defaultPrevented || (e.key !== "ArrowRight" && e.key !== "ArrowLeft")) return
@@ -191,23 +191,23 @@ function TourContent({ className, children, labels, onKeyDown, ...props }: TourC
       }}
       {...props}
     >
-      <svg key={`lead-${at}`} ref={lead} className="db-tour-lead" aria-hidden="true" data-alone={step?.target ? undefined : ""}>
-        <line className="db-tour-line" pathLength={1} />
-        <circle className="db-tour-dot" r={3.5} />
+      <svg key={`lead-${at}`} ref={lead} className="ot-tour-lead" aria-hidden="true" data-alone={step?.target ? undefined : ""}>
+        <line className="ot-tour-line" pathLength={1} />
+        <circle className="ot-tour-dot" r={3.5} />
       </svg>
-      <div key={`callout-${at}`} ref={callout} data-slot="tour-callout" className="db-tour-callout">
-        <div className="db-tour-head">
-          <h2 id={titleId} className="db-tour-title">{step?.title}</h2>
-          <span id={countId} className="db-tour-count">
+      <div key={`callout-${at}`} ref={callout} data-slot="tour-callout" className="ot-tour-callout">
+        <div className="ot-tour-head">
+          <h2 id={titleId} className="ot-tour-title">{step?.title}</h2>
+          <span id={countId} className="ot-tour-count">
             <span aria-hidden="true">
               {two(at)}/{two(n)}
             </span>
-            <span className="db-sr">Step {at} of {n}</span>
+            <span className="ot-sr">Step {at} of {n}</span>
           </span>
         </div>
-        <p id={descriptionId} className="db-tour-text">{step?.children}</p>
-        <div className="db-tour-actions">
-          <button type="button" className="db-tour-end" onClick={() => setOpen(false)}>
+        <p id={descriptionId} className="ot-tour-text">{step?.children}</p>
+        <div className="ot-tour-actions">
+          <button type="button" className="ot-tour-end" onClick={() => setOpen(false)}>
             {end}
           </button>
           {at > 1 && (

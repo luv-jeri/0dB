@@ -190,13 +190,13 @@ function WordRelay({ children, words, index, defaultIndex = 0, onIndexChange, va
   }, [autoplay, paused, force, disabled, count])
 
   return (
-    <span ref={ref} className="db-relay-frame" data-force={force?.split(" ").includes("reduced") ? "reduced" : undefined} dir={props.dir}>
+    <span ref={ref} className="ot-relay-frame" data-force={force?.split(" ").includes("reduced") ? "reduced" : undefined} dir={props.dir}>
       <button
         type="button"
         data-slot="word-relay"
         data-variant={variant === "sentence" ? undefined : variant}
         data-force={force}
-        className={cn("db-relay", className)}
+        className={cn("ot-relay", className)}
         onClick={(e) => {
           onClick?.(e)
           if (!e.defaultPrevented) {
@@ -223,14 +223,14 @@ function WordRelay({ children, words, index, defaultIndex = 0, onIndexChange, va
         }}
         {...props}
       >
-        {children ? <span className="db-relay-lead">{children} </span> : null}
-        <span className="db-relay-word" aria-hidden="true">
+        {children ? <span className="ot-relay-lead">{children} </span> : null}
+        <span className="ot-relay-word" aria-hidden="true">
           <span ref={word}>{words[shown]}</span>
         </span>
         {/* The chosen word for readers: part of the button's name, and read again when it changes. */}
-        <span className="db-sr" aria-live={announce ? "polite" : "off"}>{words[now]}</span>
+        <span className="ot-sr" aria-live={announce ? "polite" : "off"}>{words[now]}</span>
       </button>
-      {autoplay && <button type="button" className="db-relay-pause" disabled={props.disabled || words.length < 2} onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
+      {autoplay && <button type="button" className="ot-relay-pause" disabled={props.disabled || words.length < 2} onClick={() => setPaused((value) => !value)}>{paused ? playLabel : pauseLabel}</button>}
     </span>
   )
 }

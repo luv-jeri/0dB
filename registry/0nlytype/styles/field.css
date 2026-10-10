@@ -1,107 +1,107 @@
 @layer components {
-  /* ── db-field ── no box, only a baseline; your words arrive in italic */
-  .db-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; row-gap: var(--db-space-1); }
-  .db-field > .db-label { grid-column: 1; }
-  .db-field-count { grid-column: 2; direction: ltr; unicode-bidi: isolate; font-size: var(--db-pp); color: var(--db-pencil); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity var(--db-allegro); }
-  .db-field:focus-within .db-field-count, .db-field[data-force~="focus"] .db-field-count { opacity: 1; }
-  .db-field > .db-input { grid-column: 1 / -1; }
+  /* ── ot-field ── no box, only a baseline; your words arrive in italic */
+  .ot-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; row-gap: var(--ot-space-1); }
+  .ot-field > .ot-label { grid-column: 1; }
+  .ot-field-count { grid-column: 2; direction: ltr; unicode-bidi: isolate; font-size: var(--ot-pp); color: var(--ot-pencil); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity var(--ot-allegro); }
+  .ot-field:focus-within .ot-field-count, .ot-field[data-force~="focus"] .ot-field-count { opacity: 1; }
+  .ot-field > .ot-input { grid-column: 1 / -1; }
 
   /* The control itself. Works alone, or inside a Field. */
-  .db-input {
+  .ot-input {
     appearance: none; width: 100%; margin: 0; border: 0; border-radius: 0; outline: 0;
     padding: 0.3em 0 0.42em;
     background:
-      linear-gradient(var(--db-accent), var(--db-accent)) no-repeat var(--o, 0%) 100% / 0% var(--db-stroke),
-      linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 0 100% / 100% var(--db-hairline);
-    color: var(--db-ink);
-    font-family: var(--db-expression); font-style: italic; font-weight: 400;
-    font-size: calc(var(--db-mp) * var(--db-expression-scale)); line-height: 1.3;
-    transition: background-size var(--db-moderato) var(--db-exhale);
+      linear-gradient(var(--ot-accent), var(--ot-accent)) no-repeat var(--o, 0%) 100% / 0% var(--ot-stroke),
+      linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 0 100% / 100% var(--ot-hairline);
+    color: var(--ot-ink);
+    font-family: var(--ot-expression); font-style: italic; font-weight: 400;
+    font-size: calc(var(--ot-mp) * var(--ot-expression-scale)); line-height: 1.3;
+    transition: background-size var(--ot-moderato) var(--ot-exhale);
   }
   /* A search field keeps no native clear mark, a blue × in no scheme's palette; Escape still clears it. */
-  .db-input::-webkit-search-cancel-button, .db-input::-webkit-search-decoration { appearance: none; }
-  .db-input::placeholder { font-family: var(--db-voice); font-style: normal; font-size: var(--db-mp); color: var(--db-pencil); opacity: 1; transition: color var(--db-moderato); }
-  .db-input:focus::placeholder { color: color-mix(in srgb, var(--db-pencil) 55%, transparent); } /* it steps back when you arrive */
-  .db-input:focus,
-  .db-field[data-force~="focus"] > .db-input { background-size: 100% var(--db-stroke), 100% var(--db-hairline); }
-  .db-field[data-force~="focus"] { outline: 0; }
-  .db-input[aria-invalid="true"] { background-image: linear-gradient(var(--db-signal), var(--db-signal)), linear-gradient(var(--db-signal), var(--db-signal)); }
-  .db-input:disabled {
-    color: var(--db-pencil); cursor: not-allowed;
-    background-image: none, repeating-linear-gradient(90deg, var(--db-rule-strong) 0 2px, transparent 2px 6px);
+  .ot-input::-webkit-search-cancel-button, .ot-input::-webkit-search-decoration { appearance: none; }
+  .ot-input::placeholder { font-family: var(--ot-voice); font-style: normal; font-size: var(--ot-mp); color: var(--ot-pencil); opacity: 1; transition: color var(--ot-moderato); }
+  .ot-input:focus::placeholder { color: color-mix(in srgb, var(--ot-pencil) 55%, transparent); } /* it steps back when you arrive */
+  .ot-input:focus,
+  .ot-field[data-force~="focus"] > .ot-input { background-size: 100% var(--ot-stroke), 100% var(--ot-hairline); }
+  .ot-field[data-force~="focus"] { outline: 0; }
+  .ot-input[aria-invalid="true"] { background-image: linear-gradient(var(--ot-signal), var(--ot-signal)), linear-gradient(var(--ot-signal), var(--ot-signal)); }
+  .ot-input:disabled {
+    color: var(--ot-pencil); cursor: not-allowed;
+    background-image: none, repeating-linear-gradient(90deg, var(--ot-rule-strong) 0 2px, transparent 2px 6px);
   }
-  textarea.db-input {
+  textarea.ot-input {
     --lh: 2.25rem;
     min-height: calc(var(--lh) * 4); padding: 0; resize: vertical;
     field-sizing: content; scrollbar-width: none; /* it grows with what you write, so it has nothing to scroll (the browser bar stays away) */
     line-height: var(--lh);
     background:
-      linear-gradient(var(--db-accent), var(--db-accent)) no-repeat var(--o, 0%) 100% / 0% var(--db-stroke),
-      repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--db-rule-strong) calc(var(--lh) - 1px) var(--lh)) 0 var(--db-rule-shift, -0.3rem) / 100% var(--lh);
+      linear-gradient(var(--ot-accent), var(--ot-accent)) no-repeat var(--o, 0%) 100% / 0% var(--ot-stroke),
+      repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--ot-rule-strong) calc(var(--lh) - 1px) var(--lh)) 0 var(--ot-rule-shift, -0.3rem) / 100% var(--lh);
     background-attachment: local;
   }
-  textarea.db-input:focus,
-  .db-field[data-force~="focus"] > textarea.db-input { background-size: 100% var(--db-stroke), 100% var(--lh); }
-  textarea.db-input[aria-invalid="true"] {
+  textarea.ot-input:focus,
+  .ot-field[data-force~="focus"] > textarea.ot-input { background-size: 100% var(--ot-stroke), 100% var(--lh); }
+  textarea.ot-input[aria-invalid="true"] {
     background-image:
-      linear-gradient(var(--db-signal), var(--db-signal)),
-      repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--db-signal) calc(var(--lh) - 1px) var(--lh));
+      linear-gradient(var(--ot-signal), var(--ot-signal)),
+      repeating-linear-gradient(transparent 0 calc(var(--lh) - 1px), var(--ot-signal) calc(var(--lh) - 1px) var(--lh));
   }
 
-  .db-field-hint, .db-field-error { grid-column: 1 / -1; margin-top: var(--db-space-1); font-size: var(--db-pp); line-height: var(--db-pp-lh); }
-  .db-field-hint { color: var(--db-pencil); }
+  .ot-field-hint, .ot-field-error { grid-column: 1 / -1; margin-top: var(--ot-space-1); font-size: var(--ot-pp); line-height: var(--ot-pp-lh); }
+  .ot-field-hint { color: var(--ot-pencil); }
   /* An error is a callout, as Weingart set them: a pill on a leader line,
      hung from the baseline it's about. */
-  .db-field-error {
-    position: relative; justify-self: start; margin-top: var(--db-space-5);
+  .ot-field-error {
+    position: relative; justify-self: start; margin-top: var(--ot-space-5);
     padding: 0.3em 0.9em 0.36em; border-radius: 1em;
-    box-shadow: inset 0 0 0 var(--db-hairline) var(--db-signal); color: var(--db-signal);
-    animation: db-callout var(--db-moderato) var(--db-exhale) 220ms backwards;
+    box-shadow: inset 0 0 0 var(--ot-hairline) var(--ot-signal); color: var(--ot-signal);
+    animation: ot-callout var(--ot-moderato) var(--ot-exhale) 220ms backwards;
   }
-  .db-field-error::before { content: ""; position: absolute; inset-inline-start: 1.1em; bottom: 100%; width: var(--db-hairline); height: var(--db-space-5); background: var(--db-signal); transform-origin: top; animation: db-draw-y var(--db-moderato) var(--db-breath) 60ms backwards; }
-  .db-field-error::after { content: ""; position: absolute; inset-inline-start: calc(1.1em - 2px); bottom: calc(100% + var(--db-space-5) - 2.5px); width: 5px; height: 5px; border-radius: 50%; background: var(--db-signal); animation: db-land var(--db-moderato) var(--db-spiccato) backwards; }
-  @keyframes db-callout { from { color: transparent; box-shadow: inset 0 0 0 var(--db-hairline) transparent; } }
+  .ot-field-error::before { content: ""; position: absolute; inset-inline-start: 1.1em; bottom: 100%; width: var(--ot-hairline); height: var(--ot-space-5); background: var(--ot-signal); transform-origin: top; animation: ot-draw-y var(--ot-moderato) var(--ot-breath) 60ms backwards; }
+  .ot-field-error::after { content: ""; position: absolute; inset-inline-start: calc(1.1em - 2px); bottom: calc(100% + var(--ot-space-5) - 2.5px); width: 5px; height: 5px; border-radius: 50%; background: var(--ot-signal); animation: ot-land var(--ot-moderato) var(--ot-spiccato) backwards; }
+  @keyframes ot-callout { from { color: transparent; box-shadow: inset 0 0 0 var(--ot-hairline) transparent; } }
   /* ── overprint ── "It has to be design.": the label is a heavy condensed word, and your italic is printed over it,
      knocked out of it by a paper outline. Focus takes a breath in (the word condenses) and your words take the accent. */
-  .db-field[data-variant="overprint"] > .db-label {
+  .ot-field[data-variant="overprint"] > .ot-label {
     grid-row: 1; grid-column: 1 / -1; align-self: start; margin-bottom: 0.45em;
-    font-size: var(--db-f); line-height: 0.9; letter-spacing: var(--db-f-tr); font-weight: 800; font-stretch: 78%; color: var(--db-ink);
-    transition: font-stretch var(--db-moderato) var(--db-exhale), color var(--db-moderato);
+    font-size: var(--ot-f); line-height: 0.9; letter-spacing: var(--ot-f-tr); font-weight: 800; font-stretch: 78%; color: var(--ot-ink);
+    transition: font-stretch var(--ot-moderato) var(--ot-exhale), color var(--ot-moderato);
   }
-  .db-field[data-variant="overprint"] > .db-field-count { grid-row: 1; align-self: start; position: relative; }
-  .db-field[data-variant="overprint"] > .db-input {
+  .ot-field[data-variant="overprint"] > .ot-field-count { grid-row: 1; align-self: start; position: relative; }
+  .ot-field[data-variant="overprint"] > .ot-input {
     grid-row: 1; align-self: end; position: relative; padding-bottom: 0.22em; line-height: 1.2;
-    font-size: calc(var(--db-mf) * var(--db-expression-scale)); caret-color: var(--db-accent);
-    -webkit-text-stroke: 0.11em var(--db-paper); paint-order: stroke fill;
-    background-size: 0% var(--db-stroke), 100% var(--db-hairline); /* the accent is in your words, so the line stays a hairline */
-    transition: color var(--db-moderato);
+    font-size: calc(var(--ot-mf) * var(--ot-expression-scale)); caret-color: var(--ot-accent);
+    -webkit-text-stroke: 0.11em var(--ot-paper); paint-order: stroke fill;
+    background-size: 0% var(--ot-stroke), 100% var(--ot-hairline); /* the accent is in your words, so the line stays a hairline */
+    transition: color var(--ot-moderato);
   }
-  .db-field[data-variant="overprint"] > .db-input::placeholder { color: transparent; } /* the label is the prompt */
-  .db-field[data-variant="overprint"]:is(:focus-within, [data-force~="focus"]) > .db-label { font-stretch: 62%; }
-  .db-field[data-variant="overprint"]:is(:focus-within, [data-force~="focus"]) > .db-input { color: var(--db-accent); background-size: 0% var(--db-stroke), 100% var(--db-hairline); }
-  .db-field[data-variant="overprint"]:has(> .db-input:disabled) > .db-label { color: var(--db-pencil); }
+  .ot-field[data-variant="overprint"] > .ot-input::placeholder { color: transparent; } /* the label is the prompt */
+  .ot-field[data-variant="overprint"]:is(:focus-within, [data-force~="focus"]) > .ot-label { font-stretch: 62%; }
+  .ot-field[data-variant="overprint"]:is(:focus-within, [data-force~="focus"]) > .ot-input { color: var(--ot-accent); background-size: 0% var(--ot-stroke), 100% var(--ot-hairline); }
+  .ot-field[data-variant="overprint"]:has(> .ot-input:disabled) > .ot-label { color: var(--ot-pencil); }
 
   /* ── signature ── the printed form: a cross marks where to write, the label is a caption under the line.
      Arriving, the + turns to the × of "sign here" and inks; once you've written, it steps back. */
-  .db-field[data-variant="signature"] > .db-input { grid-row: 1; padding-inline-start: 0.7em; padding-bottom: 0.22em; line-height: 1.2; font-size: calc(var(--db-mf) * var(--db-expression-scale)); }
-  .db-field[data-variant="signature"] > .db-field-mark {
+  .ot-field[data-variant="signature"] > .ot-input { grid-row: 1; padding-inline-start: 0.7em; padding-bottom: 0.22em; line-height: 1.2; font-size: calc(var(--ot-mf) * var(--ot-expression-scale)); }
+  .ot-field[data-variant="signature"] > .ot-field-mark {
     grid-row: 1; grid-column: 1; align-self: end; justify-self: start; position: relative;
-    width: 0.4em; height: 0.4em; margin-bottom: 0.46em; margin-inline-start: 0.04em; font-size: var(--db-mf); color: var(--db-pencil); pointer-events: none;
+    width: 0.4em; height: 0.4em; margin-bottom: 0.46em; margin-inline-start: 0.04em; font-size: var(--ot-mf); color: var(--ot-pencil); pointer-events: none;
     background:
-      linear-gradient(currentColor, currentColor) no-repeat center / 100% var(--db-stroke),
-      linear-gradient(currentColor, currentColor) no-repeat center / var(--db-stroke) 100%;
-    transition: rotate var(--db-moderato) var(--db-spiccato), color var(--db-moderato);
+      linear-gradient(currentColor, currentColor) no-repeat center / 100% var(--ot-stroke),
+      linear-gradient(currentColor, currentColor) no-repeat center / var(--ot-stroke) 100%;
+    transition: rotate var(--ot-moderato) var(--ot-spiccato), color var(--ot-moderato);
   }
-  .db-field[data-variant="signature"]:is(:focus-within, [data-force~="focus"]) > .db-field-mark { rotate: 45deg; color: var(--db-ink); }
-  .db-field[data-variant="signature"][data-filled]:not(:focus-within, [data-force~="focus"]) > .db-field-mark { rotate: 45deg; }
-  .db-field[data-variant="signature"] > .db-label { grid-row: 2; align-self: start; }
-  .db-field[data-variant="signature"] > .db-field-count { grid-row: 2; align-self: start; }
+  .ot-field[data-variant="signature"]:is(:focus-within, [data-force~="focus"]) > .ot-field-mark { rotate: 45deg; color: var(--ot-ink); }
+  .ot-field[data-variant="signature"][data-filled]:not(:focus-within, [data-force~="focus"]) > .ot-field-mark { rotate: 45deg; }
+  .ot-field[data-variant="signature"] > .ot-label { grid-row: 2; align-self: start; }
+  .ot-field[data-variant="signature"] > .ot-field-count { grid-row: 2; align-self: start; }
   /* The caption holds the start under the line, so the callout hangs from the end. */
-  .db-field[data-variant="signature"] > .db-field-error { grid-row: 2; justify-self: end; }
-  .db-field[data-variant="signature"] > .db-field-error::before { inset-inline-start: auto; inset-inline-end: 1.1em; }
-  .db-field[data-variant="signature"] > .db-field-error::after { inset-inline-start: auto; inset-inline-end: calc(1.1em - 2px); }
+  .ot-field[data-variant="signature"] > .ot-field-error { grid-row: 2; justify-self: end; }
+  .ot-field[data-variant="signature"] > .ot-field-error::before { inset-inline-start: auto; inset-inline-end: 1.1em; }
+  .ot-field[data-variant="signature"] > .ot-field-error::after { inset-inline-start: auto; inset-inline-end: calc(1.1em - 2px); }
   /* Forced colours: the lines are drawn, so the field restates its tokens in system colours and keeps them. */
   @media (forced-colors: active) {
-    .db-field, .db-input { forced-color-adjust: none; color: CanvasText; --db-paper: Canvas; --db-ink: CanvasText; --db-graphite: CanvasText; --db-pencil: GrayText; --db-rule-strong: GrayText; --db-accent: Highlight; --db-signal: CanvasText; }
+    .ot-field, .ot-input { forced-color-adjust: none; color: CanvasText; --ot-paper: Canvas; --ot-ink: CanvasText; --ot-graphite: CanvasText; --ot-pencil: GrayText; --ot-rule-strong: GrayText; --ot-accent: Highlight; --ot-signal: CanvasText; }
   }
 }

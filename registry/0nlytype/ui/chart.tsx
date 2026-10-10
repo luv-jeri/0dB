@@ -138,16 +138,16 @@ function ChartFrame({
   const Root = (spark ? "span" : "figure") as "figure"
   const Read = (spark ? "span" : "figcaption") as "figcaption"
   const read = multi ? (
-    <Read data-slot="chart-read" className="db-chart-read" data-list="">
-      <span className="db-chart-at">{at.label}</span>
-      <span className="db-chart-list">
+    <Read data-slot="chart-read" className="ot-chart-read" data-list="">
+      <span className="ot-chart-at">{at.label}</span>
+      <span className="ot-chart-list">
         {said.map((v, k) => (
-          <span key={k} className="db-chart-row" data-series={k < list.length ? k : undefined} data-total={k === list.length || undefined}>
-            <span ref={(el) => void (values.current[k] = el)} className="db-chart-value">
+          <span key={k} className="ot-chart-row" data-series={k < list.length ? k : undefined} data-total={k === list.length || undefined}>
+            <span ref={(el) => void (values.current[k] = el)} className="ot-chart-value">
               {format(v)}
             </span>
-            <span className="db-chart-name">
-              <i className="db-chart-swatch" aria-hidden="true" />
+            <span className="ot-chart-name">
+              <i className="ot-chart-swatch" aria-hidden="true" />
               {k < list.length ? list[k].label : unit ? `${unit} in all` : "in all"}
             </span>
           </span>
@@ -155,8 +155,8 @@ function ChartFrame({
       </span>
     </Read>
   ) : (
-    <Read data-slot="chart-read" className="db-chart-read">
-      <span ref={(el) => void (values.current[0] = el)} className="db-chart-value">
+    <Read data-slot="chart-read" className="ot-chart-read">
+      <span ref={(el) => void (values.current[0] = el)} className="ot-chart-value">
         {format(said[0])}
       </span>
       {spark ? " " : null}
@@ -172,7 +172,7 @@ function ChartFrame({
       data-orientation={across ? "horizontal" : undefined}
       data-stacked={stack || undefined}
       data-moved={moved || undefined}
-      className={cn("db-chart", className)}
+      className={cn("ot-chart", className)}
       style={{ "--n": data.length, "--rows": rows, "--m": list.length, ...style } as React.CSSProperties}
       {...props}
     >
@@ -182,7 +182,7 @@ function ChartFrame({
         role="group"
         aria-label={label}
         data-slot="chart-plot"
-        className="db-chart-plot"
+        className="ot-chart-plot"
         onKeyDown={(e) => rove(e, "[data-slot=chart-bar]")}
         onPointerLeave={() => plot.current && !plot.current.contains(document.activeElement) && show(now)}
         onBlur={(e) => !plot.current?.contains(e.relatedTarget) && show(now)}
@@ -199,7 +199,7 @@ function ChartFrame({
               type="button"
               tabIndex={i === shown ? 0 : -1}
               data-slot="chart-bar"
-              className="db-chart-bar"
+              className="ot-chart-bar"
               style={{ "--v": Math.min(tops[i] / top, 1), "--s": hi > lo ? 0.2 + (0.8 * (tops[i] - lo)) / (hi - lo) : 1 } as React.CSSProperties}
               data-now={i === now || undefined}
               data-shown={i === shown || undefined}
@@ -214,7 +214,7 @@ function ChartFrame({
                 ? spans[i].map(([b, v], k) => (
                     <span
                       key={k}
-                      className="db-chart-mark"
+                      className="ot-chart-mark"
                       data-series={k}
                       data-top={k === list.length - 1 || undefined}
                       style={{ "--b": b, "--v": v, "--k": k } as React.CSSProperties}
@@ -231,14 +231,14 @@ function ChartFrame({
           {read}
         </>
       ) : (
-        <div data-slot="chart-axis" className="db-chart-axis" aria-hidden="true">
+        <div data-slot="chart-axis" className="ot-chart-axis" aria-hidden="true">
           {data.map((d, i) => (
             <span key={d.label} data-shown={i === shown || undefined}>{across ? d.label : d.label.charAt(0)}</span>
           ))}
         </div>
       )}
       {isotype ? (
-        <span data-slot="chart-key" className="db-chart-key">
+        <span data-slot="chart-key" className="ot-chart-key">
           <i aria-hidden="true" />
           One dot, {format(unitEach)}
           {unit ? ` ${unit}` : ""}

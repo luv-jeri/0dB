@@ -1,33 +1,33 @@
 @layer components {
-  /* ── db-contour ── a paragraph set to a contour: each line laid to its own width by pretext.
+  /* ── ot-contour ── a paragraph set to a contour: each line laid to its own width by pretext.
      The lines never re-wrap in the browser; their widths are already decided. With data-fade,
      the colour follows the shape: ink where it's loud, pencil where it's quiet. Each line but the last is spread
      to its width (word-spacing, then a little tracking, set by the hook), so the edge is a straight line. */
-  .db-contour { margin: 0; }
-  .db-contour-lines { display: block; }
-  .db-contour-lines > span { display: block; white-space: pre; }
-  .db-contour[data-shape="hairpin"] { text-align: center; }
-  .db-contour[data-fade] :is(.db-contour-lines, .db-contour-colon) > span {
+  .ot-contour { margin: 0; }
+  .ot-contour-lines { display: block; }
+  .ot-contour-lines > span { display: block; white-space: pre; }
+  .ot-contour[data-shape="hairpin"] { text-align: center; }
+  .ot-contour[data-fade] :is(.ot-contour-lines, .ot-contour-colon) > span {
     --loud: calc(1 - var(--t));
-    color: color-mix(in oklab, var(--db-ink) calc(var(--loud) * 100%), var(--db-pencil));
+    color: color-mix(in oklab, var(--ot-ink) calc(var(--loud) * 100%), var(--ot-pencil));
   }
-  .db-contour[data-fade][data-shape="crescendo"] .db-contour-lines > span { --loud: var(--t); }
-  .db-contour[data-fade][data-shape="hairpin"] .db-contour-lines > span { --loud: calc(1 - max(2 * var(--t) - 1, 1 - 2 * var(--t))); }
+  .ot-contour[data-fade][data-shape="crescendo"] .ot-contour-lines > span { --loud: var(--t); }
+  .ot-contour[data-fade][data-shape="hairpin"] .ot-contour-lines > span { --loud: calc(1 - max(2 * var(--t) - 1, 1 - 2 * var(--t))); }
   /* tale: the Mouse's Tale. Each line keeps its own size and swings about the middle on a slow wave; the hand
      across it moves the wave along (--phase), and the lines further down the tail follow it later. */
-  .db-contour[data-variant="tale"] { text-align: start; }
-  .db-contour[data-variant="tale"] .db-contour-lines > span {
+  .ot-contour[data-variant="tale"] { text-align: start; }
+  .ot-contour[data-variant="tale"] .ot-contour-lines > span {
     width: max-content;
     translate: calc(var(--c) + var(--a) * sin(var(--phase, 0rad) + var(--k))) 0;
-    transition: translate calc(var(--db-andante) + var(--i) * var(--db-arpeggio)) var(--db-exhale);
+    transition: translate calc(var(--ot-andante) + var(--i) * var(--ot-arpeggio)) var(--ot-exhale);
   }
-  :is([dir="rtl"], [dir="rtl"] *) .db-contour[data-variant="tale"] .db-contour-lines > span { translate: calc(-1 * (var(--c) + var(--a) * sin(var(--phase, 0rad) + var(--k)))) 0; }
+  :is([dir="rtl"], [dir="rtl"] *) .ot-contour[data-variant="tale"] .ot-contour-lines > span { translate: calc(-1 * (var(--c) + var(--a) * sin(var(--phase, 0rad) + var(--k)))) 0; }
   /* cola: a line to each phrase, a turnover hung in. Pointing at a phrase keeps it in ink and lets the others rest in pencil. */
-  .db-contour[data-variant="cola"] { text-align: start; }
-  .db-contour-colon { display: block; transition: color var(--db-moderato) var(--db-exhale); }
-  .db-contour-colon > span { display: block; white-space: pre; }
-  .db-contour-colon > [data-turn] { padding-inline-start: 1.5em; }
-  .db-contour[data-variant="cola"] .db-contour-lines:hover > .db-contour-colon:not(:hover) { color: var(--db-pencil); }
-  .db-contour[data-variant="cola"] .db-contour-lines:hover > .db-contour-colon:hover { color: var(--db-ink); }
-  .db-contour[data-variant="cola"] .db-contour-lines:hover > .db-contour-colon > span { color: inherit; }
+  .ot-contour[data-variant="cola"] { text-align: start; }
+  .ot-contour-colon { display: block; transition: color var(--ot-moderato) var(--ot-exhale); }
+  .ot-contour-colon > span { display: block; white-space: pre; }
+  .ot-contour-colon > [data-turn] { padding-inline-start: 1.5em; }
+  .ot-contour[data-variant="cola"] .ot-contour-lines:hover > .ot-contour-colon:not(:hover) { color: var(--ot-pencil); }
+  .ot-contour[data-variant="cola"] .ot-contour-lines:hover > .ot-contour-colon:hover { color: var(--ot-ink); }
+  .ot-contour[data-variant="cola"] .ot-contour-lines:hover > .ot-contour-colon > span { color: inherit; }
 }

@@ -31,12 +31,12 @@ function Spinner({ variant = "dots", size = "m", label, className, style, ...pro
       data-slot="spinner"
       data-variant={variant}
       data-size={size === "m" ? undefined : size}
-      className={cn("db-dots", className)}
+      className={cn("ot-dots", className)}
       style={word ? ({ "--n": Array.from(word).length, ...style } as React.CSSProperties) : style}
       {...(said ? { role: "status", "aria-live": "polite" as const } : { "aria-hidden": true })}
       {...props}
     >
-      <span className="db-dots-art" aria-hidden="true">
+      <span className="ot-dots-art" aria-hidden="true">
         {word
           ? Array.from(word).map((c, i) => (
               <span key={i} style={{ "--i": i } as React.CSSProperties}>
@@ -45,7 +45,7 @@ function Spinner({ variant = "dots", size = "m", label, className, style, ...pro
             ))
           : Array.from({ length: marks[variant as keyof typeof marks] }, (_, i) => <i key={i} />)}
       </span>
-      {said ? <span className="db-sr">{said}</span> : null}
+      {said ? <span className="ot-sr">{said}</span> : null}
     </span>
   )
 }

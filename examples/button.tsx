@@ -3,7 +3,7 @@ import { State } from "@/components/site/state"
 
 export default function Example() {
   return (
-    <div className="grid grid-cols-1 gap-(--db-space-8)">
+    <div className="grid grid-cols-1 gap-(--ot-space-8)">
       <div className="flex flex-wrap items-baseline gap-x-10 gap-y-6">
         <Button variant="statement">Start a project</Button>
         <Button variant="bracket">Save draft</Button>
@@ -16,7 +16,7 @@ export default function Example() {
         <Button variant="ink" size="l" className="max-[380px]:px-3">Browse the library</Button>
       </div>
       <div className="grid justify-items-start gap-y-6">
-        <Button variant="space" size="l" className="max-[380px]:text-(--db-p)">Watch this space.</Button>
+        <Button variant="space" size="l" className="max-[380px]:text-(--ot-p)">Watch this space.</Button>
         <Button variant="repeat">Play it again</Button>
       </div>
     </div>

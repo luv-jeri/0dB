@@ -50,13 +50,13 @@ function measureRests(scroller: HTMLElement) {
     const mins = prev === undefined || Number.isNaN(t) ? undefined : (t - prev) / 60000
     if (!Number.isNaN(t)) prev = t
     if (mins === undefined || mins < 0) {
-      n.style.removeProperty("--db-rest")
-      n.style.removeProperty("--db-lapse")
+      n.style.removeProperty("--ot-rest")
+      n.style.removeProperty("--ot-lapse")
       delete n.dataset.rest
       continue
     }
-    n.style.setProperty("--db-rest", Math.log2(1 + mins).toFixed(2))
-    n.style.setProperty("--db-lapse", lapseOf(mins).toFixed(3))
+    n.style.setProperty("--ot-rest", Math.log2(1 + mins).toFixed(2))
+    n.style.setProperty("--ot-lapse", lapseOf(mins).toFixed(3))
     if (mins >= LONG_REST) n.dataset.rest = restLabel(mins)
     else delete n.dataset.rest
   }
@@ -161,7 +161,7 @@ function Thread({ label, newLabel = "new", variant = "default", className, child
   }
 
   return (
-    <div data-slot="thread" data-variant={variant === "default" ? undefined : variant} className={cn("db-thread", className)} {...props}>
+    <div data-slot="thread" data-variant={variant === "default" ? undefined : variant} className={cn("ot-thread", className)} {...props}>
       <div
         ref={scroller}
         data-slot="thread-scroll"
@@ -169,23 +169,23 @@ function Thread({ label, newLabel = "new", variant = "default", className, child
         role="log"
         aria-label={label}
         tabIndex={0}
-        className="db-thread-scroll db-scroll"
+        className="ot-thread-scroll ot-scroll"
       >
         {children}
         <Scrollbar />
       </div>
       {variant === "running" && (
         // The log already says every day and time; the head repeats them for the eye.
-        <p ref={headEl} data-slot="thread-head" className="db-thread-head" aria-hidden="true" data-shown={head ? "" : undefined}>
+        <p ref={headEl} data-slot="thread-head" className="ot-thread-head" aria-hidden="true" data-shown={head ? "" : undefined}>
           <span ref={headDay}>{head?.day}</span>
           <time>{head?.time}</time>
         </p>
       )}
       {shown > 0 && (
-        <button type="button" data-slot="thread-latest" className="db-thread-latest" onClick={jump}>
+        <button type="button" data-slot="thread-latest" className="ot-thread-latest" onClick={jump}>
           <span aria-hidden="true">↓</span>
-          <span ref={counter} className="db-thread-new">{shown}</span> {newLabel}
-          <span className="db-sr"> messages: go to the latest</span>
+          <span ref={counter} className="ot-thread-new">{shown}</span> {newLabel}
+          <span className="ot-sr"> messages: go to the latest</span>
         </button>
       )}
     </div>

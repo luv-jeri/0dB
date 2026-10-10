@@ -16,7 +16,7 @@ type SkeletonProps = React.ComponentProps<"div"> & {
  * (and motion is welcome).
  */
 function Skeleton({ variant = "baseline", className, ...props }: SkeletonProps) {
-  return <div data-slot="skeleton" data-variant={variant} aria-hidden="true" className={cn("db-skeleton", className)} {...props} />
+  return <div data-slot="skeleton" data-variant={variant} aria-hidden="true" className={cn("ot-skeleton", className)} {...props} />
 }
 
 type SkeletonLineProps = React.ComponentProps<"i"> & {
@@ -44,7 +44,7 @@ function SkeletonRing({ size, className, style, ...props }: React.ComponentProps
   return (
     <span
       data-slot="skeleton-ring"
-      className={cn("db-skeleton-ring", className)}
+      className={cn("ot-skeleton-ring", className)}
       style={{ "--s": size, ...style } as React.CSSProperties}
       {...props}
     />

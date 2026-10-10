@@ -4,7 +4,7 @@ export default defineComponent({
   name: "scrollbar",
   title: "Scrollbar",
   movement: "IX",
-  contract: "db-scrollbar",
+  contract: "ot-scrollbar",
   summary: "A scrollbar as a ruler: a hairline, a mark where each section begins, and an ink thumb as long as the view.",
   underneath: "hook",
   props: [

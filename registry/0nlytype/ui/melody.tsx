@@ -267,7 +267,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
         const root = getComputedStyle(document.documentElement)
         const rem = parseFloat(root.fontSize)
         const dynamic = ["pp", "p", "mp", "mf", "f", "ff"]
-          .map((d) => [d, Math.abs(parseFloat(root.getPropertyValue(`--db-${d}`)) * rem - size)] as const)
+          .map((d) => [d, Math.abs(parseFloat(root.getPropertyValue(`--ot-${d}`)) * rem - size)] as const)
           .reduce((a, b) => (b[1] < a[1] ? b : a))[0]
         setLayout({ staves, marks, space, above, height: above + 4 * space + below, base, close, dynamic, rtl: style.direction === "rtl", width })
       }
@@ -294,7 +294,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
 
   /** Sound word `from` and the ones after it: CSS lights each in turn, one arpeggio step apart. */
   const play = (from: number) => {
-    const notes = ref.current?.querySelectorAll<HTMLElement>(".db-melody-note")
+    const notes = ref.current?.querySelectorAll<HTMLElement>(".ot-melody-note")
     if (!notes) return
     notes.forEach((n) => delete n.dataset.lit)
     void ref.current!.offsetWidth // so that the same word, sounded again, starts over
@@ -304,7 +304,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
       n.dataset.lit = ""
     })
   }
-  const hush = () => ref.current?.querySelectorAll<HTMLElement>(".db-melody-note").forEach((n) => delete n.dataset.lit)
+  const hush = () => ref.current?.querySelectorAll<HTMLElement>(".ot-melody-note").forEach((n) => delete n.dataset.lit)
   // Without motion the sounded words hold their colour, and let it go when you leave.
   const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches
 
@@ -314,7 +314,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
       data-slot="melody"
       tabIndex={0}
       aria-label={text}
-      className={cn("db-melody", className)}
+      className={cn("ot-melody", className)}
       style={layout ? ({ ...style, "--s": `${layout.space}px`, "--b": `${layout.base}px` } as React.CSSProperties) : style}
       {...props}
       data-variant={variant}
@@ -346,18 +346,18 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
       }}
     >
       {layout ? (
-        <div aria-hidden="true" className="db-melody-staves">
+        <div aria-hidden="true" className="ot-melody-staves">
           {layout.staves.map((notes, r) => (
-            <div key={r} className="db-melody-stave" data-last={r === layout.staves.length - 1 || undefined} style={{ blockSize: layout.height }}>
-              <i className="db-melody-staff" style={{ insetBlockStart: layout.above, inlineSize: r === layout.staves.length - 1 ? layout.close : undefined }} />
-              <svg className="db-melody-marks">
+            <div key={r} className="ot-melody-stave" data-last={r === layout.staves.length - 1 || undefined} style={{ blockSize: layout.height }}>
+              <i className="ot-melody-staff" style={{ insetBlockStart: layout.above, inlineSize: r === layout.staves.length - 1 ? layout.close : undefined }} />
+              <svg className="ot-melody-marks">
                 {/* In right-to-left the notes run from the right: the strokes are mirrored to follow them; the dynamic is set, not mirrored, and starts from its word's start either way. */}
                 <g transform={layout.rtl ? `translate(${layout.width} ${layout.above}) scale(-1 1)` : `translate(0 ${layout.above})`}>
                   <path d={layout.marks[r].slurs + layout.marks[r].hold} />
                 </g>
                 {layout.marks[r].dynamic ? (
                   <text
-                    className="db-melody-dynamic"
+                    className="ot-melody-dynamic"
                     x={layout.rtl ? layout.width - layout.marks[r].dynamic.x : layout.marks[r].dynamic.x}
                     y={layout.above + layout.marks[r].dynamic.y}
                   >
@@ -367,14 +367,14 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
               </svg>
               {variant === "cutaway"
                 ? notes.map((n) => (
-                    <i key={n.i} className="db-melody-bit" style={{ insetInlineStart: n.x, inlineSize: n.w, insetBlockStart: layout.above }} />
+                    <i key={n.i} className="ot-melody-bit" style={{ insetInlineStart: n.x, inlineSize: n.w, insetBlockStart: layout.above }} />
                   ))
                 : null}
               {heads
                 ? notes.map((n) => (
                     <i
                       key={n.i}
-                      className="db-melody-head"
+                      className="ot-melody-head"
                       data-sung={pos.at > n.i || undefined}
                       data-here={pos.at === n.i || undefined}
                       style={{ insetInlineStart: n.x + n.w / 2, insetBlockStart: layout.above + (4 - n.step / 2) * layout.space, "--k": Math.abs(n.i - Math.max(0, pos.from)) } as React.CSSProperties}
@@ -385,7 +385,7 @@ function Melody({ children: text, contour, variant = "stave", className, style, 
               {notes.map((n) => (
                 <span
                   key={n.i}
-                  className="db-melody-note"
+                  className="ot-melody-note"
                   data-hold={r === layout.staves.length - 1 && n === notes[notes.length - 1] ? "" : undefined}
                   style={{ insetInlineStart: n.x, insetBlockStart: layout.above + (n.y ?? (4 - n.step / 2) * layout.space) }}
                   onPointerEnter={() => (heads ? move(n.i) : play(n.i))}

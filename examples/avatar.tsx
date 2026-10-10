@@ -5,7 +5,7 @@ export default function Example() {
   return (
     <div className="grid w-full grid-cols-[minmax(0,1fr)] justify-items-start gap-12">
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Ring</span>
+        <span className="ot-label">Ring</span>
         <div className="flex flex-wrap items-center gap-10">
           <Avatar size="s" alt="Ada Lindqvist" />
           <Avatar alt="Jonas Berg" here />
@@ -19,7 +19,7 @@ export default function Example() {
         </div>
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Monogram</span>
+        <span className="ot-label">Monogram</span>
         <div className="flex flex-wrap items-center gap-10">
           <Avatar variant="monogram" size="l" alt="Ada Lindqvist" here />
           <Avatar variant="monogram" size="l" alt="Wolfgang Weingart" />
@@ -31,7 +31,7 @@ export default function Example() {
         </div>
       </div>
       <div className="grid justify-items-start gap-3">
-        <span className="db-label">Fit</span>
+        <span className="ot-label">Fit</span>
         <AvatarGroup aria-label="Five people in the studio today">
           <Avatar variant="fit" size="l" alt="Ada Lindqvist" here />
           <Avatar variant="fit" size="l" alt="Jonas Berg" />

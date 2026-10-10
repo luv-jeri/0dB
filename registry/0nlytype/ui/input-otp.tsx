@@ -65,12 +65,12 @@ function InputOTP({
   const slots: React.ReactNode[] = []
   const lyric = variant === "lyric"
   for (let i = 0; i < length; i++) {
-    if (i > 0 && group > 0 && i % group === 0) slots.push(<span key={`sep${i}`} className="db-code-sep" aria-hidden="true" />)
+    if (i > 0 && group > 0 && i % group === 0) slots.push(<span key={`sep${i}`} className="ot-code-sep" aria-hidden="true" />)
     slots.push(
-      <span key={i} data-slot="input-otp-slot" className="db-code-slot" style={{ "--i": i } as React.CSSProperties} data-here={i === here ? "" : undefined} aria-hidden="true">
+      <span key={i} data-slot="input-otp-slot" className="ot-code-slot" style={{ "--i": i } as React.CSSProperties} data-here={i === here ? "" : undefined} aria-hidden="true">
         {code[i] ? <span key={code[i]}>{code[i]}</span> : null}
         {lyric && code[i] ? (
-          <span key={`w${code[i]}`} className="db-code-word">
+          <span key={`w${code[i]}`} className="ot-code-word">
             {WORDS[+code[i]]}
             {i === length - 1 ? "." : group > 0 && (i + 1) % group === 0 ? "," : null}
           </span>
@@ -80,7 +80,7 @@ function InputOTP({
   }
 
   return (
-    <div data-slot="input-otp" data-variant={variant} data-force={force} data-state={full ? (invalid ? "wrong" : "done") : undefined} className={cn("db-code", className)}>
+    <div data-slot="input-otp" data-variant={variant} data-force={force} data-state={full ? (invalid ? "wrong" : "done") : undefined} className={cn("ot-code", className)}>
       <input
         inputMode="numeric"
         autoComplete="one-time-code"

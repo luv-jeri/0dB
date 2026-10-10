@@ -29,19 +29,19 @@ function Kbd({ className, pressed, variant, children, ...props }: KbdProps) {
     const [mods, key] = chord(children)
     body = mods.length ? (
       <>
-        <span className="db-kbd-mods">
+        <span className="ot-kbd-mods">
           {mods.map((m, i) => (
             <span key={i}>{m}</span>
           ))}
         </span>
-        <span className="db-kbd-key">{key}</span>
+        <span className="ot-kbd-key">{key}</span>
       </>
     ) : (
-      <span className="db-kbd-key">{key}</span>
+      <span className="ot-kbd-key">{key}</span>
     )
   }
   return (
-    <kbd data-slot="kbd" data-variant={variant} data-pressed={pressed || undefined} className={cn("db-kbd", className)} {...props}>
+    <kbd data-slot="kbd" data-variant={variant} data-pressed={pressed || undefined} className={cn("ot-kbd", className)} {...props}>
       {body}
     </kbd>
   )

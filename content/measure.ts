@@ -4,7 +4,7 @@ export default defineComponent({
   name: "measure",
   title: "Measure",
   movement: "II",
-  contract: "db-measure",
+  contract: "ot-measure",
   summary: "A paragraph whose measure you set by dragging its right edge, with the number of characters a line and a verdict on it.",
   underneath: "hook",
   props: [

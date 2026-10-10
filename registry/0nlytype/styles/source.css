@@ -1,73 +1,73 @@
 @layer components {
-  /* ── db-source ── code, set as type. Weight is the only highlighting: the language's words
+  /* ── ot-source ── code, set as type. Weight is the only highlighting: the language's words
      are ink at 500, signs recede to pencil, and what someone wrote (strings, JSX text, comments)
      is the expression italic. A bracket joins the lines like a system in a score, the line
      numbers stand before it like bar numbers, and wide, the file's name stands in the margin
      the way a score names its instrument. Copying runs the accent down the bracket once. */
-  .db-source { --db-source-gutter: 2.75rem; --db-source-lh: 1.625rem; container-type: inline-size; margin: 0; min-width: 0; }
-  .db-source-frame { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--db-space-3); }
+  .ot-source { --ot-source-gutter: 2.75rem; --ot-source-lh: 1.625rem; container-type: inline-size; margin: 0; min-width: 0; }
+  .ot-source-frame { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--ot-space-3); }
 
-  .db-source-meta {
-    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--db-space-4); row-gap: var(--db-space-1);
-    padding-inline-start: var(--db-source-gutter);
-    font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); color: var(--db-graphite);
+  .ot-source-meta {
+    display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--ot-space-4); row-gap: var(--ot-space-1);
+    padding-inline-start: var(--ot-source-gutter);
+    font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); color: var(--ot-graphite);
   }
-  .db-source-name { min-width: 0; overflow-wrap: anywhere; }
-  .db-source-ext { color: var(--db-pencil); }
+  .ot-source-name { min-width: 0; overflow-wrap: anywhere; }
+  .ot-source-ext { color: var(--ot-pencil); }
   /* The language, marked like a score's key: small capitals in the pencil, under the name. */
-  .db-source-lang { font-variant-caps: all-small-caps; letter-spacing: 0.08em; color: var(--db-pencil); }
-  .db-source-copy { margin-inline-start: auto; }
-  .db-source-meta > .db-source-copy { font-size: inherit; }
-  .db-source-copy > span { display: inline-block; }
+  .ot-source-lang { font-variant-caps: all-small-caps; letter-spacing: 0.08em; color: var(--ot-pencil); }
+  .ot-source-copy { margin-inline-start: auto; }
+  .ot-source-meta > .ot-source-copy { font-size: inherit; }
+  .ot-source-copy > span { display: inline-block; }
 
   /* Wide enough for a margin: the name and Copy stand to the left of the lines. */
   @container (min-width: 34rem) {
-    .db-source-frame:has(> .db-source-meta) { grid-template-columns: 8.5rem minmax(0, 1fr); column-gap: var(--db-space-3); }
-    .db-source-meta { flex-direction: column; align-items: flex-start; row-gap: var(--db-space-2); padding-inline-start: 0; padding-block-start: 0.4em; }
-    .db-source-copy { margin-inline-start: 0; }
+    .ot-source-frame:has(> .ot-source-meta) { grid-template-columns: 8.5rem minmax(0, 1fr); column-gap: var(--ot-space-3); }
+    .ot-source-meta { flex-direction: column; align-items: flex-start; row-gap: var(--ot-space-2); padding-inline-start: 0; padding-block-start: 0.4em; }
+    .ot-source-copy { margin-inline-start: 0; }
   }
 
-  .db-source-code {
-    position: relative; margin: 0; padding-block: 0.25rem; padding-inline-start: var(--db-source-gutter);
-    counter-reset: db-line; white-space: pre-wrap; overflow-wrap: anywhere;
-    font-family: var(--db-voice); font-stretch: 88%; font-size: 0.9375rem; line-height: var(--db-source-lh); letter-spacing: 0.005em;
-    font-variant-numeric: tabular-nums lining-nums; color: var(--db-graphite);
-    --sh-keyword: var(--db-ink); --sh-entity: var(--db-ink); --sh-class: var(--db-ink);
-    --sh-identifier: var(--db-graphite); --sh-property: var(--db-graphite);
-    --sh-string: var(--db-ink); --sh-jsxliterals: var(--db-ink);
-    --sh-sign: var(--db-pencil); --sh-comment: var(--db-pencil); --sh-space: inherit;
+  .ot-source-code {
+    position: relative; margin: 0; padding-block: 0.25rem; padding-inline-start: var(--ot-source-gutter);
+    counter-reset: ot-line; white-space: pre-wrap; overflow-wrap: anywhere;
+    font-family: var(--ot-voice); font-stretch: 88%; font-size: 0.9375rem; line-height: var(--ot-source-lh); letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums lining-nums; color: var(--ot-graphite);
+    --sh-keyword: var(--ot-ink); --sh-entity: var(--ot-ink); --sh-class: var(--ot-ink);
+    --sh-identifier: var(--ot-graphite); --sh-property: var(--ot-graphite);
+    --sh-string: var(--ot-ink); --sh-jsxliterals: var(--ot-ink);
+    --sh-sign: var(--ot-pencil); --sh-comment: var(--ot-pencil); --sh-space: inherit;
   }
-  .db-source-code:focus-visible { outline-offset: 6px; }
-  .db-source-code > code { display: block; font: inherit; }
+  .ot-source-code:focus-visible { outline-offset: 6px; }
+  .ot-source-code > code { display: block; font: inherit; }
 
   /* Each line hangs: indented by its depth, its turnovers a step further in. */
-  .db-source-code .sh__line {
-    position: relative; display: block; min-block-size: var(--db-source-lh);
+  .ot-source-code .sh__line {
+    position: relative; display: block; min-block-size: var(--ot-source-lh);
     padding-inline-start: calc(var(--i, 0) * 0.5em + 1.5em); text-indent: -1.5em;
   }
-  .db-source-code .sh__line::before {
-    counter-increment: db-line; content: counter(db-line) / "";
-    position: absolute; inset-block-start: 0.1em; inset-inline-start: calc(-1 * var(--db-source-gutter)); width: calc(var(--db-source-gutter) - 1.35rem);
-    text-align: end; text-indent: 0; font-size: 0.75em; font-stretch: 100%; color: var(--db-pencil); opacity: 0.6;
-    transition: opacity var(--db-allegro), color var(--db-allegro);
+  .ot-source-code .sh__line::before {
+    counter-increment: ot-line; content: counter(ot-line) / "";
+    position: absolute; inset-block-start: 0.1em; inset-inline-start: calc(-1 * var(--ot-source-gutter)); width: calc(var(--ot-source-gutter) - 1.35rem);
+    text-align: end; text-indent: 0; font-size: 0.75em; font-stretch: 100%; color: var(--ot-pencil); opacity: 0.6;
+    transition: opacity var(--ot-allegro), color var(--ot-allegro);
   }
-  .db-source-code .sh__line:hover::before { opacity: 1; color: var(--db-ink); }
-  .db-source-code[data-lines="1"] .sh__line::before { content: none; }
+  .ot-source-code .sh__line:hover::before { opacity: 1; color: var(--ot-ink); }
+  .ot-source-code[data-lines="1"] .sh__line::before { content: none; }
 
-  .db-source-code .sh__token--keyword { font-weight: 500; }
-  .db-source-code :is(.sh__token--string, .sh__token--jsxliterals, .sh__token--comment) {
-    font-family: var(--db-expression); font-style: italic; font-stretch: 100%; letter-spacing: 0;
-    font-size: calc(var(--db-expression-scale) * 1em); line-height: 1;
+  .ot-source-code .sh__token--keyword { font-weight: 500; }
+  .ot-source-code :is(.sh__token--string, .sh__token--jsxliterals, .sh__token--comment) {
+    font-family: var(--ot-expression); font-style: italic; font-stretch: 100%; letter-spacing: 0;
+    font-size: calc(var(--ot-expression-scale) * 1em); line-height: 1;
   }
 
   /* The bracket: a hairline joining the lines, hooked at both ends. Copying runs the accent down it. */
-  .db-source-code::before, .db-source-code::after {
-    content: ""; position: absolute; inset-block: 0.55rem; inset-inline-start: calc(var(--db-source-gutter) - 0.9rem); width: 0.3rem;
-    border: var(--db-hairline) solid var(--db-rule-strong); border-inline-end: 0; pointer-events: none;
+  .ot-source-code::before, .ot-source-code::after {
+    content: ""; position: absolute; inset-block: 0.55rem; inset-inline-start: calc(var(--ot-source-gutter) - 0.9rem); width: 0.3rem;
+    border: var(--ot-hairline) solid var(--ot-rule-strong); border-inline-end: 0; pointer-events: none;
   }
-  .db-source-code::after { border-color: var(--db-accent); border-inline-start-width: var(--db-stroke); opacity: 0; }
-  .db-source[data-copied] .db-source-code::after { animation: db-source-run var(--db-adagio) var(--db-breath) both; }
-  @keyframes db-source-run {
+  .ot-source-code::after { border-color: var(--ot-accent); border-inline-start-width: var(--ot-stroke); opacity: 0; }
+  .ot-source[data-copied] .ot-source-code::after { animation: ot-source-run var(--ot-adagio) var(--ot-breath) both; }
+  @keyframes ot-source-run {
     0%   { opacity: 1; clip-path: inset(0 0 100% 0); }
     55%  { opacity: 1; clip-path: inset(0 0 0 0); }
     100% { opacity: 0; clip-path: inset(0 0 0 0); }
@@ -77,59 +77,59 @@
      what someone wrote about the code, so wide, it leaves the code for the outer margin and stands beside
      the line it explains (an absolute block keeps its place in the flow, so it lands level with that line)
      while the code closes up. Pointing at either inks the other. Narrow, the notes stay in the lines. */
-  .db-source-gloss { display: block; }
-  .db-source[data-variant="gloss"] .db-source-gloss > .sh__line { color: var(--db-graphite); transition: color var(--db-allegro); }
+  .ot-source-gloss { display: block; }
+  .ot-source[data-variant="gloss"] .ot-source-gloss > .sh__line { color: var(--ot-graphite); transition: color var(--ot-allegro); }
   @container (min-width: 46rem) {
-    .db-source[data-variant="gloss"] .db-source-code { padding-inline-end: 15.5rem; padding-block-end: calc(0.25rem + var(--db-source-tail, 0px)); }
-    .db-source-gloss {
+    .ot-source[data-variant="gloss"] .ot-source-code { padding-inline-end: 15.5rem; padding-block-end: calc(0.25rem + var(--ot-source-tail, 0px)); }
+    .ot-source-gloss {
       position: absolute; inset-inline-end: 0; inline-size: 14rem; padding-block-start: 0.3rem;
-      font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: 0;
+      font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: 0;
     }
-    .db-source-gloss > .sh__line { min-block-size: 0; padding-inline-start: 0; text-indent: 0; }
-    .db-source-gloss > .sh__line::before { visibility: hidden; } /* still counted, so the code keeps its true numbers */
-    .db-source-gloss .sh__token--comment { line-height: inherit; }
-    .db-source-slashes { display: none; }
-    .db-source[data-variant="gloss"] .db-source-gloss:is(:hover, :has(+ .sh__line:hover)) > .sh__line { color: var(--db-ink); }
-    .db-source[data-variant="gloss"] .db-source-gloss:hover + .sh__line { --sh-identifier: var(--db-ink); --sh-property: var(--db-ink); --sh-sign: var(--db-graphite); color: var(--db-ink); }
-    .db-source[data-variant="gloss"] .db-source-gloss:hover + .sh__line::before { opacity: 1; color: var(--db-ink); }
+    .ot-source-gloss > .sh__line { min-block-size: 0; padding-inline-start: 0; text-indent: 0; }
+    .ot-source-gloss > .sh__line::before { visibility: hidden; } /* still counted, so the code keeps its true numbers */
+    .ot-source-gloss .sh__token--comment { line-height: inherit; }
+    .ot-source-slashes { display: none; }
+    .ot-source[data-variant="gloss"] .ot-source-gloss:is(:hover, :has(+ .sh__line:hover)) > .sh__line { color: var(--ot-ink); }
+    .ot-source[data-variant="gloss"] .ot-source-gloss:hover + .sh__line { --sh-identifier: var(--ot-ink); --sh-property: var(--ot-ink); --sh-sign: var(--ot-graphite); color: var(--ot-ink); }
+    .ot-source[data-variant="gloss"] .ot-source-gloss:hover + .sh__line::before { opacity: 1; color: var(--ot-ink); }
   }
 
   /* passage: the reader's pencil line down the margin beside the lines that matter. The bracket that
      joined the whole system gathers to the passage and inks; every other line recedes to pencil.
      Copying runs the accent down the passage, line by line. */
-  .db-source[data-variant="passage"] .db-source-code::before, .db-source[data-variant="passage"] .db-source-code::after { content: none; }
-  .db-source[data-variant="passage"] .sh__line:not([data-passage]) {
-    color: var(--db-pencil); --sh-keyword: var(--db-pencil); --sh-entity: var(--db-pencil); --sh-class: var(--db-pencil);
-    --sh-identifier: var(--db-pencil); --sh-property: var(--db-pencil); --sh-string: var(--db-pencil); --sh-jsxliterals: var(--db-pencil);
+  .ot-source[data-variant="passage"] .ot-source-code::before, .ot-source[data-variant="passage"] .ot-source-code::after { content: none; }
+  .ot-source[data-variant="passage"] .sh__line:not([data-passage]) {
+    color: var(--ot-pencil); --sh-keyword: var(--ot-pencil); --sh-entity: var(--ot-pencil); --sh-class: var(--ot-pencil);
+    --sh-identifier: var(--ot-pencil); --sh-property: var(--ot-pencil); --sh-string: var(--ot-pencil); --sh-jsxliterals: var(--ot-pencil);
   }
-  .db-source[data-variant="passage"] .sh__line:not([data-passage]) .sh__token--keyword { font-weight: 400; }
-  .db-source[data-variant="passage"] .sh__line[data-passage] { color: var(--db-ink); --sh-identifier: var(--db-ink); --sh-property: var(--db-ink); --sh-sign: var(--db-graphite); }
-  .db-source[data-variant="passage"] .sh__line[data-passage]::before { opacity: 1; color: var(--db-ink); }
-  .db-source[data-variant="passage"] .sh__line[data-passage]::after {
+  .ot-source[data-variant="passage"] .sh__line:not([data-passage]) .sh__token--keyword { font-weight: 400; }
+  .ot-source[data-variant="passage"] .sh__line[data-passage] { color: var(--ot-ink); --sh-identifier: var(--ot-ink); --sh-property: var(--ot-ink); --sh-sign: var(--ot-graphite); }
+  .ot-source[data-variant="passage"] .sh__line[data-passage]::before { opacity: 1; color: var(--ot-ink); }
+  .ot-source[data-variant="passage"] .sh__line[data-passage]::after {
     content: ""; position: absolute; inset-block: 0; inset-inline-start: -0.9rem; width: 0.3rem;
-    border-inline-start: var(--db-stroke) solid var(--db-ink); pointer-events: none;
+    border-inline-start: var(--ot-stroke) solid var(--ot-ink); pointer-events: none;
   }
-  .db-source[data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage])::after { inset-block-start: 0.3rem; border-block-start: var(--db-hairline) solid var(--db-ink); }
-  .db-source[data-variant="passage"] .sh__line[data-passage]:not(:has(+ [data-passage]))::after { inset-block-end: 0.3rem; border-block-end: var(--db-hairline) solid var(--db-ink); }
-  .db-source[data-variant="passage"][data-copied] .sh__line[data-passage]::after { animation: db-source-pass var(--db-andante) var(--db-breath) calc(var(--k, 0) * var(--db-arpeggio)) both; }
-  @keyframes db-source-pass { 0%, 40% { border-color: var(--db-accent); } 100% { border-color: var(--db-ink); } }
+  .ot-source[data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage])::after { inset-block-start: 0.3rem; border-block-start: var(--ot-hairline) solid var(--ot-ink); }
+  .ot-source[data-variant="passage"] .sh__line[data-passage]:not(:has(+ [data-passage]))::after { inset-block-end: 0.3rem; border-block-end: var(--ot-hairline) solid var(--ot-ink); }
+  .ot-source[data-variant="passage"][data-copied] .sh__line[data-passage]::after { animation: ot-source-pass var(--ot-andante) var(--ot-breath) calc(var(--k, 0) * var(--ot-arpeggio)) both; }
+  @keyframes ot-source-pass { 0%, 40% { border-color: var(--ot-accent); } 100% { border-color: var(--ot-ink); } }
 
   /* Unwrapped: each line is kept whole and runs on past the frame, cropped by its end as SPECTRA's rule crops its word;
      the lines scroll sideways inside <code>. The lines stop being positioned, so the numbers (and the passage's line)
      are placed from the <pre>, outside the scroller: they keep their place, at the height the line gives them. */
-  .db-source[data-wrap="off"] .db-source-code { white-space: pre; overflow-wrap: normal; }
-  .db-source[data-wrap="off"] .db-source-code > code {
-    overflow-x: auto; overscroll-behavior-x: contain; padding-block-end: var(--db-space-2);
-    scrollbar-width: thin; scrollbar-color: var(--db-rule-strong) transparent;
+  .ot-source[data-wrap="off"] .ot-source-code { white-space: pre; overflow-wrap: normal; }
+  .ot-source[data-wrap="off"] .ot-source-code > code {
+    overflow-x: auto; overscroll-behavior-x: contain; padding-block-end: var(--ot-space-2);
+    scrollbar-width: thin; scrollbar-color: var(--ot-rule-strong) transparent;
   }
-  .db-source[data-wrap="off"] .db-source-code > code:focus-visible { outline-offset: 6px; }
-  .db-source[data-wrap="off"] .db-source-code .sh__line { position: static; inline-size: max-content; min-inline-size: 100%; }
-  .db-source[data-wrap="off"] .db-source-code .sh__line::before { inset-block-start: auto; inset-inline-start: 0; margin-block-start: 0.1em; }
-  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]::after { inset-block: auto; inset-inline-start: calc(var(--db-source-gutter) - 0.9rem); block-size: var(--db-source-lh); margin-block-start: 0; }
-  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage])::after { inset-block-start: auto; margin-block-start: 0.3rem; block-size: calc(var(--db-source-lh) - 0.3rem); }
-  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not(:has(+ [data-passage]))::after { inset-block-end: auto; block-size: calc(var(--db-source-lh) - 0.3rem); }
-  .db-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage]):not(:has(+ [data-passage]))::after { block-size: calc(var(--db-source-lh) - 0.6rem); }
+  .ot-source[data-wrap="off"] .ot-source-code > code:focus-visible { outline-offset: 6px; }
+  .ot-source[data-wrap="off"] .ot-source-code .sh__line { position: static; inline-size: max-content; min-inline-size: 100%; }
+  .ot-source[data-wrap="off"] .ot-source-code .sh__line::before { inset-block-start: auto; inset-inline-start: 0; margin-block-start: 0.1em; }
+  .ot-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]::after { inset-block: auto; inset-inline-start: calc(var(--ot-source-gutter) - 0.9rem); block-size: var(--ot-source-lh); margin-block-start: 0; }
+  .ot-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage])::after { inset-block-start: auto; margin-block-start: 0.3rem; block-size: calc(var(--ot-source-lh) - 0.3rem); }
+  .ot-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not(:has(+ [data-passage]))::after { inset-block-end: auto; block-size: calc(var(--ot-source-lh) - 0.3rem); }
+  .ot-source[data-wrap="off"][data-variant="passage"] .sh__line[data-passage]:not([data-passage] + [data-passage]):not(:has(+ [data-passage]))::after { block-size: calc(var(--ot-source-lh) - 0.6rem); }
   @media (forced-colors: active) {
-    .db-source-code::before, .db-source[data-variant="passage"] .sh__line[data-passage]::after { border-color: CanvasText; }
+    .ot-source-code::before, .ot-source[data-variant="passage"] .sh__line[data-passage]::after { border-color: CanvasText; }
   }
 }

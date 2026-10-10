@@ -40,7 +40,7 @@ const AUTOPLAY_ALLOWED = {
   "marquee": { reason: "owner-approved drift with its own pause control; not scripted, so never reached" },
   "text-ribbon": { reason: "owner-approved drift with its own pause control; not scripted, so never reached" },
   "word-relay": { reason: "owner-approved relay that advances by itself until paused (2026-10-01)" },
-  "resizable": { reason: "fit titles re-measure and re-set their own width when the page scrolls or resizes; layout only, nothing is performed", ignore: ".db-resize-title" },
+  "resizable": { reason: "fit titles re-measure and re-set their own width when the page scrolls or resizes; layout only, nothing is performed", ignore: ".ot-resize-title" },
 }
 
 /** Runs in the page before any of its scripts. Records, never judges. */

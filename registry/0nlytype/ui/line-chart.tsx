@@ -53,7 +53,7 @@ function Draw({ spans, series, curve, area }: ChartGeometry & { curve: Curve; ar
   const x = (i: number) => ((i + 0.5) / spans.length) * w
   const y = (v: number) => (1 - v) * h
   return (
-    <svg ref={ref} data-slot="chart-draw" className="db-line-chart-draw" aria-hidden="true">
+    <svg ref={ref} data-slot="chart-draw" className="ot-line-chart-draw" aria-hidden="true">
       {w
         ? series.map((s, k) => {
             const tops = spans.map((p, i): Point => [x(i), y(p[k][1])])
@@ -66,10 +66,10 @@ function Draw({ spans, series, curve, area }: ChartGeometry & { curve: Curve; ar
                     <pattern id={`${id}-${k}`} patternUnits="userSpaceOnUse" width={[3, 6, 12][Math.min(k, 2)]} height={h}>
                       <rect width="1" height={h} />
                     </pattern>
-                    <path className="db-area-chart-drops" fill={`url(#${id}-${k})`} d={`${line}L${bases[0][0]},${bases[0][1]}${through(bases, curve)}Z`} />
+                    <path className="ot-area-chart-drops" fill={`url(#${id}-${k})`} d={`${line}L${bases[0][0]},${bases[0][1]}${through(bases, curve)}Z`} />
                   </>
                 ) : null}
-                <path className="db-line-chart-line" d={line} />
+                <path className="ot-line-chart-line" d={line} />
               </g>
             )
           })
@@ -85,7 +85,7 @@ function ChartLines({ variant = "linear", area, className, ...props }: LineChart
       {...props}
       variant={variant}
       stacked={area}
-      className={cn(area ? "db-area-chart" : "db-line-chart", className)}
+      className={cn(area ? "ot-area-chart" : "ot-line-chart", className)}
       layer={(g) => <Draw {...g} curve={variant} area={area} />}
     />
   )

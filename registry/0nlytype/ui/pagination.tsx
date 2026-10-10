@@ -17,7 +17,7 @@ type PaginationContentProps = React.ComponentProps<"ul"> & {
 }
 
 function PaginationContent({ className, variant = "numbers", ...props }: PaginationContentProps) {
-  return <ul data-slot="pagination-content" data-variant={variant} className={cn("db-pager", className)} {...props} />
+  return <ul data-slot="pagination-content" data-variant={variant} className={cn("ot-pager", className)} {...props} />
 }
 
 /**
@@ -63,7 +63,7 @@ function step(kind: "previous" | "next", dflt: string) {
     return (
       <Comp
         data-slot={`pagination-${kind}`}
-        className={cn("db-pager-step", className)}
+        className={cn("ot-pager-step", className)}
         rel={href === undefined ? undefined : kind === "previous" ? "prev" : "next"}
         aria-label={label}
         aria-disabled={href === undefined && !asChild ? true : undefined}
@@ -84,9 +84,9 @@ const PaginationNext = step("next", "Next")
 /** Pages left out. */
 function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span">) {
   return (
-    <span data-slot="pagination-ellipsis" className={cn("db-pager-gap", className)} {...props}>
+    <span data-slot="pagination-ellipsis" className={cn("ot-pager-gap", className)} {...props}>
       <span aria-hidden="true">…</span>
-      <span className="db-sr">More pages</span>
+      <span className="ot-sr">More pages</span>
     </span>
   )
 }

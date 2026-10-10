@@ -22,13 +22,13 @@ export default function Example() {
         return (
           <div key={variant} className={variant === "word" ? "col-span-2 grid content-start gap-3" : "grid content-start gap-3"}>
             <Spinner variant={variant} size="l" label={variant === "word" ? undefined : words} />
-            <span className="db-label">{variant}</span>
+            <span className="ot-label">{variant}</span>
             {variant === "word" ? (
-              <p className="db-p">
+              <p className="ot-p">
                 <Spinner variant="word" label={words} />
               </p>
             ) : (
-              <p className="db-p" role="status">
+              <p className="ot-p" role="status">
                 {/* The last word and the spinner never part at a line break. */}
                 {words.slice(0, cut)}
                 <span className="whitespace-nowrap">

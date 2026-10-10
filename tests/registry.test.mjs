@@ -52,8 +52,8 @@ test("every component item installs its sidecar through a css @import", () => {
 test("base item exposes theme variables for Tailwind", () => {
   const base = registry().items.find((i) => i.name === "0nlytype")
   assert.equal(base.type, "registry:base")
-  assert.equal(base.cssVars.theme["color-paper"], "var(--db-paper)")
-  assert.equal(base.css[":root, :root[data-mode]"]["--background"], "var(--db-paper)")
+  assert.equal(base.cssVars.theme["color-paper"], "var(--ot-paper)")
+  assert.equal(base.css[":root, :root[data-mode]"]["--background"], "var(--ot-paper)")
   assert.ok(base.css[`@import "../styles/0nlytype/base.css"`])
 })
 

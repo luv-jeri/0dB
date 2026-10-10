@@ -26,7 +26,7 @@ export default function Example() {
       <Swiss />
       {(["book", "run-on"] as const).map((v) => (
         <div key={v} className="grid gap-y-4">
-          <span className="db-label">{v}</span>
+          <span className="ot-label">{v}</span>
           <Passage variant={v} />
         </div>
       ))}
@@ -58,7 +58,7 @@ function Swiss() {
       <p>
         The grotesque carries everything the interface says: labels, buttons, the names of things. The italic serif carries
         everything you say back. Nothing else is needed to tell the two apart, and nothing else is added. In the stylesheet,
-        the whole rule is one line: <code>.db-yours</code> sets the expression, in italic. Read <a href="#">the full contract</a>.
+        the whole rule is one line: <code>.ot-yours</code> sets the expression, in italic. Read <a href="#">the full contract</a>.
       </p>
       <blockquote>
         <p>The space isn&rsquo;t empty. It&rsquo;s waiting for the reader.</p>
@@ -78,8 +78,8 @@ function Swiss() {
       </ol>
       <hr />
       <h3>In the stylesheet</h3>
-      <pre><code>{`.db-yours {
-  font-family: var(--db-expression);
+      <pre><code>{`.ot-yours {
+  font-family: var(--ot-expression);
   font-style: italic;
 }`}</code></pre>
       <table>
@@ -87,8 +87,8 @@ function Swiss() {
           <tr><th>Token</th><th>Sets</th><th>Figure</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>--db-hairline</code></td><td>Rules</td><td>1px</td></tr>
-          <tr><td><code>--db-stroke</code></td><td>Emphasis lines</td><td>2px</td></tr>
+          <tr><td><code>--ot-hairline</code></td><td>Rules</td><td>1px</td></tr>
+          <tr><td><code>--ot-stroke</code></td><td>Emphasis lines</td><td>2px</td></tr>
         </tbody>
       </table>
     </Prose>

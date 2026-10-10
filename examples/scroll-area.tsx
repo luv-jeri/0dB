@@ -34,7 +34,7 @@ const dynamics = [
 
 function Threshold() {
   return (
-    <div className="grid gap-[var(--db-space-4)] py-[var(--db-space-3)] pe-[var(--db-space-6)]">
+    <div className="grid gap-[var(--ot-space-4)] py-[var(--ot-space-3)] pe-[var(--ot-space-6)]">
       {threshold.map((t) => <p key={t}>{t}</p>)}
     </div>
   )
@@ -42,7 +42,7 @@ function Threshold() {
 
 function Dynamics({ rows = dynamics }: { rows?: string[][] }) {
   return (
-    <ul className="grid gap-[var(--db-space-2)] py-[var(--db-space-6)]">
+    <ul className="grid gap-[var(--ot-space-2)] py-[var(--ot-space-6)]">
       {rows.map(([mark, meaning]) => (
         <li key={mark}>
           <span className="inline-block w-14 tabular-nums">{mark}</span>
@@ -56,13 +56,13 @@ function Dynamics({ rows = dynamics }: { rows?: string[][] }) {
 /** Ruled: each release is a section, and a mark on the rail. Catchword: the first word below waits on the foot rule. Wheel: the dynamics turn on an arc. */
 export default function Example() {
   return (
-    <div className="grid items-start gap-x-(--db-space-8) gap-y-(--db-space-7) md:grid-cols-2">
+    <div className="grid items-start gap-x-(--ot-space-8) gap-y-(--ot-space-7) md:grid-cols-2">
       <ScrollArea
         aria-label="Release notes"
         sections={releases.map((r) => ({ id: `release-${r.version}`, num: r.version, name: r.name }))}
         className="max-h-56 max-w-xl md:col-span-2"
       >
-        <div className="grid gap-[var(--db-space-5)] py-[var(--db-space-4)] pe-[var(--db-space-6)]">
+        <div className="grid gap-[var(--ot-space-5)] py-[var(--ot-space-4)] pe-[var(--ot-space-6)]">
           {releases.map((r) => (
             <section key={r.version} id={`release-${r.version}`} aria-labelledby={`release-${r.version}-h`}>
               <h3 id={`release-${r.version}-h`}>
@@ -93,10 +93,10 @@ export function States() {
     <>
       <State label="Sideways">
         <ScrollArea aria-label="Release notes, sideways" sections={releases.map((r) => ({ id: `across-${r.version}`, num: r.version, name: r.name }))} className="w-full max-w-md">
-          <div className="flex w-max gap-[var(--db-space-6)] pe-[var(--db-space-4)] pb-[var(--db-space-6)]">
+          <div className="flex w-max gap-[var(--ot-space-6)] pe-[var(--ot-space-4)] pb-[var(--ot-space-6)]">
             {releases.map((r) => (
               <section key={r.version} id={`across-${r.version}`} aria-label={`${r.version} ${r.name}`} className="grid w-44 content-start gap-1">
-                <p className="text-[var(--db-ink)]">
+                <p className="text-[var(--ot-ink)]">
                   <span className="inline-block w-10 tabular-nums">{r.version}</span>
                   {r.name}
                 </p>
@@ -115,7 +115,7 @@ export function States() {
       </State>
       <State label="Catchword, right to left">
         <ScrollArea variant="catchword" dir="rtl" aria-label="Right to left" className="max-h-32 w-64">
-          <div className="grid gap-[var(--db-space-3)] py-[var(--db-space-3)] pe-[var(--db-space-6)]">
+          <div className="grid gap-[var(--ot-space-3)] py-[var(--ot-space-3)] pe-[var(--ot-space-6)]">
             <p>صفر ديسيبل هو أهدأ صوت يمكن أن يسمعه الإنسان.</p>
             <p>المسافة ترتّب الصفحة، والحرف هو الزينة الوحيدة.</p>
             <p>لون واحد يدلّ على مكانك، ولا شيء غيره.</p>
@@ -135,7 +135,7 @@ export function States() {
       </State>
       <State label="Without sections">
         <ScrollArea aria-label="Release notes, unmarked" className="max-h-32 max-w-xs">
-          <ul className="grid gap-1 py-[var(--db-space-3)] pe-[var(--db-space-6)]">
+          <ul className="grid gap-1 py-[var(--ot-space-3)] pe-[var(--ot-space-6)]">
             {releases.flatMap((r) => r.notes).map((n) => (
               <li key={n}>{n}</li>
             ))}

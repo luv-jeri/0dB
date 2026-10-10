@@ -55,18 +55,18 @@ function AspectRatio({ ratio = 16 / 9, label, variant = "crop", className, style
       data-variant={variant}
       data-orient={orient}
       style={{ "--ratio": ratio, ...style } as React.CSSProperties}
-      className={cn("db-ratio", className)}
+      className={cn("ot-ratio", className)}
       {...props}
     >
       {label === true ? (
-        <span className="db-fraction" aria-hidden="true">
-          <span ref={(el) => void (refs.current[0] = el)} className="db-yours">{shown[0]}</span>
+        <span className="ot-fraction" aria-hidden="true">
+          <span ref={(el) => void (refs.current[0] = el)} className="ot-yours">{shown[0]}</span>
           <i />
           <span ref={(el) => void (refs.current[1] = el)}>{shown[1]}</span>
         </span>
       ) : null}
       {label === true ? (
-        <span className="db-sr">
+        <span className="ot-sr">
           {a} by {b}
         </span>
       ) : (
@@ -74,8 +74,8 @@ function AspectRatio({ ratio = 16 / 9, label, variant = "crop", className, style
       )}
       {label === true && variant === "square" && orient !== "square" ? (
         // Keyed, so the name of what's left arrives again once the square has glided to its new place.
-        <span key={`${orient} ${rest}`} className="db-ratio-rest" aria-hidden="true">
-          <span className="db-fraction">
+        <span key={`${orient} ${rest}`} className="ot-ratio-rest" aria-hidden="true">
+          <span className="ot-fraction">
             <span>{rest[0] / k}</span>
             <i />
             <span>{rest[1] / k}</span>

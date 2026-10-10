@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <RegistryStyles />
       </head>
       <body>
-        <a className="skip db-link" href="#content">Skip to the content</a>
+        <a className="skip ot-link" href="#content">Skip to the content</a>
         <TooltipProvider>
           <TopRow places={places} groups={searchGroups} />
           {children}

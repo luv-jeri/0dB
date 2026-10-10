@@ -4,7 +4,7 @@ export default defineComponent({
   name: "tour",
   title: "Tour",
   movement: "VIII",
-  contract: "db-tour",
+  contract: "ot-tour",
   summary: "A tour of callouts: each step an ink callout hung on a leader line that ends in a dot on the thing it is about, one step at a time, only when you press on.",
   underneath: "native",
   props: [

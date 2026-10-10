@@ -135,7 +135,7 @@ function DialogContent({ className, variant = "frame", ...props }: DialogContent
     <DialogSurface
       data-slot="dialog-content"
       data-variant={variant === "frame" ? undefined : variant}
-      className={cn("db-dialog", className)}
+      className={cn("ot-dialog", className)}
       {...props}
     />
   )
@@ -143,21 +143,21 @@ function DialogContent({ className, variant = "frame", ...props }: DialogContent
 
 /** A frame row over the question: what this is, a hairline, and one fact. */
 function DialogMeta({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="dialog-meta" className={cn("db-meta db-dialog-meta", className)} {...props} />
+  return <div data-slot="dialog-meta" className={cn("ot-meta ot-dialog-meta", className)} {...props} />
 }
 
 function DialogTitle({ className, ...props }: React.ComponentProps<"h2">) {
   const { titleId } = useDialog()
-  return <h2 data-slot="dialog-title" id={titleId} className={cn("db-dialog-title", className)} {...props} />
+  return <h2 data-slot="dialog-title" id={titleId} className={cn("ot-dialog-title", className)} {...props} />
 }
 
 function DialogDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { descriptionId } = useDialog()
-  return <p data-slot="dialog-description" id={descriptionId} className={cn("db-dialog-body", className)} {...props} />
+  return <p data-slot="dialog-description" id={descriptionId} className={cn("ot-dialog-body", className)} {...props} />
 }
 
 function DialogActions({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="dialog-actions" className={cn("db-dialog-actions", className)} {...props} />
+  return <div data-slot="dialog-actions" className={cn("ot-dialog-actions", className)} {...props} />
 }
 
 function DialogClose({ asChild = false, onClick, ...props }: React.ComponentProps<"button"> & { asChild?: boolean }) {

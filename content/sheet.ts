@@ -4,7 +4,7 @@ export default defineComponent({
   name: "sheet",
   title: "Sheet",
   movement: "IX",
-  contract: "db-sheet",
+  contract: "ot-sheet",
   summary: "A page slid in from the edge, its title running up the spine like a book's; or a row that unfolds into its page.",
   underneath: "native",
   props: [

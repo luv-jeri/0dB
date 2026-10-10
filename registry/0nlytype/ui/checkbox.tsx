@@ -29,11 +29,11 @@ function Checkbox({ children, variant = "strike", className, labelClassName, "da
   const sync = React.useContext(GroupSync)
   React.useLayoutEffect(() => { sync?.() })
   return (
-    <label data-slot="checkbox" data-variant={variant} data-force={force} className={cn("db-check", labelClassName)}>
+    <label data-slot="checkbox" data-variant={variant} data-force={force} className={cn("ot-check", labelClassName)}>
       <input type="checkbox" className={className} {...props} />
       <span>{children}</span>
       {variant === "circled" ? (
-        <svg className="db-check-loop" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+        <svg className="ot-check-loop" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
           {/* One hand loop: in at the upper left, round clockwise, and on past where it began. */}
           <path pathLength={1} d="M14 9C34 2 78 1 93 11C104 19 96 33 70 37C44 40 12 38 4 28C-3 19 14 8 40 5" />
         </svg>
@@ -72,18 +72,18 @@ function CheckboxGroup({ legend, tally = false, done = defaultDone, className, c
       <fieldset
         ref={composedRef}
         data-slot="checkbox-group"
-        className={cn("db-checklist", className)}
+        className={cn("ot-checklist", className)}
         onChange={(e) => {
           onChange?.(e)
           if (tally) count()
         }}
         {...props}
       >
-        {legend ? <legend className="db-label">{legend}</legend> : null}
+        {legend ? <legend className="ot-label">{legend}</legend> : null}
         {children}
       </fieldset>
       {tally ? (
-        <p data-slot="checkbox-tally" className="db-tally" aria-live="polite">
+        <p data-slot="checkbox-tally" className="ot-tally" aria-live="polite">
           {state ? (
             <>
               <Fraction count={state.count} total={state.total} />

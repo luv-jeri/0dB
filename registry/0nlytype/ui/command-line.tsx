@@ -72,7 +72,7 @@ function CommandLine({ command, runner = false, emphasis, variant = "line", glos
   const yours = (part: string) =>
     synopsis ? (
       <input
-        className="db-command-line-blank"
+        className="ot-command-line-blank"
         aria-label={blank}
         value={filled}
         placeholder={part}
@@ -83,13 +83,13 @@ function CommandLine({ command, runner = false, emphasis, variant = "line", glos
         onChange={(e) => setFilled(e.target.value.replace(/\s/g, ""))}
       />
     ) : (
-      <em className="db-command-line-yours">{part}</em>
+      <em className="ot-command-line-yours">{part}</em>
     )
   const parsed = variant === "parsed" && glosses?.length
   return (
-    <figure data-slot="command-line" data-variant={variant} className={cn("db-command-line", className)} {...props}>
+    <figure data-slot="command-line" data-variant={variant} className={cn("ot-command-line", className)} {...props}>
       {runner ? (
-        <RadioGroup aria-label="Package manager" className="db-command-line-runners" value={pick} onValueChange={(v) => isRunner(v) && choose(v)}>
+        <RadioGroup aria-label="Package manager" className="ot-command-line-runners" value={pick} onValueChange={(v) => isRunner(v) && choose(v)}>
           {(Object.keys(RUNNERS) as Runner[]).map((r) => (
             <RadioGroupItem key={r} value={r}>
               {r}
@@ -97,13 +97,13 @@ function CommandLine({ command, runner = false, emphasis, variant = "line", glos
           ))}
         </RadioGroup>
       ) : null}
-      <div key={copied} data-copied={copied || undefined} className="db-command-line-row">
-        <code data-slot="command-line-text" className="db-command-line-text" dir="ltr">
-          {prefix ? <span className="db-command-line-quiet">{prefix}</span> : null}
+      <div key={copied} data-copied={copied || undefined} className="ot-command-line-row">
+        <code data-slot="command-line-text" className="ot-command-line-text" dir="ltr">
+          {prefix ? <span className="ot-command-line-quiet">{prefix}</span> : null}
           {words(command, emphasis, yours, parsed ? glosses : undefined)}
         </code>
         {parsed ? (
-          <span className="db-sr">
+          <span className="ot-sr">
             {command
               .split(/\s+/)
               .map((w, i) => (glosses[i] ? `${w}: ${glosses[i]}` : ""))
@@ -127,9 +127,9 @@ function words(command: string, emphasis: string | undefined, yours: (part: stri
     // parsed: the word stands over a short rule, its gloss hung beneath (aria-hidden; the list is read after).
     if (glosses?.[n])
       return (
-        <span key={i} className="db-command-line-word">
-          <span className="db-command-line-said">{set}</span>
-          <span className="db-command-line-gloss" aria-hidden="true">
+        <span key={i} className="ot-command-line-word">
+          <span className="ot-command-line-said">{set}</span>
+          <span className="ot-command-line-gloss" aria-hidden="true">
             {glosses[n]}
           </span>
         </span>
@@ -152,11 +152,11 @@ function address(word: string, emphasis: string | undefined, yours: (part: strin
   }
   const before = at < 0 ? word : word.slice(0, at)
   return (
-    <span className="db-command-line-quiet">
+    <span className="ot-command-line-quiet">
       {breakable(before)}
       {at < 0 ? null : (
         // The name and what follows it (".json") hold together: no line starts with ".json" or "card".
-        <span className="db-command-line-whole">
+        <span className="ot-command-line-whole">
           {yours(emphasis!)}
           {word.slice(at + emphasis!.length)}
         </span>

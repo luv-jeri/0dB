@@ -79,13 +79,13 @@ function Carousel({ variant = "poster", trackLabel = "Slides", previousLabel = "
   }
 
   return (
-    <div data-slot="carousel" data-variant={variant} role="region" aria-roledescription="carousel" className={cn("db-carousel", className)} {...props}>
+    <div data-slot="carousel" data-variant={variant} role="region" aria-roledescription="carousel" className={cn("ot-carousel", className)} {...props}>
       <div
         ref={track}
         data-slot="carousel-track"
         tabIndex={0}
         aria-label={trackLabel}
-        className="db-carousel-track"
+        className="ot-carousel-track"
         onKeyDown={(e) => {
           const rtl = getComputedStyle(e.currentTarget).direction === "rtl"
           const to = { ArrowLeft: at + (rtl ? 1 : -1), ArrowRight: at + (rtl ? -1 : 1), Home: 0, End: total - 1 }[e.key]
@@ -100,14 +100,14 @@ function Carousel({ variant = "poster", trackLabel = "Slides", previousLabel = "
           </Slide.Provider>
         ))}
       </div>
-      <div data-slot="carousel-nav" className="db-carousel-nav">
-        <button type="button" data-slot="carousel-previous" className="db-carousel-arrow" aria-label={previousLabel} disabled={at === 0} onClick={() => go(at - 1)}>
+      <div data-slot="carousel-nav" className="ot-carousel-nav">
+        <button type="button" data-slot="carousel-previous" className="ot-carousel-arrow" aria-label={previousLabel} disabled={at === 0} onClick={() => go(at - 1)}>
           ←
         </button>
-        <span data-slot="carousel-count" className="db-carousel-count" aria-live="polite" aria-atomic="true">
-          <span ref={now} className="db-carousel-now">{pad(shown + 1)}</span> / {pad(total)}
+        <span data-slot="carousel-count" className="ot-carousel-count" aria-live="polite" aria-atomic="true">
+          <span ref={now} className="ot-carousel-now">{pad(shown + 1)}</span> / {pad(total)}
         </span>
-        <button type="button" data-slot="carousel-next" className="db-carousel-arrow" aria-label={nextLabel} disabled={at >= total - 1} onClick={() => go(at + 1)}>
+        <button type="button" data-slot="carousel-next" className="ot-carousel-arrow" aria-label={nextLabel} disabled={at >= total - 1} onClick={() => go(at + 1)}>
           →
         </button>
       </div>
@@ -124,19 +124,19 @@ function CarouselItem({ className, children, ...props }: React.ComponentProps<"d
       role="group"
       aria-roledescription="slide"
       aria-label={`${index + 1} of ${total}`}
-      className={cn("db-carousel-slide", className)}
+      className={cn("ot-carousel-slide", className)}
       {...props}
     >
       {children}
       {/* A spine on the shelf is taken out with a click; the keyboard has the track's arrows and the buttons. */}
-      {shelf && !current ? <button type="button" tabIndex={-1} className="db-carousel-spine" aria-label={`Show ${index + 1} of ${total}`} onClick={choose} /> : null}
+      {shelf && !current ? <button type="button" tabIndex={-1} className="ot-carousel-spine" aria-label={`Show ${index + 1} of ${total}`} onClick={choose} /> : null}
     </div>
   )
 }
 
 /** A name set so large the frame crops it. */
 function CarouselTitle({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="carousel-title" className={cn("db-carousel-title", className)} {...props} />
+  return <p data-slot="carousel-title" className={cn("ot-carousel-title", className)} {...props} />
 }
 
 export { Carousel, CarouselItem, CarouselTitle, type CarouselProps }

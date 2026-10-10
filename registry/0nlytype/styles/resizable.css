@@ -1,62 +1,62 @@
 @layer components {
-  /* ── db-resize ── panes and the rules between them; moved, they're measured.
+  /* ── ot-resize ── panes and the rules between them; moved, they're measured.
      Panel sizes are flex-basis percentages set by the component. */
   /* The frame is Rand's construction line, dotted: it marks where the panes may go, it doesn't box them. */
-  .db-resize { display: flex; min-width: 0; min-height: 17rem; border: var(--db-hairline) dotted var(--db-rule-strong); }
-  .db-resize[data-direction="vertical"] { flex-direction: column; }
-  .db-resize-pane { position: relative; min-width: 0; min-height: 0; overflow: clip; padding: var(--db-space-5) var(--db-space-5) var(--db-space-7); }
-  .db-resize[data-direction="vertical"] > .db-resize-pane { padding: var(--db-space-5) var(--db-space-7) var(--db-space-5) var(--db-space-5); }
-  .db-resize-handle {
-    position: relative; z-index: 1; flex: none; width: var(--db-space-4); margin-inline: calc(var(--db-space-4) / -2); cursor: col-resize; touch-action: none; outline: 0;
-    background: linear-gradient(var(--db-rule-strong), var(--db-rule-strong)) no-repeat 50% 0 / var(--db-hairline) 100%;
+  .ot-resize { display: flex; min-width: 0; min-height: 17rem; border: var(--ot-hairline) dotted var(--ot-rule-strong); }
+  .ot-resize[data-direction="vertical"] { flex-direction: column; }
+  .ot-resize-pane { position: relative; min-width: 0; min-height: 0; overflow: clip; padding: var(--ot-space-5) var(--ot-space-5) var(--ot-space-7); }
+  .ot-resize[data-direction="vertical"] > .ot-resize-pane { padding: var(--ot-space-5) var(--ot-space-7) var(--ot-space-5) var(--ot-space-5); }
+  .ot-resize-handle {
+    position: relative; z-index: 1; flex: none; width: var(--ot-space-4); margin-inline: calc(var(--ot-space-4) / -2); cursor: col-resize; touch-action: none; outline: 0;
+    background: linear-gradient(var(--ot-rule-strong), var(--ot-rule-strong)) no-repeat 50% 0 / var(--ot-hairline) 100%;
   }
-  .db-resize[data-direction="vertical"] > .db-resize-handle {
-    width: auto; height: var(--db-space-4); margin-inline: 0; margin-block: calc(var(--db-space-4) / -2); cursor: row-resize;
-    background-position: 0 50%; background-size: 100% var(--db-hairline);
+  .ot-resize[data-direction="vertical"] > .ot-resize-handle {
+    width: auto; height: var(--ot-space-4); margin-inline: 0; margin-block: calc(var(--ot-space-4) / -2); cursor: row-resize;
+    background-position: 0 50%; background-size: 100% var(--ot-hairline);
   }
-  .db-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"]) { background-image: linear-gradient(var(--db-ink), var(--db-ink)); background-size: var(--db-stroke) 100%; }
-  .db-resize[data-direction="vertical"] > .db-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"]) { background-size: 100% var(--db-stroke); }
-  .db-resize-handle:focus-visible { background-image: linear-gradient(var(--db-accent), var(--db-accent)); }
-  .db-resize:has(> [data-dragging]) { user-select: none; }
-  .db-resize[data-direction="horizontal"]:has(> [data-dragging]) { cursor: col-resize; }
-  .db-resize[data-direction="vertical"]:has(> [data-dragging]) { cursor: row-resize; }
+  .ot-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"]) { background-image: linear-gradient(var(--ot-ink), var(--ot-ink)); background-size: var(--ot-stroke) 100%; }
+  .ot-resize[data-direction="vertical"] > .ot-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"]) { background-size: 100% var(--ot-stroke); }
+  .ot-resize-handle:focus-visible { background-image: linear-gradient(var(--ot-accent), var(--ot-accent)); }
+  .ot-resize:has(> [data-dragging]) { user-select: none; }
+  .ot-resize[data-direction="horizontal"]:has(> [data-dragging]) { cursor: col-resize; }
+  .ot-resize[data-direction="vertical"]:has(> [data-dragging]) { cursor: row-resize; }
   /* The share of each pane, drawn as a dimension from edge to edge. */
-  .db-resize-dim {
-    position: absolute; inset-inline: var(--db-space-5); bottom: var(--db-space-4); display: flex; align-items: center; gap: 0.4em;
-    font-size: var(--db-pp); color: var(--db-ink); font-variant-numeric: tabular-nums;
-    background: linear-gradient(var(--db-ink), var(--db-ink)) 0 50% / var(--db-hairline) 9px no-repeat, linear-gradient(var(--db-ink), var(--db-ink)) 100% 50% / var(--db-hairline) 9px no-repeat;
-    opacity: 0; transition: opacity var(--db-moderato);
+  .ot-resize-dim {
+    position: absolute; inset-inline: var(--ot-space-5); bottom: var(--ot-space-4); display: flex; align-items: center; gap: 0.4em;
+    font-size: var(--ot-pp); color: var(--ot-ink); font-variant-numeric: tabular-nums;
+    background: linear-gradient(var(--ot-ink), var(--ot-ink)) 0 50% / var(--ot-hairline) 9px no-repeat, linear-gradient(var(--ot-ink), var(--ot-ink)) 100% 50% / var(--ot-hairline) 9px no-repeat;
+    opacity: 0; transition: opacity var(--ot-moderato);
   }
-  .db-resize-dim::before, .db-resize-dim::after { content: ""; flex: 1; height: var(--db-hairline); background: var(--db-ink); }
-  .db-resize[data-direction="vertical"] > .db-resize-pane > .db-resize-dim {
-    inset-block: var(--db-space-5) var(--db-space-4); inset-inline: auto var(--db-space-4); flex-direction: column;
-    background: linear-gradient(var(--db-ink), var(--db-ink)) 50% 0 / 9px var(--db-hairline) no-repeat, linear-gradient(var(--db-ink), var(--db-ink)) 50% 100% / 9px var(--db-hairline) no-repeat;
+  .ot-resize-dim::before, .ot-resize-dim::after { content: ""; flex: 1; height: var(--ot-hairline); background: var(--ot-ink); }
+  .ot-resize[data-direction="vertical"] > .ot-resize-pane > .ot-resize-dim {
+    inset-block: var(--ot-space-5) var(--ot-space-4); inset-inline: auto var(--ot-space-4); flex-direction: column;
+    background: linear-gradient(var(--ot-ink), var(--ot-ink)) 50% 0 / 9px var(--ot-hairline) no-repeat, linear-gradient(var(--ot-ink), var(--ot-ink)) 50% 100% / 9px var(--ot-hairline) no-repeat;
   }
-  .db-resize[data-direction="vertical"] > .db-resize-pane > .db-resize-dim::before,
-  .db-resize[data-direction="vertical"] > .db-resize-pane > .db-resize-dim::after { width: var(--db-hairline); height: auto; }
-  .db-resize:has(> .db-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"])) > .db-resize-pane > .db-resize-dim { opacity: 1; }
+  .ot-resize[data-direction="vertical"] > .ot-resize-pane > .ot-resize-dim::before,
+  .ot-resize[data-direction="vertical"] > .ot-resize-pane > .ot-resize-dim::after { width: var(--ot-hairline); height: auto; }
+  .ot-resize:has(> .ot-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"])) > .ot-resize-pane > .ot-resize-dim { opacity: 1; }
 
   /* Fit ("It has to be design." set heavy and condensed; wood type locked up to the measure): each pane's
      title fills its pane edge to edge. The script moves the width axis first, then the size, so a
      narrow pane gets a condensed word and a wide one an extended one, both the full measure. */
-  .db-resize-title { font-size: var(--db-f); line-height: var(--db-f-lh); letter-spacing: var(--db-f-tr); font-weight: 300; color: var(--db-ink); }
-  .db-resize[data-variant="fit"] .db-resize-title { font-weight: 800; line-height: 0.86; letter-spacing: -0.01em; white-space: nowrap; margin-inline-start: -0.04em; }
-  .db-resize[data-variant="fit"] .db-resize-title:not([data-set]) { overflow: clip; text-overflow: clip; }
-  .db-resize[data-variant="fit"] .db-resize-title + * { margin-block-start: var(--db-space-4); }
+  .ot-resize-title { font-size: var(--ot-f); line-height: var(--ot-f-lh); letter-spacing: var(--ot-f-tr); font-weight: 300; color: var(--ot-ink); }
+  .ot-resize[data-variant="fit"] .ot-resize-title { font-weight: 800; line-height: 0.86; letter-spacing: -0.01em; white-space: nowrap; margin-inline-start: -0.04em; }
+  .ot-resize[data-variant="fit"] .ot-resize-title:not([data-set]) { overflow: clip; text-overflow: clip; }
+  .ot-resize[data-variant="fit"] .ot-resize-title + * { margin-block-start: var(--ot-space-4); }
 
   /* Flow (the newspaper's continued column): one paragraph runs through the panes. The first pane holds as
      many lines as its height does; the rest carry on at the top of the next, at its measure. Move the rule
      and the break moves with it. The group has a fixed height here, or the text would push it taller. */
-  .db-resize[data-variant="flow"] { height: 17rem; }
-  .db-resize-flow { margin: 0; }
-  .db-resize-line { display: block; white-space: pre; }
+  .ot-resize[data-variant="flow"] { height: 17rem; }
+  .ot-resize-flow { margin: 0; }
+  .ot-resize-line { display: block; white-space: pre; }
   /* Forced colours drop background images, and the rules are drawn with them. */
   @media (forced-colors: active) {
-    .db-resize-handle, .db-resize-dim { forced-color-adjust: none; }
-    .db-resize-handle { background-image: linear-gradient(CanvasText, CanvasText); }
-    .db-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"]) { background-image: linear-gradient(Highlight, Highlight); }
-    .db-resize-dim { color: CanvasText; background-image: linear-gradient(CanvasText, CanvasText), linear-gradient(CanvasText, CanvasText); }
-    .db-resize-dim::before, .db-resize-dim::after { background: CanvasText; }
+    .ot-resize-handle, .ot-resize-dim { forced-color-adjust: none; }
+    .ot-resize-handle { background-image: linear-gradient(CanvasText, CanvasText); }
+    .ot-resize-handle:is(:hover, :focus-visible, [data-dragging], [data-force~="hover"]) { background-image: linear-gradient(Highlight, Highlight); }
+    .ot-resize-dim { color: CanvasText; background-image: linear-gradient(CanvasText, CanvasText), linear-gradient(CanvasText, CanvasText); }
+    .ot-resize-dim::before, .ot-resize-dim::after { background: CanvasText; }
   }
-  .db-resize[data-variant="flow"] > .db-resize-pane:not(:first-child) .db-resize-flow > [aria-hidden] > :first-child { color: var(--db-ink); } /* where it carries on */
+  .ot-resize[data-variant="flow"] > .ot-resize-pane:not(:first-child) .ot-resize-flow > [aria-hidden] > :first-child { color: var(--ot-ink); } /* where it carries on */
 }

@@ -38,7 +38,7 @@ function NavigationMenu({ variant = "names", className, dir, ref, ...props }: Na
         dir={dir ?? around}
         data-slot="navigation-menu"
         data-variant={variant}
-        className={cn("db-navmenu", className)}
+        className={cn("ot-navmenu", className)}
         {...props}
       />
     </VariantContext.Provider>
@@ -84,7 +84,7 @@ function NavigationMenuContent({ className, children, onPointerOver, onFocus, on
   return (
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
-      className={cn("db-navmenu-panel", className)}
+      className={cn("ot-navmenu-panel", className)}
       onPointerOver={(e) => (onPointerOver?.(e), variant === "lead" && pick(e.target))}
       onFocus={(e) => (onFocus?.(e), variant === "lead" && pick(e.target))}
       onPointerLeave={(e) => (onPointerLeave?.(e), variant === "inline" && held(e))}
@@ -92,11 +92,11 @@ function NavigationMenuContent({ className, children, onPointerOver, onFocus, on
     >
       {variant === "lead" ? (
         <>
-          <div data-slot="navigation-menu-names" className="db-navmenu-names">
+          <div data-slot="navigation-menu-names" className="ot-navmenu-names">
             {links.map((link, i) => React.cloneElement(link as React.ReactElement<{ "data-lead"?: boolean }>, { "data-lead": i === lead || undefined }))}
           </div>
           {links[lead] ? (
-            <div key={lead} data-slot="navigation-menu-lead" aria-hidden="true" className="db-navmenu-lead">
+            <div key={lead} data-slot="navigation-menu-lead" aria-hidden="true" className="ot-navmenu-lead">
               {links[lead].props.children}
             </div>
           ) : null}

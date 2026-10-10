@@ -4,7 +4,7 @@ export default defineComponent({
   name: "navigation-menu",
   title: "Navigation menu",
   movement: "VIII",
-  contract: "db-navmenu",
+  contract: "ot-navmenu",
   summary: "Small words open a panel of large names, the scale contrast of a poster; or a contents page with one name set as the headline; or the names opened into the line itself.",
   underneath: "radix",
   props: [

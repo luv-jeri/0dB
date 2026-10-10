@@ -8,12 +8,12 @@ function Rule({ at = 50, force }: { at?: number; force?: boolean }) {
   return (
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel defaultSize={at} minSize={20}>
-        <p className="db-mp mb-2 text-ink">The brief</p>
+        <p className="ot-mp mb-2 text-ink">The brief</p>
         <p>A new identity for a ferry line that has run between the islands since 1911.</p>
       </ResizablePanel>
       <ResizableHandle aria-label="Width of the brief" data-force={force ? "hover" : undefined} />
       <ResizablePanel defaultSize={100 - at} minSize={20}>
-        <p className="db-mp mb-2 text-ink">The notes</p>
+        <p className="ot-mp mb-2 text-ink">The notes</p>
         <p>Keep the flag. Lose the anchor. The timetable is the real product.</p>
       </ResizablePanel>
     </ResizablePanelGroup>

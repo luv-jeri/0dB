@@ -4,7 +4,7 @@ export default defineComponent({
   name: "tabs",
   title: "Tabs",
   movement: "VIII",
-  contract: "db-tabs",
+  contract: "ot-tabs",
   summary: "Words with their counts raised. A line inches to the one in view and the count of what's showing sinks into the rule; or the chosen word takes its width from the others; or the rule beside a stack of words opens onto the panel.",
   underneath: "radix",
   props: [

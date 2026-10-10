@@ -41,7 +41,7 @@ export function Overture({ children }: { children?: React.ReactNode }) {
 
       async function measure() {
         const [s, l] = innerWidth >= 900 ? [22, 32] : innerWidth >= 560 ? [19, 28] : [17, 26]
-        const voice = getComputedStyle(document.documentElement).getPropertyValue("--db-voice").trim()
+        const voice = getComputedStyle(document.documentElement).getPropertyValue("--ot-voice").trim()
         const next = `400 ${s}px ${voice}`
         if (next !== font) {
           size = s; lh = l; font = next
@@ -155,7 +155,7 @@ export function Overture({ children }: { children?: React.ReactNode }) {
     <section className="overture" aria-labelledby="title">
       <h1 className="overture-title" id="title">0nlyType</h1>
       <p className="overture-def">
-        <i className="db-term">noun, in acoustics.</i> The quietest sound a person can hear.
+        <i className="ot-term">noun, in acoustics.</i> The quietest sound a person can hear.
       </p>
       {children ? <div className="overture-what">{children}</div> : null}
       <p className="flow-caption margin">The pause goes where you point, and stays where you leave it.</p>
@@ -166,7 +166,7 @@ export function Overture({ children }: { children?: React.ReactNode }) {
         </svg>
         <div className="flow-lines" ref={linesRef} />
       </div>
-      <p className={flowing ? "manifesto db-sr" : "manifesto"}>{MANIFESTO}</p>
+      <p className={flowing ? "manifesto ot-sr" : "manifesto"}>{MANIFESTO}</p>
     </section>
   )
 }

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "figure",
   title: "Figure",
   movement: "IX",
-  contract: "db-figure",
+  contract: "ot-figure",
   summary: "A picture cropped to a ratio and marked like a printer's proof, its number, caption and credit set in type underneath or in the margin beside it.",
   underneath: "native",
   props: [

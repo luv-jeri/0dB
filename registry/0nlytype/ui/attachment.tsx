@@ -24,7 +24,7 @@ function AttachmentList({ variant = "default", enclosureLabel = "Encl.", classNa
       data-count={variant === "enclosure" ? React.Children.count(children) : undefined}
       data-enclosure-label={variant === "enclosure" ? enclosureLabel : undefined}
       aria-label={variant === "enclosure" ? "Enclosures" : undefined}
-      className={cn("db-attachments", className)}
+      className={cn("ot-attachments", className)}
       {...props}
     >
       {children}
@@ -54,19 +54,19 @@ function Attachment({ name, size, status, state = "done", progress, onRemove, re
     <li
       data-slot="attachment"
       data-state={state}
-      className={cn("db-attach", className)}
+      className={cn("ot-attach", className)}
       style={progress === undefined ? style : ({ "--p": progress, ...style } as React.CSSProperties)}
       {...props}
     >
-      <span className="db-attach-ext" data-ext={ext} aria-hidden="true">{ext}</span>
-      <span className="db-attach-body">
-        <span className="db-attach-name">{name}</span>{" "}
-        <span className="db-attach-meta">{status ?? size}</span>
+      <span className="ot-attach-ext" data-ext={ext} aria-hidden="true">{ext}</span>
+      <span className="ot-attach-body">
+        <span className="ot-attach-name">{name}</span>{" "}
+        <span className="ot-attach-meta">{status ?? size}</span>
       </span>
-      <svg className="db-attach-ring" viewBox="0 0 22 22" aria-hidden="true">
-        <circle className="db-attach-track" cx="11" cy="11" r="9.5" />
-        <circle className="db-attach-arc" cx="11" cy="11" r="9.5" pathLength="1" />
-        <circle className="db-attach-fill" cx="11" cy="11" />
+      <svg className="ot-attach-ring" viewBox="0 0 22 22" aria-hidden="true">
+        <circle className="ot-attach-track" cx="11" cy="11" r="9.5" />
+        <circle className="ot-attach-arc" cx="11" cy="11" r="9.5" pathLength="1" />
+        <circle className="ot-attach-fill" cx="11" cy="11" />
       </svg>
       {onRemove ? (
         <Button variant="bracket" aria-label={`${removeLabel} ${name}`} onClick={onRemove}>

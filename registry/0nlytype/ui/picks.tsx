@@ -54,7 +54,7 @@ function Picks({ variant = "pizzicato", name, legend, value: controlled, default
     const el = box.current
     const picks = el ? [...el.querySelectorAll<HTMLElement>(":scope > label")] : []
     if (el && variant === "register") return register(el, picks, turn)
-    const string = el?.querySelector<HTMLElement>(":scope > .db-picks-string")
+    const string = el?.querySelector<HTMLElement>(":scope > .ot-picks-string")
     if (!el || !string || !picks.length) return
     // A fieldset starts its positioned children below the legend and offsetTop can't be trusted inside one, so measure
     // everything from where the string's own top: 0 would be (the string has no transform, unlike the dot).
@@ -63,10 +63,10 @@ function Picks({ variant = "pizzicato", name, legend, value: controlled, default
     const at = (l: HTMLElement) => l.getBoundingClientRect().top - origin
     const first = at(picks[0])
     const last = picks[picks.length - 1]
-    el.style.setProperty("--db-picks-top", `${first}px`)
-    el.style.setProperty("--db-picks-len", `${at(last) + last.offsetHeight - first}px`)
+    el.style.setProperty("--ot-picks-top", `${first}px`)
+    el.style.setProperty("--ot-picks-len", `${at(last) + last.offsetHeight - first}px`)
     const chosen = picks.find((l) => l.querySelector("input:checked"))
-    if (chosen) el.style.setProperty("--db-picks-y", `${at(chosen) + (parseFloat(getComputedStyle(chosen, "::before").top) || 0)}px`)
+    if (chosen) el.style.setProperty("--ot-picks-y", `${at(chosen) + (parseFloat(getComputedStyle(chosen, "::before").top) || 0)}px`)
   }, [variant])
 
   React.useLayoutEffect(() => {
@@ -105,20 +105,20 @@ function Picks({ variant = "pizzicato", name, legend, value: controlled, default
 
   return (
     <PicksContext.Provider value={ctx}>
-      <fieldset ref={composedRef} data-slot="picks" data-variant={variant} className={cn("db-picks", className)} {...props}>
-        {legend ? <legend className="db-label">{legend}</legend> : null}
+      <fieldset ref={composedRef} data-slot="picks" data-variant={variant} className={cn("ot-picks", className)} {...props}>
+        {legend ? <legend className="ot-label">{legend}</legend> : null}
         {children}
         {plucked ? (
           <>
-            <span data-slot="picks-string" className="db-picks-string" aria-hidden="true" />
-            <span data-slot="picks-dot" className="db-picks-dot" aria-hidden="true" />
+            <span data-slot="picks-string" className="ot-picks-string" aria-hidden="true" />
+            <span data-slot="picks-dot" className="ot-picks-dot" aria-hidden="true" />
           </>
         ) : null}
         {variant === "register" ? (
           <>
-            <span className="db-picks-origin" aria-hidden="true" />
-            <span data-slot="picks-cross" className="db-picks-cross" data-corner="start" aria-hidden="true" />
-            <span data-slot="picks-cross" className="db-picks-cross" data-corner="end" aria-hidden="true" />
+            <span className="ot-picks-origin" aria-hidden="true" />
+            <span data-slot="picks-cross" className="ot-picks-cross" data-corner="start" aria-hidden="true" />
+            <span data-slot="picks-cross" className="ot-picks-cross" data-corner="end" aria-hidden="true" />
           </>
         ) : null}
       </fieldset>
@@ -127,22 +127,22 @@ function Picks({ variant = "pizzicato", name, legend, value: controlled, default
 }
 
 // Register: a cross stands off each of the chosen pick's two far corners (the top of its start side, the foot of its end
-// side), by --db-picks-out. Physical px from the origin, a zero box at the fieldset's top left, so direction only
+// side), by --ot-picks-out. Physical px from the origin, a zero box at the fieldset's top left, so direction only
 // decides which corners. Each move turns the crosses a quarter, the way the pick went.
 function register(el: HTMLElement, picks: HTMLElement[], turn: React.RefObject<number>) {
   const chosen = picks.find((l) => l.querySelector("input:checked"))
-  const origin = el.querySelector(":scope > .db-picks-origin")?.getBoundingClientRect()
+  const origin = el.querySelector(":scope > .ot-picks-origin")?.getBoundingClientRect()
   if (!chosen || !origin) return
   el.setAttribute("data-placed", "")
   const k = el.getBoundingClientRect().width / (el.offsetWidth || 1) || 1 // a zoomed preview
   const r = chosen.getBoundingClientRect()
-  const out = parseFloat(getComputedStyle(el).getPropertyValue("--db-picks-out")) || 12
+  const out = parseFloat(getComputedStyle(el).getPropertyValue("--ot-picks-out")) || 12
   const rtl = getComputedStyle(chosen).direction === "rtl"
   const [left, right] = [(r.left - origin.left) / k - out, (r.right - origin.left) / k + out]
   const [top, foot] = [(r.top - origin.top) / k - out, (r.bottom - origin.top) / k + out]
-  const was = parseFloat(el.style.getPropertyValue("--db-picks-y0"))
+  const was = parseFloat(el.style.getPropertyValue("--ot-picks-y0"))
   if (el.hasAttribute("data-ready") && !el.hasAttribute("data-still") && Number.isFinite(was) && Math.abs(top - was) > 1) turn.current += top > was ? 90 : -90
-  const set = (p: string, v: number, u = "px") => el.style.setProperty(`--db-picks-${p}`, `${v}${u}`)
+  const set = (p: string, v: number, u = "px") => el.style.setProperty(`--ot-picks-${p}`, `${v}${u}`)
   set("x0", rtl ? right : left)
   set("y0", top)
   set("x1", rtl ? left : right)
@@ -190,7 +190,7 @@ type PickTitleProps = React.ComponentProps<"span"> & {
 /** The pick's name. Set in the voice; the chosen one crosses into the italic. */
 function PickTitle({ className, children, ...props }: PickTitleProps) {
   if (typeof children !== "string") {
-    return <span data-slot="pick-title" className={cn("db-pick-title", className)} {...props}>{children}</span>
+    return <span data-slot="pick-title" className={cn("ot-pick-title", className)} {...props}>{children}</span>
   }
   // The first letter (a whole grapheme) is its own span so rubric can hang it, and the rest its own so it can turn
   // italic beside it. data-initial feeds the ghost that holds the letter's place. Readers get the name whole.
@@ -200,34 +200,34 @@ function PickTitle({ className, children, ...props }: PickTitleProps) {
   // the pilcrow, and leaves the name whole.
   if (first.toLocaleUpperCase() === first.toLocaleLowerCase()) {
     return (
-      <span data-slot="pick-title" data-text={children} data-caseless="" className={cn("db-pick-title", className)} {...props}>
+      <span data-slot="pick-title" data-text={children} data-caseless="" className={cn("ot-pick-title", className)} {...props}>
         <span aria-hidden="true" data-initial="">
-          <span className="db-pick-initial" data-text={"\u00b6"}>
+          <span className="ot-pick-initial" data-text={"\u00b6"}>
             <span />
           </span>
-          <span className="db-pick-rest" data-text={children}>
+          <span className="ot-pick-rest" data-text={children}>
             <span>{children}</span>
           </span>
         </span>
-        <span className="db-sr">{children}</span>
+        <span className="ot-sr">{children}</span>
       </span>
     )
   }
   const rest = children.slice(first.length)
   return (
-    <span data-slot="pick-title" data-text={children} className={cn("db-pick-title", className)} {...props}>
+    <span data-slot="pick-title" data-text={children} className={cn("ot-pick-title", className)} {...props}>
       <span aria-hidden="true" data-initial={first}>
-        <span className="db-pick-initial" data-text={first}><span>{first}</span></span>
-        <span className="db-pick-rest" data-text={rest}><span>{rest}</span></span>
+        <span className="ot-pick-initial" data-text={first}><span>{first}</span></span>
+        <span className="ot-pick-rest" data-text={rest}><span>{rest}</span></span>
       </span>
-      <span className="db-sr">{children}</span>
+      <span className="ot-sr">{children}</span>
     </span>
   )
 }
 
 /** A line under the title, in the pencil. */
 function PickDescription({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="pick-description" className={cn("db-pick-description", className)} {...props} />
+  return <span data-slot="pick-description" className={cn("ot-pick-description", className)} {...props} />
 }
 
 export { Picks, Pick, PickTitle, PickDescription, type PicksProps, type PickProps, type PickTitleProps }

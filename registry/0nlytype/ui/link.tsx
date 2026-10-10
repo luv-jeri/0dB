@@ -18,10 +18,10 @@ type LinkProps = React.ComponentProps<"a"> & {
 /** Hangs past the end of the line (see base.css), so the link keeps room for it and it never starts a line alone. */
 const out = (
   <>
-    <span className="db-link-out" aria-hidden="true">
+    <span className="ot-link-out" aria-hidden="true">
       ↗
     </span>
-    <span className="db-sr"> (opens in a new tab)</span>
+    <span className="ot-sr"> (opens in a new tab)</span>
   </>
 )
 
@@ -33,7 +33,7 @@ function Link({ className, asChild = false, external = false, variant, children,
   const Comp = asChild ? Slot : "a"
   const address =
     variant === "address" && !asChild && props.href ? (
-      <span className="db-link-address" aria-hidden="true">
+      <span className="ot-link-address" aria-hidden="true">
         ({addressOf(props.href)})
       </span>
     ) : null
@@ -41,7 +41,7 @@ function Link({ className, asChild = false, external = false, variant, children,
     <Comp
       data-slot="link"
       data-variant={variant}
-      className={cn("db-link", className)}
+      className={cn("ot-link", className)}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
       {...props}
     >
@@ -56,7 +56,7 @@ function Link({ className, asChild = false, external = false, variant, children,
     </Comp>
   )
   // Keep room for the address even at rest; it steps under the words when their measure is full.
-  return address ? <span className="db-link-addressed">{link}{address}</span> : link
+  return address ? <span className="ot-link-addressed">{link}{address}</span> : link
 }
 
 export { Link, type LinkProps }

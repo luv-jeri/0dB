@@ -4,7 +4,7 @@ export default defineComponent({
   name: "input-otp",
   title: "Input OTP",
   movement: "VI",
-  contract: "db-code",
+  contract: "ot-code",
   summary: "A one-time code on short baselines, three and three. Digits drop in as you type; whole, the lines ink in turn. Or the code closes up into one figure, or is read back in words under its digits.",
   underneath: "hook",
   props: [

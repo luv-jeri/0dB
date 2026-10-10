@@ -79,7 +79,7 @@ function ReadingTrail({ sections, variant = "contents", label = "On this page", 
       let now = -1
       r.forEach((v, i) => { if (v <= p + 1e-4) now = i })
       const end = r[now + 1] ?? 1
-      el.style.setProperty("--db-trail-read", now < 0 ? "0" : end > r[now] ? clamp((p - r[now]) / (end - r[now])).toFixed(3) : "1")
+      el.style.setProperty("--ot-trail-read", now < 0 ? "0" : end > r[now] ? clamp((p - r[now]) / (end - r[now])).toFixed(3) : "1")
       const folios = r.map((v) => Math.round(v * 100))
       if (last !== -2 && last !== now) setTurned(true)
       last = now
@@ -118,19 +118,19 @@ function ReadingTrail({ sections, variant = "contents", label = "On this page", 
       data-slot="reading-trail"
       data-variant={variant}
       aria-label={sections.length ? label : undefined}
-      className={cn("db-trail", className)}
-      style={pinned ? ({ "--db-trail-read": pinned.read ?? 0, ...style } as React.CSSProperties) : style}
+      className={cn("ot-trail", className)}
+      style={pinned ? ({ "--ot-trail-read": pinned.read ?? 0, ...style } as React.CSSProperties) : style}
       {...props}
     >
-      {!rail && sections.length > 0 && <p className="db-trail-caption" aria-hidden="true">{label}</p>}
-      {sections.length > 0 && <ItemGroup className="db-trail-list">
+      {!rail && sections.length > 0 && <p className="ot-trail-caption" aria-hidden="true">{label}</p>}
+      {sections.length > 0 && <ItemGroup className="ot-trail-list">
         {sections.map((s, i) => (
-          <Item key={s.id} data-slot="reading-trail-step" data-state={i < now ? "read" : i === now ? "now" : "ahead"} className="db-trail-step">
+          <Item key={s.id} data-slot="reading-trail-step" data-state={i < now ? "read" : i === now ? "now" : "ahead"} className="ot-trail-step">
             <ItemContent>
               <ItemTitle>
-                <a href={`#${s.id}`} className="db-trail-link" aria-current={i === now ? "location" : undefined}>
-                  <span className="db-trail-num">{numOf(s, i)}</span>
-                  <span className="db-trail-name">{s.name}</span>
+                <a href={`#${s.id}`} className="ot-trail-link" aria-current={i === now ? "location" : undefined}>
+                  <span className="ot-trail-num">{numOf(s, i)}</span>
+                  <span className="ot-trail-name">{s.name}</span>
                 </a>
               </ItemTitle>
             </ItemContent>
@@ -139,9 +139,9 @@ function ReadingTrail({ sections, variant = "contents", label = "On this page", 
         ))}
       </ItemGroup>}
       {rail && head && (
-        <p className="db-trail-head" aria-hidden="true">
-          <span key={now} className="db-trail-head-in" data-turn={turned || undefined}>
-            <span className="db-trail-num">{numOf(head, now)}</span>
+        <p className="ot-trail-head" aria-hidden="true">
+          <span key={now} className="ot-trail-head-in" data-turn={turned || undefined}>
+            <span className="ot-trail-num">{numOf(head, now)}</span>
             <span dir="auto">{head.name}</span>
           </span>
         </p>

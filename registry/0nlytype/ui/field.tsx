@@ -74,7 +74,7 @@ function Field({ label, hint, error, count, maxLength, id, variant = "line", cla
         data-slot="field"
         data-variant={variant}
         data-filled={typed > 0 ? "" : undefined}
-        className={cn("db-field", className)}
+        className={cn("ot-field", className)}
         onInput={(e) => {
           onInput?.(e)
           if ((e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) setTyped(e.target.value.length)
@@ -82,20 +82,20 @@ function Field({ label, hint, error, count, maxLength, id, variant = "line", cla
         {...props}
       >
         {label ? (
-          <label data-slot="field-label" className="db-label" htmlFor={controlId}>
+          <label data-slot="field-label" className="ot-label" htmlFor={controlId}>
             {label}
           </label>
         ) : null}
         {count ? (
-          <span data-slot="field-count" className="db-field-count" aria-hidden="true">
+          <span data-slot="field-count" className="ot-field-count" aria-hidden="true">
             {typed}
             {maxLength ? ` / ${maxLength}` : null}
           </span>
         ) : null}
-        {variant === "signature" ? <span className="db-field-mark" aria-hidden="true" /> : null}
+        {variant === "signature" ? <span className="ot-field-mark" aria-hidden="true" /> : null}
         {children}
         {hint ? (
-          <p data-slot="field-hint" id={ctx.hintId} className="db-field-hint">
+          <p data-slot="field-hint" id={ctx.hintId} className="ot-field-hint">
             {hint}
           </p>
         ) : null}
@@ -107,7 +107,7 @@ function Field({ label, hint, error, count, maxLength, id, variant = "line", cla
 
 /** The callout: a pill on a leader line, hung from the baseline it's about. */
 function FieldError({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="field-error" className={cn("db-field-error", className)} {...props} />
+  return <p data-slot="field-error" className={cn("ot-field-error", className)} {...props} />
 }
 
 type Control<T extends HTMLElement> = React.ComponentProps<T extends HTMLTextAreaElement ? "textarea" : "input">
@@ -140,7 +140,7 @@ function Input({ className, ...props }: React.ComponentProps<"input">) {
   return (
     <input
       data-slot="input"
-      className={cn("db-input", className)}
+      className={cn("ot-input", className)}
       {...props}
       id={props.id ?? field.id}
       maxLength={props.maxLength ?? field.maxLength}
@@ -158,7 +158,7 @@ function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (
     <textarea
       data-slot="textarea"
-      className={cn("db-input", className)}
+      className={cn("ot-input", className)}
       {...props}
       id={props.id ?? field.id}
       maxLength={props.maxLength ?? field.maxLength}

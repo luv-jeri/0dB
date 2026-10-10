@@ -4,7 +4,7 @@ export default defineComponent({
   name: "meter",
   title: "Meter",
   movement: "X",
-  contract: "db-meter",
+  contract: "ot-meter",
   summary: "A bounded reading: your figure in large italic above a dimension line, one accent index locating it between its limits. Space remains space; nothing fills it in.",
   underneath: "native",
   props: [

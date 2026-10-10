@@ -4,7 +4,7 @@ export default defineComponent({
   name: "collapsible",
   title: "Collapsible",
   movement: "IX",
-  contract: "db-collapse",
+  contract: "ot-collapse",
   summary: "A list that ends in the rest of itself: the words \"and 4 more\" are the control.",
   underneath: "native",
   uses: ["button"],

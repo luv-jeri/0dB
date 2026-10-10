@@ -73,7 +73,7 @@ function useRag(probe: React.RefObject<HTMLElement | null>, on: boolean) {
       const right = (d.dataset.side !== "start") !== (style.direction === "rtl")
       const rows: { top: number; bottom: number; x: number }[] = []
       const walk = document.createTreeWalker(d, NodeFilter.SHOW_TEXT, {
-        acceptNode: (n) => (n.parentElement?.closest("svg, .db-scrollbar, .db-sr") || !n.textContent?.trim() ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+        acceptNode: (n) => (n.parentElement?.closest("svg, .ot-scrollbar, .ot-sr") || !n.textContent?.trim() ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
       })
       const range = document.createRange()
       for (let n = walk.nextNode(); n; n = walk.nextNode()) {
@@ -152,8 +152,8 @@ function useFold(probe: React.RefObject<HTMLElement | null>, on: boolean) {
     const style = getComputedStyle(d)
     return {
       transform: `translate(${dx}px, ${dy}px) scale(${s})`,
-      duration: ms(style.getPropertyValue("--db-andante")),
-      easing: style.getPropertyValue("--db-exhale").trim() || "ease-out",
+      duration: ms(style.getPropertyValue("--ot-andante")),
+      easing: style.getPropertyValue("--ot-exhale").trim() || "ease-out",
     }
   }, [])
 
@@ -165,9 +165,9 @@ function useFold(probe: React.RefObject<HTMLElement | null>, on: boolean) {
     const r = from?.isConnected ? from.getBoundingClientRect() : null
     const px = (v: number) => `${Math.round(Math.max(0, v))}px`
     for (const [k, v] of Object.entries(r ? { t: r.top, r: innerWidth - r.right, b: innerHeight - r.bottom, l: r.left } : {})) d.style.setProperty(`--fold-${k}`, px(v))
-    d.toggleAttribute("data-from-ink", !!from?.matches('.db-rows:not([data-variant]) .db-rows-link:is(:hover, :focus-visible)'))
+    d.toggleAttribute("data-from-ink", !!from?.matches('.ot-rows:not([data-variant]) .ot-rows-link:is(:hover, :focus-visible)'))
     // Closing (the page still laid out, before close() or while Escape's close plays): the title flies back.
-    const title = d.querySelector<HTMLElement>(".db-sheet-title")
+    const title = d.querySelector<HTMLElement>(".ot-sheet-title")
     if (open || !title?.getClientRects().length) return
     const f = flip(d, from?.querySelector<HTMLElement>("[data-slot=rows-title]") ?? from, title)
     if (f && title && !matchMedia("(prefers-reduced-motion: reduce)").matches) title.animate([{ transform: "none" }, { transform: f.transform }], { duration: f.duration, easing: f.easing, fill: "forwards" })
@@ -176,7 +176,7 @@ function useFold(probe: React.RefObject<HTMLElement | null>, on: boolean) {
   // Opened: the row's name grows into the title.
   React.useEffect(() => {
     const d = probe.current?.closest("dialog")
-    const title = d?.querySelector<HTMLElement>(".db-sheet-title") ?? null
+    const title = d?.querySelector<HTMLElement>(".ot-sheet-title") ?? null
     if (!on || !open || !d || !title) return
     title.getAnimations().forEach((a) => a.cancel())
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return
@@ -197,7 +197,7 @@ function SheetContent({ className, side = "end", variant = "spine", children, on
       data-slot="sheet-content"
       data-side={side}
       data-variant={variant === "spine" ? undefined : variant}
-      className={cn("db-sheet", className)}
+      className={cn("ot-sheet", className)}
       onClick={(e) => {
         onClick?.(e)
         // A rag sheet's box is wider than its paper: a click on the bare part is a click outside.
@@ -207,9 +207,9 @@ function SheetContent({ className, side = "end", variant = "spine", children, on
     >
       {children}
       {ragged && rag && (
-        <svg className="db-sheet-rag" aria-hidden="true" width={rag.w} height={rag.h} viewBox={`0 0 ${rag.w} ${rag.h}`}>
-          <path className="db-sheet-rag-paper" d={rag.fill} />
-          <path className="db-sheet-rag-edge" d={rag.line} pathLength={1} />
+        <svg className="ot-sheet-rag" aria-hidden="true" width={rag.w} height={rag.h} viewBox={`0 0 ${rag.w} ${rag.h}`}>
+          <path className="ot-sheet-rag-paper" d={rag.fill} />
+          <path className="ot-sheet-rag-edge" d={rag.line} pathLength={1} />
         </svg>
       )}
       {(ragged || variant === "fold") && <span ref={probe} hidden />}
@@ -262,7 +262,7 @@ function SheetPanels({ defaultValue, onValueChange, className, children, ref: fo
       focus()?.focus({ preventScroll: true })
     })
   }
-  const heading = () => host.current?.querySelector<HTMLElement>(".db-sheet-panel:not([hidden]) > .db-sheet-panel-title")
+  const heading = () => host.current?.querySelector<HTMLElement>(".ot-sheet-panel:not([hidden]) > .ot-sheet-panel-title")
   const go = (to: string, from: HTMLElement | null) => {
     if (to === path[path.length - 1] || !titles.has(to)) return
     openers.current[path.length - 1] = from
@@ -272,16 +272,16 @@ function SheetPanels({ defaultValue, onValueChange, className, children, ref: fo
 
   return (
     <PanelsContext.Provider value={{ path, root: defaultValue, go }}>
-      <div ref={composedRef} data-slot="sheet-panels" data-step={step} className={cn("db-sheet-panels", className)} {...props}>
+      <div ref={composedRef} data-slot="sheet-panels" data-step={step} className={cn("ot-sheet-panels", className)} {...props}>
         {/* The spine is the trail: the root at the foot, the panel you are in written large at the head. */}
-        <nav className="db-sheet-spine db-sheet-trail" aria-label="Path">
+        <nav className="ot-sheet-spine ot-sheet-trail" aria-label="Path">
           {path.map((v, i) => {
             const here = i === path.length - 1
             return (
               <button
                 key={v}
                 type="button"
-                className="db-sheet-trail-step"
+                className="ot-sheet-trail-step"
                 aria-current={here ? "page" : undefined}
                 aria-disabled={here || undefined}
                 onClick={() => !here && back(i)}
@@ -309,8 +309,8 @@ function SheetPanel({ value, title, className, children, ...props }: SheetPanelP
   const { titleId } = useDialog()
   const here = path[path.length - 1] === value
   return (
-    <section data-slot="sheet-panel" hidden={!here} inert={!here} aria-label={typeof title === "string" ? title : undefined} className={cn("db-sheet-panel", className)} {...props}>
-      <h2 id={value === root ? titleId : undefined} tabIndex={-1} className="db-sheet-title db-sheet-panel-title">
+    <section data-slot="sheet-panel" hidden={!here} inert={!here} aria-label={typeof title === "string" ? title : undefined} className={cn("ot-sheet-panel", className)} {...props}>
+      <h2 id={value === root ? titleId : undefined} tabIndex={-1} className="ot-sheet-title ot-sheet-panel-title">
         {title}
       </h2>
       {children}
@@ -327,7 +327,7 @@ function SheetPanelLink({ to, asChild = false, className, children, onClick, ...
   return (
     <Comp
       data-slot="sheet-panel-link"
-      className={asChild ? className : cn("db-sheet-panel-link", className)}
+      className={asChild ? className : cn("ot-sheet-panel-link", className)}
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(e)
         if (!e.defaultPrevented) go(to, e.currentTarget)
@@ -338,7 +338,7 @@ function SheetPanelLink({ to, asChild = false, className, children, onClick, ...
       {asChild ? children : (
         <>
           <span>{children}</span>
-          <span aria-hidden="true" className="db-sheet-panel-arrow">→</span>
+          <span aria-hidden="true" className="ot-sheet-panel-arrow">→</span>
         </>
       )}
     </Comp>
@@ -347,17 +347,17 @@ function SheetPanelLink({ to, asChild = false, className, children, onClick, ...
 
 /** The sheet's name, running up its spine like a book's. Decorative: the visible title is SheetTitle. */
 function SheetSpine({ className, ...props }: React.ComponentProps<"p">) {
-  return <p data-slot="sheet-spine" aria-hidden="true" className={cn("db-sheet-spine", className)} {...props} />
+  return <p data-slot="sheet-spine" aria-hidden="true" className={cn("ot-sheet-spine", className)} {...props} />
 }
 
 function SheetTitle({ className, ...props }: React.ComponentProps<"h2">) {
   const { titleId } = useDialog()
-  return <h2 data-slot="sheet-title" id={titleId} className={cn("db-sheet-title", className)} {...props} />
+  return <h2 data-slot="sheet-title" id={titleId} className={cn("ot-sheet-title", className)} {...props} />
 }
 
 function SheetDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { descriptionId } = useDialog()
-  return <p data-slot="sheet-description" id={descriptionId} className={cn("db-sheet-body", className)} {...props} />
+  return <p data-slot="sheet-description" id={descriptionId} className={cn("ot-sheet-body", className)} {...props} />
 }
 
 function SheetActions(props: React.ComponentProps<"div">) {

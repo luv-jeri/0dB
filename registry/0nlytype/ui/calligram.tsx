@@ -254,11 +254,11 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
   }, [text, shape, variant, centre])
 
   return (
-    <p ref={composedRef} data-slot="calligram" data-shape={variant === "fill" ? shape : undefined} data-variant={variant === "fill" ? undefined : variant} data-fade={fade || undefined} className={cn("db-calligram", className)} style={{ ...(size ? { "--size": size } : null), ...style } as React.CSSProperties} {...props}>
-      <span className="db-sr">{text}</span>
+    <p ref={composedRef} data-slot="calligram" data-shape={variant === "fill" ? shape : undefined} data-variant={variant === "fill" ? undefined : variant} data-fade={fade || undefined} className={cn("ot-calligram", className)} style={{ ...(size ? { "--size": size } : null), ...style } as React.CSSProperties} {...props}>
+      <span className="ot-sr">{text}</span>
       <span
         aria-hidden="true"
-        className="db-calligram-lines"
+        className="ot-calligram-lines"
         data-laid={laid ? "" : undefined}
         style={laid ? { fontSize: laid.size, lineHeight: `${laid.lh}px`, paddingTop: laid.top, height: laid.height } : undefined}
       >
@@ -266,7 +266,7 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
           ? text
           : laid.streaks
             ? laid.streaks.map((streak, i) => (
-                <span key={i} className="db-calligram-streak" style={{ left: streak.x, top: streak.y }}>
+                <span key={i} className="ot-calligram-streak" style={{ left: streak.x, top: streak.y }}>
                   {streak.letters.map((g, j) => (
                     <span key={j} style={{ "--j": j, "--t": 1 - j / Math.max(1, streak.letters.length - 1) } as React.CSSProperties}>{g}</span>
                   ))}
@@ -274,18 +274,18 @@ function Calligram({ children: text, shape = "circle", variant = "fill", centre,
               ))
             : laid.sides
               ? laid.sides.map((side, i) => (
-                  <span key={i} className="db-calligram-side" style={{ "--x": `${side.x}px`, "--a": `${side.a}deg`, "--t": i / laid.sides!.length, top: side.y, width: side.len, wordSpacing: side.spacing } as React.CSSProperties}>{side.text}</span>
+                  <span key={i} className="ot-calligram-side" style={{ "--x": `${side.x}px`, "--a": `${side.a}deg`, "--t": i / laid.sides!.length, top: side.y, width: side.len, wordSpacing: side.spacing } as React.CSSProperties}>{side.text}</span>
                 ))
               : laid.lines.map((line, i) => (
                   <span key={i} style={{ "--t": line.t, wordSpacing: line.spacing, letterSpacing: line.tracking } as React.CSSProperties}>{line.text}</span>
                 ))}
       </span>
       {variant === "mirror" && centre ? (
-        <span ref={middle} className="db-calligram-centre" style={laid?.centre ? { fontSize: laid.centre } : undefined}>
+        <span ref={middle} className="ot-calligram-centre" style={laid?.centre ? { fontSize: laid.centre } : undefined}>
           {centre}
         </span>
       ) : null}
-      {variant === "fill" && shape === "fermata" ? <span aria-hidden="true" className="db-calligram-dot" /> : null}
+      {variant === "fill" && shape === "fermata" ? <span aria-hidden="true" className="ot-calligram-dot" /> : null}
     </p>
   )
 }

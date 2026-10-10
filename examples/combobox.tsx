@@ -24,24 +24,24 @@ export default function Example() {
   return (
     <div className="grid w-full max-w-md gap-12">
       <div className="grid gap-10">
-        <span className="db-label">list</span>
+        <span className="ot-label">list</span>
         <Combobox label="Typeface" placeholder="Start typing a name" options={FACES} empty="Nothing matches. Try part of a name, like Garamond." />
         <Field label="Project" hint="Type a year or a kind to narrow the list.">
           <Combobox options={PROJECTS} placeholder="Choose a project" value={project} onValueChange={setProject} />
         </Field>
       </div>
       <div className="grid gap-10">
-        <span className="db-label">concordance</span>
+        <span className="ot-label">concordance</span>
         <Combobox variant="concordance" label="Typeface" placeholder="Type any part of a name" options={FACES} empty="Nothing matches. Try a few letters, like ond." />
       </div>
       <div className="grid gap-10">
-        <span className="db-label">pencil</span>
+        <span className="ot-label">pencil</span>
         <Field label="Typeface" hint="Tab takes the pencilled rest of the name.">
           <Combobox variant="pencil" placeholder="Start typing a name" options={FACES} empty="Nothing matches. Try part of a name, like Garamond." />
         </Field>
       </div>
       <div className="grid gap-10">
-        <span className="db-label">multiple</span>
+        <span className="ot-label">multiple</span>
         <Field label="Typefaces" hint="Choose as many as you like. Press a name to take it out.">
           <Combobox multiple name="faces" placeholder="Choose any number" options={FACES} defaultValue={["didot", "futura", "univers"]} empty="Nothing matches. Try part of a name, like Garamond." />
         </Field>

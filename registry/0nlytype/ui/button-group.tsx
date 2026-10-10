@@ -22,11 +22,11 @@ function ButtonGroup({ className, variant = "parentheses", conjunction = "or", c
     const items = React.Children.toArray(children)
     const last = items.length - 1
     return (
-      <span role="group" data-slot="button-group" data-variant={variant} className={cn("db-btn-group", className)} {...(props as React.ComponentProps<"span">)}>
+      <span role="group" data-slot="button-group" data-variant={variant} className={cn("ot-btn-group", className)} {...(props as React.ComponentProps<"span">)}>
         {items.map((item, i) => (
           <React.Fragment key={i}>
             {i > 0 ? (
-              <span className="db-btn-group-sep" aria-hidden="true">
+              <span className="ot-btn-group-sep" aria-hidden="true">
                 {i < last ? ", " : `${last > 1 ? "," : ""} ${conjunction} `}
               </span>
             ) : null}
@@ -37,7 +37,7 @@ function ButtonGroup({ className, variant = "parentheses", conjunction = "or", c
     )
   }
   return (
-    <div role="group" data-slot="button-group" data-variant={variant} className={cn("db-btn-group", className)} {...props}>
+    <div role="group" data-slot="button-group" data-variant={variant} className={cn("ot-btn-group", className)} {...props}>
       {children}
     </div>
   )

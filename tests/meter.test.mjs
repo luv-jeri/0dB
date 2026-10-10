@@ -12,15 +12,15 @@ test("meter clamps its visible reading and native value to the same limits", () 
     const html = render({ value, unit: " GB" })
     assert.match(native(html), new RegExp(`value="${expected}"`))
     assert.match(native(html), new RegExp(`aria-valuetext="${expected} GB"`))
-    assert.ok(html.includes(`<span class="db-yours">${expected}</span>`))
-    assert.ok(html.includes(`--db-meter-p:${expected / 100}`))
+    assert.ok(html.includes(`<span class="ot-yours">${expected}</span>`))
+    assert.ok(html.includes(`--ot-meter-p:${expected / 100}`))
   }
 })
 
 test("signed ranges and zero use their own minimum, rather than a percentage of max", () => {
   const html = render({ value: 0, min: -100, max: 100 })
   assert.match(native(html), /value="0" min="-100" max="100"/)
-  assert.ok(html.includes("--db-meter-p:0.5"))
+  assert.ok(html.includes("--ot-meter-p:0.5"))
 })
 
 test("the native label, description and caller semantics are preserved", () => {
@@ -56,14 +56,14 @@ test("direction, language and visibility cover the visual meter as well as its n
 
 test("bidi isolation keeps signed readings and their units together in RTL", () => {
   const html = render({ value: -25, min: -100, max: 100, dir: "rtl", unit: " GBP" })
-  assert.ok(html.includes('<bdi dir="ltr"><span class="db-yours">-25</span><small> GBP</small></bdi>'))
+  assert.ok(html.includes('<bdi dir="ltr"><span class="ot-yours">-25</span><small> GBP</small></bdi>'))
   assert.ok(html.includes('<bdi dir="ltr" data-slot="meter-min">-100 GBP</bdi>'))
 })
 
 
 test("signed readings without a lettered unit keep an explicit numeric direction", () => {
   const html = render({ value: -25, min: -100, dir: "rtl" })
-  assert.ok(html.includes('<bdi dir="ltr"><span class="db-yours">-25</span>'))
+  assert.ok(html.includes('<bdi dir="ltr"><span class="ot-yours">-25</span>'))
   assert.ok(html.includes('<bdi dir="ltr" data-slot="meter-min">-100</bdi>'))
 })
 

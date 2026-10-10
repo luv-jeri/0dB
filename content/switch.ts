@@ -4,7 +4,7 @@ export default defineComponent({
   name: "switch",
   title: "Switch",
   movement: "VI",
-  contract: "db-switch",
+  contract: "ot-switch",
   summary: "A sentence whose last word you can change. The state rolls between on and off in italic, and the full stop answers: a dot when on, a ring when off.",
   underneath: "native",
   props: [

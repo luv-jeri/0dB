@@ -17,8 +17,8 @@ type TilingProps = React.ComponentProps<"div"> & {
 function Tiling({ variant = "rules", className, children, ...props }: TilingProps) {
   // The sheet is the grid; the outer box is the container its narrow layouts are measured against.
   return (
-    <div data-slot="tiling" data-variant={variant} className={cn("db-tiling", className)} {...props}>
-      <div className="db-tiling-sheet">{children}</div>
+    <div data-slot="tiling" data-variant={variant} className={cn("ot-tiling", className)} {...props}>
+      <div className="ot-tiling-sheet">{children}</div>
     </div>
   )
 }
@@ -37,7 +37,7 @@ function Tile({ span = 4, rows = 1, place = "start-top", className, style, ...pr
     <div
       data-slot="tile"
       data-place={place}
-      className={cn("db-tile", className)}
+      className={cn("ot-tile", className)}
       style={{ "--span": span, "--rows": rows, ...style } as React.CSSProperties}
       {...props}
     />
@@ -235,7 +235,7 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
       seen.set(node.dataset.id, at)
       if (glide && before && !node.hasAttribute("data-dragging") && (Math.abs(at.x - before.x) > 0.5 || Math.abs(at.y - before.y) > 0.5)) {
         node.getAnimations().forEach((animation) => animation.cancel())
-        node.animate([{ translate: `${before.x - node.offsetLeft}px ${before.y - node.offsetTop}px` }, { translate: "0 0" }], { duration: parseFloat(cs.getPropertyValue("--db-moderato")) || 320, easing: cs.getPropertyValue("--db-breath").trim() || "ease" })
+        node.animate([{ translate: `${before.x - node.offsetLeft}px ${before.y - node.offsetTop}px` }, { translate: "0 0" }], { duration: parseFloat(cs.getPropertyValue("--ot-moderato")) || 320, easing: cs.getPropertyValue("--ot-breath").trim() || "ease" })
       }
     })
     previous.current = seen
@@ -369,25 +369,25 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
   const rows = error ? 2 : Math.max(2, ...shown.map((tile) => tile.row + tile.rows), ...tiles.map((tile) => tile.row + tile.rows))
   const landing = activeEdit?.layout.find((tile) => tile.id === activeEdit.id)
   return (
-    <div data-slot="tiling-editor" data-variant={variant} className={cn("db-tiling db-tiling-editor", className)} {...props} onKeyDown={(event) => { if (event.key === "Escape" && (activeEdit || drag.current)) { event.preventDefault(); cancel() }; props.onKeyDown?.(event) }}>
-      <div className="db-tiling-toolbar">
-        <span className="db-tiling-caption">{label}</span>
-        <div className="db-tiling-actions" role="group" aria-label={`${label} actions`}>
+    <div data-slot="tiling-editor" data-variant={variant} className={cn("ot-tiling ot-tiling-editor", className)} {...props} onKeyDown={(event) => { if (event.key === "Escape" && (activeEdit || drag.current)) { event.preventDefault(); cancel() }; props.onKeyDown?.(event) }}>
+      <div className="ot-tiling-toolbar">
+        <span className="ot-tiling-caption">{label}</span>
+        <div className="ot-tiling-actions" role="group" aria-label={`${label} actions`}>
           <button ref={add} type="button" onClick={addTile} disabled={!!error}>Add tile</button>
           <button type="button" onClick={removeTile} disabled={!current || !!error} aria-label={current ? `Remove tile: ${current.label}` : "Remove tile"}>Remove tile</button>
           {copyLayout ? <button type="button" onClick={copy} disabled={!!error}>Copy layout</button> : null}
         </div>
       </div>
-      <div className="db-tiling-instructions">
-        <p id={hint} className="db-tiling-hint">Drag to move. Drag the corner to resize.</p>
-        <p id={keys} className="db-tiling-keys">Enter / Space picks up or drops. Arrows move. Shift + arrows resize. Escape cancels.</p>
+      <div className="ot-tiling-instructions">
+        <p id={hint} className="ot-tiling-hint">Drag to move. Drag the corner to resize.</p>
+        <p id={keys} className="ot-tiling-keys">Enter / Space picks up or drops. Arrows move. Shift + arrows resize. Escape cancels.</p>
       </div>
       {error ? <p role="alert">{error}</p> : (
-        <div className="db-tiling-viewport" tabIndex={0} role="region" aria-label={`${label}, 12-column editing sheet`} aria-describedby={`${hint} ${keys}`}>
-          <div className="db-tiling-canvas">
-            <div className="db-tiling-columns" aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <span key={i}><bdi>{String(i + 1).padStart(2, "0")}</bdi></span>)}</div>
-            <div ref={sheet} className="db-tiling-sheet" style={{ "--db-tiling-rows": rows } as React.CSSProperties}>
-              {landing ? <div className="db-tiling-landing" aria-hidden="true" style={tracks(landing)} /> : null}
+        <div className="ot-tiling-viewport" tabIndex={0} role="region" aria-label={`${label}, 12-column editing sheet`} aria-describedby={`${hint} ${keys}`}>
+          <div className="ot-tiling-canvas">
+            <div className="ot-tiling-columns" aria-hidden="true">{Array.from({ length: 12 }, (_, i) => <span key={i}><bdi>{String(i + 1).padStart(2, "0")}</bdi></span>)}</div>
+            <div ref={sheet} className="ot-tiling-sheet" style={{ "--ot-tiling-rows": rows } as React.CSSProperties}>
+              {landing ? <div className="ot-tiling-landing" aria-hidden="true" style={tracks(landing)} /> : null}
               {shown.map((tile) => {
                 const holding = activeEdit?.id === tile.id
                 const floating = holding && activeEdit.offset
@@ -398,25 +398,25 @@ function TilingEditor({ label, value, defaultValue = [], onValueChange, variant 
                     onPointerCancel={cancel} onLostPointerCapture={(event) => { if (event.target === event.currentTarget && drag.current?.moved) cancel() }} onDragStart={(event) => event.preventDefault()}
                     onClickCapture={(event) => { if (suppressClick.current) { event.preventDefault(); event.stopPropagation(); suppressClick.current = false } }}
                     onClick={() => setSelected(tile.id)}>
-                    <button type="button" className="db-tiling-move" tabIndex={-1} aria-label={`Move ${tile.label}`} aria-pressed={holding} aria-describedby={`${hint} ${keys}`}
+                    <button type="button" className="ot-tiling-move" tabIndex={-1} aria-label={`Move ${tile.label}`} aria-pressed={holding} aria-describedby={`${hint} ${keys}`}
                       onKeyDown={(event) => key(event, tile)} onClick={(event) => { if (event.detail === 0) { if (holding) drop(); else lift(tile) } }} />
-                    <div className="db-tiling-content">{renderTile ? renderTile(tile) : <span className="db-tiling-name">{tile.label}</span>}</div>
-                    {holding ? <span className="db-tiling-dimensions" aria-hidden="true"><span>{tile.span}</span><span> × </span><span>{tile.rows}</span></span> : null}
+                    <div className="ot-tiling-content">{renderTile ? renderTile(tile) : <span className="ot-tiling-name">{tile.label}</span>}</div>
+                    {holding ? <span className="ot-tiling-dimensions" aria-hidden="true"><span>{tile.span}</span><span> × </span><span>{tile.rows}</span></span> : null}
                     {(["start", "end", "top", "bottom", "corner"] as const).map((side) => (
-                      <button key={side} type="button" className="db-tiling-size" data-side={side} aria-label={`Resize ${tile.label}${side === "corner" ? "" : ` ${side} edge`}`} aria-describedby={`${hint} ${keys}`} aria-pressed={holding}
+                      <button key={side} type="button" className="ot-tiling-size" data-side={side} aria-label={`Resize ${tile.label}${side === "corner" ? "" : ` ${side} edge`}`} aria-describedby={`${hint} ${keys}`} aria-pressed={holding}
                         onKeyDown={(event) => key(event, tile, side)} onPointerDown={(event) => pointerDown(event, tile, side)}
                         onClick={(event) => { event.stopPropagation(); if (event.detail === 0) { if (holding) drop(); else lift(tile, side) } }} />
                     ))}
                   </Tile>
                 )
               })}
-              {!tiles.length ? <p className="db-tiling-empty">A little space.<br /><span>Add your first tile.</span></p> : null}
+              {!tiles.length ? <p className="ot-tiling-empty">A little space.<br /><span>Add your first tile.</span></p> : null}
             </div>
           </div>
         </div>
       )}
-      <p className="db-tiling-status" role="status" aria-live="polite" aria-atomic="true"><span key={notice.sequence}>{notice.text}</span></p>
-      {copyLayout ? <details ref={output} className="db-tiling-output"><summary>Layout JSON</summary><textarea ref={json} readOnly aria-label={`${label} layout JSON`} value={JSON.stringify(tiles, null, 2)} spellCheck={false} /></details> : null}
+      <p className="ot-tiling-status" role="status" aria-live="polite" aria-atomic="true"><span key={notice.sequence}>{notice.text}</span></p>
+      {copyLayout ? <details ref={output} className="ot-tiling-output"><summary>Layout JSON</summary><textarea ref={json} readOnly aria-label={`${label} layout JSON`} value={JSON.stringify(tiles, null, 2)} spellCheck={false} /></details> : null}
     </div>
   )
 }

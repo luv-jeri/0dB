@@ -57,20 +57,20 @@ export default function Example() {
   return (
     <div className="grid gap-y-10">
       <div className="grid gap-y-4">
-        <span className="db-label">line</span>
+        <span className="ot-label">line</span>
         <Work variant="line" />
       </div>
       <div className="grid gap-y-4">
-        <span className="db-label">rubato</span>
+        <span className="ot-label">rubato</span>
         <Work variant="rubato" />
       </div>
       <div className="grid gap-y-4">
-        <span className="db-label">open</span>
+        <span className="ot-label">open</span>
         <Tabs variant="open" defaultValue="practice">
           <TabsList aria-label="The studio">
             {STUDIO.map(([v, name]) => <TabsTrigger key={v} value={v}>{name}</TabsTrigger>)}
           </TabsList>
-          {STUDIO.map(([v, , text]) => <TabsContent key={v} value={v}><p className="db-mp" style={{ margin: 0, maxWidth: "32ch" }}>{text}</p></TabsContent>)}
+          {STUDIO.map(([v, , text]) => <TabsContent key={v} value={v}><p className="ot-mp" style={{ margin: 0, maxWidth: "32ch" }}>{text}</p></TabsContent>)}
         </Tabs>
       </div>
     </div>

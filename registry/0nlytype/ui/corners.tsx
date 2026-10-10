@@ -25,15 +25,15 @@ function partOf(root: HTMLElement, node: EventTarget | null) {
 function aim(root: HTMLElement, part: HTMLElement) {
   const r = root.getBoundingClientRect()
   const p = part.getBoundingClientRect()
-  root.style.setProperty("--db-aim-x", `${p.left - r.left - root.clientLeft}px`)
-  root.style.setProperty("--db-aim-y", `${p.top - r.top - root.clientTop}px`)
-  root.style.setProperty("--db-aim-w", `${p.width}px`)
-  root.style.setProperty("--db-aim-h", `${p.height}px`)
+  root.style.setProperty("--ot-aim-x", `${p.left - r.left - root.clientLeft}px`)
+  root.style.setProperty("--ot-aim-y", `${p.top - r.top - root.clientTop}px`)
+  root.style.setProperty("--ot-aim-w", `${p.width}px`)
+  root.style.setProperty("--ot-aim-h", `${p.height}px`)
   root.dataset.aim = ""
 }
 
 function rest(root: HTMLElement) {
-  for (const k of ["x", "y", "w", "h"]) root.style.removeProperty(`--db-aim-${k}`)
+  for (const k of ["x", "y", "w", "h"]) root.style.removeProperty(`--ot-aim-${k}`)
   delete root.dataset.aim
 }
 
@@ -56,7 +56,7 @@ function glideTo(root: HTMLElement, el: HTMLElement, by: "pointer" | "focus") {
 
 /**
  * Four corner marks: a frame that doesn't close. Tune it with the custom
- * properties --db-corner (length), --db-corner-inset and --db-corner-colour.
+ * properties --ot-corner (length), --ot-corner-inset and --ot-corner-colour.
  */
 function Corners({ className, asChild = false, variant, onPointerOver, onPointerLeave, onFocus, onBlur, ...props }: CornersProps) {
   const Comp = asChild ? Slot : "div"
@@ -109,7 +109,7 @@ function Corners({ className, asChild = false, variant, onPointerOver, onPointer
             },
           }
         : { onPointerOver, onPointerLeave, onFocus, onBlur }
-  return <Comp data-slot="corners" data-variant={variant} className={cn("db-corners", className)} {...finder} {...props} />
+  return <Comp data-slot="corners" data-variant={variant} className={cn("ot-corners", className)} {...finder} {...props} />
 }
 
 export { Corners, type CornersProps }

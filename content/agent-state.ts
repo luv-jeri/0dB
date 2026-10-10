@@ -4,7 +4,7 @@ export default defineComponent({
   name: "agent-state",
   title: "Agent state",
   movement: "XI",
-  contract: "db-agent",
+  contract: "ot-agent",
   summary: "Where an agent is, in one quiet line: a ring, a breath, a round, the accent disc or an ink disc, and the word for it.",
   underneath: "native",
   props: [

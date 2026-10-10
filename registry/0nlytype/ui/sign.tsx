@@ -572,14 +572,14 @@ function Sign({ shape, variant = "words", face = "roman", size, label, className
       role={hidden ? undefined : "img"}
       aria-label={hidden ? undefined : (label ?? shape.word)}
       aria-hidden={hidden || undefined}
-      className={cn("db-sign", className)}
-      style={{ ...(size != null ? { "--db-sign-size": typeof size === "number" ? `${size}px` : size } : null), "--ws": `${laid.ws}px`, "--rest": laid.rest, "--said": laid.said, ...style } as React.CSSProperties}
+      className={cn("ot-sign", className)}
+      style={{ ...(size != null ? { "--ot-sign-size": typeof size === "number" ? `${size}px` : size } : null), "--ws": `${laid.ws}px`, "--rest": laid.rest, "--said": laid.said, ...style } as React.CSSProperties}
       {...props}
     >
       {laid.glyphs.map((g, i) => (
         <span
           key={i}
-          className="db-sign-glyph"
+          className="ot-sign-glyph"
           data-say={g.say >= 0 ? "" : undefined}
           data-hush={g.hush || undefined}
           data-quiet={g.quiet || undefined}

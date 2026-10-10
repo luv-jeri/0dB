@@ -36,7 +36,7 @@ function Word({ text, stop }: { text: string; stop?: boolean }) {
 export function Cta({ href, children, size, className }: { href: string; children: string; size?: "l"; className?: string }) {
   return (
     <NextLink href={href} prefetch={false} className={className ? `cta ${className}` : "cta"} data-size={size}>
-      <span className="db-sr">{children}</span>
+      <span className="ot-sr">{children}</span>
       <span className="cta-word" aria-hidden="true" data-text={children}>
         <span className="cta-letters">
           {Array.from(children).map((c, i) => (
@@ -75,7 +75,7 @@ export function Hero({ count }: { count: number }) {
           <span className="hero-meter" dir="ltr" aria-hidden="true" data-noise-meter=" dB">
             0 dB
           </span>
-          <span className="db-sr">0 dB: </span>
+          <span className="ot-sr">0 dB: </span>
           <span className="hero-meter-def">The quietest sound a person can hear.</span>
         </p>
         <p className="hero-promise" data-hush>

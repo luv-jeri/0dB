@@ -103,15 +103,15 @@ export default async function ItemPage({ params }: Params) {
             {meta.movement} {movementName(meta.movement)}
           </span>
           <span>{UNDER[meta.underneath]}</span>
-          <span className="db-label">{meta.contract}</span>
+          <span className="ot-label">{meta.contract}</span>
         </Meta>
         <h1 className="doc-title">{meta.title}</h1>
         <p className="doc-summary">{meta.summary}</p>
-        <Link asChild className="db-report-item-link"><NextLink href={`/feedback/?kind=bug&item=${encodeURIComponent(meta.name)}`} prefetch={false}>Report an issue with {meta.title}</NextLink></Link>
+        <Link asChild className="ot-report-item-link"><NextLink href={`/feedback/?kind=bug&item=${encodeURIComponent(meta.name)}`} prefetch={false}>Report an issue with {meta.title}</NextLink></Link>
       </header>
 
       <section className="doc-section" id="example" data-rail="Example" aria-labelledby="example-h">
-        <h2 id="example-h" className="db-sr">
+        <h2 id="example-h" className="ot-sr">
           Example
         </h2>
         <DemoExample item={item}><ItemExample item={item} /></DemoExample>

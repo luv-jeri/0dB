@@ -58,8 +58,8 @@ export default function Example() {
   const [arrived, setArrived] = React.useState(0)
   const time = (n: number) => `09:${String(46 + n).padStart(2, "0")}`
   return (
-    <div className="grid gap-(--db-space-8)">
-      <div className="grid max-w-xl justify-items-start gap-(--db-space-5)">
+    <div className="grid gap-(--ot-space-8)">
+      <div className="grid max-w-xl justify-items-start gap-(--ot-space-5)">
         <Thread label="Halden thread" className="w-full">
           <ThreadDay>Yesterday</ThreadDay>
           <Message>
@@ -98,9 +98,9 @@ export default function Example() {
           ))}
         </Thread>
         <Button variant="bracket" onClick={() => setArrived((n) => n + 1)}>Ask Ada for an update</Button>
-        <p className="db-pp">Scroll up, then ask Ada for an update: the thread stays where you are and counts what arrived.</p>
+        <p className="ot-pp">Scroll up, then ask Ada for an update: the thread stays where you are and counts what arrived.</p>
       </div>
-      <div className="grid max-w-[64rem] gap-(--db-space-7) lg:grid-cols-2">
+      <div className="grid max-w-[64rem] gap-(--ot-space-7) lg:grid-cols-2">
         <Thread label="Proofs thread" variant="rests" className="h-[34rem]"><Lines lines={proofs} /></Thread>
         <Thread label="Halden week" variant="running" className="h-[34rem]"><Lines lines={week} /></Thread>
       </div>
@@ -112,13 +112,13 @@ export function States() {
   return (
     <>
       <State label="Rests, quick replies">
-        <Thread label="Quick replies" variant="rests" className="h-68 w-[min(24rem,calc(100vw-2*var(--db-margin)))]"><Lines lines={proofs.slice(0, 3)} /></Thread>
+        <Thread label="Quick replies" variant="rests" className="h-68 w-[min(24rem,calc(100vw-2*var(--ot-margin)))]"><Lines lines={proofs.slice(0, 3)} /></Thread>
       </State>
       <State label="Rests, a long pause">
-        <Thread label="A long pause" variant="rests" className="h-68 w-[min(24rem,calc(100vw-2*var(--db-margin)))]"><Lines lines={proofs.slice(3, 5)} /></Thread>
+        <Thread label="A long pause" variant="rests" className="h-68 w-[min(24rem,calc(100vw-2*var(--ot-margin)))]"><Lines lines={proofs.slice(3, 5)} /></Thread>
       </State>
       <State label="Running head, scrolled back">
-        <Thread label="Scrolled back" variant="running" className="h-68 w-[min(24rem,calc(100vw-2*var(--db-margin)))]"><Lines lines={week.slice(3)} /></Thread>
+        <Thread label="Scrolled back" variant="running" className="h-68 w-[min(24rem,calc(100vw-2*var(--ot-margin)))]"><Lines lines={week.slice(3)} /></Thread>
       </State>
     </>
   )

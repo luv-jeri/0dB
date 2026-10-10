@@ -52,12 +52,12 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
 
   if (variant === "ossia") {
     return (
-      <span data-slot="note" data-variant="ossia" className={cn("db-note", className)} {...(props as React.ComponentProps<"span">)}>
+      <span data-slot="note" data-variant="ossia" className={cn("ot-note", className)} {...(props as React.ComponentProps<"span">)}>
         {children}
-        <span data-slot="note-text" className="db-note-text">
-          <span className="db-sr"> (</span>
+        <span data-slot="note-text" className="ot-note-text">
+          <span className="ot-sr"> (</span>
           {note}
-          <span className="db-sr">)</span>
+          <span className="ot-sr">)</span>
         </span>
       </span>
     )
@@ -74,7 +74,7 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
         aria-expanded={open}
         data-slot="note"
         data-variant="revise"
-        className={cn("db-note", className)}
+        className={cn("ot-note", className)}
         {...(props as React.ComponentProps<"span">)}
         onClick={(e) => {
           onClick?.(e as unknown as React.MouseEvent<HTMLButtonElement>)
@@ -89,11 +89,11 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
           if (e.key === "Escape") setOpen(false)
         }}
       >
-        <span className="db-sr">{open ? <><del>{children}</del> <ins>{note}</ins></> : children}</span>
-        <span className="db-note-was" aria-hidden="true">{children}</span>
+        <span className="ot-sr">{open ? <><del>{children}</del> <ins>{note}</ins></> : children}</span>
+        <span className="ot-note-was" aria-hidden="true">{children}</span>
         {/* A real space, so that where the correction wraps to the next line the space falls away at the break. */}
         {open || String((props as Record<string, unknown>)["data-force"] ?? "").includes("open") ? " " : null}
-        <span className="db-note-now" aria-hidden="true">{note}</span>
+        <span className="ot-note-now" aria-hidden="true">{note}</span>
       </span>
     )
   }
@@ -111,7 +111,7 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
         aria-describedby={id}
         data-slot="note"
         data-variant="expand"
-        className={cn("db-note", className)}
+        className={cn("ot-note", className)}
         {...(props as React.ComponentProps<"span">)}
         onClick={(e) => {
           onClick?.(e as unknown as React.MouseEvent<HTMLButtonElement>)
@@ -126,13 +126,13 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
           if (e.key === "Escape") setOpen(false)
         }}
       >
-        <span className="db-sr">{children}</span>
+        <span className="ot-sr">{children}</span>
         <span aria-hidden="true">
           {words.map((parts, w) => (
             <React.Fragment key={w}>
-              {w > 0 ? <span className="db-note-grow">{" "}</span> : null}
-              <span className="db-note-word">
-                {parts.map((p, i) => (p.keep ? <span key={i} className="db-note-keep">{p.text}</span> : <span key={i} className="db-note-grow">{p.text}</span>))}
+              {w > 0 ? <span className="ot-note-grow">{" "}</span> : null}
+              <span className="ot-note-word">
+                {parts.map((p, i) => (p.keep ? <span key={i} className="ot-note-keep">{p.text}</span> : <span key={i} className="ot-note-grow">{p.text}</span>))}
               </span>
             </React.Fragment>
           ))}
@@ -147,7 +147,7 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
       type="button"
       data-slot="note"
       aria-describedby={id}
-      className={cn("db-note", className)}
+      className={cn("ot-note", className)}
       onClick={onClick}
       onKeyDown={(e) => {
         onKeyDown?.(e)
@@ -156,7 +156,7 @@ function Note({ children, note, variant = "leader", className, onKeyDown, onClic
       {...props}
     >
       {children}
-      <span data-slot="note-text" id={id} aria-hidden="true" className="db-note-text">
+      <span data-slot="note-text" id={id} aria-hidden="true" className="ot-note-text">
         {note}
       </span>
     </button>

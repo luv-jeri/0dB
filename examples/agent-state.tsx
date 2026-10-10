@@ -13,7 +13,7 @@ export default function Example() {
   const [at, setAt] = React.useState(0)
   const state = order[at]
   return (
-    <div className="grid justify-items-start gap-(--db-space-6)">
+    <div className="grid justify-items-start gap-(--ot-space-6)">
       <AgentState state={state}>{state === "working" ? "Reading the brief" : undefined}</AgentState>
       <Button variant="quiet" onClick={() => setAt((n) => (n + 1) % order.length)}>
         {at === order.length - 1 ? "Start again" : "Next state"}

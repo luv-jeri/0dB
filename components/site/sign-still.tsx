@@ -38,7 +38,7 @@ export function SignStill({ shape, variant, face, size }: { shape: SignShape; va
     group.ch.push(g.ch)
   }
   return (
-    <span className="db-sign" data-face={face === "italic" ? "italic" : undefined} aria-hidden style={{ "--db-sign-size": `${size}px` } as React.CSSProperties}>
+    <span className="ot-sign" data-face={face === "italic" ? "italic" : undefined} aria-hidden style={{ "--ot-sign-size": `${size}px` } as React.CSSProperties}>
       <svg className="doc-sign-still" viewBox={`0 0 ${size} ${size}`} width={size} height={size} fontWeight={laid.rest}>
         {[...groups].map(([key, g]) => (
           <text key={key} fontSize={g.fs} data-quiet={g.quiet || undefined} x={g.x.join(" ")} y={g.y.join(" ")} rotate={g.r.join(" ")}>{g.ch.join("")}</text>

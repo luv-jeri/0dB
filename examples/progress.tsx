@@ -45,33 +45,33 @@ export default function Example() {
   const [short, long, counted] = words[phase]
   const busy = phase === "preparing" || phase === "uploading"
   return (
-    <div className="grid w-[min(36rem,100%)] justify-items-start gap-(--db-space-7)">
+    <div className="grid w-[min(36rem,100%)] justify-items-start gap-(--ot-space-7)">
       <div className="grid w-full gap-4">
-        <span className="db-label">hairline</span>
+        <span className="ot-label">hairline</span>
         <Progress value={value === null ? null : value * 100} label={short} />
       </div>
       <div className="grid w-full gap-4">
-        <span className="db-label">sentence</span>
+        <span className="ot-label">sentence</span>
         <Progress
           variant="sentence"
           value={value === null ? null : value * 100}
           label={
             <>
-              {long} <span className="db-yours">Lisbon, in April</span>
+              {long} <span className="ot-yours">Lisbon, in April</span>
             </>
           }
         />
       </div>
       <div className="grid w-full gap-4">
-        <span className="db-label">count</span>
+        <span className="ot-label">count</span>
         <Progress variant="count" value={value === null ? null : Math.floor(value * FILES)} max={FILES} label={counted} />
       </div>
       <div className="grid w-full gap-4">
-        <span className="db-label">parentheses</span>
+        <span className="ot-label">parentheses</span>
         <Progress variant="parentheses" value={value === null ? null : value * 100} label={short} />
       </div>
       <div className="grid w-full gap-4">
-        <span className="db-label">tally</span>
+        <span className="ot-label">tally</span>
         <Progress variant="tally" value={value === null ? null : Math.floor(value * FILES)} max={FILES} label={counted} />
       </div>
       <Button disabled={busy} onClick={upload}>

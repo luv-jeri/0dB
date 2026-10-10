@@ -73,7 +73,7 @@ function DatePicker({
   const spoken = field.id && value ? `${field.id}-date` : undefined
 
   return (
-    <Root data-slot="date-picker" className={cn("db-date-root", rootClassName)}>
+    <Root data-slot="date-picker" className={cn("ot-date-root", rootClassName)}>
       {label ? <span>{label}</span> : null}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -81,7 +81,7 @@ function DatePicker({
             type="button"
             data-slot="date-picker-trigger"
             data-set={value ? "" : undefined}
-            className={cn("db-date", className)}
+            className={cn("ot-date", className)}
             {...props}
             id={id}
             data-invalid={field["aria-invalid"] ? "" : undefined}
@@ -92,7 +92,7 @@ function DatePicker({
         </PopoverTrigger>
         <PopoverContent
           data-slot="date-picker-content"
-          className="db-date-pop"
+          className="ot-date-pop"
           aria-label={label ?? "Choose a day"}
           // Open on the day (the chosen one, else today), not on the month's first arrow.
           onOpenAutoFocus={(e) => {
@@ -106,7 +106,7 @@ function DatePicker({
         </PopoverContent>
       </Popover>
       {spoken ? (
-        <span id={spoken} className="db-sr">
+        <span id={spoken} className="ot-sr">
           {words(value!, locale)}
         </span>
       ) : null}

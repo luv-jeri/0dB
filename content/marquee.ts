@@ -4,7 +4,7 @@ export default defineComponent({
   name: "marquee",
   title: "Marquee",
   movement: "II",
-  contract: "db-marquee",
+  contract: "ot-marquee",
   summary: "A band of words that drifts through a clipped frame. Scroll takes over; a small pause word lets it rest.",
   underneath: "hook",
   props: [
@@ -17,6 +17,6 @@ export default defineComponent({
     { name: "speed", type: "number", default: "0.4", description: "How far the words travel for each pixel the page scrolls." },
     { name: "reverse", type: "boolean", default: "false", description: "Run towards the start as you scroll down instead of reading along. In counter it swaps which row does." },
     { name: "label", type: "string", description: "Names the list of words for readers." },
-    { name: "className", type: "string", description: "Pass a dynamic class (db-fff, db-ff…) for the band's size; the ticker keeps its own." },
+    { name: "className", type: "string", description: "Pass a dynamic class (ot-fff, ot-ff…) for the band's size; the ticker keeps its own." },
   ],
 })

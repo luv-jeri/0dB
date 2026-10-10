@@ -122,13 +122,13 @@ function ActivityFeed({
     if (variant === "almanac") {
       const t = utc(b.date)
       return (
-        <p key={`d${b.date}`} data-slot="activity-day" className="db-feed-day">
-          <span className="db-feed-date">{fmt(locale, { day: "numeric" }).format(t)}</span>
-          <span className="db-feed-month">
+        <p key={`d${b.date}`} data-slot="activity-day" className="ot-feed-day">
+          <span className="ot-feed-date">{fmt(locale, { day: "numeric" }).format(t)}</span>
+          <span className="ot-feed-month">
             <span>{fmt(locale, { month: "long" }).format(t)}</span>
             <span>{fmt(locale, { year: "numeric" }).format(t)}</span>
           </span>
-          <span className="db-feed-weekday">{named ?? fmt(locale, { weekday: "short" }).format(t)}</span>
+          <span className="ot-feed-weekday">{named ?? fmt(locale, { weekday: "short" }).format(t)}</span>
         </p>
       )
     }
@@ -141,13 +141,13 @@ function ActivityFeed({
   }
 
   const line = ({ entry: e, i }: { entry: ActivityEntry; i: number }) => (
-    <Item key={e.id} data-slot="activity-entry" className="db-feed-entry" data-newest={i === 0 && !fresh ? "" : undefined}>
-      <ItemMedia className="db-feed-bead" aria-hidden="true">
-        {e.who ? <Avatar size="s" alt={e.who} /> : <span className="db-feed-dot" />}
+    <Item key={e.id} data-slot="activity-entry" className="ot-feed-entry" data-newest={i === 0 && !fresh ? "" : undefined}>
+      <ItemMedia className="ot-feed-bead" aria-hidden="true">
+        {e.who ? <Avatar size="s" alt={e.who} /> : <span className="ot-feed-dot" />}
       </ItemMedia>
       <ItemContent>
         <ItemTitle>
-          {e.who ? <b className="db-feed-who">{e.who}</b> : null}
+          {e.who ? <b className="ot-feed-who">{e.who}</b> : null}
           {e.who ? " " : null}
           {e.what}
         </ItemTitle>
@@ -164,16 +164,16 @@ function ActivityFeed({
       if (b.kind === "day") return day(b)
       if (b.kind === "pause") return <Marker key={`p${k}`} variant="lapse" minutes={b.gap}>{lapse(b.gap)}</Marker>
       if (b.kind === "seen") return <Marker key="seen" variant="ribbon">{seen}</Marker>
-      return <ItemGroup key={`r${b.entries[0].entry.id}`} className="db-feed-run">{b.entries.map(line)}</ItemGroup>
+      return <ItemGroup key={`r${b.entries[0].entry.id}`} className="ot-feed-run">{b.entries.map(line)}</ItemGroup>
     })
 
   return (
-    <section data-slot="activity-feed" data-variant={variant === "ledger" ? undefined : variant} aria-label={label} className={cn("db-feed", className)} {...props}>
+    <section data-slot="activity-feed" data-variant={variant === "ledger" ? undefined : variant} aria-label={label} className={cn("ot-feed", className)} {...props}>
       {entries.length === 0 ? <Marker>{empty}</Marker> : render(blocks(entries, 0, shown, variant, fresh))}
       {rest > 0 && (
-        <Collapsible className="db-feed-more">
+        <Collapsible className="ot-feed-more">
           <CollapsibleTrigger openLabel={less(rest)}>{more(rest)}</CollapsibleTrigger>
-          <CollapsibleContent className="db-feed-rest">{render(blocks(entries, shown, entries.length, variant, fresh))}</CollapsibleContent>
+          <CollapsibleContent className="ot-feed-rest">{render(blocks(entries, shown, entries.length, variant, fresh))}</CollapsibleContent>
         </Collapsible>
       )}
     </section>

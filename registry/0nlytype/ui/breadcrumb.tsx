@@ -13,7 +13,7 @@ type BreadcrumbProps = React.ComponentProps<"nav"> & {
 }
 
 function Breadcrumb({ variant = "slashes", className, ...props }: BreadcrumbProps) {
-  return <nav data-slot="breadcrumb" data-variant={variant} aria-label="Breadcrumb" className={cn("db-crumbs", className)} {...props} />
+  return <nav data-slot="breadcrumb" data-variant={variant} aria-label="Breadcrumb" className={cn("ot-crumbs", className)} {...props} />
 }
 
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
@@ -32,7 +32,7 @@ function BreadcrumbLink({ asChild = false, ...props }: React.ComponentProps<"a">
 
 /** Where you are. It's yours, so it's italic. */
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
-  return <span data-slot="breadcrumb-page" aria-current="page" className={cn("db-yours", className)} {...props} />
+  return <span data-slot="breadcrumb-page" aria-current="page" className={cn("ot-yours", className)} {...props} />
 }
 
 /** A hairline drawn leaning like a slash (nothing, in a stack; elided with its steps, in elide). Put one between each pair of items. */

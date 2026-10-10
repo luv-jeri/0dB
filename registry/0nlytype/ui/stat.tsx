@@ -27,7 +27,7 @@ function Stats({ className, variant = "crop", style, children, ...props }: Stats
     <dl
       data-slot="stats"
       data-variant={variant === "crop" ? undefined : variant}
-      className={cn("db-stats", className)}
+      className={cn("ot-stats", className)}
       style={lens.length ? ({ "--row-len": Math.max(...lens), ...style } as React.CSSProperties) : style}
       {...props}
     >
@@ -58,12 +58,12 @@ const figure = (value: number | string, format = grouped) => (typeof value === "
 function Stat({ value, label, note, format = grouped, className, style, ...props }: StatProps) {
   const text = figure(value, format)
   return (
-    <div data-slot="stat" className={cn("db-stat", className)} style={{ "--len": text.length, ...style } as React.CSSProperties} {...props}>
-      <dt className="db-stat-label">{label}</dt>
-      <dd className="db-stat-figure">
+    <div data-slot="stat" className={cn("ot-stat", className)} style={{ "--len": text.length, ...style } as React.CSSProperties} {...props}>
+      <dt className="ot-stat-label">{label}</dt>
+      <dd className="ot-stat-figure">
         <Fraction count={text} />
       </dd>
-      {note ? <dd className="db-stat-note">{note}</dd> : null}
+      {note ? <dd className="ot-stat-note">{note}</dd> : null}
     </div>
   )
 }

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "button",
   title: "Button",
   movement: "VI",
-  contract: "db-btn",
+  contract: "ot-btn",
   summary: "One family of three (a statement in an ink block, a bracket that steps apart, a quiet line that redraws) four heroes for the big call to action (overture, crescendo, stave and ink) and two measures: space and repeat. Nothing moves its neighbours.",
   underneath: "native",
   props: [

@@ -133,9 +133,9 @@ function DataTable<T>({
   const left = rows.length - to
 
   return (
-    <div data-slot="data-table" data-variant={variant} className={cn("db-data-table", className)} {...props}>
+    <div data-slot="data-table" data-variant={variant} className={cn("ot-data-table", className)} {...props}>
       {filters.length ? (
-        <p className="db-data-table-filter">
+        <p className="ot-data-table-filter">
           <Select label="Show" value={chosen ? chosen.id : "all"} onChange={(e) => narrow(e.target.value)}>
             <option value="all">all</option>
             {filters.map((f) => (
@@ -186,7 +186,7 @@ function DataTable<T>({
           ))}
           {shown.length ? null : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="db-data-table-empty">
+              <TableCell colSpan={columns.length} className="ot-data-table-empty">
                 {data.length ? `No ${kind}${noun}.` : `No ${noun} yet.`}{" "}
                 {chosen ? (
                   <Button variant="quiet" onClick={() => narrow("all")}>
@@ -198,8 +198,8 @@ function DataTable<T>({
           )}
         </TableBody>
       </Table>
-      <div className="db-data-table-foot">
-        <p className="db-data-table-count" role="status">
+      <div className="ot-data-table-foot">
+        <p className="ot-data-table-count" role="status">
           {from === 0 && to === rows.length ? `${rows.length} ${noun}` : variant === "tail" ? `${to} of ${rows.length} ${noun}` : `${from + 1} to ${to} of ${rows.length} ${noun}`}
         </p>
         {variant === "folio" && pages > 1 ? (
@@ -215,7 +215,7 @@ function DataTable<T>({
         {variant === "tail" && rows.length > size ? (
           <Button
             variant="quiet"
-            className="db-data-table-more"
+            className="ot-data-table-more"
             aria-label={left > size ? `and ${left} more, show the next ${size}` : undefined}
             onClick={() => (left > 0 ? turn(current + 1, to) : turn(1, null))}
           >

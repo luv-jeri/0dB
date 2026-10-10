@@ -39,7 +39,7 @@ export default function Example() {
   return (
     <div className="grid gap-y-16">
       <Chart data={visits} label="Visits by month, 2026" unit="visits" className="max-w-[44rem]" />
-      <p className="max-w-[34rem]" style={{ fontSize: "var(--db-mp)", lineHeight: "var(--db-mp-lh)", color: "var(--db-graphite)" }}>
+      <p className="max-w-[34rem]" style={{ fontSize: "var(--ot-mp)", lineHeight: "var(--ot-mp-lh)", color: "var(--ot-graphite)" }}>
         The studio&rsquo;s site grew all year, <Chart variant="spark" data={visits} label="Visits by month, 2026" unit="visits" />, its best month yet.
       </p>
       <Chart variant="isotype" data={visits} label="Visits by month, 2026" unit="visits" className="max-w-[44rem]" />

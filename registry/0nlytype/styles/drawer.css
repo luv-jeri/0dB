@@ -1,52 +1,52 @@
 @layer components {
-  /* ── db-drawer ── a sheet from below, lifted by the fermata's arc.
+  /* ── ot-drawer ── a sheet from below, lifted by the fermata's arc.
      The backdrop lives in dialog.css. --pull is set while the arc is dragged. */
-  .db-drawer {
+  .ot-drawer {
     position: fixed; inset: auto 0 0; margin: 0; width: 100%; max-width: none; max-height: 85dvh;
-    padding: 0 var(--db-margin) var(--db-space-7); overflow: auto;
-    border: 0; border-top: var(--db-hairline) solid var(--db-ink); background: var(--db-paper); color: var(--db-graphite);
-    box-shadow: 0 12rem 0 var(--db-paper); /* paper under the rebound, not a shadow */
+    padding: 0 var(--ot-margin) var(--ot-space-7); overflow: auto;
+    border: 0; border-top: var(--ot-hairline) solid var(--ot-ink); background: var(--ot-paper); color: var(--ot-graphite);
+    box-shadow: 0 12rem 0 var(--ot-paper); /* paper under the rebound, not a shadow */
     translate: 0 100%;
-    transition: translate var(--db-andante) var(--db-spiccato), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+    transition: translate var(--ot-andante) var(--ot-spiccato), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
   }
-  .db-drawer[open] { translate: 0 var(--pull, 0px); }
-  @starting-style { .db-drawer[open] { translate: 0 100%; } }
-  .db-drawer[data-pulling] { transition: none; }
-  .db-drawer-handle { display: block; margin: 0 auto var(--db-space-4); padding: var(--db-space-4) var(--db-space-6) var(--db-space-2); border: 0; background: none; color: var(--db-ink); cursor: grab; touch-action: none; }
-  .db-drawer-handle:active { cursor: grabbing; }
-  .db-drawer-handle svg { width: 40px; height: 22px; overflow: visible; }
-  .db-drawer-handle path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
-  .db-drawer-handle circle { fill: var(--db-accent); }
-  .db-drawer-body { display: grid; justify-items: start; gap: var(--db-space-6); max-width: 40rem; margin-inline: auto; }
-  .db-drawer-title { font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); font-weight: 300; color: var(--db-ink); }
+  .ot-drawer[open] { translate: 0 var(--pull, 0px); }
+  @starting-style { .ot-drawer[open] { translate: 0 100%; } }
+  .ot-drawer[data-pulling] { transition: none; }
+  .ot-drawer-handle { display: block; margin: 0 auto var(--ot-space-4); padding: var(--ot-space-4) var(--ot-space-6) var(--ot-space-2); border: 0; background: none; color: var(--ot-ink); cursor: grab; touch-action: none; }
+  .ot-drawer-handle:active { cursor: grabbing; }
+  .ot-drawer-handle svg { width: 40px; height: 22px; overflow: visible; }
+  .ot-drawer-handle path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+  .ot-drawer-handle circle { fill: var(--ot-accent); }
+  .ot-drawer-body { display: grid; justify-items: start; gap: var(--ot-space-6); max-width: 40rem; margin-inline: auto; }
+  .ot-drawer-title { font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); font-weight: 300; color: var(--ot-ink); }
 
 
   /* Thirds (SPECTRA's 1/3): it stops at a third, two thirds or the whole height. The arc follows the hand either
      way and lets go on the nearest third, or away below half of one; a tap raises it a third, round to one. The share
      stands in the far corner as a Fraction, yours in italic, turning on its wheel. --third is set by the component. */
-  .db-drawer[data-variant="thirds"] {
-    --full: calc(100dvh - var(--db-space-7));
-    max-height: var(--full); height: calc(var(--third, 1) * var(--full) / 3 - var(--pull, 0px)); min-height: var(--db-space-8);
-    transition: height var(--db-andante) var(--db-spiccato), translate var(--db-andante) var(--db-spiccato), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+  .ot-drawer[data-variant="thirds"] {
+    --full: calc(100dvh - var(--ot-space-7));
+    max-height: var(--full); height: calc(var(--third, 1) * var(--full) / 3 - var(--pull, 0px)); min-height: var(--ot-space-8);
+    transition: height var(--ot-andante) var(--ot-spiccato), translate var(--ot-andante) var(--ot-spiccato), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
   }
-  .db-drawer[data-variant="thirds"][open] { translate: 0 0; }
-  .db-drawer-share { position: absolute; inset-block-start: var(--db-space-4); inset-inline-end: var(--db-margin); pointer-events: none; }
-  .db-drawer-share .db-fraction { font-size: var(--db-f); font-weight: 200; }
-  @media (max-width: 40rem) { .db-drawer-share { inset-block-start: var(--db-space-3); } .db-drawer-share .db-fraction { font-size: var(--db-mf); } }
-  .db-drawer:has(> .db-drawer-handle:is(:hover, :focus-visible, :active)) .db-drawer-share .db-fraction > :is(i, :last-child) { color: var(--db-ink); }
+  .ot-drawer[data-variant="thirds"][open] { translate: 0 0; }
+  .ot-drawer-share { position: absolute; inset-block-start: var(--ot-space-4); inset-inline-end: var(--ot-margin); pointer-events: none; }
+  .ot-drawer-share .ot-fraction { font-size: var(--ot-f); font-weight: 200; }
+  @media (max-width: 40rem) { .ot-drawer-share { inset-block-start: var(--ot-space-3); } .ot-drawer-share .ot-fraction { font-size: var(--ot-mf); } }
+  .ot-drawer:has(> .ot-drawer-handle:is(:hover, :focus-visible, :active)) .ot-drawer-share .ot-fraction > :is(i, :last-child) { color: var(--ot-ink); }
 
   /* Solid (the compositor's leads): the silence between the drawer's parts is its give. Pulling the arc takes it
      out first, so the drawer closes up and sinks as it does, set solid; only past that does it slide. Let go set
      solid and it goes; short of that, the silence springs back. Opening, it is let in. While the arc is pulled the
      script sets --solid (0 to 1: the pull over the silence it measured) and --sink (the pull beyond it). */
-  .db-drawer[data-variant="solid"] {
-    padding-block-end: calc(var(--db-space-7) * (1 - var(--solid, 0)));
-    transition: translate var(--db-andante) var(--db-spiccato), padding-block-end var(--db-andante) var(--db-spiccato), overlay var(--db-andante) allow-discrete, display var(--db-andante) allow-discrete;
+  .ot-drawer[data-variant="solid"] {
+    padding-block-end: calc(var(--ot-space-7) * (1 - var(--solid, 0)));
+    transition: translate var(--ot-andante) var(--ot-spiccato), padding-block-end var(--ot-andante) var(--ot-spiccato), overlay var(--ot-andante) allow-discrete, display var(--ot-andante) allow-discrete;
   }
-  .db-drawer[data-variant="solid"][open] { translate: 0 var(--sink, 0px); }
-  .db-drawer[data-variant="solid"] .db-drawer-body { gap: calc(var(--db-space-6) * (1 - var(--solid, 0))); transition: gap var(--db-andante) var(--db-spiccato); }
-  .db-drawer[data-variant="solid"] .db-drawer-handle { margin-block-end: calc(var(--db-space-4) * (1 - var(--solid, 0))); transition: margin var(--db-andante) var(--db-spiccato); }
-  @starting-style { .db-drawer[data-variant="solid"][open] :is(.db-drawer-body, .db-drawer-handle) { gap: 0; margin-block-end: 0; } }
+  .ot-drawer[data-variant="solid"][open] { translate: 0 var(--sink, 0px); }
+  .ot-drawer[data-variant="solid"] .ot-drawer-body { gap: calc(var(--ot-space-6) * (1 - var(--solid, 0))); transition: gap var(--ot-andante) var(--ot-spiccato); }
+  .ot-drawer[data-variant="solid"] .ot-drawer-handle { margin-block-end: calc(var(--ot-space-4) * (1 - var(--solid, 0))); transition: margin var(--ot-andante) var(--ot-spiccato); }
+  @starting-style { .ot-drawer[data-variant="solid"][open] :is(.ot-drawer-body, .ot-drawer-handle) { gap: 0; margin-block-end: 0; } }
   /* While the arc is held, everything follows the hand at once. */
-  .db-drawer[data-pulling], .db-drawer[data-pulling] :is(.db-drawer-body, .db-drawer-handle) { transition: none; }
+  .ot-drawer[data-pulling], .ot-drawer[data-pulling] :is(.ot-drawer-body, .ot-drawer-handle) { transition: none; }
 }

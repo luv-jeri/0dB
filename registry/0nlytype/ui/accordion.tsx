@@ -33,7 +33,7 @@ function Accordion({ type = "multiple", variant = "cross", orientation = "vertic
         data-slot="accordion"
         data-variant={across ? undefined : variant /* side by side has its own form */}
         data-orientation={across ? orientation : undefined}
-        className={cn("db-accordion", className)}
+        className={cn("ot-accordion", className)}
         onKeyDown={(e) => {
           onKeyDown?.(e)
           // Side by side, the arrows walk the columns (mirrored right to left); Enter and Space still open, natively.
@@ -65,7 +65,7 @@ function AccordionItem({ defaultOpen, className, ...props }: AccordionItemProps)
       data-slot="accordion-item"
       name={name}
       open={defaultOpen}
-      className={cn("db-disclose", className)}
+      className={cn("ot-disclose", className)}
       {...props}
     />
   )
@@ -77,7 +77,7 @@ function AccordionTrigger({ className, ...props }: React.ComponentProps<"summary
 }
 
 function AccordionContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="accordion-content" className={cn("db-disclose-body", className)} {...props} />
+  return <div data-slot="accordion-content" className={cn("ot-disclose-body", className)} {...props} />
 }
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, type AccordionProps, type AccordionItemProps }

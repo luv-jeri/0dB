@@ -32,12 +32,12 @@ type SwitchProps = Omit<React.ComponentProps<"input">, "type" | "role" | "childr
  */
 function Switch({ children, variant = "sentence", onCheckedChange, on = "on", off = "off", className, labelClassName, "data-force": force, ...props }: SwitchProps) {
   return (
-    <label data-slot="switch" data-variant={variant} data-force={force} className={cn("db-switch", labelClassName)}>
+    <label data-slot="switch" data-variant={variant} data-force={force} className={cn("ot-switch", labelClassName)}>
       <input type="checkbox" role="switch" className={className} onChange={(e) => onCheckedChange?.(e.target.checked)} {...props} />
       {variant === "question" ? (
         <>
           {children}
-          <span className="db-switch-ask" aria-hidden="true">
+          <span className="ot-switch-ask" aria-hidden="true">
             <span>.</span>
             <span>?</span>
           </span>
@@ -45,20 +45,20 @@ function Switch({ children, variant = "sentence", onCheckedChange, on = "on", of
       ) : variant === "either" ? (
         <>
           {children}{" "}
-          <span className="db-switch-either" aria-hidden="true">
+          <span className="ot-switch-either" aria-hidden="true">
             <span>{on}</span>
-            <span className="db-switch-or">/</span>
+            <span className="ot-switch-or">/</span>
             <span>{off}</span>
           </span>
         </>
       ) : (
         <>
           {children}{" "}
-          <span className="db-switch-state" aria-hidden="true">
+          <span className="ot-switch-state" aria-hidden="true">
             <span>{on}</span>
             <span>{off}</span>
           </span>
-          <span className="db-switch-stop" aria-hidden="true" />
+          <span className="ot-switch-stop" aria-hidden="true" />
         </>
       )}
     </label>

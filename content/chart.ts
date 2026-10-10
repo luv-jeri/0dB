@@ -4,7 +4,7 @@ export default defineComponent({
   name: "chart",
   title: "Chart",
   movement: "X",
-  contract: "db-chart",
+  contract: "ot-chart",
   summary: "Hairlines and dots against one very large number that rolls to the bar you point at.",
   underneath: "hook",
   props: [

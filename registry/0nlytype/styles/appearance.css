@@ -1,37 +1,37 @@
 @layer components {
-  /* ── db-appearance ── choose the look. Three lists of picks, and above them the answer written back as one sentence,
+  /* ── ot-appearance ── choose the look. Three lists of picks, and above them the answer written back as one sentence,
      "Cotton, in ultramarine, set in Archivo and Bodoni.", the night toggle finishing it: "Read by light." Ours in roman,
      the words you chose in the italic, the way "Healthy habits → for creatives" runs the voice into the italic on one
      line of thought. */
-  .db-appearance { container-type: inline-size; display: grid; gap: var(--db-space-6); min-width: 0; }
-  .db-appearance-answer {
+  .ot-appearance { container-type: inline-size; display: grid; gap: var(--ot-space-6); min-width: 0; }
+  .ot-appearance-answer {
     margin: 0; max-width: 24ch; text-wrap: balance;
-    font-size: var(--db-mp); line-height: var(--db-mp-lh); letter-spacing: var(--db-mp-tr); color: var(--db-graphite);
+    font-size: var(--ot-mp); line-height: var(--ot-mp-lh); letter-spacing: var(--ot-mp-tr); color: var(--ot-graphite);
   }
-  .db-appearance-answer .db-yours { color: var(--db-ink); }
+  .ot-appearance-answer .ot-yours { color: var(--ot-ink); }
   /* The toggle reads as the sentence's second clause: on the line's baseline, in the same voice. */
-  .db-appearance-answer .db-mode { vertical-align: baseline; padding-block: 0; margin-block: 0; }
-  .db-appearance-picks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--db-space-6) var(--db-space-5); align-items: start; }
-  .db-appearance-picks > :last-child { grid-column: 1 / -1; }
-  .db-appearance-picks .db-picks { gap: var(--db-space-3); }
-  .db-appearance-picks .db-picks > label { font-size: var(--db-p); line-height: var(--db-p-lh); letter-spacing: var(--db-p-tr); }
+  .ot-appearance-answer .ot-mode { vertical-align: baseline; padding-block: 0; margin-block: 0; }
+  .ot-appearance-picks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ot-space-6) var(--ot-space-5); align-items: start; }
+  .ot-appearance-picks > :last-child { grid-column: 1 / -1; }
+  .ot-appearance-picks .ot-picks { gap: var(--ot-space-3); }
+  .ot-appearance-picks .ot-picks > label { font-size: var(--ot-p); line-height: var(--ot-p-lh); letter-spacing: var(--ot-p-tr); }
   /* One accent in view: the list you're in (or were last in, data-here) keeps the accent dot; the others set theirs in ink,
      their choice still read by the italic title beside it. */
-  .db-appearance-picks > .db-picks:not([data-here]) > .db-picks-dot,
-  .db-appearance-picks > .db-picks:not([data-here]):not([data-placed]) > label:has(input:checked)::before { background: var(--db-ink); }
-  .db-appearance-picks .db-pick-description { font-size: var(--db-pp); line-height: var(--db-pp-lh); letter-spacing: var(--db-pp-tr); }
+  .ot-appearance-picks > .ot-picks:not([data-here]) > .ot-picks-dot,
+  .ot-appearance-picks > .ot-picks:not([data-here]):not([data-placed]) > label:has(input:checked)::before { background: var(--ot-ink); }
+  .ot-appearance-picks .ot-pick-description { font-size: var(--ot-pp); line-height: var(--ot-pp-lh); letter-spacing: var(--ot-pp-tr); }
   /* With room, the three questions stand side by side. */
   @container (min-width: 36rem) {
-    .db-appearance-answer { max-width: 30ch; font-size: var(--db-mf); line-height: var(--db-mf-lh); letter-spacing: var(--db-mf-tr); }
-    .db-appearance-picks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .db-appearance-picks > :last-child { grid-column: auto; }
+    .ot-appearance-answer { max-width: 30ch; font-size: var(--ot-mf); line-height: var(--ot-mf-lh); letter-spacing: var(--ot-mf-tr); }
+    .ot-appearance-picks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ot-appearance-picks > :last-child { grid-column: auto; }
   }
 
   /* A change opens the new page as a circle from the control that made it (applyAppearance sets the centre). */
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-  ::view-transition-new(root) { animation: db-appearance-open var(--db-andante) var(--db-breath); }
-  @keyframes db-appearance-open {
-    from { clip-path: circle(0 at var(--db-appearance-x, 50%) var(--db-appearance-y, 0)); }
-    to { clip-path: circle(150vmax at var(--db-appearance-x, 50%) var(--db-appearance-y, 0)); }
+  ::view-transition-new(root) { animation: ot-appearance-open var(--ot-andante) var(--ot-breath); }
+  @keyframes ot-appearance-open {
+    from { clip-path: circle(0 at var(--ot-appearance-x, 50%) var(--ot-appearance-y, 0)); }
+    to { clip-path: circle(150vmax at var(--ot-appearance-x, 50%) var(--ot-appearance-y, 0)); }
   }
 }

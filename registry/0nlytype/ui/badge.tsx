@@ -30,24 +30,24 @@ function Badge({ className, variant = "default", onRemove, legend, children, ...
   if (variant === "seal") {
     const name = props["aria-label"] ?? [typeof children === "string" ? children : "", legend].filter(Boolean).join(", ")
     return (
-      <span data-slot="badge" data-variant="seal" role="img" className={cn("db-tag", className)} {...props} aria-label={name}>
+      <span data-slot="badge" data-variant="seal" role="img" className={cn("ot-tag", className)} {...props} aria-label={name}>
         <svg viewBox="0 0 90 90" aria-hidden="true">
-          <circle className="db-tag-rim" cx="45" cy="45" r="44.5" />
-          <circle className="db-tag-rim" cx="45" cy="45" r="28.5" />
+          <circle className="ot-tag-rim" cx="45" cy="45" r="44.5" />
+          <circle className="ot-tag-rim" cx="45" cy="45" r="28.5" />
           {/* From the foot, round by the left: the legend reads clockwise over the top, as on a coin. */}
           <path id={id} d="M45 77a32 32 0 1 1 0-64a32 32 0 1 1 0 64" fill="none" />
-          <text className="db-tag-legend">
+          <text className="ot-tag-legend">
             <textPath href={`#${id}`} textLength={2 * Math.PI * 32} lengthAdjust="spacing">{`${legend ?? ""} · `}</textPath>
           </text>
         </svg>
-        <span className="db-tag-face" aria-hidden="true">{children}</span>
+        <span className="ot-tag-face" aria-hidden="true">{children}</span>
       </span>
     )
   }
 
   if (!onRemove) {
     return (
-      <span data-slot="badge" data-variant={dataVariant} className={cn("db-tag", className)} {...props}>
+      <span data-slot="badge" data-variant={dataVariant} className={cn("ot-tag", className)} {...props}>
         {children}
       </span>
     )
@@ -85,7 +85,7 @@ function Badge({ className, variant = "default", onRemove, legend, children, ...
       data-variant={dataVariant}
       data-removable=""
       aria-label={label ?? (typeof children === "string" ? `Remove ${children}` : "Remove")}
-      className={cn("db-tag", className)}
+      className={cn("ot-tag", className)}
       onClick={remove}
       {...(rest as React.ComponentProps<"button">)}
     >

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "tiling",
   title: "Tiling",
   movement: "IV",
-  contract: "db-tiling",
+  contract: "ot-tiling",
   summary: "Tiles on the 12-column grid, held apart by space and one hairline, never boxed. Leave the sheet still, or drag a tile and pull its corner: the grid makes room for your arrangement.",
   underneath: "native",
   props: [

@@ -4,7 +4,7 @@ export default defineComponent({
   name: "swapy",
   title: "Swapy",
   movement: "X",
-  contract: "db-swap",
+  contract: "ot-swap",
   summary: "Rows you put in order by hand. A move word is the handle; the row you hold reverses out of ink and travels with you, or a proofreader's loop marks where it went.",
   underneath: "native",
   props: [

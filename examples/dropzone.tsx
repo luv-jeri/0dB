@@ -11,7 +11,7 @@ const useHeld = () => React.useMemo(() => [file("Halden brief, second round.pdf"
 
 export default function Example() {
   return (
-    <div className="grid w-full max-w-[40rem] gap-(--db-space-8)">
+    <div className="grid w-full max-w-[40rem] gap-(--ot-space-8)">
       <Dropzone accept=".pdf,.png,.svg" maxSize={10e6} name="marks" hint="PDF, PNG or SVG, up to 10 MB each." />
       <Dropzone variant="ghost" prompt="Drop the second round here" hint="Anything you've marked up. It stays until you send it." defaultFiles={useHeld()} />
     </div>
